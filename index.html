@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Medi&#10022;X — an experiment in full-bleed</title>
+<meta name="description" content="Ten full-bleed chapters. An experiment in scroll, image and restraint.">
+<meta name="theme-color" content="#2E2228">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%232E2228'/%3E%3Ctext x='16' y='23' font-size='20' text-anchor='middle' fill='%23C2A05E' font-family='Georgia,serif'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
+
+<style>
+:root{
+  --ivory:#FAF7F1; --cream:#F4EDE1; --line:#DED4C2;
+  --burgundy:#5C1F31; --rose:#C79A92;
+  --gold:#C2A05E; --gold-deep:#8A6A34;
+  --ink:#2E2228; --ink-soft:#6A585F;
+  --serif:"Cormorant Garamond",Georgia,serif;
+  --sans:"Inter",ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--ink);color:var(--ivory);
+  font-family:var(--sans);font-weight:300;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+a{color:inherit}
+::selection{background:var(--gold);color:var(--ink)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:4px;border-radius:2px}
+
+/* ── header ─────────────────────────────────────────────── */
+.hdr{
+  position:fixed;z-index:60;
+  top:max(1.15rem,env(safe-area-inset-top));
+  left:max(1.15rem,env(safe-area-inset-left));
+  display:flex;align-items:center;gap:.95rem;
+  mix-blend-mode:normal;
+}
+.mark{
+  display:inline-flex;align-items:baseline;gap:.28em;
+  font-family:var(--serif);font-size:1.45rem;font-weight:400;
+  letter-spacing:.02em;text-decoration:none;line-height:1;
+  padding:.3rem .15rem;
+  text-shadow:0 1px 22px rgba(0,0,0,.55);
+  transition:opacity .25s var(--ease);
+}
+.mark:hover{opacity:.72}
+.mark i{font-style:normal;color:var(--gold);font-size:.78em;transform:translateY(-.05em)}
+.mark s{text-decoration:none;letter-spacing:.06em}
+
+.burger{
+  -webkit-appearance:none;appearance:none;border:0;background:transparent;
+  width:2.4rem;height:2.4rem;display:grid;place-content:center;gap:5px;
+  cursor:pointer;padding:0;
+}
+.burger span{
+  display:block;width:22px;height:1px;background:var(--ivory);
+  box-shadow:0 1px 14px rgba(0,0,0,.6);
+  transition:transform .38s var(--ease),opacity .2s linear,width .38s var(--ease);
+}
+.burger span:nth-child(2){width:15px}
+.burger:hover span:nth-child(2){width:22px}
+body.nav-open .burger span:nth-child(1){transform:translateY(3px) rotate(45deg)}
+body.nav-open .burger span:nth-child(2){opacity:0;width:22px}
+body.nav-open .burger span:nth-child(3){transform:translateY(-3px) rotate(-45deg)}
+
+/* ── overlay menu ───────────────────────────────────────── */
+.nav{
+  position:fixed;inset:0;z-index:50;
+  background:var(--ink);
+  display:flex;align-items:center;
+  padding:6.5rem clamp(1.25rem,7vw,7rem) 3rem;
+  opacity:0;visibility:hidden;
+  transition:opacity .45s var(--ease),visibility .45s;
+  overflow-y:auto;
+}
+body.nav-open .nav{opacity:1;visibility:visible}
+.nav::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(120% 90% at 88% 12%,rgba(199,154,146,.22),transparent 62%);
+}
+.nav ol{list-style:none;margin:0;padding:0;position:relative;width:100%;max-width:46rem}
+.nav li{
+  border-top:1px solid rgba(222,212,194,.14);
+  opacity:0;transform:translateY(14px);
+}
+body.nav-open .nav li{
+  opacity:1;transform:none;
+  transition:opacity .5s var(--ease),transform .5s var(--ease);
+  transition-delay:calc(.12s + var(--i) * .035s);
+}
+.nav li:last-child{border-bottom:1px solid rgba(222,212,194,.14)}
+.nav a{
+  display:flex;align-items:baseline;gap:1.1rem;
+  padding:.62rem 0;text-decoration:none;
+  font-family:var(--serif);font-size:clamp(1.35rem,3.4vw,2rem);
+  font-weight:300;line-height:1.25;
+  transition:color .25s var(--ease),padding-left .35s var(--ease);
+}
+.nav a:hover{color:var(--rose);padding-left:.7rem}
+.nav a em{
+  font-style:normal;font-family:var(--sans);font-size:.6rem;font-weight:400;
+  letter-spacing:.28em;color:var(--gold);opacity:.85;min-width:2.4em;
+}
+.nav .foot{
+  position:absolute;left:0;bottom:-2.6rem;
+  font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;color:var(--ink-soft);
+}
+
+/* ── sections ───────────────────────────────────────────── */
+main{position:relative}
+.sec{
+  position:relative;
+  min-height:100svh;
+  display:flex;align-items:flex-end;
+  padding:0 0 clamp(3.5rem,9vh,7rem);
+  overflow:hidden;
+  isolation:isolate;
+}
+@media (min-width:900px){ .sec{align-items:center;padding-bottom:0} }
+
+.bg{
+  position:absolute;inset:0;z-index:-2;
+  background-repeat:no-repeat;background-size:cover;
+  background-position:72% center;
+  will-change:transform;
+}
+@media (min-width:900px){ .bg{background-position:center} }
+
+/* scrim: heavy at the text edge, gone over the subject */
+.sec::after{
+  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:
+    linear-gradient(to top,rgba(20,14,17,.86) 0%,rgba(20,14,17,.45) 34%,rgba(20,14,17,0) 68%),
+    linear-gradient(to right,rgba(20,14,17,.55) 0%,rgba(20,14,17,0) 55%);
+}
+@media (min-width:900px){
+  .sec::after{
+    background:
+      linear-gradient(to right,rgba(20,14,17,.78) 0%,rgba(20,14,17,.42) 38%,rgba(20,14,17,0) 66%),
+      linear-gradient(to top,rgba(20,14,17,.34) 0%,rgba(20,14,17,0) 40%);
+  }
+}
+/* the two light-key frames need a softer hand */
+.sec.light::after{
+  background:
+    linear-gradient(to top,rgba(30,20,16,.78) 0%,rgba(30,20,16,.34) 36%,rgba(30,20,16,0) 70%),
+    linear-gradient(to right,rgba(30,20,16,.42) 0%,rgba(30,20,16,0) 55%);
+}
+@media (min-width:900px){
+  .sec.light::after{
+    background:
+      linear-gradient(to right,rgba(30,20,16,.82) 0%,rgba(30,20,16,.48) 34%,rgba(30,20,16,0) 66%),
+      linear-gradient(to top,rgba(30,20,16,.3) 0%,rgba(30,20,16,0) 40%);
+  }
+}
+
+.inner{
+  width:100%;max-width:1400px;
+  margin:0 auto;padding:0 clamp(1.25rem,6vw,6rem);
+}
+.copy{max-width:34rem}
+@media (min-width:900px){ .copy{max-width:37rem} }
+@media (min-width:1500px){ .copy{max-width:41rem} }
+
+.kicker{
+  display:flex;align-items:center;gap:.85rem;
+  font-size:.62rem;font-weight:400;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--gold);margin:0 0 1.35rem;
+}
+.kicker::after{content:"";flex:0 0 3.2rem;height:1px;background:linear-gradient(to right,var(--gold),transparent)}
+
+h1,h2{
+  font-family:var(--serif);font-weight:300;
+  line-height:1.03;letter-spacing:-.005em;
+  margin:0 0 1.15rem;text-wrap:pretty;
+}
+h1{font-size:clamp(2.7rem,6vw,4.5rem)}
+h2{font-size:clamp(2.05rem,5vw,3.5rem)}
+h1 em,h2 em{font-style:italic;color:var(--rose)}
+
+.body{
+  font-size:clamp(.95rem,1.05vw,1.06rem);line-height:1.68;
+  color:rgba(250,247,241,.8);max-width:32em;margin:0;
+}
+
+.tag{
+  margin-top:2rem;display:inline-flex;align-items:center;gap:.7rem;
+  font-size:.6rem;letter-spacing:.26em;text-transform:uppercase;
+  color:rgba(250,247,241,.55);
+}
+.tag b{font-weight:400;color:var(--gold)}
+
+.cta{
+  margin-top:2.4rem;display:inline-flex;align-items:center;gap:.8rem;
+  padding:.95rem 1.9rem;border-radius:999px;
+  background:var(--burgundy);color:var(--ivory);
+  text-decoration:none;font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;
+  transition:background .3s var(--ease),gap .3s var(--ease);
+}
+.cta:hover{background:#471826;gap:1.25rem}
+.cta svg{width:15px;height:15px;flex:none}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(26px)}
+.in .reveal{
+  opacity:1;transform:none;
+  transition:opacity .95s var(--ease),transform .95s var(--ease);
+}
+.in .reveal:nth-child(2){transition-delay:.09s}
+.in .reveal:nth-child(3){transition-delay:.18s}
+.in .reveal:nth-child(4){transition-delay:.27s}
+
+/* hero scroll hint */
+.hint{
+  position:absolute;left:50%;bottom:1.6rem;transform:translateX(-50%);
+  z-index:2;display:flex;flex-direction:column;align-items:center;gap:.6rem;
+  font-size:.55rem;letter-spacing:.3em;text-transform:uppercase;
+  color:rgba(250,247,241,.5);
+}
+.hint i{display:block;width:1px;height:44px;background:linear-gradient(to bottom,rgba(250,247,241,.5),transparent);animation:drop 2.4s var(--ease) infinite}
+@keyframes drop{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* progress rail */
+.rail{
+  position:fixed;z-index:40;right:max(1.3rem,env(safe-area-inset-right));
+  top:50%;transform:translateY(-50%);
+  display:none;flex-direction:column;gap:.62rem;
+}
+@media (min-width:900px){ .rail{display:flex} }
+.rail button{
+  -webkit-appearance:none;appearance:none;border:0;padding:0;cursor:pointer;
+  width:22px;height:10px;background:transparent;display:grid;place-content:center;
+}
+.rail button::before{
+  content:"";display:block;width:14px;height:1px;
+  background:rgba(250,247,241,.32);
+  transition:width .4s var(--ease),background .4s var(--ease);
+}
+.rail button[aria-current="true"]::before{width:22px;background:var(--gold)}
+body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
+
+footer{
+  background:var(--ink);padding:5rem clamp(1.25rem,6vw,6rem) 3.2rem;
+  border-top:1px solid rgba(222,212,194,.12);
+}
+footer .fw{max-width:1400px;margin:0 auto;display:flex;flex-wrap:wrap;gap:1.5rem;justify-content:space-between;align-items:flex-end}
+footer p{margin:0;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-soft)}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .reveal{opacity:1;transform:none}
+  .hint i{animation:none}
+  *{transition-duration:.01ms!important}
+}
+</style>
+</head>
+<body id="top">
+
+<header class="hdr">
+  <a class="mark" href="#top" aria-label="Medi-X — back to top">medi<i>&#10022;</i><s>x</s></a>
+  <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="nav">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<nav class="nav" id="nav" aria-label="Chapters" hidden>
+  <ol>
+    <li style="--i:0"><a href="#s1"><em>01</em>The Mirror</a></li>
+    <li style="--i:1"><a href="#s2"><em>02</em>The Blueprint</a></li>
+    <li style="--i:2"><a href="#s3"><em>03</em>The Chemistry</a></li>
+    <li style="--i:3"><a href="#s4"><em>04</em>The Evidence</a></li>
+    <li style="--i:4"><a href="#s5"><em>05</em>The Body Knows</a></li>
+    <li style="--i:5"><a href="#s6"><em>06</em>The Conversation</a></li>
+    <li style="--i:6"><a href="#s7"><em>07</em>The Stillness</a></li>
+    <li style="--i:7"><a href="#s8"><em>08</em>The Passage</a></li>
+    <li style="--i:8"><a href="#s9"><em>09</em>The Light</a></li>
+    <li style="--i:9"><a href="#s10"><em>10</em>The Signal</a></li>
+  </ol>
+  <span class="foot">Experiment &mdash; ten chapters</span>
+</nav>
+
+<div class="rail" id="rail" aria-hidden="true"></div>
+
+<main>
+
+  <section class="sec light" id="s1" data-nav="The Mirror">
+    <div class="bg" data-src="images/01-mirror.webp"></div>
+    <div class="inner"><div class="copy">
+      <p class="kicker reveal">Chapter 01</p>
+      <h1 class="reveal">You are not <em>declining.</em><br>You are changing.</h1>
+      <p class="body reveal">Ten full-bleed frames, one idea each. Scroll slowly &mdash; this page is built to be looked at, not skimmed.</p>
+      <a class="cta reveal" href="#s2">Begin
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 4v16m0 0l-6-6m6 6l6-6"/></svg>
+      </a>
+    </div></div>
+    <div class="hint" aria-hidden="true"><i></i>Scroll</div>
+  </section>
+
+  <section class="sec" id="s2" data-nav="The Blueprint">
+    <div class="bg" data-src="images/02-helix.webp"></div>
+    <div class="inner"><div class="copy">
+      <p class="kicker reveal">Chapter 02</p>
+      <h2 class="reveal">Everything begins as <em>instruction.</em></h2>
+      <p class="body reveal">Before a symptom is felt it is written &mdash; in sequence, in expression, in the quiet arithmetic of a cell deciding what to become.</p>
+      <p class="tag reveal"><b>&#10022;</b> Genomic layer</p>
+    </div></div>
+  </section>
+
+  <section class="sec light" id="s3" data-nav="The Chemistry">
+    <div class="bg" data-src="images/03-molecule.webp"></div>
+    <div class="inner"><div class="copy">
+      <p class="kicker reveal">Chapter 03</p>
+      <h2 class="reveal">A molecule is a <em>message.</em></h2>
+      <p class="body reveal">Hormones do not shout. They arrive in picograms and rearrange a decade. Read them precisely, or not at all.</p>
+      <p class="tag reveal"><b>&#10022;</b> Endocrine layer</p>
+    </div></div>
+  </section>
+
+  <section class="sec" id="s4" data-nav="The Evidence">
+    <div class="bg" data-src="images/04-eye.webp"></div>
+    <div class="inner"><div class="copy">
+      <p class="kicker reveal">Chapter 04</p>
+      <h2 class="reveal">Look closer than <em>a glance.</em></h2>
+      <p class="body reveal">Detail is the whole argument. At this distance nothing is generic &mdash; not the skin, not the light, not the person.</p>
+      <p class="tag reveal"><b>&#10022;</b> Diagnostic layer</p>
+    </div></div>
+  </section>
+
+  <section class="sec" id="s5" data-nav="The Body Knows">
+    <div class="bg" data-src="images/05-touch.webp"></div>
+    <div class="inner"><div class="copy">
+      <p class="kicker reveal">Chapter 05</p>
+      <h2 class="reveal">The body reports<br>before the <em>chart does.</em></h2>
+      <p class="body reveal">A hand finds the place that aches long before a number confirms it. Both are data. Only one of them is listened to often enough.</p>
+      <p class="tag reveal"><b>&#10022;</b> Somatic layer</p>
+    </div></div>
+  </section>
+
+  <section class="sec light" id="s6" data-nav="The Conversation">
+    <div class="bg" data-src="images/06-consult.webp"></div>
+    <div class="inner"><div class="copy">
+      <p class="kicker reveal">Chapter 06</p>
+      <h2 class="reveal">Forty minutes, <em>not seven.</em></h2>
+      <p class="body reveal">The consultation is the instrument. Everything else &mdash; the panels, the protocols, the follow-ups &mdash; is downstream of how well the first hour listened.</p>
+      <p class="tag reveal"><b>&#10022;</b> Clinical layer</p>
+    </div></div>
+  </section>
+
+  <section class="sec" id="s7" data-nav="The Stillness">
+    <div class="bg" data-src="images/07-stillness.webp"></div>
+    <div class="inner"><div class="copy">
+      <p class="kicker reveal">Chapter 07</p>
+      <h2 class="reveal">Calm is a <em>clinical outcome.</em></h2>
+      <p class="body reveal">Sleep, cortisol, the nervous system at rest. The measurable part of feeling like yourself again.</p>
+      <p class="tag reveal"><b>&#10022;</b> Regulatory layer</p>
+    </div></div>
+  </section>
+
+  <section class="sec" id="s8" data-nav="The Passage">
+    <div class="bg" data-src="images/08-veil.webp"></div>
+    <div class="inner"><div class="copy">
+      <p class="kicker reveal">Chapter 08</p>
+      <h2 class="reveal">A transition, <em>not a verdict.</em></h2>
+      <p class="body reveal">The years between one hormonal era and the next are the least mapped and most consequential of a life. They deserve a map.</p>
+      <p class="tag reveal"><b>&#10022;</b> Transitional layer</p>
+    </div></div>
+  </section>
+
+  <section class="sec light" id="s9" data-nav="The Light">
+    <div class="bg" data-src="images/09-light.webp"></div>
+    <div class="inner"><div class="copy">
+      <p class="kicker reveal">Chapter 09</p>
+      <h2 class="reveal">The goal was never<br>to look <em>younger.</em></h2>
+      <p class="body reveal">It was to keep the whole span of a life in working order &mdash; energy, clarity, desire, strength &mdash; for as long as the body will hold them.</p>
+      <p class="tag reveal"><b>&#10022;</b> Longevity layer</p>
+    </div></div>
+  </section>
+
+  <section class="sec" id="s10" data-nav="The Signal">
+    <div class="bg" data-src="images/10-signal.webp"></div>
+    <div class="inner"><div class="copy">
+      <p class="kicker reveal">Chapter 10</p>
+      <h2 class="reveal">Your symptoms are<br>not random. They are <em>signals.</em></h2>
+      <p class="body reveal">Ten frames, one page, no scaffolding. If the images can carry the argument alone, the interface has done its job.</p>
+      <a class="cta reveal" href="#top">Back to the top
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 20V4m0 0l-6 6m6-6l6 6"/></svg>
+      </a>
+    </div></div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="fw">
+    <p>Medi&#10022;X &mdash; experiment</p>
+    <p>Ten chapters &middot; built for scroll</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var body=document.body, burger=document.getElementById('burger'), nav=document.getElementById('nav');
+  var secs=[].slice.call(document.querySelectorAll('.sec'));
+
+  /* ---- menu ---- */
+  function setNav(open){
+    body.classList.toggle('nav-open',open);
+    burger.setAttribute('aria-expanded',String(open));
+    burger.setAttribute('aria-label',open?'Close menu':'Open menu');
+    if(open){nav.hidden=false;}
+    else{setTimeout(function(){ if(!body.classList.contains('nav-open')) nav.hidden=true; },460);}
+  }
+  nav.hidden=true;
+  burger.addEventListener('click',function(){ setNav(!body.classList.contains('nav-open')); });
+  nav.addEventListener('click',function(e){ if(e.target.closest('a')) setNav(false); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&body.classList.contains('nav-open')) setNav(false); });
+
+  /* ---- progress rail ---- */
+  var rail=document.getElementById('rail');
+  secs.forEach(function(s,i){
+    var b=document.createElement('button');
+    b.type='button';
+    b.setAttribute('aria-label','Go to chapter '+(i+1)+' — '+s.dataset.nav);
+    b.addEventListener('click',function(){ s.scrollIntoView({behavior:'smooth'}); });
+    rail.appendChild(b);
+  });
+  rail.removeAttribute('aria-hidden');
+  var dots=[].slice.call(rail.children);
+
+  /* ---- lazy background + reveal + current ---- */
+  function load(sec){
+    var bg=sec.querySelector('.bg');
+    if(bg && bg.dataset.src){
+      var src=bg.dataset.src; delete bg.dataset.src;
+      var img=new Image();
+      img.onload=function(){ bg.style.backgroundImage='url("'+src+'")'; };
+      img.onerror=function(){ bg.style.backgroundImage='url("'+src+'")'; };
+      img.src=src;
+    }
+  }
+  load(secs[0]); load(secs[1]);
+
+  if('IntersectionObserver' in window){
+    var near=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ load(e.target); near.unobserve(e.target); } });
+    },{rootMargin:'120% 0px'});
+    secs.forEach(function(s){ near.observe(s); });
+
+    var shown=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('in'); });
+    },{threshold:.22});
+    secs.forEach(function(s){ shown.observe(s); });
+
+    var cur=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){
+          var i=secs.indexOf(e.target);
+          dots.forEach(function(d,j){ d.setAttribute('aria-current',String(j===i)); });
+        }
+      });
+    },{threshold:.5});
+    secs.forEach(function(s){ cur.observe(s); });
+  }else{
+    secs.forEach(function(s){ load(s); s.classList.add('in'); });
+  }
+
+  /* ---- gentle parallax (desktop, motion-allowed only) ---- */
+  var reduce=window.matchMedia('(prefers-reduced-motion:reduce)');
+  var wide=window.matchMedia('(min-width:900px)');
+  var ticking=false;
+  function frame(){
+    ticking=false;
+    var vh=window.innerHeight;
+    secs.forEach(function(s){
+      var r=s.getBoundingClientRect();
+      if(r.bottom<-vh||r.top>vh*2) return;
+      var p=(r.top+r.height/2-vh/2)/vh;      /* -1 .. 1 across the viewport */
+      var bg=s.querySelector('.bg');
+      if(bg) bg.style.transform='translate3d(0,'+(p*-26).toFixed(2)+'px,0) scale(1.07)';
+    });
+  }
+  function onScroll(){ if(!ticking){ ticking=true; requestAnimationFrame(frame); } }
+  function sync(){
+    if(wide.matches && !reduce.matches){
+      window.addEventListener('scroll',onScroll,{passive:true}); frame();
+    }else{
+      window.removeEventListener('scroll',onScroll);
+      secs.forEach(function(s){ var bg=s.querySelector('.bg'); if(bg) bg.style.transform=''; });
+    }
+  }
+  sync();
+  (wide.addEventListener?wide.addEventListener('change',sync):wide.addListener(sync));
+  window.addEventListener('resize',onScroll,{passive:true});
+})();
+</script>
+</body>
+</html>

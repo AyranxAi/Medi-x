@@ -8,10 +8,10 @@ No framework, no build step. `index.html` + `images/`.
 | # | Chapter | Image | Status |
 |---|---|---|---|
 | 01 | The Light | `09-light.webp` | final |
-| 02 | About Us | `about.webp` | final |
+| 02 | About Us | `about.webp` | interim — a new photograph is coming |
 | 03 | The Conversation | `06-consult.webp` (Irina) | final |
 | 04 | The Pathways | `path-01..04-*.webp` | accordion — see below |
-| 05 | The Room | `team.webp` | final |
+| 05 | The Room | `team.webp` (from `About.png`) | final |
 | 06 | The Tools | `products.webp` | final |
 | 07 | menoSTART | `08-veil.webp` | final — upgrade to a "gathering" shot when one exists |
 

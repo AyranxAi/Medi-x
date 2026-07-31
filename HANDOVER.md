@@ -29,6 +29,20 @@ Unused files kept in `images/`: `01-mirror`, `02-helix`, `03-molecule`,
 `04-eye`, `05-touch`, `07-stillness`, `10-signal` (.webp) plus all
 uploaded PNG sources (they are the masters — do not delete).
 
+## The header (2026-08-01 — chrome ported from medi-blond)
+
+Two states, medi-blond's exact recipe (same design tokens both sites):
+over the hero = frosted glass (ink 45% + blur 12, 60% ivory hairline,
+ivory icons, 44px chips); scrolled ≥24px = ivory bar (95% + blur,
+`--line` base hairline) with the coloured logo (`logo-red.webp`,
+same 626×160 artwork as the ivory one), outline chips, ink icons,
+gold hover, burgundy-outline book pill ("BOOK YOUR CONSULTATION" —
+uppercase per CLP register, the user's explicit pick over medi-blond's
+sentence case). Hides scrolling down past 240, returns on any 6px+
+up-scroll. Identity kept OURS: logo files and the three-line burger
+(medi-blond has two lines — do not copy that). Menu open = our
+burgundy overlay untouched, controls in glass so they read on dark.
+
 ## The accordion (chapter 04)
 
 Ported from medi-gyn-app's `.pathways-acc` (its `globals.css` +
@@ -40,7 +54,11 @@ Desktop-only controls (count + arrows) appear only while open; the
 "Choose a pathway" cue shows while collapsed. "Explore pathway" CTAs are
 inert. Scrims are deep burgundy `#471826` — a deliberate decision (it
 bridges the light frames around it and matches the burgundy in the
-lounge and products photos); do not neutralise it.
+lounge and products photos); do not neutralise it. Panel hover is
+JS-managed (`.hov` via pointerenter/leave, cleared in `pwRender`) —
+CSS `:hover` sticks during the width animation because browsers only
+re-evaluate hover on pointer movement, and touch made it sticky;
+never revert to plain `:hover` here.
 
 ## Image pipeline (IMPORTANT — follow for every new image)
 
@@ -96,7 +114,10 @@ density stays uniform — no polar rings; run-length encoded by row) is projecte
 orthographically on a `<canvas>`; one turn ≈ 95 s; a roll call labels
 each menoSTART location in turn, skipping far-side cities; the loop
 pauses off-screen (IntersectionObserver) and renders one static frame
-under `prefers-reduced-motion`. The veil photograph was removed
+under `prefers-reduced-motion`. The pace varies (2026-08-01): base
+rate while the located arc (~20°W–140°E) faces the viewer, cosine-
+eased up to 3.5× across the empty Pacific/Americas, so the frame
+never lingers on nothing; the roll call rests while pace >1.8×. The veil photograph was removed
 2026-07-31 (two subjects fought for the right two-thirds); the ground
 is a designed CSS gradient night — do not put a photo back without
 rechecking the collision. Fiji wraps the antimeridian in land-110m:
@@ -117,10 +138,12 @@ the user's local `medi-gyn` folder (transcribed 2026-07-31).
    Shanghai and Mumbai until the true event cities are confirmed;
    country-level entries (Oman, Saudi, Kuwait, Qatar) use
    Muscat/Riyadh/Kuwait City/Doha.
-3. **"As featured in" press strip** — deliberately NOT built; the user
-   is deciding static-in-frame vs a moving band outside the frame, and
-   the real wordmark list must come from Irina first. Never placeholder
-   press on the live page.
+3. **"As featured in" marquee — GREEN-LIT (2026-08-01), build next
+   chat.** The user's decisions: it lives INSIDE chapter 07 (bottom
+   edge of the closer), transparent background, wordmarks drifting
+   right→left, single ivory tint. He sends images of every feature
+   next chat; each becomes ONE clean SVG (drawn in `currentColor` so
+   the tint is CSS). Real features only — never placeholder press.
 4. **"Join menoSTART" destination** — chapter 07's CTA is inert; needs a
    signup link / WhatsApp / events URL from the user.
 5. **menoSTART "gathering" image** — no longer needed for the closer

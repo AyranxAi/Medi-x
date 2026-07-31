@@ -18,7 +18,7 @@ the invitation.**
 | # | id | Nav | Image | Notes |
 |---|----|-----|-------|-------|
 | 01 | s1 | The Light | `09-light.webp` | Hero, h1, Begin CTA |
-| 02 | s2 | About Us | `about.webp` | "Decoded, not dismissed." desk flat-lay; new photo coming |
+| 02 | s2 | About Us | `about.webp` | "Decoded, not dismissed." — hands + anatomy-chart flat-lay (from the `About us.png` upload, ESRGAN 2×, 2026-07-31) |
 | 03 | s3 | The Conversation | `06-consult.webp` | Irina = the red-haired woman |
 | 04 | s4 | The Pathways | `path-01..04-*.webp` | Interactive accordion, see below |
 | 05 | s5 | The Room | `team.webp` | clinic lounge, derived from the `About.png` upload |
@@ -132,8 +132,5 @@ the user's local `medi-gyn` folder (transcribed 2026-07-31).
    medi-gyn's IMG-02 brief: woman stretching by a sunlit window).
 7. **Chapter 03 upgrade** — the consult photo is the stockiest frame;
    a real clinician photo would strengthen it (real-photo rule applies).
-8. **New About Us photograph** — chapter 02 currently carries the desk
-   flat-lay as an interim; the user is creating a dedicated image for it.
-   Drop it in as `about.webp` via the pipeline above.
-9. Declined ideas (do not revive unasked): burgundy/red lipstick on the
+8. Declined ideas (do not revive unasked): burgundy/red lipstick on the
    hero; neutral scrim for the accordion.

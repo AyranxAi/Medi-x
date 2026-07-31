@@ -18,10 +18,10 @@ the invitation.**
 | # | id | Nav | Image | Notes |
 |---|----|-----|-------|-------|
 | 01 | s1 | The Light | `09-light.webp` | Hero, h1, Begin CTA |
-| 02 | s2 | About Us | `about.webp` | "Decoded, not dismissed." lounge interior |
+| 02 | s2 | About Us | `about.webp` | "Decoded, not dismissed." desk flat-lay; new photo coming |
 | 03 | s3 | The Conversation | `06-consult.webp` | Irina = the red-haired woman |
 | 04 | s4 | The Pathways | `path-01..04-*.webp` | Interactive accordion, see below |
-| 05 | s5 | The Room | `team.webp` | mg lounge interior (filename is a misnomer) |
+| 05 | s5 | The Room | `team.webp` | clinic lounge, derived from the `About.png` upload |
 | 06 | s6 | The Tools | `products.webp` | `#s6 .bg` crop override 12% center |
 | 07 | s7 | menoSTART | `08-veil.webp` | Closer; "Join menoSTART" CTA is INERT |
 
@@ -101,8 +101,8 @@ judging type wrapping.
    medi-gyn's IMG-02 brief: woman stretching by a sunlit window).
 4. **Chapter 03 upgrade** — the consult photo is the stockiest frame;
    a real clinician photo would strengthen it (real-photo rule applies).
-5. **Two interior frames** — About Us (02) and The Room (05) are both
-   clinic interiors since the About photo was replaced. Raised with the
-   user, who chose to place it anyway; revisit if the repetition shows.
+5. **New About Us photograph** — chapter 02 currently carries the desk
+   flat-lay as an interim; the user is creating a dedicated image for it.
+   Drop it in as `about.webp` via the pipeline above.
 6. Declined ideas (do not revive unasked): burgundy/red lipstick on the
    hero; neutral scrim for the accordion.

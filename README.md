@@ -11,7 +11,7 @@ No framework, no build step. `index.html` + `images/`.
 | 02 | The Passage | `08-veil.webp` | final |
 | 03 | The Conversation | `06-consult.webp` (Irina) | final |
 | 04 | The Pathways | `path-01..04-*.webp` | accordion — see below |
-| 05 | The Mirror | `01-mirror.webp` | interim — to be replaced |
+| 05 | The Room | `team.webp` | final |
 | 06 | The Stillness | `07-stillness.webp` | interim — to be replaced |
 | 07 | The Signal | `10-signal.webp` | interim — to be replaced |
 
@@ -23,10 +23,12 @@ it is full-bleed with no copy above it, and it starts fully collapsed — all
 four panels equal until one is clicked, and clicking the open panel collapses
 it again. The "Explore pathway" CTA is present but inert for now.
 
-The `path-0X-*.webp` files are resized derivatives of the uploaded originals
-(`BHRT.png`, `Menopause.png`, `Functional medicine.png`, `peptides.png`),
-which stay in `images/` as sources. Also unused on the page: `02-helix.webp`,
-`03-molecule.webp`, `04-eye.webp`, `05-touch.webp`.
+The `path-0X-*.webp` and `team.webp` files are resized derivatives of the
+uploaded originals (`BHRT.png`, `Menopause.png`, `Functional medicine.png`,
+`team.png`, and the ChatGPT-named PNG that replaced `peptides.png` as the
+peptides source), which stay in `images/` as sources. Also unused on the
+page: `01-mirror.webp`, `02-helix.webp`, `03-molecule.webp`, `04-eye.webp`,
+`05-touch.webp`.
 
 ## Chrome
 

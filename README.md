@@ -8,12 +8,16 @@ No framework, no build step. `index.html` + `images/`.
 | # | Chapter | Image | Status |
 |---|---|---|---|
 | 01 | The Light | `09-light.webp` | final |
-| 02 | The Passage | `08-veil.webp` | final |
+| 02 | About Us | `05-touch.webp` | interim — awaiting real founder/team photo |
 | 03 | The Conversation | `06-consult.webp` (Irina) | final |
 | 04 | The Pathways | `path-01..04-*.webp` | accordion — see below |
 | 05 | The Room | `team.webp` | final |
 | 06 | The Tools | `products.webp` | final |
-| 07 | The Signal | `10-signal.webp` | interim — to be replaced |
+| 07 | menoSTART | `08-veil.webp` | final — upgrade to a "gathering" shot when one exists |
+
+Chapter 07's "Join menoSTART" CTA is inert until there is a signup
+destination. About Us (02) deliberately shows hands, not a face — clinician
+likenesses are real-photo-only, per the medi-gyn image rules.
 
 Chapter 04 is a port of medi-gyn-app's care-pathways accordion (the
 `.pathways-acc` block in its `globals.css`): four full-height photo panels in
@@ -28,7 +32,7 @@ uploaded originals (`BHRT.png`, `Menopause.png`, `Functional medicine.png`,
 `team.png`, and the ChatGPT-named PNG that replaced `peptides.png` as the
 peptides source), which stay in `images/` as sources. Also unused on the
 page: `01-mirror.webp`, `02-helix.webp`, `03-molecule.webp`, `04-eye.webp`,
-`05-touch.webp`.
+`07-stillness.webp`, `10-signal.webp`.
 
 ## Chrome
 

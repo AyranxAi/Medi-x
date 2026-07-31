@@ -76,7 +76,8 @@ body.nav-open .hdr{background:transparent;backdrop-filter:none;-webkit-backdrop-
 .globe svg,.wapp svg{width:19px;height:19px}
 .hdr__book{
   display:inline-flex;align-items:center;white-space:nowrap;
-  padding:.8rem 1.4rem;border-radius:999px;
+  /* same height as the globe and WhatsApp chips, so the cluster reads as one row */
+  height:2.6rem;padding:0 1.5rem;border-radius:999px;
   background:var(--ivory);color:var(--ink);
   font-size:.62rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;
   text-decoration:none;cursor:pointer;
@@ -88,6 +89,9 @@ body.nav-open .hdr{background:transparent;backdrop-filter:none;-webkit-backdrop-
 .burger{
   -webkit-appearance:none;appearance:none;border:0;background:transparent;
   width:2.4rem;height:2.4rem;display:grid;place-content:center;gap:5px;
+  /* the short middle line sits flush right: the icon's straight edge lines up
+     with the page margin it is anchored to, ragged edge facing the content */
+  justify-items:end;
   cursor:pointer;padding:0;
 }
 .burger span{

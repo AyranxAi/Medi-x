@@ -12,7 +12,7 @@ No framework, no build step. `index.html` + `images/`.
 | 03 | The Conversation | `06-consult.webp` (Irina) | final |
 | 04 | The Pathways | `path-01..04-*.webp` | accordion — see below |
 | 05 | The Room | `team.webp` | final |
-| 06 | The Stillness | `07-stillness.webp` | interim — to be replaced |
+| 06 | The Tools | `products.webp` | final |
 | 07 | The Signal | `10-signal.webp` | interim — to be replaced |
 
 Chapter 04 is a port of medi-gyn-app's care-pathways accordion (the

@@ -23,7 +23,7 @@ the invitation.**
 | 04 | s4 | The Pathways | `path-01..04-*.webp` | Interactive accordion, see below |
 | 05 | s5 | The Room | `team.webp` | clinic lounge, derived from the `About.png` upload |
 | 06 | s6 | The Tools | `products.webp` | `#s6 .bg` crop override 12% center |
-| 07 | s7 | menoSTART | `08-veil.webp` + canvas globe | Closer; split frame — invitation + rotating patient quote left, champagne globe right (stacks on phone). CTA still INERT |
+| 07 | s7 | menoSTART | CSS night ground + canvas globe (NO photo) | Closer; split frame — hero-size invitation + rotating patient quote left, champagne globe right (stacks on phone). CTA still INERT |
 
 Unused files kept in `images/`: `01-mirror`, `02-helix`, `03-molecule`,
 `04-eye`, `05-touch`, `07-stillness`, `10-signal` (.webp) plus all
@@ -95,7 +95,12 @@ land-110m sampled at 2.4°, run-length encoded by row) is projected
 orthographically on a `<canvas>`; one turn ≈ 95 s; a roll call labels
 each menoSTART location in turn, skipping far-side cities; the loop
 pauses off-screen (IntersectionObserver) and renders one static frame
-under `prefers-reduced-motion`. Quote `<footer>`s must keep their
+under `prefers-reduced-motion`. The veil photograph was removed
+2026-07-31 (two subjects fought for the right two-thirds); the ground
+is a designed CSS gradient night — do not put a photo back without
+rechecking the collision. Fiji wraps the antimeridian in land-110m:
+the dot-grid generator unwraps small seam-crossing rings or a false
+land band appears at 16°S. Quote `<footer>`s must keep their
 `background:none;padding:0` reset — the page-level `footer` styles bleed
 in otherwise. Quote lines are verbatim from the two testimonial films in
 the user's local `medi-gyn` folder (transcribed 2026-07-31).
@@ -116,9 +121,9 @@ the user's local `medi-gyn` folder (transcribed 2026-07-31).
    press on the live page.
 4. **"Join menoSTART" destination** — chapter 07's CTA is inert; needs a
    signup link / WhatsApp / events URL from the user.
-5. **menoSTART "gathering" upgrade** — the closer shows a lone
-   silhouette; the ideal image per medi-gyn's own brief is five women
-   40–60, candid laughter, tea, golden light. Swap when generated.
+5. **menoSTART "gathering" image** — no longer needed for the closer
+   (chapter 07 has no photograph now); the five-women golden-light
+   brief could serve a future chapter or the press band instead.
 3. **Accordion panel 01 redundancy** — since About Us (02) became a
    journal-and-charts flat-lay, `path-01-bhrt.webp` (also a journal
    flat-lay) repeats the motif. Consider regenerating panel 01 (e.g.

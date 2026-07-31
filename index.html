@@ -531,15 +531,24 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
 /* ── menoSTART closer (chapter 07) ──────────────────────────
    Left: the invitation and one rotating patient line.
    Right: a slow champagne globe — gold dots where menoSTART
-   has been. The veil photograph stays underneath, dimmed to
-   a breath; grain and vignette keep the frame photographic. */
-.sec--meno .bg{filter:brightness(.52) saturate(.85)}
+   has been. No photograph here: the globe is the frame's only
+   subject, floating on a designed night ground (deep burgundy
+   light pooled behind it, a rose breath top-left, vignette and
+   film grain keeping the frame photographic, not flat). */
+.sec--meno .bg{
+  background-image:
+    radial-gradient(52% 68% at 71% 46%,rgba(92,31,49,.55),transparent 72%),
+    radial-gradient(40% 52% at 71% 46%,rgba(199,154,146,.12),transparent 70%),
+    radial-gradient(60% 80% at 12% 8%,rgba(199,154,146,.08),transparent 65%),
+    linear-gradient(160deg,#241A1F 0%,#2E2228 55%,#241A1F 100%);
+}
 .sec--meno::after{
   background:
-    radial-gradient(46% 62% at 71% 46%,rgba(199,154,146,.13),transparent 70%),
-    linear-gradient(to right,rgba(20,14,17,.84) 0%,rgba(20,14,17,.52) 38%,rgba(20,14,17,.12) 66%),
-    radial-gradient(130% 130% at 50% 50%,transparent 56%,rgba(20,14,17,.6) 100%);
+    linear-gradient(to right,rgba(20,14,17,.5) 0%,rgba(20,14,17,.18) 40%,rgba(20,14,17,0) 62%),
+    radial-gradient(130% 130% at 50% 50%,transparent 58%,rgba(20,14,17,.58) 100%);
 }
+/* the closer earns hero-size type */
+.sec--meno h2{font-size:clamp(3rem,7vw,5.4rem)}
 /* film grain over the whole frame, near-invisible */
 .sec--meno::before{
   content:"";position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.05;
@@ -880,12 +889,12 @@ footer p{margin:0;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase
        Quote attributions are PENDING the user's + Irina's sign-off;
        the lines are verbatim from the two testimonial films. -->
   <section class="sec sec--meno" id="s7" data-nav="menoSTART">
-    <div class="bg" data-src="images/08-veil.webp"></div>
+    <!-- no photo: the ground is the CSS night gradient on .bg -->
+    <div class="bg"></div>
     <canvas class="meno-globe" id="meno-globe" aria-hidden="true"></canvas>
     <div class="inner"><div class="copy">
       <p class="kicker reveal">Chapter 07 &mdash; menoSTART</p>
-      <h2 class="reveal">Join us. Learn with us.<br><em>Be with us.</em></h2>
-      <p class="body reveal">Your symptoms are not random &mdash; they are signals. menoSTART is where you learn to read them, together with women at the same stage, and the clinicians who treat it.</p>
+      <h2 class="reveal">Join us.<br>Learn with us.<br><em>Be with us.</em></h2>
       <div class="meno-quotes reveal" id="meno-quotes" aria-label="Patient voices">
         <blockquote class="meno-quote" data-on="true">
           <p>&ldquo;This literally elevated my everyday life to another level. It was transformational.&rdquo;</p>
@@ -1083,8 +1092,8 @@ footer p{margin:0;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase
 <script>
 /* ── menoSTART globe (chapter 07) ──────────────────────────
    Hand-rolled orthographic projection over a precomputed
-   land-dot grid (world-atlas land-110m sampled at 2.4°,
-   run-length encoded by row: lat=-56+r*2.4, lon=-180+k*2.4).
+   land-dot grid (world-atlas land-110m sampled at 1.8°,
+   run-length encoded by row: lat=-56+r*1.8, lon=-180+k*1.8).
    No libraries. The roll call visits each location in turn,
    skipping any that are on the far side of the globe. */
 (function(){
@@ -1093,7 +1102,7 @@ footer p{margin:0;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase
   var ctx=cv.getContext('2d');
   var RAD=Math.PI/180;
 
-  var RLE='1:45-46;2:44-46;3:44-46;4:44-46,145;5:45-47,146;6:45-47,136,147-148;7:45-49,148;8:45-51,134-137;9:45-52,83,124,133-137;10:46-53,83-87,124-128,131-138;11:46-54,83-87,123-138;12:46-54,82-88,123-138;13:46-55,82-89,94,123-138;14:46-57,81-89,94,123-137;15:46-58,81-89,94-95,125-136;16:46-58,80-90,94-95,126-135,149;17:44-58,81-91,95-96,127-131,135;18:44-59,81-91,130-131;19:43-59,81-91;20:42-60,81-91,121-122,133-134,136;21:42-60,81-91,119,125,133-135,137-138;22:42-58,80-91,118-119,122-123,125-126,129,131-134;23:42-55,79-92,117-118,121-123,125-126,130;24:43-54,79-93,117-118,121-124;25:43-53,79-94,116-118,123-124;26:43-50,71-95,117,124,127;27:41,44-49,70-95,107,116,124,127;28:40,45-46,69-93,96,107-108,118-120,126-127;29:38-40,69-92,94,107-108,116-120,126;30:35-37,69-91,93-96,106-108,116-120,125;31:32-38,44-47,69-90,93-98,106-110,115-119;32:32-34,38,43,68-90,92-99,106-111,114-119,121;33:31-34,69-89,92-99,104-123;34:30-34,69-89,91-95,100-124;35:29-34,41,70-95,97-125;36:27-38,40-41,71-82,84-125;37:27-41,72-80,84,90-125;38:25-43,73,75-79,89-124,128,131-133;39:24-43,72-74,81,84,87-95,98-124,128,133;40:24-44,72-75,79,84-85,87-95,98-124,126-128,134;41:24-45,72-76,80-81,83-86,93-95,97-129;42:24-48,75-80,82-87,89,91-94,97-131;43:24-47,52,74-132;44:24-47,51,75-133,135;45:22-41,43-51,71,73-75,77-134;46:21-40,42-51,72,74,79,82-132,140-141;47:9,20-37,44-49,73-74,79,81,84-132,140-142;48:8-10,18-35,43-46,48,78-82,85-134,139,142-143;49:6-36,43-45,55-57,78-82,84-140,142,144-147;50:8-37,39-41,45-47,54-58,66-68,79-83,85-149;51:4-80,90,92-93,105;52:1-82,91-100,103,106;53:0,10,24,27-31,35-36,39-45,53-65,70-138;54:24-26,31,33-34,36-37,39,42,52-66,98,109-124,127,134;55:27-28,30,33-34,37,50-66,100-102,114-122,133-134';
+  var RLE='1:60-62;2:59-62;3:59-61;4:58-62;5:59-62;6:59-62,193-194;7:59-63,181,195;8:59-63,181-182,196;9:60-65,197-198;10:60-67,179-182,198-199;11:60-68,178-183;12:60-70,111,165-166,177-183;13:61-70,111-115,165-169,175-184;14:61-71,110-116,164-184;15:61-72,110-117,164-185;16:61-73,109-118,164-185;17:61-73,109-118,125,164-184;18:61-75,108-119,125-126,164-183;19:61-77,108-119,125-126,164-182,192;20:61-77,108-119,125-127,167-182;21:61-78,107-120,125-127,168-181,199;22:0,60-78,107-122,125-127,169-176,179-180,193;23:58-78,107-122,127,170-175,179-180;24:58-78,108-122,173-175,179;25:57-79,108-122,179;26:57-80,108-121,179,182;27:56-80,108-121,160-162,177-181;28:55-80,107-121,158,168,177-181,184,186;29:56-78,106-122,157-158,164,174-179;30:56-75,106-122,156-158,162-164,167,174,177;31:56-72,106-123,156-157,161-165,171;32:57-72,106-124,155-156,161-165,171;33:57-71,106-126,154-155,157,163-165;34:57-70,95-99,103-126,153,156-157,164-166;35:57-67,94-127,145,169-170;36:54,58-66,93-127,143,155,170;37:53,59-62,65-66,92-124,126-128,143-144,155,158-159,168;38:52-53,91-123,142-144,155,157-160;39:49-53,91-122,124-127,142-144,155-160;40:46,48-50,91-121,124-128,141-145,153,155-160,167;41:44-50,57,91-121,124-131,141-146,153-159,167;42:42-46,50-51,60,91-120,123-131,141-147,152-158,161;43:42-45,57,91-120,122-132,139-148,152-159,161;44:39,41-45,91-119,122-132,139-164,167;45:38,40-45,92-119,121-128,131,138-166;46:37,39-45,55,93-118,120-127,130,132-166;47:37-46,54-55,94-126,129-167;48:36,38-54,95-167;49:35-55,95-108,112,120-167,173;50:34-56,97-105,120-166,173;51:33-57,100-105,120-166,171,176-178;52:32-57,96-99,107-108,112,115-127,130-165,167,171,177-178;53:32-58,95-99,105,109,112,115-127,130-166,168,170,178;54:31-59,96-101,108-109,111-116,118-120,123-127,131-171;55:31-60,95-101,106-107,110-115,123-126,129-174,178-180;56:32-62,64-65,100-106,109-116,119,121-126,129-175,179;57:32-64,99-127,130-176,179;58:31-61,63-64,68-70,98-177,179;59:29-66,68,97,101-179;60:29-54,57-68,95,98-100,103-179,187;61:26,28-54,57-68,95-96,99,105-177,187-188;62:10-11,27-52,57-66,97-98,105,112-175,187-189;63:13,15,26-48,58-65,97-98,107-109,114-177,188-190;64:10-14,16,23-47,57-61,64,103-110,114-180,182,185,189-190;65:9-47,57-60,73-76,103-109,112-186,189,191-195;66:9-49,54,61-62,72-76,104-110,112-199;67:3-4,8-51,53-54,57-63,71-77,88-91,106-111,114-119,121,123-199;68:3,5-107,119,123-124,140;69:2-108,122-124,126-128,130,138,141;70:10-20,29,36-43,47-49,53-62,70-87,112-116,138-140,142-188;71:31-39,41,45-46,50-58,70-87,129-130,138-140,143-144,146-171,178-183;72:32-35,44,47-49,52,56,69-88,130-131,145-162,164,179;73:35-41,44-45,47,49-51,53-55,68-89,132-135,150-163,177-180;74:34-35,52-55,62-89,108-109,157-158';
 
   /* dot cities: representative points; CHINA + INDIA stand at
      Shanghai + Mumbai until the true event cities are confirmed */
@@ -1113,11 +1122,11 @@ footer p{margin:0;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase
   /* decode grid → unit vectors (cosφcosλ, cosφsinλ, sinφ) */
   var land=[];
   RLE.split(';').forEach(function(row){
-    var i=row.indexOf(':'), r=+row.slice(0,i), lat=-56+r*2.4, cp=Math.cos(lat*RAD), sp=Math.sin(lat*RAD);
+    var i=row.indexOf(':'), r=+row.slice(0,i), lat=-56+r*1.8, cp=Math.cos(lat*RAD), sp=Math.sin(lat*RAD);
     row.slice(i+1).split(',').forEach(function(run){
       var ab=run.split('-'), a=+ab[0], b=+(ab[1]!==undefined?ab[1]:ab[0]);
       for(var k=a;k<=b;k++){
-        var lon=(-180+k*2.4)*RAD;
+        var lon=(-180+k*1.8)*RAD;
         land.push([cp*Math.cos(lon),cp*Math.sin(lon),sp]);
       }
     });
@@ -1149,7 +1158,7 @@ footer p{margin:0;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase
     var ca=Math.cos(spin),sa=Math.sin(spin);
     ctx.beginPath();ctx.arc(CX,CY,R+3,0,6.2832);
     ctx.strokeStyle='rgba(241,231,210,.22)';ctx.lineWidth=1;ctx.stroke();
-    ctx.fillStyle='rgba(250,247,241,.34)';
+    ctx.fillStyle='rgba(250,247,241,.38)';
     var i,v,x,y,xt,zt;
     for(i=0;i<land.length;i++){
       v=land[i];
@@ -1158,7 +1167,7 @@ footer p{margin:0;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase
       if(xt<0.02) continue;
       zt=v[2]*cosT-x*sinT;
       ctx.beginPath();
-      ctx.arc(CX+R*y,CY-R*zt,Math.max(.8,R*.012),0,6.2832);
+      ctx.arc(CX+R*y,CY-R*zt,Math.max(.7,R*.009),0,6.2832);
       ctx.fill();
     }
     for(i=0;i<cityV.length;i++){

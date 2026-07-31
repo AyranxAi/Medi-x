@@ -579,13 +579,13 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
 .meno-quote p{
   margin:0;font-family:var(--serif);font-style:italic;font-weight:300;
   font-size:clamp(1.05rem,1.35vw,1.28rem);line-height:1.45;
-  color:rgba(250,247,241,.92);
+  color:var(--ivory);
 }
 .meno-quote footer{
   /* unset the page-footer chrome — this footer is a quote attribution */
   background:none;border:0;padding:0;
-  margin-top:.55rem;font-size:.56rem;font-weight:400;
-  letter-spacing:.26em;text-transform:uppercase;color:var(--gold);opacity:.85;
+  margin-top:.55rem;font-size:.66rem;font-weight:400;
+  letter-spacing:.26em;text-transform:uppercase;color:var(--gold);
 }
 .sec--meno .cta{margin-top:2rem}
 @media (prefers-reduced-motion:reduce){
@@ -1160,8 +1160,8 @@ footer p{margin:0;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase
     ctx.clearRect(0,0,W,H);
     var ca=Math.cos(spin),sa=Math.sin(spin);
     ctx.beginPath();ctx.arc(CX,CY,R+3,0,6.2832);
-    ctx.strokeStyle='rgba(241,231,210,.22)';ctx.lineWidth=1;ctx.stroke();
-    ctx.fillStyle='rgba(250,247,241,.38)';
+    ctx.strokeStyle='rgba(241,231,210,.32)';ctx.lineWidth=1;ctx.stroke();
+    ctx.fillStyle='rgba(250,247,241,.52)';
     var i,v,x,y,xt,zt;
     for(i=0;i<land.length;i++){
       v=land[i];

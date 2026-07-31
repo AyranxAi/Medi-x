@@ -15,7 +15,7 @@
 :root{
   --ivory:#FAF7F1; --cream:#F4EDE1; --line:#DED4C2;
   --burgundy:#5C1F31; --rose:#C79A92;
-  --gold:#C2A05E; --gold-deep:#8A6A34;
+  --gold:#C2A05E; --gold-deep:#8A6A34; --gold-tint:#F1E7D2;
   --ink:#2E2228; --ink-soft:#6A585F;
   --serif:"Cormorant Garamond",Georgia,serif;
   --sans:"Inter",ui-sans-serif,system-ui,-apple-system,sans-serif;
@@ -244,6 +244,228 @@ h1 em,h2 em{font-style:italic;color:var(--rose)}
 .rail button[aria-current="true"]::before{width:22px;background:var(--gold)}
 body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
 
+/* ── pathways accordion (chapter 04) ────────────────────────
+   Ported from medi-gyn-app's care-pathways accordion
+   (.pathways-acc in its globals.css) with two deltas: it is
+   full-bleed with no copy above it, and it starts fully
+   collapsed — all four panels equal, nothing open until
+   clicked, and clicking the open panel closes it again. */
+.sec--pw{display:block;padding:0;height:100svh;min-height:560px}
+/* the panels carry their own scrims; the generic section scrim would double up */
+.sec--pw::after{content:none}
+@media (min-width:640px){ .sec--pw{min-height:600px} }
+@media (min-width:1024px){ .sec--pw{min-height:680px} }
+
+.pw{
+  --pw-ease:cubic-bezier(.22,1,.36,1);
+  --pw-width-ms:650ms; --pw-fade-ms:400ms; --pw-scrim-ms:460ms;
+  /* phone: 58.3% open against three 13.9% bands */
+  --pw-grow:4.2;
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;
+  background:var(--ink);
+}
+@media (min-width:1024px){
+  /* 2.55 : 1 : 1 : 1 → 45.9% open, 18.0% each closed */
+  .pw{--pw-grow:2.55;flex-direction:row}
+}
+
+.pw__panel{
+  position:relative;flex:1 1 0;min-width:0;min-height:0;overflow:hidden;
+  transition:flex-grow var(--pw-width-ms) var(--pw-ease);
+}
+.pw__panel[data-active="true"]{flex-grow:var(--pw-grow)}
+/* the only internal seam: one hairline */
+.pw__panel + .pw__panel{border-top:1px solid rgba(250,247,241,.16)}
+@media (min-width:1024px){
+  .pw__panel + .pw__panel{border-top:0;border-left:1px solid rgba(250,247,241,.16)}
+}
+
+/* brightness carries the hierarchy; two focal points per photo come in as
+   custom properties on the <img> and the breakpoint picks between them */
+.pw__img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  object-position:var(--op-m,center);
+  filter:brightness(.84);
+  transition:filter var(--pw-scrim-ms) var(--pw-ease);
+}
+.pw__panel[data-active="true"] .pw__img{filter:brightness(1)}
+@media (min-width:1024px){
+  .pw__img{object-position:var(--op-d,center)}
+  .pw__panel[data-active="false"] .pw__img{object-position:var(--op-di,var(--op-d,center))}
+}
+.pw__panel[data-active="false"]:hover .pw__img,
+.pw__panel[data-active="false"]:focus-within .pw__img{filter:brightness(.94)}
+
+/* deep-burgundy scrims, alphas carried over from the source verbatim */
+.pw__scrim{position:absolute;inset:0;transition:opacity var(--pw-scrim-ms) var(--pw-ease)}
+.pw__scrim[data-show="false"]{opacity:0}
+.pw__scrim--closed{
+  background:
+    linear-gradient(to right,rgba(71,24,38,.66) 0%,rgba(71,24,38,.6) 52%,rgba(71,24,38,0) 96%),
+    linear-gradient(to top,rgba(71,24,38,.4) 0%,rgba(71,24,38,.3) 100%);
+}
+@media (min-width:1024px){
+  .pw__scrim--closed{
+    background:linear-gradient(to top,
+      rgba(71,24,38,.92) 0,rgba(71,24,38,.88) 180px,rgba(71,24,38,.64) 300px,
+      rgba(71,24,38,.3) 420px,rgba(71,24,38,.12) 540px,rgba(71,24,38,.08) 100%);
+  }
+}
+.pw__panel[data-active="false"]:hover .pw__scrim--closed,
+.pw__panel[data-active="false"]:focus-within .pw__scrim--closed{opacity:.8}
+.pw__scrim--open{
+  background:linear-gradient(to top,
+    rgba(71,24,38,.95) 0,rgba(71,24,38,.92) 150px,rgba(71,24,38,.86) 250px,
+    rgba(71,24,38,.66) 300px,rgba(71,24,38,.32) 350px,rgba(71,24,38,.08) 400px,
+    rgba(71,24,38,0) 440px);
+}
+@media (min-width:1024px){
+  .pw__scrim--open{
+    background:linear-gradient(to top,
+      rgba(71,24,38,.95) 0,rgba(71,24,38,.9) 150px,rgba(71,24,38,.82) 280px,
+      rgba(71,24,38,.6) 360px,rgba(71,24,38,.3) 440px,rgba(71,24,38,.08) 510px,
+      rgba(71,24,38,0) 570px);
+  }
+}
+
+/* the gold hairline that marks the open panel */
+.pw__mark{
+  position:absolute;inset:auto 0 0 0;height:1px;
+  background:linear-gradient(to right,rgba(194,160,94,.85) 0%,rgba(194,160,94,.5) 45%,rgba(194,160,94,0) 100%);
+  opacity:0;transition:opacity var(--pw-fade-ms) var(--pw-ease);pointer-events:none;
+}
+.pw__panel[data-active="true"] .pw__mark{opacity:1}
+
+/* full-panel trigger beneath both text layers */
+.pw__trigger{
+  -webkit-appearance:none;appearance:none;border:0;background:transparent;padding:0;
+  position:absolute;inset:0;width:100%;cursor:pointer;
+}
+.pw__trigger:focus-visible{outline:2px solid var(--gold-tint);outline-offset:-6px;border-radius:0}
+
+/* two bottom-anchored text layers, cross-fading in place */
+.pw__layer{
+  position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;
+  pointer-events:none;
+  transition:opacity var(--pw-fade-ms) var(--pw-ease);
+}
+.pw__layer[data-show="false"]{opacity:0}
+.pw__layer[data-show="true"]{opacity:1;transition-delay:140ms}
+.pw__layer--closed{
+  flex-direction:row;align-items:center;justify-content:flex-start;gap:.85rem;
+  padding:0 1.25rem;
+}
+@media (min-width:640px){ .pw__layer--closed{padding:0 1.75rem} }
+@media (min-width:1024px){
+  /* the bottom padding is clearance for the floating controls */
+  .pw__layer--closed{flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:0;padding:0 1.25rem 104px}
+}
+.pw__layer--open{padding:0 1.25rem 1.75rem}
+@media (min-width:640px){ .pw__layer--open{padding:0 1.75rem 2rem} }
+@media (min-width:1024px){ .pw__layer--open{padding:0 2rem 2.5rem} }
+@media (min-width:1280px){ .pw__layer--open{padding:0 2.5rem 3rem} }
+
+/* the gentle rise, staggered per line */
+.pw__rise{
+  translate:0 12px;
+  transition:translate var(--pw-fade-ms) var(--pw-ease),opacity var(--pw-fade-ms) var(--pw-ease);
+}
+.pw__layer[data-show="true"] .pw__rise{translate:0 0}
+.pw__layer[data-show="true"] .pw__rise:nth-child(2){transition-delay:60ms}
+.pw__layer[data-show="true"] .pw__rise:nth-child(3){transition-delay:120ms}
+.pw__layer[data-show="true"] .pw__rise:nth-child(4){transition-delay:180ms}
+.pw__layer[data-show="true"] .pw__rise:nth-child(5){transition-delay:240ms}
+
+.pw__num{margin:0;flex:none;font-size:10px;font-weight:600;letter-spacing:.3em;color:rgba(241,231,210,.85)}
+.pw__layer--open .pw__num{color:var(--gold-tint)}
+.pw__name{margin:0;font-family:var(--serif);font-size:19px;line-height:1.2;font-weight:500;color:var(--ivory)}
+@media (min-width:1024px){ .pw__name{margin-top:12px} }
+.pw__short{display:none;margin:10px 0 0;max-width:20ch;font-size:12px;line-height:1.625;color:rgba(250,247,241,.8)}
+@media (min-width:1024px){ .pw__short{display:block} }
+.pw__title{margin:12px 0 0;max-width:19ch;font-family:var(--serif);font-size:27px;line-height:1.12;font-weight:500;color:var(--ivory);letter-spacing:0}
+@media (min-width:640px){ .pw__title{font-size:31px} }
+@media (min-width:1024px){ .pw__title{font-size:30px} }
+@media (min-width:1280px){ .pw__title{font-size:34px} }
+.pw__desc{margin:12px 0 0;max-width:40ch;font-size:13.5px;line-height:1.625;color:rgba(250,247,241,.9)}
+@media (min-width:1024px){ .pw__desc{font-size:14px} }
+.pw__chips{margin-top:16px;display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.pw__chip{
+  display:inline-flex;align-items:center;border-radius:999px;
+  border:1px solid rgba(250,247,241,.35);background:rgba(250,247,241,.1);
+  padding:4px 10px;font-size:11px;font-weight:500;letter-spacing:.025em;color:var(--ivory);
+}
+/* the phone shows two terms and counts the rest */
+.pw__chip--xtra{display:none}
+@media (min-width:640px){ .pw__chip--xtra{display:inline-flex} }
+.pw__more{font-size:11px;font-weight:500;letter-spacing:.025em;color:rgba(250,247,241,.7)}
+@media (min-width:640px){ .pw__more{display:none} }
+/* inert for now — no href, no pointer events; wired up later */
+.pw__cta{
+  margin-top:20px;display:inline-flex;min-height:44px;align-items:center;gap:8px;
+  font-size:13px;font-weight:600;letter-spacing:.025em;color:var(--gold-tint);text-decoration:none;
+}
+.pw__cta svg{width:14px;height:14px;flex:none}
+
+/* expand affordance on a closed panel: circular arrow on desktop, chevron on phone */
+.pw__open-dot{
+  display:inline-flex;align-items:center;justify-content:center;flex:none;
+  width:36px;height:36px;margin-left:auto;
+  border:1px solid rgba(250,247,241,.45);border-radius:999px;color:var(--ivory);
+  transition:border-color 300ms var(--pw-ease),background-color 300ms var(--pw-ease);
+}
+.pw__open-dot .pw__ico-chev{width:16px;height:16px}
+.pw__open-dot .pw__ico-arrow{display:none;width:14px;height:14px}
+@media (min-width:1024px){
+  .pw__open-dot{width:40px;height:40px;margin-left:0;margin-top:1.75rem}
+  .pw__open-dot .pw__ico-arrow{display:block}
+  .pw__open-dot .pw__ico-chev{display:none}
+}
+.pw__panel[data-active="false"]:hover .pw__open-dot,
+.pw__panel[data-active="false"]:focus-within .pw__open-dot{
+  border-color:rgba(241,231,210,.9);background:rgba(250,247,241,.12);
+}
+
+/* phone only: the open panel's own collapse cue */
+.pw__open-chevron{
+  position:absolute;top:18px;right:18px;display:flex;color:rgba(250,247,241,.7);
+  opacity:0;pointer-events:none;transition:opacity var(--pw-fade-ms) var(--pw-ease);
+}
+.pw__open-chevron svg{width:16px;height:16px}
+.pw__panel[data-active="true"] .pw__open-chevron{opacity:1}
+@media (min-width:1024px){ .pw__open-chevron{display:none} }
+
+/* desktop controls: readout + arrows when open, the choose cue when closed */
+.pw__controls{
+  position:absolute;right:44px;bottom:26px;z-index:2;
+  display:none;align-items:center;gap:14px;
+  transition:opacity var(--pw-fade-ms) var(--pw-ease);
+}
+.pw__choose{
+  position:absolute;left:50%;bottom:22px;z-index:2;display:none;translate:-50% 0;
+  flex-direction:column;align-items:center;gap:4px;margin:0;
+  font-size:11px;letter-spacing:.04em;color:rgba(250,247,241,.6);
+  pointer-events:none;
+  transition:opacity var(--pw-fade-ms) var(--pw-ease);
+}
+.pw__choose svg{width:12px;height:12px}
+@media (min-width:1024px){ .pw__controls,.pw__choose{display:flex} }
+.pw[data-open="false"] .pw__controls{opacity:0;pointer-events:none}
+.pw[data-open="true"] .pw__choose{opacity:0}
+.pw__count{margin:0;font-size:13px;font-weight:600;letter-spacing:.08em;font-variant-numeric:tabular-nums}
+.pw__count b{font-weight:600;color:var(--gold)}
+.pw__count s{text-decoration:none;color:rgba(250,247,241,.45)}
+.pw__arrow{
+  -webkit-appearance:none;appearance:none;background:transparent;padding:0;
+  display:inline-flex;align-items:center;justify-content:center;
+  width:42px;height:42px;border:1px solid rgba(250,247,241,.45);border-radius:999px;
+  color:var(--ivory);cursor:pointer;
+  transition:border-color 250ms var(--pw-ease),background-color 250ms var(--pw-ease);
+}
+.pw__arrow svg{width:16px;height:16px}
+.pw__arrow:hover{border-color:var(--gold);background:rgba(250,247,241,.12)}
+.pw__arrow:focus-visible{outline:2px solid var(--gold-tint);outline-offset:3px}
+
 footer{
   background:var(--ink);padding:5rem clamp(1.25rem,6vw,6rem) 3.2rem;
   border-top:1px solid rgba(222,212,194,.12);
@@ -256,6 +478,8 @@ footer p{margin:0;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase
   .reveal{opacity:1;transform:none}
   .hint i{animation:none}
   *{transition-duration:.01ms!important}
+  .pw__rise{translate:0 0}
+  .pw__layer,.pw__rise{transition-delay:0ms!important}
 }
 </style>
 </head>
@@ -272,8 +496,8 @@ footer p{margin:0;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase
   <ol>
     <li style="--i:0"><a href="#s1"><em>01</em>The Light</a></li>
     <li style="--i:1"><a href="#s2"><em>02</em>The Passage</a></li>
-    <li style="--i:2"><a href="#s3"><em>03</em>The Chemistry</a></li>
-    <li style="--i:3"><a href="#s4"><em>04</em>The Service</a></li>
+    <li style="--i:2"><a href="#s3"><em>03</em>The Conversation</a></li>
+    <li style="--i:3"><a href="#s4"><em>04</em>The Pathways</a></li>
     <li style="--i:4"><a href="#s5"><em>05</em>The Mirror</a></li>
     <li style="--i:5"><a href="#s6"><em>06</em>The Stillness</a></li>
     <li style="--i:6"><a href="#s7"><em>07</em>The Signal</a></li>
@@ -308,25 +532,191 @@ footer p{margin:0;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase
     </div></div>
   </section>
 
-  <section class="sec light" id="s3" data-nav="The Chemistry">
-    <div class="bg" data-src="images/03-molecule.webp"></div>
-    <div class="inner"><div class="copy">
-      <p class="kicker reveal">Chapter 03</p>
-      <h2 class="reveal">A molecule is a <em>message.</em></h2>
-      <p class="body reveal">Hormones do not shout. They arrive in picograms and rearrange a decade. Read them precisely, or not at all.</p>
-      <p class="tag reveal"><b>&#10022;</b> Endocrine layer</p>
-    </div></div>
-  </section>
-
-  <!-- interim: service slot — image and copy will be replaced -->
-  <section class="sec light" id="s4" data-nav="The Service">
+  <section class="sec light" id="s3" data-nav="The Conversation">
     <div class="bg" data-src="images/06-consult.webp"></div>
     <div class="inner"><div class="copy">
-      <p class="kicker reveal">Chapter 04</p>
+      <p class="kicker reveal">Chapter 03</p>
       <h2 class="reveal">Forty minutes, <em>not seven.</em></h2>
       <p class="body reveal">The consultation is the instrument. Everything else &mdash; the panels, the protocols, the follow-ups &mdash; is downstream of how well the first hour listened.</p>
       <p class="tag reveal"><b>&#10022;</b> Clinical layer</p>
     </div></div>
+  </section>
+
+  <section class="sec sec--pw" id="s4" data-nav="The Pathways" aria-label="Care pathways">
+    <div class="pw" id="pw" data-open="false">
+
+      <div class="pw__panel" data-active="false">
+        <img class="pw__img" src="images/path-01-bhrt.webp" loading="lazy"
+             alt="A cream leather symptom journal and a personalised hormone report showing estradiol, progesterone and cortisol charts, with a gold pen and a glass of water on a sunlit table."
+             style="--op-m:center 45%;--op-d:center 45%;--op-di:center center">
+        <div class="pw__scrim pw__scrim--closed" data-show="true"></div>
+        <div class="pw__scrim pw__scrim--open" data-show="false"></div>
+        <span aria-hidden="true" class="pw__mark"></span>
+        <button type="button" class="pw__trigger" id="pw-t1" aria-expanded="false" aria-controls="pw-p1" aria-label="01 — Hormone Therapy &amp; BHRT"></button>
+        <div class="pw__layer pw__layer--closed" data-show="true">
+          <p class="pw__rise pw__num">01</p>
+          <h3 class="pw__rise pw__name">Hormone Therapy &amp; BHRT</h3>
+          <p class="pw__rise pw__short">Energy, mood, cycles, libido</p>
+          <span aria-hidden="true" class="pw__open-dot">
+            <svg class="pw__ico-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
+            <svg class="pw__ico-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 9l6 6 6-6"/></svg>
+          </span>
+        </div>
+        <div class="pw__layer pw__layer--open" id="pw-p1" role="region" aria-labelledby="pw-t1" data-show="false" inert>
+          <p class="pw__rise pw__num">01</p>
+          <h3 class="pw__rise pw__title">Hormone Therapy &amp; BHRT</h3>
+          <p class="pw__rise pw__desc">For women whose energy, mood, cycles or libido no longer feel like their own.</p>
+          <div class="pw__rise pw__chips">
+            <span class="pw__chip">Fatigue</span>
+            <span class="pw__chip">Mood changes</span>
+            <span class="pw__chip pw__chip--xtra">Low libido</span>
+            <span class="pw__chip pw__chip--xtra">Cycle irregularity</span>
+            <span class="pw__more">+2 more</span>
+          </div>
+          <div class="pw__rise">
+            <a class="pw__cta">Explore pathway
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
+            </a>
+          </div>
+        </div>
+        <span aria-hidden="true" class="pw__open-chevron">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 15l-6-6-6 6"/></svg>
+        </span>
+      </div>
+
+      <div class="pw__panel" data-active="false">
+        <img class="pw__img" src="images/path-02-menopause.webp" loading="lazy"
+             alt="A woman in cream linen standing at a sunlit window, one hand resting at her neck, looking out past a sheer curtain."
+             style="--op-m:center 12%;--op-d:center 18%;--op-di:45% center">
+        <div class="pw__scrim pw__scrim--closed" data-show="true"></div>
+        <div class="pw__scrim pw__scrim--open" data-show="false"></div>
+        <span aria-hidden="true" class="pw__mark"></span>
+        <button type="button" class="pw__trigger" id="pw-t2" aria-expanded="false" aria-controls="pw-p2" aria-label="02 — Menopause Care"></button>
+        <div class="pw__layer pw__layer--closed" data-show="true">
+          <p class="pw__rise pw__num">02</p>
+          <h3 class="pw__rise pw__name">Menopause Care</h3>
+          <p class="pw__rise pw__short">Perimenopause, menopause and beyond</p>
+          <span aria-hidden="true" class="pw__open-dot">
+            <svg class="pw__ico-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
+            <svg class="pw__ico-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 9l6 6 6-6"/></svg>
+          </span>
+        </div>
+        <div class="pw__layer pw__layer--open" id="pw-p2" role="region" aria-labelledby="pw-t2" data-show="false" inert>
+          <p class="pw__rise pw__num">02</p>
+          <h3 class="pw__rise pw__title">Menopause Care</h3>
+          <p class="pw__rise pw__desc">Personalised care through perimenopause, menopause and beyond.</p>
+          <div class="pw__rise pw__chips">
+            <span class="pw__chip">Hot flashes</span>
+            <span class="pw__chip">Poor sleep</span>
+            <span class="pw__chip pw__chip--xtra">Brain fog</span>
+            <span class="pw__chip pw__chip--xtra">Anxiety</span>
+            <span class="pw__more">+2 more</span>
+          </div>
+          <div class="pw__rise">
+            <a class="pw__cta">Explore pathway
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
+            </a>
+          </div>
+        </div>
+        <span aria-hidden="true" class="pw__open-chevron">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 15l-6-6-6 6"/></svg>
+        </span>
+      </div>
+
+      <div class="pw__panel" data-active="false">
+        <img class="pw__img" src="images/path-03-functional.webp" loading="lazy"
+             alt="A ceramic bowl of yoghurt topped with figs, blackberries, blueberries and granola with a gold spoon, beside lemon halves and a cup of coffee on a marble table."
+             style="--op-m:center 56%;--op-d:center 52%;--op-di:center center">
+        <div class="pw__scrim pw__scrim--closed" data-show="true"></div>
+        <div class="pw__scrim pw__scrim--open" data-show="false"></div>
+        <span aria-hidden="true" class="pw__mark"></span>
+        <button type="button" class="pw__trigger" id="pw-t3" aria-expanded="false" aria-controls="pw-p3" aria-label="03 — Functional Medicine"></button>
+        <div class="pw__layer pw__layer--closed" data-show="true">
+          <p class="pw__rise pw__num">03</p>
+          <h3 class="pw__rise pw__name">Functional Medicine</h3>
+          <p class="pw__rise pw__short">Root causes, found and treated</p>
+          <span aria-hidden="true" class="pw__open-dot">
+            <svg class="pw__ico-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
+            <svg class="pw__ico-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 9l6 6 6-6"/></svg>
+          </span>
+        </div>
+        <div class="pw__layer pw__layer--open" id="pw-p3" role="region" aria-labelledby="pw-t3" data-show="false" inert>
+          <p class="pw__rise pw__num">03</p>
+          <h3 class="pw__rise pw__title">Functional Medicine</h3>
+          <p class="pw__rise pw__desc">A deeper investigation into metabolism, digestion, thyroid health and inflammation.</p>
+          <div class="pw__rise pw__chips">
+            <span class="pw__chip">Gut issues</span>
+            <span class="pw__chip">Weight changes</span>
+            <span class="pw__chip pw__chip--xtra">Persistent fatigue</span>
+            <span class="pw__chip pw__chip--xtra">Hair thinning</span>
+            <span class="pw__more">+2 more</span>
+          </div>
+          <div class="pw__rise">
+            <a class="pw__cta">Explore pathway
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
+            </a>
+          </div>
+        </div>
+        <span aria-hidden="true" class="pw__open-chevron">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 15l-6-6-6 6"/></svg>
+        </span>
+      </div>
+
+      <div class="pw__panel" data-active="false">
+        <img class="pw__img" src="images/path-04-peptides.webp" loading="lazy"
+             alt="A sculptural glass double helix held in a slender ring, beside pale pink flower petals in soft light."
+             style="--op-m:center 45%;--op-d:center 42%;--op-di:center center">
+        <div class="pw__scrim pw__scrim--closed" data-show="true"></div>
+        <div class="pw__scrim pw__scrim--open" data-show="false"></div>
+        <span aria-hidden="true" class="pw__mark"></span>
+        <button type="button" class="pw__trigger" id="pw-t4" aria-expanded="false" aria-controls="pw-p4" aria-label="04 — Peptide &amp; Regenerative Support"></button>
+        <div class="pw__layer pw__layer--closed" data-show="true">
+          <p class="pw__rise pw__num">04</p>
+          <h3 class="pw__rise pw__name">Peptide &amp; Regenerative Support</h3>
+          <p class="pw__rise pw__short">Recovery, resilience, vitality</p>
+          <span aria-hidden="true" class="pw__open-dot">
+            <svg class="pw__ico-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
+            <svg class="pw__ico-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 9l6 6 6-6"/></svg>
+          </span>
+        </div>
+        <div class="pw__layer pw__layer--open" id="pw-p4" role="region" aria-labelledby="pw-t4" data-show="false" inert>
+          <p class="pw__rise pw__num">04</p>
+          <h3 class="pw__rise pw__title">Peptide &amp; Regenerative Support</h3>
+          <p class="pw__rise pw__desc">Medically supervised support for recovery, resilience, healthy ageing and vitality.</p>
+          <div class="pw__rise pw__chips">
+            <span class="pw__chip">Slow recovery</span>
+            <span class="pw__chip">Skin ageing</span>
+            <span class="pw__chip pw__chip--xtra">Low resilience</span>
+            <span class="pw__chip pw__chip--xtra">Long-term vitality</span>
+            <span class="pw__more">+2 more</span>
+          </div>
+          <div class="pw__rise">
+            <a class="pw__cta">Explore pathway
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
+            </a>
+          </div>
+        </div>
+        <span aria-hidden="true" class="pw__open-chevron">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 15l-6-6-6 6"/></svg>
+        </span>
+      </div>
+
+      <div class="pw__controls">
+        <p class="pw__count" id="pw-count" aria-live="polite"></p>
+        <button type="button" class="pw__arrow" id="pw-prev" aria-label="Previous pathway">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5m0 0l6-6m-6 6l6 6"/></svg>
+        </button>
+        <button type="button" class="pw__arrow" id="pw-next" aria-label="Next pathway">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
+        </button>
+      </div>
+
+      <p class="pw__choose" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25"><path d="M18 15l-6-6-6 6"/></svg>
+        Choose a pathway
+      </p>
+
+    </div>
   </section>
 
   <!-- interim: slot 05 — image and copy will be replaced -->
@@ -438,6 +828,58 @@ footer p{margin:0;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase
     secs.forEach(function(s){ cur.observe(s); });
   }else{
     secs.forEach(function(s){ load(s); s.classList.add('in'); });
+  }
+
+  /* ---- pathways accordion (chapter 04) ----
+     Starts fully collapsed; a click opens a panel, a click on the open
+     panel collapses everything back to the equal starting state. */
+  var pw=document.getElementById('pw');
+  if(pw){
+    var panels=[].slice.call(pw.querySelectorAll('.pw__panel'));
+    var pwCount=document.getElementById('pw-count');
+    var pwTotal=('0'+panels.length).slice(-2);
+    var pwActive=-1;
+
+    function pwRender(){
+      panels.forEach(function(p,i){
+        var on=(i===pwActive);
+        p.setAttribute('data-active',String(on));
+        p.querySelector('.pw__trigger').setAttribute('aria-expanded',String(on));
+        p.querySelector('.pw__scrim--closed').setAttribute('data-show',String(!on));
+        p.querySelector('.pw__scrim--open').setAttribute('data-show',String(on));
+        var closed=p.querySelector('.pw__layer--closed');
+        var open=p.querySelector('.pw__layer--open');
+        closed.setAttribute('data-show',String(!on));
+        open.setAttribute('data-show',String(on));
+        closed.toggleAttribute('inert',on);
+        open.toggleAttribute('inert',!on);
+      });
+      pw.setAttribute('data-open',String(pwActive>=0));
+      if(pwCount){
+        pwCount.innerHTML = pwActive>=0
+          ? '<b>'+('0'+(pwActive+1)).slice(-2)+'</b><s> / '+pwTotal+'</s>'
+          : '';
+      }
+    }
+
+    panels.forEach(function(p,i){
+      p.querySelector('.pw__trigger').addEventListener('click',function(){
+        pwActive=(pwActive===i? -1 : i);
+        pwRender();
+      });
+    });
+
+    /* the arrows wrap; from the collapsed state they open an end panel */
+    function pwStep(d){
+      pwActive = pwActive<0
+        ? (d>0? 0 : panels.length-1)
+        : (pwActive+d+panels.length)%panels.length;
+      pwRender();
+    }
+    document.getElementById('pw-prev').addEventListener('click',function(){pwStep(-1);});
+    document.getElementById('pw-next').addEventListener('click',function(){pwStep(1);});
+
+    pwRender();
   }
 
   /* ---- gentle parallax (desktop, motion-allowed only) ---- */

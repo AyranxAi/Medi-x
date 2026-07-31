@@ -139,7 +139,7 @@ the user's local `medi-gyn` folder (transcribed 2026-07-31).
    country-level entries (Oman, Saudi, Kuwait, Qatar) use
    Muscat/Riyadh/Kuwait City/Doha.
 3. **"As featured in" marquee — GREEN-LIT (2026-08-01), build next
-   chat.** The user's decisions: it lives INSIDE chapter 07 (bottom
+   chat — full brief in `HANDOVER_FEATURED_IN.md`.** The user's decisions: it lives INSIDE chapter 07 (bottom
    edge of the closer), transparent background, wordmarks drifting
    right→left, single ivory tint. He sends images of every feature
    next chat; each becomes ONE clean SVG (drawn in `currentColor` so

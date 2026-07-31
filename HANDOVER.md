@@ -91,7 +91,7 @@ judging type wrapping.
 ## Chapter 07 internals (2026-07-31 rebuild)
 
 The globe is hand-rolled — no libraries. A land-dot grid (world-atlas
-land-110m sampled at 2.4°, run-length encoded by row) is projected
+land-110m sampled at 1.8°, run-length encoded by row) is projected
 orthographically on a `<canvas>`; one turn ≈ 95 s; a roll call labels
 each menoSTART location in turn, skipping far-side cities; the loop
 pauses off-screen (IntersectionObserver) and renders one static frame
@@ -124,14 +124,14 @@ the user's local `medi-gyn` folder (transcribed 2026-07-31).
 5. **menoSTART "gathering" image** — no longer needed for the closer
    (chapter 07 has no photograph now); the five-women golden-light
    brief could serve a future chapter or the press band instead.
-3. **Accordion panel 01 redundancy** — since About Us (02) became a
+6. **Accordion panel 01 redundancy** — since About Us (02) became a
    journal-and-charts flat-lay, `path-01-bhrt.webp` (also a journal
    flat-lay) repeats the motif. Consider regenerating panel 01 (e.g.
    medi-gyn's IMG-02 brief: woman stretching by a sunlit window).
-4. **Chapter 03 upgrade** — the consult photo is the stockiest frame;
+7. **Chapter 03 upgrade** — the consult photo is the stockiest frame;
    a real clinician photo would strengthen it (real-photo rule applies).
-5. **New About Us photograph** — chapter 02 currently carries the desk
+8. **New About Us photograph** — chapter 02 currently carries the desk
    flat-lay as an interim; the user is creating a dedicated image for it.
    Drop it in as `about.webp` via the pipeline above.
-6. Declined ideas (do not revive unasked): burgundy/red lipstick on the
+9. Declined ideas (do not revive unasked): burgundy/red lipstick on the
    hero; neutral scrim for the accordion.

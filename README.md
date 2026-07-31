@@ -8,7 +8,7 @@ No framework, no build step. `index.html` + `images/`.
 | # | Chapter | Image | Status |
 |---|---|---|---|
 | 01 | The Light | `09-light.webp` | final |
-| 02 | About Us | `05-touch.webp` | interim — awaiting real founder/team photo |
+| 02 | About Us | `about.webp` | final |
 | 03 | The Conversation | `06-consult.webp` (Irina) | final |
 | 04 | The Pathways | `path-01..04-*.webp` | accordion — see below |
 | 05 | The Room | `team.webp` | final |
@@ -16,8 +16,8 @@ No framework, no build step. `index.html` + `images/`.
 | 07 | menoSTART | `08-veil.webp` | final — upgrade to a "gathering" shot when one exists |
 
 Chapter 07's "Join menoSTART" CTA is inert until there is a signup
-destination. About Us (02) deliberately shows hands, not a face — clinician
-likenesses are real-photo-only, per the medi-gyn image rules.
+destination. About Us (02) deliberately shows the work, not a face —
+clinician likenesses are real-photo-only, per the medi-gyn image rules.
 
 Chapter 04 is a port of medi-gyn-app's care-pathways accordion (the
 `.pathways-acc` block in its `globals.css`): four full-height photo panels in

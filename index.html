@@ -39,20 +39,23 @@ a{color:inherit}
   padding:max(1rem,env(safe-area-inset-top)) clamp(1.15rem,3vw,2.2rem) 1rem;
   /* the bar spans the viewport but only its controls should catch clicks */
   pointer-events:none;
-  transition:translate .45s var(--ease),background-color .4s var(--ease),
-    padding .4s var(--ease);
+  border-bottom:1px solid transparent;
+  transition:translate .45s var(--ease),background-color .3s var(--ease),
+    border-color .3s var(--ease),padding .4s var(--ease);
 }
 .hdr > *{pointer-events:auto}
 /* smart header: gone on the first downward scroll, back on the first upward one */
 .hdr--hidden{translate:0 -110%}
 .hdr--hidden > *{pointer-events:none}
 /* revealed mid-page it lands over unknown content, so it brings its own backdrop */
+/* the revealed bar is medi-blond's: near-opaque ivory over blur, hairline base */
 .hdr--solid{
   padding-top:.7rem;padding-bottom:.7rem;
-  background:rgba(30,22,26,.55);
-  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  background:rgba(250,247,241,.95);
+  border-bottom-color:var(--line);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
 }
-body.nav-open .hdr{background:transparent;backdrop-filter:none;-webkit-backdrop-filter:none}
+body.nav-open .hdr{background:transparent;border-bottom-color:transparent;backdrop-filter:none;-webkit-backdrop-filter:none}
 .mark{
   display:inline-flex;padding:.2rem 0;
   /* soft dark halo keeps the ivory mark legible over the pale frames */
@@ -61,51 +64,90 @@ body.nav-open .hdr{background:transparent;backdrop-filter:none;-webkit-backdrop-
 }
 .mark:hover{opacity:.78}
 .mark__img{display:block;height:clamp(34px,3.4vw,48px);width:auto}
+/* same artwork, two colourways (626x160 both) — the bar shows the red one */
+.mark__img--red{display:none}
+.hdr--solid .mark{filter:none}
+.hdr--solid .mark__img--ivory{display:none}
+.hdr--solid .mark__img--red{display:block}
 
-.hdr__right{display:flex;align-items:center;gap:.85rem}
+.hdr__right{display:flex;align-items:center;gap:.7rem}
 /*
-  The three controls share one ivory system; emphasis is carried by size and
-  label, not by colour. Solid ivory reads at the top of the page (always over
-  the hero) and everywhere else the revealed header brings its own dark bar.
+  Control chrome ported from medi-blond. Over the hero: frosted glass —
+  translucent ink, blur, 60% ivory hairline. On the ivory bar: outline
+  chips, ink icons, gold hover; the book pill goes burgundy-outline.
+  Identity stays ours: the logo files and the three-line burger.
 */
 .globe,.wapp{
-  -webkit-appearance:none;appearance:none;border:0;padding:0;cursor:pointer;
-  width:2.6rem;height:2.6rem;border-radius:999px;
-  background:var(--ivory);color:var(--ink);
+  -webkit-appearance:none;appearance:none;padding:0;cursor:pointer;
+  width:2.75rem;height:2.75rem;border-radius:999px;
+  border:1px solid rgba(250,247,241,.6);
+  background:rgba(46,34,40,.45);color:var(--ivory);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
   display:grid;place-content:center;
-  transition:background-color .3s var(--ease);
+  transition:background-color .3s var(--ease),border-color .3s var(--ease),color .3s var(--ease);
 }
-.globe:hover,.wapp:hover{background:#fff}
+.globe:hover,.wapp:hover{border-color:var(--ivory);background:rgba(46,34,40,.6)}
 .globe svg,.wapp svg{width:19px;height:19px}
 .hdr__book{
   display:inline-flex;align-items:center;white-space:nowrap;
-  /* same height as the globe and WhatsApp chips, so the cluster reads as one row */
-  height:2.6rem;padding:0 1.5rem;border-radius:999px;
-  background:var(--ivory);color:var(--ink);
+  height:2.75rem;padding:0 1.5rem;border-radius:999px;
+  border:1px solid rgba(250,247,241,.6);
+  background:rgba(46,34,40,.45);color:var(--ivory);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
   font-size:.62rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;
   text-decoration:none;cursor:pointer;
-  transition:background-color .3s var(--ease);
+  transition:background-color .3s var(--ease),border-color .3s var(--ease),color .3s var(--ease);
 }
-.hdr__book:hover{background:#fff}
+.hdr__book:hover{border-color:var(--ivory);background:rgba(46,34,40,.6)}
 @media (max-width:639px){ .hdr__book{display:none} }
+.hdr--solid .globe,.hdr--solid .wapp{
+  border-color:var(--line);background:transparent;color:var(--ink);
+  backdrop-filter:none;-webkit-backdrop-filter:none;
+}
+.hdr--solid .globe:hover,.hdr--solid .wapp:hover{border-color:var(--gold)}
+.hdr--solid .hdr__book{
+  border-color:rgba(92,31,49,.4);background:transparent;color:var(--burgundy);
+  backdrop-filter:none;-webkit-backdrop-filter:none;
+}
+.hdr--solid .hdr__book:hover{border-color:var(--burgundy);background:rgba(92,31,49,.05)}
 
 .burger{
-  -webkit-appearance:none;appearance:none;border:0;background:transparent;
-  width:2.4rem;height:2.4rem;display:grid;place-content:center;gap:5px;
-  /* the short middle line sits flush right: the icon's straight edge lines up
-     with the page margin it is anchored to, ragged edge facing the content */
+  -webkit-appearance:none;appearance:none;cursor:pointer;padding:0;
+  width:2.75rem;height:2.75rem;border-radius:999px;
+  border:1px solid rgba(250,247,241,.6);
+  background:rgba(46,34,40,.45);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  display:grid;place-content:center;gap:5px;
+  /* the short middle line sits flush right: our mark, kept */
   justify-items:end;
-  cursor:pointer;padding:0;
+  transition:background-color .3s var(--ease),border-color .3s var(--ease);
 }
+.burger:hover{border-color:var(--ivory);background:rgba(46,34,40,.6)}
+.hdr--solid .burger{
+  border-color:var(--line);background:transparent;
+  backdrop-filter:none;-webkit-backdrop-filter:none;
+}
+.hdr--solid .burger:hover{border-color:var(--gold)}
 .burger span{
-  display:block;width:22px;height:1px;background:var(--ivory);
-  box-shadow:0 1px 14px rgba(0,0,0,.6);
-  transition:transform .38s var(--ease),opacity .2s linear,width .38s var(--ease);
+  display:block;width:20px;height:1px;background:var(--ivory);
+  transition:transform .38s var(--ease),opacity .2s linear,width .38s var(--ease),
+    background-color .3s var(--ease);
 }
-.burger span:nth-child(2){width:15px}
+.hdr--solid .burger span{background:var(--ink)}
+.burger span:nth-child(2){width:13px}
 .burger:hover span:nth-child(2){width:22px}
+body.nav-open .globe,body.nav-open .wapp,body.nav-open .burger{
+  border-color:rgba(250,247,241,.6);background:rgba(46,34,40,.45);color:var(--ivory);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+}
+body.nav-open .hdr__book{
+  border-color:rgba(250,247,241,.6);background:rgba(46,34,40,.45);color:var(--ivory);
+}
+body.nav-open .burger span{background:var(--ivory)}
+body.nav-open .mark__img--ivory{display:block}
+body.nav-open .mark__img--red{display:none}
 body.nav-open .burger span:nth-child(1){transform:translateY(3px) rotate(45deg)}
-body.nav-open .burger span:nth-child(2){opacity:0;width:22px}
+body.nav-open .burger span:nth-child(2){opacity:0;width:20px}
 body.nav-open .burger span:nth-child(3){transform:translateY(-3px) rotate(-45deg)}
 
 /* ── overlay menu ───────────────────────────────────────── */
@@ -356,7 +398,7 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
   .pw__img{left:50%;right:auto;width:45.9vw;translate:-50% 0;object-position:var(--op-d,center)}
   .pw__panel[data-active="false"] .pw__img{object-position:var(--op-di,var(--op-d,center))}
 }
-.pw__panel[data-active="false"]:hover .pw__img,
+.pw__panel[data-active="false"].hov .pw__img,
 .pw__panel[data-active="false"]:focus-within .pw__img{filter:brightness(.94)}
 
 /* deep-burgundy scrims, alphas carried over from the source verbatim */
@@ -374,7 +416,7 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
       rgba(71,24,38,.3) 420px,rgba(71,24,38,.12) 540px,rgba(71,24,38,.08) 100%);
   }
 }
-.pw__panel[data-active="false"]:hover .pw__scrim--closed,
+.pw__panel[data-active="false"].hov .pw__scrim--closed,
 .pw__panel[data-active="false"]:focus-within .pw__scrim--closed{opacity:.8}
 .pw__scrim--open{
   background:linear-gradient(to top,
@@ -483,7 +525,7 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
   .pw__open-dot .pw__ico-arrow{display:block}
   .pw__open-dot .pw__ico-chev{display:none}
 }
-.pw__panel[data-active="false"]:hover .pw__open-dot,
+.pw__panel[data-active="false"].hov .pw__open-dot,
 .pw__panel[data-active="false"]:focus-within .pw__open-dot{
   border-color:rgba(241,231,210,.9);background:rgba(250,247,241,.12);
 }
@@ -619,7 +661,8 @@ footer p{margin:0;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase
 
 <header class="hdr">
   <a class="mark" href="#top" aria-label="Medi-Gyn — back to top">
-    <img class="mark__img" src="images/logo-ivory.webp" alt="medi-gyn">
+    <img class="mark__img mark__img--ivory" src="images/logo-ivory.webp" alt="medi-gyn">
+    <img class="mark__img mark__img--red" src="images/logo-red.webp" alt="" aria-hidden="true">
   </a>
   <div class="hdr__right">
     <!-- inert for now — becomes the language picker when translations exist -->
@@ -637,7 +680,7 @@ footer p{margin:0;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase
       </svg>
     </a>
     <!-- inert for now — needs a booking destination -->
-    <a class="hdr__book">Book consultation</a>
+    <a class="hdr__book">Book your consultation</a>
     <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="nav">
       <span></span><span></span><span></span>
     </button>
@@ -936,20 +979,23 @@ footer p{margin:0;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase
   var secs=[].slice.call(document.querySelectorAll('.sec'));
   var hdr=document.querySelector('.hdr');
 
-  /* ---- smart header: hide on scroll down, reveal on scroll up ---- */
+  /* ---- smart header, medi-blond behaviour: the bar goes ivory-solid
+     past 24px of scroll; it hides scrolling down beyond 240 and returns
+     on any upward scroll (6px jitter guard) ---- */
   var hdrY=window.scrollY;
-  window.addEventListener('scroll',function(){
+  function hdrSync(){
     var y=window.scrollY;
-    if(body.classList.contains('nav-open')){ hdrY=y; return; }
-    if(y<=8){
-      hdr.classList.remove('hdr--hidden','hdr--solid');
-    }else if(y>hdrY+2){
-      hdr.classList.add('hdr--hidden');
-    }else if(y<hdrY-2){
-      hdr.classList.remove('hdr--hidden');
-      hdr.classList.add('hdr--solid');
+    hdr.classList.toggle('hdr--solid',y>=24);
+    if(Math.abs(y-hdrY)>=6){
+      if(y>hdrY&&y>240){hdr.classList.add('hdr--hidden');}
+      else{hdr.classList.remove('hdr--hidden');}
+      hdrY=y;
     }
-    hdrY=y;
+  }
+  hdrSync();
+  window.addEventListener('scroll',function(){
+    if(body.classList.contains('nav-open')){ hdrY=window.scrollY; return; }
+    hdrSync();
   },{passive:true});
 
   /* ---- menu ---- */
@@ -1025,6 +1071,9 @@ footer p{margin:0;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase
     var pwActive=-1;
 
     function pwRender(){
+      /* clear JS-managed hover on every state change — the pointer may sit
+         over a different panel after the widths animate */
+      panels.forEach(function(p){ p.classList.remove('hov'); });
       panels.forEach(function(p,i){
         var on=(i===pwActive);
         p.setAttribute('data-active',String(on));
@@ -1051,6 +1100,11 @@ footer p{margin:0;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase
         pwActive=(pwActive===i? -1 : i);
         pwRender();
       });
+      /* hover lives in JS so it can be cleared; touch never sets it */
+      p.addEventListener('pointerenter',function(e){
+        if(e.pointerType!=='touch') p.classList.add('hov');
+      });
+      p.addEventListener('pointerleave',function(){ p.classList.remove('hov'); });
     });
 
     /* the arrows wrap; from the collapsed state they open an end panel */
@@ -1158,8 +1212,20 @@ footer p{margin:0;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase
   size();
   window.addEventListener('resize',size,{passive:true});
 
-  /* spin so the Gulf faces the viewer at t=0; one turn ≈ 95 s */
-  var SPIN0=-55*RAD, SPEED=(2*Math.PI)/95000;
+  /* spin so the Gulf faces the viewer at t=0. The pace varies: the
+     located arc (≈20°W–140°E facing the viewer) moves at the cinematic
+     base rate; the empty ocean crosses at up to 3.5x, cosine-eased,
+     so the frame never lingers on nothing. */
+  var SPIN0=-55*RAD, SPEED=(2*Math.PI)/95000, FAST=3.5;
+  function paceAt(sp){
+    var lc=(-sp/RAD)%360; lc=((lc%360)+540)%360-180;
+    var A=-20,B=140,RAMP=40,d;
+    if(lc>=A&&lc<=B) d=0;
+    else if(lc<A) d=Math.min(A-lc,lc+360-B);
+    else d=Math.min(lc-B,A+360-lc);
+    var f=Math.min(d/RAMP,1);
+    return 1+(1-Math.cos(f*Math.PI))/2*(FAST-1);
+  }
   var active=0,lastRoll=0;
 
   function draw(t,spin){
@@ -1217,18 +1283,22 @@ footer p{margin:0;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase
   var reduce=window.matchMedia('(prefers-reduced-motion:reduce)');
   if(reduce.matches){ draw(0,SPIN0); return; }
 
-  var running=false,rafId=0;
+  var running=false,rafId=0,spin=SPIN0,prevT=null;
   function loop(t){
     if(!running) return;
-    var spin=SPIN0+t*SPEED;
-    if(t-lastRoll>2600){ active=nextActive(spin); lastRoll=t; }
+    if(prevT===null) prevT=t;
+    var dt=Math.min(t-prevT,100); prevT=t;
+    var pace=paceAt(spin);
+    spin+=dt*SPEED*pace;
+    /* the roll call rests while the globe is in fast transit */
+    if(t-lastRoll>2600 && pace<1.8){ active=nextActive(spin); lastRoll=t; }
     draw(t,spin);
     rafId=requestAnimationFrame(loop);
   }
   function setRun(on){
     if(on===running) return;
     running=on;
-    if(on) rafId=requestAnimationFrame(loop);
+    if(on){ prevT=null; rafId=requestAnimationFrame(loop); }
     else cancelAnimationFrame(rafId);
   }
   if('IntersectionObserver' in window){

@@ -16,7 +16,7 @@ No framework, no build step. `index.html` + `images/`.
 | 07 | menoSTART | `08-veil.webp` | final — upgrade to a "gathering" shot when one exists |
 
 Chapter 07's "Join menoSTART" CTA is inert until there is a signup
-destination. About Us (02) deliberately shows the work, not a face —
+destination. About Us (02) deliberately shows the practice, not a face —
 clinician likenesses are real-photo-only, per the medi-gyn image rules.
 
 Chapter 04 is a port of medi-gyn-app's care-pathways accordion (the

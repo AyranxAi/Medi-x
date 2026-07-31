@@ -164,8 +164,8 @@ main{position:relative}
   margin:0 auto;padding:0 clamp(1.25rem,6vw,6rem);
 }
 .copy{max-width:34rem}
-@media (min-width:900px){ .copy{max-width:37rem} }
-@media (min-width:1500px){ .copy{max-width:41rem} }
+@media (min-width:900px){ .copy{max-width:40rem} }
+@media (min-width:1500px){ .copy{max-width:44rem} }
 
 .kicker{
   display:flex;align-items:center;gap:.85rem;
@@ -179,8 +179,8 @@ h1,h2{
   line-height:1.03;letter-spacing:-.005em;
   margin:0 0 1.15rem;text-wrap:pretty;
 }
-h1{font-size:clamp(2.7rem,6vw,4.5rem)}
-h2{font-size:clamp(2.05rem,5vw,3.5rem)}
+h1{font-size:clamp(3rem,7vw,5.4rem)}
+h2{font-size:clamp(2.4rem,5.5vw,4.2rem)}
 h1 em,h2 em{font-style:italic;color:var(--rose)}
 
 .body{
@@ -377,33 +377,33 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
 .pw__layer[data-show="true"] .pw__rise:nth-child(4){transition-delay:180ms}
 .pw__layer[data-show="true"] .pw__rise:nth-child(5){transition-delay:240ms}
 
-.pw__num{margin:0;flex:none;font-size:10px;font-weight:600;letter-spacing:.3em;color:rgba(241,231,210,.85)}
+.pw__num{margin:0;flex:none;font-size:11px;font-weight:600;letter-spacing:.3em;color:rgba(241,231,210,.85)}
 .pw__layer--open .pw__num{color:var(--gold-tint)}
-.pw__name{margin:0;font-family:var(--serif);font-size:19px;line-height:1.2;font-weight:500;color:var(--ivory)}
+.pw__name{margin:0;font-family:var(--serif);font-size:21px;line-height:1.2;font-weight:500;color:var(--ivory)}
 @media (min-width:1024px){ .pw__name{margin-top:12px} }
-.pw__short{display:none;margin:10px 0 0;max-width:20ch;font-size:12px;line-height:1.625;color:rgba(250,247,241,.8)}
+.pw__short{display:none;margin:10px 0 0;max-width:20ch;font-size:13px;line-height:1.625;color:rgba(250,247,241,.8)}
 @media (min-width:1024px){ .pw__short{display:block} }
-.pw__title{margin:12px 0 0;max-width:19ch;font-family:var(--serif);font-size:27px;line-height:1.12;font-weight:500;color:var(--ivory);letter-spacing:0}
-@media (min-width:640px){ .pw__title{font-size:31px} }
-@media (min-width:1024px){ .pw__title{font-size:30px} }
-@media (min-width:1280px){ .pw__title{font-size:34px} }
-.pw__desc{margin:12px 0 0;max-width:40ch;font-size:13.5px;line-height:1.625;color:rgba(250,247,241,.9)}
-@media (min-width:1024px){ .pw__desc{font-size:14px} }
+.pw__title{margin:12px 0 0;max-width:19ch;font-family:var(--serif);font-size:30px;line-height:1.12;font-weight:500;color:var(--ivory);letter-spacing:0}
+@media (min-width:640px){ .pw__title{font-size:34px} }
+@media (min-width:1024px){ .pw__title{font-size:40px} }
+@media (min-width:1280px){ .pw__title{font-size:46px} }
+.pw__desc{margin:12px 0 0;max-width:40ch;font-size:14.5px;line-height:1.625;color:rgba(250,247,241,.9)}
+@media (min-width:1024px){ .pw__desc{font-size:15px} }
 .pw__chips{margin-top:16px;display:flex;flex-wrap:wrap;align-items:center;gap:6px}
 .pw__chip{
   display:inline-flex;align-items:center;border-radius:999px;
   border:1px solid rgba(250,247,241,.35);background:rgba(250,247,241,.1);
-  padding:4px 10px;font-size:11px;font-weight:500;letter-spacing:.025em;color:var(--ivory);
+  padding:4px 11px;font-size:12px;font-weight:500;letter-spacing:.025em;color:var(--ivory);
 }
 /* the phone shows two terms and counts the rest */
 .pw__chip--xtra{display:none}
 @media (min-width:640px){ .pw__chip--xtra{display:inline-flex} }
-.pw__more{font-size:11px;font-weight:500;letter-spacing:.025em;color:rgba(250,247,241,.7)}
+.pw__more{font-size:12px;font-weight:500;letter-spacing:.025em;color:rgba(250,247,241,.7)}
 @media (min-width:640px){ .pw__more{display:none} }
 /* inert for now — no href, no pointer events; wired up later */
 .pw__cta{
   margin-top:20px;display:inline-flex;min-height:44px;align-items:center;gap:8px;
-  font-size:13px;font-weight:600;letter-spacing:.025em;color:var(--gold-tint);text-decoration:none;
+  font-size:14px;font-weight:600;letter-spacing:.025em;color:var(--gold-tint);text-decoration:none;
 }
 .pw__cta svg{width:14px;height:14px;flex:none}
 
@@ -498,7 +498,7 @@ footer p{margin:0;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase
     <li style="--i:1"><a href="#s2"><em>02</em>The Passage</a></li>
     <li style="--i:2"><a href="#s3"><em>03</em>The Conversation</a></li>
     <li style="--i:3"><a href="#s4"><em>04</em>The Pathways</a></li>
-    <li style="--i:4"><a href="#s5"><em>05</em>The Mirror</a></li>
+    <li style="--i:4"><a href="#s5"><em>05</em>The Room</a></li>
     <li style="--i:5"><a href="#s6"><em>06</em>The Stillness</a></li>
     <li style="--i:6"><a href="#s7"><em>07</em>The Signal</a></li>
   </ol>
@@ -664,8 +664,8 @@ footer p{margin:0;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase
 
       <div class="pw__panel" data-active="false">
         <img class="pw__img" src="images/path-04-peptides.webp" loading="lazy"
-             alt="A sculptural glass double helix held in a slender ring, beside pale pink flower petals in soft light."
-             style="--op-m:center 45%;--op-d:center 42%;--op-di:center center">
+             alt="A sculptural glass double helix through a slender gold ring, with a pale pink flower and strings of crystal molecules in soft light."
+             style="--op-m:center 45%;--op-d:center 45%;--op-di:center center">
         <div class="pw__scrim pw__scrim--closed" data-show="true"></div>
         <div class="pw__scrim pw__scrim--open" data-show="false"></div>
         <span aria-hidden="true" class="pw__mark"></span>
@@ -719,14 +719,13 @@ footer p{margin:0;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase
     </div>
   </section>
 
-  <!-- interim: slot 05 — image and copy will be replaced -->
-  <section class="sec light" id="s5" data-nav="The Mirror">
-    <div class="bg" data-src="images/01-mirror.webp"></div>
+  <section class="sec light" id="s5" data-nav="The Room">
+    <div class="bg" data-src="images/team.webp"></div>
     <div class="inner"><div class="copy">
       <p class="kicker reveal">Chapter 05</p>
-      <h2 class="reveal">You are not <em>declining.</em><br>You are changing.</h2>
-      <p class="body reveal">What the mirror returns is not loss but change &mdash; and change can be read, measured and met.</p>
-      <p class="tag reveal"><b>&#10022;</b> Somatic layer</p>
+      <h2 class="reveal">The room is part of <em>the treatment.</em></h2>
+      <p class="body reveal">Soft light, a closed door, nowhere to hurry to. The space is built the way the medicine is practised &mdash; around one person at a time.</p>
+      <p class="tag reveal"><b>&#10022;</b> The clinic</p>
     </div></div>
   </section>
 

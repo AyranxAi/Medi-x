@@ -587,7 +587,13 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
   margin-top:.55rem;font-size:.66rem;font-weight:400;
   letter-spacing:.26em;text-transform:uppercase;color:var(--gold);
 }
-.sec--meno .cta{margin-top:2rem}
+/* the finale CTA steps up: larger, and a gold hairline gives the pill
+   a visible edge on the night ground (the deep fill alone sits ~1.5:1) */
+.sec--meno .cta{
+  margin-top:2rem;padding:1.15rem 2.5rem;font-size:.82rem;
+  box-shadow:0 0 0 1px rgba(194,160,94,.55);
+}
+.sec--meno .cta svg{width:17px;height:17px}
 @media (prefers-reduced-motion:reduce){
   .meno-quote{transition:none}
 }

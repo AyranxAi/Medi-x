@@ -91,7 +91,8 @@ judging type wrapping.
 ## Chapter 07 internals (2026-07-31 rebuild)
 
 The globe is hand-rolled — no libraries. A land-dot grid (world-atlas
-land-110m sampled at 1.8°, run-length encoded by row) is projected
+land-110m at 1.8° latitude rows, longitudes thinned by cos(lat) so
+density stays uniform — no polar rings; run-length encoded by row) is projected
 orthographically on a `<canvas>`; one turn ≈ 95 s; a roll call labels
 each menoSTART location in turn, skipping far-side cities; the loop
 pauses off-screen (IntersectionObserver) and renders one static frame
@@ -100,7 +101,8 @@ under `prefers-reduced-motion`. The veil photograph was removed
 is a designed CSS gradient night — do not put a photo back without
 rechecking the collision. Fiji wraps the antimeridian in land-110m:
 the dot-grid generator unwraps small seam-crossing rings or a false
-land band appears at 16°S. Quote `<footer>`s must keep their
+land band appears at 16°S. The globe tilts +22° so the northern
+hemisphere — where every menoSTART location lives — owns the disc. Quote `<footer>`s must keep their
 `background:none;padding:0` reset — the page-level `footer` styles bleed
 in otherwise. Quote lines are verbatim from the two testimonial films in
 the user's local `medi-gyn` folder (transcribed 2026-07-31).

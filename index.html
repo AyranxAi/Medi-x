@@ -39,20 +39,28 @@ a{color:inherit}
   padding:max(1rem,env(safe-area-inset-top)) clamp(1.15rem,3vw,2.2rem) 1rem;
   /* the bar spans the viewport but only its controls should catch clicks */
   pointer-events:none;
+  transition:translate .45s var(--ease),background-color .4s var(--ease),
+    padding .4s var(--ease);
 }
 .hdr > *{pointer-events:auto}
+/* smart header: gone on the first downward scroll, back on the first upward one */
+.hdr--hidden{translate:0 -110%}
+.hdr--hidden > *{pointer-events:none}
+/* revealed mid-page it lands over unknown content, so it brings its own backdrop */
+.hdr--solid{
+  padding-top:.7rem;padding-bottom:.7rem;
+  background:rgba(30,22,26,.55);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+}
+body.nav-open .hdr{background:transparent;backdrop-filter:none;-webkit-backdrop-filter:none}
 .mark{
   display:inline-flex;padding:.2rem 0;
-  /* soft ivory halo: keeps the red mark legible over mid-tone photography */
-  filter:drop-shadow(0 0 1px rgba(250,247,241,.9)) drop-shadow(0 2px 16px rgba(250,247,241,.55));
+  /* soft dark halo keeps the ivory mark legible over the pale frames */
+  filter:drop-shadow(0 0 1px rgba(20,14,17,.35)) drop-shadow(0 2px 18px rgba(20,14,17,.5));
   transition:opacity .25s var(--ease);
 }
-body.nav-open .mark{filter:drop-shadow(0 1px 12px rgba(0,0,0,.3))}
 .mark:hover{opacity:.78}
-.mark__img{display:block;height:clamp(26px,2.4vw,33px);width:auto}
-.mark__img--ivory{display:none}
-body.nav-open .mark__img--red{display:none}
-body.nav-open .mark__img--ivory{display:block}
+.mark__img{display:block;height:clamp(34px,3.4vw,48px);width:auto}
 
 .hdr__right{display:flex;align-items:center;gap:.85rem}
 .globe{
@@ -532,8 +540,7 @@ footer p{margin:0;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase
 
 <header class="hdr">
   <a class="mark" href="#top" aria-label="Medi-Gyn — back to top">
-    <img class="mark__img mark__img--red" src="images/logo-red.webp" alt="medi-gyn">
-    <img class="mark__img mark__img--ivory" src="images/logo-ivory.webp" alt="" aria-hidden="true">
+    <img class="mark__img" src="images/logo-ivory.webp" alt="medi-gyn">
   </a>
   <div class="hdr__right">
     <!-- inert for now — becomes the language picker when translations exist -->
@@ -824,13 +831,30 @@ footer p{margin:0;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase
 (function(){
   var body=document.body, burger=document.getElementById('burger'), nav=document.getElementById('nav');
   var secs=[].slice.call(document.querySelectorAll('.sec'));
+  var hdr=document.querySelector('.hdr');
+
+  /* ---- smart header: hide on scroll down, reveal on scroll up ---- */
+  var hdrY=window.scrollY;
+  window.addEventListener('scroll',function(){
+    var y=window.scrollY;
+    if(body.classList.contains('nav-open')){ hdrY=y; return; }
+    if(y<=8){
+      hdr.classList.remove('hdr--hidden','hdr--solid');
+    }else if(y>hdrY+2){
+      hdr.classList.add('hdr--hidden');
+    }else if(y<hdrY-2){
+      hdr.classList.remove('hdr--hidden');
+      hdr.classList.add('hdr--solid');
+    }
+    hdrY=y;
+  },{passive:true});
 
   /* ---- menu ---- */
   function setNav(open){
     body.classList.toggle('nav-open',open);
     burger.setAttribute('aria-expanded',String(open));
     burger.setAttribute('aria-label',open?'Close menu':'Open menu');
-    if(open){nav.hidden=false;}
+    if(open){nav.hidden=false;hdr.classList.remove('hdr--hidden');}
     else{setTimeout(function(){ if(!body.classList.contains('nav-open')) nav.hidden=true; },460);}
   }
   nav.hidden=true;

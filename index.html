@@ -304,7 +304,14 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
 }
 .pw__panel[data-active="true"] .pw__img{filter:brightness(1)}
 @media (min-width:1024px){
-  .pw__img{object-position:var(--op-d,center)}
+  /*
+    The img box is pinned to the open-panel width (45.9% of the full-bleed
+    container) in every state, centered; the panel is a sliding window over
+    it. Cover scale therefore never changes mid-animation — without this,
+    cover flips from height-driven to width-driven partway through the
+    expansion and the image visibly zooms as a second act after the width.
+  */
+  .pw__img{left:50%;right:auto;width:45.9vw;translate:-50% 0;object-position:var(--op-d,center)}
   .pw__panel[data-active="false"] .pw__img{object-position:var(--op-di,var(--op-d,center))}
 }
 .pw__panel[data-active="false"]:hover .pw__img,

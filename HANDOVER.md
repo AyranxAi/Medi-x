@@ -18,12 +18,12 @@ the invitation.**
 | # | id | Nav | Image | Notes |
 |---|----|-----|-------|-------|
 | 01 | s1 | The Light | `09-light.webp` | Hero, h1, Begin CTA |
-| 02 | s2 | About Us | `about.webp` | "Decoded, not dismissed." desk flat-lay; new photo coming |
+| 02 | s2 | About Us | `about.webp` | "Decoded, not dismissed." — hands + anatomy-chart flat-lay (from the `About us.png` upload, ESRGAN 2×, 2026-07-31) |
 | 03 | s3 | The Conversation | `06-consult.webp` | Irina = the red-haired woman |
 | 04 | s4 | The Pathways | `path-01..04-*.webp` | Interactive accordion, see below |
 | 05 | s5 | The Room | `team.webp` | clinic lounge, derived from the `About.png` upload |
 | 06 | s6 | The Tools | `products.webp` | `#s6 .bg` crop override 12% center |
-| 07 | s7 | menoSTART | `08-veil.webp` | Closer; "Join menoSTART" CTA is INERT |
+| 07 | s7 | menoSTART | CSS night ground + canvas globe (NO photo) | Closer; split frame — hero-size invitation + rotating patient quote left, champagne globe right (stacks on phone). CTA still INERT |
 
 Unused files kept in `images/`: `01-mirror`, `02-helix`, `03-molecule`,
 `04-eye`, `05-touch`, `07-stillness`, `10-signal` (.webp) plus all
@@ -88,21 +88,49 @@ judging type wrapping.
   page) — never invent founder facts or medical claims.
 - Keep PNG masters in `images/`; page serves only webp derivatives.
 
+## Chapter 07 internals (2026-07-31 rebuild)
+
+The globe is hand-rolled — no libraries. A land-dot grid (world-atlas
+land-110m at 1.8° latitude rows, longitudes thinned by cos(lat) so
+density stays uniform — no polar rings; run-length encoded by row) is projected
+orthographically on a `<canvas>`; one turn ≈ 95 s; a roll call labels
+each menoSTART location in turn, skipping far-side cities; the loop
+pauses off-screen (IntersectionObserver) and renders one static frame
+under `prefers-reduced-motion`. The veil photograph was removed
+2026-07-31 (two subjects fought for the right two-thirds); the ground
+is a designed CSS gradient night — do not put a photo back without
+rechecking the collision. Fiji wraps the antimeridian in land-110m:
+the dot-grid generator unwraps small seam-crossing rings or a false
+land band appears at 16°S. The globe tilts +22° so the northern
+hemisphere — where every menoSTART location lives — owns the disc. Quote `<footer>`s must keep their
+`background:none;padding:0` reset — the page-level `footer` styles bleed
+in otherwise. Quote lines are verbatim from the two testimonial films in
+the user's local `medi-gyn` folder (transcribed 2026-07-31).
+
 ## Open threads (in priority order)
 
-1. **"Join menoSTART" destination** — chapter 07's CTA is inert; needs a
+1. **Quote sign-off** — the three chapter-07 quote lines + attributions
+   ("A medi-gyn patient — on film", "Katrina, 58") need the user's and
+   Irina's approval; they are clinic/BHRT testimonials, not
+   menoSTART-event quotes. Swap or cut on request.
+2. **Globe city coordinates** — CHINA and INDIA dots stand at
+   Shanghai and Mumbai until the true event cities are confirmed;
+   country-level entries (Oman, Saudi, Kuwait, Qatar) use
+   Muscat/Riyadh/Kuwait City/Doha.
+3. **"As featured in" press strip** — deliberately NOT built; the user
+   is deciding static-in-frame vs a moving band outside the frame, and
+   the real wordmark list must come from Irina first. Never placeholder
+   press on the live page.
+4. **"Join menoSTART" destination** — chapter 07's CTA is inert; needs a
    signup link / WhatsApp / events URL from the user.
-2. **menoSTART "gathering" upgrade** — the closer shows a lone
-   silhouette; the ideal image per medi-gyn's own brief is five women
-   40–60, candid laughter, tea, golden light. Swap when generated.
-3. **Accordion panel 01 redundancy** — since About Us (02) became a
+5. **menoSTART "gathering" image** — no longer needed for the closer
+   (chapter 07 has no photograph now); the five-women golden-light
+   brief could serve a future chapter or the press band instead.
+6. **Accordion panel 01 redundancy** — since About Us (02) became a
    journal-and-charts flat-lay, `path-01-bhrt.webp` (also a journal
    flat-lay) repeats the motif. Consider regenerating panel 01 (e.g.
    medi-gyn's IMG-02 brief: woman stretching by a sunlit window).
-4. **Chapter 03 upgrade** — the consult photo is the stockiest frame;
+7. **Chapter 03 upgrade** — the consult photo is the stockiest frame;
    a real clinician photo would strengthen it (real-photo rule applies).
-5. **New About Us photograph** — chapter 02 currently carries the desk
-   flat-lay as an interim; the user is creating a dedicated image for it.
-   Drop it in as `about.webp` via the pipeline above.
-6. Declined ideas (do not revive unasked): burgundy/red lipstick on the
+8. Declined ideas (do not revive unasked): burgundy/red lipstick on the
    hero; neutral scrim for the accordion.

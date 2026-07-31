@@ -34,23 +34,48 @@ a{color:inherit}
 
 /* ── header ─────────────────────────────────────────────── */
 .hdr{
-  position:fixed;z-index:60;
-  top:max(1.15rem,env(safe-area-inset-top));
-  left:max(1.15rem,env(safe-area-inset-left));
-  display:flex;align-items:center;gap:.95rem;
-  mix-blend-mode:normal;
+  position:fixed;z-index:60;inset:0 0 auto 0;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:max(1rem,env(safe-area-inset-top)) clamp(1.15rem,3vw,2.2rem) 1rem;
+  /* the bar spans the viewport but only its controls should catch clicks */
+  pointer-events:none;
 }
+.hdr > *{pointer-events:auto}
 .mark{
-  display:inline-flex;align-items:baseline;gap:.28em;
-  font-family:var(--serif);font-size:1.45rem;font-weight:400;
-  letter-spacing:.02em;text-decoration:none;line-height:1;
-  padding:.3rem .15rem;
-  text-shadow:0 1px 22px rgba(0,0,0,.55);
+  display:inline-flex;padding:.2rem 0;
+  /* soft ivory halo: keeps the red mark legible over mid-tone photography */
+  filter:drop-shadow(0 0 1px rgba(250,247,241,.9)) drop-shadow(0 2px 16px rgba(250,247,241,.55));
   transition:opacity .25s var(--ease);
 }
-.mark:hover{opacity:.72}
-.mark i{font-style:normal;color:var(--gold);font-size:.78em;transform:translateY(-.05em)}
-.mark s{text-decoration:none;letter-spacing:.06em}
+body.nav-open .mark{filter:drop-shadow(0 1px 12px rgba(0,0,0,.3))}
+.mark:hover{opacity:.78}
+.mark__img{display:block;height:clamp(26px,2.4vw,33px);width:auto}
+.mark__img--ivory{display:none}
+body.nav-open .mark__img--red{display:none}
+body.nav-open .mark__img--ivory{display:block}
+
+.hdr__right{display:flex;align-items:center;gap:.85rem}
+.globe{
+  -webkit-appearance:none;appearance:none;border:0;padding:0;cursor:pointer;
+  width:2.6rem;height:2.6rem;border-radius:999px;
+  border:1px solid rgba(250,247,241,.6);
+  background:rgba(46,34,40,.45);color:var(--ivory);
+  display:grid;place-content:center;
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  transition:border-color .3s var(--ease),background-color .3s var(--ease);
+}
+.globe:hover{border-color:var(--ivory);background:rgba(46,34,40,.6)}
+.globe svg{width:19px;height:19px}
+.hdr__book{
+  display:inline-flex;align-items:center;white-space:nowrap;
+  padding:.8rem 1.4rem;border-radius:999px;
+  background:var(--burgundy);color:var(--ivory);
+  font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
+  text-decoration:none;cursor:pointer;
+  transition:background-color .3s var(--ease);
+}
+.hdr__book:hover{background:#471826}
+@media (max-width:639px){ .hdr__book{display:none} }
 
 .burger{
   -webkit-appearance:none;appearance:none;border:0;background:transparent;
@@ -506,10 +531,24 @@ footer p{margin:0;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase
 <body id="top">
 
 <header class="hdr">
-  <a class="mark" href="#top" aria-label="Medi-X — back to top">medi<i>&#10022;</i><s>x</s></a>
-  <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="nav">
-    <span></span><span></span><span></span>
-  </button>
+  <a class="mark" href="#top" aria-label="Medi-Gyn — back to top">
+    <img class="mark__img mark__img--red" src="images/logo-red.webp" alt="medi-gyn">
+    <img class="mark__img mark__img--ivory" src="images/logo-ivory.webp" alt="" aria-hidden="true">
+  </a>
+  <div class="hdr__right">
+    <!-- inert for now — becomes the language picker when translations exist -->
+    <button type="button" class="globe" aria-label="Choose language">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="12" cy="12" r="8.25" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M3.75 12h16.5M12 3.75c2.2 2.3 3.3 5.05 3.3 8.25S14.2 18 12 20.25C9.8 18 8.7 15.2 8.7 12S9.8 6.05 12 3.75Z" stroke="currentColor" stroke-width="1.5"/>
+      </svg>
+    </button>
+    <!-- inert for now — needs a booking destination -->
+    <a class="hdr__book">Book consultation</a>
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="nav">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </header>
 
 <nav class="nav" id="nav" aria-label="Chapters" hidden>

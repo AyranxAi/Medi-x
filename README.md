@@ -1,22 +1,22 @@
 # Medi&#10022;X — full-bleed experiment
 
-A single static page: **ten full-bleed chapters**, one image and one idea each.
+A single static page: **seven full-bleed chapters**, one image and one idea each.
 No framework, no build step. `index.html` + `images/`.
 
 ## What's in it
 
-| # | Chapter | Image |
-|---|---|---|
-| 01 | The Mirror | `01-mirror.webp` |
-| 02 | The Blueprint | `02-helix.webp` |
-| 03 | The Chemistry | `03-molecule.webp` |
-| 04 | The Evidence | `04-eye.webp` |
-| 05 | The Body Knows | `05-touch.webp` |
-| 06 | The Conversation | `06-consult.webp` |
-| 07 | The Stillness | `07-stillness.webp` |
-| 08 | The Passage | `08-veil.webp` |
-| 09 | The Light | `09-light.webp` |
-| 10 | The Signal | `10-signal.webp` |
+| # | Chapter | Image | Status |
+|---|---|---|---|
+| 01 | The Light | `09-light.webp` | final |
+| 02 | The Passage | `08-veil.webp` | final |
+| 03 | The Chemistry | `03-molecule.webp` | final |
+| 04 | The Service | `06-consult.webp` | interim — to be replaced |
+| 05 | The Mirror | `01-mirror.webp` | interim — to be replaced |
+| 06 | The Stillness | `07-stillness.webp` | interim — to be replaced |
+| 07 | The Signal | `10-signal.webp` | interim — to be replaced |
+
+Unused images kept in `images/` for now: `02-helix.webp`, `04-eye.webp`,
+`05-touch.webp`.
 
 ## Chrome
 

@@ -23,7 +23,7 @@ the invitation.**
 | 04 | s4 | The Pathways | `path-01..04-*.webp` | Interactive accordion, see below |
 | 05 | s5 | The Room | `team.webp` | clinic lounge, derived from the `About.png` upload |
 | 06 | s6 | The Tools | `products.webp` | `#s6 .bg` crop override 12% center |
-| 07 | s7 | menoSTART | `08-veil.webp` | Closer; "Join menoSTART" CTA is INERT |
+| 07 | s7 | menoSTART | `08-veil.webp` + canvas globe | Closer; split frame — invitation + rotating patient quote left, champagne globe right (stacks on phone). CTA still INERT |
 
 Unused files kept in `images/`: `01-mirror`, `02-helix`, `03-molecule`,
 `04-eye`, `05-touch`, `07-stillness`, `10-signal` (.webp) plus all
@@ -88,11 +88,35 @@ judging type wrapping.
   page) — never invent founder facts or medical claims.
 - Keep PNG masters in `images/`; page serves only webp derivatives.
 
+## Chapter 07 internals (2026-07-31 rebuild)
+
+The globe is hand-rolled — no libraries. A land-dot grid (world-atlas
+land-110m sampled at 2.4°, run-length encoded by row) is projected
+orthographically on a `<canvas>`; one turn ≈ 95 s; a roll call labels
+each menoSTART location in turn, skipping far-side cities; the loop
+pauses off-screen (IntersectionObserver) and renders one static frame
+under `prefers-reduced-motion`. Quote `<footer>`s must keep their
+`background:none;padding:0` reset — the page-level `footer` styles bleed
+in otherwise. Quote lines are verbatim from the two testimonial films in
+the user's local `medi-gyn` folder (transcribed 2026-07-31).
+
 ## Open threads (in priority order)
 
-1. **"Join menoSTART" destination** — chapter 07's CTA is inert; needs a
+1. **Quote sign-off** — the three chapter-07 quote lines + attributions
+   ("A medi-gyn patient — on film", "Katrina, 58") need the user's and
+   Irina's approval; they are clinic/BHRT testimonials, not
+   menoSTART-event quotes. Swap or cut on request.
+2. **Globe city coordinates** — CHINA and INDIA dots stand at
+   Shanghai and Mumbai until the true event cities are confirmed;
+   country-level entries (Oman, Saudi, Kuwait, Qatar) use
+   Muscat/Riyadh/Kuwait City/Doha.
+3. **"As featured in" press strip** — deliberately NOT built; the user
+   is deciding static-in-frame vs a moving band outside the frame, and
+   the real wordmark list must come from Irina first. Never placeholder
+   press on the live page.
+4. **"Join menoSTART" destination** — chapter 07's CTA is inert; needs a
    signup link / WhatsApp / events URL from the user.
-2. **menoSTART "gathering" upgrade** — the closer shows a lone
+5. **menoSTART "gathering" upgrade** — the closer shows a lone
    silhouette; the ideal image per medi-gyn's own brief is five women
    40–60, candid laughter, tea, golden light. Swap when generated.
 3. **Accordion panel 01 redundancy** — since About Us (02) became a

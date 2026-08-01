@@ -1,5 +1,74 @@
 # Medi✦X — session handover
 
+## 0 · 2026-08-01 addendum 4 — the wall gets an argument
+
+Addendum 3 shipped the wall as 12 photographs. His verdict on seeing it
+live: make it *worthy*. It was reading as wallpaper — every tile the same
+size, same shape, same weight, and no claim anywhere in a chapter whose
+whole job is press.
+
+**The structural idea, and the thing to protect:** the two halves now do
+DIFFERENT JOBS. Top = what the world says (press cards, event
+photography, the Riyadh event film). Bottom = what the women say (their
+own words, candid photography). That is what makes the counter-drift mean
+something — two currents, outside and inside — instead of being a trick.
+Don't collapse the halves back into one kind of content.
+
+- **Rhythm comes from ASPECT RATIO, never height.** Every tile is still
+  the full height of its half; `--ar` varies per tile (`4/5` default,
+  `--sq` 1/1, `--wide` 3/2, `--film` 16/9, `--card` 3/4). This is what
+  stopped the row reading as texture, and it gave the landscape event
+  photography its frame back instead of cropping it to portrait.
+- **Press cards are BURGUNDY, never ivory.** This is load-bearing. An
+  ivory card butted against a photograph reads as a hole punched in the
+  wall; a dark card reads as a rest. It is the only reason butted-and-
+  square survives with cards in the mix, and it pulls the chapter back
+  into the site's register. If someone asks for ivory cards, they must
+  also accept gaps — the two decisions are joined.
+- **Four press cards**, all copy verbatim off his assets: Monaco Tribune
+  ("You're not lazy…"), Global Trend Monitor (Saudi's first Menopause
+  Awareness Forum), Madame Arabia ("If 50 is the new 30…"), Monaco Info
+  (Irina Bond Interview). **Held back on purpose: NewBusiness.co.uk and
+  UK News Group** — both are business press about Irina as a
+  businesswoman, a founder story rather than a women's-health one. If he
+  wants them, they belong with Irina, not in this closer.
+- **Two films, both already public on YouTube** — which is what dissolved
+  the clearance problem: embedding published video is not the same act as
+  publishing unapproved patient footage. `HWZ8h3fgjvw` = menoSTART
+  Riyadh, 7 Feb 2026 (its own wide tile; poster is `world-04-riyadh.webp`,
+  the photograph of that same event). `7pHJbNLYcoY` = Monaco Info's Irina
+  interview, opened from the Monaco Info press card — so the card clicks
+  through to real coverage instead of a picture of coverage.
+- **THE TRAP, do not re-trip: never put a YouTube iframe in a tile.** The
+  track carries three copies of every tile, so two films embedded inline
+  would be SIX players racing on load. The tiles are facades — a local
+  still and a play mark — and `#wlb` builds a `youtube-nocookie` iframe
+  on click and **destroys it on close** (that teardown is what stops
+  playback). Verified: 0 iframes on load at every viewport.
+- **Duplicate sets stay clickable but leave the tab order.** Two thirds
+  of what a visitor can see at any moment is a loop copy, so `inert` or
+  `pointer-events:none` on them would leave most of the wall dead. They
+  carry `aria-hidden` + `tabindex="-1"` instead: mouse works, keyboard
+  and screen readers see set 1 only. Verified both ways.
+- **Three sets now, not four** (`translateX(-33.3333%)`) — tiles average
+  ~1.1 screen-heights, a set runs ~11, so two spare sets clear any frame
+  to 22:1. Top 104s, bottom 116s ≈ 48 and 38 px/s.
+- Verified headless at 1920×1080, 1440×900, 1280×700, 390×844 and under
+  reduced motion: fills the viewport exactly, halves equal, seam 0.00px,
+  no content spilling any card, no page h-scroll, no console errors, and
+  the full lightbox path (card → image, film → iframe, Escape / close /
+  scrim, duplicate tiles, focus moves to close and returns).
+
+**Open from this session:** (1) real article URLs — the three magazine
+cards currently lightbox the published asset image; a link to the actual
+piece would be better proof, and the wiring is one attribute per card.
+(2) The three patient quote lines are BACK on the page, so the
+sign-off/clearance question in the open threads is live again — he chose
+this knowing that. (3) The scroll rail now sits over photography and its
+contrast swings with whatever tile is behind it; pre-existing, more
+visible now, offer to fix.
+
+
 State as of 2026-07-31. The page is live (deployment tracks `main`).
 Everything below was built across PRs #1–#6, all merged.
 

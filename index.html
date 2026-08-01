@@ -762,18 +762,111 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
 .sec--world.in .world-wall{opacity:1}
 .wrow{overflow:hidden;min-height:0}
 .wrow__track{display:flex;width:max-content;height:100%}
-.wrow--top .wrow__track{animation:world-drift 64s linear infinite}
-.wrow--bottom .wrow__track{animation:world-drift 76s linear infinite reverse}
+/* THREE sets, not four: the tiles now average ~1.1 screen-heights each
+   and a set runs ~11 screen-heights, so two spare sets clear any frame
+   up to 22:1. Shift is one set = 33.3333%. */
+.wrow--top .wrow__track{animation:world-drift 104s linear infinite}
+.wrow--bottom .wrow__track{animation:world-drift 116s linear infinite reverse}
 .wrow__set{display:flex;height:100%}
-@keyframes world-drift{to{transform:translateX(-25%)}}
+@keyframes world-drift{to{transform:translateX(-33.3333%)}}
+
+/* Every tile is the full height of its half — that never varies. Only
+   the aspect ratio does, and that is the whole source of the row's
+   rhythm: a landscape photo next to a portrait card next to a wide
+   film reads as edited, where twelve identical portraits read as
+   wallpaper. Landscape photography also stops being cropped to death. */
 .wtile{
-  position:relative;margin:0;flex:none;height:100%;aspect-ratio:4/5;
+  position:relative;margin:0;flex:none;height:100%;aspect-ratio:var(--ar,4/5);
   overflow:hidden;background:#2E2228;
 }
+.wtile--sq{--ar:1/1}
+.wtile--wide{--ar:3/2}
+.wtile--film{--ar:16/9}
+.wtile--card{--ar:3/4}
 .wtile img{display:block;width:100%;height:100%;object-fit:cover}
+
+/* Press cards are BURGUNDY, never ivory. An ivory card butted against
+   a photograph reads as a hole punched in the wall; a dark card reads
+   as a rest — a frame that has gone to black. That is what lets the
+   tiles stay butted and square with no gap, and it pulls the chapter
+   back into the site's own register instead of leaving it the one
+   place the burgundy night is abandoned. */
+button.wtile{-webkit-appearance:none;appearance:none;border:0;font:inherit;color:inherit;text-align:left;cursor:pointer}
+.wcard{
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:clamp(1.3rem,2.1vw,2.1rem);
+  background:linear-gradient(165deg,#4A1C28 0%,#3A1620 55%,#2C1018 100%);
+}
+.wcard__kicker{margin:0;font-size:.55rem;font-weight:400;letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
+.wcard__head{
+  margin:.85rem 0 0;font-family:var(--serif);font-weight:300;
+  font-size:clamp(1.05rem,1.5vw,1.55rem);line-height:1.22;color:var(--ivory);
+}
+.wcard__rule{display:block;width:32px;height:1px;margin:1.1rem 0 .75rem;background:var(--gold);opacity:.7}
+.wcard__pub{margin:0;font-size:.56rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(250,247,241,.6)}
+
+/* a voice: the women's own words, bottom row only */
+.wquote{
+  display:flex;flex-direction:column;justify-content:center;
+  padding:clamp(1.4rem,2.3vw,2.3rem);
+  background:linear-gradient(165deg,#35272C 0%,#2A1E23 100%);
+}
+.wquote__mark{
+  display:block;font-family:var(--serif);font-size:2.4rem;line-height:.6;
+  color:var(--gold);opacity:.55;margin-bottom:.9rem;
+}
+.wquote p{
+  margin:0;font-family:var(--serif);font-style:italic;font-weight:300;
+  font-size:clamp(1.05rem,1.45vw,1.4rem);line-height:1.45;color:var(--ivory);
+}
+.wquote footer{
+  background:none;border:0;padding:1rem 0 0;
+  font-size:.56rem;font-weight:400;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);
+}
+/* the bottom row's one anchor — wide, so the eye has somewhere to stop */
+.wquote--hero{padding:clamp(2rem,3.4vw,3.4rem)}
+.wquote--hero p{font-size:clamp(1.4rem,2.3vw,2.3rem);line-height:1.34;max-width:22ch}
+.wquote--hero .wquote__mark{font-size:3.4rem}
+
+/* film tile: a still + a play mark. NEVER an iframe here — see the JS. */
+.wfilm{padding:0;background:#140E11}
+.wfilm img{opacity:.72;transition:opacity 420ms var(--ease)}
+.wfilm__play{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  pointer-events:none;
+}
+.wfilm__play i{
+  display:flex;align-items:center;justify-content:center;
+  width:clamp(52px,5vw,72px);aspect-ratio:1;border-radius:999px;
+  border:1px solid rgba(250,247,241,.8);background:rgba(20,14,17,.34);
+  transition:background-color 420ms var(--ease),border-color 420ms var(--ease);
+}
+.wfilm__play svg{width:26%;height:26%;margin-left:8%;fill:var(--ivory)}
+.wfilm__meta{
+  position:absolute;left:clamp(1.1rem,1.9vw,1.9rem);bottom:clamp(1.1rem,1.9vw,1.9rem);
+  right:clamp(1.1rem,1.9vw,1.9rem);margin:0;pointer-events:none;
+  font-size:.56rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(250,247,241,.82);
+}
+
+/* Clickable tiles say so — but quietly, and with NO layout shift: the
+   tile is drifting, so anything that resizes on hover would judder. */
+.wtile--tap::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  box-shadow:inset 0 0 0 1px rgba(194,160,94,0);
+  transition:box-shadow 380ms var(--ease);
+}
+@media (hover:hover) and (pointer:fine){
+  .wtile--tap:hover::after,.wtile--tap:focus-visible::after{box-shadow:inset 0 0 0 1px rgba(194,160,94,.9)}
+  .wtile--tap:hover .wfilm__play i{background:rgba(92,31,49,.72);border-color:var(--gold)}
+  .wtile--tap:hover.wfilm img{opacity:.86}
+}
+.wtile--tap:focus-visible{outline:2px solid var(--gold-tint);outline-offset:-6px}
+
 @media (max-width:899px){
-  .wrow--top .wrow__track{animation-duration:46s}
-  .wrow--bottom .wrow__track{animation-duration:56s}
+  .wrow--top .wrow__track{animation-duration:76s}
+  .wrow--bottom .wrow__track{animation-duration:86s}
+  .wcard__head{font-size:1.05rem}
+  .wquote--hero p{font-size:1.35rem}
 }
 @media (prefers-reduced-motion:reduce){
   /* the wall falls still; set 1 stays and each half is finger-scrollable.
@@ -781,6 +874,42 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
   .wrow .wrow__track{animation:none}
   .wrow__set[aria-hidden]{display:none}
   .wrow{overflow-x:auto}
+}
+
+/* ── the wall's lightbox ────────────────────────────────────
+   One dialog for the whole chapter. Press cards show their published
+   asset; film tiles build a youtube-nocookie iframe ON CLICK ONLY.
+   The track carries three copies of every tile, so a player embedded
+   in the tile itself would be SIX players racing on load. */
+.wlb{
+  position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;
+  padding:clamp(1rem,4vw,3.5rem);
+  background:rgba(14,9,12,.92);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  opacity:0;transition:opacity 320ms var(--ease);
+}
+.wlb[hidden]{display:none}
+.wlb.is-open{opacity:1}
+.wlb__stage{
+  position:relative;display:flex;align-items:center;justify-content:center;
+  max-width:min(1100px,100%);max-height:100%;
+}
+.wlb__stage img{max-width:100%;max-height:86svh;width:auto;height:auto;display:block;box-shadow:0 30px 90px rgba(0,0,0,.5)}
+.wlb__frame{position:relative;width:min(1100px,86vw);aspect-ratio:16/9;background:#000}
+.wlb__frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.wlb__close{
+  position:absolute;top:clamp(.9rem,2.6vw,2rem);right:clamp(.9rem,2.6vw,2rem);z-index:1;
+  -webkit-appearance:none;appearance:none;padding:0;cursor:pointer;
+  width:44px;height:44px;border-radius:999px;
+  border:1px solid rgba(250,247,241,.45);background:rgba(20,14,17,.5);color:var(--ivory);
+  display:flex;align-items:center;justify-content:center;
+  transition:border-color 250ms var(--ease),background-color 250ms var(--ease);
+}
+.wlb__close:hover{border-color:var(--gold);background:rgba(92,31,49,.55)}
+.wlb__close:focus-visible{outline:2px solid var(--gold-tint);outline-offset:3px}
+.wlb__close svg{width:16px;height:16px}
+.wlb__cap{
+  position:absolute;left:0;right:0;bottom:-2.4rem;margin:0;text-align:center;
+  font-size:.58rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(250,247,241,.6);
 }
 
 /* ── footer ─────────────────────────────────────────────── */
@@ -1201,52 +1330,111 @@ footer .fw{max-width:1400px;margin:0 auto}
     </div>
   </section>
 
-  <!-- Chapter 08 — the wall. One screen, two halves, nothing else:
-       real event photographs drifting right-to-left across the top
-       and left-to-right across the bottom. Sets 2–4 are aria-hidden
-       loop copies of set 1 and reuse the same twelve files, so they
-       cost nothing but DOM. Photographs are medi-gyn.com's own
-       coverage (educational-events + gallery), placed 2026-08-01 as
-       a stand-in for the final selection — swap the files in
-       images/world/ and the wall updates itself. Geometry and the
-       no-hover-pause rule are in the CSS comment above .sec--world. -->
+  <!-- Chapter 08 — the wall. One screen, two halves, no copy.
+       The halves do DIFFERENT JOBS, and that is the whole point: the top
+       row is what the world says about Medi-Gyn (press cards + event
+       photography + the Riyadh event film), the bottom is what the women
+       say (their own words + candid photography). Opposite drift then
+       means something — two currents, outside and inside — instead of
+       being a trick. Every tile is the full height of its half; only the
+       aspect ratio varies, and that is what gives the rows their rhythm.
+       Press cards are burgundy, never ivory — see the CSS comment.
+       Sets 2–3 are aria-hidden loop copies: still clickable (two thirds of
+       what you see at any moment IS a copy) but out of the tab order. -->
   <section class="sec sec--world" id="s8" data-nav="In the World">
     <div class="bg"></div>
     <div class="world-wall">
-      <div class="wrow wrow--top" role="group" aria-label="Medi-Gyn events around the world">
+      <div class="wrow wrow--top" role="group" aria-label="Medi-Gyn in the press and at events">
         <div class="wrow__track">
           <div class="wrow__set">
-            <figure class="wtile"><img src="images/world/world-01-rome.webp" alt="Medi-Gyn in Rome, June 2026" width="720" height="900" loading="lazy" decoding="async"></figure>
-            <figure class="wtile"><img src="images/world/world-02-monaco.webp" alt="Medi-Gyn in Monte-Carlo, April 2026" width="720" height="900" loading="lazy" decoding="async"></figure>
-            <figure class="wtile"><img src="images/world/world-03-dubai.webp" alt="Medi-Gyn in Dubai, February 2026" width="720" height="900" loading="lazy" decoding="async"></figure>
-            <figure class="wtile"><img src="images/world/world-04-riyadh.webp" alt="Medi-Gyn in Riyadh, January 2026" width="720" height="900" loading="lazy" decoding="async"></figure>
-            <figure class="wtile"><img src="images/world/world-05-jeddah.webp" alt="Medi-Gyn in Jeddah, December 2025" width="720" height="900" loading="lazy" decoding="async"></figure>
+            <figure class="wtile wtile--wide"><img src="images/world/world-01-rome.webp" alt="Medi-Gyn in Rome, June 2026" width="720" height="900" loading="lazy" decoding="async"></figure>
+            <button type="button" class="wtile wtile--card wtile--tap wcard" data-lb="img" data-src="images/press-assets/monaco-tribune.webp" data-cap="Monaco Tribune" aria-label="Story in Monaco Tribune &mdash; open"><p class="wcard__kicker">Story</p><p class="wcard__head">You&rsquo;re not lazy. You&rsquo;re not &ldquo;just getting older&rdquo;</p><span class="wcard__rule"></span><p class="wcard__pub">Monaco Tribune</p></button>
+            <figure class="wtile wtile--sq"><img src="images/world/world-03-dubai.webp" alt="Medi-Gyn in Dubai, February 2026" width="720" height="900" loading="lazy" decoding="async"></figure>
+            <button type="button" class="wtile wtile--film wtile--tap wfilm" data-lb="yt" data-yt="HWZ8h3fgjvw" data-cap="Medi-Gyn menoSTART Event &mdash; Beyond Menopause Symptoms &mdash; Riyadh" aria-label="Play the menoSTART Riyadh event film"><img src="images/world/world-04-riyadh.webp" alt="menoSTART event in Riyadh, February 2026" width="720" height="900" loading="lazy" decoding="async"><span class="wfilm__play"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></i></span><p class="wfilm__meta">menoSTART &middot; Riyadh &middot; 7 February 2026</p></button>
+            <button type="button" class="wtile wtile--card wtile--tap wcard" data-lb="img" data-src="images/press-assets/global-trend-monitor.webp" data-cap="Global Trend Monitor" aria-label="Report in Global Trend Monitor &mdash; open"><p class="wcard__kicker">Report</p><p class="wcard__head">A turning point for women&rsquo;s health in Saudi Arabia</p><span class="wcard__rule"></span><p class="wcard__pub">Global Trend Monitor</p></button>
+            <figure class="wtile wtile--wide"><img src="images/world/world-02-monaco.webp" alt="Medi-Gyn in Monte-Carlo, April 2026" width="720" height="900" loading="lazy" decoding="async"></figure>
+            <button type="button" class="wtile wtile--card wtile--tap wcard" data-lb="img" data-src="images/press-assets/madame-arabia.webp" data-cap="Madame Arabia" aria-label="Feature in Madame Arabia &mdash; open"><p class="wcard__kicker">Feature</p><p class="wcard__head">If 50 is the new 30, why are women in their 50s still being overlooked at work?</p><span class="wcard__rule"></span><p class="wcard__pub">Madame Arabia</p></button>
             <figure class="wtile"><img src="images/world/world-06-muscat.webp" alt="Medi-Gyn in Muscat, October 2025" width="720" height="900" loading="lazy" decoding="async"></figure>
+            <button type="button" class="wtile wtile--card wtile--tap wcard" data-lb="yt" data-yt="7pHJbNLYcoY" data-cap="Irina Bond interviewed by Monaco Info" aria-label="Interview in Monaco Info &mdash; open"><p class="wcard__kicker">Interview</p><p class="wcard__head">Irina Bond Interview</p><span class="wcard__rule"></span><p class="wcard__pub">Monaco Info</p></button>
+            <figure class="wtile wtile--wide"><img src="images/world/world-05-jeddah.webp" alt="Medi-Gyn in Jeddah, December 2025" width="720" height="900" loading="lazy" decoding="async"></figure>
           </div>
-          <div class="wrow__set" aria-hidden="true"><figure class="wtile"><img src="images/world/world-01-rome.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-02-monaco.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-03-dubai.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-04-riyadh.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-05-jeddah.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-06-muscat.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure></div>
-          <div class="wrow__set" aria-hidden="true"><figure class="wtile"><img src="images/world/world-01-rome.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-02-monaco.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-03-dubai.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-04-riyadh.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-05-jeddah.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-06-muscat.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure></div>
-          <div class="wrow__set" aria-hidden="true"><figure class="wtile"><img src="images/world/world-01-rome.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-02-monaco.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-03-dubai.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-04-riyadh.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-05-jeddah.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-06-muscat.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure></div>
+          <div class="wrow__set" aria-hidden="true">
+            <figure class="wtile wtile--wide"><img src="images/world/world-01-rome.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure>
+            <button type="button" class="wtile wtile--card wtile--tap wcard" data-lb="img" data-src="images/press-assets/monaco-tribune.webp" data-cap="Monaco Tribune" aria-label="Story in Monaco Tribune &mdash; open" tabindex="-1"><p class="wcard__kicker">Story</p><p class="wcard__head">You&rsquo;re not lazy. You&rsquo;re not &ldquo;just getting older&rdquo;</p><span class="wcard__rule"></span><p class="wcard__pub">Monaco Tribune</p></button>
+            <figure class="wtile wtile--sq"><img src="images/world/world-03-dubai.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure>
+            <button type="button" class="wtile wtile--film wtile--tap wfilm" data-lb="yt" data-yt="HWZ8h3fgjvw" data-cap="Medi-Gyn menoSTART Event &mdash; Beyond Menopause Symptoms &mdash; Riyadh" aria-label="Play the menoSTART Riyadh event film" tabindex="-1"><img src="images/world/world-04-riyadh.webp" alt="" width="720" height="900" loading="lazy" decoding="async"><span class="wfilm__play"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></i></span><p class="wfilm__meta">menoSTART &middot; Riyadh &middot; 7 February 2026</p></button>
+            <button type="button" class="wtile wtile--card wtile--tap wcard" data-lb="img" data-src="images/press-assets/global-trend-monitor.webp" data-cap="Global Trend Monitor" aria-label="Report in Global Trend Monitor &mdash; open" tabindex="-1"><p class="wcard__kicker">Report</p><p class="wcard__head">A turning point for women&rsquo;s health in Saudi Arabia</p><span class="wcard__rule"></span><p class="wcard__pub">Global Trend Monitor</p></button>
+            <figure class="wtile wtile--wide"><img src="images/world/world-02-monaco.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure>
+            <button type="button" class="wtile wtile--card wtile--tap wcard" data-lb="img" data-src="images/press-assets/madame-arabia.webp" data-cap="Madame Arabia" aria-label="Feature in Madame Arabia &mdash; open" tabindex="-1"><p class="wcard__kicker">Feature</p><p class="wcard__head">If 50 is the new 30, why are women in their 50s still being overlooked at work?</p><span class="wcard__rule"></span><p class="wcard__pub">Madame Arabia</p></button>
+            <figure class="wtile"><img src="images/world/world-06-muscat.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure>
+            <button type="button" class="wtile wtile--card wtile--tap wcard" data-lb="yt" data-yt="7pHJbNLYcoY" data-cap="Irina Bond interviewed by Monaco Info" aria-label="Interview in Monaco Info &mdash; open" tabindex="-1"><p class="wcard__kicker">Interview</p><p class="wcard__head">Irina Bond Interview</p><span class="wcard__rule"></span><p class="wcard__pub">Monaco Info</p></button>
+            <figure class="wtile wtile--wide"><img src="images/world/world-05-jeddah.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure>
+          </div>
+          <div class="wrow__set" aria-hidden="true">
+            <figure class="wtile wtile--wide"><img src="images/world/world-01-rome.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure>
+            <button type="button" class="wtile wtile--card wtile--tap wcard" data-lb="img" data-src="images/press-assets/monaco-tribune.webp" data-cap="Monaco Tribune" aria-label="Story in Monaco Tribune &mdash; open" tabindex="-1"><p class="wcard__kicker">Story</p><p class="wcard__head">You&rsquo;re not lazy. You&rsquo;re not &ldquo;just getting older&rdquo;</p><span class="wcard__rule"></span><p class="wcard__pub">Monaco Tribune</p></button>
+            <figure class="wtile wtile--sq"><img src="images/world/world-03-dubai.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure>
+            <button type="button" class="wtile wtile--film wtile--tap wfilm" data-lb="yt" data-yt="HWZ8h3fgjvw" data-cap="Medi-Gyn menoSTART Event &mdash; Beyond Menopause Symptoms &mdash; Riyadh" aria-label="Play the menoSTART Riyadh event film" tabindex="-1"><img src="images/world/world-04-riyadh.webp" alt="" width="720" height="900" loading="lazy" decoding="async"><span class="wfilm__play"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></i></span><p class="wfilm__meta">menoSTART &middot; Riyadh &middot; 7 February 2026</p></button>
+            <button type="button" class="wtile wtile--card wtile--tap wcard" data-lb="img" data-src="images/press-assets/global-trend-monitor.webp" data-cap="Global Trend Monitor" aria-label="Report in Global Trend Monitor &mdash; open" tabindex="-1"><p class="wcard__kicker">Report</p><p class="wcard__head">A turning point for women&rsquo;s health in Saudi Arabia</p><span class="wcard__rule"></span><p class="wcard__pub">Global Trend Monitor</p></button>
+            <figure class="wtile wtile--wide"><img src="images/world/world-02-monaco.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure>
+            <button type="button" class="wtile wtile--card wtile--tap wcard" data-lb="img" data-src="images/press-assets/madame-arabia.webp" data-cap="Madame Arabia" aria-label="Feature in Madame Arabia &mdash; open" tabindex="-1"><p class="wcard__kicker">Feature</p><p class="wcard__head">If 50 is the new 30, why are women in their 50s still being overlooked at work?</p><span class="wcard__rule"></span><p class="wcard__pub">Madame Arabia</p></button>
+            <figure class="wtile"><img src="images/world/world-06-muscat.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure>
+            <button type="button" class="wtile wtile--card wtile--tap wcard" data-lb="yt" data-yt="7pHJbNLYcoY" data-cap="Irina Bond interviewed by Monaco Info" aria-label="Interview in Monaco Info &mdash; open" tabindex="-1"><p class="wcard__kicker">Interview</p><p class="wcard__head">Irina Bond Interview</p><span class="wcard__rule"></span><p class="wcard__pub">Monaco Info</p></button>
+            <figure class="wtile wtile--wide"><img src="images/world/world-05-jeddah.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure>
+          </div>
         </div>
       </div>
-      <div class="wrow wrow--bottom" role="group" aria-label="Medi-Gyn gatherings">
+      <div class="wrow wrow--bottom" role="group" aria-label="What the women themselves say">
         <div class="wrow__track">
           <div class="wrow__set">
-            <figure class="wtile"><img src="images/world/world-07-table.webp" alt="Guests at a Medi-Gyn table" width="720" height="900" loading="lazy" decoding="async"></figure>
-            <figure class="wtile"><img src="images/world/world-08-group.webp" alt="A Medi-Gyn gathering, together" width="720" height="900" loading="lazy" decoding="async"></figure>
-            <figure class="wtile"><img src="images/world/world-09-talk.webp" alt="Speaking at a Medi-Gyn event" width="720" height="900" loading="lazy" decoding="async"></figure>
+            <figure class="wtile wtile--wide"><img src="images/world/world-08-group.webp" alt="A Medi-Gyn gathering, together" width="720" height="900" loading="lazy" decoding="async"></figure>
+            <blockquote class="wtile wtile--card wquote"><span class="wquote__mark" aria-hidden="true">&ldquo;</span><p>The menopause really hit me fast and furious.</p><footer>Katrina, 58</footer></blockquote>
             <figure class="wtile"><img src="images/world/world-10-bluewater.webp" alt="Guests at a Medi-Gyn gathering" width="720" height="900" loading="lazy" decoding="async"></figure>
+            <blockquote class="wtile wtile--film wquote wquote--hero"><span class="wquote__mark" aria-hidden="true">&ldquo;</span><p>This literally elevated my everyday life to another level. It was transformational.</p><footer>A medi-gyn patient &mdash; on film</footer></blockquote>
+            <figure class="wtile"><img src="images/world/world-07-table.webp" alt="Guests at a Medi-Gyn table" width="720" height="900" loading="lazy" decoding="async"></figure>
+            <blockquote class="wtile wtile--card wquote"><span class="wquote__mark" aria-hidden="true">&ldquo;</span><p>If you are hesitant, just do it.</p><footer>A medi-gyn patient &mdash; on film</footer></blockquote>
+            <figure class="wtile wtile--wide"><img src="images/world/world-12-room.webp" alt="A room of women at a Medi-Gyn event" width="720" height="900" loading="lazy" decoding="async"></figure>
+            <figure class="wtile wtile--sq"><img src="images/world/world-09-talk.webp" alt="Speaking at a Medi-Gyn event" width="720" height="900" loading="lazy" decoding="async"></figure>
             <figure class="wtile"><img src="images/world/world-11-lana.webp" alt="A Medi-Gyn evening" width="720" height="900" loading="lazy" decoding="async"></figure>
-            <figure class="wtile"><img src="images/world/world-12-room.webp" alt="A room of women at a Medi-Gyn event" width="720" height="900" loading="lazy" decoding="async"></figure>
           </div>
-          <div class="wrow__set" aria-hidden="true"><figure class="wtile"><img src="images/world/world-07-table.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-08-group.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-09-talk.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-10-bluewater.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-11-lana.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-12-room.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure></div>
-          <div class="wrow__set" aria-hidden="true"><figure class="wtile"><img src="images/world/world-07-table.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-08-group.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-09-talk.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-10-bluewater.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-11-lana.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-12-room.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure></div>
-          <div class="wrow__set" aria-hidden="true"><figure class="wtile"><img src="images/world/world-07-table.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-08-group.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-09-talk.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-10-bluewater.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-11-lana.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-12-room.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure></div>
+          <div class="wrow__set" aria-hidden="true">
+            <figure class="wtile wtile--wide"><img src="images/world/world-08-group.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure>
+            <blockquote class="wtile wtile--card wquote"><span class="wquote__mark" aria-hidden="true">&ldquo;</span><p>The menopause really hit me fast and furious.</p><footer>Katrina, 58</footer></blockquote>
+            <figure class="wtile"><img src="images/world/world-10-bluewater.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure>
+            <blockquote class="wtile wtile--film wquote wquote--hero"><span class="wquote__mark" aria-hidden="true">&ldquo;</span><p>This literally elevated my everyday life to another level. It was transformational.</p><footer>A medi-gyn patient &mdash; on film</footer></blockquote>
+            <figure class="wtile"><img src="images/world/world-07-table.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure>
+            <blockquote class="wtile wtile--card wquote"><span class="wquote__mark" aria-hidden="true">&ldquo;</span><p>If you are hesitant, just do it.</p><footer>A medi-gyn patient &mdash; on film</footer></blockquote>
+            <figure class="wtile wtile--wide"><img src="images/world/world-12-room.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure>
+            <figure class="wtile wtile--sq"><img src="images/world/world-09-talk.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure>
+            <figure class="wtile"><img src="images/world/world-11-lana.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure>
+          </div>
+          <div class="wrow__set" aria-hidden="true">
+            <figure class="wtile wtile--wide"><img src="images/world/world-08-group.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure>
+            <blockquote class="wtile wtile--card wquote"><span class="wquote__mark" aria-hidden="true">&ldquo;</span><p>The menopause really hit me fast and furious.</p><footer>Katrina, 58</footer></blockquote>
+            <figure class="wtile"><img src="images/world/world-10-bluewater.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure>
+            <blockquote class="wtile wtile--film wquote wquote--hero"><span class="wquote__mark" aria-hidden="true">&ldquo;</span><p>This literally elevated my everyday life to another level. It was transformational.</p><footer>A medi-gyn patient &mdash; on film</footer></blockquote>
+            <figure class="wtile"><img src="images/world/world-07-table.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure>
+            <blockquote class="wtile wtile--card wquote"><span class="wquote__mark" aria-hidden="true">&ldquo;</span><p>If you are hesitant, just do it.</p><footer>A medi-gyn patient &mdash; on film</footer></blockquote>
+            <figure class="wtile wtile--wide"><img src="images/world/world-12-room.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure>
+            <figure class="wtile wtile--sq"><img src="images/world/world-09-talk.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure>
+            <figure class="wtile"><img src="images/world/world-11-lana.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
 </main>
+
+<!-- Chapter 08's lightbox. Empty until something is opened: the stage is
+     built on click and torn down on close, so no YouTube player exists
+     until a visitor asks for one (and then it is youtube-nocookie). -->
+<div class="wlb" id="wlb" hidden>
+  <button type="button" class="wlb__close" id="wlb-close" aria-label="Close">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <div class="wlb__stage" id="wlb-stage" role="dialog" aria-modal="true" aria-label="Press item"></div>
+</div>
 
 <!-- Socials and the newsletter are UNWIRED by design — links and the CRM
      destination land later; the chrome is final. Email/WhatsApp are the
@@ -1490,6 +1678,80 @@ footer .fw{max-width:1400px;margin:0 auto}
     document.getElementById('pw-next').addEventListener('click',function(){pwStep(1);});
 
     pwRender();
+  }
+
+  /* ---- chapter 08: the wall's lightbox ----
+     Click delegation on the wall, because the track carries three copies
+     of every tile and only one of them is the "real" one — binding per
+     element would mean wiring the duplicates too, or leaving two thirds
+     of what the visitor can see dead.
+     The stage is built on open and EMPTIED on close. That teardown is
+     the point for film: a YouTube iframe only ever exists while someone
+     is watching, so nothing is fetched, and nothing is tracked, until
+     they ask. Embedding players in the tiles would mean six at once. */
+  var wlb=document.getElementById('wlb');
+  if(wlb){
+    var wlbStage=document.getElementById('wlb-stage');
+    var wlbClose=document.getElementById('wlb-close');
+    var wlbReturn=null;
+
+    function wlbOpen(btn){
+      var kind=btn.getAttribute('data-lb');
+      var cap=btn.getAttribute('data-cap')||'';
+      wlbStage.innerHTML='';
+      if(kind==='yt'){
+        var frame=document.createElement('div');
+        frame.className='wlb__frame';
+        var f=document.createElement('iframe');
+        /* nocookie + no related-video trawl at the end */
+        f.src='https://www.youtube-nocookie.com/embed/'+encodeURIComponent(btn.getAttribute('data-yt'))
+             +'?autoplay=1&rel=0&modestbranding=1';
+        f.title=cap;
+        f.allow='accelerometer; autoplay; encrypted-media; picture-in-picture; web-share';
+        f.setAttribute('allowfullscreen','');
+        frame.appendChild(f);
+        wlbStage.appendChild(frame);
+      }else{
+        var img=document.createElement('img');
+        img.src=btn.getAttribute('data-src');
+        img.alt=cap;
+        wlbStage.appendChild(img);
+      }
+      if(cap){
+        var p=document.createElement('p');
+        p.className='wlb__cap';
+        p.textContent=cap;
+        wlbStage.appendChild(p);
+      }
+      wlbStage.setAttribute('aria-label',cap||'Press item');
+      wlbReturn=btn;
+      wlb.hidden=false;
+      /* next frame, so the opacity transition has a start state */
+      requestAnimationFrame(function(){ wlb.classList.add('is-open'); });
+      document.body.style.overflow='hidden';
+      wlbClose.focus();
+    }
+
+    function wlbShut(){
+      if(wlb.hidden) return;
+      wlb.classList.remove('is-open');
+      document.body.style.overflow='';
+      window.setTimeout(function(){
+        wlb.hidden=true;
+        wlbStage.innerHTML='';      /* kills the iframe — playback stops */
+      },320);
+      if(wlbReturn && document.contains(wlbReturn)) wlbReturn.focus();
+      wlbReturn=null;
+    }
+
+    document.querySelector('.world-wall').addEventListener('click',function(e){
+      var btn=e.target.closest('[data-lb]');
+      if(btn) wlbOpen(btn);
+    });
+    wlbClose.addEventListener('click',wlbShut);
+    /* the scrim closes; the stage itself does not */
+    wlb.addEventListener('click',function(e){ if(e.target===wlb) wlbShut(); });
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape') wlbShut(); });
   }
 
   /* ---- gentle parallax (desktop, motion-allowed only) ---- */

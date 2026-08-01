@@ -783,10 +783,12 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
    advances; on a video frame it plays. Touch swipes both ways. */
 .cpress{cursor:pointer}
 .cnav{
-  position:absolute;left:clamp(1.4rem,3vw,2.6rem);bottom:1.4rem;z-index:2;
+  position:absolute;right:clamp(1.4rem,3vw,2.6rem);bottom:1.4rem;z-index:2;
   display:flex;gap:12px;align-items:center;
   padding:.45rem .9rem;border-radius:999px;
-  background:rgba(36,26,31,.38);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+  /* near-solid: WCAG 4.5:1 for the count must hold even over a
+     pure-white cover region under the pill */
+  background:rgba(36,26,31,.85);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
 }
 .cnav__count{margin:0;font-size:13px;font-weight:600;letter-spacing:.08em;font-variant-numeric:tabular-nums;color:var(--ivory)}
 .cnav__count b{font-weight:600;color:var(--gold)}
@@ -794,7 +796,7 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
 .cnav__arrow{
   -webkit-appearance:none;appearance:none;background:transparent;padding:0;
   display:inline-flex;align-items:center;justify-content:center;
-  width:38px;height:38px;border:1px solid rgba(250,247,241,.45);border-radius:999px;
+  width:38px;height:38px;border:1px solid rgba(250,247,241,.7);border-radius:999px;
   color:var(--ivory);cursor:pointer;
   transition:border-color 250ms var(--ease),background-color 250ms var(--ease);
 }
@@ -811,7 +813,8 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
   background:rgba(36,26,31,.32);-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);
   transition:border-color 250ms var(--ease),background-color 250ms var(--ease);
 }
-.cplay:hover{border-color:var(--gold);background:rgba(36,26,31,.5)}
+.cplay:hover{border-color:var(--gold);background:rgba(36,26,31,.55)}
+.cplay:focus-visible{outline:2px solid var(--gold-tint);outline-offset:3px}
 .cplay[hidden]{display:none}
 .cplay svg{width:30px;height:30px;margin-left:4px}
 /* film lightbox — the parked press-cards lesson: the iframe is
@@ -830,6 +833,7 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
   color:var(--ivory);cursor:pointer;display:flex;align-items:center;justify-content:center;
 }
 .vlight__close:hover{border-color:var(--gold)}
+.vlight__close:focus-visible{outline:2px solid var(--gold-tint);outline-offset:3px}
 .vlight__close svg{width:16px;height:16px}
 
 /* right — voices over the sponsor belt */
@@ -839,7 +843,11 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
   display:flex;flex-direction:column;
   padding:clamp(1.6rem,3.2vw,2.8rem) clamp(1.6rem,4vw,4rem);
 }
-.cvoices .kicker,.csponsors .kicker{font-size:.82rem;font-weight:500;letter-spacing:.26em}
+.cvoices .kicker,.csponsors .kicker{font-size:.95rem;font-weight:500;letter-spacing:.24em}
+/* gold fails 4.5:1 on ivory (2.31) — the voices kicker reads in
+   gold-deep (4.69:1); rose on the burgundy band passes at 5.93:1 */
+.cvoices .kicker{color:var(--gold-deep)}
+.cvoices .kicker::after{background:linear-gradient(to right,var(--gold-deep),transparent)}
 .cvoices__stage{position:relative;flex:1;min-height:0}
 .cvoice{
   position:absolute;inset:0;margin:0;
@@ -855,7 +863,7 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
 }
 /* footer reset — the page-level footer styles (background, padding,
    AND border-top) bleed in otherwise (chapter 07 lesson) */
-.cvoice footer{background:none;padding:0;border:0;font-size:.9rem;color:var(--ink-soft);letter-spacing:.08em}
+.cvoice footer{background:none;padding:0;border:0;font-size:1rem;color:var(--ink-soft);letter-spacing:.08em}
 /* the belt is a burgundy colophon (his pick C): one deep band that
    answers the dark press column diagonally and stops the section
    washing into the ivory footer. Marks knock out to ivory via CSS
@@ -880,7 +888,7 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
 }
 /* marks sized by optical core, not bounding box (chapter 07 lesson):
    --h per mark, --k scales the whole belt on phones */
-.sl{display:block;flex:none;height:calc(var(--h,2rem)*var(--k,1.45));width:auto;filter:brightness(0) invert(1);opacity:.92}
+.sl{display:block;flex:none;height:calc(var(--h,2rem)*var(--k,1.65));width:auto;filter:brightness(0) invert(1);opacity:.92}
 .sl--05{filter:none}
 .sl--01{--h:2.9rem}.sl--02{--h:2rem}.sl--03{--h:1.7rem}.sl--04{--h:1.7rem}
 .sl--05{--h:3.4rem}.sl--06{--h:3.6rem}.sl--07{--h:1.9rem}.sl--08{--h:1.8rem}
@@ -895,7 +903,7 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
   .cvoice p{font-size:1.75rem;max-width:none}
   .csponsors{padding:1.3rem 0}
   .sl{--k:1.15}
-  .cnav{scale:.92;transform-origin:left bottom}
+  .cnav{scale:.92;transform-origin:right bottom}
 }
 @media (prefers-reduced-motion:reduce){
   .csponsors__track{animation:none}
@@ -1759,17 +1767,22 @@ footer .fw{max-width:1400px;margin:0 auto}
   function closeV(){
     if(!light) return;
     document.body.removeChild(light); light=null;
+    (play.hidden?document.getElementById('cp-next'):play).focus();
     if(inView) start();
   }
   function openV(id,title){
     stop();
     light=document.createElement('div');
     light.className='vlight';
+    light.setAttribute('role','dialog');
+    light.setAttribute('aria-modal','true');
+    light.setAttribute('aria-label',title||'Film');
     light.innerHTML='<button type="button" class="vlight__close" aria-label="Close the film">'+
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6l12 12M18 6L6 18"/></svg></button>'+
       '<iframe src="https://www.youtube-nocookie.com/embed/'+id+'?autoplay=1&rel=0" title="'+title+'" allow="autoplay; fullscreen; encrypted-media" allowfullscreen></iframe>';
     light.addEventListener('click',function(e){ if(e.target===light||e.target.closest('.vlight__close')) closeV(); });
     document.body.appendChild(light);
+    light.querySelector('.vlight__close').focus();
   }
   document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeV(); });
   document.getElementById('cp-prev').addEventListener('click',function(){ manual(pi-1); });

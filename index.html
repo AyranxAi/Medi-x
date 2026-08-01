@@ -606,8 +606,17 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
     linear-gradient(to right,rgba(20,14,17,.5) 0%,rgba(20,14,17,.18) 40%,rgba(20,14,17,0) 62%),
     radial-gradient(130% 130% at 50% 50%,transparent 58%,rgba(20,14,17,.58) 100%);
 }
-/* the closer earns hero-size type */
-.sec--meno h2{font-size:clamp(3rem,7vw,5.4rem)}
+/* the closer earns hero-size type — ceiling raised from 5.4rem once the
+   rotating quotes moved to chapter 08 and the block could carry more scale */
+.sec--meno h2{font-size:clamp(3rem,7vw,6.5rem)}
+/* wide frames: the globe anchors to the FRAME's right edge, so the copy
+   and the strip kicker must anchor to the frame's left edge too — inside
+   the 1400px content cap they sit in a different coordinate system than
+   the globe and the corner-to-corner tension collapses */
+@media (min-width:1500px){
+  .sec--meno .inner{max-width:none}
+  .sec--meno .press__kicker{max-width:none}
+}
 /* film grain over the whole frame, near-invisible */
 .sec--meno::before{
   content:"";position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.05;

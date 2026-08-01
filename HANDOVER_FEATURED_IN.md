@@ -1,124 +1,92 @@
-# Medi✦X — next-chat handover: the "as featured in" marquee
+# Medi✦X — handover: the "as featured in" marquee (SHIPPED)
 
-> **2026-08-01 status — built.** Six wordmarks live in `images/press/`
-> (bazaar / madame / global-trend-monitor / russian-emirates / driven /
-> sublime), all single-fill `currentColor`, hand-built vector paths.
-> First five approved by the user; sublime pending his eye. The marquee
-> itself is integrated in chapter 07: static gold "AS FEATURED IN"
-> kicker + right-to-left drift (44s, four aria-hidden loop sets,
-> `translateX(-25%)`), ivory at .48, transparent band, reduced-motion
-> shows one static set. Desktop reserves the bottom edge via
-> `.sec--meno{padding-bottom:6.5rem}`; on phones the strip is
-> `order:3, width:100%` (the column flex's `align-items:flex-end`
-> otherwise shrinks it to track width — that was a real bug, mind it).
-> Verified at 1400×900, 1280×700, 390×844 over local HTTP (masks
-> CORS-fail over file://, use `python3 -m http.server`). Tint/speed
-> knobs: `.press__belt` color, `press-drift` duration.
->
-> **Two things learned the hard way — do not undo them:**
->
-> 1. **Size marks by optical core, never by bounding box.** Each `.pl--*`
->    carries `--h` (box height) + `--r` (viewBox aspect). The `--h` values
->    are tuned so every mark renders at the same ~18px *core* — cap-height
->    × .72 for all-caps marks, blended with x-height for mixed-case ones.
->    Bounding-box sizing (v1) rendered the two-line marks 60% smaller than
->    BAZAAR: cores ran 12.0–19.3px and the row read as a jumble. Adding a
->    mark? Measure its core, don't guess its box.
-> 2. **`--press-zone` is load-bearing.** It reserves the strip's space AND
->    is the globe's centring reference (`top:calc((100% - var(--press-zone))/2)`).
->    Plain `top:50%` centres on the whole section, ignoring the strip — the
->    globe hung 41–48px low at every viewport and the frame read tilted.
->    The value is `4.95rem + .press`'s own bottom offset, where 4.95rem is
->    the strip's height (kicker block + the 54px belt the tallest `--h`
->    sets). Change a `--h` or the kicker, re-derive that 4.95rem.
+Rewritten 2026-08-01 at the end of the marquee build session. Read
+`HANDOVER.md` first for the site's full state. Everything below is LIVE
+on main / medi-x-gin.vercel.app.
 
-Written 2026-08-01, end of the header/globe/accordion session. Read
-`HANDOVER.md` first for the site's full state; this file is the brief
-for ONE task: the featured-in wordmark marquee in chapter 07.
+## What shipped this session
 
-## Where things stand (all LIVE on medi-x-gin.vercel.app)
+- **Six wordmarks** in `images/press/` — harpers-bazaar, madame-arabia,
+  global-trend-monitor, russian-emirates, driven-magazine, sublime. All
+  hand-built vectors: single `currentColor` fill, tight viewBox, no
+  rasters. Marks 1–5 user-approved; sublime shipped from previews
+  without a formal "yes" — if he ever squints at it, offer a rework.
+  Generator + full recipe: `tools/press-wordmarks/` (committed, so any
+  future session can add a mark without rebuilding the toolchain).
+- **The marquee** in chapter 07 (`#s7`): static gold "AS FEATURED IN"
+  kicker, then the six marks drifting right→left. 44s loop, four
+  `.press__set` copies (sets 2–4 aria-hidden), `translateX(-25%)`
+  keyframe — seamless to ~3200px viewports. Transparent band, ivory
+  `rgba(250,247,241,.48)` on `.press__belt`. Strip is
+  `pointer-events:none` — user explicitly wants it non-clickable.
+  Reduced motion: drift off, set 1 only. Phones: strip is static flow,
+  `order:3`, marks scaled by `--k:.76`.
+- **Composition pass** (user-driven, all measured): globe now centres in
+  the space *above* the strip via `--press-zone`; every mark sized to
+  the same ~18px optical core; h2 ceiling raised to 6.5rem; at ≥1500px
+  the copy + kicker anchor to the frame edge (`max-width:none`) so they
+  mirror the globe's right-edge anchor ("variant D", his pick).
 
-PRs #16 and #17 are merged. Chapter 07 is the split closer (invitation +
-rotating patient quote left, paced champagne globe right, night ground,
-gold-hairline CTA). Chapter 02 carries the new About Us flat-lay. The
-header wears medi-blond's two-state chrome with our logo and three-line
-burger. The accordion hover is JS-managed. Nothing in this task may
-regress any of that.
+## Three lessons learned the hard way — do not undo them
 
-## The task
+1. **Size marks by optical core, never by bounding box.** Each `.pl--*`
+   carries `--h` (box height) + `--r` (viewBox aspect). `--h` values are
+   tuned so every mark renders at the same ~18px core — cap-height × .72
+   for all-caps marks, blended with x-height for mixed-case. Box-sizing
+   (v1) made two-line marks 60% smaller than BAZAAR; the row read as a
+   jumble. Adding a mark? Measure its core (fontTools BoundsPen on the
+   cap/x glyphs), don't guess.
+2. **`--press-zone` is load-bearing.** It reserves the strip's space AND
+   is the globe's centring reference
+   (`top:calc((100% - var(--press-zone))/2)`). Plain `top:50%` hung the
+   globe 41–48px low at every viewport. Its value =
+   `4.95rem + clamp(1rem,3vh,2.1rem)` where 4.95rem is the strip's own
+   height (kicker block + 54px belt, set by the tallest `--h`). Change
+   any `--h` past 54px or touch the kicker → re-derive 4.95rem, then
+   re-measure gaps (script pattern: compare globe top-gap vs bottom-gap
+   across viewports; delta must be ~0).
+3. **The 1400px content cap breaks `#s7` at wide frames.** The globe
+   anchors to the frame, the copy to the capped `.inner` — two
+   coordinate systems. The ≥1500px `max-width:none` override keeps the
+   corner-to-corner tension. If other sections ever get frame-anchored
+   foreground elements, they'll need the same treatment.
 
-The user sends images of every publication/feature ("all the things we
-are featured in") at the START of the next chat. For each image:
+## Knobs (user may ask; each is one line)
 
-1. Rebuild the wordmark as ONE clean, hand-crafted SVG — real vector
-   paths, not an embedded raster. Requirements:
-   - drawn in `currentColor` (single fill; the page tints it)
-   - tight viewBox, no padding baked in
-   - crisp at 24–36px render height (test small!)
-   - filename: `images/press/<slug>.svg`
-2. Get the user's YES on each mark before it enters the marquee (EXACT
-   standard — a wrong wordmark on a medical brand is worse than none).
+- Strip brightness: `.press__belt` color (locked band .4–.55).
+- Speed: `press-drift` duration (whisper = 35–45s).
+- Mark sizes globally: `.pl{--k}` (desktop 1, phones .76); per-mark: `--h`.
+- Headline: `.sec--meno h2` clamp ceiling (now 6.5rem).
 
-## Update 2026-08-01
+## Verifying changes
 
-Chapter 07's rotating patient quotes were REMOVED (they now live as
-statics in the new chapter 08), so the closer's bottom edge is clean
-ground for this strip. Placement and all rules below are unchanged —
-the user reconfirmed: bottom of chapter 07, SVG wordmarks. Still
-waiting on the publication images.
+Masks CORS-fail over `file://` — serve the repo root with
+`python3 -m http.server 8642`. Screenshot `#s7` at 1400×900, 1280×700,
+390×844 (and ≥2000px wide if composition changed). In Claude Code
+remote sessions: playwright-core + `executablePath:
+'/opt/pw-browsers/chromium'`; npm/pypi are reachable, arbitrary domains
+are not (WebFetch/WebSearch work). On the user's Mac the old
+puppeteer-core + system Chrome recipe in git history still applies.
+CTA→strip gap must stay >0 at 1280×700 (currently 67px).
 
-## Locked decisions (user's explicit picks — do not relitigate)
+## Standing contract with the user
 
-- Marquee lives INSIDE chapter 07, along the closer's bottom edge.
-- Transparent background — no band fill, the night ground shows through.
-- Wordmarks drift RIGHT → LEFT, continuous loop.
-- Single ivory tint (use `rgba(250,247,241,…)` at a whisper opacity,
-  ~.4–.55; they are credibility, not content).
-- REAL features only. Never placeholder press, never invented logos.
-- A small static "AS FEATURED IN" kicker label may precede the strip
-  (gold, letterspaced) — propose at review.
+Batch ALL questions at the start; he answers fast and decisively. Send
+screenshots for judgement; he says "approved"/"push it" — you merge to
+main (deployment tracks main; he merges nothing himself). Real features
+only in the strip, never invented press. Wordmark fidelity is an EXACT
+standard — his eye is final.
 
-## Build notes
-
-- Chapter 07 already has three moving elements (globe, quote rotation,
-  roll call). The marquee is the fourth: keep it WHISPER-slow (~35–45s
-  per loop), no hover interactions needed; `prefers-reduced-motion`
-  gets a static row (duplicate-content translateX loop, animation off).
-- z-order inside `.sec--meno` (isolation:isolate): `.bg` −2 → `::after`
-  scrim −1 → canvas 0 → `.inner` 1 → grain `::before` 2. Put the strip
-  in a positioned container above the canvas (z 1), absolute at the
-  section's bottom; on phones the section stacks copy → globe, so give
-  the strip normal-flow placement after the canvas there (see how
-  `.meno-globe` switches to `order:2` static under 900px).
-- Mind the finale CTA's clearance on short viewports — the strip must
-  never overlap the pill; test 1280×700 as well as 1400×900 and 390×844.
-- Marquee CSS: two identical spans in a `width:max-content` flex row,
-  `@keyframes` translateX(0 → −50%), linear, infinite (the pattern from
-  the medi-lux BAZAAR band).
-
-## Workflow (proven in this session — reuse it)
-
-- Repo: `AyranxAi/Medi-x`, deployment tracks `main`. Clone into the
-  session scratchpad; work on a `claude/…` branch; PR; send screenshots;
-  merge ONLY after the user's explicit approval. He merges nothing
-  himself — you merge on his "approved".
-- The in-app Browser pane may stop compositing (stale black
-  screenshots). Verify with headless Chrome instead: scratchpad
-  `npm i puppeteer-core` + system Chrome at
-  `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome`,
-  throwaway `userDataDir` in the scratchpad; serve the clone with
-  `python3 -m http.server 8642` (scratchpad is not TCC-blocked).
-  Screenshot quirk: use `captureBeyondViewport:false`, never `clip`
-  after scrolling (it resets scroll mid-capture).
-- Batch ALL questions at the start (his standing contract). He answers
-  fast and decisively.
-
-## Also open (do not forget to surface)
+## Still open (surface these, do not forget)
 
 1. Quote sign-off + Irina's clearance of the two testimonial films
-   (lines are verbatim; "Katrina, 58" names herself on film).
+   (chapter 08 attributions still pending; "Katrina, 58" names herself
+   on film).
 2. True event cities for the CHINA and INDIA globe dots (stand-ins:
    Shanghai, Mumbai).
 3. "Join menoSTART" CTA destination (still inert).
-4. Globe pace feel — if the 3.5× ocean transit feels wrong on the live
-   site, `FAST` in the globe script is the one number to touch.
+4. Offer stands: swap any mark for exact paths if a publication sends
+   its real logo file (SVG/EPS/PDF); Sublime and Madame are the two
+   built from closest-match faces rather than exact letterforms.
+5. Possible port of the strip to medi-lux / medi-gyn-app (SVGs are
+   self-contained; user hasn't decided).

@@ -783,7 +783,8 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
    advances; on a video frame it plays. Touch swipes both ways. */
 .cpress{cursor:pointer}
 .cnav{
-  position:absolute;right:clamp(1.4rem,3vw,2.6rem);bottom:1.4rem;z-index:2;
+  /* bottom-LEFT: the robot-chat bubble will claim bottom-right */
+  position:absolute;left:clamp(1.4rem,3vw,2.6rem);bottom:1.4rem;z-index:2;
   display:flex;gap:12px;align-items:center;
   padding:.45rem .9rem;border-radius:999px;
   /* near-solid: WCAG 4.5:1 for the count must hold even over a
@@ -903,7 +904,7 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
   .cvoice p{font-size:1.75rem;max-width:none}
   .csponsors{padding:1.3rem 0}
   .sl{--k:1.15}
-  .cnav{scale:.92;transform-origin:right bottom}
+  .cnav{scale:.92;transform-origin:left bottom}
 }
 @media (prefers-reduced-motion:reduce){
   .csponsors__track{animation:none}
@@ -1366,12 +1367,15 @@ footer .fw{max-width:1400px;margin:0 auto}
         <img class="cpress__img is-on" src="images/coverage/press-01-monaco-info.webp" alt="Irina Bond interviewed on Monaco Info" width="1080" height="1350" loading="eager" decoding="async">
         <img class="cpress__img" src="images/coverage/press-02-monaco-tribune.webp" alt="Monaco Tribune story on Medi-Gyn" width="1080" height="1350" loading="lazy" decoding="async">
         <img class="cpress__img" src="images/coverage/press-03-gtm.webp" alt="Global Trend Monitor on women&rsquo;s health in Saudi Arabia" width="1080" height="1350" loading="lazy" decoding="async">
+        <img class="cpress__img" src="images/coverage/candid-01-conversation.webp" alt="Irina Bond in conversation with a guest at a Medi-Gyn evening" width="1080" height="1350" loading="lazy" decoding="async">
         <img class="cpress__img" src="images/coverage/press-04-madame-arabia.webp" alt="Irina Bond on the cover of Madame Arabia" width="1080" height="1350" loading="lazy" decoding="async">
         <img class="cpress__img" src="images/coverage/press-05-driven-jeddah.webp" alt="Driven Magazine: women&rsquo;s hormone health event in Jeddah" width="1080" height="1350" loading="lazy" decoding="async">
         <img class="cpress__img" src="images/coverage/press-06-driven-wellageing.webp" alt="Driven Magazine: redefining the art of well-ageing" width="1080" height="1350" loading="lazy" decoding="async">
+        <img class="cpress__img" src="images/coverage/candid-02-room.webp" alt="Irina Bond addressing the room at a menoSTART evening" width="1080" height="1350" loading="lazy" decoding="async">
         <img class="cpress__img" src="images/coverage/press-07-harpers-bazaar.webp" alt="Harper&rsquo;s Bazaar: Work It Out with Irina Bond" width="1080" height="1350" loading="lazy" decoding="async">
         <img class="cpress__img" src="images/coverage/press-08-russian-emirates.webp" alt="Russian Emirates on beauty and health through menopause" width="1080" height="1350" loading="lazy" decoding="async">
         <img class="cpress__img" src="images/coverage/press-09-uk-news.webp" alt="UK News Group: business advice from Irina Bond" width="1080" height="1350" loading="lazy" decoding="async">
+        <img class="cpress__img" src="images/coverage/candid-03-mingle.webp" alt="Guests in conversation at a Medi-Gyn gathering" width="1080" height="1350" loading="lazy" decoding="async">
         <img class="cpress__img" src="images/coverage/press-10-newbusiness.webp" alt="NewBusiness.co.uk Q&amp;A with Irina Bond" width="1080" height="1350" loading="lazy" decoding="async">
         <img class="cpress__img" src="images/coverage/video-11-bone-joints.webp" alt="Film: how to keep bones and joints healthy in menopause" width="1280" height="720" loading="lazy" decoding="async" data-video="JZ30fE0Nygw" data-vtitle="How to keep bones and joints healthy in menopause">
         <img class="cpress__img" src="images/coverage/video-12-riyadh-event.webp" alt="Film: the menoSTART event in Riyadh" width="1280" height="720" loading="lazy" decoding="async" data-video="HWZ8h3fgjvw" data-vtitle="menoSTART in Riyadh &mdash; beyond menopause symptoms">
@@ -1379,7 +1383,7 @@ footer .fw{max-width:1400px;margin:0 auto}
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5-11-6.5Z"/></svg>
         </button>
         <div class="cnav">
-          <p class="cnav__count" id="cp-count" aria-live="polite"><b>01</b><s> / 12</s></p>
+          <p class="cnav__count" id="cp-count" aria-live="polite"><b>01</b><s> / 15</s></p>
           <button type="button" class="cnav__arrow" id="cp-prev" aria-label="Previous frame">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5m0 0l6-6m-6 6l6 6"/></svg>
           </button>

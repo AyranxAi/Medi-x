@@ -1,5 +1,65 @@
 # Medi✦X — session handover
 
+## 0 · 2026-08-02 addendum 5 — BRAND TYPOGRAPHY ("Variation B") — built, NOT deployed
+
+The site ran on Cormorant Garamond + Inter and used **none** of the three
+approved brand faces. That is fixed. His pick was **Variation B** from the
+Codex preview (`~/Documents/Codex/2026-08-01/i-w/outputs/medi-gyn-full-preview-b/`).
+
+**The mapping now in `index.html`:**
+
+| Role | Face | Where |
+|---|---|---|
+| Chapter headlines | **Didot 400** | `h1,h2` — `line-height:1`, `letter-spacing:-.018em` |
+| Emphasis inside headlines | **Didot Italic** | `h1 em,h2 em` — real italic file, not synthesised |
+| Chapter identifiers | **Megante 400** | `.kicker` ONLY — `letter-spacing:.16em` |
+| Service/pathway titles | **NOW Medium 500** | `.pw__name`, `.pw__title` |
+| Nav, CTAs, buttons, footer heads | **NOW Medium 500** | `.nav a`, `.cta`, `.f-head`, `.f-news button` |
+| Body, contact, captions, inputs | **NOW Regular 400** | `body`, `.body`, `.f-news input` |
+| Pull quotes | **Cormorant italic** | `.cvoice p` — the one role the guideline still reserves for it |
+
+**Fonts are self-hosted** in `fonts/` — seven subset woff2 files, **92 KB total**,
+lighter than the two Google families they replace. Originals live outside the
+repo at `~/Documents/Codex/2026-08-01/i-w/work/fonts/`. Tokens are
+`--font-editorial` / `--font-functional` / `--font-brand-accent` / `--font-quote`;
+`--serif` and `--sans` are kept as aliases so no old rule silently lost its face.
+
+**⚠️ Sizes had to move, and here is why — do not "restore" them.** These faces
+are not interchangeable at the same pixel value. Measured x-heights:
+Cormorant `0.386em`, Didot `0.429em`, NOW `0.546em`. So:
+- headlines came **down ~7%** (h1 `5.4rem`→`5rem`, h2 `4.2rem`→`3.9rem`)
+- nav came down hard (`2rem`→`1.5rem`) — NOW is ~40% larger at the same size
+- pathway titles came down ~14% (`46px`→`39px` at the top step)
+- `word-spacing:.05em` on `h1,h2` — the `-.018em` tracking also tightens word
+  spaces and Didot Italic has a narrow left sidebearing; without it
+  "look younger." closes up.
+
+**Footer, same session (his spec):** wordmark **40px → 64px** (he picked C from a
+four-up), copyright **centred**, back-to-top moved out of the legal row to sit at
+the **right end above the rule** (new `.f-topwrap`).
+
+**Licensing — asked and answered.** The supplied Megante file is
+`MegantÇ-Personal-Use.ttf` (fsType 4, and the same personal-use file the brand
+guidelines PDF was built with). **He confirmed a commercial licence is held.**
+Didot Regular also carries fsType 4 (Preview & Print); Didot Italic/Bold and all
+four NOW weights are unrestricted. Noted, not blocking.
+
+**⏳ PARKED, his call — the emphasis word contrast.** `younger.` measures
+**1.10:1** against the brightest part of the hero photo (rose `#C79A92`), i.e.
+effectively invisible. This is **pre-existing on the live site and present in
+Variation B too** — it is not caused by the font change. Measured alternatives:
+Warm Champagne `2.85 / 2.13 / 1.85`, Ivory `3.94 / 2.95 / 2.55` (median /
+brightest-10% / brightest-2%); WCAG large-text minimum is 3.0:1, so **every
+colour fails in the bright zone** — the real fix is the scrim, the crop, or the
+copy position, not the colour. **He said leave it: the wording itself is not
+final.** Revisit when the copy locks.
+
+**Verified** at 1440 / 768 / 390: no horizontal overflow, nothing clipped, no
+fallback faces, zero console errors, zero failed font requests, Didot Italic
+confirmed loading as a real file.
+
+**NOT committed and NOT pushed** — working tree only, awaiting his review.
+
 ## 0 · 2026-08-02 addendum 4 — chapter 08 became THE COLLAGE (LIVE)
 
 **Supersedes addendum 3's wall entirely.** Client verdict on the wall:

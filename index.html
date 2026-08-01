@@ -301,9 +301,12 @@ h1 em,h2 em{font-style:italic;color:var(--rose)}
 */
 .cta--ivory{background:var(--ivory);color:var(--burgundy)}
 .cta--ivory:hover{background:var(--cream)}
-/* hero carries two actions stacked; the stack owns the margin, not the pills */
-.cta-stack{margin-top:2.4rem;display:flex;flex-direction:column;align-items:flex-start;gap:.9rem}
-.cta-stack .cta{margin-top:0}
+/* hero carries two actions stacked; the stack owns the margin, not the pills.
+   inline-flex + stretch: the container hugs the longer pill and the shorter
+   one grows to match, so the two read as one deliberate pair. Labels hold the
+   left edge, arrows the right. */
+.cta-stack{margin-top:2.4rem;display:inline-flex;flex-direction:column;align-items:stretch;gap:.9rem}
+.cta-stack .cta{margin-top:0;justify-content:space-between}
 
 /* reveal */
 .reveal{opacity:0;transform:translateY(26px)}
@@ -839,7 +842,7 @@ footer .fw{max-width:1400px;margin:0 auto}
     <div class="inner"><div class="copy">
       <p class="kicker reveal">Chapter 01</p>
       <h1 class="reveal">The goal was never<br>to look <em>younger.</em></h1>
-      <p class="body reveal">Seven full-bleed frames, one idea each. Scroll slowly &mdash; this page is built to be looked at, not skimmed.</p>
+      <p class="body reveal">Eight full-bleed frames, one idea each. Scroll slowly &mdash; this page is built to be looked at, not skimmed.</p>
       <!-- both inert until a booking destination and the quiz exist -->
       <div class="cta-stack reveal">
         <a class="cta">Book your consultation

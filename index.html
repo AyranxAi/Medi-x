@@ -777,24 +777,60 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
    and the Tribune frame's baked-in callout sits exactly where an
    overlay would go. The right panel's kickers label the section. */
 
-/* frame controls: the rotation was invisible at 11s — a dash counter
-   says "there are four", a click/tap advances, touch swipes, and the
-   auto-step dropped to 7s. Ink pill keeps the dashes legible over
-   any frame (Tribune's white callout owns the bottom-left corner). */
+/* frame controls: count + circled arrows, the chapter-04 recipe,
+   in an ink pill so they read over any frame (several covers are
+   near-white where the controls sit). A click on a photo frame
+   advances; on a video frame it plays. Touch swipes both ways. */
 .cpress{cursor:pointer}
-.cdots{
+.cnav{
   position:absolute;left:clamp(1.4rem,3vw,2.6rem);bottom:1.4rem;z-index:2;
-  display:flex;gap:.5rem;align-items:center;
-  padding:.3rem .7rem;border-radius:999px;
-  background:rgba(36,26,31,.34);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+  display:flex;gap:12px;align-items:center;
+  padding:.45rem .9rem;border-radius:999px;
+  background:rgba(36,26,31,.38);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
 }
-.cdot{
-  width:1.15rem;height:2px;padding:6px 2px;box-sizing:content-box;
-  border:0;cursor:pointer;background-clip:content-box;
-  background-color:rgba(250,247,241,.45);
-  transition:background-color .4s var(--ease);
+.cnav__count{margin:0;font-size:13px;font-weight:600;letter-spacing:.08em;font-variant-numeric:tabular-nums;color:var(--ivory)}
+.cnav__count b{font-weight:600;color:var(--gold)}
+.cnav__count s{text-decoration:none;color:rgba(250,247,241,.45)}
+.cnav__arrow{
+  -webkit-appearance:none;appearance:none;background:transparent;padding:0;
+  display:inline-flex;align-items:center;justify-content:center;
+  width:38px;height:38px;border:1px solid rgba(250,247,241,.45);border-radius:999px;
+  color:var(--ivory);cursor:pointer;
+  transition:border-color 250ms var(--ease),background-color 250ms var(--ease);
 }
-.cdot[aria-current="true"]{background-color:var(--gold)}
+.cnav__arrow svg{width:15px;height:15px}
+.cnav__arrow:hover{border-color:var(--gold);background:rgba(250,247,241,.12)}
+.cnav__arrow:focus-visible{outline:2px solid var(--gold-tint);outline-offset:3px}
+/* play ring: shown only while a video slide is up; tap opens the
+   film in the lightbox — nothing ever autoplays */
+.cplay{
+  position:absolute;left:50%;top:50%;translate:-50% -50%;z-index:2;
+  width:96px;height:96px;border-radius:50%;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid rgba(250,247,241,.75);color:var(--ivory);
+  background:rgba(36,26,31,.32);-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);
+  transition:border-color 250ms var(--ease),background-color 250ms var(--ease);
+}
+.cplay:hover{border-color:var(--gold);background:rgba(36,26,31,.5)}
+.cplay[hidden]{display:none}
+.cplay svg{width:30px;height:30px;margin-left:4px}
+/* film lightbox — the parked press-cards lesson: the iframe is
+   BUILT on open and DESTROYED on close (youtube-nocookie), so the
+   page itself never carries a player and sets no cookies */
+.vlight{
+  position:fixed;inset:0;z-index:90;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(23,15,19,.92);padding:clamp(1rem,4vw,3rem);
+}
+.vlight iframe{width:min(92vw,1100px);aspect-ratio:16/9;height:auto;border:0}
+.vlight__close{
+  position:absolute;top:clamp(.8rem,2.5vw,1.8rem);right:clamp(.8rem,2.5vw,1.8rem);
+  -webkit-appearance:none;appearance:none;background:transparent;padding:0;
+  width:44px;height:44px;border:1px solid rgba(250,247,241,.5);border-radius:999px;
+  color:var(--ivory);cursor:pointer;display:flex;align-items:center;justify-content:center;
+}
+.vlight__close:hover{border-color:var(--gold)}
+.vlight__close svg{width:16px;height:16px}
 
 /* right — voices over the sponsor belt */
 .cright{display:grid;grid-template-rows:62fr 38fr;border-left:1px solid rgba(250,247,241,.16)}
@@ -803,6 +839,7 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
   display:flex;flex-direction:column;
   padding:clamp(1.6rem,3.2vw,2.8rem) clamp(1.6rem,4vw,4rem);
 }
+.cvoices .kicker,.csponsors .kicker{font-size:.82rem;font-weight:500;letter-spacing:.26em}
 .cvoices__stage{position:relative;flex:1;min-height:0}
 .cvoice{
   position:absolute;inset:0;margin:0;
@@ -827,12 +864,13 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
    ivory file instead (-ivory.webp) and filter:none. */
 .csponsors{
   position:relative;background:#471826;border-top:1px solid rgba(250,247,241,.14);
-  display:flex;flex-direction:column;justify-content:center;gap:1.25rem;
-  padding:1.4rem 0;min-height:0;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:flex-start;gap:1.25rem;
+  padding:2rem 0 1.6rem;min-height:0;overflow:hidden;
 }
 .csponsors .kicker{color:var(--rose);margin:0 0 0 clamp(1.6rem,4vw,4rem)}
 .csponsors .kicker::after{background:linear-gradient(to right,var(--rose),transparent)}
-.csponsors__belt{overflow:hidden}
+.csponsors__belt{overflow:hidden;flex:1;display:flex;align-items:center}
+.csponsors__belt>.csponsors__track{flex:none}
 .csponsors__track{display:flex;width:max-content;animation:spon-drift 70s linear infinite}
 .csponsors__belt:hover .csponsors__track{animation-play-state:paused}
 @keyframes spon-drift{to{transform:translateX(-25%)}}
@@ -842,7 +880,7 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
 }
 /* marks sized by optical core, not bounding box (chapter 07 lesson):
    --h per mark, --k scales the whole belt on phones */
-.sl{display:block;flex:none;height:calc(var(--h,2rem)*var(--k,1.22));width:auto;filter:brightness(0) invert(1);opacity:.92}
+.sl{display:block;flex:none;height:calc(var(--h,2rem)*var(--k,1.45));width:auto;filter:brightness(0) invert(1);opacity:.92}
 .sl--05{filter:none}
 .sl--01{--h:2.9rem}.sl--02{--h:2rem}.sl--03{--h:1.7rem}.sl--04{--h:1.7rem}
 .sl--05{--h:3.4rem}.sl--06{--h:3.6rem}.sl--07{--h:1.9rem}.sl--08{--h:1.8rem}
@@ -856,7 +894,8 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
   .cvoices{min-height:38svh}
   .cvoice p{font-size:1.75rem;max-width:none}
   .csponsors{padding:1.3rem 0}
-  .sl{--k:1}
+  .sl{--k:1.15}
+  .cnav{scale:.92;transform-origin:left bottom}
 }
 @media (prefers-reduced-motion:reduce){
   .csponsors__track{animation:none}
@@ -1316,15 +1355,29 @@ footer .fw{max-width:1400px;margin:0 auto}
     <div class="bg"></div>
     <div class="collage">
       <figure class="cpress" role="group" aria-label="Medi-Gyn in the press">
-        <img class="cpress__img is-on" src="images/coverage/press-01-monaco-info.webp" alt="Irina Bond interviewed on Monaco Info" width="1080" height="1350" loading="lazy" decoding="async" data-line="Monaco Info">
-        <img class="cpress__img" src="images/coverage/press-02-monaco-tribune.webp" alt="Monaco Tribune story on Medi-Gyn" width="1080" height="1350" loading="lazy" decoding="async" data-line="Monaco Tribune">
-        <img class="cpress__img" src="images/coverage/press-03-madame-arabia.webp" alt="Irina Bond on the cover of Madame Arabia" width="1080" height="1350" loading="lazy" decoding="async" data-line="Madame Arabia">
-        <img class="cpress__img" src="images/coverage/press-04-gtm.webp" alt="Global Trend Monitor on women&rsquo;s health in Saudi Arabia" width="1080" height="1350" loading="lazy" decoding="async" data-line="Global Trend Monitor">
-        <div class="cdots" aria-label="Press frames">
-          <button class="cdot" type="button" aria-current="true" aria-label="Monaco Info"></button>
-          <button class="cdot" type="button" aria-label="Monaco Tribune"></button>
-          <button class="cdot" type="button" aria-label="Madame Arabia"></button>
-          <button class="cdot" type="button" aria-label="Global Trend Monitor"></button>
+        <img class="cpress__img is-on" src="images/coverage/press-01-monaco-info.webp" alt="Irina Bond interviewed on Monaco Info" width="1080" height="1350" loading="eager" decoding="async">
+        <img class="cpress__img" src="images/coverage/press-02-monaco-tribune.webp" alt="Monaco Tribune story on Medi-Gyn" width="1080" height="1350" loading="lazy" decoding="async">
+        <img class="cpress__img" src="images/coverage/press-03-gtm.webp" alt="Global Trend Monitor on women&rsquo;s health in Saudi Arabia" width="1080" height="1350" loading="lazy" decoding="async">
+        <img class="cpress__img" src="images/coverage/press-04-madame-arabia.webp" alt="Irina Bond on the cover of Madame Arabia" width="1080" height="1350" loading="lazy" decoding="async">
+        <img class="cpress__img" src="images/coverage/press-05-driven-jeddah.webp" alt="Driven Magazine: women&rsquo;s hormone health event in Jeddah" width="1080" height="1350" loading="lazy" decoding="async">
+        <img class="cpress__img" src="images/coverage/press-06-driven-wellageing.webp" alt="Driven Magazine: redefining the art of well-ageing" width="1080" height="1350" loading="lazy" decoding="async">
+        <img class="cpress__img" src="images/coverage/press-07-harpers-bazaar.webp" alt="Harper&rsquo;s Bazaar: Work It Out with Irina Bond" width="1080" height="1350" loading="lazy" decoding="async">
+        <img class="cpress__img" src="images/coverage/press-08-russian-emirates.webp" alt="Russian Emirates on beauty and health through menopause" width="1080" height="1350" loading="lazy" decoding="async">
+        <img class="cpress__img" src="images/coverage/press-09-uk-news.webp" alt="UK News Group: business advice from Irina Bond" width="1080" height="1350" loading="lazy" decoding="async">
+        <img class="cpress__img" src="images/coverage/press-10-newbusiness.webp" alt="NewBusiness.co.uk Q&amp;A with Irina Bond" width="1080" height="1350" loading="lazy" decoding="async">
+        <img class="cpress__img" src="images/coverage/video-11-bone-joints.webp" alt="Film: how to keep bones and joints healthy in menopause" width="1280" height="720" loading="lazy" decoding="async" data-video="JZ30fE0Nygw" data-vtitle="How to keep bones and joints healthy in menopause">
+        <img class="cpress__img" src="images/coverage/video-12-riyadh-event.webp" alt="Film: the menoSTART event in Riyadh" width="1280" height="720" loading="lazy" decoding="async" data-video="HWZ8h3fgjvw" data-vtitle="menoSTART in Riyadh &mdash; beyond menopause symptoms">
+        <button type="button" class="cplay" id="cp-play" aria-label="Play the film" hidden>
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5-11-6.5Z"/></svg>
+        </button>
+        <div class="cnav">
+          <p class="cnav__count" id="cp-count" aria-live="polite"><b>01</b><s> / 12</s></p>
+          <button type="button" class="cnav__arrow" id="cp-prev" aria-label="Previous frame">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5m0 0l6-6m-6 6l6 6"/></svg>
+          </button>
+          <button type="button" class="cnav__arrow" id="cp-next" aria-label="Next frame">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
+          </button>
         </div>
       </figure>
       <div class="cright">
@@ -1663,30 +1716,31 @@ footer .fw{max-width:1400px;margin:0 auto}
 })();
 </script>
 <script>
-/* ── chapter 08 collage: fades + manual control ─────────────
-   Press auto-steps every 7s (voices 9s — offset periods so the two
-   panels never blink in sync); a click/tap advances, a horizontal
-   swipe steps either way, a dash jumps straight to a frame. Every
-   manual step restarts the clock so it never double-steps. Timers
-   run only while the section is on screen; under
-   prefers-reduced-motion nothing auto-steps but manual control
-   still works. */
+/* ── chapter 08 collage: reel + voices + film lightbox ──────
+   12 slides: 10 press frames + 2 film posters. Auto-step 7s
+   (voices 9s — offset so the panels never blink together); arrows
+   + count (chapter-04 recipe), swipe on touch, click advances a
+   photo and PLAYS a film. The lightbox builds its
+   youtube-nocookie iframe on open and destroys it on close — the
+   page never carries a player and sets no cookies. Manual steps
+   restart the clock; timers stop off-screen, while the lightbox
+   is open, and under prefers-reduced-motion. */
 (function(){
   var sec=document.getElementById('s8'); if(!sec) return;
   var reduce=window.matchMedia('(prefers-reduced-motion:reduce)');
   var imgs=[].slice.call(sec.querySelectorAll('.cpress__img'));
-  var dots=[].slice.call(sec.querySelectorAll('.cdot'));
   var voices=[].slice.call(sec.querySelectorAll('.cvoice'));
   var press=sec.querySelector('.cpress');
-  var pi=0,vi=0,pt=null,vt=null,swiped=false;
+  var count=document.getElementById('cp-count');
+  var play=document.getElementById('cp-play');
+  var pi=0,vi=0,pt=null,vt=null,swiped=false,inView=false,light=null;
   voices.forEach(function(v,i){ v.setAttribute('aria-hidden',String(i!==0)); });
+  function pad(n){ return ('0'+n).slice(-2); }
   function showP(n){
     pi=(n+imgs.length)%imgs.length;
     imgs.forEach(function(im,i){ im.classList.toggle('is-on',i===pi); });
-    dots.forEach(function(d,i){
-      if(i===pi){ d.setAttribute('aria-current','true'); }
-      else{ d.removeAttribute('aria-current'); }
-    });
+    count.innerHTML='<b>'+pad(pi+1)+'</b><s> / '+pad(imgs.length)+'</s>';
+    play.hidden=!imgs[pi].dataset.video;
   }
   function stepV(){
     vi=(vi+1)%voices.length;
@@ -1696,16 +1750,37 @@ footer .fw{max-width:1400px;margin:0 auto}
     });
   }
   function start(){
-    if(reduce.matches) return;
-    if(imgs.length>1&&!pt) pt=setInterval(function(){ showP(pi+1); },7000);
-    if(voices.length>1&&!vt) vt=setInterval(stepV,9000);
+    if(reduce.matches||light) return;
+    if(!pt) pt=setInterval(function(){ showP(pi+1); },7000);
+    if(!vt) vt=setInterval(stepV,9000);
   }
   function stop(){ if(pt){clearInterval(pt);pt=null;} if(vt){clearInterval(vt);vt=null;} }
-  function manual(n){ showP(n); if(pt){clearInterval(pt);pt=null;} start(); }
+  function manual(n){ showP(n); stop(); start(); }
+  function closeV(){
+    if(!light) return;
+    document.body.removeChild(light); light=null;
+    if(inView) start();
+  }
+  function openV(id,title){
+    stop();
+    light=document.createElement('div');
+    light.className='vlight';
+    light.innerHTML='<button type="button" class="vlight__close" aria-label="Close the film">'+
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6l12 12M18 6L6 18"/></svg></button>'+
+      '<iframe src="https://www.youtube-nocookie.com/embed/'+id+'?autoplay=1&rel=0" title="'+title+'" allow="autoplay; fullscreen; encrypted-media" allowfullscreen></iframe>';
+    light.addEventListener('click',function(e){ if(e.target===light||e.target.closest('.vlight__close')) closeV(); });
+    document.body.appendChild(light);
+  }
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeV(); });
+  document.getElementById('cp-prev').addEventListener('click',function(){ manual(pi-1); });
+  document.getElementById('cp-next').addEventListener('click',function(){ manual(pi+1); });
+  play.addEventListener('click',function(){ var im=imgs[pi]; if(im.dataset.video) openV(im.dataset.video,im.dataset.vtitle||''); });
   press.addEventListener('click',function(e){
     if(swiped){ swiped=false; return; }
-    var d=dots.indexOf(e.target);
-    manual(d>-1?d:pi+1);
+    if(e.target.closest('.cnav')||e.target.closest('.cplay')) return;
+    var im=imgs[pi];
+    if(im.dataset.video){ openV(im.dataset.video,im.dataset.vtitle||''); }
+    else{ manual(pi+1); }
   });
   var tx=0,ty=0;
   press.addEventListener('touchstart',function(e){
@@ -1717,9 +1792,9 @@ footer .fw{max-width:1400px;margin:0 auto}
   },{passive:true});
   if('IntersectionObserver' in window){
     new IntersectionObserver(function(es){
-      es.forEach(function(e){ e.isIntersecting?start():stop(); });
+      es.forEach(function(e){ inView=e.isIntersecting; inView?start():stop(); });
     },{threshold:.25}).observe(sec);
-  }else{ start(); }
+  }else{ inView=true; start(); }
   (reduce.addEventListener?reduce.addEventListener('change',function(){ reduce.matches?stop():start(); }):0);
 })();
 </script>

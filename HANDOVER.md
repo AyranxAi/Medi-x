@@ -3,6 +3,38 @@
 State as of 2026-07-31. The page is live (deployment tracks `main`).
 Everything below was built across PRs #1–#6, all merged.
 
+## 0 · 2026-08-01 addendum 2 — favicon + chapter 08 belts session
+
+- **Favicon is the brand mark now**: the helix-y glyph (the DNA "y" of
+  the wordmark) cropped from `images/Logo 3-02.png` (columns 2924–3292 —
+  clean glyph gaps both sides), burgundy `#8E2D3A` + beige `#E2D3B3` on
+  an ivory rounded tile so it reads on dark AND light tab bars. Files:
+  `favicon.ico` (48/32/16 — small sizes stroke-thickened via alpha
+  MaxFilter before downscale, else the ribbons vanish at 16px),
+  `images/favicon-512.png`, `images/apple-touch-icon.png` (square; iOS
+  rounds it). The old gold-✦-on-ink data URI is gone from `<head>`.
+- **Chapter 08 rebuilt as two counter-drifting full-bleed belts**
+  (`.world-split`): events tiles drift right→left (64s/set), the three
+  film-testimonial cards drift left→right (80s/set, reverse of the same
+  `world-drift` keyframes — slower because quotes are read, not
+  glanced). Same loop mechanics as chapter 07: four sets, sets 2–4
+  aria-hidden, `translateX(-25%)`. Gold kickers "On the road" / "In
+  their words" align to the 1400px copy grid; belts bleed to the frame
+  with 6% gradient edge-fade masks (pure CSS gradients — no CORS
+  caveat). Both belts pause on hover. Event slots grew 4 → 6
+  (`press-01..06.webp`, drop-a-file, real coverage only). `.voice` is a
+  card now (fixed width, `min-height:clamp(150px,20vh,195px)` so the
+  two halves stay near-even against the 160–240px tiles).
+- **Two traps encoded in comments — do not re-trip**: (1)
+  `.world-split` needs `grid-template-columns:100%` — an auto column
+  inflates to the ~9000px max-content track and drags the centred
+  kickers ~3800px off-screen; (2) the reduced-motion `animation:none`
+  needs the `.wbelt .wbelt__track` prefix to tie the drift rules'
+  specificity, or the belts keep moving.
+- Verified at 1400×900, 1280×700, 2100×1000, 390×844 + reduced-motion
+  (static, set 1 only, finger-scrollable) with measured drift
+  directions (events −35px/s, voices +17px/s).
+
 ## 0 · 2026-08-01 addendum — buttons/layout session (PR #18)
 
 - The page is EIGHT chapters now. New 08 "In the World" (`#s8`): press

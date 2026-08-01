@@ -9,7 +9,12 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%232E2228'/%3E%3Ctext x='16' y='23' font-size='20' text-anchor='middle' fill='%23C2A05E' font-family='Georgia,serif'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
+<!-- favicon: the brand's helix-y glyph, cropped from the burgundy wordmark
+     (Logo 3-02.png) on an ivory tile so it reads on dark and light tabs.
+     16/32/48 in the ico carry hand-thickened strokes for small sizes. -->
+<link rel="icon" href="favicon.ico" sizes="48x48 32x32 16x16">
+<link rel="icon" href="images/favicon-512.png" type="image/png" sizes="512x512">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 
 <style>
 :root{
@@ -736,19 +741,48 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
 .sec--world::after{content:none}
 .sec--world .copy{max-width:44rem}
 /*
-  The press rail: photographs of the clinic travelling — press days,
-  panels, gatherings. Each tile is a drop-a-file slot: land the correctly
-  named webp in images/press/ and it appears over its toned ground; until
-  then the tile states quietly what belongs in it. Real coverage only —
-  the slots stay honest rather than wearing stock.
+  Below the copy the chapter splits into two full-bleed belts in
+  counter-motion — the world in movement. Top: event photographs
+  drifting right-to-left. Bottom: the women's own words drifting
+  left-to-right. Opposite directions make the halves read as one
+  weave rather than a scrolling table. Each tile is still a
+  drop-a-file slot: land the correctly named webp in images/press/
+  and it appears over its toned ground; until then the tile states
+  quietly what belongs in it. Real coverage only — the slots stay
+  honest rather than wearing stock.
+  Loop mechanics as chapter 07: four identical sets (2–4 aria-hidden),
+  one-set translateX(-25%) shift — seamless while the viewport stays
+  under three set-widths (events ~6700px, voices ~4000px).
+  The voices belt runs the same keyframes REVERSED and slower: quotes
+  are for reading, so they amble. Both belts pause on hover.
 */
-.world-rail{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:10px;
-  margin-top:clamp(2.5rem,6vh,4rem);
+.world-split{
+  margin-top:clamp(2.6rem,6vh,4rem);
+  /* 100% column, NOT auto: the max-content tracks inside would inflate an
+     auto column to ~9000px and drag the centred kickers off-screen */
+  display:grid;grid-template-columns:100%;gap:clamp(2.4rem,5.5vh,3.6rem);
 }
-@media (max-width:899px){ .world-rail{grid-template-columns:repeat(2,1fr)} }
+.wbelt{min-width:0}
+.wbelt__kicker{
+  max-width:1400px;margin:0 auto .95rem;padding:0 clamp(1.25rem,6vw,6rem);
+  font-size:.56rem;font-weight:400;letter-spacing:.34em;text-transform:uppercase;
+  color:var(--gold);opacity:.85;
+}
+/* gradient edge-fades (pure CSS masks — no file URLs, so no CORS caveat) */
+.wbelt__belt{
+  overflow:hidden;
+  -webkit-mask:linear-gradient(to right,transparent,#000 6%,#000 94%,transparent);
+  mask:linear-gradient(to right,transparent,#000 6%,#000 94%,transparent);
+}
+.wbelt__track{display:flex;width:max-content}
+.wbelt--events .wbelt__track{animation:world-drift 64s linear infinite}
+.wbelt--voices .wbelt__track{animation:world-drift 80s linear infinite reverse}
+.wbelt__belt:hover .wbelt__track{animation-play-state:paused}
+.wbelt__set{display:flex;align-items:stretch;gap:14px;padding-right:14px}
+@keyframes world-drift{to{transform:translateX(-25%)}}
 .world-tile{
-  position:relative;margin:0;aspect-ratio:4/3;overflow:hidden;border-radius:14px;
+  position:relative;margin:0;overflow:hidden;border-radius:14px;flex:none;
+  width:clamp(240px,26vw,360px);aspect-ratio:3/2;
   border:1px solid rgba(194,160,94,.28);
   display:flex;align-items:flex-end;
 }
@@ -764,13 +798,18 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
 .world-tile--rose{background:linear-gradient(160deg,#3A252C 0%,#4A2B33 60%,#3A252C 100%)}
 .world-tile--gold{background:linear-gradient(160deg,#382B24 0%,#453327 60%,#382B24 100%)}
 .world-tile--taupe{background:linear-gradient(160deg,#322A2B 0%,#3E3334 60%,#322A2B 100%)}
-/* the human testimonials: static, all three on the wall at once */
-.world-voices{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1.5rem,3vw,3rem);
-  margin-top:clamp(2.8rem,7vh,4.5rem);
+/* a voice is a card now — fixed width so the belt can measure itself;
+   the quote centres in whatever height the tallest card sets */
+.voice{
+  margin:0;flex:none;width:clamp(280px,34vw,430px);
+  /* min-height keeps the two halves near-even: tiles run 160-240px,
+     so the quote cards hold 150-195px rather than collapsing to text */
+  min-height:clamp(150px,20vh,195px);
+  display:flex;flex-direction:column;justify-content:center;
+  padding:clamp(1.4rem,2.2vw,2rem) clamp(1.5rem,2.4vw,2.2rem);
+  border:1px solid rgba(222,212,194,.16);border-radius:14px;
+  background:rgba(250,247,241,.035);
 }
-@media (max-width:899px){ .world-voices{grid-template-columns:1fr} }
-.voice{margin:0;border-top:1px solid rgba(222,212,194,.16);padding-top:1.4rem}
 .voice p{
   margin:0;font-family:var(--serif);font-style:italic;font-weight:300;
   font-size:clamp(1.1rem,1.5vw,1.35rem);line-height:1.45;color:var(--ivory);
@@ -779,6 +818,17 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
   /* unset the page-footer chrome — this footer is a quote attribution */
   background:none;border:0;padding:.6rem 0 0;
   font-size:.62rem;font-weight:400;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);
+}
+@media (max-width:899px){
+  .wbelt--events .wbelt__track{animation-duration:48s}
+  .wbelt--voices .wbelt__track{animation-duration:60s}
+}
+@media (prefers-reduced-motion:reduce){
+  /* belts fall still; set 1 stays readable and finger-scrollable.
+     .wbelt prefix matches the drift rules' specificity so none wins */
+  .wbelt .wbelt__track{animation:none}
+  .wbelt__set[aria-hidden]{display:none}
+  .wbelt__belt{overflow-x:auto;-webkit-mask:none;mask:none}
 }
 
 /* ── footer ─────────────────────────────────────────────── */
@@ -1198,9 +1248,10 @@ footer .fw{max-width:1400px;margin:0 auto}
     </div>
   </section>
 
-  <!-- Chapter 08 — press coverage as photographs + the human testimonials.
-       The four tiles are drop-a-file slots: land the correctly named webp
-       in images/press/ and it appears; real coverage only, never stock.
+  <!-- Chapter 08 — two counter-drifting belts: event photographs (right-to-
+       left) over the women's own words (left-to-right). The six tiles are
+       drop-a-file slots: land the correctly named webp in images/press/
+       and it appears; real coverage only, never stock.
        Quote lines are verbatim from the two testimonial films — attributions
        still PENDING the user's + Irina's sign-off (same as chapter 07). -->
   <section class="sec sec--world" id="s8" data-nav="In the World">
@@ -1211,37 +1262,102 @@ footer .fw{max-width:1400px;margin:0 auto}
         <h2 class="reveal">Out in the world, <em>on the record.</em></h2>
         <p class="body reveal">Press days, panels, gatherings &mdash; the photographs land here as they happen. And beneath them, the words that matter more than any coverage: the women themselves.</p>
       </div>
-      <div class="world-rail reveal">
-        <figure class="world-tile world-tile--rose">
-          <img src="images/press/press-01.webp" alt="" loading="lazy" onerror="this.remove()">
-          <figcaption>Press &middot; photograph to come</figcaption>
-        </figure>
-        <figure class="world-tile world-tile--gold">
-          <img src="images/press/press-02.webp" alt="" loading="lazy" onerror="this.remove()">
-          <figcaption>Panel &middot; photograph to come</figcaption>
-        </figure>
-        <figure class="world-tile world-tile--taupe">
-          <img src="images/press/press-03.webp" alt="" loading="lazy" onerror="this.remove()">
-          <figcaption>Event &middot; photograph to come</figcaption>
-        </figure>
-        <figure class="world-tile world-tile--rose">
-          <img src="images/press/press-04.webp" alt="" loading="lazy" onerror="this.remove()">
-          <figcaption>On the road &middot; photograph to come</figcaption>
-        </figure>
+    </div>
+    <!-- two full-bleed belts in counter-motion. Sets 2-4 are aria-hidden
+         loop copies; reduced-motion shows set 1 only, statically. -->
+    <div class="world-split reveal">
+      <div class="wbelt wbelt--events" role="group" aria-label="Medi-Gyn events in photographs">
+        <p class="wbelt__kicker">On the road</p>
+        <div class="wbelt__belt">
+          <div class="wbelt__track">
+            <div class="wbelt__set">
+              <figure class="world-tile world-tile--rose">
+                <img src="images/press/press-01.webp" alt="" loading="lazy" onerror="this.remove()">
+                <figcaption>Press &middot; photograph to come</figcaption>
+              </figure>
+              <figure class="world-tile world-tile--gold">
+                <img src="images/press/press-02.webp" alt="" loading="lazy" onerror="this.remove()">
+                <figcaption>Panel &middot; photograph to come</figcaption>
+              </figure>
+              <figure class="world-tile world-tile--taupe">
+                <img src="images/press/press-03.webp" alt="" loading="lazy" onerror="this.remove()">
+                <figcaption>Event &middot; photograph to come</figcaption>
+              </figure>
+              <figure class="world-tile world-tile--rose">
+                <img src="images/press/press-04.webp" alt="" loading="lazy" onerror="this.remove()">
+                <figcaption>On the road &middot; photograph to come</figcaption>
+              </figure>
+              <figure class="world-tile world-tile--gold">
+                <img src="images/press/press-05.webp" alt="" loading="lazy" onerror="this.remove()">
+                <figcaption>Gathering &middot; photograph to come</figcaption>
+              </figure>
+              <figure class="world-tile world-tile--taupe">
+                <img src="images/press/press-06.webp" alt="" loading="lazy" onerror="this.remove()">
+                <figcaption>Press day &middot; photograph to come</figcaption>
+              </figure>
+            </div>
+            <div class="wbelt__set" aria-hidden="true">
+              <figure class="world-tile world-tile--rose"><img src="images/press/press-01.webp" alt="" loading="lazy" onerror="this.remove()"><figcaption>Press &middot; photograph to come</figcaption></figure>
+              <figure class="world-tile world-tile--gold"><img src="images/press/press-02.webp" alt="" loading="lazy" onerror="this.remove()"><figcaption>Panel &middot; photograph to come</figcaption></figure>
+              <figure class="world-tile world-tile--taupe"><img src="images/press/press-03.webp" alt="" loading="lazy" onerror="this.remove()"><figcaption>Event &middot; photograph to come</figcaption></figure>
+              <figure class="world-tile world-tile--rose"><img src="images/press/press-04.webp" alt="" loading="lazy" onerror="this.remove()"><figcaption>On the road &middot; photograph to come</figcaption></figure>
+              <figure class="world-tile world-tile--gold"><img src="images/press/press-05.webp" alt="" loading="lazy" onerror="this.remove()"><figcaption>Gathering &middot; photograph to come</figcaption></figure>
+              <figure class="world-tile world-tile--taupe"><img src="images/press/press-06.webp" alt="" loading="lazy" onerror="this.remove()"><figcaption>Press day &middot; photograph to come</figcaption></figure>
+            </div>
+            <div class="wbelt__set" aria-hidden="true">
+              <figure class="world-tile world-tile--rose"><img src="images/press/press-01.webp" alt="" loading="lazy" onerror="this.remove()"><figcaption>Press &middot; photograph to come</figcaption></figure>
+              <figure class="world-tile world-tile--gold"><img src="images/press/press-02.webp" alt="" loading="lazy" onerror="this.remove()"><figcaption>Panel &middot; photograph to come</figcaption></figure>
+              <figure class="world-tile world-tile--taupe"><img src="images/press/press-03.webp" alt="" loading="lazy" onerror="this.remove()"><figcaption>Event &middot; photograph to come</figcaption></figure>
+              <figure class="world-tile world-tile--rose"><img src="images/press/press-04.webp" alt="" loading="lazy" onerror="this.remove()"><figcaption>On the road &middot; photograph to come</figcaption></figure>
+              <figure class="world-tile world-tile--gold"><img src="images/press/press-05.webp" alt="" loading="lazy" onerror="this.remove()"><figcaption>Gathering &middot; photograph to come</figcaption></figure>
+              <figure class="world-tile world-tile--taupe"><img src="images/press/press-06.webp" alt="" loading="lazy" onerror="this.remove()"><figcaption>Press day &middot; photograph to come</figcaption></figure>
+            </div>
+            <div class="wbelt__set" aria-hidden="true">
+              <figure class="world-tile world-tile--rose"><img src="images/press/press-01.webp" alt="" loading="lazy" onerror="this.remove()"><figcaption>Press &middot; photograph to come</figcaption></figure>
+              <figure class="world-tile world-tile--gold"><img src="images/press/press-02.webp" alt="" loading="lazy" onerror="this.remove()"><figcaption>Panel &middot; photograph to come</figcaption></figure>
+              <figure class="world-tile world-tile--taupe"><img src="images/press/press-03.webp" alt="" loading="lazy" onerror="this.remove()"><figcaption>Event &middot; photograph to come</figcaption></figure>
+              <figure class="world-tile world-tile--rose"><img src="images/press/press-04.webp" alt="" loading="lazy" onerror="this.remove()"><figcaption>On the road &middot; photograph to come</figcaption></figure>
+              <figure class="world-tile world-tile--gold"><img src="images/press/press-05.webp" alt="" loading="lazy" onerror="this.remove()"><figcaption>Gathering &middot; photograph to come</figcaption></figure>
+              <figure class="world-tile world-tile--taupe"><img src="images/press/press-06.webp" alt="" loading="lazy" onerror="this.remove()"><figcaption>Press day &middot; photograph to come</figcaption></figure>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="world-voices reveal">
-        <blockquote class="voice">
-          <p>&ldquo;This literally elevated my everyday life to another level. It was transformational.&rdquo;</p>
-          <footer>A medi-gyn patient &mdash; on film</footer>
-        </blockquote>
-        <blockquote class="voice">
-          <p>&ldquo;The menopause really hit me fast and furious.&rdquo;</p>
-          <footer>Katrina, 58</footer>
-        </blockquote>
-        <blockquote class="voice">
-          <p>&ldquo;If you are hesitant, just do it.&rdquo;</p>
-          <footer>A medi-gyn patient &mdash; on film</footer>
-        </blockquote>
+      <div class="wbelt wbelt--voices" role="group" aria-label="What the women themselves say">
+        <p class="wbelt__kicker">In their words</p>
+        <div class="wbelt__belt">
+          <div class="wbelt__track">
+            <div class="wbelt__set">
+              <blockquote class="voice">
+                <p>&ldquo;This literally elevated my everyday life to another level. It was transformational.&rdquo;</p>
+                <footer>A medi-gyn patient &mdash; on film</footer>
+              </blockquote>
+              <blockquote class="voice">
+                <p>&ldquo;The menopause really hit me fast and furious.&rdquo;</p>
+                <footer>Katrina, 58</footer>
+              </blockquote>
+              <blockquote class="voice">
+                <p>&ldquo;If you are hesitant, just do it.&rdquo;</p>
+                <footer>A medi-gyn patient &mdash; on film</footer>
+              </blockquote>
+            </div>
+            <div class="wbelt__set" aria-hidden="true">
+              <blockquote class="voice"><p>&ldquo;This literally elevated my everyday life to another level. It was transformational.&rdquo;</p><footer>A medi-gyn patient &mdash; on film</footer></blockquote>
+              <blockquote class="voice"><p>&ldquo;The menopause really hit me fast and furious.&rdquo;</p><footer>Katrina, 58</footer></blockquote>
+              <blockquote class="voice"><p>&ldquo;If you are hesitant, just do it.&rdquo;</p><footer>A medi-gyn patient &mdash; on film</footer></blockquote>
+            </div>
+            <div class="wbelt__set" aria-hidden="true">
+              <blockquote class="voice"><p>&ldquo;This literally elevated my everyday life to another level. It was transformational.&rdquo;</p><footer>A medi-gyn patient &mdash; on film</footer></blockquote>
+              <blockquote class="voice"><p>&ldquo;The menopause really hit me fast and furious.&rdquo;</p><footer>Katrina, 58</footer></blockquote>
+              <blockquote class="voice"><p>&ldquo;If you are hesitant, just do it.&rdquo;</p><footer>A medi-gyn patient &mdash; on film</footer></blockquote>
+            </div>
+            <div class="wbelt__set" aria-hidden="true">
+              <blockquote class="voice"><p>&ldquo;This literally elevated my everyday life to another level. It was transformational.&rdquo;</p><footer>A medi-gyn patient &mdash; on film</footer></blockquote>
+              <blockquote class="voice"><p>&ldquo;The menopause really hit me fast and furious.&rdquo;</p><footer>Katrina, 58</footer></blockquote>
+              <blockquote class="voice"><p>&ldquo;If you are hesitant, just do it.&rdquo;</p><footer>A medi-gyn patient &mdash; on film</footer></blockquote>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>

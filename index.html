@@ -636,8 +636,54 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
   box-shadow:0 0 0 1px rgba(194,160,94,.55);
 }
 .sec--meno .cta svg{width:17px;height:17px}
+/* reserve the closer's bottom edge for the press strip so it can
+   never crowd the finale pill, even at 1280x700 */
+@media (min-width:900px){ .sec--meno{padding-bottom:6.5rem} }
+
+/* ── as-featured-in marquee ─────────────────────────────────
+   Six press wordmarks drift right-to-left along the closer's
+   bottom edge. Transparent band — the night ground shows
+   through — and one ivory tint at whisper opacity: they are
+   credibility, not content. Wordmarks are single-fill SVGs in
+   images/press/, tinted via currentColor through a CSS mask.
+   Four identical sets + a one-set translateX shift keep the
+   loop seamless up to ~3200px viewports. */
+.press{
+  position:absolute;left:0;right:0;bottom:clamp(1rem,3vh,2.1rem);z-index:1;
+  pointer-events:none;
+}
+.press__kicker{
+  max-width:1400px;margin:0 auto .95rem;padding:0 clamp(1.25rem,6vw,6rem);
+  font-size:.56rem;font-weight:400;letter-spacing:.34em;text-transform:uppercase;
+  color:var(--gold);opacity:.85;
+}
+.press__belt{overflow:hidden;color:rgba(250,247,241,.48)}
+.press__track{display:flex;width:max-content;animation:press-drift 44s linear infinite}
+.press__set{
+  display:flex;align-items:center;
+  gap:clamp(2.8rem,5vw,4.6rem);padding-right:clamp(2.8rem,5vw,4.6rem);
+}
+.pl{
+  display:block;background:currentColor;
+  -webkit-mask:var(--m) no-repeat center/contain;mask:var(--m) no-repeat center/contain;
+}
+.pl--bazaar{--m:url(images/press/harpers-bazaar.svg);width:142px;height:30px}
+.pl--madame{--m:url(images/press/madame-arabia.svg);width:137px;height:36px}
+.pl--gtm{--m:url(images/press/global-trend-monitor.svg);width:222px;height:36px}
+.pl--emirates{--m:url(images/press/russian-emirates.svg);width:264px;height:30px}
+.pl--driven{--m:url(images/press/driven-magazine.svg);width:199px;height:32px}
+.pl--sublime{--m:url(images/press/sublime.svg);width:145px;height:32px}
+@keyframes press-drift{to{transform:translateX(-25%)}}
+@media (max-width:899px){
+  /* the column layout's align-items:flex-end would shrink .press to its
+     max-content track — pin it to the viewport width instead */
+  .press{position:static;order:3;margin-top:1.6rem;width:100%}
+  .press__kicker{margin-bottom:.75rem}
+}
 @media (prefers-reduced-motion:reduce){
   .meno-quote{transition:none}
+  .press__track{animation:none}
+  .press__set[aria-hidden]{display:none}
 }
 
 footer{
@@ -962,6 +1008,32 @@ footer p{margin:0;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
       </a>
     </div></div>
+    <!-- as-featured-in: six press wordmarks, whisper-slow right-to-left drift.
+         Sets 2-4 are aria-hidden loop copies; reduced-motion shows set 1 only. -->
+    <div class="press" role="group" aria-label="As featured in">
+      <p class="press__kicker">As featured in</p>
+      <div class="press__belt">
+        <div class="press__track">
+          <span class="press__set">
+            <i class="pl pl--bazaar" role="img" aria-label="Harper's Bazaar Arabia"></i>
+            <i class="pl pl--madame" role="img" aria-label="Madame Arabia"></i>
+            <i class="pl pl--gtm" role="img" aria-label="Global Trend Monitor"></i>
+            <i class="pl pl--emirates" role="img" aria-label="Russian Emirates"></i>
+            <i class="pl pl--driven" role="img" aria-label="Driven Magazine"></i>
+            <i class="pl pl--sublime" role="img" aria-label="Sublime"></i>
+          </span>
+          <span class="press__set" aria-hidden="true">
+            <i class="pl pl--bazaar"></i><i class="pl pl--madame"></i><i class="pl pl--gtm"></i><i class="pl pl--emirates"></i><i class="pl pl--driven"></i><i class="pl pl--sublime"></i>
+          </span>
+          <span class="press__set" aria-hidden="true">
+            <i class="pl pl--bazaar"></i><i class="pl pl--madame"></i><i class="pl pl--gtm"></i><i class="pl pl--emirates"></i><i class="pl pl--driven"></i><i class="pl pl--sublime"></i>
+          </span>
+          <span class="press__set" aria-hidden="true">
+            <i class="pl pl--bazaar"></i><i class="pl pl--madame"></i><i class="pl pl--gtm"></i><i class="pl pl--emirates"></i><i class="pl pl--driven"></i><i class="pl pl--sublime"></i>
+          </span>
+        </div>
+      </div>
+    </div>
   </section>
 
 </main>

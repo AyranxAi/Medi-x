@@ -1,5 +1,20 @@
 # Medi✦X — next-chat handover: the "as featured in" marquee
 
+> **2026-08-01 status — built.** Six wordmarks live in `images/press/`
+> (bazaar / madame / global-trend-monitor / russian-emirates / driven /
+> sublime), all single-fill `currentColor`, hand-built vector paths.
+> First five approved by the user; sublime pending his eye. The marquee
+> itself is integrated in chapter 07: static gold "AS FEATURED IN"
+> kicker + right-to-left drift (44s, four aria-hidden loop sets,
+> `translateX(-25%)`), ivory at .48, transparent band, reduced-motion
+> shows one static set. Desktop reserves the bottom edge via
+> `.sec--meno{padding-bottom:6.5rem}`; on phones the strip is
+> `order:3, width:100%` (the column flex's `align-items:flex-end`
+> otherwise shrinks it to track width — that was a real bug, mind it).
+> Verified at 1400×900, 1280×700, 390×844 over local HTTP (masks
+> CORS-fail over file://, use `python3 -m http.server`). Tint/speed
+> knobs: `.press__belt` color, `press-drift` duration.
+
 Written 2026-08-01, end of the header/globe/accordion session. Read
 `HANDOVER.md` first for the site's full state; this file is the brief
 for ONE task: the featured-in wordmark marquee in chapter 07.

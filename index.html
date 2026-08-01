@@ -487,10 +487,21 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
 /* deep-burgundy scrims, alphas carried over from the source verbatim */
 .pw__scrim{position:absolute;inset:0;transition:opacity var(--pw-scrim-ms) var(--pw-ease)}
 .pw__scrim[data-show="false"]{opacity:0}
+/* PHONE/TABLET ONLY — this is the base rule; the ≥1024 override below is
+   desktop's and must stay as it is. Down here the scrim is a wash over the
+   WHOLE tile, where desktop's is bottom-weighted and leaves the top ~60%
+   clear. The old values (.66→.6 horizontal PLUS a full-panel .4→.3 vertical)
+   stacked to roughly 78% burgundy and erased the photograph on a phone.
+   Kept light on purpose; the type carries its own shadow below. */
 .pw__scrim--closed{
   background:
-    linear-gradient(to right,rgba(71,24,38,.66) 0%,rgba(71,24,38,.6) 52%,rgba(71,24,38,0) 96%),
-    linear-gradient(to top,rgba(71,24,38,.4) 0%,rgba(71,24,38,.3) 100%);
+    linear-gradient(to right,rgba(71,24,38,.52) 0%,rgba(71,24,38,.34) 58%,rgba(71,24,38,0) 96%),
+    linear-gradient(to top,rgba(71,24,38,.22) 0%,rgba(71,24,38,.1) 100%);
+}
+@media (max-width:1023px){
+  .pw__name,.pw__num{
+    text-shadow:0 1px 14px rgba(30,10,18,.75),0 1px 3px rgba(30,10,18,.5);
+  }
 }
 @media (min-width:1024px){
   .pw__scrim--closed{
@@ -711,11 +722,21 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
     width:min(76vw,42svh);height:min(76vw,42svh);
   }
 }
-/* the finale CTA steps up: larger, and a gold hairline gives the pill
-   a visible edge on the night ground (the deep fill alone sits ~1.5:1) */
+/* The finale CTA steps up in SIZE only — its register is .cta--ivory.
+   It used to carry the burgundy fill, which on this burgundy night ground
+   measured 1.35:1 against its own background: no figure/ground at all, and
+   .cta:hover's deeper burgundy took it to 1.14 — it RECEDED when pointed at.
+   Ivory reads 15.6:1 here and picks up the correct cream hover by source
+   order. The gold hairline that used to fake an edge went with it: it only
+   existed to compensate for the invisible fill, and around an ivory pill it
+   reads as a dirty ring rather than a detail.
+   The burgundy fill is HERO-ONLY. The old rule ("burgundy for the two
+   booking moments") named a colour where it meant an intent — the primary
+   action should be the brightest object in its own frame. Burgundy does that
+   on the hero's sunlit photograph and the exact opposite on a dark section.
+   Don't put it back here; the rule is contrast, not colour. */
 .sec--meno .cta{
   margin-top:2rem;padding:1.15rem 2.5rem;font-size:.82rem;
-  box-shadow:0 0 0 1px rgba(194,160,94,.55);
 }
 .sec--meno .cta svg{width:17px;height:17px}
 /* --press-zone is the strip's total claim on the section's bottom edge.
@@ -1366,7 +1387,7 @@ footer .fw{max-width:1400px;margin:0 auto}
     <div class="inner"><div class="copy">
       <p class="kicker reveal">Chapter 07 &mdash; menoSTART</p>
       <h2 class="reveal">Join us.<br>Learn with us.<br><em>Be with us.</em></h2>
-      <a class="cta reveal">Join menoSTART
+      <a class="cta cta--ivory reveal">Join menoSTART
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
       </a>
     </div></div>

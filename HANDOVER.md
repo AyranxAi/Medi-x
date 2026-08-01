@@ -1,5 +1,43 @@
 # Medi✦X — session handover
 
+## 0 · 2026-08-02 addendum 6 — ch07 finale pill + ch04 phone scrim
+
+Two contrast fixes, both agreed in an earlier chat but **stranded** — they
+were committed to `claude/epic-tesla-q0cx3m` off the OLD main and never
+merged, so main never got them. Re-applied on top of the typography work.
+
+- **Chapter 07's "Join menoSTART" pill: burgundy → `.cta--ivory`.** On that
+  burgundy night ground the burgundy fill measured **1.35:1 against its own
+  background** — no figure/ground at all — and `.cta:hover`'s deeper burgundy
+  took it to **1.14:1**, so it *receded* when pointed at. Ivory is **15.6:1**
+  and inherits the correct cream hover by source order. **The gold hairline
+  on `.sec--meno .cta` is gone**: it only ever existed to fake an edge for
+  the invisible fill, and around ivory it reads as a dirty ring.
+  **Burgundy is HERO-ONLY now** — it works there because the ground is a
+  sunlit photograph. The rule is "primary = brightest object in its own
+  frame", not "primary = burgundy". Gold and rose fills were mocked and
+  rejected (gold read well; the user chose ivory for consistency with the
+  other five chapters — rose is the italic voice colour and merged with the
+  "Be with us." line right above the pill).
+- **Chapter 04 scrim lightened BELOW 1024px only.** Desktop is untouched and
+  must stay that way — its bottom-weighted gradient already leaves the top
+  ~60% of each panel clear. The phone/tablet base rule stacked a `.66→.6`
+  horizontal scrim on a *full-panel* `.4→.3` vertical one, about 78%
+  burgundy over the whole tile, which erased the photography on a phone.
+  Now `.52→.34` + `.22→.1`, with `.pw__name`/`.pw__num` carrying their own
+  text-shadow under 1024. If the type ever looks weak on a phone, strengthen
+  the shadow — do NOT put the scrim back up.
+
+**Discarded from that old branch, deliberately:** a commit removing chapter
+08's quote belt (the user has since APPROVED THE QUOTES BACK — see addendum
+4, so re-applying it would have deleted live content) and a commit stripping
+"experiment" from the copy (already done on main by other work).
+
+**Still open, unchanged by this:** ch07 is the only prose chapter with **no
+`.body` paragraph** (every other one runs kicker → h2 → body → CTA), so the
+section never says what menoSTART actually *is*; approved copy for it already
+exists in medi-lux `lib/content.ts:536`. 17 of 31 links still have no `href`.
+
 ## 0 · 2026-08-02 addendum 5 — BRAND TYPOGRAPHY ("Variation B") — built, NOT deployed
 
 The site ran on Cormorant Garamond + Inter and used **none** of the three

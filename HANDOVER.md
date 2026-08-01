@@ -1,5 +1,41 @@
 # Medi✦X — session handover
 
+## 0 · 2026-08-02 addendum 4 — chapter 08 became THE COLLAGE (LIVE)
+
+**Supersedes addendum 3's wall entirely.** Client verdict on the wall:
+too much movement. They sent a reference collage; his spec: left =
+press images fading, top right = testimonials fading, bottom right =
+sponsors sliding. Shipped on main (`fd8df2a`):
+
+- `.collage` replaces `.world-wall`: 50/50 vertical split, right
+  column `62fr/38fr`. Left = 4 real press frames (Monaco Info — his
+  upload, masters in "press, testimonials, sponsor/" — plus Monaco
+  Tribune / Madame Arabia / GTM from the parked press-cards branch's
+  `images/press-assets/`), all 1080×1350 in `images/coverage/`,
+  crossfading 11s. NO caption overlay — every frame carries its own
+  masthead and Tribune's baked-in callout sits exactly where an
+  overlay would go.
+- Top right `.cvoices` on ivory: patient quotes APPROVED BACK (his
+  call 2026-08-01). 3 film quotes (git 657ce4b) + 6 written ones he
+  supplied in chat, excerpted VERBATIM, emojis stripped; crossfade
+  7.5s — deliberately offset from the press 11s so the panels never
+  blink in sync. `.cvoice footer` must keep
+  `background:none;padding:0;border:0` — the page footer's BORDER
+  bleeds too (extended ch07 lesson).
+- Bottom right `.csponsors` on gold-tint: 13 real partner marks from
+  his zip (`images/sponsors/`, trimmed, alpha kept, full colour;
+  Fezā white→alpha; Wellbeing Sanctuary extracted from an SVG raster
+  wrapper), ch07's four-set translateX(-25%) belt at 70s,
+  hover-pause, per-mark `--h` optical-core sizing.
+- Reduced motion: everything static, set 1 / first frame / first
+  quote. JS timers run only while the section is on screen.
+- ⚠️ PARALLEL CHATS work this repo: main moved three times during
+  this build (ivory footer + ch06 product frame, footer legal/type,
+  back-to-top removal). Fetch main before building AND before
+  pushing. Editorial refinement pass (type size, belt treatment,
+  press vignette) is pending his pick from lettered options.
+
+
 State as of 2026-07-31. The page is live (deployment tracks `main`).
 Everything below was built across PRs #1–#6, all merged.
 

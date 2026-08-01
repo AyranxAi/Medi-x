@@ -49,12 +49,15 @@ move, top right-to-left, bottom left-to-right.*
   hover" bug — see the Pathways section below, it is fully written up
   there.
 
-**Bonus finding, not yet acted on:** `/educational-events/` gives the
-TRUE event cities and dates — Rome (Jun 2026), Monte-Carlo (Apr 2026),
-Hong Kong (Apr 2026), Riyadh (Jan 2026), Dubai (Feb 2026), Jeddah (Dec
-2025), Muscat (Oct 2025). That answers the long-open "true cities for the
-CHINA/INDIA globe dots" thread in chapter 07 — note there is **no India
-event listed**, and China is Hong Kong. Raise it with him.
+**Where the photographs came from:** medi-gyn.com's `/educational-events/`
+dates them — Rome (Jun 2026), Monte-Carlo (Apr 2026), Hong Kong (Apr
+2026), Riyadh (Jan 2026), Dubai (Feb 2026), Jeddah (Dec 2025), Muscat
+(Oct 2025). Those dates are in the tiles' alt text.
+⚠️ **That page is NOT the event list.** I treated it as complete, read
+India's absence as meaningful, and was corrected on the spot: *"just
+because you don't see it doesn't mean it's there."* The chapter-07 globe
+already carries all ten of his locations, Hong Kong included, and it is
+right as it stands. Never infer his coverage from a public page.
 
 ## 0 · 2026-08-01 addendum 2 — favicon + chapter 08 belts session
 
@@ -273,14 +276,19 @@ the user's local `medi-gyn` folder (transcribed 2026-07-31).
 2. **Final chapter-08 photographs** — the 12 files in `images/world/`
    are real medi-gyn coverage lifted from medi-gyn.com, standing in
    until he picks the definitive set. Swap the files, keep the names.
-3. **Globe city coordinates** — CHINA and INDIA dots stand at
-   Shanghai and Mumbai. **Partly answerable now:** medi-gyn.com's
-   `/educational-events/` lists the real events — Rome, Monte-Carlo,
-   Hong Kong, Riyadh, Dubai, Jeddah, Muscat. So China should probably be
-   HONG KONG, and **there is no India event on that page at all** —
-   ask him before moving or dropping the INDIA dot. Country-level
-   entries (Oman, Saudi, Kuwait, Qatar) use
-   Muscat/Riyadh/Kuwait City/Doha.
+3. **Globe city coordinates** — all ten locations are correct and
+   present (Dubai, Oman, Saudi, Kuwait, Qatar, China, India, Hong Kong,
+   United Kingdom, Monte-Carlo); **Hong Kong already has its own dot**
+   at 114.17/22.32. Only the CHINA and INDIA *pin points* are
+   representative — Shanghai and Mumbai — and country-level Gulf entries
+   use Muscat/Riyadh/Kuwait City/Doha. These are placeholder coordinates
+   inside the right countries, not claims about venues.
+   ⚠️ **Do NOT infer the event list from medi-gyn.com.** Its
+   `/educational-events/` page shows only some of them (Rome,
+   Monte-Carlo, Hong Kong, Riyadh, Dubai, Jeddah, Muscat) — I read India's
+   absence there as evidence and was corrected: *"just because you don't
+   see it doesn't mean it's there."* The locations list is his, and it
+   stands. Only he confirms cities.
 3. **"As featured in" marquee — GREEN-LIT (2026-08-01), build next
    chat — full brief in `HANDOVER_FEATURED_IN.md`.** The user's decisions: it lives INSIDE chapter 07 (bottom
    edge of the closer), transparent background, wordmarks drifting

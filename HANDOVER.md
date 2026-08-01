@@ -3,6 +3,62 @@
 State as of 2026-07-31. The page is live (deployment tracks `main`).
 Everything below was built across PRs #1–#6, all merged.
 
+## 0 · 2026-08-01 addendum 3 — chapter 08 became THE WALL + hover fix
+
+**Supersedes the chapter-08 half of addendum 2 entirely.** The user's
+verdict on the belts build was "section 8 is a mistake". His spec,
+verbatim: *one section that fills the screen, divided in two — top 0% to
+50%, bottom 51% to 100%, no space in between — both containing tiles that
+move, top right-to-left, bottom left-to-right.*
+
+- **`.world-wall`** replaces `.world-split`. `.sec--world` is now
+  `height:100svh; padding:0` and the wall is `position:absolute;inset:0`
+  with `grid-template-rows:1fr 1fr` (grid, not flex, so a fractional
+  viewport height can't open a hairline at the seam — measured gap is
+  0.00px at every size). Classes: `.wrow--top` / `.wrow--bottom`,
+  `.wrow__track`, `.wrow__set`, `.wtile`.
+- **Gone, by his explicit answers:** the kicker + headline + paragraph
+  (the section carries no copy at all now), both gold belt kickers, the
+  6% edge-fade masks, the rounded corners and 14px gaps, the toned
+  placeholder grounds and "photograph to come" captions, and **the three
+  patient quotes — DELETED from the site** (his call; they are in git
+  history if he ever wants them back).
+- **Tiles**: 4:5 portrait, `height:100%` + `aspect-ratio:4/5`, butted
+  square edge to edge, running off both edges of the frame. Width falls
+  out of viewport height: 360px at 900svh, 432px at 1080svh.
+- **NO hover-pause** on these belts (chapter 07's marquee keeps its
+  one). The wall IS the screen, so any cursor would freeze the section
+  permanently. Do not "restore" it.
+- **Photographs are REAL medi-gyn coverage, not stock and not stand-ins**
+  — pulled from medi-gyn.com's own `/educational-events/` (Rome, Monaco,
+  Dubai, Riyadh, Jeddah, Muscat, with the site's own dates) and
+  `/photo-gallery/` "At Play". 12 files in `images/world/`, 4:5 at
+  720×900, `cwebp -q 80`, 968 KB total. They stand in until the final
+  selection lands: **swap the files, keep the names, the wall updates
+  itself.** `images/press/press-01..06.webp` were never delivered and
+  are no longer referenced.
+- **Loop maths**: a set is 6 × 0.4 = 2.4 screen-heights wide, so three
+  sets clear any frame up to 7.2:1 — every desktop, ultrawide included.
+  Same four-set `translateX(-25%)` mechanic as chapter 07.
+- Verified headless at 1440×900, 1280×700, 1920×1080, 390×844: section
+  height == viewport height exactly, both halves exactly 50%, seam gap
+  0.00px, tile ratio 0.8000, top `normal` / bottom `reverse`, no page
+  h-scroll, no console errors, and **zero blank tiles in view across a
+  full 64s loop**.
+- Also fixed this session: the chapter-04 accordion "clicked/unclicked
+  hover" bug — see the Pathways section below, it is fully written up
+  there.
+
+**Where the photographs came from:** medi-gyn.com's `/educational-events/`
+dates them — Rome (Jun 2026), Monte-Carlo (Apr 2026), Hong Kong (Apr
+2026), Riyadh (Jan 2026), Dubai (Feb 2026), Jeddah (Dec 2025), Muscat
+(Oct 2025). Those dates are in the tiles' alt text.
+⚠️ **That page is NOT the event list.** I treated it as complete, read
+India's absence as meaningful, and was corrected on the spot: *"just
+because you don't see it doesn't mean it's there."* The chapter-07 globe
+already carries all ten of his locations, Hong Kong included, and it is
+right as it stands. Never infer his coverage from a public page.
+
 ## 0 · 2026-08-01 addendum 2 — favicon + chapter 08 belts session
 
 - **Favicon = medi-blond's, verbatim.** `favicon.svg` is a byte-for-byte
@@ -13,6 +69,9 @@ Everything below was built across PRs #1–#6, all merged.
   favicon I invented first was REJECTED — "the mg burgundy logo" means
   the medi-blond monogram icon; do not redesign brand marks unasked.)
   The old gold-✦-on-ink data URI is gone from `<head>`.
+- ⚠️ **SUPERSEDED by addendum 3 — this chapter-08 build was rejected.**
+  Kept only so nobody rebuilds it. Everything from `.world-split` down
+  is gone from the file.
 - **Chapter 08 rebuilt as two counter-drifting full-bleed belts**
   (`.world-split`): events tiles drift right→left (64s/set), the three
   film-testimonial cards drift left→right (80s/set, reverse of the same
@@ -83,7 +142,8 @@ the invitation.**
 | 04 | s4 | The Pathways | `path-01..04-*.webp` | Interactive accordion, see below |
 | 05 | s5 | The Room | `team.webp` | clinic lounge, derived from the `About.png` upload |
 | 06 | s6 | The Tools | `products.webp` | `#s6 .bg` crop override 12% center |
-| 07 | s7 | menoSTART | CSS night ground + canvas globe (NO photo) | Closer; split frame — hero-size invitation + rotating patient quote left, champagne globe right (stacks on phone). CTA still INERT |
+| 07 | s7 | menoSTART | CSS night ground + canvas globe (NO photo) | Split frame — hero-size invitation left, champagne globe right (stacks on phone), "as featured in" wordmark marquee along the bottom edge. NO quote here any more. CTA still INERT |
+| 08 | s8 | In the World | 12 × `images/world/*.webp` | THE WALL — 100svh, two exact halves, tiles drifting in opposite directions, no copy. See addendum 3 |
 
 Unused files kept in `images/`: `01-mirror`, `02-helix`, `03-molecule`,
 `04-eye`, `05-touch`, `07-stillness`, `10-signal` (.webp) plus all
@@ -114,11 +174,30 @@ Desktop-only controls (count + arrows) appear only while open; the
 "Choose a pathway" cue shows while collapsed. "Explore pathway" CTAs are
 inert. Scrims are deep burgundy `#471826` — a deliberate decision (it
 bridges the light frames around it and matches the burgundy in the
-lounge and products photos); do not neutralise it. Panel hover is
-JS-managed (`.hov` via pointerenter/leave, cleared in `pwRender`) —
-CSS `:hover` sticks during the width animation because browsers only
-re-evaluate hover on pointer movement, and touch made it sticky;
-never revert to plain `:hover` here.
+lounge and products photos); do not neutralise it.
+
+**Panel hover — rewritten 2026-08-01, read before touching it.** Two
+classes, both JS-managed, and neither may go back to a bare CSS
+selector:
+
+- `.hov` = the pointer is on this panel. Derived from a stored pointer
+  position + `document.elementFromPoint`, re-run on `pointermove` AND on
+  every frame for 720ms after a click. Not `pointerenter`/`pointerleave`:
+  a click animates every panel's width, so a panel slides under a cursor
+  that never moved and no boundary event ever fires — the panel under
+  your hand went dead until you jiggled the mouse. Not plain `:hover`
+  either: touch made that sticky.
+- `.kfoc` = the trigger holds KEYBOARD focus, set from
+  `:focus-visible` on the button's `focus` event. **`:focus-within` is
+  banned here.** It was the desktop half of the "clicked/unclicked hover"
+  bug the user reported twice: a mouse click focuses the button too, so
+  the panel you clicked stayed fully lit forever — cursor on the other
+  side of the screen, two panels reading as hovered at once. The earlier
+  `.hov` fix only ever addressed the touch half.
+
+Verified: collapse with the cursor unmoved keeps that panel lit; pointer
+off the accordion lights nothing; Tab still shows the ring and the panel
+treatment.
 
 ## Image pipeline (IMPORTANT — follow for every new image)
 
@@ -190,14 +269,26 @@ the user's local `medi-gyn` folder (transcribed 2026-07-31).
 
 ## Open threads (in priority order)
 
-1. **Quote sign-off** — the three chapter-07 quote lines + attributions
-   ("A medi-gyn patient — on film", "Katrina, 58") need the user's and
-   Irina's approval; they are clinic/BHRT testimonials, not
-   menoSTART-event quotes. Swap or cut on request.
-2. **Globe city coordinates** — CHINA and INDIA dots stand at
-   Shanghai and Mumbai until the true event cities are confirmed;
-   country-level entries (Oman, Saudi, Kuwait, Qatar) use
-   Muscat/Riyadh/Kuwait City/Doha.
+1. ~~**Quote sign-off**~~ — CLOSED 2026-08-01. The three patient quote
+   lines are DELETED from the site (his call when chapter 08 became
+   photographs only). No sign-off needed; nothing quoted anywhere now.
+   Git history holds them if he changes his mind.
+2. **Final chapter-08 photographs** — the 12 files in `images/world/`
+   are real medi-gyn coverage lifted from medi-gyn.com, standing in
+   until he picks the definitive set. Swap the files, keep the names.
+3. **Globe city coordinates** — all ten locations are correct and
+   present (Dubai, Oman, Saudi, Kuwait, Qatar, China, India, Hong Kong,
+   United Kingdom, Monte-Carlo); **Hong Kong already has its own dot**
+   at 114.17/22.32. Only the CHINA and INDIA *pin points* are
+   representative — Shanghai and Mumbai — and country-level Gulf entries
+   use Muscat/Riyadh/Kuwait City/Doha. These are placeholder coordinates
+   inside the right countries, not claims about venues.
+   ⚠️ **Do NOT infer the event list from medi-gyn.com.** Its
+   `/educational-events/` page shows only some of them (Rome,
+   Monte-Carlo, Hong Kong, Riyadh, Dubai, Jeddah, Muscat) — I read India's
+   absence there as evidence and was corrected: *"just because you don't
+   see it doesn't mean it's there."* The locations list is his, and it
+   stands. Only he confirms cities.
 3. **"As featured in" marquee — GREEN-LIT (2026-08-01), build next
    chat — full brief in `HANDOVER_FEATURED_IN.md`.** The user's decisions: it lives INSIDE chapter 07 (bottom
    edge of the closer), transparent background, wordmarks drifting

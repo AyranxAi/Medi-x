@@ -740,23 +740,18 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
 }
 
 /* ── in the world (chapter 08) ──────────────────────────────
-   The wall. One screen, split dead in half: two full-bleed belts
-   of real event photographs in counter-motion. Top drifts
-   right-to-left, bottom left-to-right. The halves meet at exactly
-   50% — no gap, no seam, no rule between them — and the tiles butt
-   square against each other and run off both edges of the frame.
-   No copy of its own: after seven chapters of words the closer is
-   pure evidence, so the section carries nothing but the photographs.
-   Loop mechanics as chapter 07: four identical sets (2–4
-   aria-hidden), one-set translateX(-25%) shift. A tile is 4:5 at
-   half the viewport height, so a set is 6 × 0.4 = 2.4 screen-heights
-   wide and three sets clear any frame up to 7.2:1 — every desktop,
-   every phone, ultrawide included.
-   NO hover-pause here (chapter 07's belt has one): the wall IS the
-   screen, so a cursor anywhere would freeze the section permanently.
-   Photographs are medi-gyn.com's own coverage — the educational-events
-   pages and the gallery — standing in until the final selection lands.
-   Real coverage only, never stock. */
+   The collage (2026-08-02, replaces the wall — client verdict: too
+   much movement). One screen split by a hairline: the press frame
+   owns the left half; the right half stacks the patient voices
+   (62%) over the sponsor belt (38%) — the client's own reference
+   layout. Motion budget: press frames and voices crossfade on
+   offset timers (script under the main IIFE); the belt is the ONLY
+   continuous movement, chapter 07's four-set translateX(-25%) loop
+   at a whisper. Real coverage, verbatim quotes, real partner marks.
+   Drop-a-file: press frames are images/coverage/press-NN-*.webp —
+   add the file plus one <img data-line="…"> and the fade picks it
+   up. Masters stay in "press, testimonials, sponsor/" (top level)
+   and images/press-assets/ on the parked press-cards branch. */
 .sec--world{display:block;padding:0;height:100svh;min-height:560px}
 .sec--world::after{content:none}
 .sec--world .bg{
@@ -764,35 +759,83 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
     radial-gradient(70% 90% at 82% 0%,rgba(92,31,49,.4),transparent 70%),
     linear-gradient(175deg,#241A1F 0%,#2E2228 60%,#241A1F 100%);
 }
-.world-wall{
+.collage{
   position:absolute;inset:0;
-  /* grid, not flex: two 1fr rows split a fractional viewport height
-     without leaving a hairline of ground showing at the seam */
-  display:grid;grid-template-rows:1fr 1fr;
+  display:grid;grid-template-columns:1fr 1fr;
   opacity:0;transition:opacity 1.1s var(--ease);
 }
-.sec--world.in .world-wall{opacity:1}
-.wrow{overflow:hidden;min-height:0}
-.wrow__track{display:flex;width:max-content;height:100%}
-.wrow--top .wrow__track{animation:world-drift 64s linear infinite}
-.wrow--bottom .wrow__track{animation:world-drift 76s linear infinite reverse}
-.wrow__set{display:flex;height:100%}
-@keyframes world-drift{to{transform:translateX(-25%)}}
-.wtile{
-  position:relative;margin:0;flex:none;height:100%;aspect-ratio:4/5;
-  overflow:hidden;background:#2E2228;
+.sec--world.in .collage{opacity:1}
+
+/* left — the press frame */
+.cpress{position:relative;margin:0;overflow:hidden;background:#241A1F}
+.cpress__img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;transition:opacity 1.4s var(--ease);
 }
-.wtile img{display:block;width:100%;height:100%;object-fit:cover}
+.cpress__img.is-on{opacity:1}
+/* no caption overlay: every press frame carries its own masthead,
+   and the Tribune frame's baked-in callout sits exactly where an
+   overlay would go. The right panel's kickers label the section. */
+
+/* right — voices over the sponsor belt */
+.cright{display:grid;grid-template-rows:62fr 38fr;border-left:1px solid rgba(250,247,241,.16)}
+.cvoices{
+  position:relative;background:var(--ivory);color:var(--ink);
+  display:flex;flex-direction:column;
+  padding:clamp(1.6rem,3.2vw,2.8rem) clamp(1.6rem,4vw,4rem);
+}
+.cvoices__stage{position:relative;flex:1;min-height:0}
+.cvoice{
+  position:absolute;inset:0;margin:0;
+  display:flex;flex-direction:column;justify-content:center;
+  opacity:0;visibility:hidden;
+  transition:opacity 1.2s var(--ease),visibility 0s var(--ease) 1.2s;
+}
+.cvoice.is-on{opacity:1;visibility:visible;transition:opacity 1.2s var(--ease)}
+.cvoice p{
+  margin:0 0 1.1rem;font-family:var(--serif);font-style:italic;font-weight:500;
+  font-size:clamp(1.35rem,1.85vw,2.05rem);line-height:1.42;color:var(--burgundy);
+  max-width:32ch;
+}
+/* footer reset — the page-level footer styles (background, padding,
+   AND border-top) bleed in otherwise (chapter 07 lesson) */
+.cvoice footer{background:none;padding:0;border:0;font-size:.78rem;color:var(--ink-soft);letter-spacing:.08em}
+.csponsors{
+  position:relative;background:var(--gold-tint);border-top:1px solid var(--line);
+  display:flex;flex-direction:column;justify-content:center;gap:1.25rem;
+  padding:1.4rem 0;min-height:0;overflow:hidden;
+}
+.csponsors .kicker{color:var(--gold-deep);margin:0 0 0 clamp(1.6rem,4vw,4rem)}
+.csponsors__belt{overflow:hidden}
+.csponsors__track{display:flex;width:max-content;animation:spon-drift 70s linear infinite}
+.csponsors__belt:hover .csponsors__track{animation-play-state:paused}
+@keyframes spon-drift{to{transform:translateX(-25%)}}
+.csponsors__set{
+  display:flex;align-items:center;
+  gap:clamp(2.2rem,3.4vw,3.6rem);padding-right:clamp(2.2rem,3.4vw,3.6rem);
+}
+/* marks sized by optical core, not bounding box (chapter 07 lesson):
+   --h per mark, --k scales the whole belt on phones */
+.sl{display:block;flex:none;height:calc(var(--h,2rem)*var(--k,1));width:auto}
+.sl--01{--h:2.9rem}.sl--02{--h:2rem}.sl--03{--h:1.7rem}.sl--04{--h:1.7rem}
+.sl--05{--h:3.4rem}.sl--06{--h:3.6rem}.sl--07{--h:1.9rem}.sl--08{--h:1.8rem}
+.sl--09{--h:2.9rem}.sl--10{--h:3.1rem}.sl--11{--h:2.1rem}.sl--12{--h:2.9rem}
+.sl--13{--h:2.9rem}
 @media (max-width:899px){
-  .wrow--top .wrow__track{animation-duration:46s}
-  .wrow--bottom .wrow__track{animation-duration:56s}
+  .sec--world{height:auto;min-height:100svh}
+  .collage{position:relative;grid-template-columns:100%}
+  .cpress{height:56svh}
+  .cright{border-left:none;grid-template-rows:auto auto}
+  .cvoices{min-height:44svh}
+  .cvoice p{font-size:1.3rem;max-width:none}
+  .csponsors{padding:1.3rem 0}
+  .sl{--k:.78}
 }
 @media (prefers-reduced-motion:reduce){
-  /* the wall falls still; set 1 stays and each half is finger-scrollable.
-     .wrow prefix matches the drift rules' specificity so neither wins */
-  .wrow .wrow__track{animation:none}
-  .wrow__set[aria-hidden]{display:none}
-  .wrow{overflow-x:auto}
+  .csponsors__track{animation:none}
+  .csponsors__set[aria-hidden]{display:none}
+  .csponsors__belt{overflow-x:auto}
+  .cpress__img,.cvoice{transition:none}
 }
 
 /* ── footer ─────────────────────────────────────────────────
@@ -1218,46 +1261,80 @@ footer .fw{max-width:1400px;margin:0 auto}
     </div>
   </section>
 
-  <!-- Chapter 08 — the wall. One screen, two halves, nothing else:
-       real event photographs drifting right-to-left across the top
-       and left-to-right across the bottom. Sets 2–4 are aria-hidden
-       loop copies of set 1 and reuse the same twelve files, so they
-       cost nothing but DOM. Photographs are medi-gyn.com's own
-       coverage (educational-events + gallery), placed 2026-08-01 as
-       a stand-in for the final selection — swap the files in
-       images/world/ and the wall updates itself. Geometry and the
-       no-hover-pause rule are in the CSS comment above .sec--world. -->
+  <!-- Chapter 08 — the collage: press | voices | sponsors. Replaces
+       the wall (client verdict: too much movement); the layout is the
+       client's own reference — big press frame left, quotes top
+       right, partner band bottom right. Press frames: Monaco Info
+       (his 2026-08-01 upload) + the three 4:5 frames from the parked
+       press-cards branch (real coverage only). Quotes are verbatim
+       patient lines: the three film quotes (restored, approved) plus
+       written notes he supplied 2026-08-01, excerpted verbatim with
+       emojis stripped — sign-off on the excerpt picks still pending.
+       Sponsor marks are the real partner logos from his zip, trimmed
+       to content with alpha kept; Feza's white ground converted to
+       alpha; the Wellbeing Sanctuary mark extracted from its SVG
+       wrapper. Masters stay in "press, testimonials, sponsor/". -->
   <section class="sec sec--world" id="s8" data-nav="In the World">
     <div class="bg"></div>
-    <div class="world-wall">
-      <div class="wrow wrow--top" role="group" aria-label="Medi-Gyn events around the world">
-        <div class="wrow__track">
-          <div class="wrow__set">
-            <figure class="wtile"><img src="images/world/world-01-rome.webp" alt="Medi-Gyn in Rome, June 2026" width="720" height="900" loading="lazy" decoding="async"></figure>
-            <figure class="wtile"><img src="images/world/world-02-monaco.webp" alt="Medi-Gyn in Monte-Carlo, April 2026" width="720" height="900" loading="lazy" decoding="async"></figure>
-            <figure class="wtile"><img src="images/world/world-03-dubai.webp" alt="Medi-Gyn in Dubai, February 2026" width="720" height="900" loading="lazy" decoding="async"></figure>
-            <figure class="wtile"><img src="images/world/world-04-riyadh.webp" alt="Medi-Gyn in Riyadh, January 2026" width="720" height="900" loading="lazy" decoding="async"></figure>
-            <figure class="wtile"><img src="images/world/world-05-jeddah.webp" alt="Medi-Gyn in Jeddah, December 2025" width="720" height="900" loading="lazy" decoding="async"></figure>
-            <figure class="wtile"><img src="images/world/world-06-muscat.webp" alt="Medi-Gyn in Muscat, October 2025" width="720" height="900" loading="lazy" decoding="async"></figure>
+    <div class="collage">
+      <figure class="cpress" role="group" aria-label="Medi-Gyn in the press">
+        <img class="cpress__img is-on" src="images/coverage/press-01-monaco-info.webp" alt="Irina Bond interviewed on Monaco Info" width="1080" height="1350" loading="lazy" decoding="async" data-line="Monaco Info">
+        <img class="cpress__img" src="images/coverage/press-02-monaco-tribune.webp" alt="Monaco Tribune story on Medi-Gyn" width="1080" height="1350" loading="lazy" decoding="async" data-line="Monaco Tribune">
+        <img class="cpress__img" src="images/coverage/press-03-madame-arabia.webp" alt="Irina Bond on the cover of Madame Arabia" width="1080" height="1350" loading="lazy" decoding="async" data-line="Madame Arabia">
+        <img class="cpress__img" src="images/coverage/press-04-gtm.webp" alt="Global Trend Monitor on women&rsquo;s health in Saudi Arabia" width="1080" height="1350" loading="lazy" decoding="async" data-line="Global Trend Monitor">
+      </figure>
+      <div class="cright">
+        <div class="cvoices">
+          <p class="kicker">In their words</p>
+          <div class="cvoices__stage">
+            <blockquote class="cvoice is-on">
+              <p>&ldquo;This literally elevated my everyday life to another level. It was transformational.&rdquo;</p>
+              <footer>A medi-gyn patient &mdash; on film</footer>
+            </blockquote>
+            <blockquote class="cvoice">
+              <p>&ldquo;I got a golden medal in world championship in AD with my team. All members of the team were 25 years old and I&rsquo;m 47.&rdquo;</p>
+              <footer>Baydaa H., Dubai</footer>
+            </blockquote>
+            <blockquote class="cvoice">
+              <p>&ldquo;I&rsquo;ve never felt so safe and understood as a woman seeking medical care.&rdquo;</p>
+              <footer>Anood Hassan, Dubai</footer>
+            </blockquote>
+            <blockquote class="cvoice">
+              <p>&ldquo;The menopause really hit me fast and furious.&rdquo;</p>
+              <footer>Katrina, 58</footer>
+            </blockquote>
+            <blockquote class="cvoice">
+              <p>&ldquo;Many women struggle with their hormones and well-being. I hope you open more branches in Saudi Arabia&hellip; we need you here.&rdquo;</p>
+              <footer>Rania A., Jeddah</footer>
+            </blockquote>
+            <blockquote class="cvoice">
+              <p>&ldquo;I just received my test results from my blood draw this morning. They confirm how I feel &ndash; Great!&rdquo;</p>
+              <footer>Penny N., Iraq</footer>
+            </blockquote>
+            <blockquote class="cvoice">
+              <p>&ldquo;If you are hesitant, just do it.&rdquo;</p>
+              <footer>A medi-gyn patient &mdash; on film</footer>
+            </blockquote>
+            <blockquote class="cvoice">
+              <p>&ldquo;I am a new me, the youngest physical and mental version of me!&rdquo;</p>
+              <footer>Hasnaa M., Dubai</footer>
+            </blockquote>
+            <blockquote class="cvoice">
+              <p>&ldquo;I am so thrilled to start with you and I already feel at peace of mind that someone can help in a professional manner.&rdquo;</p>
+              <footer>Hala, Dubai</footer>
+            </blockquote>
           </div>
-          <div class="wrow__set" aria-hidden="true"><figure class="wtile"><img src="images/world/world-01-rome.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-02-monaco.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-03-dubai.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-04-riyadh.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-05-jeddah.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-06-muscat.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure></div>
-          <div class="wrow__set" aria-hidden="true"><figure class="wtile"><img src="images/world/world-01-rome.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-02-monaco.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-03-dubai.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-04-riyadh.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-05-jeddah.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-06-muscat.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure></div>
-          <div class="wrow__set" aria-hidden="true"><figure class="wtile"><img src="images/world/world-01-rome.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-02-monaco.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-03-dubai.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-04-riyadh.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-05-jeddah.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-06-muscat.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure></div>
         </div>
-      </div>
-      <div class="wrow wrow--bottom" role="group" aria-label="Medi-Gyn gatherings">
-        <div class="wrow__track">
-          <div class="wrow__set">
-            <figure class="wtile"><img src="images/world/world-07-table.webp" alt="Guests at a Medi-Gyn table" width="720" height="900" loading="lazy" decoding="async"></figure>
-            <figure class="wtile"><img src="images/world/world-08-group.webp" alt="A Medi-Gyn gathering, together" width="720" height="900" loading="lazy" decoding="async"></figure>
-            <figure class="wtile"><img src="images/world/world-09-talk.webp" alt="Speaking at a Medi-Gyn event" width="720" height="900" loading="lazy" decoding="async"></figure>
-            <figure class="wtile"><img src="images/world/world-10-bluewater.webp" alt="Guests at a Medi-Gyn gathering" width="720" height="900" loading="lazy" decoding="async"></figure>
-            <figure class="wtile"><img src="images/world/world-11-lana.webp" alt="A Medi-Gyn evening" width="720" height="900" loading="lazy" decoding="async"></figure>
-            <figure class="wtile"><img src="images/world/world-12-room.webp" alt="A room of women at a Medi-Gyn event" width="720" height="900" loading="lazy" decoding="async"></figure>
+        <div class="csponsors" role="group" aria-label="Medi-Gyn partners">
+          <p class="kicker">Alongside</p>
+          <div class="csponsors__belt">
+            <div class="csponsors__track">
+              <span class="csponsors__set"><img class="sl sl--01" src="images/sponsors/sponsor-01-monaco-women-network.webp" alt="Monaco Women Network" loading="lazy" decoding="async"><img class="sl sl--02" src="images/sponsors/sponsor-02-purovitalis.webp" alt="Purovitalis" loading="lazy" decoding="async"><img class="sl sl--03" src="images/sponsors/sponsor-03-richmont-monaco.webp" alt="Richmont Monaco" loading="lazy" decoding="async"><img class="sl sl--04" src="images/sponsors/sponsor-04-forsthaus-apotheke.webp" alt="Forsthaus Apotheke" loading="lazy" decoding="async"><img class="sl sl--05" src="images/sponsors/sponsor-05-wellbeing-sanctuary.webp" alt="The Wellbeing Sanctuary" loading="lazy" decoding="async"><img class="sl sl--06" src="images/sponsors/sponsor-06-lvi-medical.webp" alt="LVI Medical" loading="lazy" decoding="async"><img class="sl sl--07" src="images/sponsors/sponsor-07-menopause-livia.webp" alt="Menopause Livia" loading="lazy" decoding="async"><img class="sl sl--08" src="images/sponsors/sponsor-08-b-health.webp" alt="b.health+" loading="lazy" decoding="async"><img class="sl sl--09" src="images/sponsors/sponsor-09-matches-talent.webp" alt="Matches Talent" loading="lazy" decoding="async"><img class="sl sl--10" src="images/sponsors/sponsor-10-nordic-genex.webp" alt="Nordic Genex" loading="lazy" decoding="async"><img class="sl sl--11" src="images/sponsors/sponsor-11-activecells.webp" alt="ActiveCells" loading="lazy" decoding="async"><img class="sl sl--12" src="images/sponsors/sponsor-12-feza-wellness.webp" alt="Fez&#257; Wellness" loading="lazy" decoding="async"><img class="sl sl--13" src="images/sponsors/sponsor-13-longevity-hub.webp" alt="Longevity Hub" loading="lazy" decoding="async"></span>
+              <span class="csponsors__set" aria-hidden="true"><img class="sl sl--01" src="images/sponsors/sponsor-01-monaco-women-network.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--02" src="images/sponsors/sponsor-02-purovitalis.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--03" src="images/sponsors/sponsor-03-richmont-monaco.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--04" src="images/sponsors/sponsor-04-forsthaus-apotheke.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--05" src="images/sponsors/sponsor-05-wellbeing-sanctuary.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--06" src="images/sponsors/sponsor-06-lvi-medical.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--07" src="images/sponsors/sponsor-07-menopause-livia.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--08" src="images/sponsors/sponsor-08-b-health.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--09" src="images/sponsors/sponsor-09-matches-talent.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--10" src="images/sponsors/sponsor-10-nordic-genex.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--11" src="images/sponsors/sponsor-11-activecells.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--12" src="images/sponsors/sponsor-12-feza-wellness.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--13" src="images/sponsors/sponsor-13-longevity-hub.webp" alt="" loading="lazy" decoding="async"></span>
+              <span class="csponsors__set" aria-hidden="true"><img class="sl sl--01" src="images/sponsors/sponsor-01-monaco-women-network.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--02" src="images/sponsors/sponsor-02-purovitalis.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--03" src="images/sponsors/sponsor-03-richmont-monaco.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--04" src="images/sponsors/sponsor-04-forsthaus-apotheke.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--05" src="images/sponsors/sponsor-05-wellbeing-sanctuary.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--06" src="images/sponsors/sponsor-06-lvi-medical.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--07" src="images/sponsors/sponsor-07-menopause-livia.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--08" src="images/sponsors/sponsor-08-b-health.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--09" src="images/sponsors/sponsor-09-matches-talent.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--10" src="images/sponsors/sponsor-10-nordic-genex.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--11" src="images/sponsors/sponsor-11-activecells.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--12" src="images/sponsors/sponsor-12-feza-wellness.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--13" src="images/sponsors/sponsor-13-longevity-hub.webp" alt="" loading="lazy" decoding="async"></span>
+              <span class="csponsors__set" aria-hidden="true"><img class="sl sl--01" src="images/sponsors/sponsor-01-monaco-women-network.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--02" src="images/sponsors/sponsor-02-purovitalis.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--03" src="images/sponsors/sponsor-03-richmont-monaco.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--04" src="images/sponsors/sponsor-04-forsthaus-apotheke.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--05" src="images/sponsors/sponsor-05-wellbeing-sanctuary.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--06" src="images/sponsors/sponsor-06-lvi-medical.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--07" src="images/sponsors/sponsor-07-menopause-livia.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--08" src="images/sponsors/sponsor-08-b-health.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--09" src="images/sponsors/sponsor-09-matches-talent.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--10" src="images/sponsors/sponsor-10-nordic-genex.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--11" src="images/sponsors/sponsor-11-activecells.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--12" src="images/sponsors/sponsor-12-feza-wellness.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--13" src="images/sponsors/sponsor-13-longevity-hub.webp" alt="" loading="lazy" decoding="async"></span>
+            </div>
           </div>
-          <div class="wrow__set" aria-hidden="true"><figure class="wtile"><img src="images/world/world-07-table.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-08-group.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-09-talk.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-10-bluewater.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-11-lana.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-12-room.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure></div>
-          <div class="wrow__set" aria-hidden="true"><figure class="wtile"><img src="images/world/world-07-table.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-08-group.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-09-talk.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-10-bluewater.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-11-lana.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-12-room.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure></div>
-          <div class="wrow__set" aria-hidden="true"><figure class="wtile"><img src="images/world/world-07-table.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-08-group.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-09-talk.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-10-bluewater.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-11-lana.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure><figure class="wtile"><img src="images/world/world-12-room.webp" alt="" width="720" height="900" loading="lazy" decoding="async"></figure></div>
         </div>
       </div>
     </div>
@@ -1536,6 +1613,46 @@ footer .fw{max-width:1400px;margin:0 auto}
   sync();
   (wide.addEventListener?wide.addEventListener('change',sync):wide.addListener(sync));
   window.addEventListener('resize',onScroll,{passive:true});
+})();
+</script>
+<script>
+/* ── chapter 08 collage: offset fades ───────────────────────
+   The press frame and the voices crossfade on DIFFERENT periods
+   (11s / 7.5s) so the two panels never blink in sync. Timers run
+   only while the section is on screen and never under
+   prefers-reduced-motion (first frame + first quote stay put). */
+(function(){
+  var sec=document.getElementById('s8'); if(!sec) return;
+  var reduce=window.matchMedia('(prefers-reduced-motion:reduce)');
+  var imgs=[].slice.call(sec.querySelectorAll('.cpress__img'));
+  var line=document.getElementById('cpress-line');
+  var voices=[].slice.call(sec.querySelectorAll('.cvoice'));
+  var pi=0,vi=0,pt=null,vt=null;
+  voices.forEach(function(v,i){ v.setAttribute('aria-hidden',String(i!==0)); });
+  function stepP(){
+    pi=(pi+1)%imgs.length;
+    imgs.forEach(function(im,i){ im.classList.toggle('is-on',i===pi); });
+    if(line&&imgs[pi].dataset.line) line.textContent=imgs[pi].dataset.line;
+  }
+  function stepV(){
+    vi=(vi+1)%voices.length;
+    voices.forEach(function(v,i){
+      v.classList.toggle('is-on',i===vi);
+      v.setAttribute('aria-hidden',String(i!==vi));
+    });
+  }
+  function start(){
+    if(reduce.matches) return;
+    if(imgs.length>1&&!pt) pt=setInterval(stepP,11000);
+    if(voices.length>1&&!vt) vt=setInterval(stepV,7500);
+  }
+  function stop(){ if(pt){clearInterval(pt);pt=null;} if(vt){clearInterval(vt);vt=null;} }
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(es){
+      es.forEach(function(e){ e.isIntersecting?start():stop(); });
+    },{threshold:.25}).observe(sec);
+  }else{ start(); }
+  (reduce.addEventListener?reduce.addEventListener('change',function(){ reduce.matches?stop():start(); }):0);
 })();
 </script>
 <script>

@@ -617,7 +617,11 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
 .sec--meno .inner{position:relative;z-index:1}
 .meno-globe{
   position:absolute;z-index:0;
-  right:clamp(.75rem,3vw,4rem);top:50%;translate:0 -50%;
+  right:clamp(.75rem,3vw,4rem);
+  /* centre the globe in the space ABOVE the press strip, not in the whole
+     section — plain top:50% ignored the strip and hung the globe ~45px low,
+     which read as a tilted frame */
+  top:calc((100% - var(--press-zone))/2);translate:0 -50%;
   width:min(42vw,68svh);height:min(42vw,68svh);
 }
 @media (max-width:899px){
@@ -636,9 +640,20 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
   box-shadow:0 0 0 1px rgba(194,160,94,.55);
 }
 .sec--meno .cta svg{width:17px;height:17px}
-/* reserve the closer's bottom edge for the press strip so it can
-   never crowd the finale pill, even at 1280x700 */
-@media (min-width:900px){ .sec--meno{padding-bottom:6.5rem} }
+/* --press-zone is the strip's total claim on the section's bottom edge.
+   It reserves space so the strip never crowds the finale pill AND gives
+   the globe its centring reference — one number, both jobs. */
+.sec--meno{--press-zone:0px}
+@media (min-width:900px){
+  /* 4.95rem is the strip's own height (kicker block + the 54px belt, which
+     the tallest --h sets) — keep it in step if those change; the second term
+     is .press's own bottom offset. Exact beats approximate here: the globe
+     centres on this number, so any drift shows up as a lopsided frame. */
+  .sec--meno{
+    --press-zone:calc(4.95rem + clamp(1rem,3vh,2.1rem));
+    padding-bottom:var(--press-zone);
+  }
+}
 
 /* ── as-featured-in marquee ─────────────────────────────────
    Six press wordmarks drift right-to-left along the closer's
@@ -664,21 +679,30 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
   gap:clamp(2.8rem,5vw,4.6rem);padding-right:clamp(2.8rem,5vw,4.6rem);
 }
 .pl{
+  --k:1;
   display:block;background:currentColor;
+  height:calc(var(--h)*var(--k));width:calc(var(--h)*var(--k)*var(--r));
   -webkit-mask:var(--m) no-repeat center/contain;mask:var(--m) no-repeat center/contain;
 }
-.pl--bazaar{--m:url(images/press/harpers-bazaar.svg);width:142px;height:30px}
-.pl--madame{--m:url(images/press/madame-arabia.svg);width:137px;height:36px}
-.pl--gtm{--m:url(images/press/global-trend-monitor.svg);width:222px;height:36px}
-.pl--emirates{--m:url(images/press/russian-emirates.svg);width:264px;height:30px}
-.pl--driven{--m:url(images/press/driven-magazine.svg);width:199px;height:32px}
-.pl--sublime{--m:url(images/press/sublime.svg);width:145px;height:32px}
+/* --h is tuned per mark so all six render at the SAME optical core height
+   (~18px): all-caps marks measured on cap-height x .72, mixed-case ones on
+   the blend of that and x-height. Sizing by bounding box instead — the
+   obvious way, and what this strip shipped with first — rendered the
+   two-line marks 60% smaller than BAZAAR and the row read as a jumble.
+   --r is each SVG's viewBox aspect, so a mark never letterboxes in its box. */
+.pl--bazaar  {--m:url(images/press/harpers-bazaar.svg);      --h:32px;--r:4.724}
+.pl--madame  {--m:url(images/press/madame-arabia.svg);       --h:34px;--r:3.807}
+.pl--gtm     {--m:url(images/press/global-trend-monitor.svg);--h:54px;--r:6.176}
+.pl--emirates{--m:url(images/press/russian-emirates.svg);    --h:44px;--r:8.800}
+.pl--driven  {--m:url(images/press/driven-magazine.svg);     --h:41px;--r:6.206}
+.pl--sublime {--m:url(images/press/sublime.svg);             --h:33px;--r:4.532}
 @keyframes press-drift{to{transform:translateX(-25%)}}
 @media (max-width:899px){
   /* the column layout's align-items:flex-end would shrink .press to its
      max-content track — pin it to the viewport width instead */
   .press{position:static;order:3;margin-top:1.6rem;width:100%}
   .press__kicker{margin-bottom:.75rem}
+  .pl{--k:.76}
 }
 @media (prefers-reduced-motion:reduce){
   .press__track{animation:none}

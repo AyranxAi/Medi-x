@@ -14,6 +14,23 @@
 > Verified at 1400×900, 1280×700, 390×844 over local HTTP (masks
 > CORS-fail over file://, use `python3 -m http.server`). Tint/speed
 > knobs: `.press__belt` color, `press-drift` duration.
+>
+> **Two things learned the hard way — do not undo them:**
+>
+> 1. **Size marks by optical core, never by bounding box.** Each `.pl--*`
+>    carries `--h` (box height) + `--r` (viewBox aspect). The `--h` values
+>    are tuned so every mark renders at the same ~18px *core* — cap-height
+>    × .72 for all-caps marks, blended with x-height for mixed-case ones.
+>    Bounding-box sizing (v1) rendered the two-line marks 60% smaller than
+>    BAZAAR: cores ran 12.0–19.3px and the row read as a jumble. Adding a
+>    mark? Measure its core, don't guess its box.
+> 2. **`--press-zone` is load-bearing.** It reserves the strip's space AND
+>    is the globe's centring reference (`top:calc((100% - var(--press-zone))/2)`).
+>    Plain `top:50%` centres on the whole section, ignoring the strip — the
+>    globe hung 41–48px low at every viewport and the frame read tilted.
+>    The value is `4.95rem + .press`'s own bottom offset, where 4.95rem is
+>    the strip's height (kicker block + the 54px belt the tallest `--h`
+>    sets). Change a `--h` or the kicker, re-derive that 4.95rem.
 
 Written 2026-08-01, end of the header/globe/accordion session. Read
 `HANDOVER.md` first for the site's full state; this file is the brief

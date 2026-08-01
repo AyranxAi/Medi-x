@@ -27,6 +27,14 @@ are featured in") at the START of the next chat. For each image:
 2. Get the user's YES on each mark before it enters the marquee (EXACT
    standard — a wrong wordmark on a medical brand is worse than none).
 
+## Update 2026-08-01
+
+Chapter 07's rotating patient quotes were REMOVED (they now live as
+statics in the new chapter 08), so the closer's bottom edge is clean
+ground for this strip. Placement and all rules below are unchanged —
+the user reconfirmed: bottom of chapter 07, SVG wordmarks. Still
+waiting on the publication images.
+
 ## Locked decisions (user's explicit picks — do not relitigate)
 
 - Marquee lives INSIDE chapter 07, along the closer's bottom edge.

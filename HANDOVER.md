@@ -3,6 +3,34 @@
 State as of 2026-07-31. The page is live (deployment tracks `main`).
 Everything below was built across PRs #1–#6, all merged.
 
+## 0 · 2026-08-01 addendum — buttons/layout session (PR #18)
+
+- The page is EIGHT chapters now. New 08 "In the World" (`#s8`): press
+  coverage as photographs — drop-a-file slots `images/press/press-01..04.webp`
+  (real coverage only, captions vanish when a file lands) — plus the three
+  film testimonials, static, on the chapter-07 night ground.
+- CTAs: hero "Begin" → burgundy "Book your consultation" + ivory "Take the
+  hormone quiz", equal-width pair (labels left, arrows right). Ivory CTAs in
+  02 About us / 03 Book a free discovery call / 05 Meet the team /
+  06 Visit the shop. All INERT until destinations exist.
+- **Pill register CONFIRMED over CLP boxes** (user saw both side by side).
+  One token flips every CTA if revisited: `--btn-radius` in `:root`.
+- Chapter 07: the rotating quotes were REMOVED (user's call) — the
+  featured-in wordmark marquee goes along its bottom edge once the real
+  publication SVGs arrive (brief unchanged in `HANDOVER_FEATURED_IN.md`).
+- Footer rebuilt: logo, tagline, five social chips (UNWIRED — no accounts
+  yet), newsletter (UNWIRED — CRM later), contact block.
+- WhatsApp IS WIRED (header chip + footer link):
+  `https://api.whatsapp.com/send/?phone=971555450797&text=...` — the one
+  live destination on the page.
+- Title, meta description and hero body now carry the real positioning
+  line — the "experiment in full-bleed" framing is gone from user-facing
+  chrome (menu foot / footer base still say "experiment"; user hasn't asked).
+- Accordion closed names 21→23px, short lines 13→14px (readability, 40–60
+  audience).
+- "Book your consultation" vs "Book a free discovery call" naming: user
+  will revisit — do NOT unify unasked.
+
 ## What this is
 
 A single static full-bleed page (`index.html` + `images/`, no build step)

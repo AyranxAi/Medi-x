@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Medi&#10022;X — an experiment in full-bleed</title>
-<meta name="description" content="Eight full-bleed chapters. An experiment in scroll, image and restraint.">
+<title>Medi-Gyn — Advanced Women's Hormone Health, Menopause &amp; Longevity Medicine</title>
+<meta name="description" content="Advanced women's hormone health, menopause and longevity medicine. Personalised, doctor-led care — online consultations, Dubai and worldwide.">
 <meta name="theme-color" content="#2E2228">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -629,23 +629,6 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
     width:min(76vw,42svh);height:min(76vw,42svh);
   }
 }
-.meno-quotes{position:relative;margin-top:1.9rem;max-width:30rem}
-.meno-quote{
-  position:absolute;top:0;left:0;right:0;margin:0;
-  opacity:0;transition:opacity 1.1s var(--ease);
-}
-.meno-quote[data-on="true"]{opacity:1}
-.meno-quote p{
-  margin:0;font-family:var(--serif);font-style:italic;font-weight:300;
-  font-size:clamp(1.05rem,1.35vw,1.28rem);line-height:1.45;
-  color:var(--ivory);
-}
-.meno-quote footer{
-  /* unset the page-footer chrome — this footer is a quote attribution */
-  background:none;border:0;padding:0;
-  margin-top:.55rem;font-size:.66rem;font-weight:400;
-  letter-spacing:.26em;text-transform:uppercase;color:var(--gold);
-}
 /* the finale CTA steps up: larger, and a gold hairline gives the pill
    a visible edge on the night ground (the deep fill alone sits ~1.5:1) */
 .sec--meno .cta{
@@ -653,9 +636,6 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
   box-shadow:0 0 0 1px rgba(194,160,94,.55);
 }
 .sec--meno .cta svg{width:17px;height:17px}
-@media (prefers-reduced-motion:reduce){
-  .meno-quote{transition:none}
-}
 
 /* ── in the world (chapter 08) ──────────────────────────────
    Press coverage as photographs — Medi-Gyn out in the world —
@@ -804,8 +784,8 @@ footer .fw{max-width:1400px;margin:0 auto}
         <path d="M3.75 12h16.5M12 3.75c2.2 2.3 3.3 5.05 3.3 8.25S14.2 18 12 20.25C9.8 18 8.7 15.2 8.7 12S9.8 6.05 12 3.75Z" stroke="currentColor" stroke-width="1.5"/>
       </svg>
     </button>
-    <!-- inert for now — needs the clinic's WhatsApp number -->
-    <a class="wapp" aria-label="Chat on WhatsApp">
+    <a class="wapp" aria-label="Chat on WhatsApp" target="_blank" rel="noopener"
+       href="https://api.whatsapp.com/send/?phone=971555450797&amp;text=Hello%2C%20I%27m%20interested%20in%20a%20private%20consultation%20for%20hormone%20therapy%20support.&amp;type=phone_number&amp;app_absent=0">
       <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path d="M12 3.6a8.4 8.4 0 0 0-7.25 12.65L3.6 20.4l4.25-1.1A8.4 8.4 0 1 0 12 3.6Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
         <path d="M8.9 8.95c.15-.4.35-.45.55-.45h.45c.15 0 .35.05.5.4l.55 1.3c.1.2.05.4-.1.55l-.35.45c-.1.15-.12.3-.02.5.3.55.95 1.3 1.8 1.7.2.1.35.08.5-.08l.45-.55c.15-.2.3-.22.55-.12l1.3.6c.25.12.35.27.35.47v.5c0 .2-.1.4-.45.55-.35.2-.9.3-1.55.1-1.2-.35-2.4-1.2-3.3-2.5-.65-.9-.85-1.75-.65-2.4.08-.35.27-.62.42-1.02Z" fill="currentColor"/>
@@ -842,7 +822,7 @@ footer .fw{max-width:1400px;margin:0 auto}
     <div class="inner"><div class="copy">
       <p class="kicker reveal">Chapter 01</p>
       <h1 class="reveal">The goal was never<br>to look <em>younger.</em></h1>
-      <p class="body reveal">Eight full-bleed frames, one idea each. Scroll slowly &mdash; this page is built to be looked at, not skimmed.</p>
+      <p class="body reveal">Advanced women&rsquo;s hormone health, menopause &amp; longevity medicine &mdash; personalised, doctor-led, online and worldwide.</p>
       <!-- both inert until a booking destination and the quiz exist -->
       <div class="cta-stack reveal">
         <a class="cta">Book your consultation
@@ -1094,8 +1074,10 @@ footer .fw{max-width:1400px;margin:0 auto}
   </section>
 
   <!-- CTA is inert until menoSTART has a signup destination.
-       Quote attributions are PENDING the user's + Irina's sign-off;
-       the lines are verbatim from the two testimonial films. -->
+       The rotating testimonials moved to chapter 08 (2026-08-01);
+       the "as featured in" wordmark marquee lands along this section's
+       bottom edge once the real publication SVGs exist — placement and
+       rules are locked in HANDOVER_FEATURED_IN.md. -->
   <section class="sec sec--meno" id="s7" data-nav="menoSTART">
     <!-- no photo: the ground is the CSS night gradient on .bg -->
     <div class="bg"></div>
@@ -1103,20 +1085,6 @@ footer .fw{max-width:1400px;margin:0 auto}
     <div class="inner"><div class="copy">
       <p class="kicker reveal">Chapter 07 &mdash; menoSTART</p>
       <h2 class="reveal">Join us.<br>Learn with us.<br><em>Be with us.</em></h2>
-      <div class="meno-quotes reveal" id="meno-quotes" aria-label="Patient voices">
-        <blockquote class="meno-quote" data-on="true">
-          <p>&ldquo;This literally elevated my everyday life to another level. It was transformational.&rdquo;</p>
-          <footer>A medi-gyn patient &mdash; on film</footer>
-        </blockquote>
-        <blockquote class="meno-quote" data-on="false">
-          <p>&ldquo;The menopause really hit me fast and furious.&rdquo;</p>
-          <footer>Katrina, 58</footer>
-        </blockquote>
-        <blockquote class="meno-quote" data-on="false">
-          <p>&ldquo;If you are hesitant, just do it.&rdquo;</p>
-          <footer>A medi-gyn patient &mdash; on film</footer>
-        </blockquote>
-      </div>
       <a class="cta reveal">Join menoSTART
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
       </a>
@@ -1215,7 +1183,7 @@ footer .fw{max-width:1400px;margin:0 auto}
         <h3 class="f-head">Contact us</h3>
         <ul class="f-contact">
           <li><a href="mailto:hello@medi-gyn.com">hello@medi-gyn.com</a></li>
-          <li><a>WhatsApp us</a></li>
+          <li><a target="_blank" rel="noopener" href="https://api.whatsapp.com/send/?phone=971555450797&amp;text=Hello%2C%20I%27m%20interested%20in%20a%20private%20consultation%20for%20hormone%20therapy%20support.&amp;type=phone_number&amp;app_absent=0">WhatsApp us</a></li>
           <li class="quiet">Dubai &middot; Online consultations worldwide</li>
         </ul>
       </div>
@@ -1562,29 +1530,6 @@ footer .fw{max-width:1400px;margin:0 auto}
   }else setRun(true);
 })();
 
-/* ── menoSTART quote rotation (chapter 07) ── */
-(function(){
-  var box=document.getElementById('meno-quotes');
-  if(!box) return;
-  var qs=[].slice.call(box.querySelectorAll('.meno-quote'));
-  if(qs.length<2) return;
-  /* the quotes are absolutely stacked; reserve the tallest one's height */
-  function fit(){
-    var h=0;
-    qs.forEach(function(q){ h=Math.max(h,q.offsetHeight); });
-    if(h) box.style.minHeight=(h+4)+'px';
-  }
-  fit();
-  window.addEventListener('resize',fit,{passive:true});
-  if(document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
-  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
-  var i=0;
-  setInterval(function(){
-    qs[i].setAttribute('data-on','false');
-    i=(i+1)%qs.length;
-    qs[i].setAttribute('data-on','true');
-  },5200);
-})();
 </script>
 </body>
 </html>

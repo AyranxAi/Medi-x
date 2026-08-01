@@ -5,14 +5,14 @@ Everything below was built across PRs #1–#6, all merged.
 
 ## 0 · 2026-08-01 addendum 2 — favicon + chapter 08 belts session
 
-- **Favicon is the brand mark now**: the helix-y glyph (the DNA "y" of
-  the wordmark) cropped from `images/Logo 3-02.png` (columns 2924–3292 —
-  clean glyph gaps both sides), burgundy `#8E2D3A` + beige `#E2D3B3` on
-  an ivory rounded tile so it reads on dark AND light tab bars. Files:
-  `favicon.ico` (48/32/16 — small sizes stroke-thickened via alpha
-  MaxFilter before downscale, else the ribbons vanish at 16px),
-  `images/favicon-512.png`, `images/apple-touch-icon.png` (square; iOS
-  rounds it). The old gold-✦-on-ink data URI is gone from `<head>`.
+- **Favicon = medi-blond's, verbatim.** `favicon.svg` is a byte-for-byte
+  copy of `medi-gyn-app/app/icon.svg` (ivory mg monogram + gold ✦ on
+  the `#5C1F31` burgundy square); `favicon.ico` is that same artwork
+  rasterised at 48/32/16 for older browsers. One favicon across the
+  whole site family — the user's explicit rule. (A DNA-helix-glyph
+  favicon I invented first was REJECTED — "the mg burgundy logo" means
+  the medi-blond monogram icon; do not redesign brand marks unasked.)
+  The old gold-✦-on-ink data URI is gone from `<head>`.
 - **Chapter 08 rebuilt as two counter-drifting full-bleed belts**
   (`.world-split`): events tiles drift right→left (64s/set), the three
   film-testimonial cards drift left→right (80s/set, reverse of the same

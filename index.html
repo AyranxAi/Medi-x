@@ -224,6 +224,23 @@ main{position:relative}
   /* products frame: pull the crop left so the bottles clear the copy column */
   #s6 .bg{background-position:12% center}
 }
+/* The product frame was replaced 2026-08-01 with a far brighter set, and
+   the bottles now run straight through the copy column. The stock light
+   scrim left body text at 1.28:1 over the brightest bottle against a site
+   standard of AA, so this one frame carries a deeper, wider scrim.
+   Measured per text LINE rect, not per block box — block boxes are wider
+   than the glyphs and send you chasing failures in empty padding.
+   At 1440/1280/1920: kicker 5.95, h2 9.62, body 5.77, tag 5.16.
+   ⚠️ Lighter fails: dropping these stops ~8% puts .tag at 4.43:1. The
+   real fix for a frame with no dark region is dark text, not more scrim —
+   offered to the user 2026-08-01, not taken up yet. */
+@media (min-width:900px){
+  #s6::after{
+    background:
+      linear-gradient(to right,rgba(26,17,14,.93) 0%,rgba(26,17,14,.88) 33%,rgba(26,17,14,.62) 52%,rgba(26,17,14,0) 78%),
+      linear-gradient(to top,rgba(26,17,14,.3) 0%,rgba(26,17,14,0) 44%);
+  }
+}
 
 /* scrim: heavy at the text edge, gone over the subject */
 .sec::after{
@@ -783,10 +800,15 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
   .wrow{overflow-x:auto}
 }
 
-/* ── footer ─────────────────────────────────────────────── */
+/* ── footer ─────────────────────────────────────────────────
+   IVORY as of 2026-08-01 (his call; he has more changes coming here). The
+   page lands on cream instead of closing in the dark, so every
+   ivory-on-ink value below had to be inverted — text, the newsletter
+   field, the JOIN button, the social chips, both rules — and the wordmark
+   swaps to the RED logo, since the ivory one is invisible on this ground. */
 footer{
-  background:var(--ink);padding:4.5rem clamp(1.25rem,6vw,6rem) 2.6rem;
-  border-top:1px solid rgba(222,212,194,.12);
+  background:var(--cream);padding:4.5rem clamp(1.25rem,6vw,6rem) 2.6rem;
+  border-top:1px solid rgba(71,24,38,.14);
 }
 footer .fw{max-width:1400px;margin:0 auto}
 .f-grid{
@@ -797,47 +819,48 @@ footer .fw{max-width:1400px;margin:0 auto}
 .f-mark img{display:block;height:40px;width:auto}
 .f-tagline{
   margin:1.3rem 0 0;max-width:22rem;
-  font-size:.85rem;line-height:1.65;color:rgba(250,247,241,.65);
+  font-size:.85rem;line-height:1.65;color:var(--ink-soft);
 }
 .f-head{
-  margin:0 0 1.1rem;font-size:.62rem;font-weight:400;
-  letter-spacing:.28em;text-transform:uppercase;color:var(--gold);
+  margin:0 0 1.1rem;font-size:.62rem;font-weight:500;
+  letter-spacing:.28em;text-transform:uppercase;color:var(--burgundy);
 }
-.f-news p{margin:0 0 .9rem;font-size:.8rem;line-height:1.6;color:rgba(250,247,241,.65)}
+.f-news p{margin:0 0 .9rem;font-size:.8rem;line-height:1.6;color:var(--ink-soft)}
 .f-news form{display:flex;gap:.5rem;max-width:24rem}
 .f-news input{
   flex:1;min-width:0;height:2.75rem;padding:0 1.1rem;
-  border-radius:var(--btn-radius);border:1px solid rgba(250,247,241,.25);
-  background:transparent;color:var(--ivory);
+  border-radius:var(--btn-radius);border:1px solid rgba(71,24,38,.28);
+  background:rgba(250,247,241,.6);color:var(--ink);
   font-family:var(--sans);font-size:.8rem;font-weight:300;
 }
-.f-news input::placeholder{color:rgba(250,247,241,.4)}
+.f-news input::placeholder{color:rgba(106,88,95,.7)}
+.f-news input:focus-visible{outline:2px solid var(--burgundy);outline-offset:2px}
 .f-news button{
   -webkit-appearance:none;appearance:none;cursor:pointer;flex:none;
   height:2.75rem;padding:0 1.4rem;border:0;border-radius:var(--btn-radius);
-  background:var(--ivory);color:var(--burgundy);
+  background:var(--burgundy);color:var(--ivory);
   font-family:var(--sans);font-size:.62rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;
   transition:background .3s var(--ease);
 }
-.f-news button:hover{background:var(--cream)}
+.f-news button:hover{background:#471826}
 /* social chips share the header-control grammar: hairline circles, gold hover */
 .f-social{display:flex;gap:.6rem;margin-top:1.6rem;flex-wrap:wrap}
 .f-social a{
   display:grid;place-content:center;width:2.75rem;height:2.75rem;
-  border-radius:999px;border:1px solid rgba(250,247,241,.3);color:rgba(250,247,241,.8);
+  border-radius:999px;border:1px solid rgba(71,24,38,.28);color:var(--burgundy);
   transition:border-color .3s var(--ease),color .3s var(--ease),background-color .3s var(--ease);
   cursor:pointer;
 }
-.f-social a:hover{border-color:var(--gold);color:var(--ivory);background:rgba(250,247,241,.06)}
+.f-social a:hover{border-color:var(--burgundy);color:var(--ivory);background:var(--burgundy)}
 .f-social svg{width:17px;height:17px}
 .f-contact{margin:0;padding:0;list-style:none}
-.f-contact li{margin:0 0 .7rem;font-size:.8rem;color:rgba(250,247,241,.75)}
+.f-contact li{margin:0 0 .7rem;font-size:.8rem;color:var(--ink)}
 .f-contact a{text-decoration:none;transition:color .25s var(--ease)}
-.f-contact a:hover{color:var(--ivory)}
-.f-contact .quiet{color:rgba(250,247,241,.45)}
+.f-contact a:hover{color:var(--burgundy)}
+.f-contact .quiet{color:var(--ink-soft)}
 .f-base{
   margin-top:3.2rem;padding-top:1.6rem;
-  border-top:1px solid rgba(222,212,194,.1);
+  border-top:1px solid rgba(71,24,38,.14);
   display:flex;flex-wrap:wrap;gap:.8rem 1.5rem;justify-content:space-between;
 }
 .f-base p{margin:0;font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-soft)}
@@ -1256,7 +1279,8 @@ footer .fw{max-width:1400px;margin:0 auto}
     <div class="f-grid">
       <div>
         <a class="f-mark" href="#top" aria-label="Medi-Gyn — back to top">
-          <img src="images/logo-ivory.webp" alt="medi-gyn">
+          <!-- red, not ivory: the footer ground is cream now -->
+          <img src="images/logo-red.webp" alt="medi-gyn">
         </a>
         <p class="f-tagline">Where women&rsquo;s symptoms are decoded &mdash; not dismissed.</p>
         <div class="f-social" aria-label="Social media">

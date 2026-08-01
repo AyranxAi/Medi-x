@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Medi&#10022;X — an experiment in full-bleed</title>
-<meta name="description" content="Seven full-bleed chapters. An experiment in scroll, image and restraint.">
+<title>Medi-Gyn — Advanced Women's Hormone Health, Menopause &amp; Longevity Medicine</title>
+<meta name="description" content="Advanced women's hormone health, menopause and longevity medicine. Personalised, doctor-led care — online consultations, Dubai and worldwide.">
 <meta name="theme-color" content="#2E2228">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,6 +20,8 @@
   --serif:"Cormorant Garamond",Georgia,serif;
   --sans:"Inter",ui-sans-serif,system-ui,-apple-system,sans-serif;
   --ease:cubic-bezier(.22,.61,.36,1);
+  /* one token decides pill vs box for every CTA-shaped control */
+  --btn-radius:999px;
 }
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
@@ -90,7 +92,7 @@ body.nav-open .hdr{background:transparent;border-bottom-color:transparent;backdr
 .globe svg,.wapp svg{width:19px;height:19px}
 .hdr__book{
   display:inline-flex;align-items:center;white-space:nowrap;
-  height:2.75rem;padding:0 1.5rem;border-radius:999px;
+  height:2.75rem;padding:0 1.5rem;border-radius:var(--btn-radius);
   border:1px solid rgba(250,247,241,.6);
   background:rgba(46,34,40,.45);color:var(--ivory);
   backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
@@ -285,13 +287,26 @@ h1 em,h2 em{font-style:italic;color:var(--rose)}
 
 .cta{
   margin-top:2.4rem;display:inline-flex;align-items:center;gap:.8rem;
-  padding:.95rem 1.9rem;border-radius:999px;
+  padding:.95rem 1.9rem;border-radius:var(--btn-radius);
   background:var(--burgundy);color:var(--ivory);
-  text-decoration:none;font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;
+  text-decoration:none;font-size:.75rem;letter-spacing:.22em;text-transform:uppercase;
   transition:background .3s var(--ease),gap .3s var(--ease);
 }
 .cta:hover{background:#471826;gap:1.25rem}
 .cta svg{width:15px;height:15px;flex:none}
+/*
+  The ivory CTA — the register of the header's book pill once the bar has
+  pulled up ivory. Secondary actions across the chapters wear this; the
+  burgundy fill stays reserved for the two booking moments (hero, closer).
+*/
+.cta--ivory{background:var(--ivory);color:var(--burgundy)}
+.cta--ivory:hover{background:var(--cream)}
+/* hero carries two actions stacked; the stack owns the margin, not the pills.
+   inline-flex + stretch: the container hugs the longer pill and the shorter
+   one grows to match, so the two read as one deliberate pair. Labels hold the
+   left edge, arrows the right. */
+.cta-stack{margin-top:2.4rem;display:inline-flex;flex-direction:column;align-items:stretch;gap:.9rem}
+.cta-stack .cta{margin-top:0;justify-content:space-between}
 
 /* reveal */
 .reveal{opacity:0;transform:translateY(26px)}
@@ -302,6 +317,8 @@ h1 em,h2 em{font-style:italic;color:var(--rose)}
 .in .reveal:nth-child(2){transition-delay:.09s}
 .in .reveal:nth-child(3){transition-delay:.18s}
 .in .reveal:nth-child(4){transition-delay:.27s}
+.in .reveal:nth-child(5){transition-delay:.36s}
+.in .reveal:nth-child(6){transition-delay:.45s}
 
 /* hero scroll hint */
 .hint{
@@ -483,9 +500,9 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
 
 .pw__num{margin:0;flex:none;font-size:11px;font-weight:600;letter-spacing:.3em;color:rgba(241,231,210,.85)}
 .pw__layer--open .pw__num{color:var(--gold-tint)}
-.pw__name{margin:0;font-family:var(--serif);font-size:21px;line-height:1.2;font-weight:500;color:var(--ivory)}
+.pw__name{margin:0;font-family:var(--serif);font-size:23px;line-height:1.2;font-weight:500;color:var(--ivory)}
 @media (min-width:1024px){ .pw__name{margin-top:12px} }
-.pw__short{display:none;margin:10px 0 0;max-width:20ch;font-size:13px;line-height:1.625;color:rgba(250,247,241,.8)}
+.pw__short{display:none;margin:10px 0 0;max-width:20ch;font-size:14px;line-height:1.625;color:rgba(250,247,241,.8)}
 @media (min-width:1024px){ .pw__short{display:block} }
 .pw__title{margin:12px 0 0;max-width:19ch;font-family:var(--serif);font-size:30px;line-height:1.12;font-weight:500;color:var(--ivory);letter-spacing:0}
 @media (min-width:640px){ .pw__title{font-size:34px} }
@@ -612,23 +629,6 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
     width:min(76vw,42svh);height:min(76vw,42svh);
   }
 }
-.meno-quotes{position:relative;margin-top:1.9rem;max-width:30rem}
-.meno-quote{
-  position:absolute;top:0;left:0;right:0;margin:0;
-  opacity:0;transition:opacity 1.1s var(--ease);
-}
-.meno-quote[data-on="true"]{opacity:1}
-.meno-quote p{
-  margin:0;font-family:var(--serif);font-style:italic;font-weight:300;
-  font-size:clamp(1.05rem,1.35vw,1.28rem);line-height:1.45;
-  color:var(--ivory);
-}
-.meno-quote footer{
-  /* unset the page-footer chrome — this footer is a quote attribution */
-  background:none;border:0;padding:0;
-  margin-top:.55rem;font-size:.66rem;font-weight:400;
-  letter-spacing:.26em;text-transform:uppercase;color:var(--gold);
-}
 /* the finale CTA steps up: larger, and a gold hairline gives the pill
    a visible edge on the night ground (the deep fill alone sits ~1.5:1) */
 .sec--meno .cta{
@@ -636,16 +636,128 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
   box-shadow:0 0 0 1px rgba(194,160,94,.55);
 }
 .sec--meno .cta svg{width:17px;height:17px}
-@media (prefers-reduced-motion:reduce){
-  .meno-quote{transition:none}
+
+/* ── in the world (chapter 08) ──────────────────────────────
+   Press coverage as photographs — Medi-Gyn out in the world —
+   and the human testimonials, together in one credibility
+   frame. No photo ground of its own: it continues chapter 07's
+   designed night so the two read as one closing movement. */
+.sec--world{
+  display:block;min-height:0;
+  padding:clamp(5rem,12vh,8rem) 0 clamp(4rem,10vh,6.5rem);
+}
+.sec--world .bg{
+  background-image:
+    radial-gradient(70% 90% at 82% 0%,rgba(92,31,49,.4),transparent 70%),
+    radial-gradient(55% 70% at 8% 90%,rgba(199,154,146,.09),transparent 65%),
+    linear-gradient(175deg,#241A1F 0%,#2E2228 60%,#241A1F 100%);
+}
+.sec--world::after{content:none}
+.sec--world .copy{max-width:44rem}
+/*
+  The press rail: photographs of the clinic travelling — press days,
+  panels, gatherings. Each tile is a drop-a-file slot: land the correctly
+  named webp in images/press/ and it appears over its toned ground; until
+  then the tile states quietly what belongs in it. Real coverage only —
+  the slots stay honest rather than wearing stock.
+*/
+.world-rail{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:10px;
+  margin-top:clamp(2.5rem,6vh,4rem);
+}
+@media (max-width:899px){ .world-rail{grid-template-columns:repeat(2,1fr)} }
+.world-tile{
+  position:relative;margin:0;aspect-ratio:4/3;overflow:hidden;border-radius:14px;
+  border:1px solid rgba(194,160,94,.28);
+  display:flex;align-items:flex-end;
+}
+.world-tile>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+/* a landed photograph silences its slot caption; a missing file removes the
+   img via onerror, and the caption returns with it */
+.world-tile>img+figcaption{opacity:0}
+.world-tile figcaption{
+  position:relative;z-index:1;padding:.9rem 1rem;
+  font-size:.58rem;letter-spacing:.24em;text-transform:uppercase;
+  color:rgba(250,247,241,.55);
+}
+.world-tile--rose{background:linear-gradient(160deg,#3A252C 0%,#4A2B33 60%,#3A252C 100%)}
+.world-tile--gold{background:linear-gradient(160deg,#382B24 0%,#453327 60%,#382B24 100%)}
+.world-tile--taupe{background:linear-gradient(160deg,#322A2B 0%,#3E3334 60%,#322A2B 100%)}
+/* the human testimonials: static, all three on the wall at once */
+.world-voices{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1.5rem,3vw,3rem);
+  margin-top:clamp(2.8rem,7vh,4.5rem);
+}
+@media (max-width:899px){ .world-voices{grid-template-columns:1fr} }
+.voice{margin:0;border-top:1px solid rgba(222,212,194,.16);padding-top:1.4rem}
+.voice p{
+  margin:0;font-family:var(--serif);font-style:italic;font-weight:300;
+  font-size:clamp(1.1rem,1.5vw,1.35rem);line-height:1.45;color:var(--ivory);
+}
+.voice footer{
+  /* unset the page-footer chrome — this footer is a quote attribution */
+  background:none;border:0;padding:.6rem 0 0;
+  font-size:.62rem;font-weight:400;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);
 }
 
+/* ── footer ─────────────────────────────────────────────── */
 footer{
-  background:var(--ink);padding:5rem clamp(1.25rem,6vw,6rem) 3.2rem;
+  background:var(--ink);padding:4.5rem clamp(1.25rem,6vw,6rem) 2.6rem;
   border-top:1px solid rgba(222,212,194,.12);
 }
-footer .fw{max-width:1400px;margin:0 auto;display:flex;flex-wrap:wrap;gap:1.5rem;justify-content:space-between;align-items:flex-end}
-footer p{margin:0;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-soft)}
+footer .fw{max-width:1400px;margin:0 auto}
+.f-grid{
+  display:grid;grid-template-columns:1.4fr 1fr 1fr;
+  gap:clamp(2.2rem,5vw,4.5rem);align-items:start;
+}
+@media (max-width:899px){ .f-grid{grid-template-columns:1fr} }
+.f-mark img{display:block;height:40px;width:auto}
+.f-tagline{
+  margin:1.3rem 0 0;max-width:22rem;
+  font-size:.85rem;line-height:1.65;color:rgba(250,247,241,.65);
+}
+.f-head{
+  margin:0 0 1.1rem;font-size:.62rem;font-weight:400;
+  letter-spacing:.28em;text-transform:uppercase;color:var(--gold);
+}
+.f-news p{margin:0 0 .9rem;font-size:.8rem;line-height:1.6;color:rgba(250,247,241,.65)}
+.f-news form{display:flex;gap:.5rem;max-width:24rem}
+.f-news input{
+  flex:1;min-width:0;height:2.75rem;padding:0 1.1rem;
+  border-radius:var(--btn-radius);border:1px solid rgba(250,247,241,.25);
+  background:transparent;color:var(--ivory);
+  font-family:var(--sans);font-size:.8rem;font-weight:300;
+}
+.f-news input::placeholder{color:rgba(250,247,241,.4)}
+.f-news button{
+  -webkit-appearance:none;appearance:none;cursor:pointer;flex:none;
+  height:2.75rem;padding:0 1.4rem;border:0;border-radius:var(--btn-radius);
+  background:var(--ivory);color:var(--burgundy);
+  font-family:var(--sans);font-size:.62rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;
+  transition:background .3s var(--ease);
+}
+.f-news button:hover{background:var(--cream)}
+/* social chips share the header-control grammar: hairline circles, gold hover */
+.f-social{display:flex;gap:.6rem;margin-top:1.6rem;flex-wrap:wrap}
+.f-social a{
+  display:grid;place-content:center;width:2.75rem;height:2.75rem;
+  border-radius:999px;border:1px solid rgba(250,247,241,.3);color:rgba(250,247,241,.8);
+  transition:border-color .3s var(--ease),color .3s var(--ease),background-color .3s var(--ease);
+  cursor:pointer;
+}
+.f-social a:hover{border-color:var(--gold);color:var(--ivory);background:rgba(250,247,241,.06)}
+.f-social svg{width:17px;height:17px}
+.f-contact{margin:0;padding:0;list-style:none}
+.f-contact li{margin:0 0 .7rem;font-size:.8rem;color:rgba(250,247,241,.75)}
+.f-contact a{text-decoration:none;transition:color .25s var(--ease)}
+.f-contact a:hover{color:var(--ivory)}
+.f-contact .quiet{color:rgba(250,247,241,.45)}
+.f-base{
+  margin-top:3.2rem;padding-top:1.6rem;
+  border-top:1px solid rgba(222,212,194,.1);
+  display:flex;flex-wrap:wrap;gap:.8rem 1.5rem;justify-content:space-between;
+}
+.f-base p{margin:0;font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-soft)}
 
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
@@ -672,8 +784,8 @@ footer p{margin:0;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase
         <path d="M3.75 12h16.5M12 3.75c2.2 2.3 3.3 5.05 3.3 8.25S14.2 18 12 20.25C9.8 18 8.7 15.2 8.7 12S9.8 6.05 12 3.75Z" stroke="currentColor" stroke-width="1.5"/>
       </svg>
     </button>
-    <!-- inert for now — needs the clinic's WhatsApp number -->
-    <a class="wapp" aria-label="Chat on WhatsApp">
+    <a class="wapp" aria-label="Chat on WhatsApp" target="_blank" rel="noopener"
+       href="https://api.whatsapp.com/send/?phone=971555450797&amp;text=Hello%2C%20I%27m%20interested%20in%20a%20private%20consultation%20for%20hormone%20therapy%20support.&amp;type=phone_number&amp;app_absent=0">
       <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path d="M12 3.6a8.4 8.4 0 0 0-7.25 12.65L3.6 20.4l4.25-1.1A8.4 8.4 0 1 0 12 3.6Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
         <path d="M8.9 8.95c.15-.4.35-.45.55-.45h.45c.15 0 .35.05.5.4l.55 1.3c.1.2.05.4-.1.55l-.35.45c-.1.15-.12.3-.02.5.3.55.95 1.3 1.8 1.7.2.1.35.08.5-.08l.45-.55c.15-.2.3-.22.55-.12l1.3.6c.25.12.35.27.35.47v.5c0 .2-.1.4-.45.55-.35.2-.9.3-1.55.1-1.2-.35-2.4-1.2-3.3-2.5-.65-.9-.85-1.75-.65-2.4.08-.35.27-.62.42-1.02Z" fill="currentColor"/>
@@ -696,8 +808,9 @@ footer p{margin:0;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase
     <li style="--i:4"><a href="#s5"><em>05</em>The Room</a></li>
     <li style="--i:5"><a href="#s6"><em>06</em>The Tools</a></li>
     <li style="--i:6"><a href="#s7"><em>07</em>menoSTART</a></li>
+    <li style="--i:7"><a href="#s8"><em>08</em>In the World</a></li>
   </ol>
-  <span class="foot">Experiment &mdash; seven chapters</span>
+  <span class="foot">Experiment &mdash; eight chapters</span>
 </nav>
 
 <div class="rail" id="rail" aria-hidden="true"></div>
@@ -709,10 +822,16 @@ footer p{margin:0;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase
     <div class="inner"><div class="copy">
       <p class="kicker reveal">Chapter 01</p>
       <h1 class="reveal">The goal was never<br>to look <em>younger.</em></h1>
-      <p class="body reveal">Seven full-bleed frames, one idea each. Scroll slowly &mdash; this page is built to be looked at, not skimmed.</p>
-      <a class="cta reveal" href="#s2">Begin
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 4v16m0 0l-6-6m6 6l6-6"/></svg>
-      </a>
+      <p class="body reveal">Advanced women&rsquo;s hormone health, menopause &amp; longevity medicine &mdash; personalised, doctor-led, online and worldwide.</p>
+      <!-- both inert until a booking destination and the quiz exist -->
+      <div class="cta-stack reveal">
+        <a class="cta">Book your consultation
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
+        </a>
+        <a class="cta cta--ivory">Take the hormone quiz
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
+        </a>
+      </div>
     </div></div>
     <div class="hint" aria-hidden="true"><i></i>Scroll</div>
   </section>
@@ -724,6 +843,11 @@ footer p{margin:0;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase
       <h2 class="reveal">Decoded, <em>not dismissed.</em></h2>
       <p class="body reveal">Founded on a simple frustration: real symptoms answered with &ldquo;that&rsquo;s normal for your age.&rdquo; The answer is unhurried, evidence-informed, doctor-led care.</p>
       <p class="tag reveal"><b>&#10022;</b> Who we are</p>
+      <div class="reveal">
+        <a class="cta cta--ivory">About us
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
+        </a>
+      </div>
     </div></div>
   </section>
 
@@ -734,6 +858,11 @@ footer p{margin:0;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase
       <h2 class="reveal">Forty minutes, <em>not seven.</em></h2>
       <p class="body reveal">The consultation is the instrument. Everything else &mdash; the panels, the protocols, the follow-ups &mdash; is downstream of how well the first hour listened.</p>
       <p class="tag reveal"><b>&#10022;</b> Clinical layer</p>
+      <div class="reveal">
+        <a class="cta cta--ivory">Book a free discovery call
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
+        </a>
+      </div>
     </div></div>
   </section>
 
@@ -921,6 +1050,11 @@ footer p{margin:0;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase
       <h2 class="reveal">The room is part of <em>the treatment.</em></h2>
       <p class="body reveal">Soft light, a closed door, nowhere to hurry to. The space is built the way the medicine is practised &mdash; around one person at a time.</p>
       <p class="tag reveal"><b>&#10022;</b> The clinic</p>
+      <div class="reveal">
+        <a class="cta cta--ivory">Meet the team
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
+        </a>
+      </div>
     </div></div>
   </section>
 
@@ -931,12 +1065,19 @@ footer p{margin:0;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase
       <h2 class="reveal">A clinic before<br><em>a shop.</em></h2>
       <p class="body reveal">Tests and products sit inside the care plan &mdash; not in front of it. What reaches this shelf was chosen clinically, never merchandised.</p>
       <p class="tag reveal"><b>&#10022;</b> Supportive tools</p>
+      <div class="reveal">
+        <a class="cta cta--ivory">Visit the shop
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
+        </a>
+      </div>
     </div></div>
   </section>
 
   <!-- CTA is inert until menoSTART has a signup destination.
-       Quote attributions are PENDING the user's + Irina's sign-off;
-       the lines are verbatim from the two testimonial films. -->
+       The rotating testimonials moved to chapter 08 (2026-08-01);
+       the "as featured in" wordmark marquee lands along this section's
+       bottom edge once the real publication SVGs exist — placement and
+       rules are locked in HANDOVER_FEATURED_IN.md. -->
   <section class="sec sec--meno" id="s7" data-nav="menoSTART">
     <!-- no photo: the ground is the CSS night gradient on .bg -->
     <div class="bg"></div>
@@ -944,32 +1085,113 @@ footer p{margin:0;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase
     <div class="inner"><div class="copy">
       <p class="kicker reveal">Chapter 07 &mdash; menoSTART</p>
       <h2 class="reveal">Join us.<br>Learn with us.<br><em>Be with us.</em></h2>
-      <div class="meno-quotes reveal" id="meno-quotes" aria-label="Patient voices">
-        <blockquote class="meno-quote" data-on="true">
-          <p>&ldquo;This literally elevated my everyday life to another level. It was transformational.&rdquo;</p>
-          <footer>A medi-gyn patient &mdash; on film</footer>
-        </blockquote>
-        <blockquote class="meno-quote" data-on="false">
-          <p>&ldquo;The menopause really hit me fast and furious.&rdquo;</p>
-          <footer>Katrina, 58</footer>
-        </blockquote>
-        <blockquote class="meno-quote" data-on="false">
-          <p>&ldquo;If you are hesitant, just do it.&rdquo;</p>
-          <footer>A medi-gyn patient &mdash; on film</footer>
-        </blockquote>
-      </div>
       <a class="cta reveal">Join menoSTART
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
       </a>
     </div></div>
   </section>
 
+  <!-- Chapter 08 — press coverage as photographs + the human testimonials.
+       The four tiles are drop-a-file slots: land the correctly named webp
+       in images/press/ and it appears; real coverage only, never stock.
+       Quote lines are verbatim from the two testimonial films — attributions
+       still PENDING the user's + Irina's sign-off (same as chapter 07). -->
+  <section class="sec sec--world" id="s8" data-nav="In the World">
+    <div class="bg"></div>
+    <div class="inner">
+      <div class="copy">
+        <p class="kicker reveal">Chapter 08 &mdash; In the world</p>
+        <h2 class="reveal">Out in the world, <em>on the record.</em></h2>
+        <p class="body reveal">Press days, panels, gatherings &mdash; the photographs land here as they happen. And beneath them, the words that matter more than any coverage: the women themselves.</p>
+      </div>
+      <div class="world-rail reveal">
+        <figure class="world-tile world-tile--rose">
+          <img src="images/press/press-01.webp" alt="" loading="lazy" onerror="this.remove()">
+          <figcaption>Press &middot; photograph to come</figcaption>
+        </figure>
+        <figure class="world-tile world-tile--gold">
+          <img src="images/press/press-02.webp" alt="" loading="lazy" onerror="this.remove()">
+          <figcaption>Panel &middot; photograph to come</figcaption>
+        </figure>
+        <figure class="world-tile world-tile--taupe">
+          <img src="images/press/press-03.webp" alt="" loading="lazy" onerror="this.remove()">
+          <figcaption>Event &middot; photograph to come</figcaption>
+        </figure>
+        <figure class="world-tile world-tile--rose">
+          <img src="images/press/press-04.webp" alt="" loading="lazy" onerror="this.remove()">
+          <figcaption>On the road &middot; photograph to come</figcaption>
+        </figure>
+      </div>
+      <div class="world-voices reveal">
+        <blockquote class="voice">
+          <p>&ldquo;This literally elevated my everyday life to another level. It was transformational.&rdquo;</p>
+          <footer>A medi-gyn patient &mdash; on film</footer>
+        </blockquote>
+        <blockquote class="voice">
+          <p>&ldquo;The menopause really hit me fast and furious.&rdquo;</p>
+          <footer>Katrina, 58</footer>
+        </blockquote>
+        <blockquote class="voice">
+          <p>&ldquo;If you are hesitant, just do it.&rdquo;</p>
+          <footer>A medi-gyn patient &mdash; on film</footer>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
 </main>
 
+<!-- Socials and the newsletter are UNWIRED by design — links and the CRM
+     destination land later; the chrome is final. Email/WhatsApp are the
+     medi-gyn placeholders (wa.me number TBC). -->
 <footer>
   <div class="fw">
-    <p>Medi&#10022;X &mdash; experiment</p>
-    <p>Seven chapters &middot; built for scroll</p>
+    <div class="f-grid">
+      <div>
+        <a class="f-mark" href="#top" aria-label="Medi-Gyn — back to top">
+          <img src="images/logo-ivory.webp" alt="medi-gyn">
+        </a>
+        <p class="f-tagline">Where women&rsquo;s symptoms are decoded &mdash; not dismissed.</p>
+        <div class="f-social" aria-label="Social media">
+          <a aria-label="Facebook" role="link" aria-disabled="true">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-7.2h2.42l.36-2.8H13.5V9.2c0-.81.23-1.36 1.39-1.36h1.49V5.34c-.26-.03-1.14-.11-2.17-.11-2.15 0-3.62 1.31-3.62 3.72V11H8.16v2.8h2.43V21h2.91Z"/></svg>
+          </a>
+          <a aria-label="Instagram" role="link" aria-disabled="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4.5"/><circle cx="12" cy="12" r="3.6"/><circle cx="16.9" cy="7.1" r=".9" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a aria-label="YouTube" role="link" aria-disabled="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3.6 12c0-2.1.17-3.42.38-4.18.18-.66.68-1.15 1.34-1.32C6.4 6.22 8.6 6 12 6s5.6.22 6.68.5c.66.17 1.16.66 1.34 1.32.21.76.38 2.08.38 4.18s-.17 3.42-.38 4.18a1.86 1.86 0 0 1-1.34 1.32c-1.08.28-3.28.5-6.68.5s-5.6-.22-6.68-.5a1.86 1.86 0 0 1-1.34-1.32C3.77 15.42 3.6 14.1 3.6 12Z"/><path d="M10.4 9.6v4.8l4-2.4-4-2.4Z" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a aria-label="LinkedIn" role="link" aria-disabled="true">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.94 8.5H4.2V19.6h2.74V8.5ZM5.57 7.32a1.66 1.66 0 1 0 0-3.32 1.66 1.66 0 0 0 0 3.32ZM12.06 13.77c0-1.24.57-1.98 1.66-1.98 1 0 1.49.71 1.49 1.98v5.83h2.73v-6.79c0-2.37-1.34-3.52-3.22-3.52-1.87 0-2.66 1.46-2.66 1.46V8.5H9.42V19.6h2.64v-5.83Z"/></svg>
+          </a>
+          <a aria-label="TikTok" role="link" aria-disabled="true">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 4c.3 1.62 1.35 2.9 3.4 3.13v2.55c-1.29.04-2.42-.31-3.55-1.06v4.87c0 4.06-3.13 5.62-5.53 5.62-2.29 0-4.92-1.7-4.92-4.86 0-3.2 2.72-4.9 5.44-4.66v2.62c-1.3-.2-2.79.42-2.79 2.02 0 1.45 1.13 2.24 2.31 2.24 1.35 0 2.87-.79 2.87-3.02V4h2.77Z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="f-news">
+        <h3 class="f-head">Newsletter</h3>
+        <p>A monthly letter on hormone health. No noise.</p>
+        <!-- TODO: wire to Zoho CRM with source tracking (same as medi-blond) -->
+        <form aria-label="Newsletter">
+          <input id="nl-email" type="email" placeholder="Your email" aria-label="Your email">
+          <button type="button">Join</button>
+        </form>
+      </div>
+      <div>
+        <h3 class="f-head">Contact us</h3>
+        <ul class="f-contact">
+          <li><a href="mailto:hello@medi-gyn.com">hello@medi-gyn.com</a></li>
+          <li><a target="_blank" rel="noopener" href="https://api.whatsapp.com/send/?phone=971555450797&amp;text=Hello%2C%20I%27m%20interested%20in%20a%20private%20consultation%20for%20hormone%20therapy%20support.&amp;type=phone_number&amp;app_absent=0">WhatsApp us</a></li>
+          <li class="quiet">Dubai &middot; Online consultations worldwide</li>
+        </ul>
+      </div>
+    </div>
+    <div class="f-base">
+      <p>&copy; 2026 Medi-Gyn &middot; Medi&#10022;X experiment</p>
+      <p>Eight chapters &middot; built for scroll</p>
+    </div>
   </div>
 </footer>
 
@@ -1308,29 +1530,6 @@ footer p{margin:0;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase
   }else setRun(true);
 })();
 
-/* ── menoSTART quote rotation (chapter 07) ── */
-(function(){
-  var box=document.getElementById('meno-quotes');
-  if(!box) return;
-  var qs=[].slice.call(box.querySelectorAll('.meno-quote'));
-  if(qs.length<2) return;
-  /* the quotes are absolutely stacked; reserve the tallest one's height */
-  function fit(){
-    var h=0;
-    qs.forEach(function(q){ h=Math.max(h,q.offsetHeight); });
-    if(h) box.style.minHeight=(h+4)+'px';
-  }
-  fit();
-  window.addEventListener('resize',fit,{passive:true});
-  if(document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
-  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
-  var i=0;
-  setInterval(function(){
-    qs[i].setAttribute('data-on','false');
-    i=(i+1)%qs.length;
-    qs[i].setAttribute('data-on','true');
-  },5200);
-})();
 </script>
 </body>
 </html>

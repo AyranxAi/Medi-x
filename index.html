@@ -59,6 +59,24 @@
   --serif:var(--font-editorial);
   --sans:var(--font-functional);
   --ease:cubic-bezier(.22,.61,.36,1);
+
+  /* ── THE COPY LINE ────────────────────────────────────────────────────────
+     His call 2026-08-03: every chapter's copy starts on the STEM OF THE i in
+     medi·gyn, so one vertical runs from the wordmark down the whole page.
+     It is derived, never typed: the mark scales with the viewport, so a single
+     number would be exact at one width and wrong at every other.
+       --logo-ar   626 / 160, the wordmark file's aspect ratio
+       --i-stem    the i's stem at x280 of a 626px-wide file = 0.44728
+       --serif-fix the Y's ink begins 1px right of its box — this is the
+                   "referring to each other's serif" part of his instruction,
+                   and it is subtracted so the INK lands on the stem, not the box
+     Change the logo artwork and only --i-stem needs re-measuring. */
+  --logo-h:clamp(34px,3.4vw,48px);
+  --logo-ar:3.9125;
+  --i-stem:.44728;
+  --hdr-pad:clamp(1.15rem,3vw,2.2rem);
+  --serif-fix:1px;
+  --copy-x:calc(var(--hdr-pad) + var(--logo-h) * var(--logo-ar) * var(--i-stem) - var(--serif-fix));
   /* one token decides pill vs box for every CTA-shaped control */
   --btn-radius:999px;
 }
@@ -79,7 +97,7 @@ a{color:inherit}
 .hdr{
   position:fixed;z-index:60;inset:0 0 auto 0;
   display:flex;align-items:center;justify-content:space-between;
-  padding:max(1rem,env(safe-area-inset-top)) clamp(1.15rem,3vw,2.2rem) 1rem;
+  padding:max(1rem,env(safe-area-inset-top)) var(--hdr-pad) 1rem;
   /* the bar spans the viewport but only its controls should catch clicks */
   pointer-events:none;
   border-bottom:1px solid transparent;
@@ -106,7 +124,7 @@ body.nav-open .hdr{background:transparent;border-bottom-color:transparent;backdr
   transition:opacity .25s var(--ease);
 }
 .mark:hover{opacity:.78}
-.mark__img{display:block;height:clamp(34px,3.4vw,48px);width:auto}
+.mark__img{display:block;height:var(--logo-h);width:auto}
 /* same artwork, two colourways (626x160 both) — the bar shows the red one */
 .mark__img--red{display:none}
 .hdr--solid .mark{filter:none}
@@ -324,7 +342,14 @@ main{position:relative}
    ch02's 2.22, both under the 3.0 floor, which no 1440 measurement had shown.
    With the cap off, the gutter is simply the padding: a flat 96px above
    1600px. Below 1500 NOTHING changes — his own 1440 view is untouched. */
-@media (min-width:1500px){ .sec .inner{max-width:none} }
+/* ⚠️ Supersedes the old min-width:1500 rule that only dropped the cap. The cap
+   has to go at every desktop width now, because a centred 1400px box adds half
+   the leftover to the left and would push the copy off the stem. Phones keep
+   their own gutter: at 390 the stem sits at 78px, which would eat a fifth of
+   the screen. */
+@media (min-width:900px){
+  .sec .inner{max-width:none;padding:0 var(--copy-x)}
+}
 
 /* THE TYPE GROWS ONLY WHERE THE COPY ACTUALLY MOVED — 2026-08-02.
    h1 and h2 are capped at 5rem/3.9rem, so from about 1230px up they stop

@@ -1,5 +1,116 @@
 # Medi✦X — session handover
 
+## 0 · 2026-08-02 addendum 9 — his section list; the wall starts moving
+
+Committed as `48cf8a0`, **local only — NOT pushed.** Five decisions are still
+with him and two of them touch what is on screen, so nothing has deployed.
+
+### What landed
+
+**Copy.** ch01 `Your best life.` and ch05 `Your Journey` are `<em>` now. ch02
+separates on commas, ch03 drops its full stops, ch05 drops its own. ch06's
+`Tailored to You` goes white by his instruction — that one is settled and is
+deliberately outside the colour question below.
+
+**The italic colour is measured, and the palette is shorter than it looks.**
+Against the real photographs under those two lines, worst-2%, at 1440 / 1920,
+floor 3.0:
+
+| | ivory | cream | champagne | rose | gold |
+|---|---|---|---|---|---|
+| ch01 `Your best life.` | 3.84 / 3.44 | 3.53 / 3.16 | 3.34 / 2.99 | **1.65 / 1.48** | **1.66 / 1.48** |
+| ch05 `Your Journey` | 5.54 / 4.63 | 5.09 / 4.25 | 4.82 / 4.03 | **2.39 / 1.99** | **2.39 / 2.00** |
+
+Rose and gold are not marginal, they are nowhere — the same wall ch01/02/03/05
+hit in `fc5d1c3`. **A coloured italic on those frames needs a darker ground
+first, not a different swatch.** Shipped ivory; the rule is one line, commented.
+
+**ch08 is one still frame** (Madame Arabia, his pick). The count pill, arrows,
+swipe handling and the youtube-nocookie lightbox are gone, with ~300 lines of
+script. ⚠️ **This also removes BOTH FILMS from the site** (the Monaco
+bone-and-joints interview `JZ30fE0Nygw` and the Riyadh menoSTART film
+`HWZ8h3fgjvw`), plus nine press frames and three candids. Files all remain in
+`images/coverage/`; markup is one `git show 65728c6 -- index.html` away. The
+Press button is the natural home for them once it has a destination.
+
+`In their words` → `Real Patients. Real Stories. Real Impact.` as an `h2`, and
+the panel now takes **the footer's `--cream` token**, not a matching hex, so
+the two grounds cannot drift apart.
+
+**The sponsor wall is a belt** — two identical sets, `-50%` slide, 64s, hover
+pauses, reduced-motion stops it and hides the duplicate. Track verified at
+exactly 2 × one set at 1440 and 390.
+
+⚠️ **Two traps this cost, worth keeping.** (1) The marks had `loading="lazy"`;
+a lazily-loaded image that sits **off-screen horizontally inside an
+`overflow:hidden` band never fetches**, and the track was collapsing to 1414px
+against a true 5110 — the duplicate set would have scrolled in as a hole. They
+are eager now with real `width`/`height`. (2) **LVI Medical was never too
+small — its FILE was wrong.** A 400×400 square whose artwork filled 29.5% of
+the height, so the biggest `--h` on the wall (3.6rem) rendered the smallest ink
+on it (26px). Trimmed to content → `sponsor-06-lvi-medical-trim.webp` (342×118,
+new filename), `--h` drops to 2rem, ink doubles to 50px, level with the other
+wordmarks. **Bigger number never meant bigger logo here — check the file's fill
+ratio before touching a `--h`.** `sponsor-09-matches-talent` is also untrimmed
+(68.5%); left alone, not asked about.
+
+**Band ground** = `--ivory`, the colour the testimonials used to wear. He asked
+me to check it: it separates from the footer's cream by **1.088:1** — real but
+faint, and it steps *lighter* where the champagne `#E9DECA` it replaces stepped
+darker at 1.145. For scale `--gold-tint` is 1.055 and was rejected in July for
+reading as the same surface.
+
+**Menu / footer.** Six destinations replace the eight chapters — Hormone
+Therapy, Functional Medicine, Peptide Therapy, About Us, Shop, Events — inert
+by his instruction, written as `<span>` so each becomes an `<a href>` with no
+other change. `.nav a` styling extended to `.nav span` so they are already
+identical. Footer tagline out; `.f-brand` opts back into stretching (`.f-grid`
+is `align-items:start`) so the wordmark centres. `hello@` → `info@`.
+
+### ⚠️ OPEN — nothing pushes until these land
+
+1. **The hero gap.** At 1920 the copy starts 356px in (18.5%) and the first
+   headline line measures **2.64** with the paragraph at **2.58** — both below
+   standard, which the 1440 measurements never showed. Cause: `.inner` is
+   `max-width:1400` centred, so past 1400 the margin grows without limit while
+   the headline is capped at 5rem. Four rungs rendered (5.4 / 6.6 / 7.8 / 9.2%
+   of viewport, all `max(1.25rem, Nvw)` with the 1400 cap dropped); **he said
+   "between A and D", pick pending.** A also repairs ch02, which fails at 2.22
+   today. The rule is shared by all eight chapters — scope is his call too.
+2. **The italic colour** — ivory shipped, table above.
+3. **The Press button.** It sits on the cover's white blazer: pill vs ground
+   **2.0** (needs 3.0), label **3.0** (needs 4.5). The settled frosted CTA was
+   measured on grounds of luminance 0.017–0.141; this one is **0.58**. Two
+   fixes rendered — deepen the wash to .86 (7.0 / 10.8, geometry untouched) or
+   the footer's solid burgundy (7.6 / 11.8). Darkening the frame instead does
+   **not** work: it darkens pill and ground together, 1.5.
+4. **Purovitalis dark mark** — he wants the dark version, not the yellow one.
+   Needs fetching from their site; not downloaded, permission not asked yet.
+5. **Band colour** — confirm 1.088 is the separation he wants.
+
+### Verification rig (rebuilt this session, no install)
+
+`puppeteer-core` is not installed. Chrome is driven over **CDP with Node's
+built-in WebSocket** — `scratchpad/cdp.mjs`. Traps it cost, all of which
+produce confident wrong numbers rather than errors:
+
+- **`headless=new` starts with no page target.** `PUT /json/new` first.
+- **A parallel session already had servers on 8899 and 8901.** My files 404'd
+  while `index.html` returned 200 from *their* directory. **Always
+  `lsof -p $(lsof -ti :PORT) | grep cwd` and confirm the server is yours.**
+- **IntersectionObserver, rAF, CSS transitions and smooth scroll are all dead
+  headless.** Add `.in`, and *stamp* end states (`.reveal`, `.collage`,
+  `.cpress__img.is-on`, `.cvoice.is-on`) with `!important` — waiting never
+  finishes. `scrollIntoView` silently does nothing against
+  `html{scroll-behavior:smooth}`: set `scrollBehavior='auto'` and assign
+  `scrollTop`, then **assert the section landed**.
+- **`img.decode()` never resolves for an unfetched lazy image** — race it.
+- **A loaded, decoded, opacity-1 image can still not paint.** Verify a region's
+  standard deviation before trusting any number taken from it; a flat crop is
+  a missing photo, not a dark one.
+- **Sample geometry in the same space as the screenshot.** A dsf-2 shot with
+  CSS-pixel rects gave the Press button a 4.66 "pass" that was really 2.0.
+
 ## 0 · 2026-08-02 addendum 8 — the invented chrome comes out; the paragraph grows
 
 His call, after seeing it built: **the "Chapter 0X" numbers and the ✦ tag lines

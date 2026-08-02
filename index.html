@@ -9,11 +9,14 @@
 <!-- Brand faces are self-hosted (Didot / NOW / Megante, subset to Latin, 92 KB
      total). Cormorant stays on Google purely for the chapter-08 pull quotes —
      the one role the brand guideline still reserves for it. Inter is gone. -->
-<link rel="preload" href="fonts/medigyn-didot-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/medigyn-now-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,300;1,500&display=swap" rel="stylesheet">
+<!-- Bodoni Moda replaces Didot as the editorial face (his call 2026-08-02).
+     opsz is the point of this family: at 96 the hairlines thin out the way a
+     display Bodoni should, which is exactly the register the headlines sit in.
+     Cormorant still comes along for the chapter-08 pull quotes only. -->
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Cormorant+Garamond:ital,wght@1,300;1,500&display=swap" rel="stylesheet">
 <!-- favicon: medi-blond's mg monogram, copied verbatim from
      medi-gyn-app/app/icon.svg (one favicon across the family);
      the ico is the same artwork rasterised for older browsers -->
@@ -22,13 +25,12 @@
 
 <style>
 /* ── brand faces ────────────────────────────────────────────
-   Didot = editorial headlines, NOW = everything functional,
-   Megante = chapter identifiers only. Weights map to real files;
-   nothing here is synthesised. */
-@font-face{font-family:"MediGyn Didot";src:url(fonts/medigyn-didot-400.woff2) format("woff2");
-  font-weight:400;font-style:normal;font-display:swap}
-@font-face{font-family:"MediGyn Didot";src:url(fonts/medigyn-didot-400i.woff2) format("woff2");
-  font-weight:400;font-style:italic;font-display:swap}
+   Bodoni Moda = editorial headlines, NOW = everything functional,
+   Megante = chapter identifiers only. NOW and Megante are real files;
+   Bodoni Moda comes from Google as a variable font (see the head).
+   ⚠️ DIDOT IS OUT (his call 2026-08-02) — the two woff2 files are still in
+   fonts/ and nothing references them. Delete them only when the swap is
+   signed off; getting them back means re-extracting from the brand PDF. */
 @font-face{font-family:"MediGyn NOW";src:url(fonts/medigyn-now-300.woff2) format("woff2");
   font-weight:300;font-style:normal;font-display:swap}
 @font-face{font-family:"MediGyn NOW";src:url(fonts/medigyn-now-400.woff2) format("woff2");
@@ -47,7 +49,7 @@
   /* three roles, one source of truth. --serif/--sans stay as aliases so no
      existing rule silently loses its face; the handful of places the new
      hierarchy re-points (nav, pathway titles, quotes) override explicitly. */
-  --font-editorial:"MediGyn Didot",Didot,"Times New Roman",Georgia,serif;
+  --font-editorial:"Bodoni Moda",Didot,"Times New Roman",Georgia,serif;
   --font-functional:"MediGyn NOW",ui-sans-serif,system-ui,-apple-system,sans-serif;
   --font-brand-accent:"MediGyn Megante",Optima,Georgia,serif;
   --font-quote:"Cormorant Garamond",Georgia,serif;
@@ -343,8 +345,14 @@ main{position:relative}
    because it reaches further into the bright half of the frame. It needs the
    deeper scrim first; that work is parked in HANDOVER_MOBILE_UX.md. */
 @media (min-width:1500px){
-  #s1 h1{font-size:clamp(5rem,5.5vw,6.5rem)}
-  #s2 h2,#s3 h2,#s5 h2,#s6 h2{font-size:clamp(3.9rem,4.3vw,5.05rem)}
+  /* ⚠️ 6.5rem → 6rem when Didot became Bodoni Moda. Bodoni sets "Your
+     hormones." 11% WIDER at the same pixel size (7.099 x font-size against
+     Didot's 6.399), so 104px no longer fitted the 704px column and the hero
+     broke to FOUR lines. The faces are not interchangeable at equal pixels —
+     the same lesson the Cormorant→Didot swap taught. 96px gives 681px in a
+     704px column: three lines, with 23px of margin. */
+  #s1 h1{font-size:clamp(5rem,5.5vw,6rem)}
+  #s2 h2,#s3 h2,#s5 h2,#s6 h2{font-size:clamp(3.9rem,4.3vw,4.75rem)}
   /* the buttons grow with the type they sit under. They are the one control
      that does not depend on the photograph — the wash and hairline carry
      themselves — so this is a proportion decision, not a contrast one. */
@@ -368,6 +376,17 @@ main{position:relative}
 /* Chapter headlines — Didot. Sizes come down ~7% from the Cormorant values:
    Didot's x-height is 0.429em against Cormorant's 0.386em, so matching the old
    pixel number would have overshot the composition by roughly that much. */
+/* ⚠️ SIZES ARE 10% DOWN FROM THE DIDOT VALUES AND THAT IS NOT A DOWNGRADE.
+   Bodoni Moda draws the same string 11% WIDER at the same pixel size, so
+   Didot 80px and Bodoni 72px put the same amount of ink on the page. Matching
+   the old pixel number instead pushed every headline further right into the
+   bright half of its photograph: at 1440 the hero measured 2.40 and chapter 02
+   2.63, against Didot's 3.22 and 3.47 and a floor of 3.0. At these sizes they
+   come back to 3.26 and 3.14.
+   Tested and rejected as alternatives, because the problem is WIDTH and not
+   stroke weight: opsz 16 (hero 2.34), opsz 8 (2.28), weight 500 (2.32) — all
+   still fail, and the last two also break chapter 02 onto a fourth line.
+   The other real fix is a deeper scrim; offered, not taken. */
 h1,h2{
   font-family:var(--font-editorial);font-weight:400;
   line-height:1;letter-spacing:-.018em;
@@ -376,8 +395,8 @@ h1,h2{
   word-spacing:.05em;
   margin:0 0 1.15rem;text-wrap:pretty;
 }
-h1{font-size:clamp(2.8rem,6.5vw,5rem)}
-h2{font-size:clamp(2.25rem,5.1vw,3.9rem)}
+h1{font-size:clamp(2.5rem,5.85vw,4.5rem)}
+h2{font-size:clamp(2rem,4.6vw,3.5rem)}
 h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:400;color:var(--rose)}
 /* HIS INSTRUCTION 2026-08-02: "Tailored to You" reads WHITE, not coloured.
    Settled — this one is not part of the colour board below. */
@@ -873,10 +892,16 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:400;
    panel's title rather than a label, and still sits a clear step below the
    quote beneath it — the quote has to stay the loud element, because with the
    reel gone the quotes carry this whole half of the chapter. */
+/* Grown again to fill the panel — 44px to 64px at 1920, two lines instead of
+   one. On COLOUR his instinct was worth testing and both alternatives measured
+   out: against the cream panel, ivory is 1.09:1 (literally invisible) and rose
+   is 2.13:1, against a 3.0 floor for large text. Burgundy is 10.64:1 and is
+   effectively the only value available here — a light headline needs a dark
+   panel, which is a different decision entirely. */
 .cvoices__head{
   margin:0 0 clamp(1rem,2vh,1.6rem);
   font-family:var(--font-editorial);font-weight:400;
-  font-size:clamp(1.75rem,2.7vw,2.75rem);line-height:1.15;
+  font-size:clamp(2.4rem,3.6vw,4rem);line-height:1.1;
   letter-spacing:-.018em;word-spacing:.05em;color:var(--burgundy);
 }
 .cvoices__stage{position:relative;flex:1;min-height:0}
@@ -943,19 +968,32 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:400;
      as the same surface as cream. So the band is still its own plane, just a
      quieter one. Flagged to him; his call whether quieter is what he wanted. */
   background:var(--ivory);border-top:1px solid rgba(71,24,38,.1);
-  /* thinner bridge, his call — was clamp(3rem,8vh,4.6rem) top and bottom */
-  padding:clamp(1.9rem,4.6vh,2.8rem) 0;
+  /* ONE rhythm value, his spec: the space above the label, the space between
+     the label and the marks, and the space below the marks are all the same.
+     So the label gets a slot of its own rather than being crowded onto the
+     belt, and the row of marks — which is align-items:center, so every mark's
+     optical middle is on one line — sits with equal air above and below it.
+     Tapered again from 1.9–2.8rem; change --band-gap and the whole band
+     re-proportions, there is no second number to remember. */
+  --band-gap:clamp(1.4rem,3.2vh,2rem);
+  padding:var(--band-gap) 0;
   /* the belt runs edge to edge; only the kicker keeps the page's gutter */
   overflow:hidden;
 }
-/* "Our sponsors", his call: centred over the belt, burgundy, and in the
-   header's face (NOW) rather than Megante — so the band's one piece of type
-   speaks with the nav and the buttons instead of the chapter identifiers.
-   The gold gradient rule that trailed the old kicker goes with it: a rule
-   pointing right is a left-aligned device and reads as damage when centred. */
+/* "Our sponsors": burgundy, in the header's face (NOW) rather than Megante, so
+   the band's one piece of type speaks with the nav and the buttons instead of
+   with the chapter identifiers.
+   BACK TO THE LEFT 2026-08-02 — he tried centred and rejected it: dead space
+   opened up to its left, and at 50/50 it also sat exactly on chapter 08's
+   panel seam, which read as an alignment nobody intended. It now starts on the
+   page's own left gutter, the same line every chapter's copy starts on. */
 .sband .kicker{
-  display:block;text-align:center;
-  max-width:1400px;margin:0 auto 1.5rem;padding:0 clamp(1.25rem,6vw,6rem);
+  display:block;text-align:left;
+  /* no 1400 cap, for the same reason the chapters lost theirs: with the cap on,
+     the label started at 356px at 1920 while every chapter's copy started at
+     96px, so "left" meant two different lefts on one page. It now shares the
+     page's gutter and lines up with the copy above it. */
+  margin:0 0 var(--band-gap);padding:0 clamp(1.25rem,6vw,6rem);
   font-family:var(--font-functional);
   /* up from .72rem, his call — centred type at .72 read as a caption rather
      than the band's title. Tracking eases back a touch because .28em at this
@@ -999,8 +1037,7 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:400;
 .sl--13{--h:2.9rem}
 @media (max-width:899px){
   .sl{--k:1.05}
-  .sband{padding:2.2rem 0 2.6rem}
-  .sband .kicker{margin-bottom:1.6rem}
+  .sband{--band-gap:1.3rem}
   .sband__set{--gap:2.2rem}
   .sband__belt{animation-duration:46s}
 }

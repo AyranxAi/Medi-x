@@ -1,5 +1,76 @@
 # Medi✦X — session handover
 
+## 0 · 2026-08-02 addendum 10 — "copy chapter 07" meant the ANCHORING
+
+Commits `db5833c`, `4e2c21b` on top of addendum 9. **Still local, still not
+pushed** — the italic colour is the last open pick.
+
+### The hero gap is closed, and the answer was already in the file
+
+He said the other chapters should "copy 7 on how it handles that… the closeness
+it has to the left side and how it's anchored there rather than the middle."
+**I read it as size twice and was wrong both times.** Chapter 07 already had:
+
+```css
+@media (min-width:1500px){ .sec--meno .inner{max-width:none} }
+```
+
+written for the globe — globe on the frame's right edge, so the copy had to sit
+on the frame's left edge, and inside the 1400 cap the two were in different
+coordinate systems. Every other chapter kept the cap and drifted. **Generalised
+to `.sec .inner`;** the chapter-07-only rule is deleted, one source of truth.
+
+Result — the hero's text now starts on chapter 07's own left edge at every
+width: 77px @1280, 106 @1440, 91 @1512, **96 flat from 1600 up**. **Below 1500
+nothing moves at all**, so his 1440 view is untouched. Contrast at 1920:
+hero **2.64 → 4.89**, ch02 **2.22 → 6.08**, ch05 4.00 → 5.35. Paragraphs
+improve (hero 2.58 → 4.09) but the hero's 4.09 and ch05's 3.61 are still under
+the 4.5 small text wants — that is `HANDOVER_MOBILE_UX.md`'s scrim job, not this.
+
+**The four-rung ladder (A1–A4) is dead** — superseded by his own site's rule.
+Don't revive it.
+
+### ⚠️ HIS RULE: the hero headline is THREE lines, never four
+
+Verified 1280→2560 after the change. It is also why the headline cannot simply
+grow, which was measured properly before dropping the idea:
+
+| headline size @1440 | ch01 | ch02 | ch03 | ch05 | ch06 |
+|---|---|---|---|---|---|
+| today (h1 80 / h2 62) | 3.39 | 3.46 | 4.30 | 4.37 | 7.11 |
+| ch07's 108px | **2.74** | **2.33** | 4.19 | **2.91** | 6.89 |
+| 108px + one scrim step | **4.87** | **3.59** | — | **4.49** | — |
+
+**Today's sizes are already the ceiling** — ch02 drops to 2.65 the instant its
+headline grows at all. Line counts also break: hero 3→4 (against his rule),
+ch02 3→5, ch03 2→4, ch06 2→4. **Chapter 07 can be 108px because it has no
+photograph** — its ground is a designed gradient. One step of extra scrim
+(`.88/.60/40/74` on `.sec.light::after`) does buy the whole thing back, and is
+rendered and boarded if he ever wants the scale.
+
+### Also landed
+
+- **Belt never pauses** (hover-pause removed, his call).
+- **Band thinner** (padding 3–4.6rem → 1.9–2.8rem); **"Our sponsors" centred,
+  burgundy, in NOW not Megante**, and its trailing gold rule deleted — a rule
+  that points right is a left-aligned device and reads as damage when centred.
+- **ch08 headline** commas not stops, 1.35–1.9rem → 1.75–2.75rem. **Quotes to
+  display scale** 2–3.5rem → 2.3–4.2rem, attribution 1.08rem.
+  ⚠️ **This clipped phones and only a full sweep caught it**: four of the nine
+  testimonials needed 194px against 155px of stage, and **only the first quote
+  is visible at rest**, so a glance would never show it. Panel 34svh → 40svh,
+  spending 50 of the ~70px the section already had unused. **Measure all nine.**
+- **Ask button** turns burgundy when *it* crosses the 01/02 seam, geometrically
+  (`seam <= btn.top`), replacing the threshold-.5 observer that fired early on
+  short windows and late on tall ones. Needs a FOREGROUND tab to verify.
+- **Band ground: ivory CONFIRMED by him** ("ivory is now good"). Settled.
+
+### Still open
+
+1. **The italic colour** — ivory shipped; rose/gold measured impossible on
+   those two frames (1.48–2.39). Table in addendum 9.
+2. **Push.** Nothing has deployed since `65728c6`.
+
 ## 0 · 2026-08-02 addendum 9 — his section list; the wall starts moving
 
 Committed as `48cf8a0`, **local only — NOT pushed.** Five decisions are still

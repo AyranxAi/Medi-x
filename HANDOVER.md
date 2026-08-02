@@ -1,5 +1,70 @@
 # Medi✦X — session handover
 
+## 0 · 2026-08-02 addendum 7 — client copy lands in chapters 01/02/03/05/06/07
+
+His supplied wordings replace the invented copy in six chapters. Chapter 04
+(the accordion) and chapter 08 were explicitly out of scope. **No CSS changed
+— measured first: every section still clears its 100svh frame** (desktop slack
+326–498px, mobile 306–406px, no horizontal overflow at 390px).
+
+- **Ch 01 hero** — headline `Your hormones. / Your health. / Your best life.`,
+  and **the gold eyebrow now carries `PRIVATE. PERSONAL. POWERFUL.` instead of
+  "Chapter 01"** (his explicit pick). The hero is therefore the ONE chapter
+  without a chapter number; 02–07 keep theirs. Megante still appears nowhere
+  else.
+- **Ch 02** `Personalised Solutions. Precision Medicine. Healthy Aging`
+- **Ch 03** `Start With a Conversation. Leave With Clarity.` — the body now
+  names Irina Bond and the complimentary discovery call.
+- **Ch 05** `Meet The Experts Behind Your Journey.`
+- **Ch 06** `Personalised Health Solutions. Tailored to You`
+- **Ch 07** `Educational Events Beyond Borders.` — **this section gained its
+  first body paragraph**, placed where every other chapter puts it (between
+  headline and CTA). It fits the post-restructure layout with 326px to spare.
+- **The `.kicker` chapter numbers and the ✦ `.tag` lines are deliberately
+  UNTOUCHED** — his call, "leave both for now, later lets revisit for the whole
+  look of it". Revisiting those is an open thread, not an oversight.
+- **Nav + `data-nav` relabelled** to match: About Us → Why Medi-Gyn, The
+  Conversation → Discovery Call, The Room → Meet Our Team, The Tools →
+  Products & Therapies. The Light / The Pathways / menoSTART / In the World
+  unchanged.
+
+### ⚠️ The rose italic is PROVISIONAL in chapters 01/02/03 — ask him
+
+Every chapter headline carries one rose-italic phrase. On the three brightest
+photographs it is effectively invisible, so those three are **set flat** for
+now. Measured on the real page with the headline hidden so the true background
+under each line could be sampled (large text needs 3:1):
+
+| chapter | rose italic, before | rose italic, with new copy | shipped as |
+|---|---|---|---|
+| 01 hero | 1.29:1 | 1.75:1 | **flat** (ivory lines 3.38 / 4.01 / 3.96) |
+| 02 | 1.26:1 | 2.83:1 | **flat** |
+| 03 | 1.39:1 | 2.06:1 | **flat** |
+| 05 | 6.50:1 | 6.43:1 | italic |
+| 06 | 7.34:1 | 7.06:1 | italic |
+| 07 | 6.26:1 | 5.76:1 | italic (dipped when the globe moved inward) |
+
+Note the new copy **improved** all three — this is an inherited problem, not one
+his wording created. **The honest fix is the ground, not the type**: a scrim, a
+different crop, or moving the copy block to a darker part of the frame. Once
+that pass happens the italic should come back to 01/02/03. The same reasoning
+retires the long-parked note on the hero's old `younger.` (1.10:1) — that line
+no longer exists. The full rationale is an HTML comment directly above chapter
+01 in `index.html`. **He asked to be asked whether this reads right — do not
+treat it as settled.**
+
+### Copy details worth knowing
+
+Normalised to house style: `personalized` → `personalised`, two hyphens/tight
+em dashes → the site's spaced `&mdash;`, and a closing full stop on ch07's
+paragraph. **Left verbatim but flagged to him, unanswered:** "Healthy **Aging**"
+is US spelling while the site is UK throughout — and the product bottles in
+ch06's own photograph read "ANTI-AGEING"; also "Healthy Aging" and "Tailored to
+You" carry no closing full stop where every other headline does.
+
+**Orphan:** the footer still reads "Where women's symptoms are decoded — not
+dismissed." That quoted chapter 02's old headline, which this commit deletes.
+
 ## 0 · 2026-08-02 addendum 6 — ch07 belt OUT, ch08 two-panel, sponsor wall band, footer tagline
 
 Client-driven restructure (their words: the three-cell collage was ugly, and

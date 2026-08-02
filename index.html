@@ -345,23 +345,37 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:400;
 }
 .tag b{font-weight:400;color:var(--gold)}
 
-.cta{
-  margin-top:2.4rem;display:inline-flex;align-items:center;gap:.8rem;
-  padding:.95rem 1.9rem;border-radius:var(--btn-radius);
-  background:var(--burgundy);color:var(--ivory);
-  text-decoration:none;font-family:var(--font-functional);font-weight:500;
-  font-size:.75rem;letter-spacing:.22em;text-transform:uppercase;
-  transition:background .3s var(--ease),gap .3s var(--ease);
-}
-.cta:hover{background:#471826;gap:1.25rem}
-.cta svg{width:15px;height:15px;flex:none}
 /*
-  The ivory CTA — the register of the header's book pill once the bar has
-  pulled up ivory. Secondary actions across the chapters wear this; the
-  burgundy fill stays reserved for the two booking moments (hero, closer).
+  The chapter CTA — the header's frosted pill, brought down into the page.
+  Client picked this one (2026-08-02) off the five-treatment board.
+
+  The point of the translucent wash: the fill sits within ~1.2:1 of whatever
+  is behind it, so the button takes the colour of its own chapter instead of
+  stamping a foreign slab on the photograph. That means the 1px hairline —
+  NOT the fill — carries the whole shape. Never soften the border below .6
+  without re-measuring; there is nothing else holding the pill together.
+
+  The solid fills this replaced failed in both directions: the ivory pill ran
+  6.8–10.8:1 against its ground (in ch03/ch06 it carried 3–4x the bright mass
+  of the headline it was serving), while the burgundy pill sat at 1.3–1.5:1
+  and needed a gold box-shadow bolted on to be visible at all.
+
+  Geometry is the header's, deliberately: same radius token, same hairline,
+  same blur, same tracking. Header/footer chrome is untouched.
 */
-.cta--ivory{background:var(--ivory);color:var(--burgundy)}
-.cta--ivory:hover{background:var(--cream)}
+.cta{
+  margin-top:2.4rem;display:inline-flex;align-items:center;gap:1.1rem;
+  height:3.05rem;padding:0 1.75rem;border-radius:var(--btn-radius);
+  border:1px solid rgba(250,247,241,.6);
+  background:rgba(46,34,40,.45);color:var(--ivory);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  white-space:nowrap;
+  text-decoration:none;font-family:var(--font-functional);font-weight:500;
+  font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;
+  transition:background-color .3s var(--ease),border-color .3s var(--ease),gap .3s var(--ease);
+}
+.cta:hover{border-color:var(--ivory);background:rgba(46,34,40,.62);gap:1.4rem}
+.cta svg{width:15px;height:15px;flex:none}
 /* hero carries two actions stacked; the stack owns the margin, not the pills.
    inline-flex + stretch: the container hugs the longer pill and the shorter
    one grows to match, so the two read as one deliberate pair. Labels hold the
@@ -591,10 +605,22 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
 .pw__more{font-size:12px;font-weight:500;letter-spacing:.025em;color:rgba(250,247,241,.7)}
 @media (min-width:640px){ .pw__more{display:none} }
 /* inert for now — no href, no pointer events; wired up later */
+/* the pathway CTA wears the same frosted pill as every chapter action.
+   It sits under a row of .pw__chip, which are ALSO hairline pills — what
+   keeps the two apart is the size step (49px vs 26px), the heavier border
+   (.6 vs .35) and the uppercase tracking. Shrink any of those three and the
+   button starts reading as a fifth chip. */
 .pw__cta{
-  margin-top:20px;display:inline-flex;min-height:44px;align-items:center;gap:8px;
-  font-size:14px;font-weight:600;letter-spacing:.025em;color:var(--gold-tint);text-decoration:none;
+  margin-top:20px;display:inline-flex;height:3.05rem;align-items:center;gap:1.1rem;
+  padding:0 1.75rem;border-radius:var(--btn-radius);
+  border:1px solid rgba(250,247,241,.6);background:rgba(46,34,40,.45);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  font-family:var(--font-functional);font-weight:500;
+  font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--ivory);text-decoration:none;white-space:nowrap;
+  transition:background-color .3s var(--ease),border-color .3s var(--ease),gap .3s var(--ease);
 }
+.pw__cta:hover{border-color:var(--ivory);background:rgba(46,34,40,.62);gap:1.4rem}
 .pw__cta svg{width:14px;height:14px;flex:none}
 
 /* expand affordance on a closed panel: circular arrow on desktop, chevron on phone */
@@ -711,11 +737,11 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
     width:min(76vw,42svh);height:min(76vw,42svh);
   }
 }
-/* the finale CTA steps up: larger, and a gold hairline gives the pill
-   a visible edge on the night ground (the deep fill alone sits ~1.5:1) */
+/* the finale CTA steps up: larger. The gold box-shadow that used to prop the
+   solid burgundy pill up on the night ground is GONE — that was a patch for a
+   fill sitting at 1.5:1, and the frosted pill's own hairline replaces it. */
 .sec--meno .cta{
-  margin-top:2rem;padding:1.15rem 2.5rem;font-size:.82rem;
-  box-shadow:0 0 0 1px rgba(194,160,94,.55);
+  margin-top:2rem;height:3.5rem;padding:0 2.25rem;font-size:.72rem;
 }
 .sec--meno .cta svg{width:17px;height:17px}
 /* --press-zone is the strip's total claim on the section's bottom edge.
@@ -1108,7 +1134,7 @@ footer .fw{max-width:1400px;margin:0 auto}
         <a class="cta">Book your consultation
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
         </a>
-        <a class="cta cta--ivory">Take the hormone quiz
+        <a class="cta">Take the hormone quiz
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
         </a>
       </div>
@@ -1124,7 +1150,7 @@ footer .fw{max-width:1400px;margin:0 auto}
       <p class="body reveal">Founded on a simple frustration: real symptoms answered with &ldquo;that&rsquo;s normal for your age.&rdquo; The answer is unhurried, evidence-informed, doctor-led care.</p>
       <p class="tag reveal"><b>&#10022;</b> Who we are</p>
       <div class="reveal">
-        <a class="cta cta--ivory">About us
+        <a class="cta">About us
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
         </a>
       </div>
@@ -1139,7 +1165,7 @@ footer .fw{max-width:1400px;margin:0 auto}
       <p class="body reveal">The consultation is the instrument. Everything else &mdash; the panels, the protocols, the follow-ups &mdash; is downstream of how well the first hour listened.</p>
       <p class="tag reveal"><b>&#10022;</b> Clinical layer</p>
       <div class="reveal">
-        <a class="cta cta--ivory">Book a free discovery call
+        <a class="cta">Book a free discovery call
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
         </a>
       </div>
@@ -1331,7 +1357,7 @@ footer .fw{max-width:1400px;margin:0 auto}
       <p class="body reveal">Soft light, a closed door, nowhere to hurry to. The space is built the way the medicine is practised &mdash; around one person at a time.</p>
       <p class="tag reveal"><b>&#10022;</b> The clinic</p>
       <div class="reveal">
-        <a class="cta cta--ivory">Meet the team
+        <a class="cta">Meet the team
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
         </a>
       </div>
@@ -1346,7 +1372,7 @@ footer .fw{max-width:1400px;margin:0 auto}
       <p class="body reveal">Tests and products sit inside the care plan &mdash; not in front of it. What reaches this shelf was chosen clinically, never merchandised.</p>
       <p class="tag reveal"><b>&#10022;</b> Supportive tools</p>
       <div class="reveal">
-        <a class="cta cta--ivory">Visit the shop
+        <a class="cta">Visit the shop
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
         </a>
       </div>

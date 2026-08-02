@@ -1865,13 +1865,20 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
   </section>
 
   <section class="sec light" id="s6" data-nav="Products &amp; Therapies">
-    <!-- 2026-08-03: HIS CALL, back to `product item.png` — the closer framing,
-         where the bottles read larger. Worth recording that this reverses an
-         earlier correction: on 2026-08-02 he moved OFF this file onto
-         `product legit.png`, so if the labels ever look wrong, that is the
-         other one and it is still in images/products-lineup.webp. New
-         filename, never an overwrite, so no cache can hold a stale frame. -->
-    <div class="bg" data-src="images/products-closer.webp"></div>
+    <!-- 2026-08-03 (later): HIS CALL — the frame he uploaded himself through the
+         GitHub web UI, `images/the shop products.png` (commit cbeabda), the only
+         file in that commit so there was nothing to pick between. Encoded q92 to
+         images/products-shop.webp. Third render of the same set now in the repo;
+         the predecessors stay under their own names — products-closer.webp (the
+         closer framing) and products-lineup.webp (the wider `product legit`
+         labels). New filename, never an overwrite, so no cache holds a stale
+         frame and a revert is one line.
+         ⚠️ MEASURED BEFORE SWAPPING, and it does NOT change the contrast: region
+         luminance is within .01 of the frame it replaces (left third .584 vs
+         .596, bottom third .617 vs .613). The headline still fails on phones for
+         the structural reason in HANDOVER_MOBILE_UX.md — a different photograph
+         of the same beige set cannot fix it, only the scrim can. -->
+    <div class="bg" data-src="images/products-shop.webp"></div>
     <div class="inner"><div class="copy">
       <h2 class="reveal" data-i18n="ch6.h2">Personalised Health Solutions. <em>Tailored to You</em></h2>
       <p class="body reveal" data-i18n="ch6.body">Explore our carefully selected hormone and peptide therapies, supplements and biohacking solutions designed to support your body &mdash; not overwhelm it.</p>

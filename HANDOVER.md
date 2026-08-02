@@ -1,5 +1,88 @@
 # Medi✦X — session handover
 
+## 0 · 2026-08-02 addendum 8 — the invented chrome comes out; the paragraph grows
+
+His call, after seeing it built: **the "Chapter 0X" numbers and the ✦ tag lines
+("Who we are", "Clinical layer", "The clinic", "Supportive tools") are deleted**
+from chapters 02/03/05/06/07. They were invention — no client document ever
+asked for them, and "Clinical layer" is internal IA vocabulary that means
+nothing to a visitor. The hero keeps its eyebrow (PRIVATE. PERSONAL. POWERFUL.)
+and ch08 keeps "In their words", so **Megante survives in two places** — an
+earlier draft of this argument claimed removing the numbers would delete Megante
+from the site, which was simply wrong. What the removal does cost is the gold
+accent in 02/03/05/06; he accepted that.
+
+**The headline size is deliberately UNCHANGED, and this is the interesting
+part.** He asked to "adjust the headers" upward. Rendering a ladder at +6 / +12
+/ +18% showed why not: his copy is written as short sentences, and at the
+current size each sentence lands on its own line — "Start With a Conversation. /
+Leave With Clarity." Every growth step fractures that ("Start With a /
+Conversation. Leave / With Clarity."); ch06 splits "Tailored to You"; at +18%
+ch02 breaks into four lines. Two escapes were tried and both were rejected on
+evidence: forced `<br>` does nothing, because at +12% the sentence "Start With a
+Conversation." is by itself wider than the 640px copy column; widening the
+column (40→52rem) *does* restore clean sentences and even takes ch07 from 3
+lines to 2, but it pushes the headline further into each photograph's bright
+zone and drops hero line 1 from 3.38 to **2.55** and ch02 line 1 from 3.40 to
+**2.77**. Clean sentences bought by making the words unreadable is a bad trade.
+**If the headline is ever to grow, the photographs have to be fixed first.**
+
+**What grew instead is the supporting paragraph, and it needed to.** `.body` was
+`clamp(.95rem,1.05vw,1.06rem)` — the middle term never wins below a ~1614px
+viewport, so the paragraph had been rendering at its 15.2px floor on every
+laptop AND every phone. Now `clamp(1.05rem,1.2vw,1.2rem)` with line-height 1.62:
+**17.3px at 1440, 16.8px at 390**, and it finally scales on large screens.
+Slack improves 326→358px desktop, 306→342px mobile; no line counts move on
+desktop, none on mobile, no horizontal overflow at 390.
+
+**UK spelling** — `Healthy Ageing` and the footer's `Hormone balancing centre`
+were the only two US forms in visible copy (audited by stripping script/style
+and scanning the rendered text, so CSS keywords like `center` did not pollute it).
+
+### ⚠️ Correction: the addendum 7 contrast numbers were wrong
+
+The measuring script passed **viewport** coordinates to
+`page.screenshot({ clip })`. Puppeteer's clip is **document-relative**, so for
+every section except the hero it cropped a strip of the hero photograph and
+reported it as that section's background. It was caught only because an
+unrelated crop came back showing the wrong chapter. **Method that is correct:
+never pass `clip` — screenshot the full viewport and crop afterwards with the
+recorded viewport rect, at the same scroll position, with the headline
+`visibility:hidden` so the true ground is sampled.**
+
+Re-measured, desktop 1440 (large text needs 3:1, "worst" = brightest 2%):
+
+| chapter | before the copy change | as shipped now |
+|---|---|---|
+| 01 | rose 1.29 ✗ | flat **3.38 / 4.01 / 3.96** ✓ |
+| 02 | rose 1.28 ✗ | flat **3.40 / 4.19 / 6.00** ✓ |
+| 03 | rose 1.84 ✗ | flat **4.30 / 4.81** ✓ |
+| 05 | rose 1.45 / 2.75 ✗ | **flattened this addendum** — rose was 1.68, the worst on the page; now **4.35 / 5.33** ✓ |
+| 06 | rose 6.04 ✓ | rose **3.07** ✓ (kept — only just) |
+| 07 | rose 6.19 ✓ | rose **1.23 worst / 6.25 median** — fails only where "Beyond" crosses the globe's white dots |
+
+### ⚠️ NEXT JOB, AGREED WITH HIM: the mobile scrim
+
+**Phones are far worse than desktop and always have been — this is pre-existing,
+not caused by any of the above.** At 390px, as shipped: ch02 2.27, ch03 2.79,
+ch05 1.89, and **ch06 sits at a median of 1.18:1** — the headline is the same
+brightness as its background, i.e. genuinely not visible.
+
+The cause is structural. At ≥900px the scrim's dominant gradient runs
+**left-to-right** (`.82` at the left edge) and `.sec` centres the copy, so the
+headline sits inside the wash. Under 900px **both flip**: `.sec` is
+`align-items:flex-end` and the dominant gradient runs **bottom-to-top** (`.78`
+at the bottom, gone by 70%). The headline is the topmost element of a
+bottom-anchored block, so the taller the block the further the headline climbs
+out of the scrim it depends on. (This is also why deleting the chrome *helped*
+mobile: a shorter block sits lower. Measured — every figure it touches improved.)
+
+**The fix is the ground, not the type**: extend the mobile gradient's reach for
+`.sec::after` / `.sec.light::after` under 900px. He has approved this as its own
+pass with a lettered board rendered over the real photographs at 390. Desktop
+must not change. When it lands, the rose italic should return to 01/02/03/05 and
+the provisional note above chapter 01 in `index.html` can go.
+
 ## 0 · 2026-08-02 addendum 7 — client copy lands in chapters 01/02/03/05/06/07
 
 His supplied wordings replace the invented copy in six chapters. Chapter 04
@@ -35,14 +118,13 @@ photographs it is effectively invisible, so those three are **set flat** for
 now. Measured on the real page with the headline hidden so the true background
 under each line could be sampled (large text needs 3:1):
 
-| chapter | rose italic, before | rose italic, with new copy | shipped as |
-|---|---|---|---|
-| 01 hero | 1.29:1 | 1.75:1 | **flat** (ivory lines 3.38 / 4.01 / 3.96) |
-| 02 | 1.26:1 | 2.83:1 | **flat** |
-| 03 | 1.39:1 | 2.06:1 | **flat** |
-| 05 | 6.50:1 | 6.43:1 | italic |
-| 06 | 7.34:1 | 7.06:1 | italic |
-| 07 | 6.26:1 | 5.76:1 | italic (dipped when the globe moved inward) |
+> ⚠️ **THE TABLE THAT WAS HERE WAS WRONG — see addendum 8.** Every figure except
+> the hero's was measured with a script that passed VIEWPORT coordinates to
+> `page.screenshot({clip})`, which is DOCUMENT-relative, so it sampled a strip of
+> the hero photograph while reporting it as ch02, ch05 and the rest. Corrected
+> figures and the consequence (ch05 was left with an italic that fails at
+> 1.68:1) are in addendum 8. **Never pass `clip` — shoot the full viewport and
+> crop afterwards.**
 
 Note the new copy **improved** all three — this is an inherited problem, not one
 his wording created. **The honest fix is the ground, not the type**: a scrim, a

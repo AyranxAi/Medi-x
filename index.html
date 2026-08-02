@@ -334,7 +334,7 @@ h2{font-size:clamp(2.25rem,5.1vw,3.9rem)}
 h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:400;color:var(--rose)}
 
 .body{
-  font-size:clamp(.95rem,1.05vw,1.06rem);line-height:1.68;
+  font-size:clamp(1.05rem,1.2vw,1.2rem);line-height:1.62;
   color:rgba(250,247,241,.8);max-width:32em;margin:0;
 }
 
@@ -1210,23 +1210,38 @@ body.nav-open .ask{opacity:0;pointer-events:none}
 <main>
 
 <!-- ── PROVISIONAL, 2026-08-02 — his decision, and he asked to be asked again ──
-       The rose italic that every other chapter headline carries is set FLAT in
-       chapters 01, 02 and 03. This is not taste and it is not settled.
+       The rose italic that chapter headlines carry is set FLAT in chapters 01,
+       02, 03 and 05. Not taste, and not settled.
 
-       Measured on the real page with the headline hidden so the true background
-       under each line could be sampled (large text needs 3:1):
+       ⚠️ CORRECTION: the first version of this note carried WRONG numbers for
+       every section except the hero. The script that produced them passed
+       VIEWPORT coordinates to page.screenshot({clip}), which is DOCUMENT-
+       relative — so it sampled a strip of the hero photograph while believing
+       it was sampling ch02, ch05 and the rest. Never pass clip: shoot the full
+       viewport and crop afterwards. Re-measured with the headline hidden so the
+       true per-line background could be sampled (large text needs 3:1):
 
-           ch01  1.75:1     ch02  2.83:1     ch03  2.06:1     <- rose fails
-           ch05  6.43:1     ch06  7.06:1     ch07  5.96:1     <- rose is fine
+         desktop 1440   ch01 3.38/4.01/3.96   ch02 3.40/4.19/6.00   ch03 4.30/4.81   (all flat, pass)
+                        ch05 rose was 1.68 — WORST on the page, hence flattened
+                        ch06 rose 3.07 (kept, only just)   ch07 rose 1.23 worst / 6.25 median
 
-       These three photographs are simply too bright where the last line lands.
-       Ivory clears it — the hero's three lines measure 3.38 / 4.01 / 3.96.
+       ch07 fails only where "Beyond" crosses the globe's white dots; the median
+       says it reads, and the globe collision is a separate open question.
 
-       The honest fix is the GROUND, not the type: a scrim, a different crop, or
-       moving the copy block to a darker part of the frame. Once that pass
-       happens, the italic should come back to these three and this note goes.
-       Until then: ASK HIM whether this reads right before assuming it's closed.
-       Same root cause as the long-parked hero note on "younger." (1.10:1).
+       ⚠️ PHONES ARE FAR WORSE THAN DESKTOP AND ALWAYS HAVE BEEN. At 390px:
+       ch02 2.27, ch03 2.79, ch05 1.89, and ch06 sits at a MEDIAN of 1.18:1 —
+       the headline is the same brightness as its background. The cause is
+       structural, not typographic: at >=900px the scrim's main gradient runs
+       left-to-right (.82 at the left edge) and the copy is vertically centred,
+       so the headline sits in the wash. Under 900px BOTH flip — the copy is
+       bottom-anchored and the main gradient runs bottom-to-top (.78 at the
+       bottom, gone by 70%), so the headline, being the topmost element of a
+       bottom-anchored block, climbs out of the scrim it depends on.
+
+       THE FIX IS THE GROUND, NOT THE TYPE — extend the mobile gradient's reach.
+       That pass is agreed and comes next; when it lands, the italic should
+       return to 01/02/03/05 and this note goes. Until then: ASK HIM whether
+       this reads right before assuming it is closed.
   ── -->
 
   <section class="sec light" id="s1" data-nav="The Light">
@@ -1251,10 +1266,8 @@ body.nav-open .ask{opacity:0;pointer-events:none}
   <section class="sec light" id="s2" data-nav="Why Medi-Gyn">
     <div class="bg" data-src="images/about.webp"></div>
     <div class="inner"><div class="copy">
-      <p class="kicker reveal">Chapter 02</p>
-      <h2 class="reveal">Personalised Solutions. Precision Medicine. Healthy Aging</h2>
+      <h2 class="reveal">Personalised Solutions. Precision Medicine. Healthy Ageing</h2>
       <p class="body reveal">Evidence-based medicine meets personalised care &mdash; from hormone optimisation and functional medicine to peptides and longevity medicine.</p>
-      <p class="tag reveal"><b>&#10022;</b> Who we are</p>
       <div class="reveal">
         <a class="cta">About us
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
@@ -1266,10 +1279,8 @@ body.nav-open .ask{opacity:0;pointer-events:none}
   <section class="sec light" id="s3" data-nav="Discovery Call">
     <div class="bg" data-src="images/06-consult.webp"></div>
     <div class="inner"><div class="copy">
-      <p class="kicker reveal">Chapter 03</p>
       <h2 class="reveal">Start With a Conversation. Leave With Clarity.</h2>
       <p class="body reveal">Meet Irina Bond, the founder of Medi-Gyn and Hormone Health Educator. During your complimentary discovery call, she will help you understand your concerns, answer your questions, and help you explore the next step with clarity and confidence.</p>
-      <p class="tag reveal"><b>&#10022;</b> Clinical layer</p>
       <div class="reveal">
         <a class="cta">Book a free discovery call
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
@@ -1448,10 +1459,8 @@ body.nav-open .ask{opacity:0;pointer-events:none}
   <section class="sec light" id="s5" data-nav="Meet Our Team">
     <div class="bg" data-src="images/team.webp"></div>
     <div class="inner"><div class="copy">
-      <p class="kicker reveal">Chapter 05</p>
-      <h2 class="reveal">Meet The Experts <em>Behind Your Journey.</em></h2>
+      <h2 class="reveal">Meet The Experts Behind Your Journey.</h2>
       <p class="body reveal">Behind every personalised journey is a team chosen not only for their expertise, but for their dedication to listening, understanding, and delivering the highest standard of care. Meet the professionals committed to helping you achieve lasting zest for life, vitality and health-span.</p>
-      <p class="tag reveal"><b>&#10022;</b> The clinic</p>
       <div class="reveal">
         <a class="cta">Meet the team
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
@@ -1463,10 +1472,8 @@ body.nav-open .ask{opacity:0;pointer-events:none}
   <section class="sec light" id="s6" data-nav="Products &amp; Therapies">
     <div class="bg" data-src="images/products.webp"></div>
     <div class="inner"><div class="copy">
-      <p class="kicker reveal">Chapter 06</p>
       <h2 class="reveal">Personalised Health Solutions. <em>Tailored to You</em></h2>
       <p class="body reveal">Explore our carefully selected hormone and peptide therapies, supplements and biohacking solutions designed to support your body &mdash; not overwhelm it.</p>
-      <p class="tag reveal"><b>&#10022;</b> Supportive tools</p>
       <div class="reveal">
         <a class="cta">Visit the shop
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
@@ -1487,7 +1494,6 @@ body.nav-open .ask{opacity:0;pointer-events:none}
     <div class="bg"></div>
     <canvas class="meno-globe" id="meno-globe" aria-hidden="true"></canvas>
     <div class="inner"><div class="copy">
-      <p class="kicker reveal">Chapter 07 &mdash; menoSTART</p>
       <h2 class="reveal">Educational Events <em>Beyond Borders.</em></h2>
       <p class="body reveal">From international educational events to global collaborations and media recognition, Medi-Gyn is helping reshape the future of hormone health &mdash; one conversation, one city, and one person at a time.</p>
       <a class="cta reveal">Join menoSTART
@@ -1631,7 +1637,7 @@ body.nav-open .ask{opacity:0;pointer-events:none}
         </a>
         <!-- placeholder wording, his 2026-08-02 call — closer to what
              medi-gyn is than the old "decoded — not dismissed" line -->
-        <p class="f-tagline">Hormone balancing center</p>
+        <p class="f-tagline">Hormone balancing centre</p>
       </div>
       <div class="f-news">
         <h3 class="f-head">Newsletter</h3>

@@ -828,19 +828,17 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
     radial-gradient(70% 90% at 82% 0%,rgba(92,31,49,.4),transparent 70%),
     linear-gradient(175deg,#241A1F 0%,#2E2228 60%,#241A1F 100%);
 }
-/* HIS CALL 2026-08-02: NOT half and half. The frame is a 4:5 magazine cover
-   and a 50/50 column is 16:9-ish, so `cover` was throwing away the top and
-   bottom of every article to fill it. Now the left column is exactly what the
-   cover needs to run full-bleed at the section's own height — height x 4/5 —
-   and the testimonials take whatever is left, which is more than they had.
-   At 1920x1080 that is 864px and 1056px, against 960/960 before.
-   The min() is a guard, not a preference: on a tall, narrow window 4/5 of the
-   height can exceed the screen, and the max() keeps it honest when the
-   section falls back to its 560px floor. */
+/* BACK TO HALF AND HALF, 2026-08-03 — the client did not like the article-width
+   version. So this reverts to two equal columns, and the trade comes back with
+   it: the frame is a 4:5 magazine cover in a roughly 16:9 column, so `cover`
+   crops the top and bottom of every article to fill it. That is the accepted
+   cost of full-bleed halves, not an oversight.
+   The article-width rule, if it is ever wanted back, was
+     grid-template-columns:min(60%,calc(max(100svh,560px) * 4 / 5)) 1fr;
+   which gave 864/1056 at 1920 and cropped nothing. */
 .collage{
   position:absolute;inset:0;
-  display:grid;
-  grid-template-columns:min(60%,calc(max(100svh,560px) * 4 / 5)) 1fr;
+  display:grid;grid-template-columns:1fr 1fr;
   opacity:0;transition:opacity 1.1s var(--ease);
 }
 .sec--world.in .collage{opacity:1}
@@ -917,9 +915,14 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
   margin:0 0 clamp(1rem,2vh,1.6rem);
   font-family:var(--font-brand-accent);font-weight:400;
   font-size:clamp(1.05rem,2vw,2.2rem);line-height:1.2;
-  letter-spacing:.02em;color:var(--burgundy);text-align:center;
+  letter-spacing:.02em;color:var(--burgundy);text-align:left;
 }
-@media (min-width:900px){ .cvoices__head{white-space:nowrap} }
+/* LEFT, not centred, 2026-08-03 — his call once the panel went back to half
+   width. It now starts on the same edge as the quote and the attribution
+   beneath it, so the whole panel reads off one line.
+   No nowrap here: at half width the string does not fit one line at this size
+   on every screen, and forcing it would push it out of the panel. It wraps
+   where it must, which is the honest behaviour for a narrower column. */
 .cvoices__stage{position:relative;flex:1;min-height:0}
 .cvoice{
   position:absolute;inset:0;margin:0;

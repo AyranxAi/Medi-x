@@ -21,15 +21,11 @@ pushing anything that visibly changes while he may be mid-demo.
 
 ## 2. State right now
 
-**Live** = commit `c571e98`. **Local `main` is 2 commits ahead and NOT pushed:**
+**Everything through `b474e39` is PUSHED and live.** Nothing is held back.
 
-| commit | what |
-|---|---|
-| `22540d9` | Bodoni Moda replaces Didot · band rhythm · ch08 headline to 64px |
-| `4618c10` | band label above the marks + centred · ch08 headline = Megante one-line · ch06 takes `product item.png` |
-
-**Ask him before pushing these two** — the font swap is the most visible change
-on the site and he had not seen it live when the session ended.
+The editorial face went Didot → Bodoni Moda → **Playfair variable** inside one
+session; only the last one is live, and the two intermediate commits are in the
+log if the reasoning is ever needed.
 
 ---
 
@@ -63,12 +59,22 @@ now `@media (min-width:1500px){ .sec .inner{max-width:none} }` for every
 chapter. **Below 1500 nothing changed and his own 1440 view is untouched** —
 which is also why type growth is scoped `>=1500px` and nowhere else.
 
-**Type.** Bodoni Moda (Google, variable, opsz axis) replaced Didot. It sets the
-same string **11% wider at the same pixel size**, so all sizes came DOWN 10%:
-Didot 80px and Bodoni 72px put the same ink on the page. Matching the old
-numbers broke the hero to four lines AND dropped contrast below the floor.
-**opsz 16, opsz 8 and weight 500 were all tested and all fail** — the problem
-is width, not stroke weight.
+**Type — PLAYFAIR VARIABLE (not Playfair Display), weight 450, `opsz` pinned
+to 30 with `font-optical-sizing:none`.** His spec. Left alone opsz tracks the
+font-size, so a 103px headline gets the 103pt drawing and its hairlines go as
+thin as the family allows; pinned low they thicken. It also has a DRAWN italic,
+which is why it beats GFS Didot for the `<em>` phrases.
+
+**⚠️ NEVER carry a px size across a font swap.** Measured width of "Your
+hormones." per pixel of font-size — this governs line count AND how far type
+reaches into a frame's bright half:
+
+    Didot 6.399  ·  Playfair @ opsz 30  6.609  ·  Bodoni Moda 7.099
+
+Three faces in one session, three sets of numbers. Bodoni at the Didot sizes
+broke the hero to four lines and dropped ch02 to 2.63. **Sturdier strokes are
+NOT the fix for that** — opsz 16, opsz 8 and weight 500 were all tried and all
+failed, because the problem is width.
 
 **Contrast is the constraint on this whole site.** Ivory text on photographs;
 large text needs 3.0, small text 4.5. Method that survives: hide the text with
@@ -82,10 +88,13 @@ next real job (see §5).
 `min(60%,calc(max(100svh,560px) * 4 / 5)) 1fr`. Right panel is `--cream`, the
 footer's own token.
 
-**The band.** One `--band-gap` and a fixed `--label-h` drive everything; the
-padding-bottom is `calc(--band-gap * 2 + --label-h)` **so the row of marks is
-the band's optical centre** — his spec. Label is Megante, aligned to the P of
-PRESS via a shared `--press-x`. The belt is two identical sets sliding -50%;
+**The band.** The "Our sponsors" label is GONE (his call — "kinda obvious and
+just ugly"), so the marks are the only thing in it and are its centre by
+definition. The space the label vacated went to the MARKS, not to padding:
+`--k` 1.55 → 2.15, tallest mark 84px → 117px, band ~176–188px.
+`--press-x` and `--label-h` are gone with the label; if a label ever returns,
+the balancing rule was `padding-bottom: calc(--band-gap*2 + --label-h)`.
+The belt is two identical sets sliding -50%;
 **verify `track === 2 × set`** after touching it. Marks must NOT be
 `loading="lazy"` — off-screen horizontally inside `overflow:hidden` they never
 fetch and the loop gains a hole.
@@ -99,21 +108,20 @@ the wall and the smallest ink on it, because its artwork filled 29.5% of a
 
 ## 5. Open, in the order I would take them
 
-1. **Push `22540d9` + `4618c10`** — needs his word only.
-2. **The italic colour.** `#s1 h1 em, #s5 h2 em` ship IVORY, flagged provisional
+1. **The italic colour.** `#s1 h1 em, #s5 h2 em` ship IVORY, flagged provisional
    in the CSS. Rose and gold are **not available** on those two frames — 1.48
    to 2.39 against a 3.0 floor. A coloured italic needs a darker ground first.
-3. **The scrim pass — this unlocks two other things.** Parked in
+2. **The scrim pass — this unlocks two other things.** Parked in
    `HANDOVER_MOBILE_UX.md` at his request ("im not good here its too much").
    One step deeper (`.88/.60/40/74` on `.sec.light::after`) is measured to work
    and would let the **body paragraph grow** (his ask, currently refused on
    evidence) and let the **headlines take chapter 07's full scale** (also his
    ask, currently refused).
-4. **Phones.** Untouched by his instruction. Everything in
+3. **Phones.** Untouched by his instruction. Everything in
    `HANDOVER_MOBILE_UX.md` still stands.
-5. **Destinations.** Every CTA and all six menu items are inert. Press button,
+4. **Destinations.** Every CTA and all six menu items are inert. Press button,
    Book, Quiz, Shop, Events all need URLs.
-6. **The two films** (`JZ30fE0Nygw`, `HWZ8h3fgjvw`) left the site with the reel
+5. **The two films** (`JZ30fE0Nygw`, `HWZ8h3fgjvw`) left the site with the reel
    and have no home. He is content for them to live behind Press later.
 
 ---

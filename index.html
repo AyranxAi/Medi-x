@@ -815,10 +815,15 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:400;
 /* the panel's title, in place of the old "In their words" kicker. Editorial
    face like every other headline, but pitched well below a chapter headline —
    the quote underneath is the loud element here and must stay that way. */
+/* Grown on his read that it was lacklustre: 1.35–1.9rem → 1.75–2.75rem, so at
+   1440 it lands at 39px against the old 27px. It is now unmistakably the
+   panel's title rather than a label, and still sits a clear step below the
+   quote beneath it — the quote has to stay the loud element, because with the
+   reel gone the quotes carry this whole half of the chapter. */
 .cvoices__head{
   margin:0 0 clamp(1rem,2vh,1.6rem);
   font-family:var(--font-editorial);font-weight:400;
-  font-size:clamp(1.35rem,1.85vw,1.9rem);line-height:1.2;
+  font-size:clamp(1.75rem,2.7vw,2.75rem);line-height:1.15;
   letter-spacing:-.018em;word-spacing:.05em;color:var(--burgundy);
 }
 .cvoices__stage{position:relative;flex:1;min-height:0}
@@ -832,12 +837,16 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:400;
 .cvoice p{
   /* quotes keep Cormorant — the one role the brand guideline reserves for it */
   margin:0 0 1.1rem;font-family:var(--font-quote);font-style:italic;font-weight:500;
-  font-size:clamp(2rem,3.2vw,3.5rem);line-height:1.28;color:var(--burgundy);
+  /* up from clamp(2rem,3.2vw,3.5rem) — his call: with the reel reduced to one
+     still frame, the quotes carry this chapter, so they take display scale.
+     56px at 1440 against 46px before. The 26ch measure holds the line count
+     where it was; widen that and the longest quote overruns the panel. */
+  font-size:clamp(2.3rem,3.9vw,4.2rem);line-height:1.22;color:var(--burgundy);
   max-width:26ch;
 }
 /* footer reset — the page-level footer styles (background, padding,
    AND border-top) bleed in otherwise (chapter 07 lesson) */
-.cvoice footer{background:none;padding:0;border:0;font-size:1rem;color:var(--ink-soft);letter-spacing:.08em}
+.cvoice footer{background:none;padding:0;border:0;font-size:1.08rem;color:var(--ink-soft);letter-spacing:.08em}
 @media (max-width:899px){
   .sec--world{height:auto;min-height:100svh}
   .collage{position:relative;grid-template-columns:100%}
@@ -846,8 +855,15 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:400;
      the burgundy belt peek above the fold, and the belt is gone */
   .cpress{height:58svh}
   .cright{border-left:none}
-  .cvoices{min-height:34svh}
-  .cvoice p{font-size:1.75rem;max-width:none}
+  /* 34svh → 40svh. At the bigger quote size four of the nine testimonials
+     needed 194px against 155px of stage and were clipping. The section is
+     min-height:100svh with the frame at 58svh, so there were ~70px sitting
+     unused inside it; this spends 50 of them and the section still fits a
+     844px screen without growing. Re-measure ALL NINE quotes, not the first
+     one, if this size or that copy ever changes. */
+  .cvoices{min-height:40svh}
+  /* phones grow with desktop (1.75 → 2rem) but not by the same factor */
+  .cvoice p{font-size:2rem;max-width:none}
 }
 @media (prefers-reduced-motion:reduce){
   .cpress__img,.cvoice{transition:none}
@@ -874,23 +890,32 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:400;
      as the same surface as cream. So the band is still its own plane, just a
      quieter one. Flagged to him; his call whether quieter is what he wanted. */
   background:var(--ivory);border-top:1px solid rgba(71,24,38,.1);
-  padding:clamp(3rem,8vh,4.6rem) 0;
+  /* thinner bridge, his call — was clamp(3rem,8vh,4.6rem) top and bottom */
+  padding:clamp(1.9rem,4.6vh,2.8rem) 0;
   /* the belt runs edge to edge; only the kicker keeps the page's gutter */
   overflow:hidden;
 }
+/* "Our sponsors", his call: centred over the belt, burgundy, and in the
+   header's face (NOW) rather than Megante — so the band's one piece of type
+   speaks with the nav and the buttons instead of the chapter identifiers.
+   The gold gradient rule that trailed the old kicker goes with it: a rule
+   pointing right is a left-aligned device and reads as damage when centred. */
 .sband .kicker{
-  max-width:1400px;margin:0 auto 2.4rem;padding:0 clamp(1.25rem,6vw,6rem);
-  font-size:.95rem;font-weight:500;letter-spacing:.24em;
-  color:var(--gold-deep);
+  display:block;text-align:center;
+  max-width:1400px;margin:0 auto 1.5rem;padding:0 clamp(1.25rem,6vw,6rem);
+  font-family:var(--font-functional);
+  font-size:.72rem;font-weight:500;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--burgundy);
 }
-.sband .kicker::after{background:linear-gradient(to right,var(--gold-deep),transparent)}
+.sband .kicker::after{content:none}
 
 /* THE BELT (his call 2026-08-02, replacing the static wall): one band
    travelling right to left, forever. Two identical sets sit side by side and
    the track slides exactly -50%, so the moment set one leaves, set two is
    pixel-for-pixel where it started — the seam is unfindable. Duration is set
    from the mark count so adding a partner slows the belt instead of speeding
-   it up. Hover pauses; reduced-motion stops it dead and lets the row scroll. */
+   it up. It never pauses; reduced-motion stops it dead and lets the row
+   scroll instead. */
 .sband__belt{
   position:relative;display:flex;width:max-content;
   animation:sbelt 64s linear infinite;
@@ -899,7 +924,8 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:400;
   display:flex;align-items:center;flex:none;
   gap:var(--gap,3.4rem);padding-right:var(--gap,3.4rem);
 }
-.sband:hover .sband__belt{animation-play-state:paused}
+/* NO hover pause — his call, 2026-08-02. It is a band of partner marks, not
+   something you inspect; stopping under the cursor read as a stall. */
 @keyframes sbelt{ from{transform:translate3d(0,0,0)} to{transform:translate3d(-50%,0,0)} }
 
 .sl{display:block;flex:none;height:calc(var(--h,2rem)*var(--k,1.55));width:auto}
@@ -1564,7 +1590,7 @@ body.nav-open .ask{opacity:0;pointer-events:none}
           <!-- the "In their words" kicker is out (his call) and this headline
                takes the slot. h2, not a kicker: it is the panel's title, and
                ch08 had no heading of its own before. -->
-          <h2 class="cvoices__head">Real Patients. Real Stories. Real Impact.</h2>
+          <h2 class="cvoices__head">Real Patients, Real Stories, Real Impact</h2>
           <div class="cvoices__stage">
             <blockquote class="cvoice is-on">
               <p>&ldquo;This literally elevated my everyday life to another level. It was transformational.&rdquo;</p>
@@ -2120,20 +2146,31 @@ body.nav-open .ask{opacity:0;pointer-events:none}
   document.addEventListener('keydown',function(e){
     if(e.key==='Escape'&&!pan.hidden) set(false);
   });
-  /* threshold .5 = half a screen of scrolling. The sections are stacked
-     100svh, so chapter 02 technically "arrives" the instant you touch the
-     wheel — an on-arrival trigger flickers — while waiting for chapter 01
-     to leave entirely feels late. Half a screen is the moment the hero
-     stops being the thing you are looking at.
-     ⚠ Verify this in a FOREGROUND tab only. Chrome freezes a backgrounded
-     tab — no rAF, no scroll events, no observer callbacks — and headless
-     never fires them at all, so both will show a button that looks stuck
-     when nothing is wrong. */
-  var hero=document.getElementById('s1');
-  if(hero&&'IntersectionObserver' in window){
-    new IntersectionObserver(function(es){
-      es.forEach(function(e){ btn.classList.toggle('ask--past-hero',!e.isIntersecting); });
-    },{threshold:.5}).observe(hero);
+  /* HIS CALL 2026-08-02: the button turns burgundy at the moment IT crosses
+     the seam between chapter 01 and chapter 02 — not when some fraction of
+     the hero has scrolled past. So the trigger is geometric, measured against
+     the button's own position, and it stays right at any viewport height.
+     The old rule was an observer on #s1 at threshold .5 (half a screen); it
+     fired early on a short window and late on a tall one, because half of a
+     100svh section is a different distance on every screen.
+     `seam <= r.top` = the button has FULLY crossed into chapter 02. For the
+     instant of first contact instead, use r.bottom — one word.
+     ⚠ Verify in a FOREGROUND tab only. Chrome freezes a backgrounded tab —
+     no rAF, no scroll events — and headless never fires them at all, so both
+     will show a button that looks stuck when nothing is wrong. */
+  var next=document.getElementById('s2');
+  if(next){
+    var askTick=false;
+    function askState(){
+      askTick=false;
+      var seam=next.getBoundingClientRect().top;
+      var r=btn.getBoundingClientRect();
+      btn.classList.toggle('ask--past-hero',seam<=r.top);
+    }
+    function askSoon(){ if(!askTick){ askTick=true; requestAnimationFrame(askState); } }
+    window.addEventListener('scroll',askSoon,{passive:true});
+    window.addEventListener('resize',askSoon,{passive:true});
+    askState();
   }
 })();
 </script>

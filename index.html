@@ -320,6 +320,36 @@ main{position:relative}
    With the cap off, the gutter is simply the padding: a flat 96px above
    1600px. Below 1500 NOTHING changes — his own 1440 view is untouched. */
 @media (min-width:1500px){ .sec .inner{max-width:none} }
+
+/* THE TYPE GROWS ONLY WHERE THE COPY ACTUALLY MOVED — 2026-08-02.
+   h1 and h2 are capped at 5rem/3.9rem, so from about 1230px up they stop
+   growing entirely while the screen keeps going: that is why they read small
+   on a large monitor. The anchoring change above bought the room to fix it,
+   but ONLY at 1500 and over, because below that the 1400 cap still applies and
+   nothing moved an inch. So the caps lift here and nowhere else.
+
+   Measured before choosing the numbers (worst headline line, floor 3.0):
+     1600   +15% hero 3.21 ch02 3.46      +30% hero 2.94 FAILS
+     1920   +30% hero 3.28 ch02 5.06      +45% hero goes to FOUR lines
+     2560   +30% hero 5.36 ch02 7.85
+   So the ceiling is set by 1600 at the low end and by his three-line rule at
+   the top. These clamps land on +10% at 1600, +30% at 1920, and hold there —
+   inside the measured envelope at every width, with the hero at three lines
+   from 1280 to 2560.
+
+   ⚠️ THE PARAGRAPH IS DELIBERATELY NOT GROWN. It is the one element already
+   under its threshold — 4.09 at 1920 against the 4.5 small text needs — and
+   growing it makes that worse, not better (2.96 at +15%, 3.01 at +30%),
+   because it reaches further into the bright half of the frame. It needs the
+   deeper scrim first; that work is parked in HANDOVER_MOBILE_UX.md. */
+@media (min-width:1500px){
+  #s1 h1{font-size:clamp(5rem,5.5vw,6.5rem)}
+  #s2 h2,#s3 h2,#s5 h2,#s6 h2{font-size:clamp(3.9rem,4.3vw,5.05rem)}
+  /* the buttons grow with the type they sit under. They are the one control
+     that does not depend on the photograph — the wash and hairline carry
+     themselves — so this is a proportion decision, not a contrast one. */
+  .sec .cta{height:3.4rem;font-size:.72rem;padding:0 1.9rem}
+}
 .copy{max-width:34rem}
 @media (min-width:900px){ .copy{max-width:40rem} }
 @media (min-width:1500px){ .copy{max-width:44rem} }
@@ -775,9 +805,19 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:400;
     radial-gradient(70% 90% at 82% 0%,rgba(92,31,49,.4),transparent 70%),
     linear-gradient(175deg,#241A1F 0%,#2E2228 60%,#241A1F 100%);
 }
+/* HIS CALL 2026-08-02: NOT half and half. The frame is a 4:5 magazine cover
+   and a 50/50 column is 16:9-ish, so `cover` was throwing away the top and
+   bottom of every article to fill it. Now the left column is exactly what the
+   cover needs to run full-bleed at the section's own height — height x 4/5 —
+   and the testimonials take whatever is left, which is more than they had.
+   At 1920x1080 that is 864px and 1056px, against 960/960 before.
+   The min() is a guard, not a preference: on a tall, narrow window 4/5 of the
+   height can exceed the screen, and the max() keeps it honest when the
+   section falls back to its 560px floor. */
 .collage{
   position:absolute;inset:0;
-  display:grid;grid-template-columns:1fr 1fr;
+  display:grid;
+  grid-template-columns:min(60%,calc(max(100svh,560px) * 4 / 5)) 1fr;
   opacity:0;transition:opacity 1.1s var(--ease);
 }
 .sec--world.in .collage{opacity:1}
@@ -917,7 +957,10 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:400;
   display:block;text-align:center;
   max-width:1400px;margin:0 auto 1.5rem;padding:0 clamp(1.25rem,6vw,6rem);
   font-family:var(--font-functional);
-  font-size:.72rem;font-weight:500;letter-spacing:.28em;text-transform:uppercase;
+  /* up from .72rem, his call — centred type at .72 read as a caption rather
+     than the band's title. Tracking eases back a touch because .28em at this
+     size opens the word gaps too far. */
+  font-size:.95rem;font-weight:500;letter-spacing:.24em;text-transform:uppercase;
   color:var(--burgundy);
 }
 .sband .kicker::after{content:none}

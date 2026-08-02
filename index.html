@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Medi-Gyn — Advanced Women's Hormone Health, Menopause &amp; Longevity Medicine</title>
-<meta name="description" content="Advanced women's hormone health, menopause and longevity medicine. Personalised, doctor-led care — online consultations, Dubai and worldwide.">
+<title data-i18n="meta.title">Medi-Gyn — Advanced Women's Hormone Health, Menopause &amp; Longevity Medicine</title>
+<meta name="description" data-i18n-content="meta.desc" content="Advanced women's hormone health, menopause and longevity medicine. Personalised, doctor-led care — online consultations, Dubai and worldwide.">
 <meta name="theme-color" content="#2E2228">
 <!-- Brand faces are self-hosted (Didot / NOW / Megante, subset to Latin, 92 KB
      total). Cormorant stays on Google purely for the chapter-08 pull quotes —
@@ -1287,24 +1287,221 @@ body.nav-open .ask{opacity:0;pointer-events:none}
   .pw__rise{translate:0 0}
   .pw__layer,.pw__rise{transition-delay:0ms!important}
 }
+
+/* ══ LANGUAGE ══════════════════════════════════════════════════════════
+   Six languages (2026-08-03, his list and his order): English, Arabic,
+   Mandarin, French, German, Russian — each written in its own language,
+   each with its flag. Flags are inline SVG rather than emoji on purpose:
+   Windows ships no flag emoji at all and renders 🇬🇧 as the letters "GB".
+   ── */
+.lang{position:relative}
+.lang__menu{
+  position:absolute;top:calc(100% + .55rem);right:0;z-index:60;
+  min-width:12.75rem;padding:.35rem;
+  border-radius:16px;
+  border:1px solid rgba(250,247,241,.6);
+  background:rgba(46,34,40,.72);color:var(--ivory);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  /* the shadow is the panel's own depth, not a halo cast on the page */
+  box-shadow:0 20px 44px -22px rgba(20,14,17,.7);
+  opacity:0;visibility:hidden;transform:translateY(-6px) scale(.98);
+  transform-origin:top right;
+  transition:opacity .26s var(--ease),transform .26s var(--ease),visibility .26s;
+}
+.lang[data-open="true"] .lang__menu{opacity:1;visibility:visible;transform:none}
+/* on the ivory bar the panel takes the bar's own colourway, like the chips do */
+.hdr--solid .lang__menu{
+  border-color:var(--line);background:rgba(250,247,241,.97);color:var(--ink);
+  box-shadow:0 20px 44px -24px rgba(46,34,40,.34);
+}
+body.nav-open .lang__menu{
+  border-color:rgba(250,247,241,.6);background:rgba(46,34,40,.72);color:var(--ivory);
+}
+.lang__item{
+  -webkit-appearance:none;appearance:none;cursor:pointer;
+  display:flex;align-items:center;gap:.7rem;width:100%;
+  padding:.52rem .6rem;border:0;background:transparent;border-radius:11px;
+  color:inherit;text-align:left;
+  font-family:var(--font-functional);font-size:.84rem;font-weight:400;
+  transition:background-color .2s var(--ease);
+}
+.lang__item:hover,.lang__item:focus-visible{background:rgba(250,247,241,.13);outline:none}
+.hdr--solid .lang__item:hover,.hdr--solid .lang__item:focus-visible{background:rgba(92,31,49,.07)}
+.lang__item[aria-checked="true"]{font-weight:500}
+/* the ring is INSET — nothing glows outside the disc */
+.lang__flag{flex:none;width:20px;height:20px;border-radius:999px;display:block;
+  box-shadow:inset 0 0 0 1px rgba(20,14,17,.18)}
+.hdr--solid .lang__flag{box-shadow:inset 0 0 0 1px rgba(46,34,40,.22)}
+.lang__name{flex:1;line-height:1.2}
+.lang__tick{flex:none;width:14px;height:14px;opacity:0;transition:opacity .2s var(--ease)}
+.lang__item[aria-checked="true"] .lang__tick{opacity:.9}
+@media (max-width:420px){ .lang__menu{min-width:11.5rem} }
+
+/* ── the faces the brand does not own ────────────────────────────────
+   MEASURED, not assumed: NOW, Megante and Bodoni Moda are all subset to
+   Latin (308 glyphs; no Cyrillic, no Arabic, no CJK), so without these
+   three blocks Arabic, Chinese and Russian fall through to whatever the
+   operating system happens to ship. Every face below is SIL OFL 1.1 —
+   free for commercial use, same licence as the Bodoni already here —
+   and each stylesheet is fetched only when its language is chosen, so
+   an English visitor downloads none of it.
+   Cormorant already carries Cyrillic, so Russian keeps the real quote face. */
+html[lang="ar"]{
+  --font-editorial:"Noto Naskh Arabic","Geeza Pro",serif;
+  --font-functional:"IBM Plex Sans Arabic","Geeza Pro",ui-sans-serif,sans-serif;
+  --font-brand-accent:"Noto Naskh Arabic","Geeza Pro",serif;
+  --font-quote:"Noto Naskh Arabic","Geeza Pro",serif;
+}
+html[lang="zh"]{
+  --font-editorial:"Noto Serif SC","Songti SC",serif;
+  --font-functional:"Noto Sans SC","PingFang SC",ui-sans-serif,sans-serif;
+  --font-brand-accent:"Noto Serif SC","Songti SC",serif;
+  --font-quote:"Noto Serif SC","Songti SC",serif;
+}
+/* Russian keeps the REAL editorial face: Playfair (the variable family that
+   replaced Bodoni Moda on 2026-08-03) ships a Cyrillic subset, and the head
+   already asks for it — so headlines in Russian are the brand's own type, not
+   a substitute. Only the functional face has to be replaced, because NOW is
+   Latin-only; Jost is the nearest free geometric to it and has Cyrillic.
+   Cormorant carries Cyrillic too, so the ch08 quotes keep their face as well. */
+html[lang="ru"]{
+  --font-functional:"Jost",ui-sans-serif,system-ui,sans-serif;
+}
+/* THE HERO IS THREE LINES AND NEVER FOUR — the oldest rule on this page, and
+   the one thing six languages can break in six different places.
+   The >=1500 block above states the method for its own cap: it is "a WIDTH
+   limit wearing a height's clothing … the hero's longest line must fit the
+   704px column … Re-derive it, never carry it over." The longest line is a
+   DIFFERENT STRING in every language, so it is re-derived per language here
+   rather than scaled off English.
+   Ceilings measured on the real page at 1920 in the 704px column, each shipped
+   ~5% under the value where the fourth line appeared:
+     Arabic    104.0   — 6.15rem. Naskh is compact and cleared English's cap
+                         easily in the 704px column, but Arabic's column is
+                         narrower (see the RTL block below) and in 560px the
+                         ceiling falls to 104 against a shipped 103: 1px, i.e.
+                         noise. Re-derived for the column it actually gets.
+     English   109.5   — 6.45rem unchanged, his number
+     German    103.5   — 6.15rem. English's 6.45 clears German by 0.3px, which
+                         is measurement noise, not a margin. It ships lower.
+     Chinese   102.0   — 6.05rem  ("您最好的人生。" is 7 glyphs x 103.2 = 722)
+     French     93.0   — 5.50rem  ("Votre plus belle vie." wants 754 in 704)
+     Russian    79.5   — 4.70rem
+   Russian needs its own curve below 1500 too: Cyrillic sets ~12% wider than
+   English in Playfair, and under ~689px the clamp FLOOR governs — at 390 the
+   column is 343px, where the line held at 38.4px and broke at 38.9.
+   Every cap here is checked by scanning the real page for the size at which
+   the fourth line appears, then shipping 5-8% under it. At 1440 Russian at
+   4.40rem left only 2% — noise again — so it ships at 4.20rem.
+   THE FLOOR IS THE OTHER END AND IT BITES ON REAL PHONES. At 373px the column
+   is 317px and BOTH French and Russian broke to four lines on the shared
+   2.7rem floor (ceilings 41.5px and 35.5px against a 43.2px floor), while
+   English held with 13% to spare. Their floors are set to give them the SAME
+   13% margin English has at that width, so all six degrade together on a
+   narrow phone rather than three of them degrading first. */
+html[lang="fr"] #s1 h1{font-size:clamp(2.30rem,6.28vw,4.83rem)}
+html[lang="ru"] #s1 h1{font-size:clamp(1.96rem,5.71vw,4.20rem)}
+@media (min-width:1500px){
+  html[lang="ar"] #s1 h1{font-size:clamp(5.37rem,5.9vw,6.15rem)}
+  html[lang="de"] #s1 h1{font-size:clamp(5.37rem,5.9vw,6.15rem)}
+  html[lang="zh"] #s1 h1{font-size:clamp(5.37rem,5.9vw,6.05rem)}
+  html[lang="fr"] #s1 h1{font-size:clamp(5.37rem,5.9vw,5.50rem)}
+  html[lang="ru"] #s1 h1{font-size:clamp(4.40rem,5.9vw,4.70rem)}
+}
+/* Neither Arabic nor Chinese has an italic. The rose/ivory <em> is the
+   signature of every headline on this page, so in those two it survives as
+   COLOUR alone — slanting a Naskh or a Song face is a synthetic oblique and
+   reads as a rendering fault, not as emphasis. */
+html[lang="ar"] h1 em,html[lang="ar"] h2 em,html[lang="ar"] .cvoice p,
+html[lang="zh"] h1 em,html[lang="zh"] h2 em,html[lang="zh"] .cvoice p{font-style:normal}
+/* Arabic letterforms JOIN. Tracking pulls the joins apart and the word visibly
+   falls to pieces, so every tracked style on the page gives it up in Arabic. */
+html[lang="ar"] body *{letter-spacing:normal!important}
+/* the ch08 headline is nowrap >=900px, sized for the English string only */
+html:not([lang="en"]) .cvoices__head{white-space:normal}
+
+/* ── right-to-left: the CHROME mirrors, the chapters do not ──────────
+   His call, 2026-08-03, and the scrim agrees with him: .sec::after runs its
+   dark gradient LEFT to right (.55 at the left edge, gone by 55%), so the
+   left column is the only ground on the page with enough darkness under it
+   for ivory text to clear its contrast floor. Mirroring the chapters would
+   carry the copy out of its own scrim. So .inner keeps LTR block flow and
+   only the text inside .copy reads right-to-left. */
+/* ⚠️ THERE ARE DELIBERATELY NO flex-direction / justify-content OVERRIDES
+   HERE, and the first version of this block had them. dir="rtl" ALREADY
+   reverses a flex row and already flips flex-start/flex-end and text-align,
+   so `flex-direction:row-reverse` on .hdr flips it a SECOND time and lands you
+   back in left-to-right — the header looked untouched and the rule computed
+   correctly, which is a nasty way to lose an hour. Verified by measurement in
+   Arabic at 1440: mark 1217–1405 (right), burger 35–79 (left), nav column
+   101–837 (left, on the burger's side, mirroring the English layout).
+   Only PHYSICAL properties need restating, and they are the two below. */
+html[dir="rtl"] .lang__menu{right:auto;left:0;transform-origin:top left}
+html[dir="rtl"] .sec .inner{direction:ltr}
+html[dir="rtl"] .copy,html[dir="rtl"] .hint{direction:rtl;text-align:right}
+/* ⚠️ THE ARABIC COLUMN IS NARROWER, AND CONTRAST IS THE REASON.
+   Right-aligning inside a left-anchored column pushes the text's start edge
+   toward the middle of the frame — straight out of the scrim it depends on.
+   Measured at 1440 against the real gradient
+   (.82 at 0% → .48 at 34% → 0 at 66%):
+     English headline  8.2%–42.6%   scrim 0.74 → 0.35
+     Arabic, full column  23.8%–52.7%   scrim 0.58 → 0.20   ← 40% less ground
+     Arabic, this column  14.9%–43.8%   scrim 0.67 → 0.33   ← parity with English
+   His decision is untouched: the copy still starts on the page's left gutter.
+   Only the measure is shorter, which is what keeps the text inside its own
+   scrim. The alternative — text-align:left — buys a better headline (0.43)
+   and a worse paragraph (0.26) and costs Arabic its flush start edge. */
+html[dir="rtl"] .copy{max-width:27rem}
+@media (min-width:900px){ html[dir="rtl"] .copy{max-width:32rem} }
+@media (min-width:1500px){ html[dir="rtl"] .copy{max-width:35rem} }
+html[dir="rtl"] .cta,html[dir="rtl"] .pw__cta,html[dir="rtl"] .askp__go{direction:rtl}
+/* every arrow points the way the language reads */
+html[dir="rtl"] .cta svg,html[dir="rtl"] .pw__cta svg,
+html[dir="rtl"] .pw__ico-arrow{transform:scaleX(-1)}
+html[dir="rtl"] .pw__layer,html[dir="rtl"] .cvoices,html[dir="rtl"] .f-grid{direction:rtl}
+html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
+
+/* the translation note — only ever visible on a translated page */
+.cvoices__note{
+  margin:.9rem 0 0;text-align:center;
+  font-family:var(--font-functional);
+  font-size:.6rem;font-weight:400;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink-soft);opacity:.75;
+}
+.cvoices__note:empty{display:none}
 </style>
 </head>
 <body id="top">
 
 <header class="hdr">
-  <a class="mark" href="#top" aria-label="Medi-Gyn — back to top">
+  <a class="mark" href="#top" aria-label="Medi-Gyn — back to top" data-i18n-aria="a11y.home">
     <img class="mark__img mark__img--ivory" src="images/logo-ivory.webp" alt="medi-gyn">
     <img class="mark__img mark__img--red" src="images/logo-red.webp" alt="" aria-hidden="true">
   </a>
   <div class="hdr__right">
-    <!-- inert for now — becomes the language picker when translations exist -->
-    <button type="button" class="globe" aria-label="Choose language">
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <circle cx="12" cy="12" r="8.25" stroke="currentColor" stroke-width="1.5"/>
-        <path d="M3.75 12h16.5M12 3.75c2.2 2.3 3.3 5.05 3.3 8.25S14.2 18 12 20.25C9.8 18 8.7 15.2 8.7 12S9.8 6.05 12 3.75Z" stroke="currentColor" stroke-width="1.5"/>
-      </svg>
-    </button>
-    <a class="wapp" aria-label="Chat on WhatsApp" target="_blank" rel="noopener"
+    <!-- The globe was built inert on 2026-08-01 with the note "becomes the
+         language picker when translations exist". They exist now (2026-08-03).
+         The button KEEPS class="globe", so all three header states — frosted
+         over the hero, outlined on the ivory bar, dark over the open menu —
+         keep applying to it for free. Only the panel below is new chrome. -->
+    <div class="lang" id="lang" data-open="false">
+      <button type="button" class="globe" id="lang-btn" aria-label="Choose language"
+              data-i18n-aria="a11y.lang" aria-haspopup="true" aria-expanded="false" aria-controls="lang-menu">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="12" r="8.25" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M3.75 12h16.5M12 3.75c2.2 2.3 3.3 5.05 3.3 8.25S14.2 18 12 20.25C9.8 18 8.7 15.2 8.7 12S9.8 6.05 12 3.75Z" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+      </button>
+      <div class="lang__menu" id="lang-menu" role="menu" aria-label="Choose language" data-i18n-aria="a11y.lang">
+        <button type="button" class="lang__item" role="menuitemradio" aria-checked="true" data-lang="en" lang="en"><svg class="lang__flag" viewBox="0 0 24 24" aria-hidden="true"><defs><clipPath id="lf-gb"><circle cx="12" cy="12" r="12"/></clipPath></defs><g clip-path="url(#lf-gb)" stroke="none"><rect width="24" height="24" fill="#012169"/><path d="M0 0 24 24M24 0 0 24" stroke="#FFF" stroke-width="5"/><path d="M0 0 24 24M24 0 0 24" stroke="#C8102E" stroke-width="2.2"/><path d="M12 0v24M0 12h24" stroke="#FFF" stroke-width="7"/><path d="M12 0v24M0 12h24" stroke="#C8102E" stroke-width="4"/></g></svg><span class="lang__name">English</span><svg class="lang__tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5 10 17.5 19 7"/></svg></button>
+        <button type="button" class="lang__item" role="menuitemradio" aria-checked="false" data-lang="ar" lang="ar"><svg class="lang__flag" viewBox="0 0 24 24" aria-hidden="true"><defs><clipPath id="lf-ae"><circle cx="12" cy="12" r="12"/></clipPath></defs><g clip-path="url(#lf-ae)" stroke="none"><rect width="24" height="8" fill="#00732F"/><rect y="8" width="24" height="8" fill="#FFF"/><rect y="16" width="24" height="8" fill="#000"/><rect width="7" height="24" fill="#FF0000"/></g></svg><span class="lang__name">العربية</span><svg class="lang__tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5 10 17.5 19 7"/></svg></button>
+        <button type="button" class="lang__item" role="menuitemradio" aria-checked="false" data-lang="zh" lang="zh"><svg class="lang__flag" viewBox="0 0 24 24" aria-hidden="true"><defs><clipPath id="lf-cn"><circle cx="12" cy="12" r="12"/></clipPath></defs><g clip-path="url(#lf-cn)" stroke="none"><rect width="24" height="24" fill="#DE2910"/><g fill="#FFDE00"><polygon points="6.00,2.90 6.81,5.39 9.42,5.39 7.31,6.92 8.12,9.41 6.00,7.88 3.88,9.41 4.69,6.92 2.58,5.39 5.19,5.39"/><polygon points="11.60,1.45 11.88,2.31 12.79,2.31 12.05,2.85 12.33,3.71 11.60,3.18 10.87,3.71 11.15,2.85 10.41,2.31 11.32,2.31"/><polygon points="13.90,3.85 14.18,4.71 15.09,4.71 14.35,5.25 14.63,6.11 13.90,5.58 13.17,6.11 13.45,5.25 12.71,4.71 13.62,4.71"/><polygon points="13.90,7.15 14.18,8.01 15.09,8.01 14.35,8.55 14.63,9.41 13.90,8.88 13.17,9.41 13.45,8.55 12.71,8.01 13.62,8.01"/><polygon points="11.60,9.45 11.88,10.31 12.79,10.31 12.05,10.85 12.33,11.71 11.60,11.18 10.87,11.71 11.15,10.85 10.41,10.31 11.32,10.31"/></g></g></svg><span class="lang__name">简体中文</span><svg class="lang__tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5 10 17.5 19 7"/></svg></button>
+        <button type="button" class="lang__item" role="menuitemradio" aria-checked="false" data-lang="fr" lang="fr"><svg class="lang__flag" viewBox="0 0 24 24" aria-hidden="true"><defs><clipPath id="lf-fr"><circle cx="12" cy="12" r="12"/></clipPath></defs><g clip-path="url(#lf-fr)" stroke="none"><rect width="8" height="24" fill="#002395"/><rect x="8" width="8" height="24" fill="#FFF"/><rect x="16" width="8" height="24" fill="#ED2939"/></g></svg><span class="lang__name">Français</span><svg class="lang__tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5 10 17.5 19 7"/></svg></button>
+        <button type="button" class="lang__item" role="menuitemradio" aria-checked="false" data-lang="de" lang="de"><svg class="lang__flag" viewBox="0 0 24 24" aria-hidden="true"><defs><clipPath id="lf-de"><circle cx="12" cy="12" r="12"/></clipPath></defs><g clip-path="url(#lf-de)" stroke="none"><rect width="24" height="8" fill="#000"/><rect y="8" width="24" height="8" fill="#DD0000"/><rect y="16" width="24" height="8" fill="#FFCE00"/></g></svg><span class="lang__name">Deutsch</span><svg class="lang__tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5 10 17.5 19 7"/></svg></button>
+        <button type="button" class="lang__item" role="menuitemradio" aria-checked="false" data-lang="ru" lang="ru"><svg class="lang__flag" viewBox="0 0 24 24" aria-hidden="true"><defs><clipPath id="lf-ru"><circle cx="12" cy="12" r="12"/></clipPath></defs><g clip-path="url(#lf-ru)" stroke="none"><rect width="24" height="8" fill="#FFF"/><rect y="8" width="24" height="8" fill="#0039A6"/><rect y="16" width="24" height="8" fill="#D52B1E"/></g></svg><span class="lang__name">Русский</span><svg class="lang__tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5 10 17.5 19 7"/></svg></button>
+      </div>
+    </div>
+    <a class="wapp" aria-label="Chat on WhatsApp" data-i18n-aria="a11y.whatsapp" target="_blank" rel="noopener"
        href="https://api.whatsapp.com/send/?phone=971555450797&amp;text=Hello%2C%20I%27m%20interested%20in%20a%20private%20consultation%20for%20hormone%20therapy%20support.&amp;type=phone_number&amp;app_absent=0">
       <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path d="M12 3.6a8.4 8.4 0 0 0-7.25 12.65L3.6 20.4l4.25-1.1A8.4 8.4 0 1 0 12 3.6Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
@@ -1312,8 +1509,8 @@ body.nav-open .ask{opacity:0;pointer-events:none}
       </svg>
     </a>
     <!-- inert for now — needs a booking destination -->
-    <a class="hdr__book">Book your consultation</a>
-    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="nav">
+    <a class="hdr__book" data-i18n="hdr.book">Book your consultation</a>
+    <button class="burger" id="burger" aria-label="Open menu" data-i18n-aria="a11y.menu_open" aria-expanded="false" aria-controls="nav">
       <span></span><span></span><span></span>
     </button>
   </div>
@@ -1325,20 +1522,20 @@ body.nav-open .ask{opacity:0;pointer-events:none}
      the destinations land, each <span> becomes an <a href> and nothing else
      needs to change. The chapter numbers went with the chapters: these are
      places, not a sequence. -->
-<nav class="nav" id="nav" aria-label="Menu" hidden>
+<nav class="nav" id="nav" aria-label="Menu" data-i18n-aria="a11y.menu" hidden>
   <ol>
-    <li style="--i:0"><span>Hormone Therapy</span></li>
-    <li style="--i:1"><span>Functional Medicine</span></li>
-    <li style="--i:2"><span>Peptide Therapy</span></li>
-    <li style="--i:3"><span>About Us</span></li>
-    <li style="--i:4"><span>Shop</span></li>
-    <li style="--i:5"><span>Events</span></li>
+    <li style="--i:0"><span data-i18n="nav.hormone">Hormone Therapy</span></li>
+    <li style="--i:1"><span data-i18n="nav.functional">Functional Medicine</span></li>
+    <li style="--i:2"><span data-i18n="nav.peptide">Peptide Therapy</span></li>
+    <li style="--i:3"><span data-i18n="nav.about">About Us</span></li>
+    <li style="--i:4"><span data-i18n="nav.shop">Shop</span></li>
+    <li style="--i:5"><span data-i18n="nav.events">Events</span></li>
   </ol>
 </nav>
 
 <!-- ask button: the panel behind it is a shell, contents still to be decided -->
 <button type="button" class="ask ask--glow-in" id="ask" aria-expanded="false" aria-controls="askp"
-        aria-label="Ask medi-gyn">
+        aria-label="Ask medi-gyn" data-i18n-aria="a11y.ask">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true">
     <path d="M20.25 12.6c0 3.9-3.7 7.05-8.25 7.05a9.5 9.5 0 0 1-2.6-.35L4.5 20.4l1.2-3.55A6.8 6.8 0 0 1 3.75 12.6c0-3.9 3.7-7.05 8.25-7.05s8.25 3.15 8.25 7.05Z"/>
   </svg>
@@ -1347,14 +1544,14 @@ body.nav-open .ask{opacity:0;pointer-events:none}
 <div class="askp" id="askp" role="dialog" aria-modal="true" aria-labelledby="askp-h" hidden>
   <div class="askp__card">
     <div class="askp__top">
-      <p class="askp__k" id="askp-h">Ask medi-gyn</p>
-      <button type="button" class="askp__x" aria-label="Close">
+      <p class="askp__k" id="askp-h" data-i18n="ask.title">Ask medi-gyn</p>
+      <button type="button" class="askp__x" aria-label="Close" data-i18n-aria="a11y.close">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
     </div>
     <div class="askp__body">
-      <p>Placeholder &mdash; the assistant lives here.</p>
-      <a class="askp__go" target="_blank" rel="noopener"
+      <p data-i18n="ask.body">Placeholder &mdash; the assistant lives here.</p>
+      <a class="askp__go" data-i18n="ask.cta" target="_blank" rel="noopener"
          href="https://api.whatsapp.com/send/?phone=971555450797&amp;text=Hello%2C%20I%27m%20interested%20in%20a%20private%20consultation%20for%20hormone%20therapy%20support.&amp;type=phone_number&amp;app_absent=0">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true">
           <path d="M12 3.6a8.4 8.4 0 0 0-7.25 12.65L3.6 20.4l4.25-1.1A8.4 8.4 0 1 0 12 3.6Z"/>
@@ -1405,29 +1602,29 @@ body.nav-open .ask{opacity:0;pointer-events:none}
   <section class="sec light" id="s1" data-nav="The Light">
     <div class="bg" data-src="images/09-light.webp"></div>
     <div class="inner"><div class="copy">
-      <p class="kicker reveal">Private. Personal. Powerful.</p>
-      <h1 class="reveal">Your hormones.<br>Your health.<br><em>Your best life.</em></h1>
-      <p class="body reveal">Personalised hormones, menopause care and longevity medicine designed around you &mdash; so you can feel like yourself again.</p>
+      <p class="kicker reveal" data-i18n="ch1.kicker">Private. Personal. Powerful.</p>
+      <h1 class="reveal" data-i18n="ch1.h1">Your hormones.<br>Your health.<br><em>Your best life.</em></h1>
+      <p class="body reveal" data-i18n="ch1.body">Personalised hormones, menopause care and longevity medicine designed around you &mdash; so you can feel like yourself again.</p>
       <!-- both inert until a booking destination and the quiz exist -->
       <div class="cta-stack reveal">
-        <a class="cta">Book your consultation
+        <a class="cta" data-i18n="ch1.cta1">Book your consultation
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
         </a>
-        <a class="cta">Take the hormone quiz
+        <a class="cta" data-i18n="ch1.cta2">Take the hormone quiz
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
         </a>
       </div>
     </div></div>
-    <div class="hint" aria-hidden="true"><i></i>Scroll</div>
+    <div class="hint" aria-hidden="true"><i></i><span data-i18n="ch1.scroll">Scroll</span></div>
   </section>
 
   <section class="sec light" id="s2" data-nav="Why Medi-Gyn">
     <div class="bg" data-src="images/about.webp"></div>
     <div class="inner"><div class="copy">
-      <h2 class="reveal">Personalised Solutions, Precision Medicine, Healthy Ageing</h2>
-      <p class="body reveal">Evidence-based medicine meets personalised care &mdash; from hormone optimisation and functional medicine to peptides and longevity medicine.</p>
+      <h2 class="reveal" data-i18n="ch2.h2">Personalised Solutions, Precision Medicine, Healthy Ageing</h2>
+      <p class="body reveal" data-i18n="ch2.body">Evidence-based medicine meets personalised care &mdash; from hormone optimisation and functional medicine to peptides and longevity medicine.</p>
       <div class="reveal">
-        <a class="cta">About us
+        <a class="cta" data-i18n="ch2.cta">About us
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
         </a>
       </div>
@@ -1437,31 +1634,31 @@ body.nav-open .ask{opacity:0;pointer-events:none}
   <section class="sec light" id="s3" data-nav="Discovery Call">
     <div class="bg" data-src="images/06-consult.webp"></div>
     <div class="inner"><div class="copy">
-      <h2 class="reveal">Start With a Conversation, Leave With Clarity</h2>
-      <p class="body reveal">Meet Irina Bond, the founder of Medi-Gyn and Hormone Health Educator. During your complimentary discovery call, she will help you understand your concerns, answer your questions, and help you explore the next step with clarity and confidence.</p>
+      <h2 class="reveal" data-i18n="ch3.h2">Start With a Conversation, Leave With Clarity</h2>
+      <p class="body reveal" data-i18n="ch3.body">Meet Irina Bond, the founder of Medi-Gyn and Hormone Health Educator. During your complimentary discovery call, she will help you understand your concerns, answer your questions, and help you explore the next step with clarity and confidence.</p>
       <div class="reveal">
-        <a class="cta">Book a free discovery call
+        <a class="cta" data-i18n="ch3.cta">Book a free discovery call
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
         </a>
       </div>
     </div></div>
   </section>
 
-  <section class="sec sec--pw" id="s4" data-nav="The Pathways" aria-label="Care pathways">
+  <section class="sec sec--pw" id="s4" data-nav="The Pathways" aria-label="Care pathways" data-i18n-aria="a11y.pathways">
     <div class="pw" id="pw" data-open="false">
 
       <div class="pw__panel" data-active="false">
         <img class="pw__img" src="images/path-01-bhrt.webp" loading="lazy"
-             alt="A cream leather symptom journal and a personalised hormone report showing estradiol, progesterone and cortisol charts, with a gold pen and a glass of water on a sunlit table."
+             data-i18n-alt="pw1.alt" alt="A cream leather symptom journal and a personalised hormone report showing estradiol, progesterone and cortisol charts, with a gold pen and a glass of water on a sunlit table."
              style="--op-m:center 45%;--op-d:center 45%;--op-di:center center">
         <div class="pw__scrim pw__scrim--closed" data-show="true"></div>
         <div class="pw__scrim pw__scrim--open" data-show="false"></div>
         <span aria-hidden="true" class="pw__mark"></span>
-        <button type="button" class="pw__trigger" id="pw-t1" aria-expanded="false" aria-controls="pw-p1" aria-label="01 — Hormone Therapy &amp; BHRT"></button>
+        <button type="button" class="pw__trigger" id="pw-t1" aria-expanded="false" aria-controls="pw-p1" aria-label="01 — Hormone Therapy &amp; BHRT" data-i18n-aria="pw1.aria"></button>
         <div class="pw__layer pw__layer--closed" data-show="true">
           <p class="pw__rise pw__num">01</p>
-          <h3 class="pw__rise pw__name">Hormone Therapy &amp; BHRT</h3>
-          <p class="pw__rise pw__short">Energy, mood, cycles, libido</p>
+          <h3 class="pw__rise pw__name" data-i18n="pw1.name">Hormone Therapy &amp; BHRT</h3>
+          <p class="pw__rise pw__short" data-i18n="pw1.short">Energy, mood, cycles, libido</p>
           <span aria-hidden="true" class="pw__open-dot">
             <svg class="pw__ico-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
             <svg class="pw__ico-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 9l6 6 6-6"/></svg>
@@ -1469,17 +1666,17 @@ body.nav-open .ask{opacity:0;pointer-events:none}
         </div>
         <div class="pw__layer pw__layer--open" id="pw-p1" role="region" aria-labelledby="pw-t1" data-show="false" inert>
           <p class="pw__rise pw__num">01</p>
-          <h3 class="pw__rise pw__title">Hormone Therapy &amp; BHRT</h3>
-          <p class="pw__rise pw__desc">For women whose energy, mood, cycles or libido no longer feel like their own.</p>
+          <h3 class="pw__rise pw__title" data-i18n="pw1.title">Hormone Therapy &amp; BHRT</h3>
+          <p class="pw__rise pw__desc" data-i18n="pw1.desc">For women whose energy, mood, cycles or libido no longer feel like their own.</p>
           <div class="pw__rise pw__chips">
-            <span class="pw__chip">Fatigue</span>
-            <span class="pw__chip">Mood changes</span>
-            <span class="pw__chip pw__chip--xtra">Low libido</span>
-            <span class="pw__chip pw__chip--xtra">Cycle irregularity</span>
-            <span class="pw__more">+2 more</span>
+            <span class="pw__chip" data-i18n="pw1.chip1">Fatigue</span>
+            <span class="pw__chip" data-i18n="pw1.chip2">Mood changes</span>
+            <span class="pw__chip pw__chip--xtra" data-i18n="pw1.chip3">Low libido</span>
+            <span class="pw__chip pw__chip--xtra" data-i18n="pw1.chip4">Cycle irregularity</span>
+            <span class="pw__more" data-i18n="pw.more">+2 more</span>
           </div>
           <div class="pw__rise">
-            <a class="pw__cta">Explore pathway
+            <a class="pw__cta" data-i18n="pw.cta">Explore pathway
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
             </a>
           </div>
@@ -1491,16 +1688,16 @@ body.nav-open .ask{opacity:0;pointer-events:none}
 
       <div class="pw__panel" data-active="false">
         <img class="pw__img" src="images/path-02-menopause.webp" loading="lazy"
-             alt="A woman in cream linen standing at a sunlit window, one hand resting at her neck, looking out past a sheer curtain."
+             data-i18n-alt="pw2.alt" alt="A woman in cream linen standing at a sunlit window, one hand resting at her neck, looking out past a sheer curtain."
              style="--op-m:center 12%;--op-d:center 18%;--op-di:45% center">
         <div class="pw__scrim pw__scrim--closed" data-show="true"></div>
         <div class="pw__scrim pw__scrim--open" data-show="false"></div>
         <span aria-hidden="true" class="pw__mark"></span>
-        <button type="button" class="pw__trigger" id="pw-t2" aria-expanded="false" aria-controls="pw-p2" aria-label="02 — Menopause Care"></button>
+        <button type="button" class="pw__trigger" id="pw-t2" aria-expanded="false" aria-controls="pw-p2" aria-label="02 — Menopause Care" data-i18n-aria="pw2.aria"></button>
         <div class="pw__layer pw__layer--closed" data-show="true">
           <p class="pw__rise pw__num">02</p>
-          <h3 class="pw__rise pw__name">Menopause Care</h3>
-          <p class="pw__rise pw__short">Perimenopause, menopause and beyond</p>
+          <h3 class="pw__rise pw__name" data-i18n="pw2.name">Menopause Care</h3>
+          <p class="pw__rise pw__short" data-i18n="pw2.short">Perimenopause, menopause and beyond</p>
           <span aria-hidden="true" class="pw__open-dot">
             <svg class="pw__ico-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
             <svg class="pw__ico-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 9l6 6 6-6"/></svg>
@@ -1508,17 +1705,17 @@ body.nav-open .ask{opacity:0;pointer-events:none}
         </div>
         <div class="pw__layer pw__layer--open" id="pw-p2" role="region" aria-labelledby="pw-t2" data-show="false" inert>
           <p class="pw__rise pw__num">02</p>
-          <h3 class="pw__rise pw__title">Menopause Care</h3>
-          <p class="pw__rise pw__desc">Personalised care through perimenopause, menopause and beyond.</p>
+          <h3 class="pw__rise pw__title" data-i18n="pw2.title">Menopause Care</h3>
+          <p class="pw__rise pw__desc" data-i18n="pw2.desc">Personalised care through perimenopause, menopause and beyond.</p>
           <div class="pw__rise pw__chips">
-            <span class="pw__chip">Hot flashes</span>
-            <span class="pw__chip">Poor sleep</span>
-            <span class="pw__chip pw__chip--xtra">Brain fog</span>
-            <span class="pw__chip pw__chip--xtra">Anxiety</span>
-            <span class="pw__more">+2 more</span>
+            <span class="pw__chip" data-i18n="pw2.chip1">Hot flashes</span>
+            <span class="pw__chip" data-i18n="pw2.chip2">Poor sleep</span>
+            <span class="pw__chip pw__chip--xtra" data-i18n="pw2.chip3">Brain fog</span>
+            <span class="pw__chip pw__chip--xtra" data-i18n="pw2.chip4">Anxiety</span>
+            <span class="pw__more" data-i18n="pw.more">+2 more</span>
           </div>
           <div class="pw__rise">
-            <a class="pw__cta">Explore pathway
+            <a class="pw__cta" data-i18n="pw.cta">Explore pathway
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
             </a>
           </div>
@@ -1530,16 +1727,16 @@ body.nav-open .ask{opacity:0;pointer-events:none}
 
       <div class="pw__panel" data-active="false">
         <img class="pw__img" src="images/path-03-functional.webp" loading="lazy"
-             alt="A ceramic bowl of yoghurt topped with figs, blackberries, blueberries and granola with a gold spoon, beside lemon halves and a cup of coffee on a marble table."
+             data-i18n-alt="pw3.alt" alt="A ceramic bowl of yoghurt topped with figs, blackberries, blueberries and granola with a gold spoon, beside lemon halves and a cup of coffee on a marble table."
              style="--op-m:center 56%;--op-d:center 52%;--op-di:center center">
         <div class="pw__scrim pw__scrim--closed" data-show="true"></div>
         <div class="pw__scrim pw__scrim--open" data-show="false"></div>
         <span aria-hidden="true" class="pw__mark"></span>
-        <button type="button" class="pw__trigger" id="pw-t3" aria-expanded="false" aria-controls="pw-p3" aria-label="03 — Functional Medicine"></button>
+        <button type="button" class="pw__trigger" id="pw-t3" aria-expanded="false" aria-controls="pw-p3" aria-label="03 — Functional Medicine" data-i18n-aria="pw3.aria"></button>
         <div class="pw__layer pw__layer--closed" data-show="true">
           <p class="pw__rise pw__num">03</p>
-          <h3 class="pw__rise pw__name">Functional Medicine</h3>
-          <p class="pw__rise pw__short">Root causes, found and treated</p>
+          <h3 class="pw__rise pw__name" data-i18n="pw3.name">Functional Medicine</h3>
+          <p class="pw__rise pw__short" data-i18n="pw3.short">Root causes, found and treated</p>
           <span aria-hidden="true" class="pw__open-dot">
             <svg class="pw__ico-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
             <svg class="pw__ico-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 9l6 6 6-6"/></svg>
@@ -1547,17 +1744,17 @@ body.nav-open .ask{opacity:0;pointer-events:none}
         </div>
         <div class="pw__layer pw__layer--open" id="pw-p3" role="region" aria-labelledby="pw-t3" data-show="false" inert>
           <p class="pw__rise pw__num">03</p>
-          <h3 class="pw__rise pw__title">Functional Medicine</h3>
-          <p class="pw__rise pw__desc">A deeper investigation into metabolism, digestion, thyroid health and inflammation.</p>
+          <h3 class="pw__rise pw__title" data-i18n="pw3.title">Functional Medicine</h3>
+          <p class="pw__rise pw__desc" data-i18n="pw3.desc">A deeper investigation into metabolism, digestion, thyroid health and inflammation.</p>
           <div class="pw__rise pw__chips">
-            <span class="pw__chip">Gut issues</span>
-            <span class="pw__chip">Weight changes</span>
-            <span class="pw__chip pw__chip--xtra">Persistent fatigue</span>
-            <span class="pw__chip pw__chip--xtra">Hair thinning</span>
-            <span class="pw__more">+2 more</span>
+            <span class="pw__chip" data-i18n="pw3.chip1">Gut issues</span>
+            <span class="pw__chip" data-i18n="pw3.chip2">Weight changes</span>
+            <span class="pw__chip pw__chip--xtra" data-i18n="pw3.chip3">Persistent fatigue</span>
+            <span class="pw__chip pw__chip--xtra" data-i18n="pw3.chip4">Hair thinning</span>
+            <span class="pw__more" data-i18n="pw.more">+2 more</span>
           </div>
           <div class="pw__rise">
-            <a class="pw__cta">Explore pathway
+            <a class="pw__cta" data-i18n="pw.cta">Explore pathway
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
             </a>
           </div>
@@ -1569,16 +1766,16 @@ body.nav-open .ask{opacity:0;pointer-events:none}
 
       <div class="pw__panel" data-active="false">
         <img class="pw__img" src="images/path-04-peptides.webp" loading="lazy"
-             alt="A sculptural glass double helix through a slender gold ring, with a pale pink flower and strings of crystal molecules in soft light."
+             data-i18n-alt="pw4.alt" alt="A sculptural glass double helix through a slender gold ring, with a pale pink flower and strings of crystal molecules in soft light."
              style="--op-m:center 45%;--op-d:center 45%;--op-di:center center">
         <div class="pw__scrim pw__scrim--closed" data-show="true"></div>
         <div class="pw__scrim pw__scrim--open" data-show="false"></div>
         <span aria-hidden="true" class="pw__mark"></span>
-        <button type="button" class="pw__trigger" id="pw-t4" aria-expanded="false" aria-controls="pw-p4" aria-label="04 — Peptide &amp; Regenerative Support"></button>
+        <button type="button" class="pw__trigger" id="pw-t4" aria-expanded="false" aria-controls="pw-p4" aria-label="04 — Peptide &amp; Regenerative Support" data-i18n-aria="pw4.aria"></button>
         <div class="pw__layer pw__layer--closed" data-show="true">
           <p class="pw__rise pw__num">04</p>
-          <h3 class="pw__rise pw__name">Peptide &amp; Regenerative Support</h3>
-          <p class="pw__rise pw__short">Recovery, resilience, vitality</p>
+          <h3 class="pw__rise pw__name" data-i18n="pw4.name">Peptide &amp; Regenerative Support</h3>
+          <p class="pw__rise pw__short" data-i18n="pw4.short">Recovery, resilience, vitality</p>
           <span aria-hidden="true" class="pw__open-dot">
             <svg class="pw__ico-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
             <svg class="pw__ico-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 9l6 6 6-6"/></svg>
@@ -1586,17 +1783,17 @@ body.nav-open .ask{opacity:0;pointer-events:none}
         </div>
         <div class="pw__layer pw__layer--open" id="pw-p4" role="region" aria-labelledby="pw-t4" data-show="false" inert>
           <p class="pw__rise pw__num">04</p>
-          <h3 class="pw__rise pw__title">Peptide &amp; Regenerative Support</h3>
-          <p class="pw__rise pw__desc">Medically supervised support for recovery, resilience, healthy ageing and vitality.</p>
+          <h3 class="pw__rise pw__title" data-i18n="pw4.title">Peptide &amp; Regenerative Support</h3>
+          <p class="pw__rise pw__desc" data-i18n="pw4.desc">Medically supervised support for recovery, resilience, healthy ageing and vitality.</p>
           <div class="pw__rise pw__chips">
-            <span class="pw__chip">Slow recovery</span>
-            <span class="pw__chip">Skin ageing</span>
-            <span class="pw__chip pw__chip--xtra">Low resilience</span>
-            <span class="pw__chip pw__chip--xtra">Long-term vitality</span>
-            <span class="pw__more">+2 more</span>
+            <span class="pw__chip" data-i18n="pw4.chip1">Slow recovery</span>
+            <span class="pw__chip" data-i18n="pw4.chip2">Skin ageing</span>
+            <span class="pw__chip pw__chip--xtra" data-i18n="pw4.chip3">Low resilience</span>
+            <span class="pw__chip pw__chip--xtra" data-i18n="pw4.chip4">Long-term vitality</span>
+            <span class="pw__more" data-i18n="pw.more">+2 more</span>
           </div>
           <div class="pw__rise">
-            <a class="pw__cta">Explore pathway
+            <a class="pw__cta" data-i18n="pw.cta">Explore pathway
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
             </a>
           </div>
@@ -1606,7 +1803,7 @@ body.nav-open .ask{opacity:0;pointer-events:none}
         </span>
       </div>
 
-      <p class="pw__choose" aria-hidden="true">
+      <p class="pw__choose" aria-hidden="true" data-i18n="pw.choose">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25"><path d="M18 15l-6-6-6 6"/></svg>
         Choose a pathway
       </p>
@@ -1617,10 +1814,10 @@ body.nav-open .ask{opacity:0;pointer-events:none}
   <section class="sec light" id="s5" data-nav="Meet Our Team">
     <div class="bg" data-src="images/team.webp"></div>
     <div class="inner"><div class="copy">
-      <h2 class="reveal">Meet The Experts Behind <em>Your Journey</em></h2>
-      <p class="body reveal">Behind every personalised journey is a team chosen not only for their expertise, but for their dedication to listening, understanding, and delivering the highest standard of care. Meet the professionals committed to helping you achieve lasting zest for life, vitality and health-span.</p>
+      <h2 class="reveal" data-i18n="ch5.h2">Meet The Experts Behind <em>Your Journey</em></h2>
+      <p class="body reveal" data-i18n="ch5.body">Behind every personalised journey is a team chosen not only for their expertise, but for their dedication to listening, understanding, and delivering the highest standard of care. Meet the professionals committed to helping you achieve lasting zest for life, vitality and health-span.</p>
       <div class="reveal">
-        <a class="cta">Meet the team
+        <a class="cta" data-i18n="ch5.cta">Meet the team
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
         </a>
       </div>
@@ -1636,10 +1833,10 @@ body.nav-open .ask{opacity:0;pointer-events:none}
          filename, never an overwrite, so no cache can hold a stale frame. -->
     <div class="bg" data-src="images/products-closer.webp"></div>
     <div class="inner"><div class="copy">
-      <h2 class="reveal">Personalised Health Solutions. <em>Tailored to You</em></h2>
-      <p class="body reveal">Explore our carefully selected hormone and peptide therapies, supplements and biohacking solutions designed to support your body &mdash; not overwhelm it.</p>
+      <h2 class="reveal" data-i18n="ch6.h2">Personalised Health Solutions. <em>Tailored to You</em></h2>
+      <p class="body reveal" data-i18n="ch6.body">Explore our carefully selected hormone and peptide therapies, supplements and biohacking solutions designed to support your body &mdash; not overwhelm it.</p>
       <div class="reveal">
-        <a class="cta">Visit the shop
+        <a class="cta" data-i18n="ch6.cta">Visit the shop
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
         </a>
       </div>
@@ -1658,9 +1855,9 @@ body.nav-open .ask{opacity:0;pointer-events:none}
     <div class="bg"></div>
     <canvas class="meno-globe" id="meno-globe" aria-hidden="true"></canvas>
     <div class="inner"><div class="copy">
-      <h2 class="reveal">Educational Events <em>Beyond Borders.</em></h2>
-      <p class="body reveal">From international educational events to global collaborations and media recognition, Medi-Gyn is helping reshape the future of hormone health &mdash; one conversation, one city, and one person at a time.</p>
-      <a class="cta reveal">Join menoSTART
+      <h2 class="reveal" data-i18n="ch7.h2">Educational Events <em>Beyond Borders.</em></h2>
+      <p class="body reveal" data-i18n="ch7.body">From international educational events to global collaborations and media recognition, Medi-Gyn is helping reshape the future of hormone health &mdash; one conversation, one city, and one person at a time.</p>
+      <a class="cta reveal" data-i18n="ch7.cta">Join menoSTART
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
       </a>
     </div></div>
@@ -1682,8 +1879,8 @@ body.nav-open .ask{opacity:0;pointer-events:none}
   <section class="sec sec--world" id="s8" data-nav="In the World">
     <div class="bg"></div>
     <div class="collage">
-      <figure class="cpress" role="group" aria-label="Medi-Gyn in the press">
-        <img class="cpress__img is-on" src="images/coverage/press-04-madame-arabia.webp" alt="Irina Bond on the cover of Madame Arabia" width="1080" height="1350" loading="eager" decoding="async">
+      <figure class="cpress" role="group" aria-label="Medi-Gyn in the press" data-i18n-aria="a11y.press">
+        <img class="cpress__img is-on" src="images/coverage/press-04-madame-arabia.webp" alt="Irina Bond on the cover of Madame Arabia" data-i18n-alt="ch8.cover_alt" width="1080" height="1350" loading="eager" decoding="async">
         <!-- ⚠️ 2026-08-02, HIS CALL: the reel is now ONE still frame (Madame
              Arabia, his pick). The other 14 slides came out — 9 press frames,
              3 candids and BOTH FILMS (the Monaco bone-and-joints interview and
@@ -1692,7 +1889,7 @@ body.nav-open .ask{opacity:0;pointer-events:none}
              `git show` away. The films now have no home on the site at all —
              flagged to him; the Press button below is the natural place for
              them once it has a destination. -->
-        <a class="cta cpress__cta">Press
+        <a class="cta cpress__cta" data-i18n="ch8.press">Press
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
         </a>
       </figure>
@@ -1701,45 +1898,49 @@ body.nav-open .ask{opacity:0;pointer-events:none}
           <!-- the "In their words" kicker is out (his call) and this headline
                takes the slot. h2, not a kicker: it is the panel's title, and
                ch08 had no heading of its own before. -->
-          <h2 class="cvoices__head">Real Patients, Real Stories, Real Impact</h2>
+          <h2 class="cvoices__head" data-i18n="ch8.head">Real Patients, Real Stories, Real Impact</h2>
           <div class="cvoices__stage">
             <blockquote class="cvoice is-on">
-              <p>&ldquo;This literally elevated my everyday life to another level. It was transformational.&rdquo;</p>
-              <footer>A medi-gyn patient &mdash; on film</footer>
+              <p data-i18n="ch8.q1">&ldquo;This literally elevated my everyday life to another level. It was transformational.&rdquo;</p>
+              <footer data-i18n="ch8.c1">A medi-gyn patient &mdash; on film</footer>
             </blockquote>
             <blockquote class="cvoice">
-              <p>&ldquo;I got a golden medal in world championship in AD with my team. All members of the team were 25 years old and I&rsquo;m 47.&rdquo;</p>
-              <footer>Baydaa H., Dubai</footer>
+              <p data-i18n="ch8.q2">&ldquo;I got a golden medal in world championship in AD with my team. All members of the team were 25 years old and I&rsquo;m 47.&rdquo;</p>
+              <footer data-i18n="ch8.c2">Baydaa H., Dubai</footer>
             </blockquote>
             <blockquote class="cvoice">
-              <p>&ldquo;I&rsquo;ve never felt so safe and understood as a woman seeking medical care.&rdquo;</p>
-              <footer>Anood Hassan, Dubai</footer>
+              <p data-i18n="ch8.q3">&ldquo;I&rsquo;ve never felt so safe and understood as a woman seeking medical care.&rdquo;</p>
+              <footer data-i18n="ch8.c3">Anood Hassan, Dubai</footer>
             </blockquote>
             <blockquote class="cvoice">
-              <p>&ldquo;The menopause really hit me fast and furious.&rdquo;</p>
-              <footer>Katrina, 58</footer>
+              <p data-i18n="ch8.q4">&ldquo;The menopause really hit me fast and furious.&rdquo;</p>
+              <footer data-i18n="ch8.c4">Katrina, 58</footer>
             </blockquote>
             <blockquote class="cvoice">
-              <p>&ldquo;Many women struggle with their hormones and well-being. I hope you open more branches in Saudi Arabia&hellip; we need you here.&rdquo;</p>
-              <footer>Rania A., Jeddah</footer>
+              <p data-i18n="ch8.q5">&ldquo;Many women struggle with their hormones and well-being. I hope you open more branches in Saudi Arabia&hellip; we need you here.&rdquo;</p>
+              <footer data-i18n="ch8.c5">Rania A., Jeddah</footer>
             </blockquote>
             <blockquote class="cvoice">
-              <p>&ldquo;I just received my test results from my blood draw this morning. They confirm how I feel &ndash; Great!&rdquo;</p>
-              <footer>Penny N., Iraq</footer>
+              <p data-i18n="ch8.q6">&ldquo;I just received my test results from my blood draw this morning. They confirm how I feel &ndash; Great!&rdquo;</p>
+              <footer data-i18n="ch8.c6">Penny N., Iraq</footer>
             </blockquote>
             <blockquote class="cvoice">
-              <p>&ldquo;If you are hesitant, just do it.&rdquo;</p>
-              <footer>A medi-gyn patient &mdash; on film</footer>
+              <p data-i18n="ch8.q7">&ldquo;If you are hesitant, just do it.&rdquo;</p>
+              <footer data-i18n="ch8.c7">A medi-gyn patient &mdash; on film</footer>
             </blockquote>
             <blockquote class="cvoice">
-              <p>&ldquo;I am a new me, the youngest physical and mental version of me!&rdquo;</p>
-              <footer>Hasnaa M., Dubai</footer>
+              <p data-i18n="ch8.q8">&ldquo;I am a new me, the youngest physical and mental version of me!&rdquo;</p>
+              <footer data-i18n="ch8.c8">Hasnaa M., Dubai</footer>
             </blockquote>
             <blockquote class="cvoice">
-              <p>&ldquo;I am so thrilled to start with you and I already feel at peace of mind that someone can help in a professional manner.&rdquo;</p>
-              <footer>Hala, Dubai</footer>
+              <p data-i18n="ch8.q9">&ldquo;I am so thrilled to start with you and I already feel at peace of mind that someone can help in a professional manner.&rdquo;</p>
+              <footer data-i18n="ch8.c9">Hala, Dubai</footer>
             </blockquote>
           </div>
+          <!-- Shown only when the page is NOT in English: these are verbatim
+               patient words, so a translated page says so once, under the
+               panel, rather than nine times under nine quotes. -->
+          <p class="cvoices__note" data-i18n="ch8.note"></p>
         </div>
     </div>
   </section>
@@ -1754,7 +1955,7 @@ body.nav-open .ask{opacity:0;pointer-events:none}
        lesson); sponsor-05 is the ORIGINAL colour file here, not the
        -ivory.webp preprocessed for the dark belt. Grows by wrapping
        to another row. -->
-  <section class="sband" aria-label="Our sponsors">
+  <section class="sband" aria-label="Our sponsors" data-i18n-aria="a11y.sponsors">
     <div class="sband__belt">
         <div class="sband__set">
           <img class="sl sl--01" src="images/sponsors/sponsor-01-monaco-women-network.webp" alt="Monaco Women Network" width="728" height="400" decoding="async">
@@ -1804,22 +2005,22 @@ body.nav-open .ask{opacity:0;pointer-events:none}
            its cell, so the column centres itself against the two text columns
            beside it — see .f-brand. -->
       <div class="f-brand">
-        <a class="f-mark" href="#top" aria-label="Medi-Gyn — back to top">
+        <a class="f-mark" href="#top" aria-label="Medi-Gyn — back to top" data-i18n-aria="a11y.home">
           <!-- red, not ivory: the footer ground is cream now -->
           <img src="images/logo-red.webp" alt="medi-gyn">
         </a>
       </div>
       <div class="f-news">
-        <h3 class="f-head">Newsletter</h3>
-        <p>Join our growing community.</p>
+        <h3 class="f-head" data-i18n="foot.news">Newsletter</h3>
+        <p data-i18n="foot.news_body">Join our growing community.</p>
         <!-- TODO: wire to Zoho CRM with source tracking (same as medi-blond) -->
-        <form aria-label="Newsletter">
-          <input id="nl-email" type="email" placeholder="Your email" aria-label="Your email">
-          <button type="button">Join</button>
+        <form aria-label="Newsletter" data-i18n-aria="foot.news">
+          <input id="nl-email" type="email" placeholder="Your email" data-i18n-ph="foot.email" aria-label="Your email" data-i18n-aria="foot.email">
+          <button type="button" data-i18n="foot.join">Join</button>
         </form>
       </div>
       <div>
-        <h3 class="f-head">Contact us</h3>
+        <h3 class="f-head" data-i18n="foot.contact">Contact us</h3>
         <!-- HIS PICK 2026-08-02 (V2): the address stays WRITTEN — it is
              an address, not a destination; the socials are icons because
              an icon is their whole identity. The V1 envelope-chip variant
@@ -1828,8 +2029,8 @@ body.nav-open .ask{opacity:0;pointer-events:none}
         <!-- one chip row, his sketched order: WhatsApp first (folded in
              from its old text link, same live wa.me href), then the
              placeholder socials -->
-        <div class="f-social" aria-label="Contact and social media">
-          <a aria-label="Chat on WhatsApp" target="_blank" rel="noopener" href="https://api.whatsapp.com/send/?phone=971555450797&amp;text=Hello%2C%20I%27m%20interested%20in%20a%20private%20consultation%20for%20hormone%20therapy%20support.&amp;type=phone_number&amp;app_absent=0">
+        <div class="f-social" aria-label="Contact and social media" data-i18n-aria="a11y.social">
+          <a aria-label="Chat on WhatsApp" data-i18n-aria="a11y.whatsapp" target="_blank" rel="noopener" href="https://api.whatsapp.com/send/?phone=971555450797&amp;text=Hello%2C%20I%27m%20interested%20in%20a%20private%20consultation%20for%20hormone%20therapy%20support.&amp;type=phone_number&amp;app_absent=0">
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.6a8.4 8.4 0 0 0-7.25 12.65L3.6 20.4l4.25-1.1A8.4 8.4 0 1 0 12 3.6Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8.9 8.95c.15-.4.35-.45.55-.45h.45c.15 0 .35.05.5.4l.55 1.3c.1.2.05.4-.1.55l-.35.45c-.1.15-.12.3-.02.5.3.55.95 1.3 1.8 1.7.2.1.35.08.5-.08l.45-.55c.15-.2.3-.22.55-.12l1.3.6c.25.12.35.27.35.47v.5c0 .2-.1.4-.45.55-.35.2-.9.3-1.55.1-1.2-.35-2.4-1.2-3.3-2.5-.65-.9-.85-1.75-.65-2.4.08-.35.27-.62.42-1.02Z" fill="currentColor"/></svg>
           </a>
           <a aria-label="Facebook" role="link" aria-disabled="true">
@@ -1853,11 +2054,11 @@ body.nav-open .ask{opacity:0;pointer-events:none}
     <!-- standalone at the far right edge, OUT of the chip row (his call:
          an up-arrow is navigation, not a contact method) and out of the
          bottom-right corner, which the fixed bot bubble owns -->
-    <a class="f-top" href="#top" aria-label="Back to top">
+    <a class="f-top" href="#top" aria-label="Back to top" data-i18n-aria="a11y.top">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="m5.5 11.5 6.5-6.5 6.5 6.5"/></svg>
     </a>
     <div class="f-base">
-      <p>Copyright &copy; 2026 Medi-Gyn | Powered by Medi-Gyn Health Planning Consultancies LLC</p>
+      <p data-i18n="foot.copy">Copyright &copy; 2026 Medi-Gyn | Powered by Medi-Gyn Health Planning Consultancies LLC</p>
     </div>
   </div>
 </footer>
@@ -1891,7 +2092,9 @@ body.nav-open .ask{opacity:0;pointer-events:none}
   function setNav(open){
     body.classList.toggle('nav-open',open);
     burger.setAttribute('aria-expanded',String(open));
-    burger.setAttribute('aria-label',open?'Close menu':'Open menu');
+    burger.setAttribute('aria-label',window.__mgT
+      ? window.__mgT(open?'a11y.menu_close':'a11y.menu_open')
+      : (open?'Close menu':'Open menu'));
     if(open){nav.hidden=false;hdr.classList.remove('hdr--hidden');}
     else{setTimeout(function(){ if(!body.classList.contains('nav-open')) nav.hidden=true; },460);}
   }
@@ -2281,6 +2484,864 @@ body.nav-open .ask{opacity:0;pointer-events:none}
     window.addEventListener('resize',askSoon,{passive:true});
     askState();
   }
+})();
+</script>
+
+<!-- ══ LANGUAGE ════════════════════════════════════════════════════════
+     Six languages off one dictionary. Every translatable string in the page
+     carries data-i18n (text) or data-i18n-aria / -alt / -ph / -content
+     (attributes); nothing is keyed by CSS selector, so moving markup around
+     cannot silently break a translation.
+     ⚠️ THE COPY IS A DRAFT. It is mine, not a native medical copywriter's,
+     and UAE health advertising has its own rules — every language wants a
+     native read before this is shown as final. The English is untouched.
+     ⚠️ Client-side switching means Google only ever indexes the English
+     page. Real multilingual SEO needs /ar/ /zh/ /fr/ /de/ /ru/ URLs plus
+     hreflang; this dictionary is the input for that when it is wanted. -->
+<script>
+(function(){
+  var DICT = {
+"ar": {
+"a11y.ask": "اسألي medi-gyn",
+"a11y.close": "إغلاق",
+"a11y.home": "Medi-Gyn — العودة إلى الأعلى",
+"a11y.lang": "اختيار اللغة",
+"a11y.menu": "القائمة",
+"a11y.menu_close": "إغلاق القائمة",
+"a11y.menu_open": "فتح القائمة",
+"a11y.pathways": "مسارات الرعاية",
+"a11y.press": "Medi-Gyn في الصحافة",
+"a11y.social": "التواصل ووسائل التواصل الاجتماعي",
+"a11y.sponsors": "الجهات الراعية",
+"a11y.top": "العودة إلى الأعلى",
+"a11y.whatsapp": "المحادثة عبر واتساب",
+"ask.body": "نص مؤقت — المساعد سيكون هنا.",
+"ask.cta": "تحدّثي إلينا الآن",
+"ask.title": "اسألي medi-gyn",
+"ch1.body": "هرمونات مخصّصة، ورعاية لانقطاع الطمث، وطب طول العمر — مصمّمة حولكِ، لتشعري بأنكِ أنتِ من جديد.",
+"ch1.cta1": "احجزي استشارتك",
+"ch1.cta2": "اخضعي لاختبار الهرمونات",
+"ch1.h1": "هرموناتكِ.<br>صحّتكِ.<br><em>أفضل حياة لكِ.</em>",
+"ch1.kicker": "خاصّ. شخصيّ. فعّال.",
+"ch1.scroll": "مرّري",
+"ch2.body": "الطب المبني على الأدلّة يلتقي بالرعاية المخصّصة — من تحسين الهرمونات والطب الوظيفي إلى الببتيدات وطب طول العمر.",
+"ch2.cta": "من نحن",
+"ch2.h2": "حلول مخصّصة، طب دقيق، تقدّم صحّي في العمر",
+"ch3.body": "تعرّفي على إيرينا بوند، مؤسِّسة Medi-Gyn والمثقِّفة في صحة الهرمونات. خلال مكالمتكِ التعريفية المجانية، ستساعدكِ على فهم ما يشغلكِ، وتجيب عن أسئلتكِ، وترافقكِ نحو الخطوة التالية بوضوح وثقة.",
+"ch3.cta": "احجزي مكالمة تعريفية مجانية",
+"ch3.h2": "ابدئي بمحادثة، واخرجي بوضوح",
+"ch5.body": "وراء كل رحلة مخصّصة فريق اختير لا لخبرته فحسب، بل لالتزامه بالإصغاء والفهم وتقديم أعلى مستوى من الرعاية. تعرّفي على المتخصصين الملتزمين بمساعدتكِ على استعادة شغف الحياة والحيوية وسنوات صحّية أطول.",
+"ch5.cta": "تعرّفي على الفريق",
+"ch5.h2": "تعرّفي على الخبراء وراء <em>رحلتكِ</em>",
+"ch6.body": "اكتشفي علاجاتنا الهرمونية والببتيدية المنتقاة بعناية، والمكمّلات، وحلول التحسين الحيوي — صُمّمت لتدعم جسمكِ لا لتُثقله.",
+"ch6.cta": "زوري المتجر",
+"ch6.h2": "حلول صحّية مخصّصة. <em>مصمّمة لكِ</em>",
+"ch7.body": "من الفعاليات التعليمية الدولية إلى التعاون العالمي والحضور الإعلامي، تسهم Medi-Gyn في إعادة تشكيل مستقبل صحة الهرمونات — محادثة تلو الأخرى، ومدينة تلو الأخرى، وشخصًا تلو الآخر.",
+"ch7.cta": "انضمّي إلى menoSTART",
+"ch7.h2": "فعاليات تعليمية <em>بلا حدود.</em>",
+"ch8.c1": "إحدى مريضات medi-gyn — من الفيلم",
+"ch8.c2": "Baydaa H.، دبي",
+"ch8.c3": "Anood Hassan، دبي",
+"ch8.c4": "Katrina، 58",
+"ch8.c5": "Rania A.، جدة",
+"ch8.c6": "Penny N.، العراق",
+"ch8.c7": "إحدى مريضات medi-gyn — من الفيلم",
+"ch8.c8": "Hasnaa M.، دبي",
+"ch8.c9": "Hala، دبي",
+"ch8.cover_alt": "إيرينا بوند على غلاف Madame Arabia",
+"ch8.head": "مريضات حقيقيات، قصص حقيقية، أثر حقيقي",
+"ch8.note": "مترجَم عن النص الإنجليزي الأصلي",
+"ch8.press": "الصحافة",
+"ch8.q1": "«لقد ارتقى هذا بحياتي اليومية إلى مستوى آخر بالفعل. كان تحوّلًا حقيقيًا.»",
+"ch8.q2": "«فزتُ بالميدالية الذهبية في بطولة العالم في AD مع فريقي. كل أعضاء الفريق في الخامسة والعشرين، وأنا في السابعة والأربعين.»",
+"ch8.q3": "«لم أشعر يومًا بهذا القدر من الأمان والتفهّم كامرأة تبحث عن رعاية طبية.»",
+"ch8.q4": "«داهمني انقطاع الطمث سريعًا وبعنف.»",
+"ch8.q5": "«كثير من النساء يعانين مع هرموناتهنّ وعافيتهنّ. أتمنى أن تفتحوا فروعًا أكثر في السعودية… نحتاجكم هنا.»",
+"ch8.q6": "«وصلتني للتوّ نتائج تحليل الدم الذي أجريته هذا الصباح. تؤكّد تمامًا ما أشعر به – رائعة!»",
+"ch8.q7": "«إن كنتِ مترددة، فافعليها ببساطة.»",
+"ch8.q8": "«أنا نسخة جديدة منّي، أصغر نسخة جسديًا وذهنيًا!»",
+"ch8.q9": "«أنا متحمّسة جدًا للبدء معكم، وأشعر بالفعل بالطمأنينة لوجود من يستطيع المساعدة باحتراف.»",
+"foot.contact": "تواصلي معنا",
+"foot.copy": "حقوق النشر © 2026 Medi-Gyn | مدعوم من Medi-Gyn Health Planning Consultancies LLC",
+"foot.email": "بريدكِ الإلكتروني",
+"foot.join": "انضمّي",
+"foot.news": "النشرة البريدية",
+"foot.news_body": "انضمّي إلى مجتمعنا المتنامي.",
+"hdr.book": "احجزي استشارتك",
+"meta.desc": "رعاية متقدّمة لصحة الهرمونات وانقطاع الطمث وطب طول العمر للنساء. رعاية مخصّصة بإشراف الأطباء — استشارات عبر الإنترنت، من دبي وإلى العالم.",
+"meta.title": "Medi-Gyn — صحة الهرمونات وانقطاع الطمث وطب طول العمر للنساء",
+"nav.about": "من نحن",
+"nav.events": "الفعاليات",
+"nav.functional": "الطب الوظيفي",
+"nav.hormone": "العلاج الهرموني",
+"nav.peptide": "العلاج بالببتيدات",
+"nav.shop": "المتجر",
+"pw.choose": "اختاري مسارًا",
+"pw.cta": "اكتشفي المسار",
+"pw.more": "+2 أخرى",
+"pw1.alt": "دفتر أعراض من الجلد الكريمي وتقرير هرموني مخصّص يعرض منحنيات الإستراديول والبروجسترون والكورتيزول، بجانبه قلم ذهبي وكوب ماء على طاولة تغمرها الشمس.",
+"pw1.aria": "01 — العلاج الهرموني وBHRT",
+"pw1.chip1": "إرهاق",
+"pw1.chip2": "تقلّبات المزاج",
+"pw1.chip3": "انخفاض الرغبة",
+"pw1.chip4": "اضطراب الدورة",
+"pw1.desc": "للنساء اللواتي لم تعد طاقتهنّ أو مزاجهنّ أو دورتهنّ أو رغبتهنّ تشبههنّ.",
+"pw1.name": "العلاج الهرموني وBHRT",
+"pw1.short": "الطاقة، المزاج، الدورة، الرغبة",
+"pw1.title": "العلاج الهرموني وBHRT",
+"pw2.alt": "امرأة بملابس كتّانية كريمية تقف عند نافذة تغمرها الشمس، يدها على عنقها، تنظر إلى الخارج من خلف ستارة شفّافة.",
+"pw2.aria": "02 — رعاية انقطاع الطمث",
+"pw2.chip1": "الهبّات الساخنة",
+"pw2.chip2": "نوم مضطرب",
+"pw2.chip3": "تشوّش الذهن",
+"pw2.chip4": "القلق",
+"pw2.desc": "رعاية مخصّصة خلال ما قبل انقطاع الطمث وانقطاعه وما بعده.",
+"pw2.name": "رعاية انقطاع الطمث",
+"pw2.short": "ما قبل الانقطاع، والانقطاع، وما بعده",
+"pw2.title": "رعاية انقطاع الطمث",
+"pw3.alt": "وعاء خزفي من اللبن مغطّى بالتين والتوت الأسود والتوت الأزرق والغرانولا مع ملعقة ذهبية، بجانبه نصفا ليمونة وفنجان قهوة على طاولة رخامية.",
+"pw3.aria": "03 — الطب الوظيفي",
+"pw3.chip1": "اضطرابات الهضم",
+"pw3.chip2": "تغيّرات الوزن",
+"pw3.chip3": "إرهاق مستمر",
+"pw3.chip4": "تساقط الشعر",
+"pw3.desc": "فحص أعمق للأيض والهضم وصحة الغدة الدرقية والالتهاب.",
+"pw3.name": "الطب الوظيفي",
+"pw3.short": "الأسباب الجذرية: نكشفها ونعالجها",
+"pw3.title": "الطب الوظيفي",
+"pw4.alt": "حلزون مزدوج زجاجي منحوت يمرّ عبر حلقة ذهبية رفيعة، مع زهرة وردية باهتة وخيوط من جزيئات بلورية في ضوء ناعم.",
+"pw4.aria": "04 — الببتيدات والدعم التجديدي",
+"pw4.chip1": "تعافٍ بطيء",
+"pw4.chip2": "شيخوخة البشرة",
+"pw4.chip3": "مرونة منخفضة",
+"pw4.chip4": "حيوية طويلة الأمد",
+"pw4.desc": "دعم تحت إشراف طبي للتعافي والمرونة والتقدّم الصحّي في العمر والحيوية.",
+"pw4.name": "الببتيدات والدعم التجديدي",
+"pw4.short": "التعافي، المرونة، الحيوية",
+"pw4.title": "الببتيدات والدعم التجديدي"
+},
+"de": {
+"a11y.ask": "medi-gyn fragen",
+"a11y.close": "Schließen",
+"a11y.home": "Medi-Gyn — zurück nach oben",
+"a11y.lang": "Sprache wählen",
+"a11y.menu": "Menü",
+"a11y.menu_close": "Menü schließen",
+"a11y.menu_open": "Menü öffnen",
+"a11y.pathways": "Behandlungswege",
+"a11y.press": "Medi-Gyn in der Presse",
+"a11y.social": "Kontakt und soziale Medien",
+"a11y.sponsors": "Unsere Sponsoren",
+"a11y.top": "Zurück nach oben",
+"a11y.whatsapp": "Auf WhatsApp schreiben",
+"ask.body": "Platzhalter — hier wohnt der Assistent.",
+"ask.cta": "Jetzt mit uns sprechen",
+"ask.title": "medi-gyn fragen",
+"ch1.body": "Personalisierte Hormone, Wechseljahresbegleitung und Longevity-Medizin — ganz auf Sie abgestimmt, damit Sie sich wieder wie Sie selbst fühlen.",
+"ch1.cta1": "Beratung buchen",
+"ch1.cta2": "Zum Hormon-Test",
+"ch1.h1": "Ihre Hormone.<br>Ihre Gesundheit.<br><em>Ihr bestes Leben.</em>",
+"ch1.kicker": "Vertraulich. Persönlich. Wirkungsvoll.",
+"ch1.scroll": "Scrollen",
+"ch2.body": "Evidenzbasierte Medizin trifft persönliche Betreuung — von Hormonoptimierung und funktioneller Medizin bis zu Peptiden und Longevity-Medizin.",
+"ch2.cta": "Über uns",
+"ch2.h2": "Personalisierte Lösungen, Präzisionsmedizin, gesundes Altern",
+"ch3.body": "Lernen Sie Irina Bond kennen, Gründerin von Medi-Gyn und Hormone Health Educator. In Ihrem kostenfreien Erstgespräch hilft sie Ihnen, Ihre Anliegen zu verstehen, beantwortet Ihre Fragen und begleitet Sie mit Klarheit und Zuversicht zum nächsten Schritt.",
+"ch3.cta": "Kostenfreies Erstgespräch buchen",
+"ch3.h2": "Beginnen Sie mit einem Gespräch, gehen Sie mit Klarheit",
+"ch5.body": "Hinter jedem persönlichen Weg steht ein Team, das nicht nur für seine Expertise ausgewählt wurde, sondern für sein Engagement, zuzuhören, zu verstehen und Betreuung auf höchstem Niveau zu leisten. Lernen Sie die Fachleute kennen, die Ihnen zu dauerhafter Lebensfreude, Vitalität und gesunden Jahren verhelfen.",
+"ch5.cta": "Das Team kennenlernen",
+"ch5.h2": "Lernen Sie das Team hinter <em>Ihrem Weg</em> kennen",
+"ch6.body": "Entdecken Sie unsere sorgfältig ausgewählten Hormon- und Peptidtherapien, Nahrungsergänzung und Biohacking-Lösungen — entwickelt, um Ihren Körper zu unterstützen, nicht zu überfordern.",
+"ch6.cta": "Zum Shop",
+"ch6.h2": "Personalisierte Gesundheitslösungen. <em>Auf Sie zugeschnitten</em>",
+"ch7.body": "Von internationalen Bildungsveranstaltungen über globale Kooperationen bis zur medialen Anerkennung: Medi-Gyn gestaltet die Zukunft der Hormongesundheit mit — ein Gespräch, eine Stadt und ein Mensch nach dem anderen.",
+"ch7.cta": "menoSTART beitreten",
+"ch7.h2": "Bildungsveranstaltungen <em>über Grenzen hinweg.</em>",
+"ch8.c1": "Eine medi-gyn Patientin — im Film",
+"ch8.c2": "Baydaa H., Dubai",
+"ch8.c3": "Anood Hassan, Dubai",
+"ch8.c4": "Katrina, 58",
+"ch8.c5": "Rania A., Dschidda",
+"ch8.c6": "Penny N., Irak",
+"ch8.c7": "Eine medi-gyn Patientin — im Film",
+"ch8.c8": "Hasnaa M., Dubai",
+"ch8.c9": "Hala, Dubai",
+"ch8.cover_alt": "Irina Bond auf dem Cover von Madame Arabia",
+"ch8.head": "Echte Patientinnen, echte Geschichten, echte Wirkung",
+"ch8.note": "Aus dem englischen Original übersetzt",
+"ch8.press": "Presse",
+"ch8.q1": "„Das hat meinen Alltag buchstäblich auf ein anderes Level gehoben. Es war eine echte Verwandlung.“",
+"ch8.q2": "„Ich habe mit meinem Team bei der Weltmeisterschaft in AD eine Goldmedaille gewonnen. Alle im Team waren 25 — und ich 47.“",
+"ch8.q3": "„Nie habe ich mich als Frau, die medizinische Hilfe sucht, so sicher und so verstanden gefühlt.“",
+"ch8.q4": "„Die Wechseljahre haben mich schnell und mit voller Wucht getroffen.“",
+"ch8.q5": "„Viele Frauen kämpfen mit ihren Hormonen und ihrem Wohlbefinden. Ich hoffe, Sie eröffnen weitere Standorte in Saudi-Arabien … wir brauchen Sie hier.“",
+"ch8.q6": "„Gerade kamen die Ergebnisse meiner Blutabnahme von heute Morgen. Sie bestätigen genau, wie ich mich fühle – großartig!“",
+"ch8.q7": "„Wenn Sie zögern: Tun Sie es einfach.“",
+"ch8.q8": "„Ich bin ein neues Ich — die körperlich und geistig jüngste Version von mir!“",
+"ch8.q9": "„Ich freue mich sehr, mit Ihnen zu beginnen, und fühle mich jetzt schon beruhigt, dass mir jemand professionell helfen kann.“",
+"foot.contact": "Kontakt",
+"foot.copy": "Copyright © 2026 Medi-Gyn | Bereitgestellt von Medi-Gyn Health Planning Consultancies LLC",
+"foot.email": "Ihre E-Mail",
+"foot.join": "Anmelden",
+"foot.news": "Newsletter",
+"foot.news_body": "Werden Sie Teil unserer wachsenden Community.",
+"hdr.book": "Beratung buchen",
+"meta.desc": "Fortschrittliche Hormongesundheit, Wechseljahres- und Longevity-Medizin für Frauen. Persönliche, ärztlich geführte Betreuung — Online-Sprechstunden, Dubai und weltweit.",
+"meta.title": "Medi-Gyn — Hormongesundheit, Wechseljahre und Longevity-Medizin für Frauen",
+"nav.about": "Über uns",
+"nav.events": "Veranstaltungen",
+"nav.functional": "Funktionelle Medizin",
+"nav.hormone": "Hormontherapie",
+"nav.peptide": "Peptidtherapie",
+"nav.shop": "Shop",
+"pw.choose": "Wählen Sie einen Weg",
+"pw.cta": "Weg entdecken",
+"pw.more": "+2 weitere",
+"pw1.alt": "Ein cremefarbenes Symptomtagebuch aus Leder und ein personalisierter Hormonbericht mit Östradiol-, Progesteron- und Cortisolkurven, daneben ein goldener Stift und ein Glas Wasser auf einem sonnigen Tisch.",
+"pw1.aria": "01 — Hormontherapie & BHRT",
+"pw1.chip1": "Erschöpfung",
+"pw1.chip2": "Stimmungsschwankungen",
+"pw1.chip3": "Geringe Libido",
+"pw1.chip4": "Zyklusstörungen",
+"pw1.desc": "Für Frauen, deren Energie, Stimmung, Zyklus oder Libido sich nicht mehr nach ihnen selbst anfühlen.",
+"pw1.name": "Hormontherapie & BHRT",
+"pw1.short": "Energie, Stimmung, Zyklus, Libido",
+"pw1.title": "Hormontherapie & BHRT",
+"pw2.alt": "Eine Frau in cremefarbenem Leinen steht an einem sonnigen Fenster, eine Hand am Hals, und blickt an einem leichten Vorhang vorbei nach draußen.",
+"pw2.aria": "02 — Wechseljahres-Begleitung",
+"pw2.chip1": "Hitzewallungen",
+"pw2.chip2": "Schlechter Schlaf",
+"pw2.chip3": "Gehirnnebel",
+"pw2.chip4": "Ängste",
+"pw2.desc": "Persönliche Begleitung durch Perimenopause, Menopause und die Zeit danach.",
+"pw2.name": "Wechseljahres-Begleitung",
+"pw2.short": "Perimenopause, Menopause und danach",
+"pw2.title": "Wechseljahres-Begleitung",
+"pw3.alt": "Eine Keramikschale Joghurt mit Feigen, Brombeeren, Blaubeeren und Granola samt goldenem Löffel, daneben Zitronenhälften und eine Tasse Kaffee auf einem Marmortisch.",
+"pw3.aria": "03 — Funktionelle Medizin",
+"pw3.chip1": "Darmbeschwerden",
+"pw3.chip2": "Gewichtsveränderungen",
+"pw3.chip3": "Anhaltende Erschöpfung",
+"pw3.chip4": "Dünner werdendes Haar",
+"pw3.desc": "Eine tiefere Untersuchung von Stoffwechsel, Verdauung, Schilddrüse und Entzündungsgeschehen.",
+"pw3.name": "Funktionelle Medizin",
+"pw3.short": "Ursachen finden und behandeln",
+"pw3.title": "Funktionelle Medizin",
+"pw4.alt": "Eine skulpturale Doppelhelix aus Glas durch einen schlanken goldenen Ring, mit einer zartrosa Blüte und Ketten aus Kristallmolekülen in weichem Licht.",
+"pw4.aria": "04 — Peptide & regenerative Unterstützung",
+"pw4.chip1": "Langsame Regeneration",
+"pw4.chip2": "Hautalterung",
+"pw4.chip3": "Geringe Resilienz",
+"pw4.chip4": "Langfristige Vitalität",
+"pw4.desc": "Medizinisch begleitete Unterstützung für Regeneration, Resilienz, gesundes Altern und Vitalität.",
+"pw4.name": "Peptide & regenerative Unterstützung",
+"pw4.short": "Regeneration, Resilienz, Vitalität",
+"pw4.title": "Peptide & regenerative Unterstützung"
+},
+"en": {
+"a11y.ask": "Ask medi-gyn",
+"a11y.close": "Close",
+"a11y.home": "Medi-Gyn — back to top",
+"a11y.lang": "Choose language",
+"a11y.menu": "Menu",
+"a11y.menu_close": "Close menu",
+"a11y.menu_open": "Open menu",
+"a11y.pathways": "Care pathways",
+"a11y.press": "Medi-Gyn in the press",
+"a11y.social": "Contact and social media",
+"a11y.sponsors": "Our sponsors",
+"a11y.top": "Back to top",
+"a11y.whatsapp": "Chat on WhatsApp",
+"ask.body": "Placeholder — the assistant lives here.",
+"ask.cta": "Talk to us now",
+"ask.title": "Ask medi-gyn",
+"ch1.body": "Personalised hormones, menopause care and longevity medicine designed around you — so you can feel like yourself again.",
+"ch1.cta1": "Book your consultation",
+"ch1.cta2": "Take the hormone quiz",
+"ch1.h1": "Your hormones.<br>Your health.<br><em>Your best life.</em>",
+"ch1.kicker": "Private. Personal. Powerful.",
+"ch1.scroll": "Scroll",
+"ch2.body": "Evidence-based medicine meets personalised care — from hormone optimisation and functional medicine to peptides and longevity medicine.",
+"ch2.cta": "About us",
+"ch2.h2": "Personalised Solutions, Precision Medicine, Healthy Ageing",
+"ch3.body": "Meet Irina Bond, the founder of Medi-Gyn and Hormone Health Educator. During your complimentary discovery call, she will help you understand your concerns, answer your questions, and help you explore the next step with clarity and confidence.",
+"ch3.cta": "Book a free discovery call",
+"ch3.h2": "Start With a Conversation, Leave With Clarity",
+"ch5.body": "Behind every personalised journey is a team chosen not only for their expertise, but for their dedication to listening, understanding, and delivering the highest standard of care. Meet the professionals committed to helping you achieve lasting zest for life, vitality and health-span.",
+"ch5.cta": "Meet the team",
+"ch5.h2": "Meet The Experts Behind <em>Your Journey</em>",
+"ch6.body": "Explore our carefully selected hormone and peptide therapies, supplements and biohacking solutions designed to support your body — not overwhelm it.",
+"ch6.cta": "Visit the shop",
+"ch6.h2": "Personalised Health Solutions. <em>Tailored to You</em>",
+"ch7.body": "From international educational events to global collaborations and media recognition, Medi-Gyn is helping reshape the future of hormone health — one conversation, one city, and one person at a time.",
+"ch7.cta": "Join menoSTART",
+"ch7.h2": "Educational Events <em>Beyond Borders.</em>",
+"ch8.c1": "A medi-gyn patient — on film",
+"ch8.c2": "Baydaa H., Dubai",
+"ch8.c3": "Anood Hassan, Dubai",
+"ch8.c4": "Katrina, 58",
+"ch8.c5": "Rania A., Jeddah",
+"ch8.c6": "Penny N., Iraq",
+"ch8.c7": "A medi-gyn patient — on film",
+"ch8.c8": "Hasnaa M., Dubai",
+"ch8.c9": "Hala, Dubai",
+"ch8.cover_alt": "Irina Bond on the cover of Madame Arabia",
+"ch8.head": "Real Patients, Real Stories, Real Impact",
+"ch8.note": "",
+"ch8.press": "Press",
+"ch8.q1": "“This literally elevated my everyday life to another level. It was transformational.”",
+"ch8.q2": "“I got a golden medal in world championship in AD with my team. All members of the team were 25 years old and I’m 47.”",
+"ch8.q3": "“I’ve never felt so safe and understood as a woman seeking medical care.”",
+"ch8.q4": "“The menopause really hit me fast and furious.”",
+"ch8.q5": "“Many women struggle with their hormones and well-being. I hope you open more branches in Saudi Arabia… we need you here.”",
+"ch8.q6": "“I just received my test results from my blood draw this morning. They confirm how I feel – Great!”",
+"ch8.q7": "“If you are hesitant, just do it.”",
+"ch8.q8": "“I am a new me, the youngest physical and mental version of me!”",
+"ch8.q9": "“I am so thrilled to start with you and I already feel at peace of mind that someone can help in a professional manner.”",
+"foot.contact": "Contact us",
+"foot.copy": "Copyright © 2026 Medi-Gyn | Powered by Medi-Gyn Health Planning Consultancies LLC",
+"foot.email": "Your email",
+"foot.join": "Join",
+"foot.news": "Newsletter",
+"foot.news_body": "Join our growing community.",
+"hdr.book": "Book your consultation",
+"meta.desc": "Advanced women's hormone health, menopause and longevity medicine. Personalised, doctor-led care — online consultations, Dubai and worldwide.",
+"meta.title": "Medi-Gyn — Advanced Women's Hormone Health, Menopause & Longevity Medicine",
+"nav.about": "About Us",
+"nav.events": "Events",
+"nav.functional": "Functional Medicine",
+"nav.hormone": "Hormone Therapy",
+"nav.peptide": "Peptide Therapy",
+"nav.shop": "Shop",
+"pw.choose": "Choose a pathway",
+"pw.cta": "Explore pathway",
+"pw.more": "+2 more",
+"pw1.alt": "A cream leather symptom journal and a personalised hormone report showing estradiol, progesterone and cortisol charts, with a gold pen and a glass of water on a sunlit table.",
+"pw1.aria": "01 — Hormone Therapy & BHRT",
+"pw1.chip1": "Fatigue",
+"pw1.chip2": "Mood changes",
+"pw1.chip3": "Low libido",
+"pw1.chip4": "Cycle irregularity",
+"pw1.desc": "For women whose energy, mood, cycles or libido no longer feel like their own.",
+"pw1.name": "Hormone Therapy & BHRT",
+"pw1.short": "Energy, mood, cycles, libido",
+"pw1.title": "Hormone Therapy & BHRT",
+"pw2.alt": "A woman in cream linen standing at a sunlit window, one hand resting at her neck, looking out past a sheer curtain.",
+"pw2.aria": "02 — Menopause Care",
+"pw2.chip1": "Hot flashes",
+"pw2.chip2": "Poor sleep",
+"pw2.chip3": "Brain fog",
+"pw2.chip4": "Anxiety",
+"pw2.desc": "Personalised care through perimenopause, menopause and beyond.",
+"pw2.name": "Menopause Care",
+"pw2.short": "Perimenopause, menopause and beyond",
+"pw2.title": "Menopause Care",
+"pw3.alt": "A ceramic bowl of yoghurt topped with figs, blackberries, blueberries and granola with a gold spoon, beside lemon halves and a cup of coffee on a marble table.",
+"pw3.aria": "03 — Functional Medicine",
+"pw3.chip1": "Gut issues",
+"pw3.chip2": "Weight changes",
+"pw3.chip3": "Persistent fatigue",
+"pw3.chip4": "Hair thinning",
+"pw3.desc": "A deeper investigation into metabolism, digestion, thyroid health and inflammation.",
+"pw3.name": "Functional Medicine",
+"pw3.short": "Root causes, found and treated",
+"pw3.title": "Functional Medicine",
+"pw4.alt": "A sculptural glass double helix through a slender gold ring, with a pale pink flower and strings of crystal molecules in soft light.",
+"pw4.aria": "04 — Peptide & Regenerative Support",
+"pw4.chip1": "Slow recovery",
+"pw4.chip2": "Skin ageing",
+"pw4.chip3": "Low resilience",
+"pw4.chip4": "Long-term vitality",
+"pw4.desc": "Medically supervised support for recovery, resilience, healthy ageing and vitality.",
+"pw4.name": "Peptide & Regenerative Support",
+"pw4.short": "Recovery, resilience, vitality",
+"pw4.title": "Peptide & Regenerative Support"
+},
+"fr": {
+"a11y.ask": "Demander à medi-gyn",
+"a11y.close": "Fermer",
+"a11y.home": "Medi-Gyn — retour en haut",
+"a11y.lang": "Choisir la langue",
+"a11y.menu": "Menu",
+"a11y.menu_close": "Fermer le menu",
+"a11y.menu_open": "Ouvrir le menu",
+"a11y.pathways": "Parcours de soin",
+"a11y.press": "Medi-Gyn dans la presse",
+"a11y.social": "Contact et réseaux sociaux",
+"a11y.sponsors": "Nos sponsors",
+"a11y.top": "Retour en haut",
+"a11y.whatsapp": "Discuter sur WhatsApp",
+"ask.body": "Espace réservé — l’assistant vivra ici.",
+"ask.cta": "Parlons dès maintenant",
+"ask.title": "Demander à medi-gyn",
+"ch1.body": "Hormones personnalisées, accompagnement de la ménopause et médecine de la longévité, conçus autour de vous — pour vous sentir à nouveau vous-même.",
+"ch1.cta1": "Réserver une consultation",
+"ch1.cta2": "Faire le test hormonal",
+"ch1.h1": "Vos hormones.<br>Votre santé.<br><em>Votre plus belle vie.</em>",
+"ch1.kicker": "Confidentiel. Personnel. Puissant.",
+"ch1.scroll": "Défiler",
+"ch2.body": "La médecine fondée sur les preuves rencontre l’accompagnement sur mesure — de l’optimisation hormonale et la médecine fonctionnelle aux peptides et à la médecine de la longévité.",
+"ch2.cta": "À propos de nous",
+"ch2.h2": "Solutions personnalisées, médecine de précision, vieillir en bonne santé",
+"ch3.body": "Rencontrez Irina Bond, fondatrice de Medi-Gyn et éducatrice en santé hormonale. Lors de votre appel découverte offert, elle vous aidera à comprendre vos préoccupations, répondra à vos questions et vous accompagnera vers la prochaine étape avec clarté et confiance.",
+"ch3.cta": "Réserver un appel découverte gratuit",
+"ch3.h2": "Commencez par une conversation, repartez avec de la clarté",
+"ch5.body": "Derrière chaque parcours personnalisé se trouve une équipe choisie non seulement pour son expertise, mais pour son engagement à écouter, à comprendre et à offrir le plus haut niveau de soin. Rencontrez les professionnels qui s’engagent à vous aider à retrouver durablement l’élan de vivre, la vitalité et des années en bonne santé.",
+"ch5.cta": "Rencontrer l’équipe",
+"ch5.h2": "Rencontrez les experts derrière <em>votre parcours</em>",
+"ch6.body": "Découvrez nos thérapies hormonales et peptidiques, compléments et solutions de biohacking soigneusement sélectionnés pour soutenir votre corps — sans le surcharger.",
+"ch6.cta": "Visiter la boutique",
+"ch6.h2": "Des solutions de santé personnalisées. <em>Pensées pour vous</em>",
+"ch7.body": "Des événements éducatifs internationaux aux collaborations mondiales et à la reconnaissance médiatique, Medi-Gyn contribue à redessiner l’avenir de la santé hormonale — une conversation, une ville et une personne à la fois.",
+"ch7.cta": "Rejoindre menoSTART",
+"ch7.h2": "Des événements éducatifs <em>au-delà des frontières.</em>",
+"ch8.c1": "Une patiente medi-gyn — à l’image",
+"ch8.c2": "Baydaa H., Dubaï",
+"ch8.c3": "Anood Hassan, Dubaï",
+"ch8.c4": "Katrina, 58 ans",
+"ch8.c5": "Rania A., Djeddah",
+"ch8.c6": "Penny N., Irak",
+"ch8.c7": "Une patiente medi-gyn — à l’image",
+"ch8.c8": "Hasnaa M., Dubaï",
+"ch8.c9": "Hala, Dubaï",
+"ch8.cover_alt": "Irina Bond en couverture de Madame Arabia",
+"ch8.head": "De vraies patientes, de vraies histoires, un vrai impact",
+"ch8.note": "Traduit de l’anglais",
+"ch8.press": "Presse",
+"ch8.q1": "« Cela a littéralement porté mon quotidien à un autre niveau. Ce fut une transformation. »",
+"ch8.q2": "« J’ai remporté une médaille d’or au championnat du monde d’AD avec mon équipe. Toutes les membres avaient 25 ans, et moi 47. »",
+"ch8.q3": "« Jamais je ne me suis sentie aussi en sécurité et aussi comprise, en tant que femme cherchant des soins. »",
+"ch8.q4": "« La ménopause m’est tombée dessus vite et fort. »",
+"ch8.q5": "« Beaucoup de femmes luttent avec leurs hormones et leur bien-être. J’espère que vous ouvrirez d’autres antennes en Arabie saoudite… nous avons besoin de vous ici. »",
+"ch8.q6": "« Je viens de recevoir les résultats de ma prise de sang de ce matin. Ils confirment ce que je ressens – excellente ! »",
+"ch8.q7": "« Si vous hésitez, lancez-vous. »",
+"ch8.q8": "« Je suis une nouvelle moi, la version la plus jeune de moi, physiquement et mentalement ! »",
+"ch8.q9": "« Je suis ravie de commencer avec vous et je me sens déjà apaisée de savoir que quelqu’un peut m’aider de manière professionnelle. »",
+"foot.contact": "Nous contacter",
+"foot.copy": "Copyright © 2026 Medi-Gyn | Propulsé par Medi-Gyn Health Planning Consultancies LLC",
+"foot.email": "Votre e-mail",
+"foot.join": "S’inscrire",
+"foot.news": "Newsletter",
+"foot.news_body": "Rejoignez notre communauté grandissante.",
+"hdr.book": "Réserver une consultation",
+"meta.desc": "Santé hormonale féminine, ménopause et médecine de la longévité. Un accompagnement personnalisé, dirigé par des médecins — consultations en ligne, à Dubaï et partout dans le monde.",
+"meta.title": "Medi-Gyn — Santé hormonale féminine, ménopause et médecine de la longévité",
+"nav.about": "À propos",
+"nav.events": "Événements",
+"nav.functional": "Médecine fonctionnelle",
+"nav.hormone": "Thérapie hormonale",
+"nav.peptide": "Thérapie par peptides",
+"nav.shop": "Boutique",
+"pw.choose": "Choisissez un parcours",
+"pw.cta": "Découvrir ce parcours",
+"pw.more": "+2 autres",
+"pw1.alt": "Un journal de symptômes en cuir crème et un bilan hormonal personnalisé montrant des courbes d’œstradiol, de progestérone et de cortisol, avec un stylo doré et un verre d’eau sur une table ensoleillée.",
+"pw1.aria": "01 — Thérapie hormonale & BHRT",
+"pw1.chip1": "Fatigue",
+"pw1.chip2": "Changements d’humeur",
+"pw1.chip3": "Baisse de libido",
+"pw1.chip4": "Cycles irréguliers",
+"pw1.desc": "Pour les femmes dont l’énergie, l’humeur, les cycles ou la libido ne leur ressemblent plus.",
+"pw1.name": "Thérapie hormonale & BHRT",
+"pw1.short": "Énergie, humeur, cycles, libido",
+"pw1.title": "Thérapie hormonale & BHRT",
+"pw2.alt": "Une femme en lin crème se tient à une fenêtre ensoleillée, une main posée sur son cou, le regard porté au-delà d’un voilage.",
+"pw2.aria": "02 — Accompagnement de la ménopause",
+"pw2.chip1": "Bouffées de chaleur",
+"pw2.chip2": "Sommeil perturbé",
+"pw2.chip3": "Brouillard mental",
+"pw2.chip4": "Anxiété",
+"pw2.desc": "Un accompagnement personnalisé à travers la préménopause, la ménopause et au-delà.",
+"pw2.name": "Accompagnement de la ménopause",
+"pw2.short": "Préménopause, ménopause et au-delà",
+"pw2.title": "Accompagnement de la ménopause",
+"pw3.alt": "Un bol en céramique de yaourt garni de figues, de mûres, de myrtilles et de granola avec une cuillère dorée, à côté de moitiés de citron et d’une tasse de café sur une table en marbre.",
+"pw3.aria": "03 — Médecine fonctionnelle",
+"pw3.chip1": "Troubles digestifs",
+"pw3.chip2": "Variations de poids",
+"pw3.chip3": "Fatigue persistante",
+"pw3.chip4": "Cheveux clairsemés",
+"pw3.desc": "Une investigation approfondie du métabolisme, de la digestion, de la santé thyroïdienne et de l’inflammation.",
+"pw3.name": "Médecine fonctionnelle",
+"pw3.short": "Les causes profondes, trouvées et traitées",
+"pw3.title": "Médecine fonctionnelle",
+"pw4.alt": "Une double hélice de verre sculptée traversant un anneau doré effilé, avec une fleur rose pâle et des chaînes de molécules de cristal dans une lumière douce.",
+"pw4.aria": "04 — Peptides & soutien régénératif",
+"pw4.chip1": "Récupération lente",
+"pw4.chip2": "Vieillissement cutané",
+"pw4.chip3": "Résilience affaiblie",
+"pw4.chip4": "Vitalité durable",
+"pw4.desc": "Un accompagnement médicalement supervisé pour la récupération, la résilience, le vieillissement en bonne santé et la vitalité.",
+"pw4.name": "Peptides & soutien régénératif",
+"pw4.short": "Récupération, résilience, vitalité",
+"pw4.title": "Peptides & soutien régénératif"
+},
+"ru": {
+"a11y.ask": "Спросить medi-gyn",
+"a11y.close": "Закрыть",
+"a11y.home": "Medi-Gyn — наверх",
+"a11y.lang": "Выбрать язык",
+"a11y.menu": "Меню",
+"a11y.menu_close": "Закрыть меню",
+"a11y.menu_open": "Открыть меню",
+"a11y.pathways": "Программы ведения",
+"a11y.press": "Medi-Gyn в прессе",
+"a11y.social": "Контакты и соцсети",
+"a11y.sponsors": "Наши спонсоры",
+"a11y.top": "Наверх",
+"a11y.whatsapp": "Написать в WhatsApp",
+"ask.body": "Заглушка — здесь появится ассистент.",
+"ask.cta": "Связаться сейчас",
+"ask.title": "Спросить medi-gyn",
+"ch1.body": "Персонализированная гормональная терапия, сопровождение менопаузы и медицина долголетия, выстроенные вокруг вас — чтобы вы снова почувствовали себя собой.",
+"ch1.cta1": "Записаться на консультацию",
+"ch1.cta2": "Пройти гормональный тест",
+"ch1.h1": "Ваши гормоны.<br>Ваше здоровье.<br><em>Ваша лучшая жизнь.</em>",
+"ch1.kicker": "Конфиденциально. Персонально. Действенно.",
+"ch1.scroll": "Листайте",
+"ch2.body": "Доказательная медицина встречается с персональным подходом — от оптимизации гормонов и функциональной медицины до пептидов и медицины долголетия.",
+"ch2.cta": "О нас",
+"ch2.h2": "Персональные решения, точная медицина, здоровое долголетие",
+"ch3.body": "Познакомьтесь с Ириной Бонд, основательницей Medi-Gyn и специалистом по гормональному здоровью. Во время бесплатного ознакомительного звонка она поможет вам разобраться в том, что вас беспокоит, ответит на ваши вопросы и подскажет следующий шаг — спокойно и уверенно.",
+"ch3.cta": "Записаться на бесплатный звонок",
+"ch3.h2": "Начните с разговора — уйдите с ясностью",
+"ch5.body": "За каждым персональным путём стоит команда, выбранная не только за экспертизу, но и за готовность слушать, понимать и обеспечивать высочайший уровень заботы. Познакомьтесь с профессионалами, которые помогут вам обрести устойчивый вкус к жизни, энергию и годы здоровья.",
+"ch5.cta": "Познакомиться с командой",
+"ch5.h2": "Эксперты, стоящие за <em>вашим путём</em>",
+"ch6.body": "Откройте для себя тщательно отобранные гормональные и пептидные протоколы, добавки и биохакинг-решения, созданные поддерживать ваше тело, а не перегружать его.",
+"ch6.cta": "Перейти в магазин",
+"ch6.h2": "Персональные решения для здоровья. <em>Созданные для вас</em>",
+"ch7.body": "От международных образовательных событий до глобальных коллабораций и признания в медиа — Medi-Gyn меняет будущее гормонального здоровья: один разговор, один город и один человек за раз.",
+"ch7.cta": "Присоединиться к menoSTART",
+"ch7.h2": "Образовательные события <em>без границ.</em>",
+"ch8.c1": "Пациентка medi-gyn — на видео",
+"ch8.c2": "Baydaa H., Дубай",
+"ch8.c3": "Anood Hassan, Дубай",
+"ch8.c4": "Katrina, 58",
+"ch8.c5": "Rania A., Джидда",
+"ch8.c6": "Penny N., Ирак",
+"ch8.c7": "Пациентка medi-gyn — на видео",
+"ch8.c8": "Hasnaa M., Дубай",
+"ch8.c9": "Hala, Дубай",
+"ch8.cover_alt": "Ирина Бонд на обложке Madame Arabia",
+"ch8.head": "Реальные пациентки, реальные истории, реальный результат",
+"ch8.note": "Перевод с английского оригинала",
+"ch8.press": "Пресса",
+"ch8.q1": "«Это буквально подняло мою повседневную жизнь на другой уровень. Это было преображение.»",
+"ch8.q2": "«Я выиграла золотую медаль на чемпионате мира по AD вместе со своей командой. Всем в команде было по 25, а мне 47.»",
+"ch8.q3": "«Никогда прежде я не чувствовала себя настолько защищённой и понятой как женщина, обратившаяся за медицинской помощью.»",
+"ch8.q4": "«Менопауза обрушилась на меня быстро и жёстко.»",
+"ch8.q5": "«Многие женщины борются со своими гормонами и самочувствием. Надеюсь, вы откроете больше филиалов в Саудовской Аравии… вы нужны нам здесь.»",
+"ch8.q6": "«Только что пришли результаты утреннего анализа крови. Они подтверждают то, что я чувствую, – прекрасно!»",
+"ch8.q7": "«Если сомневаетесь — просто сделайте это.»",
+"ch8.q8": "«Я — новая я, самая молодая версия себя, телом и разумом!»",
+"ch8.q9": "«Я невероятно рада начать с вами, и мне уже спокойно от того, что есть кто-то, кто может помочь профессионально.»",
+"foot.contact": "Связаться с нами",
+"foot.copy": "Copyright © 2026 Medi-Gyn | При поддержке Medi-Gyn Health Planning Consultancies LLC",
+"foot.email": "Ваш e-mail",
+"foot.join": "Подписаться",
+"foot.news": "Рассылка",
+"foot.news_body": "Присоединяйтесь к нашему растущему сообществу.",
+"hdr.book": "Записаться на консультацию",
+"meta.desc": "Гормональное здоровье женщин, сопровождение менопаузы и медицина долголетия. Персональный врачебный подход — онлайн-консультации, Дубай и весь мир.",
+"meta.title": "Medi-Gyn — гормональное здоровье женщин, менопауза и медицина долголетия",
+"nav.about": "О нас",
+"nav.events": "События",
+"nav.functional": "Функциональная медицина",
+"nav.hormone": "Гормональная терапия",
+"nav.peptide": "Пептидная терапия",
+"nav.shop": "Магазин",
+"pw.choose": "Выберите программу",
+"pw.cta": "Изучить программу",
+"pw.more": "+2 ещё",
+"pw1.alt": "Кремовый кожаный дневник симптомов и персональный гормональный отчёт с графиками эстрадиола, прогестерона и кортизола, рядом золотая ручка и стакан воды на залитом солнцем столе.",
+"pw1.aria": "01 — Гормональная терапия и BHRT",
+"pw1.chip1": "Усталость",
+"pw1.chip2": "Перепады настроения",
+"pw1.chip3": "Снижение либидо",
+"pw1.chip4": "Нерегулярный цикл",
+"pw1.desc": "Для женщин, чьи энергия, настроение, цикл или либидо больше не ощущаются своими.",
+"pw1.name": "Гормональная терапия и BHRT",
+"pw1.short": "Энергия, настроение, цикл, либидо",
+"pw1.title": "Гормональная терапия и BHRT",
+"pw2.alt": "Женщина в кремовом льне стоит у залитого солнцем окна, положив руку на шею, и смотрит за лёгкую занавеску.",
+"pw2.aria": "02 — Ведение менопаузы",
+"pw2.chip1": "Приливы",
+"pw2.chip2": "Плохой сон",
+"pw2.chip3": "Туман в голове",
+"pw2.chip4": "Тревожность",
+"pw2.desc": "Персональное сопровождение в перименопаузе, менопаузе и после неё.",
+"pw2.name": "Ведение менопаузы",
+"pw2.short": "Перименопауза, менопауза и далее",
+"pw2.title": "Ведение менопаузы",
+"pw3.alt": "Керамическая миска йогурта с инжиром, ежевикой, черникой и гранолой с золотой ложкой, рядом половинки лимона и чашка кофе на мраморном столе.",
+"pw3.aria": "03 — Функциональная медицина",
+"pw3.chip1": "Проблемы ЖКТ",
+"pw3.chip2": "Изменения веса",
+"pw3.chip3": "Хроническая усталость",
+"pw3.chip4": "Выпадение волос",
+"pw3.desc": "Углублённое исследование обмена веществ, пищеварения, щитовидной железы и воспаления.",
+"pw3.name": "Функциональная медицина",
+"pw3.short": "Найти и устранить причину",
+"pw3.title": "Функциональная медицина",
+"pw4.alt": "Скульптурная стеклянная двойная спираль, продетая сквозь тонкое золотое кольцо, с бледно-розовым цветком и нитями кристаллических молекул в мягком свете.",
+"pw4.aria": "04 — Пептиды и регенеративная поддержка",
+"pw4.chip1": "Медленное восстановление",
+"pw4.chip2": "Старение кожи",
+"pw4.chip3": "Низкая устойчивость",
+"pw4.chip4": "Долгосрочная энергия",
+"pw4.desc": "Поддержка под врачебным контролем для восстановления, устойчивости, здорового старения и жизненной энергии.",
+"pw4.name": "Пептиды и регенеративная поддержка",
+"pw4.short": "Восстановление, устойчивость, энергия",
+"pw4.title": "Пептиды и регенеративная поддержка"
+},
+"zh": {
+"a11y.ask": "咨询 medi-gyn",
+"a11y.close": "关闭",
+"a11y.home": "Medi-Gyn — 返回顶部",
+"a11y.lang": "选择语言",
+"a11y.menu": "菜单",
+"a11y.menu_close": "关闭菜单",
+"a11y.menu_open": "打开菜单",
+"a11y.pathways": "照护路径",
+"a11y.press": "Medi-Gyn 媒体报道",
+"a11y.social": "联系方式与社交媒体",
+"a11y.sponsors": "我们的赞助伙伴",
+"a11y.top": "返回顶部",
+"a11y.whatsapp": "通过 WhatsApp 联系",
+"ask.body": "占位内容 —— 智能助手即将上线。",
+"ask.cta": "立即与我们对话",
+"ask.title": "咨询 medi-gyn",
+"ch1.body": "为您量身定制的激素方案、更年期照护与长寿医学 —— 让您重新感觉像自己。",
+"ch1.cta1": "预约咨询",
+"ch1.cta2": "进行激素测评",
+"ch1.h1": "您的激素。<br>您的健康。<br><em>您最好的人生。</em>",
+"ch1.kicker": "私密。专属。有力。",
+"ch1.scroll": "向下滚动",
+"ch2.body": "循证医学与个性化照护相遇 —— 从激素优化、功能医学，到肽与长寿医学。",
+"ch2.cta": "关于我们",
+"ch2.h2": "个性化方案，精准医学，健康老去",
+"ch3.body": "认识 Medi-Gyn 创始人、激素健康教育者 Irina Bond。在您的免费初诊通话中，她将帮助您理解自己的困扰，解答您的疑问，并陪伴您以清晰与信心迈出下一步。",
+"ch3.cta": "预约免费初诊通话",
+"ch3.h2": "始于一次对话，终得一份清晰",
+"ch5.body": "每一段个性化旅程的背后，都有一支团队 —— 他们被选中，不只因为专业，更因为愿意倾听、理解，并交付最高标准的照护。认识这些致力于帮助您获得持久生命热情、活力与健康寿命的专业人士。",
+"ch5.cta": "认识团队",
+"ch5.h2": "认识<em>您的旅程</em>背后的专家",
+"ch6.body": "探索我们精心甄选的激素与肽疗法、营养补充与生物调控方案 —— 为支持您的身体而设计，而非增加负担。",
+"ch6.cta": "前往商城",
+"ch6.h2": "个性化健康方案。<em>为您而定</em>",
+"ch7.body": "从国际教育活动到全球合作与媒体认可，Medi-Gyn 正在重塑激素健康的未来 —— 一次对话、一座城市、一个人地推进。",
+"ch7.cta": "加入 menoSTART",
+"ch7.h2": "教育活动，<em>跨越国界。</em>",
+"ch8.c1": "一位 medi-gyn 患者 —— 影片中",
+"ch8.c2": "Baydaa H.，迪拜",
+"ch8.c3": "Anood Hassan，迪拜",
+"ch8.c4": "Katrina，58 岁",
+"ch8.c5": "Rania A.，吉达",
+"ch8.c6": "Penny N.，伊拉克",
+"ch8.c7": "一位 medi-gyn 患者 —— 影片中",
+"ch8.c8": "Hasnaa M.，迪拜",
+"ch8.c9": "Hala，迪拜",
+"ch8.cover_alt": "Irina Bond 登上《Madame Arabia》封面",
+"ch8.head": "真实的患者，真实的故事，真实的改变",
+"ch8.note": "译自英文原文",
+"ch8.press": "媒体报道",
+"ch8.q1": "“这确实把我的日常生活提升到了另一个层次。那是一次彻底的转变。”",
+"ch8.q2": "“我和队友在 AD 世界锦标赛上拿到了金牌。队里所有人都是 25 岁，而我 47 岁。”",
+"ch8.q3": "“作为一个求医的女性，我从未感到如此安心、如此被理解。”",
+"ch8.q4": "“更年期来得又快又猛。”",
+"ch8.q5": "“许多女性都在与激素和身心状态搏斗。希望你们能在沙特开更多分院……我们这里需要你们。”",
+"ch8.q6": "“我刚收到今早抽血的化验结果。它们印证了我的感受 – 好极了！”",
+"ch8.q7": "“如果你还在犹豫，那就去做吧。”",
+"ch8.q8": "“我是一个全新的自己 —— 身体和心智上最年轻的自己！”",
+"ch8.q9": "“能与你们开始，我非常激动，而且已经因为有人能专业地提供帮助而感到安心。”",
+"foot.contact": "联系我们",
+"foot.copy": "版权所有 © 2026 Medi-Gyn | 由 Medi-Gyn Health Planning Consultancies LLC 提供支持",
+"foot.email": "您的邮箱",
+"foot.join": "订阅",
+"foot.news": "订阅通讯",
+"foot.news_body": "加入我们不断成长的社群。",
+"hdr.book": "预约咨询",
+"meta.desc": "先进的女性激素健康、更年期与长寿医学。个性化、由医师主导的照护 —— 在线问诊，立足迪拜，服务全球。",
+"meta.title": "Medi-Gyn — 女性激素健康、更年期与长寿医学",
+"nav.about": "关于我们",
+"nav.events": "活动",
+"nav.functional": "功能医学",
+"nav.hormone": "激素治疗",
+"nav.peptide": "肽疗法",
+"nav.shop": "商城",
+"pw.choose": "选择一条路径",
+"pw.cta": "了解此路径",
+"pw.more": "+2 项",
+"pw1.alt": "一本米色皮革症状日记与一份个性化激素报告，报告上是雌二醇、孕酮与皮质醇曲线，旁边放着金色钢笔和一杯水，摆在洒满阳光的桌面上。",
+"pw1.aria": "01 — 激素治疗与 BHRT",
+"pw1.chip1": "疲惫",
+"pw1.chip2": "情绪波动",
+"pw1.chip3": "性欲低下",
+"pw1.chip4": "周期紊乱",
+"pw1.desc": "献给那些精力、情绪、周期或性欲不再属于自己的女性。",
+"pw1.name": "激素治疗与 BHRT",
+"pw1.short": "精力、情绪、周期、性欲",
+"pw1.title": "激素治疗与 BHRT",
+"pw2.alt": "一位身着米色亚麻的女性站在洒满阳光的窗前，一只手轻放在颈间，目光越过薄纱窗帘望向窗外。",
+"pw2.aria": "02 — 更年期照护",
+"pw2.chip1": "潮热",
+"pw2.chip2": "睡眠不佳",
+"pw2.chip3": "脑雾",
+"pw2.chip4": "焦虑",
+"pw2.desc": "贯穿围绝经期、绝经期及其之后的个性化照护。",
+"pw2.name": "更年期照护",
+"pw2.short": "围绝经期、绝经期及之后",
+"pw2.title": "更年期照护",
+"pw3.alt": "一只陶瓷碗中盛着酸奶，上面铺有无花果、黑莓、蓝莓与格兰诺拉麦片，配一把金色汤匙，旁边是切半的柠檬和一杯咖啡，摆在大理石桌面上。",
+"pw3.aria": "03 — 功能医学",
+"pw3.chip1": "肠道问题",
+"pw3.chip2": "体重变化",
+"pw3.chip3": "持续疲惫",
+"pw3.chip4": "头发稀疏",
+"pw3.desc": "对代谢、消化、甲状腺健康与炎症的深入探查。",
+"pw3.name": "功能医学",
+"pw3.short": "找到并治疗根源",
+"pw3.title": "功能医学",
+"pw4.alt": "一座雕塑般的玻璃双螺旋穿过一枚纤细的金环，旁边是一朵淡粉色花朵与串串水晶分子，沐浴在柔和光线中。",
+"pw4.aria": "04 — 肽与再生支持",
+"pw4.chip1": "恢复缓慢",
+"pw4.chip2": "皮肤老化",
+"pw4.chip3": "韧性下降",
+"pw4.chip4": "长期活力",
+"pw4.desc": "在医学监督下，为恢复、韧性、健康老去与活力提供支持。",
+"pw4.name": "肽与再生支持",
+"pw4.short": "恢复、韧性、活力",
+"pw4.title": "肽与再生支持"
+}
+};
+
+  /* his order. `name` is deliberately written in each language's own
+     language — that is the whole point of a language picker. */
+  var LANGS = [
+    {code:'en', dir:'ltr'}, {code:'ar', dir:'rtl'}, {code:'zh', dir:'ltr'},
+    {code:'fr', dir:'ltr'}, {code:'de', dir:'ltr'}, {code:'ru', dir:'ltr'}
+  ];
+
+  /* All SIL OFL 1.1, all free for commercial use, all fetched only on demand.
+     Chinese is built at runtime instead: because the dictionary IS the entire
+     Chinese text of the page, `&text=` can ask Google for exactly the glyphs
+     used and nothing else — a few KB rather than a CJK family, and it can
+     never drift from the copy, because it is derived from it. */
+  var FONTS = {
+    ar:'https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;600'
+      +'&family=IBM+Plex+Sans+Arabic:wght@300;400;500&display=swap',
+    /* headlines need nothing: Playfair is already in the head and has Cyrillic */
+    ru:'https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap'
+  };
+  function zhFontUrl(){
+    var s='', k, seen={}, out=[];
+    for(k in DICT.zh) s += String(DICT.zh[k]);
+    s = s.replace(/<[^>]*>/g,'');
+    for(var i=0;i<s.length;i++){ var c=s.charAt(i); if(!seen[c]){ seen[c]=1; out.push(c); } }
+    return 'https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500'
+         + '&family=Noto+Sans+SC:wght@300;400;500'
+         + '&text=' + encodeURIComponent(out.join('')) + '&display=swap';
+  }
+  function loadFont(code){
+    var url = code==='zh' ? zhFontUrl() : FONTS[code];
+    if(!url || document.querySelector('link[data-lang-font="'+code+'"]')) return;
+    var l=document.createElement('link');
+    l.rel='stylesheet'; l.href=url; l.setAttribute('data-lang-font',code);
+    document.head.appendChild(l);
+  }
+
+  var STORE='medigyn.lang', cur='en';
+  function t(key){
+    var d=DICT[cur]||DICT.en;
+    return (key in d && d[key]!=='') ? d[key] : (DICT.en[key]!==undefined ? DICT.en[key] : '');
+  }
+  window.__mgT = t;   /* the header script borrows this for the burger label */
+
+  /* Replace the element's own text and leave its children alone: most CTAs on
+     this page are text PLUS an arrow <svg>, and several put the svg first. The
+     surrounding whitespace is preserved because it is the gap before the arrow. */
+  function setText(el,val){
+    if(val==null) return;
+    if(val.indexOf('<')>-1){ el.innerHTML=val; return; }
+    for(var i=0;i<el.childNodes.length;i++){
+      var n=el.childNodes[i];
+      if(n.nodeType===3 && n.nodeValue.replace(/\s/g,'')!==''){
+        n.nodeValue = n.nodeValue.match(/^\s*/)[0] + val + n.nodeValue.match(/\s*$/)[0];
+        return;
+      }
+    }
+    el.appendChild(document.createTextNode(val));
+  }
+
+  var ATTRS=[['aria','aria-label'],['alt','alt'],['ph','placeholder'],['content','content']];
+  function apply(code,persist){
+    var meta=null, i;
+    for(i=0;i<LANGS.length;i++) if(LANGS[i].code===code) meta=LANGS[i];
+    if(!meta){ code='en'; meta=LANGS[0]; }
+    cur=code;
+    loadFont(code);
+    var html=document.documentElement;
+    html.setAttribute('lang',code);
+    html.setAttribute('dir',meta.dir);
+    var els=document.querySelectorAll('[data-i18n]');
+    for(i=0;i<els.length;i++) setText(els[i], t(els[i].getAttribute('data-i18n')));
+    for(var a=0;a<ATTRS.length;a++){
+      var sel=document.querySelectorAll('[data-i18n-'+ATTRS[a][0]+']');
+      for(i=0;i<sel.length;i++)
+        sel[i].setAttribute(ATTRS[a][1], t(sel[i].getAttribute('data-i18n-'+ATTRS[a][0])));
+    }
+    var burger=document.getElementById('burger');
+    if(burger) burger.setAttribute('aria-label',
+      t(document.body.classList.contains('nav-open')?'a11y.menu_close':'a11y.menu_open'));
+    var items=menu.querySelectorAll('.lang__item');
+    for(i=0;i<items.length;i++)
+      items[i].setAttribute('aria-checked', String(items[i].getAttribute('data-lang')===code));
+    if(persist){ try{ localStorage.setItem(STORE,code); }catch(e){} }
+  }
+
+  var wrap=document.getElementById('lang'),
+      btn =document.getElementById('lang-btn'),
+      menu=document.getElementById('lang-menu');
+
+  function open(on){
+    wrap.setAttribute('data-open',String(on));
+    btn.setAttribute('aria-expanded',String(on));
+    if(on) menu.querySelector('.lang__item[aria-checked="true"]').focus();
+  }
+  btn.addEventListener('click',function(e){
+    e.stopPropagation();
+    open(wrap.getAttribute('data-open')!=='true');
+  });
+  menu.addEventListener('click',function(e){
+    var it=e.target.closest('.lang__item'); if(!it) return;
+    apply(it.getAttribute('data-lang'),true); open(false); btn.focus();
+  });
+  document.addEventListener('click',function(e){
+    if(wrap.getAttribute('data-open')==='true' && !wrap.contains(e.target)) open(false);
+  });
+  document.addEventListener('keydown',function(e){
+    if(wrap.getAttribute('data-open')!=='true') return;
+    if(e.key==='Escape'){ open(false); btn.focus(); return; }
+    if(e.key!=='ArrowDown' && e.key!=='ArrowUp') return;
+    e.preventDefault();
+    var its=[].slice.call(menu.querySelectorAll('.lang__item'));
+    var at=its.indexOf(document.activeElement);
+    its[(at + (e.key==='ArrowDown'?1:its.length-1) + its.length) % its.length].focus();
+  });
+
+  /* saved choice wins; otherwise honour the browser, and only then English */
+  var start=null;
+  try{ var saved=localStorage.getItem(STORE); if(saved && DICT[saved]) start=saved; }catch(e){}
+  if(!start){
+    var navs=navigator.languages||[navigator.language||'en'];
+    for(var n=0;n<navs.length && !start;n++){
+      var c=String(navs[n]).toLowerCase().split('-')[0];
+      if(DICT[c]) start=c;
+    }
+  }
+  if(start && start!=='en') apply(start,false); else apply('en',false);
 })();
 </script>
 </body>

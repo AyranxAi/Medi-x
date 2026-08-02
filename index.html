@@ -1523,7 +1523,13 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
         <path d="M8.9 8.95c.15-.4.35-.45.55-.45h.45c.15 0 .35.05.5.4l.55 1.3c.1.2.05.4-.1.55l-.35.45c-.1.15-.12.3-.02.5.3.55.95 1.3 1.8 1.7.2.1.35.08.5-.08l.45-.55c.15-.2.3-.22.55-.12l1.3.6c.25.12.35.27.35.47v.5c0 .2-.1.4-.45.55-.35.2-.9.3-1.55.1-1.2-.35-2.4-1.2-3.3-2.5-.65-.9-.85-1.75-.65-2.4.08-.35.27-.62.42-1.02Z" fill="currentColor"/>
       </svg>
     </a>
-    <!-- inert for now — needs a booking destination -->
+    <!-- ⚠️ DELIBERATELY INERT — HIS DECISION, 2026-08-03, not an oversight.
+         Offered WhatsApp (the link already live 3× on this page and the funnel
+         medi-gyn.com itself pushes), /contact-us/, or a real scheduler; he
+         chose to WAIT for a proper booking destination rather than settle.
+         PROVISIONAL: re-ask him once a scheduler exists. Do NOT quietly wire
+         this to WhatsApp "to be helpful" — that is the option he turned down.
+         Same applies to ch01.cta1 and ch03.cta. -->
     <a class="hdr__book" data-i18n="hdr.book">Book your consultation</a>
     <button class="burger" id="burger" aria-label="Open menu" data-i18n-aria="a11y.menu_open" aria-expanded="false" aria-controls="nav">
       <span></span><span></span><span></span>
@@ -1632,7 +1638,12 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
       <p class="kicker reveal" data-i18n="ch1.kicker">Private. Personal. Powerful.</p>
       <h1 class="reveal" data-i18n="ch1.h1">Your hormones.<br>Your health.<br><em>Your best life.</em></h1>
       <p class="body reveal" data-i18n="ch1.body">Personalised hormones, menopause care and longevity medicine designed around you &mdash; so you can feel like yourself again.</p>
-      <!-- both inert until a booking destination and the quiz exist -->
+      <!-- Both still inert, for two different reasons. cta1 (booking) is
+           DELIBERATELY inert by his 2026-08-03 decision — see the header's
+           .hdr__book comment; it is provisional and he wants re-asking once a
+           scheduler exists. cta2 (the quiz) is the one control on this page
+           with nothing anywhere to point at: medi-gyn.com has no quiz. It is
+           the single genuine build left. -->
       <div class="cta-stack reveal">
         <a class="cta" data-i18n="ch1.cta1">Book your consultation
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
@@ -1664,6 +1675,8 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
       <h2 class="reveal" data-i18n="ch3.h2">Start With a Conversation, Leave With Clarity</h2>
       <p class="body reveal" data-i18n="ch3.body">Meet Irina Bond, the founder of Medi-Gyn and Hormone Health Educator. During your complimentary discovery call, she will help you understand your concerns, answer your questions, and help you explore the next step with clarity and confidence.</p>
       <div class="reveal">
+        <!-- inert by his 2026-08-03 decision, same as the header's book
+             button — see .hdr__book. Provisional; re-ask on a scheduler. -->
         <a class="cta" data-i18n="ch3.cta">Book a free discovery call
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
         </a>
@@ -1884,6 +1897,11 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
     <div class="inner"><div class="copy">
       <h2 class="reveal" data-i18n="ch7.h2">Educational Events <em>Beyond Borders.</em></h2>
       <p class="body reveal" data-i18n="ch7.body">From international educational events to global collaborations and media recognition, Medi-Gyn is helping reshape the future of hormone health &mdash; one conversation, one city, and one person at a time.</p>
+      <!-- ⚠️ DELIBERATELY INERT — HIS DECISION, 2026-08-03. /educational-events/
+           was offered and verified live (menoSTART *is* an educational event,
+           and the Events menu item now points there), as was WhatsApp. He chose
+           to wait for menoSTART to have a page of its own. PROVISIONAL —
+           re-ask when one exists. Do not wire it to Events to tidy the list. -->
       <a class="cta reveal" data-i18n="ch7.cta">Join menoSTART
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
       </a>

@@ -175,12 +175,35 @@ smallest ink, because its artwork filled 29.5% of a 400×400 file.
    `/frequently-asked-questions/`, `/terms-and-conditions/`, `/anti-ageing/`,
    `/advisory-board/`.
 
-   **Genuinely missing — nothing to point at:** the hormone QUIZ (ch01), a
-   BOOKING destination (header + ch01 + ch03's "free discovery call" — their own
-   site funnels to WhatsApp and `/contact-us/`), **menoSTART** (ch07; nearest is
-   `/educational-events/`), the newsletter CRM, the ask-panel contents.
+   **THE 14 ARE WIRED AND LIVE** (`faca37a`): menu ×6, the four pathway CTAs,
+   ch02, ch05, ch06, ch08. All `target="_blank"` — this page is a front door, so
+   it stays alive behind the hand-off; one attribute to reverse if that reads
+   wrong. The menu `<span>`s became `<a href>`s with no other change needed.
+
+   ⚠️ **BOOKING and menoSTART ARE DELIBERATELY INERT — HIS DECISION,
+   2026-08-03. This is PROVISIONAL, and he wants re-asking.** He was offered
+   WhatsApp (already live 3× here, and medi-gyn.com's own primary funnel),
+   `/contact-us/`, and an external scheduler for the three booking buttons; and
+   `/educational-events/` or WhatsApp for menoSTART. **He turned all of them
+   down and chose to wait for real destinations.** Do NOT wire either one to
+   tidy up the list — the obvious fix is the option he already refused.
+   Re-ask when a scheduler exists, and when menoSTART has its own page. The
+   reminder is written into the markup at `.hdr__book` and ch07 as well.
+
+   **The one genuine build left is the QUIZ** (ch01) — medi-gyn.com has no quiz
+   anywhere. Also outstanding: the newsletter CRM and the ask-panel contents.
    `/privacy-policy/` is missing on medi-gyn.com too — worth raising for a
    clinic handling health data.
+
+   **On making the hand-off neat.** medi-gyn.com is Hello Elementor + Elementor
+   Pro + Woo, 29 plugins, 918KB of HTML on the homepage, set in Poppins and
+   Montserrat — a hard break from Playfair/ivory/full-bleed. The efficient move
+   is **not** rebuilding all nine pages: it is **the four PATHWAY pages only —
+   one template, four fills**, taking the highest-intent traffic, since ch04 is
+   this page's centrepiece and a visitor who opens a pathway has already
+   decided to care. About/team/press/shop can stay Elementor. Cheaper middle
+   option: Elementor's global font/colour settings (no code) — but that is
+   Irina's live production site and global font swaps shift layouts.
 
    **The open decision is A vs B, and it is his:** (A) medi-x stays a front door
    and hands off to medi-gyn.com — 0 templates, but the jump from this design to

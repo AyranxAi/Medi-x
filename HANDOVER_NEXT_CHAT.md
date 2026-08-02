@@ -1,165 +1,197 @@
 # Medi✦X — START HERE (next chat)
 
-**Read this file first. Then `HANDOVER.md` addenda 9–11 only if you need the
-detail.** Written 2026-08-03 at the end of a very long session.
+**Read this file first.** Then, only if you need detail:
+`HANDOVER_LANGUAGES.md` (the language picker), `HANDOVER_MOBILE_UX.md` (the
+parked mobile/scrim brief), `HANDOVER.md` addenda 9–11.
+Rewritten 2026-08-03.
 
 ---
 
-## 1. What this is, in one paragraph
+## 1. What this is
 
-`AyranxAi/Medi-x`, a deliberately plain static site — **one `index.html`** with
+`AyranxAi/Medi-x` — a deliberately plain static site: **one `index.html`** with
 inline CSS/JS plus `images/` and `fonts/`. No build step. Eight full-bleed
-chapters plus a sponsor band and footer. **Live at
-https://medi-x-gin.vercel.app**, which tracks `main`; `git push` IS the deploy.
-Local clone: `~/Documents/medi-gyn/medi-x`. Commit author must be
-**AyranxAi <ayranxai@gmail.com>** (Vercel Hobby rule) or the deploy is refused.
+chapters, a sponsor band, a footer. **Live at https://medi-x-gin.vercel.app**,
+which tracks `main`; **`git push` IS the deploy.** Local clone
+`~/Documents/medi-gyn/medi-x`. Commit author must be **AyranxAi
+<ayranxai@gmail.com>** or Vercel refuses the build.
 
-**He is showing this to the owners.** Treat live as a demo surface: ask before
-pushing anything that visibly changes while he may be mid-demo.
+**He is demoing this to the owners.** Live is a demo surface — ask before
+pushing anything visibly different while he may be mid-conversation with them.
 
----
-
-## 2. State right now
-
-**Everything through `b474e39` is PUSHED and live.** Nothing is held back.
-
-The editorial face went Didot → Bodoni Moda → **Playfair variable** inside one
-session; only the last one is live, and the two intermediate commits are in the
-log if the reasoning is ever needed.
+**⚠️ HE EDITS THE REPO HIMSELF, and other sessions push too.** On 2026-08-03 he
+uploaded a file through the GitHub web UI mid-session, and a parallel session
+shipped the entire language picker. **`git fetch origin main` before you build
+AND again before you push.** Rebase, never force.
 
 ---
 
-## 3. The rules he has set. Do not relearn these the hard way.
+## 2. State
 
-1. **The hero headline is THREE lines. Never four.** "Your hormones. / Your
-   health. / Your best life." Verify 390 → 2560 after any type change.
-2. **Show options, never pick for him** — render 3–5 lettered variants over the
-   REAL page at TRUE width, with measured numbers, and let him choose. He has
-   praised this repeatedly. Taste lives in the *degree*, not the direction.
-3. **Build his idea before arguing against it.** Twice this session I argued
-   from measurements against something he asked for, and twice the right move
-   was to build it, measure it, and show him. He decides.
-4. **When he compares one section to another, read that section's CSS before
-   assuming which property he means.** "Copy chapter 07" meant the *anchoring*,
-   not the size. I guessed size twice and was wrong twice.
-5. **Ask which FILE when he attaches an image.** Downloads holds three
-   near-identical product renders. I shipped the wrong one once already.
-6. **Never tint another company's logo.** Fetch their own dark/mono artwork.
-7. **New filename, never an overwrite,** for any replaced image — no cache can
-   then serve a stale frame, and revert is one line.
+**Everything is pushed. Live head = `3a8248a`.** Working tree clean.
 
 ---
 
-## 4. The load-bearing technical facts
+## 3. His rules. Do not relearn these the hard way.
 
-**Layout.** `.inner` was `max-width:1400px` centred, so past 1400 the left
-margin grew without limit (18.5% at 1920, 26.4% at 2560) while the headline
-capped out at 1230px. Chapter 07 already solved this for itself; that rule is
-now `@media (min-width:1500px){ .sec .inner{max-width:none} }` for every
-chapter. **Below 1500 nothing changed and his own 1440 view is untouched** —
-which is also why type growth is scoped `>=1500px` and nowhere else.
+1. **The hero headline is THREE lines. Never four.** Verify 390 → 2560 after
+   any type change.
+2. **Show options, never pick for him.** Render 3–5 lettered variants over the
+   REAL page at TRUE width, with measured numbers. Taste lives in the *degree*.
+3. **Build his idea before arguing against it.** He decides; measurements
+   inform, they do not veto.
+4. **Answer a direct design question directly.** When he asked whether a
+   label-on-a-scrim would read as editorial, he wanted a yes/no with a reason,
+   not a survey.
+5. **When he compares one section to another, read that section's CSS first.**
+   "Copy chapter 07" meant its *anchoring*. I guessed "size" twice and was
+   wrong twice.
+6. **Ask which FILE when he attaches an image.** Downloads holds three
+   near-identical product renders; the wrong one shipped once.
+7. **Never tint another company's logo** — fetch their own dark/mono artwork.
+8. **New filename, never an overwrite,** for any replaced image.
 
-**Type — PLAYFAIR VARIABLE (not Playfair Display), weight 450, `opsz` pinned
-to 30 with `font-optical-sizing:none`.** His spec. Left alone opsz tracks the
-font-size, so a 103px headline gets the 103pt drawing and its hairlines go as
-thin as the family allows; pinned low they thicken. It also has a DRAWN italic,
-which is why it beats GFS Didot for the `<em>` phrases.
+---
 
-**⚠️ NEVER carry a px size across a font swap.** Measured width of "Your
-hormones." per pixel of font-size — this governs line count AND how far type
-reaches into a frame's bright half:
+## 4. Load-bearing facts
 
-    Didot 6.399  ·  Playfair @ opsz 30  6.609  ·  Bodoni Moda 7.099
+### The copy line — every chapter starts on the **i of medi·gyn**
 
-Three faces in one session, three sets of numbers. Bodoni at the Didot sizes
-broke the hero to four lines and dropped ch02 to 2.63. **Sturdier strokes are
-NOT the fix for that** — opsz 16, opsz 8 and weight 500 were all tried and all
-failed, because the problem is width.
+His alignment, 2026-08-03. Derived in CSS, never typed, because the wordmark
+scales with the viewport:
 
-**Contrast is the constraint on this whole site.** Ivory text on photographs;
-large text needs 3.0, small text 4.5. Method that survives: hide the text with
-`visibility:hidden`, shoot the FULL viewport, crop per LINE via
-`range.getClientRects()` afterwards, report the **brightest 2%**.
-Current worst values: headlines all clear at 1440 and 1920; **the body
-paragraph does not — 4.09 at 1920, and growing it makes it worse.** That is the
-next real job (see §5).
+```
+--copy-x = --hdr-pad + --logo-h * --logo-ar * --i-stem - --serif-fix
+```
 
-**Chapter 08.** Left column is sized to the 4:5 cover, not 50/50:
-`min(60%,calc(max(100svh,560px) * 4 / 5)) 1fr`. Right panel is `--cream`, the
-footer's own token.
+`--logo-ar` is the file's 626/160. `--i-stem` is the stem at x280 of 626 =
+`.44728`. `--serif-fix` is the 1px by which the Y's ink starts right of its box
+— his "referring to each other's serif" — subtracted so the **ink** lands on the
+stem. Header padding and logo height read the same tokens so they cannot drift.
+**Change the logo artwork and only `--i-stem` needs re-measuring.**
+Verified on the stem at 900 → 2560. **Phones are deliberately excluded**: at 390
+the stem falls at 78px and would eat a fifth of the screen.
 
-**The band.** The "Our sponsors" label is GONE (his call — "kinda obvious and
-just ugly"), so the marks are the only thing in it and are its centre by
-definition. The space the label vacated went to the MARKS, not to padding:
-`--k` 1.55 → 2.15, tallest mark 84px → 117px, band ~176–188px.
-`--press-x` and `--label-h` are gone with the label; if a label ever returns,
-the balancing rule was `padding-bottom: calc(--band-gap*2 + --label-h)`.
-The belt is two identical sets sliding -50%;
-**verify `track === 2 × set`** after touching it. Marks must NOT be
-`loading="lazy"` — off-screen horizontally inside `overflow:hidden` they never
-fetch and the loop gains a hole.
+This replaced an earlier `min-width:1500` rule. The 1400px cap has to be off at
+*every* desktop width, because a centred box adds half the leftover to the left.
+
+### Type — Playfair variable, weight 450, `opsz` 30
+
+Not Playfair Display. The newer family carries the opsz axis **and** a drawn
+italic. `font-optical-sizing:none` is required or the browser overrides the axis
+with the font-size, which is what makes the hairlines vanish at display sizes.
+
+**⚠️ NEVER carry a px size across a font swap.** Width of "Your hormones." per
+pixel of font-size — this governs line count AND how far type reaches into a
+frame's bright half:
+
+```
+Didot 6.399   ·   Playfair @ opsz 30  6.609   ·   Bodoni Moda 7.099
+```
+
+Three faces in one day, three sets of numbers. Bodoni at Didot's sizes broke the
+hero to four lines and dropped ch02 to 2.63. **Sturdier strokes are not the fix**
+— opsz 16, opsz 8 and weight 500 all still failed. The problem is width.
+
+### Contrast is the constraint on this whole site
+
+Ivory on photographs: large text needs 3.0, small text 4.5. Method: hide the
+text with `visibility:hidden`, shoot the FULL viewport, crop per LINE via
+`range.getClientRects()`, report the **brightest 2%**.
+Current: every headline clears at 1440 and 1920 (worst 3.18). **The body
+paragraph does not — 4.09 at 1920 — and growing it makes it worse.**
+
+### Chapter 08
+
+Two equal full-bleed halves (`1fr 1fr`). The client rejected the article-width
+version; the accepted cost is that a 4:5 cover in a ~16:9 column gets cropped
+top and bottom. The article-width rule is in the CSS comment if wanted back.
+Right panel is `--cream`, the footer's own token.
+
+**Its headline is at the wall.** One line is the rule, so the ceiling is the
+panel's text width ÷ the string's width-per-px in Megante:
+
+```
+1280 → 29.4    1440 → 33.0    1600 → 36.7    1920 → 45.4    2560 → 62.8
+```
+
+Shipped `clamp(1.05rem,2.16vw,2.75rem)` = 27.6 / 31.1 / 34.6 / 41.5 / 44.
+**Below 1600 only ~2px of margin remains and 1440 is the width he works at.**
+To go meaningfully bigger the STRING must get shorter, not the type larger.
+
+**⚠️ Multilingual caveat, pre-existing, not caused by the sizing:** German,
+French and Russian are ~60% longer than English and take TWO lines at any size
+that keeps English on one. Arabic and Chinese are fine. Nothing overflows — they
+wrap cleanly. Either those three translations get shortened to English's rhythm,
+or two lines is accepted there. **His call, not yet asked.**
+
+### The band
+
+No label — "kinda obvious and just ugly". The marks are the only thing in it, so
+they are its centre by definition. The space the label vacated went to the
+MARKS: `--k` 1.55 → 2.15, tallest mark 84 → 117px, band ~176–188px.
+The belt is two identical sets sliding `-50%`; **verify `track === 2 × set`**
+after touching it. Marks must NOT be `loading="lazy"` — off-screen horizontally
+inside `overflow:hidden` they never fetch and the loop gains a hole.
 
 **Logo sizing is by OPTICAL CORE (`--h`), not box.** Before changing any `--h`,
-measure the file's alpha-bbox fill ratio: LVI Medical had the biggest `--h` on
-the wall and the smallest ink on it, because its artwork filled 29.5% of a
-400×400 file. `sponsor-09-matches-talent` is still untrimmed at 68.5%.
+measure the file's alpha-bbox fill ratio: LVI had the biggest `--h` and the
+smallest ink, because its artwork filled 29.5% of a 400×400 file.
+`sponsor-09-matches-talent` is still untrimmed at 68.5%.
 
 ---
 
 ## 5. Open, in the order I would take them
 
-1. **The italic colour.** `#s1 h1 em, #s5 h2 em` ship IVORY, flagged provisional
-   in the CSS. Rose and gold are **not available** on those two frames — 1.48
-   to 2.39 against a 3.0 floor. A coloured italic needs a darker ground first.
-2. **The scrim pass — this unlocks two other things.** Parked in
-   `HANDOVER_MOBILE_UX.md` at his request ("im not good here its too much").
-   One step deeper (`.88/.60/40/74` on `.sec.light::after`) is measured to work
-   and would let the **body paragraph grow** (his ask, currently refused on
-   evidence) and let the **headlines take chapter 07's full scale** (also his
-   ask, currently refused).
-3. **Phones.** Untouched by his instruction. Everything in
-   `HANDOVER_MOBILE_UX.md` still stands.
-4. **Destinations.** Every CTA and all six menu items are inert. Press button,
-   Book, Quiz, Shop, Events all need URLs.
-5. **The two films** (`JZ30fE0Nygw`, `HWZ8h3fgjvw`) left the site with the reel
-   and have no home. He is content for them to live behind Press later.
+1. **The three long translations** of the ch08 headline (above) — one question
+   to him, then either shorter strings or accept two lines.
+2. **The italic colour.** `#s1 h1 em, #s5 h2 em` ship IVORY, flagged
+   provisional in the CSS. Rose and gold are **not available** on those frames
+   — 1.48 to 2.39 against a 3.0 floor. A coloured italic needs a darker ground.
+3. **The scrim pass — it unlocks two things he has already asked for.** Parked
+   in `HANDOVER_MOBILE_UX.md` at his request. One step deeper
+   (`.88/.60/40/74` on `.sec.light::after`) is measured to work and would let
+   the **body paragraph grow** and the **headlines take chapter 07's scale**,
+   both currently refused on evidence.
+4. **Phones.** Untouched by his instruction; the i-stem line excludes them.
+5. **Destinations.** Every CTA and all six menu items are inert — Press, Book,
+   Quiz, Shop, Events all need URLs.
+6. **The two films** (`JZ30fE0Nygw`, `HWZ8h3fgjvw`) left the site with the reel.
+   He is content for them to live behind Press later.
+7. **`images/product item.png`** — his 1.7MB upload, unreferenced. The site
+   serves `products-closer.webp` (110KB, q92) from that exact file. Removing it
+   is his call.
 
 ---
 
 ## 6. The verification rig — rebuild it, do not fight it
 
 `puppeteer-core` is NOT installed. Chrome is driven over **raw CDP with Node's
-built-in WebSocket**: `scratchpad/cdp.mjs`, ~70 lines. Serve the site with
-`python3 -m http.server` from a scratchpad copy.
+built-in WebSocket** (`scratchpad/cdp.mjs`, ~80 lines). Serve from a scratchpad
+copy with `python3 -m http.server`.
 
-**Every one of these produced a confident wrong number this session:**
+**Every one of these produced a confident wrong number:**
 
 - **Check the server is yours.** A parallel session held ports 8899 and 8901;
   `index.html` returned 200 from *their* directory while my files 404'd.
   `lsof -p $(lsof -ti :PORT) | grep cwd`.
-- **Assert the viewport.** A stale `Emulation` override silently scaled a
-  requested 1280 to a real 1600 — every vw-based measurement was wrong while
-  the log said otherwise. Re-apply after navigation and check `innerWidth`.
+- **Assert the viewport after navigating.** A stale `Emulation` override
+  silently served a real 1600 for a requested 1280 — and later a 2160 for a
+  1440. The rig now refuses to measure on a mismatch; keep that guard.
 - **IntersectionObserver, rAF, CSS transitions and smooth scroll are all dead
-  headless.** Add `.in`, *stamp* end states with `!important`, and set
+  headless.** Add `.in`, *stamp* end states with `!important`, set
   `scrollBehavior='auto'` before assigning `scrollTop` — then **assert the
   section landed**.
 - **`img.decode()` never resolves for an unfetched lazy image.** Race it.
-- **A flat crop is a MISSING image, not a dark one** — and it will hand you a
-  contrast number regardless. An `<img>` can be complete, decoded, opacity 1,
+- **A flat crop is a MISSING image, not a dark one** — and it will still hand
+  you a contrast number. An `<img>` can be complete, decoded, opacity 1,
   correctly sized and *still not painted*. Gate on the crop's standard
-  deviation and retry.
+  deviation and retry the render.
 - **Sample in the screenshot's pixel space.** CSS-px rects against a dsf-2 shot
   gave a button a 4.66 "pass" that was really 2.0.
-- **An impossible number means the script is wrong, not the page.** A contrast
-  ratio below 1.0 cannot exist.
+- **An impossible number means your script is wrong, not the page.** A contrast
+  ratio below 1.0 cannot exist; a "fill %" of a block element is just its
+  container's width.
+- **Check your own test harness too.** `Math.round(W*0.5625)||844` gave a 390px
+  phone a 219px viewport and reported nine clipped quotes that were fine.
 - **When two passes disagree, stop measuring and LOOK at the crop.**
-
----
-
-## 7. Where the rest is written
-
-- `HANDOVER.md` — addenda 9, 10, 11 cover this session in full detail.
-- `HANDOVER_MOBILE_UX.md` — the parked mobile/scrim brief, written to be picked
-  up cold.
-- Commit messages are long on purpose; `git log` is the reasoning record.

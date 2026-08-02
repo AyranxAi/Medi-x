@@ -216,7 +216,9 @@ body.nav-open .nav li{
   transition-delay:calc(.12s + var(--i) * .035s);
 }
 .nav li:last-child{border-bottom:1px solid rgba(222,212,194,.14)}
-.nav a{
+/* a and span both, so the inert items are visually identical to the linked
+   ones they become — swapping the tag later changes nothing but behaviour */
+.nav a,.nav span{
   display:flex;align-items:baseline;gap:1.1rem;
   padding:.62rem 0;text-decoration:none;
   /* nav becomes NOW Medium. NOW's x-height is 0.546em against Cormorant's
@@ -225,7 +227,8 @@ body.nav-open .nav li{
   font-weight:500;line-height:1.25;letter-spacing:-.01em;
   transition:color .25s var(--ease),padding-left .35s var(--ease);
 }
-.nav a:hover{color:var(--rose);padding-left:.7rem}
+.nav a:hover,.nav span:hover{color:var(--rose);padding-left:.7rem}
+/* kept: the numeral slot returns the day a numbered list does */
 .nav a em{
   font-style:normal;font-family:var(--sans);font-size:.6rem;font-weight:400;
   letter-spacing:.28em;color:var(--gold);opacity:.85;min-width:2.4em;
@@ -332,6 +335,24 @@ h1,h2{
 h1{font-size:clamp(2.8rem,6.5vw,5rem)}
 h2{font-size:clamp(2.25rem,5.1vw,3.9rem)}
 h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:400;color:var(--rose)}
+/* HIS INSTRUCTION 2026-08-02: "Tailored to You" reads WHITE, not coloured.
+   Settled — this one is not part of the colour board below. */
+#s6 h2 em{color:inherit}
+/* ⚠️ PROVISIONAL 2026-08-02 — the italic is his instruction, the COLOUR is not
+   settled ("maybe we can play with the colors as well"). Shipping IVORY (flat)
+   and here is why the choice is narrower than it looks. Measured against the
+   real photograph under each em, worst-2%, at 1440 / 1920 (needs 3.0):
+
+                        ivory        cream      champagne      rose       gold
+     hero best life.  3.84 / 3.44  3.53 / 3.16  3.34 / 2.99  1.65/1.48  1.66/1.48
+     team Your Journey 5.54 / 4.63  5.09 / 4.25  4.82 / 4.03  2.39/1.99  2.39/2.00
+
+   Rose and gold are not close on EITHER line — the brand accents simply do not
+   survive these two frames, which is the same wall ch01/02/03/05 hit. The only
+   real range is pale: ivory > cream > champagne, in that order. A coloured
+   italic here needs a darker ground first (deeper scrim or a different crop),
+   not a different swatch. Board sent; when he picks, change this one rule. */
+#s1 h1 em,#s5 h2 em{color:inherit}
 
 .body{
   font-size:clamp(1.05rem,1.2vw,1.2rem);line-height:1.62;
@@ -755,83 +776,39 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:400;
   opacity:0;transition:opacity 1.4s var(--ease);
 }
 .cpress__img.is-on{opacity:1}
-/* no caption overlay: every press frame carries its own masthead,
-   and the Tribune frame's baked-in callout sits exactly where an
-   overlay would go. The right panel's kickers label the section. */
+/* no caption overlay: the frame carries its own masthead, and the
+   Tribune frame's baked-in callout sat exactly where one would go. */
 
-/* frame controls: count + circled arrows, the chapter-04 recipe,
-   in an ink pill so they read over any frame (several covers are
-   near-white where the controls sit). A click on a photo frame
-   advances; on a video frame it plays. Touch swipes both ways. */
-.cpress{cursor:pointer}
-.cnav{
-  /* bottom-LEFT: the robot-chat bubble will claim bottom-right */
-  position:absolute;left:clamp(1.4rem,3vw,2.6rem);bottom:1.4rem;z-index:2;
-  display:flex;gap:12px;align-items:center;
-  padding:.45rem .9rem;border-radius:999px;
-  /* near-solid: WCAG 4.5:1 for the count must hold even over a
-     pure-white cover region under the pill */
-  background:rgba(36,26,31,.85);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+/* The reel's controls (count pill, circled arrows, play ring) and the
+   film lightbox left with the reel itself, 2026-08-02 — the frame is a
+   single still now, so there is nothing to step through and no film to
+   open. Their CSS is in git if the reel ever returns.
+   What stays in that corner is the Press button: the page's own frosted
+   CTA, bottom-LEFT, because the ask bubble owns bottom-right. */
+.cpress__cta{
+  position:absolute;left:clamp(1.4rem,3vw,2.6rem);bottom:clamp(1.4rem,3vw,2.2rem);z-index:2;
 }
-.cnav__count{margin:0;font-size:13px;font-weight:600;letter-spacing:.08em;font-variant-numeric:tabular-nums;color:var(--ivory)}
-.cnav__count b{font-weight:600;color:var(--gold)}
-.cnav__count s{text-decoration:none;color:rgba(250,247,241,.45)}
-.cnav__arrow{
-  -webkit-appearance:none;appearance:none;background:transparent;padding:0;
-  display:inline-flex;align-items:center;justify-content:center;
-  width:38px;height:38px;border:1px solid rgba(250,247,241,.7);border-radius:999px;
-  color:var(--ivory);cursor:pointer;
-  transition:border-color 250ms var(--ease),background-color 250ms var(--ease);
-}
-.cnav__arrow svg{width:15px;height:15px}
-.cnav__arrow:hover{border-color:var(--gold);background:rgba(250,247,241,.12)}
-.cnav__arrow:focus-visible{outline:2px solid var(--gold-tint);outline-offset:3px}
-/* play ring: shown only while a video slide is up; tap opens the
-   film in the lightbox — nothing ever autoplays */
-.cplay{
-  position:absolute;left:50%;top:50%;translate:-50% -50%;z-index:2;
-  width:96px;height:96px;border-radius:50%;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  border:1px solid rgba(250,247,241,.75);color:var(--ivory);
-  background:rgba(36,26,31,.32);-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);
-  transition:border-color 250ms var(--ease),background-color 250ms var(--ease);
-}
-.cplay:hover{border-color:var(--gold);background:rgba(36,26,31,.55)}
-.cplay:focus-visible{outline:2px solid var(--gold-tint);outline-offset:3px}
-.cplay[hidden]{display:none}
-.cplay svg{width:30px;height:30px;margin-left:4px}
-/* film lightbox — the parked press-cards lesson: the iframe is
-   BUILT on open and DESTROYED on close (youtube-nocookie), so the
-   page itself never carries a player and sets no cookies */
-.vlight{
-  position:fixed;inset:0;z-index:90;
-  display:flex;align-items:center;justify-content:center;
-  background:rgba(23,15,19,.92);padding:clamp(1rem,4vw,3rem);
-}
-.vlight iframe{width:min(92vw,1100px);aspect-ratio:16/9;height:auto;border:0}
-.vlight__close{
-  position:absolute;top:clamp(.8rem,2.5vw,1.8rem);right:clamp(.8rem,2.5vw,1.8rem);
-  -webkit-appearance:none;appearance:none;background:transparent;padding:0;
-  width:44px;height:44px;border:1px solid rgba(250,247,241,.5);border-radius:999px;
-  color:var(--ivory);cursor:pointer;display:flex;align-items:center;justify-content:center;
-}
-.vlight__close:hover{border-color:var(--gold)}
-.vlight__close:focus-visible{outline:2px solid var(--gold-tint);outline-offset:3px}
-.vlight__close svg{width:16px;height:16px}
 
 /* right — the voices panel, full height since the sponsor belt moved
    to its own band below the section (2026-08-02, two-panel collage) */
 .cright{display:grid;border-left:1px solid rgba(250,247,241,.16)}
 .cvoices{
-  position:relative;background:var(--ivory);color:var(--ink);
+  /* HIS CALL 2026-08-02: this panel takes the FOOTER's ground, not its own.
+     --cream, the same token the footer uses — one value, so they can never
+     drift apart. (It was --ivory; the sponsor band inherits that, below.) */
+  position:relative;background:var(--cream);color:var(--ink);
   display:flex;flex-direction:column;
   padding:clamp(1.6rem,3.2vw,2.8rem) clamp(1.6rem,4vw,4rem);
 }
-.cvoices .kicker{font-size:.95rem;font-weight:500;letter-spacing:.24em}
-/* gold fails 4.5:1 on ivory (2.31) — the voices kicker reads in
-   gold-deep (4.69:1); rose on the burgundy band passes at 5.93:1 */
-.cvoices .kicker{color:var(--gold-deep)}
-.cvoices .kicker::after{background:linear-gradient(to right,var(--gold-deep),transparent)}
+/* the panel's title, in place of the old "In their words" kicker. Editorial
+   face like every other headline, but pitched well below a chapter headline —
+   the quote underneath is the loud element here and must stay that way. */
+.cvoices__head{
+  margin:0 0 clamp(1rem,2vh,1.6rem);
+  font-family:var(--font-editorial);font-weight:400;
+  font-size:clamp(1.35rem,1.85vw,1.9rem);line-height:1.2;
+  letter-spacing:-.018em;word-spacing:.05em;color:var(--burgundy);
+}
 .cvoices__stage{position:relative;flex:1;min-height:0}
 .cvoice{
   position:absolute;inset:0;margin:0;
@@ -859,7 +836,6 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:400;
   .cright{border-left:none}
   .cvoices{min-height:34svh}
   .cvoice p{font-size:1.75rem;max-width:none}
-  .cnav{scale:.92;transform-origin:left bottom}
 }
 @media (prefers-reduced-motion:reduce){
   .cpress__img,.cvoice{transition:none}
@@ -876,38 +852,69 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:400;
    champagne. Sized per mark by optical core (--h, the chapter
    07 lesson), --k scales the whole wall per breakpoint. */
 .sband{
-  /* HIS PICK 2026-08-02: F1, the grand wall. True champagne, one real
-     step deeper than the footer's cream — --gold-tint (#F1E7D2) sits
-     within 3% of cream and the two grounds read as one; this value is
-     the midpoint toward --line. Together with the compact footer the
-     band + footer close in ONE viewport. */
-  background:#E9DECA;border-top:1px solid rgba(71,24,38,.1);
-  padding:clamp(3rem,8vh,4.6rem) clamp(1.25rem,6vw,6rem);
+  /* HIS CALL 2026-08-02: the band takes the colour the TESTIMONIALS panel used
+     to wear, now that the panel has moved to the footer's cream. Checked, as
+     he asked: that value was --ivory #FAF7F1.
+     ⚠️ Measured, since the whole point was to check: ivory separates from the
+     footer's cream by 1.088:1 — a real step, but a FAINT one, and it steps
+     LIGHTER where the champagne #E9DECA it replaces stepped darker at 1.145:1.
+     For scale, --gold-tint sits at 1.055 and was rejected in July for reading
+     as the same surface as cream. So the band is still its own plane, just a
+     quieter one. Flagged to him; his call whether quieter is what he wanted. */
+  background:var(--ivory);border-top:1px solid rgba(71,24,38,.1);
+  padding:clamp(3rem,8vh,4.6rem) 0;
+  /* the belt runs edge to edge; only the kicker keeps the page's gutter */
+  overflow:hidden;
 }
 .sband .kicker{
-  max-width:1400px;margin:0 auto 2.4rem;
+  max-width:1400px;margin:0 auto 2.4rem;padding:0 clamp(1.25rem,6vw,6rem);
   font-size:.95rem;font-weight:500;letter-spacing:.24em;
   color:var(--gold-deep);
 }
 .sband .kicker::after{background:linear-gradient(to right,var(--gold-deep),transparent)}
-.sband__wall{
-  max-width:1400px;margin:0 auto;
-  display:flex;flex-wrap:wrap;align-items:center;justify-content:center;
-  column-gap:2.2rem;row-gap:clamp(2rem,4vh,2.8rem);
+
+/* THE BELT (his call 2026-08-02, replacing the static wall): one band
+   travelling right to left, forever. Two identical sets sit side by side and
+   the track slides exactly -50%, so the moment set one leaves, set two is
+   pixel-for-pixel where it started — the seam is unfindable. Duration is set
+   from the mark count so adding a partner slows the belt instead of speeding
+   it up. Hover pauses; reduced-motion stops it dead and lets the row scroll. */
+.sband__belt{
+  position:relative;display:flex;width:max-content;
+  animation:sbelt 64s linear infinite;
 }
-/* --k 1.55 at gap 2.2rem is the BIGGEST clean 7/6 wrap at 1440 — the
-   classic pyramid, wider row on top. 1.62 flips to 6/7 and anything
-   wider-gapped orphans Longevity Hub alone on a third row. */
+.sband__set{
+  display:flex;align-items:center;flex:none;
+  gap:var(--gap,3.4rem);padding-right:var(--gap,3.4rem);
+}
+.sband:hover .sband__belt{animation-play-state:paused}
+@keyframes sbelt{ from{transform:translate3d(0,0,0)} to{transform:translate3d(-50%,0,0)} }
+
 .sl{display:block;flex:none;height:calc(var(--h,2rem)*var(--k,1.55));width:auto}
+/* Per-mark OPTICAL CORE, not per-mark box: a square emblem has to stand
+   taller than a long wordmark to carry the same weight. These numbers are
+   ink heights in disguise — see the ratios in HANDOVER.md before touching one.
+   --06 was 3.6rem and rendered the SMALLEST ink on the belt (26px): its file
+   was a 400x400 square whose artwork filled 29.5% of the height, so the box
+   was huge and the logo tiny. The file is trimmed now (342x118) and the number
+   drops to 2rem while the ink roughly DOUBLES to ~50px, in line with the other
+   wordmarks. Bigger number never meant bigger logo here. */
 .sl--01{--h:2.9rem}.sl--02{--h:2rem}.sl--03{--h:1.7rem}.sl--04{--h:1.7rem}
-.sl--05{--h:3.4rem}.sl--06{--h:3.6rem}.sl--07{--h:1.9rem}.sl--08{--h:1.8rem}
+.sl--05{--h:3.4rem}.sl--06{--h:2rem}.sl--07{--h:1.9rem}.sl--08{--h:1.8rem}
 .sl--09{--h:2.9rem}.sl--10{--h:3.1rem}.sl--11{--h:2.1rem}.sl--12{--h:2.9rem}
 .sl--13{--h:2.9rem}
 @media (max-width:899px){
   .sl{--k:1.05}
-  .sband{padding:2.2rem 1.25rem 2.6rem}
+  .sband{padding:2.2rem 0 2.6rem}
   .sband .kicker{margin-bottom:1.6rem}
-  .sband__wall{column-gap:1.8rem;row-gap:1.4rem}
+  .sband__set{--gap:2.2rem}
+  .sband__belt{animation-duration:46s}
+}
+@media (prefers-reduced-motion:reduce){
+  .sband{overflow-x:auto}
+  .sband__belt{animation:none}
+  /* with the belt still, the second set is pure duplication */
+  .sband__set[aria-hidden="true"]{display:none}
 }
 
 /* ── footer ─────────────────────────────────────────────────
@@ -933,10 +940,14 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
 }
 @media (max-width:899px){ .f-grid{grid-template-columns:1fr} }
 .f-mark img{display:block;height:64px;width:auto}
-.f-tagline{
-  margin:1rem 0 0;max-width:24rem;
-  font-size:1.05rem;line-height:1.65;color:var(--ink-soft);
-}
+/* the wordmark lost its tagline, so it is now a single object in a column
+   beside two tall ones — top-aligned it read as if it had slipped. It centres
+   against the height its neighbours set. Phones stack, so it goes back to the
+   top there and the left edge stays the shared one. */
+/* .f-grid is align-items:start, so this cell has to opt back into stretching
+   before centring inside itself means anything. */
+.f-brand{align-self:stretch;display:flex;align-items:center}
+@media (max-width:899px){ .f-brand{align-self:start;align-items:flex-start} }
 .f-head{
   margin:0 0 1.1rem;font-size:.72rem;font-weight:500;
   letter-spacing:.28em;text-transform:uppercase;color:var(--burgundy);
@@ -1165,16 +1176,20 @@ body.nav-open .ask{opacity:0;pointer-events:none}
   </div>
 </header>
 
-<nav class="nav" id="nav" aria-label="Chapters" hidden>
+<!-- The menu is now the SITE's six destinations, not the page's chapters (his
+     list, 2026-08-02, in his order). INERT by his instruction — they carry no
+     href until the real pages exist, exactly like every CTA on the page. When
+     the destinations land, each <span> becomes an <a href> and nothing else
+     needs to change. The chapter numbers went with the chapters: these are
+     places, not a sequence. -->
+<nav class="nav" id="nav" aria-label="Menu" hidden>
   <ol>
-    <li style="--i:0"><a href="#s1"><em>01</em>The Light</a></li>
-    <li style="--i:1"><a href="#s2"><em>02</em>Why Medi-Gyn</a></li>
-    <li style="--i:2"><a href="#s3"><em>03</em>Discovery Call</a></li>
-    <li style="--i:3"><a href="#s4"><em>04</em>The Pathways</a></li>
-    <li style="--i:4"><a href="#s5"><em>05</em>Meet Our Team</a></li>
-    <li style="--i:5"><a href="#s6"><em>06</em>Products &amp; Therapies</a></li>
-    <li style="--i:6"><a href="#s7"><em>07</em>menoSTART</a></li>
-    <li style="--i:7"><a href="#s8"><em>08</em>In the World</a></li>
+    <li style="--i:0"><span>Hormone Therapy</span></li>
+    <li style="--i:1"><span>Functional Medicine</span></li>
+    <li style="--i:2"><span>Peptide Therapy</span></li>
+    <li style="--i:3"><span>About Us</span></li>
+    <li style="--i:4"><span>Shop</span></li>
+    <li style="--i:5"><span>Events</span></li>
   </ol>
 </nav>
 
@@ -1248,7 +1263,7 @@ body.nav-open .ask{opacity:0;pointer-events:none}
     <div class="bg" data-src="images/09-light.webp"></div>
     <div class="inner"><div class="copy">
       <p class="kicker reveal">Private. Personal. Powerful.</p>
-      <h1 class="reveal">Your hormones.<br>Your health.<br>Your best life.</h1>
+      <h1 class="reveal">Your hormones.<br>Your health.<br><em>Your best life.</em></h1>
       <p class="body reveal">Personalised hormones, menopause care and longevity medicine designed around you &mdash; so you can feel like yourself again.</p>
       <!-- both inert until a booking destination and the quiz exist -->
       <div class="cta-stack reveal">
@@ -1266,7 +1281,7 @@ body.nav-open .ask{opacity:0;pointer-events:none}
   <section class="sec light" id="s2" data-nav="Why Medi-Gyn">
     <div class="bg" data-src="images/about.webp"></div>
     <div class="inner"><div class="copy">
-      <h2 class="reveal">Personalised Solutions. Precision Medicine. Healthy Ageing</h2>
+      <h2 class="reveal">Personalised Solutions, Precision Medicine, Healthy Ageing</h2>
       <p class="body reveal">Evidence-based medicine meets personalised care &mdash; from hormone optimisation and functional medicine to peptides and longevity medicine.</p>
       <div class="reveal">
         <a class="cta">About us
@@ -1279,7 +1294,7 @@ body.nav-open .ask{opacity:0;pointer-events:none}
   <section class="sec light" id="s3" data-nav="Discovery Call">
     <div class="bg" data-src="images/06-consult.webp"></div>
     <div class="inner"><div class="copy">
-      <h2 class="reveal">Start With a Conversation. Leave With Clarity.</h2>
+      <h2 class="reveal">Start With a Conversation, Leave With Clarity</h2>
       <p class="body reveal">Meet Irina Bond, the founder of Medi-Gyn and Hormone Health Educator. During your complimentary discovery call, she will help you understand your concerns, answer your questions, and help you explore the next step with clarity and confidence.</p>
       <div class="reveal">
         <a class="cta">Book a free discovery call
@@ -1459,7 +1474,7 @@ body.nav-open .ask{opacity:0;pointer-events:none}
   <section class="sec light" id="s5" data-nav="Meet Our Team">
     <div class="bg" data-src="images/team.webp"></div>
     <div class="inner"><div class="copy">
-      <h2 class="reveal">Meet The Experts Behind Your Journey.</h2>
+      <h2 class="reveal">Meet The Experts Behind <em>Your Journey</em></h2>
       <p class="body reveal">Behind every personalised journey is a team chosen not only for their expertise, but for their dedication to listening, understanding, and delivering the highest standard of care. Meet the professionals committed to helping you achieve lasting zest for life, vitality and health-span.</p>
       <div class="reveal">
         <a class="cta">Meet the team
@@ -1520,36 +1535,24 @@ body.nav-open .ask{opacity:0;pointer-events:none}
     <div class="collage">
       <figure class="cpress" role="group" aria-label="Medi-Gyn in the press">
         <img class="cpress__img is-on" src="images/coverage/press-04-madame-arabia.webp" alt="Irina Bond on the cover of Madame Arabia" width="1080" height="1350" loading="eager" decoding="async">
-        <img class="cpress__img" src="images/coverage/press-02-monaco-tribune.webp" alt="Monaco Tribune story on Medi-Gyn" width="1080" height="1350" loading="lazy" decoding="async">
-        <img class="cpress__img" src="images/coverage/press-03-gtm.webp" alt="Global Trend Monitor on women&rsquo;s health in Saudi Arabia" width="1080" height="1350" loading="lazy" decoding="async">
-        <img class="cpress__img" src="images/coverage/candid-01-conversation.webp" alt="Irina Bond in conversation with a guest at a Medi-Gyn evening" width="1080" height="1350" loading="lazy" decoding="async">
-        <img class="cpress__img" src="images/coverage/press-01-monaco-info.webp" alt="Irina Bond interviewed on Monaco Info" width="1080" height="1350" loading="lazy" decoding="async">
-        <img class="cpress__img" src="images/coverage/press-05-driven-jeddah.webp" alt="Driven Magazine: women&rsquo;s hormone health event in Jeddah" width="1080" height="1350" loading="lazy" decoding="async">
-        <img class="cpress__img" src="images/coverage/press-06-driven-wellageing.webp" alt="Driven Magazine: redefining the art of well-ageing" width="1080" height="1350" loading="lazy" decoding="async">
-        <img class="cpress__img" src="images/coverage/candid-02-room.webp" alt="Irina Bond addressing the room at a menoSTART evening" width="1080" height="1350" loading="lazy" decoding="async">
-        <img class="cpress__img" src="images/coverage/press-07-harpers-bazaar.webp" alt="Harper&rsquo;s Bazaar: Work It Out with Irina Bond" width="1080" height="1350" loading="lazy" decoding="async">
-        <img class="cpress__img" src="images/coverage/press-08-russian-emirates.webp" alt="Russian Emirates on beauty and health through menopause" width="1080" height="1350" loading="lazy" decoding="async">
-        <img class="cpress__img" src="images/coverage/press-09-uk-news.webp" alt="UK News Group: business advice from Irina Bond" width="1080" height="1350" loading="lazy" decoding="async">
-        <img class="cpress__img" src="images/coverage/candid-03-mingle.webp" alt="Guests in conversation at a Medi-Gyn gathering" width="1080" height="1350" loading="lazy" decoding="async">
-        <img class="cpress__img" src="images/coverage/press-10-newbusiness.webp" alt="NewBusiness.co.uk Q&amp;A with Irina Bond" width="1080" height="1350" loading="lazy" decoding="async">
-        <img class="cpress__img" src="images/coverage/video-11-bone-joints.webp" alt="Film: how to keep bones and joints healthy in menopause" width="1280" height="720" loading="lazy" decoding="async" data-video="JZ30fE0Nygw" data-vtitle="How to keep bones and joints healthy in menopause">
-        <img class="cpress__img" src="images/coverage/video-12-riyadh-event.webp" alt="Film: the menoSTART event in Riyadh" width="1280" height="720" loading="lazy" decoding="async" data-video="HWZ8h3fgjvw" data-vtitle="menoSTART in Riyadh &mdash; beyond menopause symptoms">
-        <button type="button" class="cplay" id="cp-play" aria-label="Play the film" hidden>
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5-11-6.5Z"/></svg>
-        </button>
-        <div class="cnav">
-          <p class="cnav__count" id="cp-count" aria-live="polite"><b>01</b><s> / 15</s></p>
-          <button type="button" class="cnav__arrow" id="cp-prev" aria-label="Previous frame">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5m0 0l6-6m-6 6l6 6"/></svg>
-          </button>
-          <button type="button" class="cnav__arrow" id="cp-next" aria-label="Next frame">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
-          </button>
-        </div>
+        <!-- ⚠️ 2026-08-02, HIS CALL: the reel is now ONE still frame (Madame
+             Arabia, his pick). The other 14 slides came out — 9 press frames,
+             3 candids and BOTH FILMS (the Monaco bone-and-joints interview and
+             the Riyadh menoSTART film). Nothing is lost from the repo: every
+             file is still in images/coverage/ and the full reel markup is one
+             `git show` away. The films now have no home on the site at all —
+             flagged to him; the Press button below is the natural place for
+             them once it has a destination. -->
+        <a class="cta cpress__cta">Press
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
+        </a>
       </figure>
       <div class="cright">
         <div class="cvoices">
-          <p class="kicker">In their words</p>
+          <!-- the "In their words" kicker is out (his call) and this headline
+               takes the slot. h2, not a kicker: it is the panel's title, and
+               ch08 had no heading of its own before. -->
+          <h2 class="cvoices__head">Real Patients. Real Stories. Real Impact.</h2>
           <div class="cvoices__stage">
             <blockquote class="cvoice is-on">
               <p>&ldquo;This literally elevated my everyday life to another level. It was transformational.&rdquo;</p>
@@ -1605,20 +1608,39 @@ body.nav-open .ask{opacity:0;pointer-events:none}
        to another row. -->
   <section class="sband" aria-label="Our sponsors">
     <p class="kicker">Our sponsors</p>
-    <div class="sband__wall">
-      <img class="sl sl--01" src="images/sponsors/sponsor-01-monaco-women-network.webp" alt="Monaco Women Network" loading="lazy" decoding="async">
-      <img class="sl sl--02" src="images/sponsors/sponsor-02-purovitalis.webp" alt="Purovitalis" loading="lazy" decoding="async">
-      <img class="sl sl--03" src="images/sponsors/sponsor-03-richmont-monaco.webp" alt="Richmont Monaco" loading="lazy" decoding="async">
-      <img class="sl sl--04" src="images/sponsors/sponsor-04-forsthaus-apotheke.webp" alt="Forsthaus Apotheke" loading="lazy" decoding="async">
-      <img class="sl sl--05" src="images/sponsors/sponsor-05-wellbeing-sanctuary.webp" alt="The Wellbeing Sanctuary" loading="lazy" decoding="async">
-      <img class="sl sl--06" src="images/sponsors/sponsor-06-lvi-medical.webp" alt="LVI Medical" loading="lazy" decoding="async">
-      <img class="sl sl--07" src="images/sponsors/sponsor-07-menopause-livia.webp" alt="Menopause Livia" loading="lazy" decoding="async">
-      <img class="sl sl--08" src="images/sponsors/sponsor-08-b-health.webp" alt="b.health+" loading="lazy" decoding="async">
-      <img class="sl sl--09" src="images/sponsors/sponsor-09-matches-talent.webp" alt="Matches Talent" loading="lazy" decoding="async">
-      <img class="sl sl--10" src="images/sponsors/sponsor-10-nordic-genex.webp" alt="Nordic Genex" loading="lazy" decoding="async">
-      <img class="sl sl--11" src="images/sponsors/sponsor-11-activecells.webp" alt="ActiveCells" loading="lazy" decoding="async">
-      <img class="sl sl--12" src="images/sponsors/sponsor-12-feza-wellness.webp" alt="Fez&#257; Wellness" loading="lazy" decoding="async">
-      <img class="sl sl--13" src="images/sponsors/sponsor-13-longevity-hub.webp" alt="Longevity Hub" loading="lazy" decoding="async">
+    <div class="sband__belt">
+        <div class="sband__set">
+          <img class="sl sl--01" src="images/sponsors/sponsor-01-monaco-women-network.webp" alt="Monaco Women Network" width="728" height="400" decoding="async">
+          <img class="sl sl--02" src="images/sponsors/sponsor-02-purovitalis.webp" alt="Purovitalis" width="240" height="86" decoding="async">
+          <img class="sl sl--03" src="images/sponsors/sponsor-03-richmont-monaco.webp" alt="Richmont Monaco" width="1539" height="373" decoding="async">
+          <img class="sl sl--04" src="images/sponsors/sponsor-04-forsthaus-apotheke.webp" alt="Forsthaus Apotheke" width="315" height="52" decoding="async">
+          <img class="sl sl--05" src="images/sponsors/sponsor-05-wellbeing-sanctuary.webp" alt="The Wellbeing Sanctuary" width="401" height="400" decoding="async">
+          <img class="sl sl--06" src="images/sponsors/sponsor-06-lvi-medical-trim.webp" alt="LVI Medical" width="342" height="118" decoding="async">
+          <img class="sl sl--07" src="images/sponsors/sponsor-07-menopause-livia.webp" alt="Menopause Livia" width="1334" height="400" decoding="async">
+          <img class="sl sl--08" src="images/sponsors/sponsor-08-b-health.webp" alt="b.health+" width="1500" height="265" decoding="async">
+          <img class="sl sl--09" src="images/sponsors/sponsor-09-matches-talent.webp" alt="Matches Talent" width="489" height="400" decoding="async">
+          <img class="sl sl--10" src="images/sponsors/sponsor-10-nordic-genex.webp" alt="Nordic Genex" width="430" height="400" decoding="async">
+          <img class="sl sl--11" src="images/sponsors/sponsor-11-activecells.webp" alt="ActiveCells" width="153" height="63" decoding="async">
+          <img class="sl sl--12" src="images/sponsors/sponsor-12-feza-wellness.webp" alt="Fez&#257; Wellness" width="353" height="275" decoding="async">
+          <img class="sl sl--13" src="images/sponsors/sponsor-13-longevity-hub.webp" alt="Longevity Hub" width="677" height="400" decoding="async">
+        </div>
+        <!-- exact duplicate, hidden from assistive tech: it exists only so
+             the -50% slide can loop without a visible seam -->
+        <div class="sband__set" aria-hidden="true">
+          <img class="sl sl--01" src="images/sponsors/sponsor-01-monaco-women-network.webp" alt="" width="728" height="400" decoding="async">
+          <img class="sl sl--02" src="images/sponsors/sponsor-02-purovitalis.webp" alt="" width="240" height="86" decoding="async">
+          <img class="sl sl--03" src="images/sponsors/sponsor-03-richmont-monaco.webp" alt="" width="1539" height="373" decoding="async">
+          <img class="sl sl--04" src="images/sponsors/sponsor-04-forsthaus-apotheke.webp" alt="" width="315" height="52" decoding="async">
+          <img class="sl sl--05" src="images/sponsors/sponsor-05-wellbeing-sanctuary.webp" alt="" width="401" height="400" decoding="async">
+          <img class="sl sl--06" src="images/sponsors/sponsor-06-lvi-medical-trim.webp" alt="" width="342" height="118" decoding="async">
+          <img class="sl sl--07" src="images/sponsors/sponsor-07-menopause-livia.webp" alt="" width="1334" height="400" decoding="async">
+          <img class="sl sl--08" src="images/sponsors/sponsor-08-b-health.webp" alt="" width="1500" height="265" decoding="async">
+          <img class="sl sl--09" src="images/sponsors/sponsor-09-matches-talent.webp" alt="" width="489" height="400" decoding="async">
+          <img class="sl sl--10" src="images/sponsors/sponsor-10-nordic-genex.webp" alt="" width="430" height="400" decoding="async">
+          <img class="sl sl--11" src="images/sponsors/sponsor-11-activecells.webp" alt="" width="153" height="63" decoding="async">
+          <img class="sl sl--12" src="images/sponsors/sponsor-12-feza-wellness.webp" alt="" width="353" height="275" decoding="async">
+          <img class="sl sl--13" src="images/sponsors/sponsor-13-longevity-hub.webp" alt="" width="677" height="400" decoding="async">
+        </div>
     </div>
   </section>
 
@@ -1630,18 +1652,19 @@ body.nav-open .ask{opacity:0;pointer-events:none}
 <footer>
   <div class="fw">
     <div class="f-grid">
-      <div>
+      <!-- the tagline under the wordmark came out 2026-08-02 (his call).
+           With nothing below it the mark no longer wants to sit at the top of
+           its cell, so the column centres itself against the two text columns
+           beside it — see .f-brand. -->
+      <div class="f-brand">
         <a class="f-mark" href="#top" aria-label="Medi-Gyn — back to top">
           <!-- red, not ivory: the footer ground is cream now -->
           <img src="images/logo-red.webp" alt="medi-gyn">
         </a>
-        <!-- placeholder wording, his 2026-08-02 call — closer to what
-             medi-gyn is than the old "decoded — not dismissed" line -->
-        <p class="f-tagline">Hormone balancing centre</p>
       </div>
       <div class="f-news">
         <h3 class="f-head">Newsletter</h3>
-        <p>A monthly letter on hormone health. No noise.</p>
+        <p>Join our growing community.</p>
         <!-- TODO: wire to Zoho CRM with source tracking (same as medi-blond) -->
         <form aria-label="Newsletter">
           <input id="nl-email" type="email" placeholder="Your email" aria-label="Your email">
@@ -1654,7 +1677,7 @@ body.nav-open .ask{opacity:0;pointer-events:none}
              an address, not a destination; the socials are icons because
              an icon is their whole identity. The V1 envelope-chip variant
              lost and was removed (git history has it). -->
-        <p class="f-mail"><a href="mailto:hello@medi-gyn.com">hello@medi-gyn.com</a></p>
+        <p class="f-mail"><a href="mailto:info@medi-gyn.com">info@medi-gyn.com</a></p>
         <!-- one chip row, his sketched order: WhatsApp first (folded in
              from its old text link, same live wa.me href), then the
              placeholder socials -->
@@ -1874,32 +1897,20 @@ body.nav-open .ask{opacity:0;pointer-events:none}
 })();
 </script>
 <script>
-/* ── chapter 08 collage: reel + voices + film lightbox ──────
-   12 slides: 10 press frames + 2 film posters. Auto-step 7s
-   (voices 9s — offset so the panels never blink together); arrows
-   + count (chapter-04 recipe), swipe on touch, click advances a
-   photo and PLAYS a film. The lightbox builds its
-   youtube-nocookie iframe on open and destroys it on close — the
-   page never carries a player and sets no cookies. Manual steps
-   restart the clock; timers stop off-screen, while the lightbox
-   is open, and under prefers-reduced-motion. */
+/* ── chapter 08: the voices panel ───────────────────────────
+   All that is left of the old collage script. The press frame is a
+   single still as of 2026-08-02 (his call), so the reel, its count
+   pill, its arrows, the swipe handling and the youtube-nocookie
+   film lightbox are all gone — git has them if the reel returns.
+   The quotes still rotate: 9s, paused off-screen and under
+   prefers-reduced-motion. */
 (function(){
   var sec=document.getElementById('s8'); if(!sec) return;
   var reduce=window.matchMedia('(prefers-reduced-motion:reduce)');
-  var imgs=[].slice.call(sec.querySelectorAll('.cpress__img'));
   var voices=[].slice.call(sec.querySelectorAll('.cvoice'));
-  var press=sec.querySelector('.cpress');
-  var count=document.getElementById('cp-count');
-  var play=document.getElementById('cp-play');
-  var pi=0,vi=0,pt=null,vt=null,swiped=false,inView=false,light=null;
+  if(!voices.length) return;
+  var vi=0,vt=null;
   voices.forEach(function(v,i){ v.setAttribute('aria-hidden',String(i!==0)); });
-  function pad(n){ return ('0'+n).slice(-2); }
-  function showP(n){
-    pi=(n+imgs.length)%imgs.length;
-    imgs.forEach(function(im,i){ im.classList.toggle('is-on',i===pi); });
-    count.innerHTML='<b>'+pad(pi+1)+'</b><s> / '+pad(imgs.length)+'</s>';
-    play.hidden=!imgs[pi].dataset.video;
-  }
   function stepV(){
     vi=(vi+1)%voices.length;
     voices.forEach(function(v,i){
@@ -1907,57 +1918,13 @@ body.nav-open .ask{opacity:0;pointer-events:none}
       v.setAttribute('aria-hidden',String(i!==vi));
     });
   }
-  function start(){
-    if(reduce.matches||light) return;
-    if(!pt) pt=setInterval(function(){ showP(pi+1); },7000);
-    if(!vt) vt=setInterval(stepV,9000);
-  }
-  function stop(){ if(pt){clearInterval(pt);pt=null;} if(vt){clearInterval(vt);vt=null;} }
-  function manual(n){ showP(n); stop(); start(); }
-  function closeV(){
-    if(!light) return;
-    document.body.removeChild(light); light=null;
-    (play.hidden?document.getElementById('cp-next'):play).focus();
-    if(inView) start();
-  }
-  function openV(id,title){
-    stop();
-    light=document.createElement('div');
-    light.className='vlight';
-    light.setAttribute('role','dialog');
-    light.setAttribute('aria-modal','true');
-    light.setAttribute('aria-label',title||'Film');
-    light.innerHTML='<button type="button" class="vlight__close" aria-label="Close the film">'+
-      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6l12 12M18 6L6 18"/></svg></button>'+
-      '<iframe src="https://www.youtube-nocookie.com/embed/'+id+'?autoplay=1&rel=0" title="'+title+'" allow="autoplay; fullscreen; encrypted-media" allowfullscreen></iframe>';
-    light.addEventListener('click',function(e){ if(e.target===light||e.target.closest('.vlight__close')) closeV(); });
-    document.body.appendChild(light);
-    light.querySelector('.vlight__close').focus();
-  }
-  document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeV(); });
-  document.getElementById('cp-prev').addEventListener('click',function(){ manual(pi-1); });
-  document.getElementById('cp-next').addEventListener('click',function(){ manual(pi+1); });
-  play.addEventListener('click',function(){ var im=imgs[pi]; if(im.dataset.video) openV(im.dataset.video,im.dataset.vtitle||''); });
-  press.addEventListener('click',function(e){
-    if(swiped){ swiped=false; return; }
-    if(e.target.closest('.cnav')||e.target.closest('.cplay')) return;
-    var im=imgs[pi];
-    if(im.dataset.video){ openV(im.dataset.video,im.dataset.vtitle||''); }
-    else{ manual(pi+1); }
-  });
-  var tx=0,ty=0;
-  press.addEventListener('touchstart',function(e){
-    tx=e.changedTouches[0].clientX; ty=e.changedTouches[0].clientY;
-  },{passive:true});
-  press.addEventListener('touchend',function(e){
-    var dx=e.changedTouches[0].clientX-tx, dy=e.changedTouches[0].clientY-ty;
-    if(Math.abs(dx)>36&&Math.abs(dx)>Math.abs(dy)*1.5){ swiped=true; manual(dx<0?pi+1:pi-1); }
-  },{passive:true});
+  function start(){ if(reduce.matches||vt) return; vt=setInterval(stepV,9000); }
+  function stop(){ if(vt){ clearInterval(vt); vt=null; } }
   if('IntersectionObserver' in window){
     new IntersectionObserver(function(es){
-      es.forEach(function(e){ inView=e.isIntersecting; inView?start():stop(); });
+      es.forEach(function(e){ e.isIntersecting?start():stop(); });
     },{threshold:.25}).observe(sec);
-  }else{ inView=true; start(); }
+  }else{ start(); }
   (reduce.addEventListener?reduce.addEventListener('change',function(){ reduce.matches?stop():start(); }):0);
 })();
 </script>

@@ -1,5 +1,73 @@
 # Medi✦X — session handover
 
+## 0 · 2026-08-02 addendum 11 — LIVE. Article sizing, and type growth scoped
+
+**Everything through `9bd8d25` is PUSHED and verified live** on
+medi-x-gin.vercel.app (two deploys: `d71831c`, then `9bd8d25`).
+
+### Chapter 08 is sized to the article, not split in half
+
+His words: "lets not do it half half as its not suitable for the dimension of
+the article on the left… let it be that the article is sized for the full bleed
+and whatever remains will be what will be used for the testimonials."
+
+`grid-template-columns:min(60%,calc(max(100svh,560px) * 4 / 5)) 1fr`. The cover
+is 4:5 and a 50/50 column is ~16:9, so `object-fit:cover` had been discarding
+the masthead and the signature to fill it. Now **864/1056 at 1920** against
+960/960, uncropped at 1440/1920/2560/1600×760. The `min(60%)` is a guard for
+tall narrow windows (4/5 of the height can exceed the screen); the `max(…,560px)`
+matches the section's own min-height floor.
+
+### Type growth: >=1500px ONLY, and the reason is not arbitrary
+
+**The anchoring change only affected >=1500px** — below that the 1400 cap still
+applies and the copy has not moved a pixel. So there is no new room at 1440 and
+growing type there just walks it back into the bright frame. h1/h2 were capped
+at 5rem/3.9rem, i.e. they stop growing at ~1230px while the screen keeps going;
+that is why they read small on a monitor.
+
+Now `#s1 h1{clamp(5rem,5.5vw,6.5rem)}`, `h2{clamp(3.9rem,4.3vw,5.05rem)}`,
+`.cta{height:3.4rem;font-size:.72rem}` — all inside `@media (min-width:1500px)`.
+Lands on **+10% at 1600, +30% at 1920**, flat to 2560.
+
+**Both ends are measured, not chosen:**
+- **1600 is the floor** — +15% is fine there, +30% puts the hero at **2.94**.
+- **His three-line rule is the ceiling** — +45% breaks the hero to FOUR lines.
+
+Verified after: worst line **3.26 at 1600**, **3.28 at 1920**, every chapter
+clears 3.0, hero holds three lines 1280→2560, no overflow at any width.
+
+### ⚠️ The paragraph is deliberately NOT grown — he asked for it and I didn't
+
+It is the one element **already under threshold**: 4.09 at 1920 where small text
+needs 4.5. Growing it makes it **worse** — 2.96 at +15%, 3.01 at +30% — because
+it reaches further into the bright half of the frame. Needs the deeper scrim
+first (`HANDOVER_MOBILE_UX.md`). **Told him; revisit when the scrim lands.**
+
+### Also
+
+"Our sponsors" → `.95rem`, tracking `.28em`→`.24em`, **centred on the page**
+(his confirm). At .72rem centred it read as a caption, not a title. The
+seam-alignment he disliked was a coincidence of the old 50/50 grid and is gone
+with it.
+
+### Rig note that cost real time
+
+**A loaded, decoded, `opacity:1`, correctly-sized `<img>` can still not paint**
+in this headless setup — five consecutive `goto`s produced a flat frame, then
+the next run rendered it perfectly. It is not deterministic and it is not the
+CSS: verify by DOM (`complete`, `naturalWidth`, rects, computed styles) AND by
+pixels (region standard deviation) before believing either a render or a number
+taken from it. See [[headless-screenshot-traps]].
+
+### Open
+
+1. **The italic colour** — ivory shipped; rose/gold measured impossible on
+   those two frames (1.48–2.39). Table in addendum 9.
+2. **Phones** — he has not looked at mobile yet ("not sure about phones yet").
+   Growth is desktop-only by his instruction. `HANDOVER_MOBILE_UX.md` is the
+   parked brief and is where the paragraph fix lives too.
+
 ## 0 · 2026-08-02 addendum 10 — "copy chapter 07" meant the ANCHORING
 
 Commits `db5833c`, `4e2c21b` on top of addendum 9. **Still local, still not

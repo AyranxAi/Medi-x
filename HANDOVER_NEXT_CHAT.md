@@ -154,8 +154,39 @@ smallest ink, because its artwork filled 29.5% of a 400×400 file.
    the **body paragraph grow** and the **headlines take chapter 07's scale**,
    both currently refused on evidence.
 4. **Phones.** Untouched by his instruction; the i-stem line excludes them.
-5. **Destinations.** Every CTA and all six menu items are inert — Press, Book,
-   Quiz, Shop, Events all need URLs.
+5. **Destinations.** The five SOCIALS are LIVE as of 2026-08-03 (his URLs, in
+   `3a8248a`). Everything else is still inert — but **most of it needs a URL,
+   not a build**, which nobody had checked before: `medi-gyn.com` is a live
+   WordPress/WooCommerce site that already has the pages.
+
+   ⚠️ **medi-gyn.com soft-404s to its homepage, so HTTP 200 proves NOTHING.**
+   Test whether the PATH SURVIVES the redirect
+   (`curl -L -o /dev/null -w '%{url_effective}'`); if it returns bare
+   `https://medi-gyn.com/`, the page does not exist. `/functional-general/` is
+   linked from their own homepage and is dead exactly this way.
+
+   **Verified to exist** (path survives) → the control it answers:
+   `/about-us/` ch02 + menu · `/our-team/` ch05 · `/shop/` ch06 + menu ·
+   `/press/` ch08 — and the natural home for the two orphaned films ·
+   `/hormone-balancing-for-bhrt/` pathway 01 + menu ·
+   `/modern-menopause/` pathway 02 · `/functional-medicine/` pathway 03 + menu ·
+   `/peptide-therapy/` pathway 04 + menu · `/educational-events/` menu Events ·
+   `/contact-us/`. Live and unused: `/blog/`, `/testimonials/`, `/case-studies/`,
+   `/frequently-asked-questions/`, `/terms-and-conditions/`, `/anti-ageing/`,
+   `/advisory-board/`.
+
+   **Genuinely missing — nothing to point at:** the hormone QUIZ (ch01), a
+   BOOKING destination (header + ch01 + ch03's "free discovery call" — their own
+   site funnels to WhatsApp and `/contact-us/`), **menoSTART** (ch07; nearest is
+   `/educational-events/`), the newsletter CRM, the ask-panel contents.
+   `/privacy-policy/` is missing on medi-gyn.com too — worth raising for a
+   clinic handling health data.
+
+   **The open decision is A vs B, and it is his:** (A) medi-x stays a front door
+   and hands off to medi-gyn.com — 0 templates, but the jump from this design to
+   the old WordPress site is jarring; (B) medi-x becomes the site and the
+   destinations are rebuilt in this language — ~9 templates, ~18 pages.
+   Build nothing downstream until he picks.
 6. **The two films** (`JZ30fE0Nygw`, `HWZ8h3fgjvw`) left the site with the reel.
    He is content for them to live behind Press later.
 7. **`images/product item.png`** — his 1.7MB upload, unreferenced. The site

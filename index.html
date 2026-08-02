@@ -689,16 +689,15 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
     linear-gradient(to right,rgba(20,14,17,.5) 0%,rgba(20,14,17,.18) 40%,rgba(20,14,17,0) 62%),
     radial-gradient(130% 130% at 50% 50%,transparent 58%,rgba(20,14,17,.58) 100%);
 }
-/* the closer earns hero-size type — ceiling raised from 5.4rem once the
-   rotating quotes moved to chapter 08 and the block could carry more scale */
-.sec--meno h2{font-size:clamp(3rem,7vw,6.5rem)}
+/* the closer earns hero-size type — stepped up again 2026-08-02 when the
+   press strip left and the freed space went to headline + globe */
+.sec--meno h2{font-size:clamp(3rem,7.5vw,7.2rem)}
 /* wide frames: the globe anchors to the FRAME's right edge, so the copy
    and the strip kicker must anchor to the frame's left edge too — inside
    the 1400px content cap they sit in a different coordinate system than
    the globe and the corner-to-corner tension collapses */
 @media (min-width:1500px){
   .sec--meno .inner{max-width:none}
-  .sec--meno .press__kicker{max-width:none}
 }
 /* film grain over the whole frame, near-invisible */
 .sec--meno::before{
@@ -709,12 +708,14 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
 .sec--meno .inner{position:relative;z-index:1}
 .meno-globe{
   position:absolute;z-index:0;
-  right:clamp(.75rem,3vw,4rem);
-  /* centre the globe in the space ABOVE the press strip, not in the whole
-     section — plain top:50% ignored the strip and hung the globe ~45px low,
-     which read as a tilted frame */
-  top:calc((100% - var(--press-zone))/2);translate:0 -50%;
-  width:min(42vw,68svh);height:min(42vw,68svh);
+  /* the press strip is gone (2026-08-02) — the globe centres in the
+     full section again and stepped up to carry the freed space:
+     bigger AND pulled inward off the right edge (his "central
+     dominance"). The 60vw/94svh variant overlapped the headline —
+     dots under Didot read as noise, rejected. */
+  right:clamp(2.5rem,8vw,9.5rem);
+  top:50%;translate:0 -50%;
+  width:min(54vw,86svh);height:min(54vw,86svh);
 }
 @media (max-width:899px){
   .sec--meno{flex-direction:column;justify-content:flex-end}
@@ -722,7 +723,7 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
   .meno-globe{
     order:2;position:static;translate:none;flex:none;
     margin:1.25rem auto 0;display:block;
-    width:min(76vw,42svh);height:min(76vw,42svh);
+    width:min(82vw,46svh);height:min(82vw,46svh);
   }
 }
 /* the finale CTA steps up: larger. The gold box-shadow that used to prop the
@@ -732,88 +733,22 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
   margin-top:2rem;height:3.5rem;padding:0 2.25rem;font-size:.72rem;
 }
 .sec--meno .cta svg{width:17px;height:17px}
-/* --press-zone is the strip's total claim on the section's bottom edge.
-   It reserves space so the strip never crowds the finale pill AND gives
-   the globe its centring reference — one number, both jobs. */
-.sec--meno{--press-zone:0px}
-@media (min-width:900px){
-  /* 4.95rem is the strip's own height (kicker block + the 54px belt, which
-     the tallest --h sets) — keep it in step if those change; the second term
-     is .press's own bottom offset. Exact beats approximate here: the globe
-     centres on this number, so any drift shows up as a lopsided frame. */
-  .sec--meno{
-    --press-zone:calc(4.95rem + clamp(1rem,3vh,2.1rem));
-    padding-bottom:var(--press-zone);
-  }
-}
-
-/* ── as-featured-in marquee ─────────────────────────────────
-   Six press wordmarks drift right-to-left along the closer's
-   bottom edge. Transparent band — the night ground shows
-   through — and one ivory tint at whisper opacity: they are
-   credibility, not content. Wordmarks are single-fill SVGs in
-   images/press/, tinted via currentColor through a CSS mask.
-   Four identical sets + a one-set translateX shift keep the
-   loop seamless up to ~3200px viewports. */
-.press{
-  position:absolute;left:0;right:0;bottom:clamp(1rem,3vh,2.1rem);z-index:1;
-  pointer-events:none;
-}
-.press__kicker{
-  max-width:1400px;margin:0 auto .95rem;padding:0 clamp(1.25rem,6vw,6rem);
-  font-size:.56rem;font-weight:400;letter-spacing:.34em;text-transform:uppercase;
-  color:var(--gold);opacity:.85;
-}
-.press__belt{overflow:hidden;color:rgba(250,247,241,.48)}
-.press__track{display:flex;width:max-content;animation:press-drift 44s linear infinite}
-.press__set{
-  display:flex;align-items:center;
-  gap:clamp(2.8rem,5vw,4.6rem);padding-right:clamp(2.8rem,5vw,4.6rem);
-}
-.pl{
-  --k:1;
-  display:block;background:currentColor;
-  height:calc(var(--h)*var(--k));width:calc(var(--h)*var(--k)*var(--r));
-  -webkit-mask:var(--m) no-repeat center/contain;mask:var(--m) no-repeat center/contain;
-}
-/* --h is tuned per mark so all six render at the SAME optical core height
-   (~18px): all-caps marks measured on cap-height x .72, mixed-case ones on
-   the blend of that and x-height. Sizing by bounding box instead — the
-   obvious way, and what this strip shipped with first — rendered the
-   two-line marks 60% smaller than BAZAAR and the row read as a jumble.
-   --r is each SVG's viewBox aspect, so a mark never letterboxes in its box. */
-.pl--bazaar  {--m:url(images/press/harpers-bazaar.svg);      --h:32px;--r:4.724}
-.pl--madame  {--m:url(images/press/madame-arabia.svg);       --h:34px;--r:3.807}
-.pl--gtm     {--m:url(images/press/global-trend-monitor.svg);--h:54px;--r:6.176}
-.pl--emirates{--m:url(images/press/russian-emirates.svg);    --h:44px;--r:8.800}
-.pl--driven  {--m:url(images/press/driven-magazine.svg);     --h:41px;--r:6.206}
-.pl--sublime {--m:url(images/press/sublime.svg);             --h:33px;--r:4.532}
-@keyframes press-drift{to{transform:translateX(-25%)}}
-@media (max-width:899px){
-  /* the column layout's align-items:flex-end would shrink .press to its
-     max-content track — pin it to the viewport width instead */
-  .press{position:static;order:3;margin-top:1.6rem;width:100%}
-  .press__kicker{margin-bottom:.75rem}
-  .pl{--k:.76}
-}
-@media (prefers-reduced-motion:reduce){
-  .press__track{animation:none}
-  .press__set[aria-hidden]{display:none}
-}
 
 /* ── in the world (chapter 08) ──────────────────────────────
-   The collage (2026-08-02, replaces the wall — client verdict: too
-   much movement). One screen split by a hairline: the press frame
-   owns the left half; the right half stacks the patient voices
-   (62%) over the sponsor belt (38%) — the client's own reference
-   layout. Motion budget: press frames and voices crossfade on
-   offset timers (script under the main IIFE); the belt is the ONLY
-   continuous movement, chapter 07's four-set translateX(-25%) loop
-   at a whisper. Real coverage, verbatim quotes, real partner marks.
-   Drop-a-file: press frames are images/coverage/press-NN-*.webp —
-   add the file plus one <img data-line="…"> and the fade picks it
-   up. Masters stay in "press, testimonials, sponsor/" (top level)
-   and images/press-assets/ on the parked press-cards branch. */
+   TWO PANELS as of 2026-08-02 (the client's own call: the earlier
+   three-cell collage read cluttered). The sponsor belt left the
+   chapter; its replacement — a dedicated band between this section
+   and the footer — lands separately once its style is picked (see
+   HANDOVER.md addendum 6). One screen split by a
+   hairline: the press frame owns the left half, the patient voices
+   own the whole right half. Motion budget: press frames and voices
+   crossfade on offset timers (script under the main IIFE) — no
+   continuous movement left in the chapter. Real coverage, verbatim
+   quotes. Drop-a-file: press frames are images/coverage/
+   press-NN-*.webp — add the file plus one <img> line and the fade
+   picks it up. Masters stay in "press, testimonials, sponsor/"
+   (top level) and images/press-assets/ on the parked press-cards
+   branch. */
 .sec--world{display:block;padding:0;height:100svh;min-height:560px}
 .sec--world::after{content:none}
 .sec--world .bg{
@@ -899,14 +834,15 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
 .vlight__close:focus-visible{outline:2px solid var(--gold-tint);outline-offset:3px}
 .vlight__close svg{width:16px;height:16px}
 
-/* right — voices over the sponsor belt */
-.cright{display:grid;grid-template-rows:62fr 38fr;border-left:1px solid rgba(250,247,241,.16)}
+/* right — the voices panel, full height since the sponsor belt moved
+   to its own band below the section (2026-08-02, two-panel collage) */
+.cright{display:grid;border-left:1px solid rgba(250,247,241,.16)}
 .cvoices{
   position:relative;background:var(--ivory);color:var(--ink);
   display:flex;flex-direction:column;
   padding:clamp(1.6rem,3.2vw,2.8rem) clamp(1.6rem,4vw,4rem);
 }
-.cvoices .kicker,.csponsors .kicker{font-size:.95rem;font-weight:500;letter-spacing:.24em}
+.cvoices .kicker{font-size:.95rem;font-weight:500;letter-spacing:.24em}
 /* gold fails 4.5:1 on ivory (2.31) — the voices kicker reads in
    gold-deep (4.69:1); rose on the burgundy band passes at 5.93:1 */
 .cvoices .kicker{color:var(--gold-deep)}
@@ -928,51 +864,19 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
 /* footer reset — the page-level footer styles (background, padding,
    AND border-top) bleed in otherwise (chapter 07 lesson) */
 .cvoice footer{background:none;padding:0;border:0;font-size:1rem;color:var(--ink-soft);letter-spacing:.08em}
-/* the belt is a burgundy colophon (his pick C): one deep band that
-   answers the dark press column diagonally and stops the section
-   washing into the ivory footer. Marks knock out to ivory via CSS
-   filter; the Wellbeing badge is a solid emblem that flattens to a
-   disc under the knockout, so it gets a preprocessed density-alpha
-   ivory file instead (-ivory.webp) and filter:none. */
-.csponsors{
-  position:relative;background:#471826;border-top:1px solid rgba(250,247,241,.14);
-  display:flex;flex-direction:column;justify-content:flex-start;gap:1.25rem;
-  padding:2rem 0 1.6rem;min-height:0;overflow:hidden;
-}
-.csponsors .kicker{color:var(--rose);margin:0 0 0 clamp(1.6rem,4vw,4rem)}
-.csponsors .kicker::after{background:linear-gradient(to right,var(--rose),transparent)}
-.csponsors__belt{overflow:hidden;flex:1;display:flex;align-items:center}
-.csponsors__belt>.csponsors__track{flex:none}
-.csponsors__track{display:flex;width:max-content;animation:spon-drift 70s linear infinite}
-.csponsors__belt:hover .csponsors__track{animation-play-state:paused}
-@keyframes spon-drift{to{transform:translateX(-25%)}}
-.csponsors__set{
-  display:flex;align-items:center;
-  gap:clamp(2.2rem,3.4vw,3.6rem);padding-right:clamp(2.2rem,3.4vw,3.6rem);
-}
-/* marks sized by optical core, not bounding box (chapter 07 lesson):
-   --h per mark, --k scales the whole belt on phones */
-.sl{display:block;flex:none;height:calc(var(--h,2rem)*var(--k,1.65));width:auto;filter:brightness(0) invert(1);opacity:.92}
-.sl--05{filter:none}
-.sl--01{--h:2.9rem}.sl--02{--h:2rem}.sl--03{--h:1.7rem}.sl--04{--h:1.7rem}
-.sl--05{--h:3.4rem}.sl--06{--h:3.6rem}.sl--07{--h:1.9rem}.sl--08{--h:1.8rem}
-.sl--09{--h:2.9rem}.sl--10{--h:3.1rem}.sl--11{--h:2.1rem}.sl--12{--h:2.9rem}
-.sl--13{--h:2.9rem}
 @media (max-width:899px){
   .sec--world{height:auto;min-height:100svh}
   .collage{position:relative;grid-template-columns:100%}
-  .cpress{height:52svh}
-  .cright{border-left:none;grid-template-rows:auto auto}
-  .cvoices{min-height:38svh}
+  /* the frame is 4:5 — 58svh shows it essentially uncropped at phone
+     widths (390 x 4:5 = 487px ≈ 58svh); the old 52svh existed to let
+     the burgundy belt peek above the fold, and the belt is gone */
+  .cpress{height:58svh}
+  .cright{border-left:none}
+  .cvoices{min-height:34svh}
   .cvoice p{font-size:1.75rem;max-width:none}
-  .csponsors{padding:1.3rem 0}
-  .sl{--k:1.15}
   .cnav{scale:.92;transform-origin:left bottom}
 }
 @media (prefers-reduced-motion:reduce){
-  .csponsors__track{animation:none}
-  .csponsors__set[aria-hidden]{display:none}
-  .csponsors__belt{overflow-x:auto}
   .cpress__img,.cvoice{transition:none}
 }
 
@@ -1483,10 +1387,11 @@ body.nav-open .ask{opacity:0;pointer-events:none}
 
   <!-- CTA is inert until menoSTART has a signup destination.
        The rotating patient testimonials are GONE from the site as of
-       2026-08-01 (user's call — chapter 08 became photographs only);
-       the "as featured in" wordmark marquee is live along this section's
-       bottom edge — six single-tint SVGs in images/press/, rules in
-       HANDOVER_FEATURED_IN.md. -->
+       2026-08-01 (user's call — chapter 08 became photographs only).
+       The "as featured in" wordmark marquee was REMOVED 2026-08-02
+       (client's own call: redundant against chapter 08's press reel) —
+       the closer is now globe + copy alone. Revert candidate: see
+       HANDOVER.md if the client asks for the belt back. -->
   <section class="sec sec--meno" id="s7" data-nav="menoSTART">
     <!-- no photo: the ground is the CSS night gradient on .bg -->
     <div class="bg"></div>
@@ -1498,32 +1403,6 @@ body.nav-open .ask{opacity:0;pointer-events:none}
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
       </a>
     </div></div>
-    <!-- as-featured-in: six press wordmarks, whisper-slow right-to-left drift.
-         Sets 2-4 are aria-hidden loop copies; reduced-motion shows set 1 only. -->
-    <div class="press" role="group" aria-label="As featured in">
-      <p class="press__kicker">As featured in</p>
-      <div class="press__belt">
-        <div class="press__track">
-          <span class="press__set">
-            <i class="pl pl--bazaar" role="img" aria-label="Harper's Bazaar Arabia"></i>
-            <i class="pl pl--madame" role="img" aria-label="Madame Arabia"></i>
-            <i class="pl pl--gtm" role="img" aria-label="Global Trend Monitor"></i>
-            <i class="pl pl--emirates" role="img" aria-label="Russian Emirates"></i>
-            <i class="pl pl--driven" role="img" aria-label="Driven Magazine"></i>
-            <i class="pl pl--sublime" role="img" aria-label="Sublime"></i>
-          </span>
-          <span class="press__set" aria-hidden="true">
-            <i class="pl pl--bazaar"></i><i class="pl pl--madame"></i><i class="pl pl--gtm"></i><i class="pl pl--emirates"></i><i class="pl pl--driven"></i><i class="pl pl--sublime"></i>
-          </span>
-          <span class="press__set" aria-hidden="true">
-            <i class="pl pl--bazaar"></i><i class="pl pl--madame"></i><i class="pl pl--gtm"></i><i class="pl pl--emirates"></i><i class="pl pl--driven"></i><i class="pl pl--sublime"></i>
-          </span>
-          <span class="press__set" aria-hidden="true">
-            <i class="pl pl--bazaar"></i><i class="pl pl--madame"></i><i class="pl pl--gtm"></i><i class="pl pl--emirates"></i><i class="pl pl--driven"></i><i class="pl pl--sublime"></i>
-          </span>
-        </div>
-      </div>
-    </div>
   </section>
 
   <!-- Chapter 08 — the collage: press | voices | sponsors. Replaces
@@ -1543,11 +1422,11 @@ body.nav-open .ask{opacity:0;pointer-events:none}
     <div class="bg"></div>
     <div class="collage">
       <figure class="cpress" role="group" aria-label="Medi-Gyn in the press">
-        <img class="cpress__img is-on" src="images/coverage/press-01-monaco-info.webp" alt="Irina Bond interviewed on Monaco Info" width="1080" height="1350" loading="eager" decoding="async">
+        <img class="cpress__img is-on" src="images/coverage/press-04-madame-arabia.webp" alt="Irina Bond on the cover of Madame Arabia" width="1080" height="1350" loading="eager" decoding="async">
         <img class="cpress__img" src="images/coverage/press-02-monaco-tribune.webp" alt="Monaco Tribune story on Medi-Gyn" width="1080" height="1350" loading="lazy" decoding="async">
         <img class="cpress__img" src="images/coverage/press-03-gtm.webp" alt="Global Trend Monitor on women&rsquo;s health in Saudi Arabia" width="1080" height="1350" loading="lazy" decoding="async">
         <img class="cpress__img" src="images/coverage/candid-01-conversation.webp" alt="Irina Bond in conversation with a guest at a Medi-Gyn evening" width="1080" height="1350" loading="lazy" decoding="async">
-        <img class="cpress__img" src="images/coverage/press-04-madame-arabia.webp" alt="Irina Bond on the cover of Madame Arabia" width="1080" height="1350" loading="lazy" decoding="async">
+        <img class="cpress__img" src="images/coverage/press-01-monaco-info.webp" alt="Irina Bond interviewed on Monaco Info" width="1080" height="1350" loading="lazy" decoding="async">
         <img class="cpress__img" src="images/coverage/press-05-driven-jeddah.webp" alt="Driven Magazine: women&rsquo;s hormone health event in Jeddah" width="1080" height="1350" loading="lazy" decoding="async">
         <img class="cpress__img" src="images/coverage/press-06-driven-wellageing.webp" alt="Driven Magazine: redefining the art of well-ageing" width="1080" height="1350" loading="lazy" decoding="async">
         <img class="cpress__img" src="images/coverage/candid-02-room.webp" alt="Irina Bond addressing the room at a menoSTART evening" width="1080" height="1350" loading="lazy" decoding="async">
@@ -1613,17 +1492,6 @@ body.nav-open .ask{opacity:0;pointer-events:none}
             </blockquote>
           </div>
         </div>
-        <div class="csponsors" role="group" aria-label="Medi-Gyn partners">
-          <p class="kicker">Alongside</p>
-          <div class="csponsors__belt">
-            <div class="csponsors__track">
-              <span class="csponsors__set"><img class="sl sl--01" src="images/sponsors/sponsor-01-monaco-women-network.webp" alt="Monaco Women Network" loading="lazy" decoding="async"><img class="sl sl--02" src="images/sponsors/sponsor-02-purovitalis.webp" alt="Purovitalis" loading="lazy" decoding="async"><img class="sl sl--03" src="images/sponsors/sponsor-03-richmont-monaco.webp" alt="Richmont Monaco" loading="lazy" decoding="async"><img class="sl sl--04" src="images/sponsors/sponsor-04-forsthaus-apotheke.webp" alt="Forsthaus Apotheke" loading="lazy" decoding="async"><img class="sl sl--05" src="images/sponsors/sponsor-05-wellbeing-sanctuary-ivory.webp" alt="The Wellbeing Sanctuary" loading="lazy" decoding="async"><img class="sl sl--06" src="images/sponsors/sponsor-06-lvi-medical.webp" alt="LVI Medical" loading="lazy" decoding="async"><img class="sl sl--07" src="images/sponsors/sponsor-07-menopause-livia.webp" alt="Menopause Livia" loading="lazy" decoding="async"><img class="sl sl--08" src="images/sponsors/sponsor-08-b-health.webp" alt="b.health+" loading="lazy" decoding="async"><img class="sl sl--09" src="images/sponsors/sponsor-09-matches-talent.webp" alt="Matches Talent" loading="lazy" decoding="async"><img class="sl sl--10" src="images/sponsors/sponsor-10-nordic-genex.webp" alt="Nordic Genex" loading="lazy" decoding="async"><img class="sl sl--11" src="images/sponsors/sponsor-11-activecells.webp" alt="ActiveCells" loading="lazy" decoding="async"><img class="sl sl--12" src="images/sponsors/sponsor-12-feza-wellness.webp" alt="Fez&#257; Wellness" loading="lazy" decoding="async"><img class="sl sl--13" src="images/sponsors/sponsor-13-longevity-hub.webp" alt="Longevity Hub" loading="lazy" decoding="async"></span>
-              <span class="csponsors__set" aria-hidden="true"><img class="sl sl--01" src="images/sponsors/sponsor-01-monaco-women-network.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--02" src="images/sponsors/sponsor-02-purovitalis.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--03" src="images/sponsors/sponsor-03-richmont-monaco.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--04" src="images/sponsors/sponsor-04-forsthaus-apotheke.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--05" src="images/sponsors/sponsor-05-wellbeing-sanctuary-ivory.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--06" src="images/sponsors/sponsor-06-lvi-medical.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--07" src="images/sponsors/sponsor-07-menopause-livia.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--08" src="images/sponsors/sponsor-08-b-health.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--09" src="images/sponsors/sponsor-09-matches-talent.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--10" src="images/sponsors/sponsor-10-nordic-genex.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--11" src="images/sponsors/sponsor-11-activecells.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--12" src="images/sponsors/sponsor-12-feza-wellness.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--13" src="images/sponsors/sponsor-13-longevity-hub.webp" alt="" loading="lazy" decoding="async"></span>
-              <span class="csponsors__set" aria-hidden="true"><img class="sl sl--01" src="images/sponsors/sponsor-01-monaco-women-network.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--02" src="images/sponsors/sponsor-02-purovitalis.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--03" src="images/sponsors/sponsor-03-richmont-monaco.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--04" src="images/sponsors/sponsor-04-forsthaus-apotheke.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--05" src="images/sponsors/sponsor-05-wellbeing-sanctuary-ivory.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--06" src="images/sponsors/sponsor-06-lvi-medical.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--07" src="images/sponsors/sponsor-07-menopause-livia.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--08" src="images/sponsors/sponsor-08-b-health.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--09" src="images/sponsors/sponsor-09-matches-talent.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--10" src="images/sponsors/sponsor-10-nordic-genex.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--11" src="images/sponsors/sponsor-11-activecells.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--12" src="images/sponsors/sponsor-12-feza-wellness.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--13" src="images/sponsors/sponsor-13-longevity-hub.webp" alt="" loading="lazy" decoding="async"></span>
-              <span class="csponsors__set" aria-hidden="true"><img class="sl sl--01" src="images/sponsors/sponsor-01-monaco-women-network.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--02" src="images/sponsors/sponsor-02-purovitalis.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--03" src="images/sponsors/sponsor-03-richmont-monaco.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--04" src="images/sponsors/sponsor-04-forsthaus-apotheke.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--05" src="images/sponsors/sponsor-05-wellbeing-sanctuary-ivory.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--06" src="images/sponsors/sponsor-06-lvi-medical.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--07" src="images/sponsors/sponsor-07-menopause-livia.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--08" src="images/sponsors/sponsor-08-b-health.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--09" src="images/sponsors/sponsor-09-matches-talent.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--10" src="images/sponsors/sponsor-10-nordic-genex.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--11" src="images/sponsors/sponsor-11-activecells.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--12" src="images/sponsors/sponsor-12-feza-wellness.webp" alt="" loading="lazy" decoding="async"><img class="sl sl--13" src="images/sponsors/sponsor-13-longevity-hub.webp" alt="" loading="lazy" decoding="async"></span>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </section>
@@ -1641,7 +1509,9 @@ body.nav-open .ask{opacity:0;pointer-events:none}
           <!-- red, not ivory: the footer ground is cream now -->
           <img src="images/logo-red.webp" alt="medi-gyn">
         </a>
-        <p class="f-tagline">Where women&rsquo;s symptoms are decoded &mdash; not dismissed.</p>
+        <!-- placeholder wording, his 2026-08-02 call — closer to what
+             medi-gyn is than the old "decoded — not dismissed" line -->
+        <p class="f-tagline">Hormone balancing center</p>
         <div class="f-social" aria-label="Social media">
           <a aria-label="Facebook" role="link" aria-disabled="true">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-7.2h2.42l.36-2.8H13.5V9.2c0-.81.23-1.36 1.39-1.36h1.49V5.34c-.26-.03-1.14-.11-2.17-.11-2.15 0-3.62 1.31-3.62 3.72V11H8.16v2.8h2.43V21h2.91Z"/></svg>

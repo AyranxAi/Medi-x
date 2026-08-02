@@ -1,5 +1,40 @@
 # Medi✦X — session handover
 
+## 0 · 2026-08-02 addendum 6 — ch07 belt OUT, ch08 two-panel, sponsor wall band, footer tagline
+
+Client-driven restructure (their words: the three-cell collage was ugly, and
+they spotted the press redundancy themselves):
+
+- **Chapter 07:** the "as featured in" wordmark marquee is **deleted
+  completely** — markup, CSS, `images/press/` SVGs, `HANDOVER_FEATURED_IN.md`.
+  ⚠️ **REVERT CANDIDATE:** he wants to watch the client's reaction — if they
+  ask for it back, `git revert` this commit's ch07 hunks (everything lives in
+  history; nothing was parked). Freed space went to the globe (bigger AND
+  pulled inward: `min(54vw,86svh)`, `right:clamp(2.5rem,8vw,9.5rem)` — the
+  60vw variant overlapped the headline and was rejected) and the headline
+  (`clamp(3rem,7.5vw,7.2rem)`). CTA kept its settled 3.5rem finale size on
+  purpose. `--press-zone` machinery deleted; globe centres on plain `top:50%`.
+- **Chapter 08 is TWO PANELS:** press frame left, voices full-height right.
+  The sponsor belt left the collage. **Madame Arabia is slide 1** (his call;
+  Monaco Info took her old slot 5 — candids stay at 4/8/12). Mobile press
+  frame 52svh→**58svh** (4:5 at 390px ≈ 487px; the old 52svh existed only for
+  the burgundy-belt peek, which no longer exists).
+- **`.sband` — "Our sponsors" band: BUILT but HELD OUT of this deploy.**
+  The owner wants it distinct from the footer, half-height, above the
+  footer — style (ground colour, static wall vs big moving belt, footer
+  recolour) is in derivation; it ships as its own commit once picked.
+  Until then the live site simply has no sponsor section — deliberate.
+  The built candidate: 13 full-colour original marks (sponsor-05 = the
+  ORIGINAL file, not -ivory.webp), per-mark `--h` optical cores kept,
+  `--k:1.3` wraps 7/6 at 1440 (1.5 orphaned Longevity Hub on row 3).
+  Colour note: `--gold-tint` is within 3% of cream and does NOT read as a
+  distinct ground; a real champagne shelf needs `#E9DECA` or deeper.
+- **Footer tagline** is now the placeholder **"Hormone balancing center"**
+  (replaces "decoded — not dismissed", his call). Everything else in the
+  footer is deliberately untouched — the book-a-consultation button, the
+  sharpening pass, and the possible band+footer one-viewport merge are a
+  SEPARATE, paused stream.
+
 ## 0 · 2026-08-02 addendum 5 — BRAND TYPOGRAPHY ("Variation B") — built, NOT deployed
 
 The site ran on Cormorant Garamond + Inter and used **none** of the three

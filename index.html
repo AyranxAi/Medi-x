@@ -939,7 +939,22 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
 .cvoices__head{
   margin:0 0 clamp(1rem,2vh,1.6rem);
   font-family:var(--font-brand-accent);font-weight:400;
-  font-size:clamp(1.05rem,2vw,2.2rem);line-height:1.2;
+  /* A TAD BIGGER, 2026-08-03 — and "a tad" is the measurement, not a hedge.
+     The binding constraint is his one-line rule, and the ceiling is the panel's
+     text width divided by this string's width-per-px in Megante at .02em:
+        1280  ceiling 29.4   ·  1440  33.0  ·  1600  36.7
+        1920  ceiling 45.4   ·  2560  62.8
+     2vw → 2.16vw and the cap 2.2rem → 2.75rem lands on 27.6 / 31.1 / 34.6 /
+     41.5 / 44 — one line everywhere with 2 to 19px of margin. That is +8% on
+     the narrow widths and +18% at 1920, where the old cap was throwing away
+     10px of available line.
+     ⚠️ Do not push past this without re-measuring. Below 1600 the remaining
+     margin is only ~2px, so the next step up wraps to two lines at 1440 —
+     which is the width he works at. If it ever needs to be much bigger, the
+     string has to get shorter, not the type larger.
+     The quote stays the loud element by design: this sits at 0.62 of its size
+     at 1920, against 0.52 before. */
+  font-size:clamp(1.05rem,2.16vw,2.75rem);line-height:1.2;
   letter-spacing:.02em;color:var(--burgundy);text-align:left;
 }
 /* LEFT, not centred, 2026-08-03 — his call once the panel went back to half
@@ -1994,8 +2009,9 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
 
 </main>
 
-<!-- Socials and the newsletter are UNWIRED by design — links and the CRM
-     destination land later; the chrome is final. Email/WhatsApp are the
+<!-- The SOCIALS ARE LIVE as of 2026-08-03 (his five URLs, all verified
+     reachable before wiring). The newsletter is still UNWIRED — the CRM
+     destination lands later; its chrome is final. Email/WhatsApp are the
      medi-gyn placeholders (wa.me number TBC). -->
 <footer>
   <div class="fw">
@@ -2027,25 +2043,29 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
              lost and was removed (git history has it). -->
         <p class="f-mail"><a href="mailto:info@medi-gyn.com">info@medi-gyn.com</a></p>
         <!-- one chip row, his sketched order: WhatsApp first (folded in
-             from its old text link, same live wa.me href), then the
-             placeholder socials -->
+             from its old text link, same live wa.me href), then the five
+             socials — wired 2026-08-03 to the accounts he supplied. All open
+             in a new tab like WhatsApp does; `role="link" aria-disabled`
+             came off, since a real href makes both redundant. LinkedIn's
+             `?originalSubdomain=ae` was a copy-paste artifact of his own
+             browser session, not part of the destination — dropped. -->
         <div class="f-social" aria-label="Contact and social media" data-i18n-aria="a11y.social">
           <a aria-label="Chat on WhatsApp" data-i18n-aria="a11y.whatsapp" target="_blank" rel="noopener" href="https://api.whatsapp.com/send/?phone=971555450797&amp;text=Hello%2C%20I%27m%20interested%20in%20a%20private%20consultation%20for%20hormone%20therapy%20support.&amp;type=phone_number&amp;app_absent=0">
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.6a8.4 8.4 0 0 0-7.25 12.65L3.6 20.4l4.25-1.1A8.4 8.4 0 1 0 12 3.6Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8.9 8.95c.15-.4.35-.45.55-.45h.45c.15 0 .35.05.5.4l.55 1.3c.1.2.05.4-.1.55l-.35.45c-.1.15-.12.3-.02.5.3.55.95 1.3 1.8 1.7.2.1.35.08.5-.08l.45-.55c.15-.2.3-.22.55-.12l1.3.6c.25.12.35.27.35.47v.5c0 .2-.1.4-.45.55-.35.2-.9.3-1.55.1-1.2-.35-2.4-1.2-3.3-2.5-.65-.9-.85-1.75-.65-2.4.08-.35.27-.62.42-1.02Z" fill="currentColor"/></svg>
           </a>
-          <a aria-label="Facebook" role="link" aria-disabled="true">
+          <a aria-label="Facebook" target="_blank" rel="noopener" href="https://www.facebook.com/medigynhormonecenter/">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-7.2h2.42l.36-2.8H13.5V9.2c0-.81.23-1.36 1.39-1.36h1.49V5.34c-.26-.03-1.14-.11-2.17-.11-2.15 0-3.62 1.31-3.62 3.72V11H8.16v2.8h2.43V21h2.91Z"/></svg>
           </a>
-          <a aria-label="Instagram" role="link" aria-disabled="true">
+          <a aria-label="Instagram" target="_blank" rel="noopener" href="https://www.instagram.com/medi_gyn_center/">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4.5"/><circle cx="12" cy="12" r="3.6"/><circle cx="16.9" cy="7.1" r=".9" fill="currentColor" stroke="none"/></svg>
           </a>
-          <a aria-label="TikTok" role="link" aria-disabled="true">
+          <a aria-label="TikTok" target="_blank" rel="noopener" href="https://www.tiktok.com/@medi_gyn_center">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 4c.3 1.62 1.35 2.9 3.4 3.13v2.55c-1.29.04-2.42-.31-3.55-1.06v4.87c0 4.06-3.13 5.62-5.53 5.62-2.29 0-4.92-1.7-4.92-4.86 0-3.2 2.72-4.9 5.44-4.66v2.62c-1.3-.2-2.79.42-2.79 2.02 0 1.45 1.13 2.24 2.31 2.24 1.35 0 2.87-.79 2.87-3.02V4h2.77Z"/></svg>
           </a>
-          <a aria-label="YouTube" role="link" aria-disabled="true">
+          <a aria-label="YouTube" target="_blank" rel="noopener" href="https://www.youtube.com/@Medi-Gyn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3.6 12c0-2.1.17-3.42.38-4.18.18-.66.68-1.15 1.34-1.32C6.4 6.22 8.6 6 12 6s5.6.22 6.68.5c.66.17 1.16.66 1.34 1.32.21.76.38 2.08.38 4.18s-.17 3.42-.38 4.18a1.86 1.86 0 0 1-1.34 1.32c-1.08.28-3.28.5-6.68.5s-5.6-.22-6.68-.5a1.86 1.86 0 0 1-1.34-1.32C3.77 15.42 3.6 14.1 3.6 12Z"/><path d="M10.4 9.6v4.8l4-2.4-4-2.4Z" fill="currentColor" stroke="none"/></svg>
           </a>
-          <a aria-label="LinkedIn" role="link" aria-disabled="true">
+          <a aria-label="LinkedIn" target="_blank" rel="noopener" href="https://www.linkedin.com/company/medi-gyn-hormone-center/">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.94 8.5H4.2V19.6h2.74V8.5ZM5.57 7.32a1.66 1.66 0 1 0 0-3.32 1.66 1.66 0 0 0 0 3.32ZM12.06 13.77c0-1.24.57-1.98 1.66-1.98 1 0 1.49.71 1.49 1.98v5.83h2.73v-6.79c0-2.37-1.34-3.52-3.22-3.52-1.87 0-2.66 1.46-2.66 1.46V8.5H9.42V19.6h2.64v-5.83Z"/></svg>
           </a>
         </div>

@@ -306,6 +306,20 @@ main{position:relative}
   width:100%;max-width:1400px;
   margin:0 auto;padding:0 clamp(1.25rem,6vw,6rem);
 }
+/* HIS CALL 2026-08-02: every chapter takes CHAPTER 07's strategy, which was
+   already in the file and already right — he spotted the difference on screen
+   without seeing the rule. Above 1500px the 1400px cap comes off, so the copy
+   stays anchored to the FRAME's left edge instead of drifting toward the
+   middle of a centred box.
+   The cap was the whole problem: centred at max-width 1400 while the headline
+   stops growing at 5rem, so past 1400 the empty left margin grew without
+   limit — 7.4% at 1440, 18.5% at 1920, 26.4% at 2560 — and the copy read as
+   an island floating in the middle. It also walked the type out of the
+   scrim's dark left edge: at 1920 the hero's first line measured 2.64 and
+   ch02's 2.22, both under the 3.0 floor, which no 1440 measurement had shown.
+   With the cap off, the gutter is simply the padding: a flat 96px above
+   1600px. Below 1500 NOTHING changes — his own 1440 view is untouched. */
+@media (min-width:1500px){ .sec .inner{max-width:none} }
 .copy{max-width:34rem}
 @media (min-width:900px){ .copy{max-width:40rem} }
 @media (min-width:1500px){ .copy{max-width:44rem} }
@@ -700,13 +714,12 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:400;
 /* the closer earns hero-size type — stepped up again 2026-08-02 when the
    press strip left and the freed space went to headline + globe */
 .sec--meno h2{font-size:clamp(3rem,7.5vw,7.2rem)}
-/* wide frames: the globe anchors to the FRAME's right edge, so the copy
-   and the strip kicker must anchor to the frame's left edge too — inside
-   the 1400px content cap they sit in a different coordinate system than
-   the globe and the corner-to-corner tension collapses */
-@media (min-width:1500px){
-  .sec--meno .inner{max-width:none}
-}
+/* This rule used to belong to chapter 07 alone; it is now every chapter's —
+   see the note beside .inner. It was written for the globe: the globe anchors
+   to the FRAME's right edge, so the copy had to anchor to the frame's left
+   edge too, and inside the 1400px cap the two sat in different coordinate
+   systems and the corner-to-corner tension collapsed. The same thing was
+   happening to the photo chapters, just without a globe to make it obvious. */
 /* film grain over the whole frame, near-invisible */
 .sec--meno::before{
   content:"";position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.05;

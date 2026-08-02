@@ -12,11 +12,14 @@
 <link rel="preload" href="fonts/medigyn-now-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- Bodoni Moda replaces Didot as the editorial face (his call 2026-08-02).
-     opsz is the point of this family: at 96 the hairlines thin out the way a
-     display Bodoni should, which is exactly the register the headlines sit in.
-     Cormorant still comes along for the chapter-08 pull quotes only. -->
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Cormorant+Garamond:ital,wght@1,300;1,500&display=swap" rel="stylesheet">
+<!-- Playfair — the NEWER variable family, not Playfair Display — is the
+     editorial face (his call 2026-08-03). It is the one that carries an opsz
+     axis AND a drawn upright/italic system, which is the whole reason for
+     choosing it over GFS Didot: a real italic rather than a slanted upright.
+     Held at weight 450 and a LOW opsz (30), which thickens the horizontal
+     hairlines while keeping the Didot-like proportions — see the rule on
+     h1,h2. Cormorant still comes along for the chapter-08 pull quotes only. -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair:ital,opsz,wght@0,5..1200,300..900;1,5..1200,300..900&family=Cormorant+Garamond:ital,wght@1,300;1,500&display=swap" rel="stylesheet">
 <!-- favicon: medi-blond's mg monogram, copied verbatim from
      medi-gyn-app/app/icon.svg (one favicon across the family);
      the ico is the same artwork rasterised for older browsers -->
@@ -25,9 +28,9 @@
 
 <style>
 /* ── brand faces ────────────────────────────────────────────
-   Bodoni Moda = editorial headlines, NOW = everything functional,
-   Megante = chapter identifiers only. NOW and Megante are real files;
-   Bodoni Moda comes from Google as a variable font (see the head).
+   Playfair (variable) = editorial headlines, NOW = everything functional,
+   Megante = chapter identifiers and the chapter-08 title. NOW and Megante are
+   real files; Playfair comes from Google as a variable font (see the head).
    ⚠️ DIDOT IS OUT (his call 2026-08-02) — the two woff2 files are still in
    fonts/ and nothing references them. Delete them only when the swap is
    signed off; getting them back means re-extracting from the brand PDF. */
@@ -49,7 +52,7 @@
   /* three roles, one source of truth. --serif/--sans stay as aliases so no
      existing rule silently loses its face; the handful of places the new
      hierarchy re-points (nav, pathway titles, quotes) override explicitly. */
-  --font-editorial:"Bodoni Moda",Didot,"Times New Roman",Georgia,serif;
+  --font-editorial:"Playfair","Playfair Display",Didot,"Times New Roman",Georgia,serif;
   --font-functional:"MediGyn NOW",ui-sans-serif,system-ui,-apple-system,sans-serif;
   --font-brand-accent:"MediGyn Megante",Optima,Georgia,serif;
   --font-quote:"Cormorant Garamond",Georgia,serif;
@@ -351,8 +354,8 @@ main{position:relative}
      broke to FOUR lines. The faces are not interchangeable at equal pixels —
      the same lesson the Cormorant→Didot swap taught. 96px gives 681px in a
      704px column: three lines, with 23px of margin. */
-  #s1 h1{font-size:clamp(5rem,5.5vw,6rem)}
-  #s2 h2,#s3 h2,#s5 h2,#s6 h2{font-size:clamp(3.9rem,4.3vw,4.75rem)}
+  #s1 h1{font-size:clamp(5.37rem,5.9vw,6.45rem)}
+  #s2 h2,#s3 h2,#s5 h2,#s6 h2{font-size:clamp(4.19rem,4.62vw,5.1rem)}
   /* the buttons grow with the type they sit under. They are the one control
      that does not depend on the photograph — the wash and hairline carry
      themselves — so this is a proportion decision, not a contrast one. */
@@ -373,31 +376,31 @@ main{position:relative}
 }
 .kicker::after{content:"";flex:0 0 3.2rem;height:1px;background:linear-gradient(to right,var(--gold),transparent)}
 
-/* Chapter headlines — Didot. Sizes come down ~7% from the Cormorant values:
-   Didot's x-height is 0.429em against Cormorant's 0.386em, so matching the old
-   pixel number would have overshot the composition by roughly that much. */
-/* ⚠️ SIZES ARE 10% DOWN FROM THE DIDOT VALUES AND THAT IS NOT A DOWNGRADE.
-   Bodoni Moda draws the same string 11% WIDER at the same pixel size, so
-   Didot 80px and Bodoni 72px put the same amount of ink on the page. Matching
-   the old pixel number instead pushed every headline further right into the
-   bright half of its photograph: at 1440 the hero measured 2.40 and chapter 02
-   2.63, against Didot's 3.22 and 3.47 and a floor of 3.0. At these sizes they
-   come back to 3.26 and 3.14.
-   Tested and rejected as alternatives, because the problem is WIDTH and not
-   stroke weight: opsz 16 (hero 2.34), opsz 8 (2.28), weight 500 (2.32) — all
-   still fail, and the last two also break chapter 02 onto a fourth line.
-   The other real fix is a deeper scrim; offered, not taken. */
+/* Chapter headlines — PLAYFAIR VARIABLE, his spec 2026-08-03: weight 450 and
+   a LOW optical size. opsz is the reason this family was chosen over GFS
+   Didot: left to itself it tracks the font-size, so a 90px headline would get
+   the 90pt drawing and its hairlines would go as thin as the family allows.
+   Pinned to 30 instead, the horizontal hairlines thicken while the Didot-like
+   proportions stay — more ink per glyph over a photograph, which is the whole
+   game on this site. font-optical-sizing:none is required or the browser
+   overrides the axis with the font-size.
+   The italic is a DRAWN italic in this family, not a slanted upright — the
+   other reason for it over GFS Didot.
+   ⚠️ Sizes are re-derived per face and are not interchangeable: see the block
+   below h1. */
 h1,h2{
-  font-family:var(--font-editorial);font-weight:400;
+  font-family:var(--font-editorial);
+  font-weight:450;font-optical-sizing:none;font-variation-settings:'opsz' 30;
   line-height:1;letter-spacing:-.018em;
-  /* the -.018em tracking also tightens the word spaces, and Didot Italic has a
-     narrow left sidebearing — without this, "look younger." closes up. */
+  /* the -.018em tracking also tightens the word spaces, and the italic has a
+     narrow left sidebearing — without this, "Your best life." closes up. */
   word-spacing:.05em;
   margin:0 0 1.15rem;text-wrap:pretty;
 }
-h1{font-size:clamp(2.5rem,5.85vw,4.5rem)}
-h2{font-size:clamp(2rem,4.6vw,3.5rem)}
-h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:400;color:var(--rose)}
+h1{font-size:clamp(2.7rem,6.28vw,4.83rem)}
+h2{font-size:clamp(2.15rem,4.94vw,3.76rem)}
+h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
+  font-optical-sizing:none;font-variation-settings:'opsz' 30;color:var(--rose)}
 /* HIS INSTRUCTION 2026-08-02: "Tailored to You" reads WHITE, not coloured.
    Settled — this one is not part of the colour board below. */
 #s6 h2 em{color:inherit}
@@ -971,37 +974,17 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:400;
    07 lesson), --k scales the whole wall per breakpoint. */
 .sband{
   background:var(--ivory);border-top:1px solid rgba(71,24,38,.1);
-  /* HIS SPEC 2026-08-03, corrected: the label sits ABOVE the marks, not beside
-     them — but the MARKS remain the band's true centre. So whatever the label
-     and its gap take above the row, the same amount is added below it, and the
-     row's optical middle lands exactly on the band's middle line.
-       band = P + L + G + row + X,  and centring requires  X = P + L + G.
-     That is the padding-bottom below, written as the expression rather than a
-     baked number so changing --band-gap or --label-h keeps it balanced.
-     The label's height is FIXED (--label-h) for the same reason: the maths
-     needs a known value, and a one-line label has no reason to vary. */
-  --band-gap:clamp(.85rem,1.9vh,1.15rem);
-  --label-h:1.15rem;
-  /* the label starts on the same vertical line as the P of PRESS in chapter
-     08 — his alignment, derived from the button's own offset plus its own
-     left padding so the two cannot drift apart. */
-  --press-x:calc(clamp(1.4rem,3vw,2.6rem) + 1.9rem);
-  padding:var(--band-gap) 0 calc(var(--band-gap) * 2 + var(--label-h));
+  /* HIS CALL 2026-08-03: the "Our sponsors" label is GONE — "kinda obvious and
+     just ugly". With the label out, the marks ARE the band: they are the only
+     thing in it, so they are automatically its optical centre and the
+     compensating bottom padding that balanced the label goes with it.
+     The band keeps roughly the height it had when the label sat above the row
+     (~196px at 1920) — his instruction — so the space the label vacated goes
+     to the marks rather than being cut. That is why --k jumps below. */
+  --band-gap:clamp(1.5rem,3.2vh,2.2rem);
+  padding:var(--band-gap) 0;
   overflow:hidden;
 }
-.sband .kicker{
-  margin:0 0 var(--band-gap);padding:0 0 0 var(--press-x);
-  height:var(--label-h);line-height:var(--label-h);
-  /* Megante, his call — the brand accent face, the same one the chapter
-     identifiers use. Wide and flared, so it takes less tracking than NOW did. */
-  font-family:var(--font-brand-accent);
-  font-size:.82rem;font-weight:400;letter-spacing:.2em;text-transform:uppercase;
-  color:var(--burgundy);display:block;text-align:left;
-}
-.sband .kicker::after{content:none}
-/* phones: tighter air, but --press-x still governs the left edge, so the label
-   tracks the Press button at every width instead of only on desktop */
-@media (max-width:899px){ .sband{--band-gap:.75rem} }
 
 /* THE BELT (his call 2026-08-02, replacing the static wall): one band
    travelling right to left, forever. Two identical sets sit side by side and
@@ -1022,7 +1005,7 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:400;
    something you inspect; stopping under the cursor read as a stall. */
 @keyframes sbelt{ from{transform:translate3d(0,0,0)} to{transform:translate3d(-50%,0,0)} }
 
-.sl{display:block;flex:none;height:calc(var(--h,2rem)*var(--k,1.55));width:auto}
+.sl{display:block;flex:none;height:calc(var(--h,2rem)*var(--k,2.15));width:auto}
 /* Per-mark OPTICAL CORE, not per-mark box: a square emblem has to stand
    taller than a long wordmark to carry the same weight. These numbers are
    ink heights in disguise — see the ratios in HANDOVER.md before touching one.
@@ -1036,7 +1019,7 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:400;
 .sl--09{--h:2.9rem}.sl--10{--h:3.1rem}.sl--11{--h:2.1rem}.sl--12{--h:2.9rem}
 .sl--13{--h:2.9rem}
 @media (max-width:899px){
-  .sl{--k:1.05}
+  .sl{--k:1.35}
   .sband{--band-gap:1.3rem}
   .sband__set{--gap:2.2rem}
   .sband__belt{animation-duration:46s}
@@ -1743,7 +1726,6 @@ body.nav-open .ask{opacity:0;pointer-events:none}
        -ivory.webp preprocessed for the dark belt. Grows by wrapping
        to another row. -->
   <section class="sband" aria-label="Our sponsors">
-    <p class="kicker">Our sponsors</p>
     <div class="sband__belt">
         <div class="sband__set">
           <img class="sl sl--01" src="images/sponsors/sponsor-01-monaco-women-network.webp" alt="Monaco Women Network" width="728" height="400" decoding="async">

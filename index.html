@@ -405,24 +405,11 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:400;
 .hint i{display:block;width:1px;height:44px;background:linear-gradient(to bottom,rgba(250,247,241,.5),transparent);animation:drop 2.4s var(--ease) infinite}
 @keyframes drop{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 
-/* progress rail */
-.rail{
-  position:fixed;z-index:40;right:max(1.3rem,env(safe-area-inset-right));
-  top:50%;transform:translateY(-50%);
-  display:none;flex-direction:column;gap:.62rem;
-}
-@media (min-width:900px){ .rail{display:flex} }
-.rail button{
-  -webkit-appearance:none;appearance:none;border:0;padding:0;cursor:pointer;
-  width:22px;height:10px;background:transparent;display:grid;place-content:center;
-}
-.rail button::before{
-  content:"";display:block;width:14px;height:1px;
-  background:rgba(250,247,241,.32);
-  transition:width .4s var(--ease),background .4s var(--ease);
-}
-.rail button[aria-current="true"]::before{width:22px;background:var(--gold)}
-body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
+/* The progress rail — a fixed column of eight chapter dashes on the right
+   edge, desktop only — was REMOVED 2026-08-02. It dated from before the
+   chapter count was settled, and the overlay menu already lists every
+   chapter by name and number, which is the same jump in a clearer form.
+   Its IntersectionObserver went with it: nothing else read that signal. */
 
 /* ── pathways accordion (chapter 04) ────────────────────────
    Ported from medi-gyn-app's care-pathways accordion
@@ -967,8 +954,8 @@ footer .fw{max-width:1400px;margin:0 auto}
    effectively disappears; the burgundy disc (the .f-top chrome) holds
    6.65:1 and 8.65:1. No new chrome was invented for either state.
    The header's WhatsApp icon stays put: that is the fast human route,
-   this is the assistant. z45 sits above the rail (40) and below the
-   nav overlay (50), so the menu covers it exactly like the rail. */
+   this is the assistant. z45 sits below the nav overlay (50), so opening
+   the menu covers it. */
 .ask{
   position:fixed;z-index:45;
   right:max(1.3rem,env(safe-area-inset-right));
@@ -1105,8 +1092,6 @@ body.nav-open .ask{opacity:0;pointer-events:none}
     <li style="--i:7"><a href="#s8"><em>08</em>In the World</a></li>
   </ol>
 </nav>
-
-<div class="rail" id="rail" aria-hidden="true"></div>
 
 <!-- ask button: the panel behind it is a shell, contents still to be decided -->
 <button type="button" class="ask ask--glow-in" id="ask" aria-expanded="false" aria-controls="askp"
@@ -1597,19 +1582,7 @@ body.nav-open .ask{opacity:0;pointer-events:none}
   nav.addEventListener('click',function(e){ if(e.target.closest('a')) setNav(false); });
   document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&body.classList.contains('nav-open')) setNav(false); });
 
-  /* ---- progress rail ---- */
-  var rail=document.getElementById('rail');
-  secs.forEach(function(s,i){
-    var b=document.createElement('button');
-    b.type='button';
-    b.setAttribute('aria-label','Go to chapter '+(i+1)+' — '+s.dataset.nav);
-    b.addEventListener('click',function(){ s.scrollIntoView({behavior:'smooth'}); });
-    rail.appendChild(b);
-  });
-  rail.removeAttribute('aria-hidden');
-  var dots=[].slice.call(rail.children);
-
-  /* ---- lazy background + reveal + current ---- */
+  /* ---- lazy background + reveal ---- */
   function load(sec){
     var bg=sec.querySelector('.bg');
     if(bg && bg.dataset.src){
@@ -1633,15 +1606,6 @@ body.nav-open .ask{opacity:0;pointer-events:none}
     },{threshold:.22});
     secs.forEach(function(s){ shown.observe(s); });
 
-    var cur=new IntersectionObserver(function(es){
-      es.forEach(function(e){
-        if(e.isIntersecting){
-          var i=secs.indexOf(e.target);
-          dots.forEach(function(d,j){ d.setAttribute('aria-current',String(j===i)); });
-        }
-      });
-    },{threshold:.5});
-    secs.forEach(function(s){ cur.observe(s); });
   }else{
     secs.forEach(function(s){ load(s); s.classList.add('in'); });
   }

@@ -651,12 +651,14 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
 .pw__panel[data-active="true"] .pw__open-chevron{opacity:1}
 @media (min-width:1024px){ .pw__open-chevron{display:none} }
 
-/* desktop controls: readout + arrows when open, the choose cue when closed */
-.pw__controls{
-  position:absolute;right:44px;bottom:26px;z-index:2;
-  display:none;align-items:center;gap:14px;
-  transition:opacity var(--pw-fade-ms) var(--pw-ease);
-}
+/* The desktop readout + prev/next arrows were REMOVED 2026-08-02. All four
+   panels are on screen at once here, so stepping through them added nothing
+   you could not do by clicking the panel you wanted — unlike chapter 08,
+   where the reel shows one frame at a time and the arrows are the only way
+   to see everything. Phones never had them (they were display:none below
+   1024px) and lost nothing by it. Keyboard access is unaffected: every
+   panel's own .pw__trigger is still a focusable button. Removing them also
+   vacated the corner the ask button needed. Only the choose cue stays. */
 .pw__choose{
   position:absolute;left:50%;bottom:22px;z-index:2;display:none;translate:-50% 0;
   flex-direction:column;align-items:center;gap:4px;margin:0;
@@ -665,22 +667,8 @@ body.nav-open .rail{opacity:0;pointer-events:none;transition:opacity .3s}
   transition:opacity var(--pw-fade-ms) var(--pw-ease);
 }
 .pw__choose svg{width:12px;height:12px}
-@media (min-width:1024px){ .pw__controls,.pw__choose{display:flex} }
-.pw[data-open="false"] .pw__controls{opacity:0;pointer-events:none}
+@media (min-width:1024px){ .pw__choose{display:flex} }
 .pw[data-open="true"] .pw__choose{opacity:0}
-.pw__count{margin:0;font-size:13px;font-weight:600;letter-spacing:.08em;font-variant-numeric:tabular-nums}
-.pw__count b{font-weight:600;color:var(--gold)}
-.pw__count s{text-decoration:none;color:rgba(250,247,241,.45)}
-.pw__arrow{
-  -webkit-appearance:none;appearance:none;background:transparent;padding:0;
-  display:inline-flex;align-items:center;justify-content:center;
-  width:42px;height:42px;border:1px solid rgba(250,247,241,.45);border-radius:999px;
-  color:var(--ivory);cursor:pointer;
-  transition:border-color 250ms var(--pw-ease),background-color 250ms var(--pw-ease);
-}
-.pw__arrow svg{width:16px;height:16px}
-.pw__arrow:hover{border-color:var(--gold);background:rgba(250,247,241,.12)}
-.pw__arrow:focus-visible{outline:2px solid var(--gold-tint);outline-offset:3px}
 
 /* ── menoSTART closer (chapter 07) ──────────────────────────
    Left: the invitation and one rotating patient line.
@@ -1082,7 +1070,13 @@ footer .fw{max-width:1400px;margin:0 auto}
   right:max(1.3rem,env(safe-area-inset-right));
   bottom:max(1.3rem,env(safe-area-inset-bottom));
   -webkit-appearance:none;appearance:none;padding:0;cursor:pointer;
-  width:2.75rem;height:2.75rem;border-radius:999px;
+  /* 52 on phones, 56 from 900px up — NOT one number. The same disc is 13%
+     of a 390px screen and 4% of a 1440px one, so a size that reads calm on
+     desktop reads heavy on a phone. Both clear the 44px touch minimum with
+     room to spare; 56 is the standard floating-action size, and staying
+     under 60 keeps it off the Intercom/Drift widget look. The icon scales
+     with the disc (~0.43 of it) or you get a big ring round a small mark. */
+  width:3.25rem;height:3.25rem;border-radius:999px;
   border:1px solid rgba(250,247,241,.6);
   background:rgba(46,34,40,.45);color:var(--ivory);
   backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
@@ -1090,7 +1084,11 @@ footer .fw{max-width:1400px;margin:0 auto}
   transition:background-color .3s var(--ease),border-color .3s var(--ease),
     color .3s var(--ease),box-shadow .3s var(--ease),opacity .3s var(--ease);
 }
-.ask svg{width:19px;height:19px}
+.ask svg{width:22px;height:22px}
+@media (min-width:900px){
+  .ask{width:3.5rem;height:3.5rem}
+  .ask svg{width:24px;height:24px}
+}
 .ask:hover{border-color:var(--ivory);background:rgba(46,34,40,.6)}
 /* the glow, held INSIDE the rim — light never touches the photograph */
 .ask--glow-in{
@@ -1119,7 +1117,8 @@ body.nav-open .ask{opacity:0;pointer-events:none}
 }
 .askp[hidden]{display:none}
 .askp__card{
-  width:min(22rem,100%);margin-bottom:3.6rem;
+  /* margin clears the disc: 3.5rem tall + its 1.3rem offset, plus air */
+  width:min(22rem,100%);margin-bottom:4.25rem;
   background:var(--cream);color:var(--ink);
   border:1px solid rgba(71,24,38,.14);border-radius:1.1rem;
   padding:1.3rem 1.3rem 1.4rem;
@@ -1442,16 +1441,6 @@ body.nav-open .ask{opacity:0;pointer-events:none}
         <span aria-hidden="true" class="pw__open-chevron">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 15l-6-6-6 6"/></svg>
         </span>
-      </div>
-
-      <div class="pw__controls">
-        <p class="pw__count" id="pw-count" aria-live="polite"></p>
-        <button type="button" class="pw__arrow" id="pw-prev" aria-label="Previous pathway">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5m0 0l6-6m-6 6l6 6"/></svg>
-        </button>
-        <button type="button" class="pw__arrow" id="pw-next" aria-label="Next pathway">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
-        </button>
       </div>
 
       <p class="pw__choose" aria-hidden="true">
@@ -1793,8 +1782,6 @@ body.nav-open .ask{opacity:0;pointer-events:none}
   var pw=document.getElementById('pw');
   if(pw){
     var panels=[].slice.call(pw.querySelectorAll('.pw__panel'));
-    var pwCount=document.getElementById('pw-count');
-    var pwTotal=('0'+panels.length).slice(-2);
     var pwActive=-1;
 
     /* ---- hover, derived from where the pointer actually IS ----
@@ -1851,11 +1838,6 @@ body.nav-open .ask{opacity:0;pointer-events:none}
         open.toggleAttribute('inert',!on);
       });
       pw.setAttribute('data-open',String(pwActive>=0));
-      if(pwCount){
-        pwCount.innerHTML = pwActive>=0
-          ? '<b>'+('0'+(pwActive+1)).slice(-2)+'</b><s> / '+pwTotal+'</s>'
-          : '';
-      }
       /* the panels are about to move under a stationary cursor */
       pwSettle();
     }
@@ -1876,16 +1858,6 @@ body.nav-open .ask{opacity:0;pointer-events:none}
       });
       trig.addEventListener('blur',function(){ p.classList.remove('kfoc'); });
     });
-
-    /* the arrows wrap; from the collapsed state they open an end panel */
-    function pwStep(d){
-      pwActive = pwActive<0
-        ? (d>0? 0 : panels.length-1)
-        : (pwActive+d+panels.length)%panels.length;
-      pwRender();
-    }
-    document.getElementById('pw-prev').addEventListener('click',function(){pwStep(-1);});
-    document.getElementById('pw-next').addEventListener('click',function(){pwStep(1);});
 
     pwRender();
   }

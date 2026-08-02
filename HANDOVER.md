@@ -84,16 +84,36 @@ they spotted the press redundancy themselves):
   Monaco Info took her old slot 5 — candids stay at 4/8/12). Mobile press
   frame 52svh→**58svh** (4:5 at 390px ≈ 487px; the old 52svh existed only for
   the burgundy-belt peek, which no longer exists).
-- **`.sband` — "Our sponsors" band: BUILT but HELD OUT of this deploy.**
-  The owner wants it distinct from the footer, half-height, above the
-  footer — style (ground colour, static wall vs big moving belt, footer
-  recolour) is in derivation; it ships as its own commit once picked.
-  Until then the live site simply has no sponsor section — deliberate.
-  The built candidate: 13 full-colour original marks (sponsor-05 = the
-  ORIGINAL file, not -ivory.webp), per-mark `--h` optical cores kept,
-  `--k:1.3` wraps 7/6 at 1440 (1.5 orphaned Longevity Hub on row 3).
-  Colour note: `--gold-tint` is within 3% of cream and does NOT read as a
-  distinct ground; a real champagne shelf needs `#E9DECA` or deeper.
+- **`.sband` — "Our sponsors": SHIPPED as F1, "the grand wall" (his pick
+  from a 7-option board).** Static — every partner on stage at once, no
+  loop to wait for — 13 full-colour original marks (sponsor-05 = the
+  ORIGINAL file, not -ivory.webp) on true champagne `#E9DECA`
+  (`--gold-tint` is within 3% of cream and does NOT read as a distinct
+  ground). `--k:1.55` at `column-gap:2.2rem` = the biggest clean 7/6
+  wrap at 1440; 1.62 flips to 6/7, wider gaps orphan Longevity Hub.
+  **Parked alternatives** (renders in the 2026-08-02 chat, rebuildable
+  from this note): F2 whisper-drift belt at ~2× marks; F3 cream band
+  over a BURGUNDY footer (full colour-flip spec was rendered); F4
+  burgundy band with champagne plaque cards — the plaque recipe is
+  `background + box-sizing:content-box + padding:calc((H - var(--h)*k)/2)`
+  for uniform card heights. Physics that killed bare-marks-on-burgundy:
+  Richmont/Livia dark text ≈1.5:1 there, and tinting other companies'
+  marks is off-limits.
+- **FOOTER V2 — the compact footer, SHIPPED (his annotated sketch + V2
+  pick).** Columns pack left (`auto` tracks); the contact column is
+  "Contact us" + the written address (his pick V2 — "it is an address,
+  not a destination"; the V1 envelope chip lost, git has it) + one chip
+  row [WhatsApp live wa.me · FB · IG · TikTok · YT · LinkedIn]; the
+  "Dubai · worldwide" line is deleted; the to-top circle is STANDALONE
+  at the content's right edge, 3.05rem, level with the chip row — NOT in
+  the row (navigation ≠ contact method) and NOT bottom-right (the fixed
+  bot bubble owns that corner). Band + footer close in one viewport.
+- **ch07 headline-over-globe overlap: ACCEPTED as editorial (his call,
+  2026-08-02).** The client's `fc5d1c3` copy ("Educational Events
+  *Beyond Borders.*") is wider than the composition was balanced for and
+  the italic crosses the globe's dim left limb. If it ever reads as
+  noise: shrink toward `min(48vw,78svh)` / push `right` back toward
+  `clamp(.75rem,3vw,4rem)`.
 - **Footer tagline** is now the placeholder **"Hormone balancing center"**
   (replaces "decoded — not dismissed", his call). Everything else in the
   footer is deliberately untouched — the book-a-consultation button, the

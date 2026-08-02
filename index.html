@@ -946,13 +946,25 @@ footer .fw{max-width:1400px;margin:0 auto}
 .f-base p{margin:0;font-size:.7rem;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-soft);text-align:center}
 
 /* ── ask button ─────────────────────────────────────────────
-   Fixed bottom-right on every screen, phones included. It wears the
-   header's OWN two colourways and swaps between them the way the bar
-   does: frosted glass while it floats over photography, solid burgundy
-   once the cream footer arrives underneath — measured, the frosted disc
-   reads 2.0–2.2:1 over the bright hero and 1.17:1 over cream, where it
-   effectively disappears; the burgundy disc (the .f-top chrome) holds
-   6.65:1 and 8.65:1. No new chrome was invented for either state.
+   Fixed bottom-right on every screen, phones included. TWO states, and
+   the boundary is chapter 01:
+
+     chapter 01   frosted glass, gold rim — quiet on arrival, so it does
+                  not compete with the hero
+     from ch 02   burgundy disc, ivory rim
+
+   Why a burgundy disc with an ivory rim, when neither survives the whole
+   page: because each covers exactly where the other fails. Measured on
+   the real page, disc / rim against the ground under the button —
+     ch05 the room      1.08 / 10.69      ch08 ivory panel  11.21 / 1.03
+     ch06 the tools     5.17 /  2.24      the footer        10.64 / 1.09
+     ch07 menoSTART     1.30 / 15.10      ch02, ch03      ~3.1 / ~3.5
+   Take the better of the two on any chapter and the worst case anywhere
+   on the site is 3.55:1, above the 3:1 a control outline wants. It does
+   mean the button LOOKS different from screen to screen — ringless on the
+   two light panels, a bare ring on the dark rooms. That is the design
+   working, not a fault.
+
    The header's WhatsApp icon stays put: that is the fast human route,
    this is the assistant. z45 sits below the nav overlay (50), so opening
    the menu covers it. */
@@ -988,12 +1000,30 @@ footer .fw{max-width:1400px;margin:0 auto}
 }
 /* the glow, spilling outside the disc */
 .ask--glow-out{box-shadow:0 0 0 1px rgba(194,160,94,.35),0 0 26px 6px rgba(194,160,94,.34)}
-/* over the cream footer: the burgundy disc, verbatim .f-top chrome */
-.ask--solid,.ask--solid.ask--glow-in,.ask--solid.ask--glow-out{
-  border-color:transparent;background:var(--burgundy);color:var(--ivory);
+/* past the hero: the burgundy disc with an ivory rim. The compound
+   selectors are here so this beats .ask--glow-in's gold rim regardless of
+   source order. */
+.ask--past-hero,.ask--past-hero.ask--glow-in,.ask--past-hero.ask--glow-out{
+  background:var(--burgundy);border-color:var(--ivory);color:var(--ivory);
   backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:none;
 }
-.ask--solid:hover{background:#471826;border-color:transparent}
+/* Hover lifts the fill one step and doubles the rim, with the shine held
+   INSIDE it — no light lands on the photograph.
+   Both halves move on purpose: at rest the disc carries the light grounds
+   and the rim carries the dark ones, so changing only one would leave the
+   hover invisible on half the site. This way whichever element is doing
+   the work on that ground is the one that answers.
+   One step is the ceiling, not a taste call: on cream the fill goes
+   10.64 → 7.96:1 here, but #963C54 drops it to 5.88 and rose to 2.13 —
+   i.e. past this point hovering makes the button HARDER to see exactly
+   where the fill is the only thing carrying it.
+   The second rim is an inset shadow rather than border-width:2px so it
+   transitions smoothly and cannot nudge the icon. */
+.ask--past-hero:hover{
+  background:#7A2C42;
+  box-shadow:inset 0 0 0 1px var(--ivory),
+             inset 0 0 14px 2px rgba(250,247,241,.45);
+}
 body.nav-open .ask{opacity:0;pointer-events:none}
 
 /* the panel is a SHELL — its contents and design are still open.
@@ -1996,13 +2026,8 @@ body.nav-open .ask{opacity:0;pointer-events:none}
 </script>
 <script>
 /* ── ask button ─────────────────────────────────────────────
-   Two jobs only: open/close the shell, and swap the colourway.
-   The swap is watched by an IntersectionObserver on the footer
-   against the bottom 9% of the viewport — the band the button
-   actually occupies — so the disc turns burgundy exactly as the
-   cream ground arrives under it, and phones stay off the scroll
-   thread. (The header does the same trade with a scroll handler
-   because it needs a pixel threshold; this one needs a collision.) */
+   Two jobs only: open/close the shell, and swap the colourway
+   once chapter 01 is behind you. */
 (function(){
   var btn=document.getElementById('ask'), pan=document.getElementById('askp');
   if(!btn||!pan) return;
@@ -2019,19 +2044,20 @@ body.nav-open .ask{opacity:0;pointer-events:none}
   document.addEventListener('keydown',function(e){
     if(e.key==='Escape'&&!pan.hidden) set(false);
   });
-  /* body > footer, NOT plain "footer": the chapter-08 quotes carry their
-     own <footer> for the attribution line, and it comes first in the DOM. */
-  var foot=document.querySelector('body > footer');
-  if(foot&&'IntersectionObserver' in window){
-    /* rootMargin leaves only the bottom 9% of the viewport as the root —
-       the band the button actually occupies — so the disc turns burgundy
-       exactly as the cream ground arrives under it, and phones stay off
-       the scroll thread. Verified in a FOREGROUND tab: a backgrounded one
-       is frozen by Chrome (no rAF, no scroll events, no observer
-       callbacks) and will make this look broken when it is not. */
+  /* threshold .5 = half a screen of scrolling. The sections are stacked
+     100svh, so chapter 02 technically "arrives" the instant you touch the
+     wheel — an on-arrival trigger flickers — while waiting for chapter 01
+     to leave entirely feels late. Half a screen is the moment the hero
+     stops being the thing you are looking at.
+     ⚠ Verify this in a FOREGROUND tab only. Chrome freezes a backgrounded
+     tab — no rAF, no scroll events, no observer callbacks — and headless
+     never fires them at all, so both will show a button that looks stuck
+     when nothing is wrong. */
+  var hero=document.getElementById('s1');
+  if(hero&&'IntersectionObserver' in window){
     new IntersectionObserver(function(es){
-      es.forEach(function(e){ btn.classList.toggle('ask--solid',e.isIntersecting); });
-    },{rootMargin:'-91% 0px 0px 0px'}).observe(foot);
+      es.forEach(function(e){ btn.classList.toggle('ask--past-hero',!e.isIntersecting); });
+    },{threshold:.5}).observe(hero);
   }
 })();
 </script>

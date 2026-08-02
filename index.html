@@ -787,7 +787,19 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:400;
    CTA, bottom-LEFT, because the ask bubble owns bottom-right. */
 .cpress__cta{
   position:absolute;left:clamp(1.4rem,3vw,2.6rem);bottom:clamp(1.4rem,3vw,2.2rem);z-index:2;
+  /* HIS PICK 2026-08-02 (P2). Every other CTA on the site sits on a ground of
+     luminance 0.017–0.141, which is what the frosted wash was measured against.
+     This one sits on a magazine cover at 0.58 — a white blazer — where the
+     .45 wash turns into a grey lozenge on white: 2.0 against its ground, 3.0
+     on its label, against floors of 3.0 and 4.5. Geometry, radius, type,
+     hairline and hover are untouched; only the wash is weighted for a light
+     ground, and it measures 7.0 / 10.8. Do NOT "restore" this to the shared
+     .45 for consistency — the consistency is the SHAPE, and the shape is what
+     the shared value loses here. */
+  background:rgba(36,26,31,.86);
+  border-color:rgba(250,247,241,.75);
 }
+.cpress__cta:hover{background:rgba(36,26,31,.94)}
 
 /* right — the voices panel, full height since the sponsor belt moved
    to its own band below the section (2026-08-02, two-panel collage) */
@@ -1611,7 +1623,7 @@ body.nav-open .ask{opacity:0;pointer-events:none}
     <div class="sband__belt">
         <div class="sband__set">
           <img class="sl sl--01" src="images/sponsors/sponsor-01-monaco-women-network.webp" alt="Monaco Women Network" width="728" height="400" decoding="async">
-          <img class="sl sl--02" src="images/sponsors/sponsor-02-purovitalis.webp" alt="Purovitalis" width="240" height="86" decoding="async">
+          <img class="sl sl--02" src="images/sponsors/sponsor-02-purovitalis-black.webp" alt="Purovitalis" width="1200" height="426" decoding="async">
           <img class="sl sl--03" src="images/sponsors/sponsor-03-richmont-monaco.webp" alt="Richmont Monaco" width="1539" height="373" decoding="async">
           <img class="sl sl--04" src="images/sponsors/sponsor-04-forsthaus-apotheke.webp" alt="Forsthaus Apotheke" width="315" height="52" decoding="async">
           <img class="sl sl--05" src="images/sponsors/sponsor-05-wellbeing-sanctuary.webp" alt="The Wellbeing Sanctuary" width="401" height="400" decoding="async">
@@ -1628,7 +1640,7 @@ body.nav-open .ask{opacity:0;pointer-events:none}
              the -50% slide can loop without a visible seam -->
         <div class="sband__set" aria-hidden="true">
           <img class="sl sl--01" src="images/sponsors/sponsor-01-monaco-women-network.webp" alt="" width="728" height="400" decoding="async">
-          <img class="sl sl--02" src="images/sponsors/sponsor-02-purovitalis.webp" alt="" width="240" height="86" decoding="async">
+          <img class="sl sl--02" src="images/sponsors/sponsor-02-purovitalis-black.webp" alt="" width="1200" height="426" decoding="async">
           <img class="sl sl--03" src="images/sponsors/sponsor-03-richmont-monaco.webp" alt="" width="1539" height="373" decoding="async">
           <img class="sl sl--04" src="images/sponsors/sponsor-04-forsthaus-apotheke.webp" alt="" width="315" height="52" decoding="async">
           <img class="sl sl--05" src="images/sponsors/sponsor-05-wellbeing-sanctuary.webp" alt="" width="401" height="400" decoding="async">

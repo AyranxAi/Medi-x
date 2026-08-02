@@ -898,12 +898,24 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:400;
    is 2.13:1, against a 3.0 floor for large text. Burgundy is 10.64:1 and is
    effectively the only value available here — a light headline needs a dark
    panel, which is a different decision entirely. */
+/* HIS PICK 2026-08-03 (E2): ONE line, centred, and set in Megante — the brand
+   accent face, the one the chapter identifiers wear. It stays a headline
+   rather than becoming a label, which is the trap the alternatives fell into:
+   at the "Private. Personal. Powerful." size it drops to 18px and reads as a
+   caption again (his own word for the old kicker was lacklustre), and on a
+   dark scrim it reads as a pill, i.e. a new chrome object on a page whose
+   chrome is deliberately frozen.
+   Colour is not a free choice here — against the cream panel ivory measures
+   1.09:1 and rose 2.13:1 against a 3.0 floor. Burgundy is 10.64.
+   nowrap holds the single line on desktop; phones must be allowed to wrap,
+   because at the clamp's floor the string is wider than the panel. */
 .cvoices__head{
   margin:0 0 clamp(1rem,2vh,1.6rem);
-  font-family:var(--font-editorial);font-weight:400;
-  font-size:clamp(2.4rem,3.6vw,4rem);line-height:1.1;
-  letter-spacing:-.018em;word-spacing:.05em;color:var(--burgundy);
+  font-family:var(--font-brand-accent);font-weight:400;
+  font-size:clamp(1.05rem,2vw,2.2rem);line-height:1.2;
+  letter-spacing:.02em;color:var(--burgundy);text-align:center;
 }
+@media (min-width:900px){ .cvoices__head{white-space:nowrap} }
 .cvoices__stage{position:relative;flex:1;min-height:0}
 .cvoice{
   position:absolute;inset:0;margin:0;
@@ -958,50 +970,38 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:400;
    champagne. Sized per mark by optical core (--h, the chapter
    07 lesson), --k scales the whole wall per breakpoint. */
 .sband{
-  /* HIS CALL 2026-08-02: the band takes the colour the TESTIMONIALS panel used
-     to wear, now that the panel has moved to the footer's cream. Checked, as
-     he asked: that value was --ivory #FAF7F1.
-     ⚠️ Measured, since the whole point was to check: ivory separates from the
-     footer's cream by 1.088:1 — a real step, but a FAINT one, and it steps
-     LIGHTER where the champagne #E9DECA it replaces stepped darker at 1.145:1.
-     For scale, --gold-tint sits at 1.055 and was rejected in July for reading
-     as the same surface as cream. So the band is still its own plane, just a
-     quieter one. Flagged to him; his call whether quieter is what he wanted. */
   background:var(--ivory);border-top:1px solid rgba(71,24,38,.1);
-  /* ONE rhythm value, his spec: the space above the label, the space between
-     the label and the marks, and the space below the marks are all the same.
-     So the label gets a slot of its own rather than being crowded onto the
-     belt, and the row of marks — which is align-items:center, so every mark's
-     optical middle is on one line — sits with equal air above and below it.
-     Tapered again from 1.9–2.8rem; change --band-gap and the whole band
-     re-proportions, there is no second number to remember. */
-  --band-gap:clamp(1.4rem,3.2vh,2rem);
-  padding:var(--band-gap) 0;
-  /* the belt runs edge to edge; only the kicker keeps the page's gutter */
+  /* HIS SPEC 2026-08-03, corrected: the label sits ABOVE the marks, not beside
+     them — but the MARKS remain the band's true centre. So whatever the label
+     and its gap take above the row, the same amount is added below it, and the
+     row's optical middle lands exactly on the band's middle line.
+       band = P + L + G + row + X,  and centring requires  X = P + L + G.
+     That is the padding-bottom below, written as the expression rather than a
+     baked number so changing --band-gap or --label-h keeps it balanced.
+     The label's height is FIXED (--label-h) for the same reason: the maths
+     needs a known value, and a one-line label has no reason to vary. */
+  --band-gap:clamp(.85rem,1.9vh,1.15rem);
+  --label-h:1.15rem;
+  /* the label starts on the same vertical line as the P of PRESS in chapter
+     08 — his alignment, derived from the button's own offset plus its own
+     left padding so the two cannot drift apart. */
+  --press-x:calc(clamp(1.4rem,3vw,2.6rem) + 1.9rem);
+  padding:var(--band-gap) 0 calc(var(--band-gap) * 2 + var(--label-h));
   overflow:hidden;
 }
-/* "Our sponsors": burgundy, in the header's face (NOW) rather than Megante, so
-   the band's one piece of type speaks with the nav and the buttons instead of
-   with the chapter identifiers.
-   BACK TO THE LEFT 2026-08-02 — he tried centred and rejected it: dead space
-   opened up to its left, and at 50/50 it also sat exactly on chapter 08's
-   panel seam, which read as an alignment nobody intended. It now starts on the
-   page's own left gutter, the same line every chapter's copy starts on. */
 .sband .kicker{
-  display:block;text-align:left;
-  /* no 1400 cap, for the same reason the chapters lost theirs: with the cap on,
-     the label started at 356px at 1920 while every chapter's copy started at
-     96px, so "left" meant two different lefts on one page. It now shares the
-     page's gutter and lines up with the copy above it. */
-  margin:0 0 var(--band-gap);padding:0 clamp(1.25rem,6vw,6rem);
-  font-family:var(--font-functional);
-  /* up from .72rem, his call — centred type at .72 read as a caption rather
-     than the band's title. Tracking eases back a touch because .28em at this
-     size opens the word gaps too far. */
-  font-size:.95rem;font-weight:500;letter-spacing:.24em;text-transform:uppercase;
-  color:var(--burgundy);
+  margin:0 0 var(--band-gap);padding:0 0 0 var(--press-x);
+  height:var(--label-h);line-height:var(--label-h);
+  /* Megante, his call — the brand accent face, the same one the chapter
+     identifiers use. Wide and flared, so it takes less tracking than NOW did. */
+  font-family:var(--font-brand-accent);
+  font-size:.82rem;font-weight:400;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--burgundy);display:block;text-align:left;
 }
 .sband .kicker::after{content:none}
+/* phones: tighter air, but --press-x still governs the left edge, so the label
+   tracks the Press button at every width instead of only on desktop */
+@media (max-width:899px){ .sband{--band-gap:.75rem} }
 
 /* THE BELT (his call 2026-08-02, replacing the static wall): one band
    travelling right to left, forever. Two identical sets sit side by side and
@@ -1616,7 +1616,13 @@ body.nav-open .ask{opacity:0;pointer-events:none}
   </section>
 
   <section class="sec light" id="s6" data-nav="Products &amp; Therapies">
-    <div class="bg" data-src="images/products-lineup.webp"></div>
+    <!-- 2026-08-03: HIS CALL, back to `product item.png` — the closer framing,
+         where the bottles read larger. Worth recording that this reverses an
+         earlier correction: on 2026-08-02 he moved OFF this file onto
+         `product legit.png`, so if the labels ever look wrong, that is the
+         other one and it is still in images/products-lineup.webp. New
+         filename, never an overwrite, so no cache can hold a stale frame. -->
+    <div class="bg" data-src="images/products-closer.webp"></div>
     <div class="inner"><div class="copy">
       <h2 class="reveal">Personalised Health Solutions. <em>Tailored to You</em></h2>
       <p class="body reveal">Explore our carefully selected hormone and peptide therapies, supplements and biohacking solutions designed to support your body &mdash; not overwhelm it.</p>
@@ -1723,7 +1729,6 @@ body.nav-open .ask{opacity:0;pointer-events:none}
             </blockquote>
           </div>
         </div>
-      </div>
     </div>
   </section>
 

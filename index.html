@@ -1531,20 +1531,32 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
   </div>
 </header>
 
-<!-- The menu is now the SITE's six destinations, not the page's chapters (his
-     list, 2026-08-02, in his order). INERT by his instruction — they carry no
-     href until the real pages exist, exactly like every CTA on the page. When
-     the destinations land, each <span> becomes an <a href> and nothing else
-     needs to change. The chapter numbers went with the chapters: these are
-     places, not a sequence. -->
+<!-- The menu is the SITE's six destinations, not the page's chapters (his
+     list, 2026-08-02, in his order). The chapter numbers went with the
+     chapters: these are places, not a sequence.
+
+     LIVE as of 2026-08-03 — each <span> became an <a href> and, exactly as
+     this comment predicted, nothing else had to change: the CSS already read
+     `.nav a,.nav span` for both, and the nav's own click handler already
+     closed the menu on `closest('a')`.
+
+     They point at medi-gyn.com, which is a live WordPress site that already
+     carries these pages. ⚠️ That site SOFT-404s to its homepage, so a 200
+     proves nothing — every URL here was checked by whether the PATH SURVIVES
+     the redirect. Their own homepage links /functional-general/, which is dead
+     by that test; the real page is /functional-medicine/.
+
+     `target="_blank"` is deliberate and is the one thing here worth revisiting:
+     this page is a front door, so it stays alive behind the hand-off. If it
+     should replace the page instead, drop the attribute — nothing else. -->
 <nav class="nav" id="nav" aria-label="Menu" data-i18n-aria="a11y.menu" hidden>
   <ol>
-    <li style="--i:0"><span data-i18n="nav.hormone">Hormone Therapy</span></li>
-    <li style="--i:1"><span data-i18n="nav.functional">Functional Medicine</span></li>
-    <li style="--i:2"><span data-i18n="nav.peptide">Peptide Therapy</span></li>
-    <li style="--i:3"><span data-i18n="nav.about">About Us</span></li>
-    <li style="--i:4"><span data-i18n="nav.shop">Shop</span></li>
-    <li style="--i:5"><span data-i18n="nav.events">Events</span></li>
+    <li style="--i:0"><a href="https://medi-gyn.com/hormone-balancing-for-bhrt/" target="_blank" rel="noopener" data-i18n="nav.hormone">Hormone Therapy</a></li>
+    <li style="--i:1"><a href="https://medi-gyn.com/functional-medicine/" target="_blank" rel="noopener" data-i18n="nav.functional">Functional Medicine</a></li>
+    <li style="--i:2"><a href="https://medi-gyn.com/peptide-therapy/" target="_blank" rel="noopener" data-i18n="nav.peptide">Peptide Therapy</a></li>
+    <li style="--i:3"><a href="https://medi-gyn.com/about-us/" target="_blank" rel="noopener" data-i18n="nav.about">About Us</a></li>
+    <li style="--i:4"><a href="https://medi-gyn.com/shop/" target="_blank" rel="noopener" data-i18n="nav.shop">Shop</a></li>
+    <li style="--i:5"><a href="https://medi-gyn.com/educational-events/" target="_blank" rel="noopener" data-i18n="nav.events">Events</a></li>
   </ol>
 </nav>
 
@@ -1639,7 +1651,7 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
       <h2 class="reveal" data-i18n="ch2.h2">Personalised Solutions, Precision Medicine, Healthy Ageing</h2>
       <p class="body reveal" data-i18n="ch2.body">Evidence-based medicine meets personalised care &mdash; from hormone optimisation and functional medicine to peptides and longevity medicine.</p>
       <div class="reveal">
-        <a class="cta" data-i18n="ch2.cta">About us
+        <a class="cta" href="https://medi-gyn.com/about-us/" target="_blank" rel="noopener" data-i18n="ch2.cta">About us
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
         </a>
       </div>
@@ -1691,7 +1703,7 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
             <span class="pw__more" data-i18n="pw.more">+2 more</span>
           </div>
           <div class="pw__rise">
-            <a class="pw__cta" data-i18n="pw.cta">Explore pathway
+            <a class="pw__cta" href="https://medi-gyn.com/hormone-balancing-for-bhrt/" target="_blank" rel="noopener" data-i18n="pw.cta">Explore pathway
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
             </a>
           </div>
@@ -1730,7 +1742,7 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
             <span class="pw__more" data-i18n="pw.more">+2 more</span>
           </div>
           <div class="pw__rise">
-            <a class="pw__cta" data-i18n="pw.cta">Explore pathway
+            <a class="pw__cta" href="https://medi-gyn.com/modern-menopause/" target="_blank" rel="noopener" data-i18n="pw.cta">Explore pathway
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
             </a>
           </div>
@@ -1769,7 +1781,7 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
             <span class="pw__more" data-i18n="pw.more">+2 more</span>
           </div>
           <div class="pw__rise">
-            <a class="pw__cta" data-i18n="pw.cta">Explore pathway
+            <a class="pw__cta" href="https://medi-gyn.com/functional-medicine/" target="_blank" rel="noopener" data-i18n="pw.cta">Explore pathway
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
             </a>
           </div>
@@ -1808,7 +1820,7 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
             <span class="pw__more" data-i18n="pw.more">+2 more</span>
           </div>
           <div class="pw__rise">
-            <a class="pw__cta" data-i18n="pw.cta">Explore pathway
+            <a class="pw__cta" href="https://medi-gyn.com/peptide-therapy/" target="_blank" rel="noopener" data-i18n="pw.cta">Explore pathway
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
             </a>
           </div>
@@ -1832,7 +1844,7 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
       <h2 class="reveal" data-i18n="ch5.h2">Meet The Experts Behind <em>Your Journey</em></h2>
       <p class="body reveal" data-i18n="ch5.body">Behind every personalised journey is a team chosen not only for their expertise, but for their dedication to listening, understanding, and delivering the highest standard of care. Meet the professionals committed to helping you achieve lasting zest for life, vitality and health-span.</p>
       <div class="reveal">
-        <a class="cta" data-i18n="ch5.cta">Meet the team
+        <a class="cta" href="https://medi-gyn.com/our-team/" target="_blank" rel="noopener" data-i18n="ch5.cta">Meet the team
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
         </a>
       </div>
@@ -1851,7 +1863,7 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
       <h2 class="reveal" data-i18n="ch6.h2">Personalised Health Solutions. <em>Tailored to You</em></h2>
       <p class="body reveal" data-i18n="ch6.body">Explore our carefully selected hormone and peptide therapies, supplements and biohacking solutions designed to support your body &mdash; not overwhelm it.</p>
       <div class="reveal">
-        <a class="cta" data-i18n="ch6.cta">Visit the shop
+        <a class="cta" href="https://medi-gyn.com/shop/" target="_blank" rel="noopener" data-i18n="ch6.cta">Visit the shop
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
         </a>
       </div>
@@ -1904,7 +1916,7 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
              `git show` away. The films now have no home on the site at all —
              flagged to him; the Press button below is the natural place for
              them once it has a destination. -->
-        <a class="cta cpress__cta" data-i18n="ch8.press">Press
+        <a class="cta cpress__cta" href="https://medi-gyn.com/press/" target="_blank" rel="noopener" data-i18n="ch8.press">Press
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
         </a>
       </figure>

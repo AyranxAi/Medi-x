@@ -348,12 +348,13 @@ main{position:relative}
    because it reaches further into the bright half of the frame. It needs the
    deeper scrim first; that work is parked in HANDOVER_MOBILE_UX.md. */
 @media (min-width:1500px){
-  /* ⚠️ 6.5rem → 6rem when Didot became Bodoni Moda. Bodoni sets "Your
-     hormones." 11% WIDER at the same pixel size (7.099 x font-size against
-     Didot's 6.399), so 104px no longer fitted the 704px column and the hero
-     broke to FOUR lines. The faces are not interchangeable at equal pixels —
-     the same lesson the Cormorant→Didot swap taught. 96px gives 681px in a
-     704px column: three lines, with 23px of margin. */
+  /* This cap has moved with every face the site has worn — 6.5rem for Didot,
+     6rem for Bodoni Moda, 6.45rem now for Playfair @ opsz 30 — and each time
+     for the same reason: the cap is really a WIDTH limit wearing a height's
+     clothing. The hero's longest line must fit the 704px column or it breaks
+     to four lines, so the ceiling is 704 / (width-per-px of the face).
+     Playfair at 6.609 gives 106px; 103.2px is the value below, leaving 22px.
+     Re-derive it, never carry it over. Ratios are in the h1,h2 block. */
   #s1 h1{font-size:clamp(5.37rem,5.9vw,6.45rem)}
   #s2 h2,#s3 h2,#s5 h2,#s6 h2{font-size:clamp(4.19rem,4.62vw,5.1rem)}
   /* the buttons grow with the type they sit under. They are the one control

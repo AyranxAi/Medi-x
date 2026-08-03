@@ -143,6 +143,25 @@ smallest ink, because its artwork filled 29.5% of a 400×400 file.
 
 ## 5. Open, in the order I would take them
 
+0. **⚠️ CHAPTER 05 SHIPS A FORMER TEAM MEMBER — RE-ASK HIM.** 2026-08-03 the
+   empty-lounge `images/team.webp` was replaced with his own frame of the five
+   of them, `images/team-wide-tight.webp` (source `medi-gyn-meet-the-team-wide-tight.png`,
+   his upload, commit `f258d81`). **The woman at the left of the group has left
+   the team.** He hoped the copy column would cover her. It does not: her face
+   sits clear above the headline and the copy crosses her dress. She also
+   cannot be cropped out — she holds the left third of the group, the entire
+   crop budget at 1440x900 is ~20% of frame width (360px of an 1800px cover
+   fit), so no `background-position` reaches her. **He shipped it knowingly as
+   an interim, with the fix named: a frame she is not in.** When one exists,
+   swap the file, delete the flag block above `#s5 .bg`, and delete this item.
+   The contrast side is fine and measured — the new frame is far *darker* under
+   the copy than the lounge it replaced (photo luminance .472 → .193 at 1440,
+   .393 → .258 at 390; ivory median contrast 7.08 → 14.84 and 6.05 → 9.16).
+   A wider variant of the same shot exists at
+   `~/Documents/Codex/2026-08-03/hi/outputs/medi-gyn-meet-the-team-wide.png` —
+   more empty wall, copy lands entirely clear of everyone — but she is in that
+   one too, so it solves the composition and not the problem.
+
 1. **The three long translations** of the ch08 headline (above) — one question
    to him, then either shorter strings or accept two lines.
 2. **The italic colour.** `#s1 h1 em, #s5 h2 em` ship IVORY, flagged

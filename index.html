@@ -1852,7 +1852,31 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
   </section>
 
   <section class="sec light" id="s5" data-nav="Meet Our Team">
-    <div class="bg" data-src="images/team.webp"></div>
+    <!-- 2026-08-03: HIS FRAME — `medi-gyn-meet-the-team-wide-tight.png`, uploaded
+         through the GitHub web UI (commit f258d81) and named by him when asked.
+         Replaces images/team.webp, an EMPTY lounge: a chapter headed "Meet The
+         Experts" now actually shows the five of them. Encoded q92 to
+         images/team-wide-tight.webp; new filename, never an overwrite, so no
+         cache holds a stale frame and a revert is one line.
+         MEASURED BEFORE SWAPPING and it IMPROVES the ground: photo luminance in
+         the copy column .472 -> .193 at 1440, .476 -> .172 at 1920, .393 -> .258
+         at 390. Ivory median contrast 7.08 -> 14.84 (1440), 6.05 -> 9.16 (390);
+         brightest-2% worst case holds (3.36 -> 3.26 desktop, 2.55 -> 2.71 phone,
+         that sliver being the window curtain, not the copy's real ground). The
+         mobile headline issue in HANDOVER_MOBILE_UX.md is structural and stays
+         parked — this frame moves it the right way, it does not solve it.
+
+         ⚠️ PROVISIONAL, HIS CALL 2026-08-03 — RE-ASK. The woman at the left of
+         the group has LEFT THE TEAM. The hope was that the copy column would
+         cover her; it does not. Her face sits clear above the headline in every
+         crop, and the copy crosses her dress, not her. Nor can she be cropped
+         out: she occupies the left third of the group while the whole crop
+         budget at 1440x900 is ~20% of frame width (360px of an 1800px cover
+         fit), so NO background-position removes her — measured, not assumed.
+         He shipped this knowingly as an interim. The fix is a frame she is not
+         in; when one exists, drop it in and delete this block. Until then this
+         chapter shows a former colleague with body copy over her dress. -->
+    <div class="bg" data-src="images/team-wide-tight.webp"></div>
     <div class="inner"><div class="copy">
       <h2 class="reveal" data-i18n="ch5.h2">Meet The Experts Behind <em>Your Journey</em></h2>
       <p class="body reveal" data-i18n="ch5.body">Behind every personalised journey is a team chosen not only for their expertise, but for their dedication to listening, understanding, and delivering the highest standard of care. Meet the professionals committed to helping you achieve lasting zest for life, vitality and health-span.</p>

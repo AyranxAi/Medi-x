@@ -2017,7 +2017,19 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
   ── -->
 
   <section class="sec light" id="s1" data-nav="The Light">
-    <div class="bg" data-src="images/09-light.webp"></div>
+    <!-- PHONE FRAME, 2026-08-04 (his `mature portrait.png`). 533x1153 = ratio
+         0.462, which is exactly 390x844, so it sits UNCROPPED on a phone —
+         nothing of the composition is lost. Desktop is untouched: the narrow
+         frame is only read under 900px (see the loader).
+         ⚠️ PROVISIONAL — HE SHIPPED THIS KNOWING IT COSTS LEGIBILITY, and asked
+         for the frames anyway. Measured at 390 with the copy hidden, headline
+         band: worst-2% 2.46 -> 2.11, median 6.81 -> 5.34, against a 3.0 floor
+         for large text. The old frame already failed; this one fails harder.
+         The fix is the GROUND, not the frame — HANDOVER_MOBILE_UX.md §4 has
+         three scrim options built and measured, awaiting his pick. RE-ASK when
+         that lands, and re-measure this band rather than assuming it is fixed. -->
+    <div class="bg" data-src="images/09-light.webp"
+         data-src-narrow="images/09-light-portrait.webp"></div>
     <div class="inner"><div class="copy">
       <p class="kicker reveal" data-i18n="ch1.kicker">Private. Personal. Powerful.</p>
       <h1 class="reveal" data-i18n="ch1.h1">Your hormones.<br>Your health.<br><em>Your best life.</em></h1>
@@ -2054,7 +2066,17 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
   </section>
 
   <section class="sec light" id="s3" data-nav="Discovery Call">
-    <div class="bg" data-src="images/06-consult.webp"></div>
+    <!-- PHONE FRAME, 2026-08-04 (his `REFsec03discoverycall533x1153.png` — the
+         filename is what mapped it to this chapter). Same 0.462 ratio as ch01's,
+         so it is uncropped at 390x844. Desktop untouched, narrow frame only
+         under 900px.
+         ⚠️ PROVISIONAL, and this is the WORSE of the two — same knowing trade
+         as ch01. Headline band at 390, copy hidden: worst-2% 2.32 -> 1.99,
+         median 4.90 -> 3.86, floor 3.0. The median crossing under 4 is the part
+         to watch: this frame is bright right where the headline sits.
+         HANDOVER_MOBILE_UX.md §4 is the fix. RE-ASK and re-measure. -->
+    <div class="bg" data-src="images/06-consult.webp"
+         data-src-narrow="images/06-consult-portrait.webp"></div>
     <div class="inner"><div class="copy">
       <h2 class="reveal" data-i18n="ch3.h2">Start With a Conversation, Leave With Clarity</h2>
       <p class="body reveal" data-i18n="ch3.body">Meet Irina Bond, the founder of Medi-Gyn and Hormone Health Educator. During your complimentary discovery call, she will help you understand your concerns, answer your questions, and help you explore the next step with clarity and confidence.</p>

@@ -505,11 +505,40 @@ main{position:relative}
    ⚠️ Chapter 05 runs the SAME five people on a bright frame and would need its
    own measurement pass before any of this is carried across — HIS SCOPE WAS
    "hero only for now". Do not generalise it uninvited. */
+/* ⚠️ THE DESKTOP WASH STOPS AT THE WOMAN ON THE LEFT, AND THAT IS HIS CORRECTION
+   TOO — the phone one had the same fault. First build ran to 84% and still
+   carried .46 alpha at 62%, so it lay across her and her red trousers read pink.
+   "the white is too much it carries to the woman i think it should end before
+   the lady right (desktop only)".
+   ⚠️ SHE STARTS AT 48.5% OF THE VIEWPORT — MEASURED, not eyeballed: leftmost
+   column whose mean saturation over the group's vertical span exceeds the wall
+   baseline by 1.9x, and it lands at 48.7 / 48.4 / 48.5 at 1920 / 1440 / 1280.
+   That number is the whole design constraint here; re-derive it if the frame or
+   the crop ever changes.
+   ⚠️⚠️ AND THE COPY WAS ALREADY ON HER AT 1280 — this is the part that is easy
+   to miss. Text ink ends at 40.6% at 1920, 45.9% at 1440 and 49.8% at 1280, so
+   at the smallest desktop the PARAGRAPH overruns her leading edge by 1.3pp. No
+   gradient can be both behind the text and off her there, which is why the body
+   rule below exists. Without it, pulling the wash back drops body to 1.89.
+   Stops tested, body worst-2% at 1920/1440/1280 (floor 4.5), all with the
+   narrowed paragraph:
+     zero at 60% (veil)  7.24 / 6.10 / 6.54   ← still films her
+     zero at 52% (THIS)  6.96 / 5.41 / 6.11
+     zero at 48%         6.68 / 6.61 / 5.50   ← needs 25em to 1499px, visibly
+                                                shorter copy block, and no margin
+   His pick was 52%: ~.19 alpha where she starts, which does not read, and 3.5pp
+   of buffer so a wider aspect ratio cannot make the wash end BEFORE the copy. */
 @media (min-width:900px){
   #s1::after{
     background:
-      linear-gradient(to right,rgba(250,247,241,.86) 0%,rgba(250,247,241,.72) 42%,rgba(250,247,241,.46) 62%,rgba(250,247,241,0) 84%);
+      linear-gradient(to right,rgba(250,247,241,.86) 0%,rgba(250,247,241,.76) 32%,rgba(250,247,241,.50) 44%,rgba(250,247,241,0) 52%);
   }
+}
+/* the paragraph is the only element that reaches her; 27em pulls its ink back
+   inside the wash at 1280. Scoped to stop at 1399 — at 1440 and up it already
+   ends at 45.9% or less and must keep its full 32em measure. */
+@media (min-width:900px) and (max-width:1399px){
+  #s1 .body{max-width:27em}
 }
 /* ⚠️ THE PHONE WASH IS SHAPED TO STOP AT THEIR FEET, AND THAT IS HIS CORRECTION,
    not a default. First build ran it to 98% of the plate — enough to cover the

@@ -2,11 +2,18 @@
 
 **Status: PARKED 2026-08-02 at his request** ("can you set another md to tackle
 the scrim and the phone ux/ui experience — currently I'm not good here, it's too
-much"). Nothing in this file has been built. The measurements are done and the
-options are rendered, so this can be picked up cold without redoing any of it.
+much"). The site-wide options in §4 are still unbuilt. The measurements are done
+and the options are rendered, so this can be picked up cold without redoing any
+of it.
 
 Everything here is **pre-existing**, not caused by the copy work of 2026-08-02.
 Nothing is getting worse by waiting.
+
+> **Ch 05 is no longer in this backlog — closed 2026-08-04. See §8.** It was not
+> fixed by any of the §4 options; it got its own per-chapter scrim when its
+> photographs were replaced. §8 is worth reading before picking up §4, because
+> the shape of the fix generalises and the site-wide A/B/C stops may not be the
+> right instrument any more.
 
 ---
 
@@ -107,3 +114,70 @@ live `getBoundingClientRect().top` in a loop), record per-**line** rects with
 `range.getClientRects()`, set the text `visibility:hidden`, screenshot the **full
 viewport**, then crop with PIL. Report the **brightest 2%**, not the median —
 except over a dotted ground like ch07's globe, where the median is the honest read.
+
+---
+
+## 8. Addendum 2026-08-04 — chapter 05 is closed, and how
+
+He uploaded a matched pair for the team chapter (a 1672x941 landscape and a
+941x1672 portrait of the same restaged set) and asked for the wide one on desktop
+and the tall one on phones. Wiring them in via the existing `data-src` /
+`data-src-narrow` mechanism was the easy half. The frames alone made the numbers
+**worse**, and that turned out to be the useful finding.
+
+**What the frame swap alone did, at 390** (old `team-wide-tight.webp` → new
+`team-clear-portrait.webp`, stock light scrim still in place):
+
+| | headline | paragraph | cta |
+|---|---|---|---|
+| before | 2.56 | 3.89 | 8.97 |
+| after | **2.37** | **2.51** | **6.39** |
+
+The chapter's old comfort was never the scrim's doing. The plate it replaced had
+a **charcoal shelving unit** sitting exactly under the copy column — that is where
+its ~15:1 CTA came from. Take the furniture away and the stock scrim stands
+exposed as having been carrying very little. **Any chapter whose numbers look
+healthy because of something dark inside the photograph is one upload away from
+failing.** Worth checking the others on that basis.
+
+**The fix — reshape the gradient, do not just deepen it.** §2 diagnoses this
+correctly: the phone scrim is bottom-anchored and gone by 70%, while the headline
+is the topmost element of a bottom-anchored block. So the alpha was carried
+further **up** rather than piled on at the bottom, which is where the copy is not:
+
+```
+#s5::after, <900px
+  to top, rgba(30,20,16,.92) 0%, .74 32%, .54 58%, 0 84%
+```
+
+Desktop needed its own too, since the new plate has no dark region under the copy
+either — modelled on the `#s6` block, `to right, .92 0%, .86 32%, .58 52%, 0 76%`.
+The crop is anchored right (`#s5 .bg{background-position:100% center}`) so the
+woman on the end is not cut at 1440/1280; that pulls the group into the column and
+costs contrast, which the desktop scrim pays for.
+
+**Shipped, worst line per element, repo method (§7), every size passing
+head 3.0 / body 4.5 / cta 4.5:**
+
+| | 1920 | 1440 | 1280 | 430 | 390 | 360 |
+|---|---|---|---|---|---|---|
+| headline | 8.76 | 6.55 | 4.16 | 6.60 | 5.93 | 4.26 |
+| paragraph | 9.93 | 7.07 | 5.68 | 7.29 | 6.81 | 6.59 |
+| cta | 13.07 | 12.87 | 12.87 | 11.99 | 11.68 | 11.48 |
+
+For comparison with §4: option A would have put Ch05 at 3.69 / 4.83 and option C
+at 5.40 / 6.90. The per-chapter reshape beats **C** on the headline at less cost
+to the photograph, because it is spending alpha where that chapter's copy actually
+sits instead of at a site-wide average.
+
+**What this suggests for the rest of §4.** A single set of base stops has to serve
+chapters whose copy blocks are different heights, so it overpays at the bottom and
+still underreaches at the top. Ch 01/02/03 may each do better with the same
+treatment — take the measurement, put the alpha where that chapter's headline
+actually is. Ch 06's headline (§5) is still the hard one; nothing here moves it,
+and dark ink type remains the honest answer there.
+
+**Still open on ch 05, unrelated to legibility:** the woman at the left of the
+group has left the team and is in both new frames — same person, same outfit, same
+pose, the set was only restaged around her. She cannot be cropped out of either.
+Flagged in the `#s5` markup; the fix is a frame she is not in.

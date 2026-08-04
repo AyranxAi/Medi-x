@@ -274,10 +274,19 @@ main{position:relative}
   background-position:72% center;
   will-change:transform;
 }
+/* team frame, phone: team-clear-portrait.webp is composed FOR this shape, so it
+   wants the plain centre rather than the 72% the landscape frames need. */
+#s5 .bg{background-position:center}
 @media (min-width:900px){
   .bg{background-position:center}
   /* products frame: pull the crop left so the bottles clear the copy column */
   #s6 .bg{background-position:12% center}
+  /* team frame: the group sits right of centre and the woman on the end runs to
+     the very edge of the plate, so anchor the crop RIGHT. What that gives up is
+     clear wall on the left — which is exactly what the copy column wants to be
+     sitting on. Centre-cropping cuts her at 1440 and 1280; at 1920 the frame is
+     16:9 against a 16:9 viewport and nothing is lost either way. */
+  #s5 .bg{background-position:100% center}
 }
 /* The product frame was replaced 2026-08-01 with a far brighter set, and
    the bottles now run straight through the copy column. The stock light
@@ -322,6 +331,48 @@ main{position:relative}
     background:
       linear-gradient(to right,rgba(30,20,16,.82) 0%,rgba(30,20,16,.48) 34%,rgba(30,20,16,0) 66%),
       linear-gradient(to top,rgba(30,20,16,.3) 0%,rgba(30,20,16,0) 40%);
+  }
+}
+/* Chapter 05 on the phone carries its own scrim, the way #s6 does on desktop and
+   for the same reason: team-clear-portrait.webp is bright, open floor exactly
+   where the bottom-anchored copy sits, and the stock light scrim is spent by the
+   time it reaches the headline — it hits 0 at 70% while the h2 starts at ~52%.
+   Stock light scrim on this frame at 390: h2 2.37, body 2.51 — both failing.
+   The fix was to RESHAPE it rather than simply deepen it: hold alpha further up
+   the plate (.54 at 58%, running out to 0 at 84%) so the gradient still has
+   substance where the copy actually is, instead of spending itself under the
+   CTA. Measured after, worst line per element:
+     430   h2 6.60   body 7.29   cta 11.99
+     390   h2 5.93   body 6.81   cta 11.68
+     360   h2 4.26   body 6.59   cta 11.48
+   Clears h2 3.0 / body 4.5 / cta 4.5 at every phone size, and the top half of the
+   plate is untouched, so the group still reads as a photograph rather than as a
+   backdrop. NOTE this closes the phone shortfall for THIS chapter only —
+   HANDOVER_MOBILE_UX.md describes the same bottom-anchored-copy against
+   bottom-up-scrim geometry site-wide, and the other chapters still carry it. */
+@media (max-width:899px){
+  #s5::after{
+    background:
+      linear-gradient(to top,rgba(30,20,16,.92) 0%,rgba(30,20,16,.74) 32%,rgba(30,20,16,.54) 58%,rgba(30,20,16,0) 84%),
+      linear-gradient(to right,rgba(30,20,16,.42) 0%,rgba(30,20,16,0) 55%);
+  }
+}
+/* ...and its own on desktop, for the reason #s6 has one: this is now a frame with
+   no dark region under the copy. The plate it replaced carried a charcoal shelving
+   unit right where the column sits, which is where that chapter's ~15:1 CTA came
+   from — it was the furniture doing the work, not the scrim. On clear wall the
+   stock light scrim has nothing to help it. Anchoring the crop right (see
+   #s5 .bg) keeps the whole group in frame at 1440/1280 but pulls them further
+   into the column, which costs contrast; this pays for it. Measured after,
+   worst line per element:
+     1920  h2 8.76  body 9.93  cta 13.07
+     1440  h2 6.55  body 7.07  cta 12.87
+     1280  h2 4.16  body 5.68  cta 12.87 */
+@media (min-width:900px){
+  #s5::after{
+    background:
+      linear-gradient(to right,rgba(30,20,16,.92) 0%,rgba(30,20,16,.86) 32%,rgba(30,20,16,.58) 52%,rgba(30,20,16,0) 76%),
+      linear-gradient(to top,rgba(30,20,16,.3) 0%,rgba(30,20,16,0) 44%);
   }
 }
 
@@ -2086,31 +2137,58 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
   </section>
 
   <section class="sec light" id="s5" data-nav="Meet Our Team">
-    <!-- 2026-08-03: HIS FRAME — `medi-gyn-meet-the-team-wide-tight.png`, uploaded
-         through the GitHub web UI (commit f258d81) and named by him when asked.
-         Replaces images/team.webp, an EMPTY lounge: a chapter headed "Meet The
-         Experts" now actually shows the five of them. Encoded q92 to
-         images/team-wide-tight.webp; new filename, never an overwrite, so no
-         cache holds a stale frame and a revert is one line.
-         MEASURED BEFORE SWAPPING and it IMPROVES the ground: photo luminance in
-         the copy column .472 -> .193 at 1440, .476 -> .172 at 1920, .393 -> .258
-         at 390. Ivory median contrast 7.08 -> 14.84 (1440), 6.05 -> 9.16 (390);
-         brightest-2% worst case holds (3.36 -> 3.26 desktop, 2.55 -> 2.71 phone,
-         that sliver being the window curtain, not the copy's real ground). The
-         mobile headline issue in HANDOVER_MOBILE_UX.md is structural and stays
-         parked — this frame moves it the right way, it does not solve it.
+    <!-- 2026-08-04: HIS PAIR — `ChatGPT Image Aug 4, 2026, 08_48_25 AM.png`
+         (1672x941) and `...08_48_32 AM.png` (941x1672), uploaded together through
+         the GitHub web UI (commit 406c2a7, the only two files in it) and assigned
+         by hand: the wide one on desktop, the tall one on the phone. Encoded q92
+         to images/team-clear.webp (149 KB) and images/team-clear-portrait.webp
+         (126 KB), named for what they fix — the copy column lands on clear wall.
+         New filenames, never an overwrite, so no cache holds a stale frame and
+         the revert is these two lines. The predecessors keep their own names:
+         team.webp (the EMPTY lounge) and team-wide-tight.webp (the dark shelf).
+         Same room and same five people, restaged: the dark shelving unit is gone
+         and the group is pushed RIGHT, leaving the left ~40% clear wall. The
+         portrait plate holds all five in the top half with open floor beneath.
 
-         ⚠️ PROVISIONAL, HIS CALL 2026-08-03 — RE-ASK. The woman at the left of
-         the group has LEFT THE TEAM. The hope was that the copy column would
-         cover her; it does not. Her face sits clear above the headline in every
-         crop, and the copy crosses her dress, not her. Nor can she be cropped
-         out: she occupies the left third of the group while the whole crop
-         budget at 1440x900 is ~20% of frame width (360px of an 1800px cover
-         fit), so NO background-position removes her — measured, not assumed.
-         He shipped this knowingly as an interim. The fix is a frame she is not
-         in; when one exists, drop it in and delete this block. Until then this
-         chapter shows a former colleague with body copy over her dress. -->
-    <div class="bg" data-src="images/team-wide-tight.webp"></div>
+         ⚠️ MEASURED BEFORE SWAPPING, by the repo's own method — hide the copy,
+         shoot the viewport, crop per LINE off range.getClientRects(), take the
+         brightest 2%. Worst line, ivory on the frame, wide-tight -> team-clear:
+           1920   h2 3.14 -> 3.32   body 4.24 -> 3.74   cta 14.73 -> 6.78
+           1440   h2 2.30 -> 2.48   body 2.63 -> 2.87   cta 14.98 -> 5.53
+           1280   h2 2.31 -> 2.02   body 2.71 -> 2.39   cta 15.16 -> 5.36
+         Phone, wide-tight -> team-clear-portrait:
+           430    h2 2.49 -> 2.42   body 4.18 -> 2.60   cta 9.13 -> 6.44
+           390    h2 2.56 -> 2.37   body 3.89 -> 2.51   cta 8.97 -> 6.39
+           360    h2 1.78 -> 1.97   body 2.08 -> 2.38   cta 8.72 -> 6.77
+         Read those as the FRAME ALONE, still sitting on the stock light scrim.
+         On its own the swap is a wash on the headline and a LOSS on the body, and
+         the ~15:1 CTA collapses to ~5.4 — because that number was never the
+         scrim's doing, it was the charcoal shelving unit that used to sit under
+         the copy column. Take the furniture away and the stock scrim is exposed
+         as having been carrying very little.
+         So the frame was taken on composition and the ground was then fixed
+         properly: the landscape plate cover-cropped to a phone shows two and a
+         half of the five with their heads cut off, the portrait plate shows all
+         five, and #s5 now carries its own scrim at both ends of the breakpoint
+         (see the two #s5::after blocks in the stylesheet, each with its own
+         measurements). Shipped, worst line per element, every size passing
+         h2 3.0 / body 4.5 / cta 4.5:
+           1920  8.76 / 9.93 / 13.07      430  6.60 / 7.29 / 11.99
+           1440  6.55 / 7.07 / 12.87      390  5.93 / 6.81 / 11.68
+           1280  4.16 / 5.68 / 12.87      360  4.26 / 6.59 / 11.48
+         That closes the phone shortfall FOR THIS CHAPTER. The geometry described
+         in HANDOVER_MOBILE_UX.md — copy bottom-anchored, scrim running bottom-to-
+         top — still stands everywhere else and is untouched here.
+
+         ⚠️ STILL UNRESOLVED, CARRIED FROM 2026-08-03 — RE-ASKED 2026-08-04. The
+         woman at the LEFT of the group has left the team, and she is in BOTH of
+         these frames: same person, same outfit, same pose, the set was only
+         restaged around her. She cannot be cropped out of either — she anchors
+         the left end of the group, and the entire crop budget at 1440 is ~16% of
+         frame width. The fix is a frame she is not in; when one exists, drop it
+         in and delete this block. -->
+    <div class="bg" data-src="images/team-clear.webp"
+         data-src-narrow="images/team-clear-portrait.webp"></div>
     <div class="inner"><div class="copy">
       <h2 class="reveal" data-i18n="ch5.h2">Meet The Experts Behind <em>Your Journey</em></h2>
       <p class="body reveal" data-i18n="ch5.body">Behind every personalised journey is a team chosen not only for their expertise, but for their dedication to listening, understanding, and delivering the highest standard of care. Meet the professionals committed to helping you achieve lasting zest for life, vitality and health-span.</p>

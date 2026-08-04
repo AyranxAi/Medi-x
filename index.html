@@ -290,6 +290,19 @@ main{position:relative}
 /* team frame, phone: team-clear-portrait.webp is composed FOR this shape, so it
    wants the plain centre rather than the 72% the landscape frames need. */
 #s5 .bg{background-position:center}
+/* products frame, PHONE — 2026-08-04, and 37% is measured, not chosen.
+   `product-wine-portrait-high.webp` puts its whole group at x 81..816 of a
+   941-wide file, i.e. sitting slightly LEFT of centre. A phone shows a 772px
+   window of that file, and the group is 735 wide, so it fits with 37px to
+   spare — but only if the window starts at 62.5. The inherited 72% starts it
+   at 121.6 and slices 41px off the left plinth; plain centre still clips 4px.
+   37% lands 18.5px of margin on BOTH sides, and holds at every phone width
+   (360/375/390/414/430 all within 0.5px of each other).
+   ⚠️ Phones only, by geometry, not by media query: at 768x1024 the frame is
+   narrower than the viewport ratio so `cover` scales by WIDTH and the whole
+   file is shown — horizontal position is a no-op there. Tablets are untouched
+   by this line. The ≥900px block below restates it as 12% for desktop. */
+#s6 .bg{background-position:37% center}
 @media (min-width:900px){
   .bg{background-position:center}
   /* products frame: pull the crop left so the bottles clear the copy column */
@@ -2660,8 +2673,23 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
          `class="sec light"` is UNCHANGED — on desktop `#s6::after` outranks
          `.sec.light::after` on specificity anyway, and on phones the lighter
          hand is the right one over a frame this dark. -->
+    <!-- ── PHONES TAKE A THIRD FRAME, 2026-08-04: his `exec-741e...png` upload
+         (941x1671, commit 4fc3c14, the only file in it), encoded q92 to
+         product-wine-portrait-high.webp. He shot the same set with the group
+         RAISED, so the bottom half is clear reflective floor — which is
+         exactly where the bottom-anchored phone copy sits.
+         ⚠️ THIS CLOSES ch06's PHONE LEGIBILITY DEBT, and the photograph did
+         it, not the CSS. Worst line, ivory on the frame, previous portrait →
+         this one:
+           390x844   h2 3.66 → 5.24   body 4.01 → 4.98   cta 10.97 → 14.28
+           430x932   h2 4.79 → 6.57   body 4.30 → 4.96   cta  9.45 → 14.10
+           768x1024  h2 6.60 → 7.35   body 4.55 → 5.46   cta  8.03 → 10.84
+         BODY CLEARS 4.5 AT 390 FOR THE FIRST TIME (it was the one line
+         HANDOVER_MOBILE_UX.md could not get over its floor). Crop position
+         moved with it — see `#s6 .bg` in the CSS, 37% is measured.
+         The landscape desktop frame is UNTOUCHED. -->
     <div class="bg" data-src="images/product-wine.webp"
-         data-src-narrow="images/product-wine-portrait.webp"></div>
+         data-src-narrow="images/product-wine-portrait-high.webp"></div>
     <div class="inner"><div class="copy">
       <h2 class="reveal" data-i18n="ch6.h2">Personalised Health Solutions. <em>Tailored to You</em></h2>
       <p class="body reveal" data-i18n="ch6.body">Explore our carefully selected hormone and peptide therapies, supplements and biohacking solutions designed to support your body &mdash; not overwhelm it.</p>

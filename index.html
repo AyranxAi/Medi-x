@@ -47,6 +47,13 @@
 :root{
   --ivory:#FAF7F1; --cream:#F4EDE1; --line:#DED4C2;
   --burgundy:#5C1F31; --rose:#C79A92;
+  /* --logo-red is SAMPLED FROM THE MARK, not invented: median of every pixel
+     in logo-red.webp with alpha>200 is rgb(142,45,58). His call 2026-08-04,
+     "what if we use the same red as the logo that we have" — so the hero's
+     italic and the logotype are literally one ink. Do not "tidy" it toward
+     --burgundy (#5C1F31): that is a deeper, more purple wine and sitting a few
+     inches from the mark it reads as a near-miss rather than a second colour. */
+  --logo-red:#8E2D3A;
   --gold:#C2A05E; --gold-deep:#8A6A34; --gold-tint:#F1E7D2;
   --ink:#2E2228; --ink-soft:#6A585F;
   /* three roles, one source of truth. --serif/--sans stay as aliases so no
@@ -143,6 +150,34 @@ body.nav-open .hdr{background:transparent;border-bottom-color:transparent;backdr
 .hdr--solid .mark{filter:none}
 .hdr--solid .mark__img--ivory{display:none}
 .hdr--solid .mark__img--red{display:block}
+/* HIS ASK 2026-08-04: "the logo now here will be the default red logo" — i.e.
+   red at scroll 0 too, which is the ONLY place the ivory one was ever shown
+   (.hdr--solid latches at y>=24, so the ivory mark had a 24px life).
+   ⚠️ DESKTOP ONLY, AND THE SCOPE IS MEASURED, NOT CAUTIOUS. The red mark needs
+   the light-key hero under it: on the old dark frame it read 1.31:1. With the
+   wash, desktop is 6.31-6.71. His call, asked and answered: red on desktop,
+   ivory on phones — and the bar swaps to red the moment either one scrolls.
+
+   ⚠️⚠️ PROVISIONAL, AND HE HAS NOT SEEN IT LIVE YET — THE PHONE MARK IS THE ONE
+   THING ON THIS CHAPTER THAT GOT WORSE. The 15% vertical shows pale curtains
+   behind the mark (ground L .316 where the old plate gave .177), so measured
+   against the raw ground the IVORY mark now reads 2.26 worst / 2.68 median,
+   where the old hero gave it ~4.35. Red there is worse still (1.62 worst).
+   Both colourways are short on this frame; ivory is the better of the two,
+   which is why the answer above did not change.
+   ⚠️ THE NUMBER UNDERSTATES IT: the measuring pass hides .mark to shoot the
+   ground, so the mark's own drop-shadow halo — which is doing real work here —
+   cannot appear in it. Trust the crop over the ratio for this one element.
+   A heavier halo WAS built and rejected on looks, not numbers: it reads as a
+   grey smudge around the letterforms.
+   Real fixes if he wants one: a mark-sized scrim pad behind the logo (new
+   chrome, budget frozen), or a phone plate whose top strip is darker.
+   RE-ASK once he has seen it on his own phone. */
+@media (min-width:900px){
+  .mark{filter:none}
+  .mark__img--ivory{display:none}
+  .mark__img--red{display:block}
+}
 
 .hdr__right{display:flex;align-items:center;gap:.7rem}
 /*
@@ -422,52 +457,104 @@ main{position:relative}
       linear-gradient(to right,rgba(30,20,16,.42) 0%,rgba(30,20,16,0) 55%);
   }
 }
-/* Chapter 01 on the phone now needs the same treatment, 2026-08-04, and for a
-   harder version of the same reason. His new hero plate
-   (team-hero-portrait.webp) puts five ivory/white outfits and a lit floor exactly
-   where the headline lands — the old frame had a shadowed shoulder under that
-   band. Stock light scrim on this frame: h1 2.80 / 2.31 / 2.02 at 430/390/360,
-   against a 3.0 floor for large text.
-
-   ⚠️ THE SHAPE WAS CHOSEN BY MEASUREMENT, NOT BY EYE, and the cheap fixes were
-   tried first and rejected on numbers — on the FIRST vertical, the one where the
-   group sat low enough that the headline crossed their legs:
+/* ⚠️ HISTORY, KEPT BECAUSE IT IS THE ARGUMENT FOR THE BLOCK BELOW, 2026-08-04.
+   ch01 briefly carried its OWN DARK phone scrim (a bottom-up wash at
+   .92/.80 34%/.64 60%/.24 78%/0 92%). It shipped, it worked, and it is gone —
+   the chapter went light-key hours later so his brand red could live on the
+   headline. Do not restore it without reverting the whole block below; the two
+   are mutually exclusive.
+   What that pass PROVED, and what still holds for any future frame here:
      · crop anchor is NOT a lever — 50% and 72% both gave 2.31 at 390. At 0.5626
        against a 0.462 viewport the plate covers by HEIGHT, so it is only ever
        cropped horizontally and both windows are equally bright. Vertical
-       background-position does nothing whatsoever here.
-     · zooming the plate to lift the group out of the headline band
+       background-position does nothing whatsoever on this chapter.
+     · zooming the plate to lift the group clear of the headline band
        (background-size:auto 122%, anchored bottom) reached only 2.54.
-   HE THEN RE-SHOT THE FRAME instead, +10% higher, which is the fix CSS could not
-   buy — and it is the plate that ships. It does NOT remove the need for this
-   block: the headline now lands on the open floor rather than on five white
-   outfits, but that floor is bright and even, so on the stock light scrim ch01
-   still measures h1 2.55 at 390 and 1.98 at 360.
-   Three shapes, all re-measured ON THE SHIPPING PLATE:
-     A  #s5's exact shape       390 h1 3.92   360 h1 2.51  ← FAILS at 360
-     B  this one                390 h1 5.70   360 h1 3.65
-     C  heaviest (.94/.86/.72)  390 h1 8.02   360 h1 6.40
-   A is out on measurement, not taste: it clears 430 and 390 and fails the
-   smallest phone — and it failed 360 on the previous vertical too, so the frame
-   change did not rescue it. B is the KNEE, the lightest shape that clears every
-   size, worst line 3.65 against a 3.0 floor. C buys ~3 more points by visibly
-   darkening the floor and the group's legs, which is the photograph paying for
-   margin it does not need. If more separation is ever wanted, C is this same
-   block with .94 0% / .86 38% / .72 64% / .34 82% / 0 96%.
-   Shipped (B), worst line per element:
-     430   h1 7.87   body 6.90   cta 11.67
-     390   h1 5.70   body 6.65   cta 11.54
-     360   h1 3.65   body 6.28   cta 11.37
-   ⚠️ Desktop is untouched by this — the block is max-width:899px, and ch01 on
-   desktop measures fine on the stock scrim (h1 4.23/3.87/3.48). RE-MEASURE all
-   three phone sizes if the hero frame, the copy, or the font ever changes. */
+     · ch05's scrim shape does NOT transfer: it cleared 430 and 390 here and
+       failed 360 (2.51) on two different verticals. Measure per chapter.
+   The real fix each time was the FRAME, and he re-shot it twice — +10%, then
+   +15% higher — which is what finally put the copy on open floor. */
+/* ══ CHAPTER 01 IS LIGHT-KEY, 2026-08-04 ═══════════════════════════════════
+   HIS ASK: "make a play of the colors like the your best life being burgundy,
+   and the logo now here will be the default red logo". BOTH of those turned out
+   to be the same request, and neither was possible on a dark-key hero.
+
+   ⚠️ THIS IS WHY THE WHOLE CHAPTER FLIPPED — it is not a mood change for its own
+   sake. Measured on the real frame, worst-2% per line against a 3.0 floor:
+
+     ink on the DARK-KEY hero (ground L .08-.09)      1440      390
+       burgundy #5C1F31                               1.15      1.00
+       logo red #8E2D3A                               1.01      ——
+       rose     #C79A92                               2.17      3.81
+       champagne#E4D3B4                               3.66      6.43
+       ivory    (what it was)                         5.04      8.84
+     the RED MARK on the dark-key hero                1.31 median — invisible
+
+   Dark ink cannot sit on a ground the scrim exists to keep dark; the wine family
+   is not "close", it is at parity with the background. So the scrim was INVERTED
+   rather than the colour compromised: an ivory wash, dark copy, and both of his
+   asks land. Same ground, re-measured:
+       logo red #8E2D3A  5.07 (1440) / 4.86 (390)   ← SHIPPED
+       burgundy #5C1F31  7.74 / 7.42                ← offered, he chose the mark's own red
+       red mark          6.03 (1440)
+
+   ⚠️ THE HERO IS NOW THE ONLY LIGHT-KEY CHAPTER. Everything scoped #s1 below is
+   load-bearing for that: lift the wash and the dark copy is stranded on a photo,
+   keep the wash and revert the copy and it is ivory on ivory. They move together.
+   ch02-ch08 are untouched and still dark-key.
+   ⚠️ Chapter 05 runs the SAME five people on a bright frame and would need its
+   own measurement pass before any of this is carried across — HIS SCOPE WAS
+   "hero only for now". Do not generalise it uninvited. */
+@media (min-width:900px){
+  #s1::after{
+    background:
+      linear-gradient(to right,rgba(250,247,241,.86) 0%,rgba(250,247,241,.72) 42%,rgba(250,247,241,.46) 62%,rgba(250,247,241,0) 84%);
+  }
+}
+/* ⚠️ THE PHONE WASH IS SHAPED TO STOP AT THEIR FEET, AND THAT IS HIS CORRECTION,
+   not a default. First build ran it to 98% of the plate — enough to cover the
+   copy, but it lay at .30-.60 alpha straight across the group and milked them
+   out. His words: "above the your hormones there is no need to make it so white
+   on their body right". Correct, and it also explains a second symptom: with the
+   top of the plate washed pale, the ivory mark up there fell to 2.15:1.
+   ⚠️ IT CANNOT SIMPLY BE CUT SHORT — the tension is real and measured. The copy
+   is DARK ink now, so it fails against DARK pixels, and at 390/360 the top line
+   of the headline crosses the shadow under their feet and the red trousers.
+   Reach tested against h1 worst-2%, floor 3.0, at 430/390/360:
+     zero at 64%   7.12 / 1.48 / 1.01   ← group clean, headline gone
+     zero at 72%   8.33 / 2.43 / 1.34
+     zero at 74%   8.99 / 3.35 / 1.89
+     zero at 82%  10.30 / 5.21 / 3.25   ← THIS. clears everywhere
+     zero at 98%  10.00 / 5.63 / 4.58   ← the milky one
+   82% is the knee: it lifts the floor and the foot shadows, which is all the
+   headline needs, and dies below their knees so the clothes keep their colour.
+   RE-MEASURE 360 first if this is ever touched — it is the size that breaks. */
 @media (max-width:899px){
   #s1::after{
     background:
-      linear-gradient(to top,rgba(30,20,16,.92) 0%,rgba(30,20,16,.80) 34%,rgba(30,20,16,.64) 60%,rgba(30,20,16,.24) 78%,rgba(30,20,16,0) 92%),
-      linear-gradient(to right,rgba(30,20,16,.42) 0%,rgba(30,20,16,0) 55%);
+      linear-gradient(to top,rgba(250,247,241,.90) 0%,rgba(250,247,241,.84) 34%,rgba(250,247,241,.72) 52%,rgba(250,247,241,.46) 64%,rgba(250,247,241,.14) 74%,rgba(250,247,241,0) 82%);
   }
 }
+/* the copy stack inverts with it. Values are the site's own tokens — nothing new
+   was mixed except --logo-red, which is sampled from the mark.
+   ⚠️ THE KICKER IS THE ONE PLACE A TOKEN DID NOT SURVIVE THE FLIP. --gold-deep
+   (#8A6A34) is built for a DARK ground; on the ivory wash it measured 3.52-3.56
+   at every desktop size against a 4.5 floor for small text. #6E5427 is the same
+   hue two steps down and clears at 5.79. Flattening it to --ink measures 12.46
+   but throws the gold accent away, which is the chapter's only warm note besides
+   the red — so the darker gold is the deliberate pick, not a compromise.
+   (The kicker is hidden below 900px by his 2026-08-04 call, so this is a
+   desktop-only concern.) */
+#s1 h1{color:var(--ink)}
+#s1 .body{color:rgba(46,34,40,.82)}
+#s1 .kicker{color:#6E5427}
+#s1 .kicker::after{background:linear-gradient(to right,#6E5427,transparent)}
+#s1 .cta{
+  border-color:rgba(46,34,40,.45);background:rgba(250,247,241,.55);color:var(--ink);
+}
+#s1 .cta:hover{border-color:var(--ink);background:rgba(250,247,241,.75)}
+#s1 .hint{color:rgba(46,34,40,.55)}
+#s1 .hint i{background:linear-gradient(to bottom,rgba(46,34,40,.5),transparent)}
 /* ...and its own on desktop, for the reason #s6 has one: this is now a frame with
    no dark region under the copy. The plate it replaced carried a charcoal shelving
    unit right where the column sits, which is where that chapter's ~15:1 CTA came
@@ -617,7 +704,12 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
    real range is pale: ivory > cream > champagne, in that order. A coloured
    italic here needs a darker ground first (deeper scrim or a different crop),
    not a different swatch. Board sent; when he picks, change this one rule. */
-#s1 h1 em,#s5 h2 em{color:inherit}
+#s5 h2 em{color:inherit}
+/* ch01's italic is the one place a brand colour survived — because the ground
+   under it was inverted for exactly this. See the LIGHT-KEY block above for the
+   full table; the short version is that on the old dark ground this same red
+   measured 1.01:1. RE-MEASURE if the hero frame or the wash ever changes. */
+#s1 h1 em{color:var(--logo-red)}
 
 .body{
   font-size:clamp(1.05rem,1.2vw,1.2rem);line-height:1.62;
@@ -2219,13 +2311,16 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
          `...-mobile-bottom-copy.png` (2160x3840), uploaded together through the
          GitHub web UI (commit 332120b, the only two files in it) and assigned as
          his own filenames say — the wide one on desktop, the tall one on the
-         phone. The phone plate was then RE-SHOT and re-uploaded as
-         `...-mobile-bottom-copy-higher-10pct.png` (commit 7bfe80b) with the group
-         ~10% higher, after measurement showed the headline crossing their legs;
-         that later file is the one that ships, the first vertical is unused.
+         phone. The phone plate was then RE-SHOT TWICE, each time after seeing the
+         measurements: `...-higher-10pct.png` (commit 7bfe80b), then
+         `15% high phone.png` (commit b4a45bc) with the group ~15% higher, which
+         is the one that ships. The two earlier verticals are unused — kept in
+         images/ as his uploads, not referenced.
          Encoded q92 to images/team-hero.webp (137 KB) and
-         images/team-hero-portrait.webp (159 KB), downsampled to the site's
+         images/team-hero-portrait.webp (162 KB), downsampled to the site's
          standard plate size (1672 wide / 941 wide) rather than shipping 8 MB.
+         ⚠️ THE PATTERN, worth repeating: showing him the numbers got a better
+         FRAME twice over, which no amount of CSS could have bought.
          New filenames, never an overwrite, so no cache holds a stale frame and
          the revert is these two lines. The predecessors keep their own names:
          09-light.webp and 09-light-portrait.webp (his `mature portrait.png`,
@@ -2240,35 +2335,28 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
            1920  kicker 6.52->7.51  h1 3.26->4.23  body 3.01->3.62  cta 6.65->7.78
            1440  kicker 6.00->6.29  h1 3.17->3.87  body 2.01->3.36  cta 5.70->6.73
            1280  kicker 4.52->5.94  h1 2.21->3.48  body 2.07->3.38  cta 5.65->6.43
-         Desktop is a straight gain at every size and it FIXES a real failure:
-         the headline at 1280 was 2.21 against a 3.0 floor and now clears it.
-         The body paragraph is still under 4.5 (3.36-3.62) — it was 2.01-3.07
-         before, so this frame improves it without closing it. That shortfall is
-         the site-wide one described in HANDOVER_NEXT_CHAT.md, not this frame's.
+         Desktop was a straight gain at every size on the dark-key scrim it
+         first shipped with (h1 2.21->3.48 at 1280, which fixed a live failure).
+         Those numbers are HISTORY NOW — hours later the chapter went LIGHT-KEY
+         (see the CHAPTER 01 IS LIGHT-KEY block in the stylesheet), so every
+         contrast figure for ch01 was re-taken on the inverted ground. The frame
+         swap and the colour flip are two separate decisions that happened to
+         land the same day; do not read one set of numbers as the other's.
 
-         ON THE PHONE THE FRAME ALONE WAS A LOSS, and it took BOTH a re-shot
-         plate and a new scrim to turn it around. The first vertical, on the
-         stock scrim, old -> new:
-           430   h1 4.79->2.80   body 5.14->4.39   cta 10.04->6.61
-           390   h1 4.09->2.31   body 4.64->4.41   cta  9.99->6.66
-           360   h1 3.13->2.02   body 3.94->2.66   cta 10.07->6.56
-         Cause, verified in the crops: the headline landed across the group's
-         bodies — five ivory/white outfits — where the old portrait had a
-         shadowed shoulder under exactly that band. He re-shot it +10% higher so
-         the headline sits on open floor; that alone got 390 to 2.55, still short
-         of the 3.0 floor, because the floor is bright and even.
-         So #s1 also carries its own phone scrim now, the way #s5 does — see the
-         max-width:899px #s1::after block in the stylesheet, which records the
-         two CSS-only fixes that were tried and failed on numbers (crop anchor,
-         zooming the plate) and the three shapes that were measured on the
-         shipping plate. Shipped:
-           430   h1 7.87   body 6.90   cta 11.67
-           390   h1 5.70   body 6.65   cta 11.54
-           360   h1 3.65   body 6.28   cta 11.37
-         Every phone size now clears h1 3.0 / body 4.5 / cta 4.5 — which the OLD
-         hero did not do either (it failed the body at every phone size, worst
-         3.94 at 360). RE-MEASURE all three rather than assuming, if the frame or
-         the copy ever changes. -->
+         AS SHIPPED, light-key, worst LINE per element, all six viewports
+         (floors: h1 3.0 large text, everything else 4.5):
+           1920  kicker 5.83  h1 11.65  em 6.20  body 7.23  cta 12.18
+           1440  kicker 5.83  h1 11.98  em 6.37  body 6.57  cta 12.12
+           1280  kicker 5.79  h1 11.32  em 6.25  body 4.85  cta 10.03
+           430              h1 10.00  em 6.09  body 7.22  cta 12.33
+           390              h1  5.63  em 5.97  body 7.14  cta 12.39
+           360              h1  4.58  em 5.16  body 7.00  cta 12.38
+         (kicker is hidden below 900px, his call.) Every element clears at every
+         size — the first time this chapter has done that on BOTH axes.
+         ⚠️ 1280 body 4.85 is the tightest number on the page and the one that
+         breaks first: it is the copy column reaching furthest right relative to
+         the wash. If the column widens, the type grows, or the wash is lightened,
+         RE-MEASURE 1280 before anything else. -->
     <div class="bg" data-src="images/team-hero.webp"
          data-src-narrow="images/team-hero-portrait.webp"></div>
     <div class="inner"><div class="copy">

@@ -81,7 +81,20 @@
   --btn-radius:999px;
 }
 *,*::before,*::after{box-sizing:border-box}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+/* IVORY CANVAS, 2026-08-04 — his call. Dragging past the top or the bottom
+   rubber-bands, and the strip that opens up is the CANVAS, not any border.
+   It used to be body's --ink (#2E2228), a dark plum he read as burgundy and
+   called an eye sore.
+   ⚠️ It has to go on `html`, not on `body`. With no background on html, BODY'S
+   background propagates to the canvas — so recolouring body would repaint the
+   whole document box as well, and every section that does not paint its own
+   ground would change with it. Giving html its own background stops that
+   propagation: the canvas turns ivory, body keeps --ink over its own box, and
+   nothing inside the page moves.
+   ⚠️ <meta name="theme-color"> is still #2E2228 — that is the iOS browser
+   CHROME, a different surface, and matching it would take the whole toolbar
+   light across every page. Left dark on purpose; his call, flagged to him. */
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;background:var(--ivory)}
 body{
   margin:0;background:var(--ink);color:var(--ivory);
   /* NOW Regular, not Light: almost all copy on this site sits over a

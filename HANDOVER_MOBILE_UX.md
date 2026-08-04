@@ -177,7 +177,10 @@ treatment — take the measurement, put the alpha where that chapter's headline
 actually is. Ch 06's headline (§5) is still the hard one; nothing here moves it,
 and dark ink type remains the honest answer there.
 
-**Still open on ch 05, unrelated to legibility:** the woman at the left of the
-group has left the team and is in both new frames — same person, same outfit, same
-pose, the set was only restaged around her. She cannot be cropped out of either.
-Flagged in the `#s5` markup; the fix is a frame she is not in.
+**Open on ch 05 but settled for now, unrelated to legibility:** the woman at the
+left of the group has left the team and is in both new frames — same person, same
+outfit, same pose, the set was only restaged around her. She cannot be cropped out
+of either. Raised 2026-08-03, raised again 2026-08-04 with the new frames in front
+of him; he answered "it's ok for now" and it shipped. **Do not re-ask** — he has
+said yes twice. Flagged in the `#s5` markup so nobody is surprised by it; the fix,
+whenever he wants it, is a frame she is not in.

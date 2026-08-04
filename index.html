@@ -1112,14 +1112,52 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
    No nowrap here: at half width the string does not fit one line at this size
    on every screen, and forcing it would push it out of the panel. It wraps
    where it must, which is the honest behaviour for a narrower column. */
+/* HEADLINE DROPPED, 2026-08-04 — his call, and the SECOND pass on it. The
+   first was a flat 3rem; he then marked a dotted target line on a render of
+   the panel and asked for it there. Measured off his annotation: the headline
+   centre sits at ~113px from the panel top today and his line lands at ~228px,
+   i.e. ~115px further down, which is 163px of top margin at the 900px-tall
+   window he works in — 18svh.
+   ⚠️ IT IS `top`, NOT `margin-top`, AND THAT IS THE WHOLE POINT — his
+   correction: "it was only headers adjustment not the testimonials". The
+   quote is centred in .cvoices__stage, which is flex:1, i.e. whatever is LEFT
+   OVER under the headline. So a 163px margin-top does not move the headline
+   alone — it shrinks the stage by 163 and carries the quote down 57px with
+   it. Relative positioning takes the drop out of the flow: the stage keeps
+   the exact geometry it had at margin-top:3rem, the quote does not move a
+   pixel, and only the headline travels. Keep the 3rem margin below — it is
+   what the stage is measured from, and the render he approved was built on it.
+   ⚠️ svh, NOT a rem. A fixed 114px is 13% of a 900px panel but 21% of a 540px
+   one; in svh the drop stays the proportion he drew at every height.
+   ⚠️ min-height GUARD: below ~700px of panel the headline would travel far
+   enough to collide with the top of the quote block (measured: it overlaps by
+   ~18px at 513px). Under that height it simply stays at 3rem. Nothing else
+   about the panel changes at the seam.
+   ⚠️ THESE MUST STAY BELOW the .cvoices__head rule above. That rule sets the
+   `margin` SHORTHAND, which writes margin-top:0 — a media query adds no
+   specificity, so placed above it this is silently overridden and the headline
+   does not move. It was written above it first and measured at 0px.
+   DESKTOP ONLY, deliberately: the phone stage is 40svh and was already the
+   tight case (four of the nine quotes were clipping before it was grown), so
+   it does not get 163px taken out of it. */
+@media (min-width:900px){ .cvoices__head{margin-top:3rem} }
+@media (min-width:900px) and (min-height:700px){
+  .cvoices__head{position:relative;top:calc(18svh - 3rem)}
+}
 .cvoices__stage{position:relative;flex:1;min-height:0}
 .cvoice{
   position:absolute;inset:0;margin:0;
   display:flex;flex-direction:column;justify-content:center;
   opacity:0;visibility:hidden;
-  transition:opacity 1.2s var(--ease),visibility 0s var(--ease) 1.2s;
+  /* FADE 1.2s → 0.8s, 2026-08-04 — his call, the other half of "move faster".
+     The dwell went 9s → 5s (in the ch08 script); at a 1.2s fade the crossfade
+     would have been a quarter of the whole cycle and the panel would read as
+     permanently dissolving. The visibility delay MUST track this number — it
+     exists to hold the outgoing quote out of the accessibility tree until the
+     fade has finished, so if the two ever drift the quote goes hidden mid-fade. */
+  transition:opacity .8s var(--ease),visibility 0s var(--ease) .8s;
 }
-.cvoice.is-on{opacity:1;visibility:visible;transition:opacity 1.2s var(--ease)}
+.cvoice.is-on{opacity:1;visibility:visible;transition:opacity .8s var(--ease)}
 .cvoice p{
   /* quotes keep Cormorant — the one role the brand guideline reserves for it */
   margin:0 0 1.1rem;font-family:var(--font-quote);font-style:italic;font-weight:500;
@@ -1134,12 +1172,40 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
      Phones are untouched (2rem, in the max-width:899px block below), so the
      900px seam now steps 31.2 → 32 instead of 36.8 → 32: smaller than the
      seam it replaces. */
-  font-size:clamp(1.95rem,3.32vw,3.57rem);line-height:1.22;color:var(--burgundy);
+  /* DOWN A FURTHER 10%, 2026-08-04 — his pick (option B) from a rendered
+     ladder of 47.8 / 43.0 / 40.6 / 38.2px. It shipped at −20% first, he read
+     it as too small on the render, and −10% is where he settled. Same method
+     as the 15% step above: the whole clamp scales by 0.9 so it is 10% at every
+     width, not a reshaped curve.
+        1280  42.5 → 38.3   ·   1440  47.8 → 43.0   ·   1920+  57.1 → 51.4
+     The cap binds from ~1720px instead of ~1600. The 26ch measure is in ch so
+     it narrows with the type and the line count per quote does not move.
+     ⚠️ PHONES CAME WITH IT (2rem → 1.8rem below) — the two passes above
+     deliberately left them, but he asked for a smaller quote and he reads this
+     site on a phone, so leaving it would have meant the change did not exist
+     where he looks. It also closes the 900px seam rather than opening it:
+     28.8 → 28.1px, against 32 → 28.1 if phones had been left. Reverting phones
+     alone is one value.
+     FACE UNCHANGED — Cormorant is what "posh" already looks like here, and it
+     is the one role the brand guideline reserves for it. Playfair and Megante
+     were both offered and both turned down.
+     MEASURE UNCHANGED TOO — a full-width variant was rendered and offered
+     (it fills the column the 26ch cap leaves empty) and he chose from the
+     capped board instead, so 26ch stands. Same for alignment: quote-centred
+     and all-centred were both rendered and he kept the left edge. */
+  font-size:clamp(1.755rem,2.988vw,3.213rem);line-height:1.22;
+  /* BLACK, 2026-08-04 — his call, and pure #000, not the house --ink #2E2228
+     (both were offered). On the cream panel it measures 17.7:1. */
+  color:#000;
   max-width:26ch;
 }
 /* footer reset — the page-level footer styles (background, padding,
    AND border-top) bleed in otherwise (chapter 07 lesson) */
-.cvoice footer{background:none;padding:0;border:0;font-size:1.08rem;color:var(--ink-soft);letter-spacing:.08em}
+/* attribution goes black WITH the quote, 2026-08-04 — his call. It was
+   --ink-soft #6A585F, which was the step that separated the name from the
+   quote; at #000 the two now share a value and the size (1.08rem vs ~38px)
+   is what tells them apart. Offered as quote-only and he chose both. */
+.cvoice footer{background:none;padding:0;border:0;font-size:1.08rem;color:#000;letter-spacing:.08em}
 @media (max-width:899px){
   .sec--world{height:auto;min-height:100svh}
   .collage{position:relative;grid-template-columns:100%}
@@ -1160,7 +1226,10 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
      one, if this size or that copy ever changes. */
   .cvoices{min-height:40svh}
   /* phones grow with desktop (1.75 → 2rem) but not by the same factor */
-  .cvoice p{font-size:2rem;max-width:none}
+  /* 2026-08-04: 2rem → 1.8rem, the same −10% desktop took. See the note on
+     .cvoice p above for why phones came along this time. Smaller type only
+     ADDS slack to the 40svh stage, so the nine-quote fit cannot regress. */
+  .cvoice p{font-size:1.8rem;max-width:none}
 }
 @media (prefers-reduced-motion:reduce){
   .cpress__img,.cvoice{transition:none}
@@ -2709,8 +2778,11 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
    single still as of 2026-08-02 (his call), so the reel, its count
    pill, its arrows, the swipe handling and the youtube-nocookie
    film lightbox are all gone — git has them if the reel returns.
-   The quotes still rotate: 9s, paused off-screen and under
-   prefers-reduced-motion. */
+   The quotes still rotate: 5s, paused off-screen and under
+   prefers-reduced-motion. (9s → 5s on 2026-08-04, his pick from a
+   6s/5s/4s/7s board — "move faster, in a way that is readable". The
+   crossfade came down with it, 1.2s → 0.8s, in .cvoice's CSS; the two
+   are one decision and should move together.) */
 (function(){
   var sec=document.getElementById('s8'); if(!sec) return;
   var reduce=window.matchMedia('(prefers-reduced-motion:reduce)');
@@ -2725,7 +2797,7 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
       v.setAttribute('aria-hidden',String(i!==vi));
     });
   }
-  function start(){ if(reduce.matches||vt) return; vt=setInterval(stepV,9000); }
+  function start(){ if(reduce.matches||vt) return; vt=setInterval(stepV,5000); }
   function stop(){ if(vt){ clearInterval(vt); vt=null; } }
   if('IntersectionObserver' in window){
     new IntersectionObserver(function(es){

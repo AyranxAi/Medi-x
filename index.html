@@ -2544,8 +2544,34 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
          is where it breaks first.
          Phone legibility is unchanged, so unlike ch01/ch03 this adds no debt:
          headline band worst-2% 2.40 -> 2.41, median 3.33 -> 3.28. -->
-    <div class="bg" data-src="images/product-suite.webp"
-         data-src-narrow="images/product-suite-portrait.webp"></div>
+    <!-- ── 2026-08-04, LATER STILL: THE WINE PAIR, and this one changes the KEY ──
+         `image for product.png` (1672x941) + `image for product 2.png`
+         (941x1672), both uploaded in ONE GitHub commit (1608eb7) so again there
+         was nothing to pick between. Encoded q92 to product-wine.webp /
+         -portrait.webp — 164 KB and 135 KB, SMALLER than the beige pair they
+         replace (197/184) because a deep flat wall compresses better than a
+         textured cream one. PSNR 45.0 / 45.2 dB. Sixth render of this set;
+         every predecessor keeps its own name, so reverting is these two lines.
+
+         ⚠️ THE FRAME IS NOW DARK-KEY, WHICH INVERTS THE PROBLEM THIS SECTION
+         HAD. Every note below is about a BRIGHT frame with no dark region — the
+         deepened scrim, the "real fix is dark text", the pink-bottle skim trade
+         at 62%. A wine wall gives the ivory copy its own ground for the first
+         time, so the contrast floor is no longer what constrains this chapter.
+         Left it here in full because it is the record of WHY the current
+         values are what they are — but treat it as history, not as live
+         constraint, and re-read it before touching #s6::after.
+
+         GEOMETRY CARRIES, so nothing else moved. Same 1672x941 = 16:9 desktop
+         frame (zero crop at 1600/1920/2560) and same 941x1672 = 0.563 portrait,
+         so the crop maths in the block above still holds verbatim, including
+         the warning not to re-cut the portrait to 0.462.
+         `#s6 .bg` keeps 12% on desktop and the base 72% on phones, and
+         `class="sec light"` is UNCHANGED — on desktop `#s6::after` outranks
+         `.sec.light::after` on specificity anyway, and on phones the lighter
+         hand is the right one over a frame this dark. -->
+    <div class="bg" data-src="images/product-wine.webp"
+         data-src-narrow="images/product-wine-portrait.webp"></div>
     <div class="inner"><div class="copy">
       <h2 class="reveal" data-i18n="ch6.h2">Personalised Health Solutions. <em>Tailored to You</em></h2>
       <p class="body reveal" data-i18n="ch6.body">Explore our carefully selected hormone and peptide therapies, supplements and biohacking solutions designed to support your body &mdash; not overwhelm it.</p>

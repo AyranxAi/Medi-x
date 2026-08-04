@@ -28,12 +28,9 @@ AND again before you push.** Rebase, never force.
 
 ## 2. State
 
-**Live head = `c7f1474` on `main`.** Working tree clean.
-
-**⚠️ NOT ON MAIN YET:** the whole 2026-08-04 pass is on branch
-**`claude/medi-x-gin-ui-refinements-vpj444`**, deliberately not on `main`,
-because he is mid-demo and `git push` to `main` IS the deploy. It lands when he
-says so. Six changes, all detailed in §4 and in the CSS comments:
+**Working tree clean. The 2026-08-04 pass is LIVE** — merged to `main` on his
+say-so and deployed, fast-forward from `40501f6`, six changes across four
+commits, all detailed in §4 and in the CSS comments:
 
 1. the ask bubble is rimless at rest
 2. ch08 headline +8% (paid for by the panel's side padding)
@@ -42,6 +39,12 @@ says so. Six changes, all detailed in §4 and in the CSS comments:
 5. ch06 takes his `product visible` frame, and phones get his portrait one
 6. the footer carries two addresses, its control row re-levels, and the
    newsletter line steps up to 1.15rem
+
+**Two things went live UNVERIFIED and are his to close:** `strategy@medi-gyn.com`
+is in a `mailto:` and nobody has proved the mailbox exists, and the back-to-top
+disc overlaps the address text between roughly 1000 and 1150px wide — a
+pre-existing squeeze that the second address made start earlier. Both are
+written up in §4.
 
 ---
 

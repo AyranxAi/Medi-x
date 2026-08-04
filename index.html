@@ -345,10 +345,23 @@ main{position:relative}
 }
 
 /* scrim: heavy at the text edge, gone over the subject */
+/* PHONE SCRIM — option A from HANDOVER_MOBILE_UX.md §4, 2026-08-04. Built and
+   measured on 2026-08-02, parked because he was overloaded, taken up now on
+   "the readability, how do we tackle that as well?".
+   The stop that matters is the LAST one: the wash used to die at 68% and now
+   carries to 96%, at the same weight where it starts. Cause, verified in the
+   CSS: below 900px the copy is bottom-anchored and this gradient runs
+   bottom-to-top, so the HEADLINE — the topmost element of a bottom-anchored
+   block — was climbing out of the scrim while the paragraph beneath it stayed
+   protected. That is why headlines measured worse than body text on phones.
+   ⚠️ Desktop cannot be touched: the ≥900px block below restates `background`
+   in full, so it overrides this completely rather than layering on it.
+   A was chosen over B (never reaches zero) and C (heavier) because it clears
+   everything they clear at the least cost to the photography. */
 .sec::after{
   content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
   background:
-    linear-gradient(to top,rgba(20,14,17,.86) 0%,rgba(20,14,17,.45) 34%,rgba(20,14,17,0) 68%),
+    linear-gradient(to top,rgba(20,14,17,.86) 0%,rgba(20,14,17,.58) 46%,rgba(20,14,17,.20) 76%,rgba(20,14,17,0) 96%),
     linear-gradient(to right,rgba(20,14,17,.55) 0%,rgba(20,14,17,0) 55%);
 }
 @media (min-width:900px){
@@ -359,9 +372,10 @@ main{position:relative}
   }
 }
 /* light-key frames need a softer hand */
+/* the light variant of option A — same reach, its own weights */
 .sec.light::after{
   background:
-    linear-gradient(to top,rgba(30,20,16,.78) 0%,rgba(30,20,16,.34) 36%,rgba(30,20,16,0) 70%),
+    linear-gradient(to top,rgba(30,20,16,.78) 0%,rgba(30,20,16,.52) 46%,rgba(30,20,16,.18) 76%,rgba(30,20,16,0) 96%),
     linear-gradient(to right,rgba(30,20,16,.42) 0%,rgba(30,20,16,0) 55%);
 }
 @media (min-width:900px){
@@ -1605,9 +1619,30 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
    the dark strip fixed earlier today comes straight back (58+42 of 100 becomes
    64+46 of 110, the same proportions). */
 @media (max-width:899px){
+  /* 110vh → 100vh, SECOND PASS, on his report that the picture "still moves a
+     little". 110vh killed the SEAM but introduced a PAN: a 928px section in an
+     844px window means you travel 84px inside a chapter before the next
+     arrives, so the photograph slides. 100vh is the better value and 110 was
+     over-engineering:
+       · toolbar RETRACTED (844) — the section fits EXACTLY, so zero pan, and
+         that is the state you are in whenever you are actively scrolling,
+         because scrolling is what retracts the toolbar;
+       · no seam is possible either, since 844 is the largest the viewport can
+         ever be and the section is never smaller than it.
+     CLP use 110 because their hero content is CENTRED and they want it to
+     exceed the screen. Ours is bottom-anchored, so the overshoot only cost us.
+
+     PADDING 16vh → 5vh, and this is two fixes in one. He read the layout as
+     "too in the middle": 16vh lifted the copy 135px off the section's bottom,
+     which both floated it AND — because the phone scrim is bottom-anchored —
+     carried it up out of its own scrim, making the legibility worse at the
+     same time. Less padding puts it back down into the dark end.
+     5vh is a floor, not a taste pick: the copy's bottom lands at ~726px and
+     the toolbar-SHOWN viewport is 756, so it keeps ~30px of clearance. Go
+     lower and the CTA is clipped in that state. */
   .sec{
-    min-height:110vh;
-    padding-bottom:calc(clamp(3.5rem,9vh,7rem) + 16vh);
+    min-height:100vh;
+    padding-bottom:calc(clamp(3.5rem,9vh,7rem) + 5vh);
   }
   /* ⚠️ BOTH OF THESE MUST ZERO THE PADDING ABOVE. They declare `padding:0` in
      their own rules, and the .sec rule here is later in the sheet, so it wins
@@ -1616,10 +1651,11 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
      put the dark strip STRAIGHT BACK — caught by re-running the gap probe, not
      by reading the diff. ch04 hid it because a fixed height plus border-box
      absorbs padding rather than growing. */
-  .sec--pw{height:110vh;padding-bottom:0}
-  .sec--world{min-height:110vh;padding-bottom:0}
-  .cpress{height:64vh}
-  .cvoices{min-height:46vh}
+  .sec--pw{height:100vh;padding-bottom:0}
+  .sec--world{min-height:100vh;padding-bottom:0}
+  /* back to summing the section height EXACTLY — 58 + 42 = 100 */
+  .cpress{height:58vh}
+  .cvoices{min-height:42vh}
 }
 /* the other half of the re-levelling block above. From 1240px up the disc
    stops measuring down from the top of .fw and docks to the bottom of

@@ -868,10 +868,42 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
 }
 .sec--world.in .collage{opacity:1}
 
-/* left — the press frame */
-.cpress{position:relative;margin:0;overflow:hidden;background:#241A1F}
+/* left — the press frame.
+
+   THE CROP IS CAPPED, 2026-08-04 — his call, and the reason is in the artwork.
+   The cover is 1080x1350 and its two pieces of ink sit at the extremes: the
+   MADAME masthead starts at y138 and the IRINA Bond signature ends at y1206,
+   both measured off the file. `cover` in a half column crops symmetrically by
+   675 - 1080·H/W source px per side, which is a function of the WINDOW's
+   ratio, not of anything in the CSS:
+     1440x900  0px      1280x800  0px       (the column is exactly 4:5 there)
+     1920x1080 68px     1600x900  68px      2560x1440 68px
+     1920x900  169px  ← masthead clipped by 31px, signature by 25px
+   So the frame was fine at his working width and lost both ends on a wide,
+   short window — which is what he was looking at.
+
+   --frame-w caps the crop at 90px a side by capping the frame's WIDTH, which
+   is the only lever: to show more rows you must show a narrower image.
+   90 keeps 48 source px of air above the masthead and 54 below the signature,
+   i.e. neither is ever tight, let alone cut. 1080/(1350-180) = 0.9231, hence
+   92.31svh; the 517px arm is the same ratio against the section's 560px
+   min-height, so a very short window cannot out-run it.
+   The frame stays FULL BLEED wherever the ratio allows — min() means the cap
+   simply does not bind at 1440x900, 1600x900, 1920x1080 or 2560x1440. It bites
+   only on the wide-and-short windows that were cutting her, and at its worst
+   (1920x900) it costs 65px of ground either side. That ground is #241A1F, the
+   panel's own, so it reads as the frame breathing, not as a letterbox.
+   margin-inline:auto against inset:0 is what keeps her centred in the left
+   half — his condition, and the half-and-half grid is untouched.
+   ⚠️ Both numbers belong to THIS artwork. Swap the frame and re-measure the
+   ink before trusting 92.31svh. */
+.cpress{
+  position:relative;margin:0;overflow:hidden;background:#241A1F;
+  --frame-w:min(100%,max(92.31svh,517px));
+}
 .cpress__img{
-  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  position:absolute;inset:0;margin-inline:auto;
+  width:var(--frame-w);height:100%;object-fit:cover;
   opacity:0;transition:opacity 1.4s var(--ease);
 }
 .cpress__img.is-on{opacity:1}
@@ -884,8 +916,14 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
    open. Their CSS is in git if the reel ever returns.
    What stays in that corner is the Press button: the page's own frosted
    CTA, bottom-LEFT, because the ask bubble owns bottom-right. */
+/* the inset is measured from the PHOTOGRAPH's edge, not the column's — when
+   the crop cap above pulls the frame in, this comes with it, so the button
+   never drifts onto the ground beside her. Where the frame is full bleed the
+   first term is 0 and this is the clamp it always was. */
 .cpress__cta{
-  position:absolute;left:clamp(1.4rem,3vw,2.6rem);bottom:clamp(1.4rem,3vw,2.2rem);z-index:2;
+  position:absolute;z-index:2;
+  left:calc((100% - var(--frame-w))/2 + clamp(1.4rem,3vw,2.6rem));
+  bottom:clamp(1.4rem,3vw,2.2rem);
   /* HIS PICK 2026-08-02 (P2). Every other CTA on the site sits on a ground of
      luminance 0.017–0.141, which is what the frosted wash was measured against.
      This one sits on a magazine cover at 0.58 — a white blazer — where the
@@ -911,6 +949,25 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
   display:flex;flex-direction:column;
   padding:clamp(1.6rem,3.2vw,2.8rem) clamp(1.6rem,4vw,4rem);
 }
+/* SIDE PADDING TRIMMED, 2026-08-04 — his pick, and it is bought width, not
+   taste. The headline below was at its one-line wall; the only two ways past
+   it were a shorter string or a wider text column, and he chose the column.
+   4vw → 2.2vw hands the headline 8% more room to grow into:
+     text width at 1440   604 → 657px      ceiling  31.6 → 34.4px
+     text width at 1920   831 → 876px      ceiling  43.5 → 45.9px
+   Everything in the panel shares this padding, so the headline, the quote
+   and the attribution all move left together and the single left edge he
+   asked for on 2026-08-03 is untouched.
+
+   ⚠️ It is padding-inline in a min-width query, NOT a smaller floor on the
+   shorthand above, and that is load-bearing twice over. Phones keep the
+   padding they have (his standing instruction). And the 1.6rem floor would
+   otherwise BIND from 1164px down — at 950px it leaves the headline 0.2% of
+   margin and it wraps to two lines, which is the one thing he ruled out. A
+   pure vw keeps padding and type on the same scale at every desktop width,
+   so the margin below stays 2.4% from 900px to 2560px. The 16px step at the
+   899/900 seam is the cost and it is invisible in use. */
+@media (min-width:900px){ .cvoices{padding-inline:2.2vw} }
 /* the panel's title, in place of the old "In their words" kicker. Editorial
    face like every other headline, but pitched well below a chapter headline —
    the quote underneath is the loud element here and must stay that way. */
@@ -939,22 +996,35 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
 .cvoices__head{
   margin:0 0 clamp(1rem,2vh,1.6rem);
   font-family:var(--font-brand-accent);font-weight:400;
-  /* A TAD BIGGER, 2026-08-03 — and "a tad" is the measurement, not a hedge.
-     The binding constraint is his one-line rule, and the ceiling is the panel's
-     text width divided by this string's width-per-px in Megante at .02em:
-        1280  ceiling 29.4   ·  1440  33.0  ·  1600  36.7
-        1920  ceiling 45.4   ·  2560  62.8
-     2vw → 2.16vw and the cap 2.2rem → 2.75rem lands on 27.6 / 31.1 / 34.6 /
-     41.5 / 44 — one line everywhere with 2 to 19px of margin. That is +8% on
-     the narrow widths and +18% at 1920, where the old cap was throwing away
-     10px of available line.
-     ⚠️ Do not push past this without re-measuring. Below 1600 the remaining
-     margin is only ~2px, so the next step up wraps to two lines at 1440 —
-     which is the width he works at. If it ever needs to be much bigger, the
-     string has to get shorter, not the type larger.
-     The quote stays the loud element by design: this sits at 0.62 of its size
-     at 1920, against 0.52 before. */
-  font-size:clamp(1.05rem,2.16vw,2.75rem);line-height:1.2;
+  /* BIGGER AGAIN, 2026-08-04 — his call, and this time the room came from the
+     panel, not from the type. The 2026-08-03 pass had run this to its wall:
+     one line is the rule, so the ceiling is the panel's text width divided by
+     this string's width-per-px in Megante at .02em, measured at 19.09, and at
+     2.16vw only ~2% of that ceiling was left below 1600.
+     Trimming the side padding to 2.2vw (above) moved the ceiling itself:
+
+                     text width      ceiling         2.16vw → 2.33vw
+        1280          538 → 584     28.2 → 30.6      27.6 → 29.8
+        1440          604 → 657     31.6 → 34.4      31.1 → 33.6
+        1600          671 → 730     35.2 → 38.2      34.6 → 37.3
+        1920          831 → 876     43.5 → 45.9      41.5 → 44.7
+        2560         1151 → 1167    60.3 → 61.2      44.0 → 44.8 (cap)
+
+     A flat +8% to 1920, one line everywhere, and the margin held at a
+     constant ~2.4% from 900px up — constant because padding and type are now
+     on the same vw scale, which the old mixed clamp could not manage.
+     The cap rises 2.75 → 2.8rem, which now binds from ~1923px instead of
+     ~2037px; 2560 is the one width that gains little, because the cap was
+     always what held it and 61.2 of ceiling still goes unspent there.
+     ⚠️ This is the wall again. There is 2.4% left and nothing else to trim —
+     the next step up wraps at 1440, which is the width he works at. To go
+     meaningfully bigger from here the STRING has to get shorter. That option
+     was put to him on 2026-08-04 (it is worth ~+49%) and he chose the padding
+     instead, so the string stands.
+     The quote stays the loud element by design, and by more than before: it
+     dropped 15% in the same pass, so this now sits at 0.78 of its size at
+     1920 against 0.62. That ratio is the thing to watch if either moves. */
+  font-size:clamp(1.05rem,2.33vw,2.8rem);line-height:1.2;
   letter-spacing:.02em;color:var(--burgundy);text-align:left;
 }
 /* LEFT, not centred, 2026-08-03 — his call once the panel went back to half
@@ -974,11 +1044,18 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
 .cvoice p{
   /* quotes keep Cormorant — the one role the brand guideline reserves for it */
   margin:0 0 1.1rem;font-family:var(--font-quote);font-style:italic;font-weight:500;
-  /* up from clamp(2rem,3.2vw,3.5rem) — his call: with the reel reduced to one
-     still frame, the quotes carry this chapter, so they take display scale.
-     56px at 1440 against 46px before. The 26ch measure holds the line count
-     where it was; widen that and the longest quote overruns the panel. */
-  font-size:clamp(2.3rem,3.9vw,4.2rem);line-height:1.22;color:var(--burgundy);
+  /* DOWN 15%, 2026-08-04 — his call, a step back from the 2026-08-03 growth
+     (which had gone clamp(2rem,3.2vw,3.5rem) → 3.9vw/4.2rem when the reel was
+     cut to one still frame and the quotes were left carrying the chapter):
+        1280  49.9 → 42.5   ·   1440  56.2 → 47.8   ·   1920+  67.2 → 57.1
+     The whole clamp scales by the same 0.85 so the step is 15% at every width
+     rather than a reshaped curve. The 26ch measure is in ch, so it narrows
+     with the type and the line count per quote is unchanged — that is what
+     keeps the tallest of the NINE inside the stage without re-measuring.
+     Phones are untouched (2rem, in the max-width:899px block below), so the
+     900px seam now steps 31.2 → 32 instead of 36.8 → 32: smaller than the
+     seam it replaces. */
+  font-size:clamp(1.95rem,3.32vw,3.57rem);line-height:1.22;color:var(--burgundy);
   max-width:26ch;
 }
 /* footer reset — the page-level footer styles (background, padding,
@@ -989,8 +1066,11 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
   .collage{position:relative;grid-template-columns:100%}
   /* the frame is 4:5 — 58svh shows it essentially uncropped at phone
      widths (390 x 4:5 = 487px ≈ 58svh); the old 52svh existed to let
-     the burgundy belt peek above the fold, and the belt is gone */
-  .cpress{height:58svh}
+     the burgundy belt peek above the fold, and the belt is gone.
+     --frame-w goes back to the full column here: the desktop cap is sized
+     against the section's own height, and this stack is 58svh of it, so
+     leaving it on would letterbox a landscape phone for no gain. */
+  .cpress{height:58svh;--frame-w:100%}
   .cright{border-left:none}
   /* 34svh → 40svh. At the bigger quote size four of the nine testimonials
      needed 194px against 155px of stage and were clipping. The section is
@@ -1175,19 +1255,22 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
 
      chapter 01   frosted glass, gold rim — quiet on arrival, so it does
                   not compete with the hero
-     from ch 02   burgundy disc, ivory rim
+     from ch 02   burgundy disc, rimless at rest — the ivory rim is a
+                  HOVER state now (his call 2026-08-04, see below)
 
-   Why a burgundy disc with an ivory rim, when neither survives the whole
-   page: because each covers exactly where the other fails. Measured on
+   The pairing the rim came from, kept here because it is the argument
+   anyone will re-run when the rimless disc looks wrong on ch05 or ch07:
+   a burgundy disc and an ivory rim, when neither survives the whole
+   page, because each covers exactly where the other fails. Measured on
    the real page, disc / rim against the ground under the button —
      ch05 the room      1.08 / 10.69      ch08 ivory panel  11.21 / 1.03
      ch06 the tools     5.17 /  2.24      the footer        10.64 / 1.09
      ch07 menoSTART     1.30 / 15.10      ch02, ch03      ~3.1 / ~3.5
-   Take the better of the two on any chapter and the worst case anywhere
-   on the site is 3.55:1, above the 3:1 a control outline wants. It does
-   mean the button LOOKS different from screen to screen — ringless on the
-   two light panels, a bare ring on the dark rooms. That is the design
-   working, not a fault.
+   Taking the better of the two on any chapter put the worst case anywhere
+   on the site at 3.55:1, above the 3:1 a control outline wants. That is the
+   floor the idle state no longer has: with the rim on hover only, the
+   at-rest disc is on its own, and the left column above IS the at-rest
+   number — 1.08 on ch05, 1.30 on ch07.
 
    The header's WhatsApp icon stays put: that is the fast human route,
    this is the assistant. z45 sits below the nav overlay (50), so opening
@@ -1224,11 +1307,29 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
 }
 /* the glow, spilling outside the disc */
 .ask--glow-out{box-shadow:0 0 0 1px rgba(194,160,94,.35),0 0 26px 6px rgba(194,160,94,.34)}
-/* past the hero: the burgundy disc with an ivory rim. The compound
+/* past the hero: the burgundy disc, RIMLESS AT REST. The compound
    selectors are here so this beats .ask--glow-in's gold rim regardless of
-   source order. */
+   source order.
+
+   HIS CALL 2026-08-04: the ivory rim comes off the idle state. It returns
+   on hover (below), so this is a change to one state, not to the button.
+
+   ⚠️ What it costs, so nobody "fixes" it back by accident. The rim was not
+   decoration — it was the half of the pair that carried the dark chapters.
+   Disc alone against the ground under the button, measured on the real page:
+     ch05 the room 1.08   ·   ch07 menoSTART 1.30   ·   ch02, ch03 ~3.1
+     ch06 the tools 5.17  ·   ch08 ivory panel 11.21  ·   the footer 10.64
+   So at rest the bubble now reads on the light half of the site and all but
+   vanishes on ch05 and ch07. He was shown these numbers and chose it anyway:
+   the quiet is the point. If it ever needs to come back on the dark rooms
+   only, the honest fix is a per-chapter signal on the button, not a rim
+   everywhere — the rim everywhere is exactly what this removed.
+
+   border-color, not border-width:0 — the 1px box stays, so the icon cannot
+   shift and the rim can fade back in on hover. The burgundy shows through
+   it: background paints under the border. */
 .ask--past-hero,.ask--past-hero.ask--glow-in,.ask--past-hero.ask--glow-out{
-  background:var(--burgundy);border-color:var(--ivory);color:var(--ivory);
+  background:var(--burgundy);border-color:transparent;color:var(--ivory);
   backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:none;
 }
 /* Hover lifts the fill one step and doubles the rim, with the shine held
@@ -1242,9 +1343,13 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
    i.e. past this point hovering makes the button HARDER to see exactly
    where the fill is the only thing carrying it.
    The second rim is an inset shadow rather than border-width:2px so it
-   transitions smoothly and cannot nudge the icon. */
+   transitions smoothly and cannot nudge the icon.
+   The border-color line is what makes hover the ONLY place the rim now
+   lives — it restates ivory over the transparent idle rim above, so the
+   hover ring keeps the full two-layer weight it always had and fades in
+   over .3s on the border-color transition the button already declares. */
 .ask--past-hero:hover{
-  background:#7A2C42;
+  background:#7A2C42;border-color:var(--ivory);
   box-shadow:inset 0 0 0 1px var(--ivory),
              inset 0 0 14px 2px rgba(250,247,241,.45);
 }

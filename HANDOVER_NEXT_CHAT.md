@@ -28,7 +28,13 @@ AND again before you push.** Rebase, never force.
 
 ## 2. State
 
-**Everything is pushed. Live head = `3a8248a`.** Working tree clean.
+**Live head = `c7f1474` on `main`.** Working tree clean.
+
+**⚠️ NOT ON MAIN YET:** the 2026-08-04 pass — the rimless ask bubble and the
+three chapter-08 refinements (headline +8%, quotes −15%, capped cover crop) —
+is on branch **`claude/medi-x-gin-ui-refinements-vpj444`**, deliberately not on
+`main`, because he is mid-demo and `git push` to `main` IS the deploy. It lands
+when he says so. Its details are in §4 below and in the CSS comments.
 
 ---
 
@@ -104,26 +110,78 @@ paragraph does not — 4.09 at 1920 — and growing it makes it worse.**
 ### Chapter 08
 
 Two equal full-bleed halves (`1fr 1fr`). The client rejected the article-width
-version; the accepted cost is that a 4:5 cover in a ~16:9 column gets cropped
-top and bottom. The article-width rule is in the CSS comment if wanted back.
+version. The article-width rule is in the CSS comment if wanted back.
 Right panel is `--cream`, the footer's own token.
 
-**Its headline is at the wall.** One line is the rule, so the ceiling is the
-panel's text width ÷ the string's width-per-px in Megante:
+**The cover's crop is capped (2026-08-04).** It used to be plain `cover`, which
+crops `675 − 1080·H/W` source px per side — a function of the WINDOW's ratio,
+so the frame was perfect at 1440x900 (0px) and lost both ends on a wide, short
+one (169px at 1920x900, which clipped the MADAME masthead and the IRINA Bond
+signature; that is what he reported). `--frame-w:min(100%,max(92.31svh,517px))`
+caps the crop at **90px a side** by capping the frame's width, leaving 48 source
+px of air above the masthead (ink starts y138) and 54 below the signature (ink
+ends y1206). It stays **full bleed** at 1280x800, 1440x900, 1512x830, 1600x900,
+1920x1080 and 2560x1440 — `min()` means the cap only bites wide-and-short, worst
+case 65px of ground a side at 1920x900. `margin-inline:auto` keeps her centred
+in the left half; the grid is untouched. `.cpress__cta` offsets off the frame,
+not the column, so PRESS never drifts onto the ground.
+**⚠️ 92.31svh belongs to THIS artwork — re-measure the ink if the frame is swapped.**
+
+**Its headline was at the wall; 2026-08-04 bought it 8% by moving the wall.**
+One line is the rule, so the ceiling is the panel's text width ÷ the string's
+width-per-px in Megante (19.09). He was offered the shorter string (worth ~+49%)
+and chose to trim the panel's side padding instead, so **the string stands**:
 
 ```
-1280 → 29.4    1440 → 33.0    1600 → 36.7    1920 → 45.4    2560 → 62.8
+                 text width      ceiling         2.16vw → 2.33vw
+  1280            538 → 584     28.2 → 30.6      27.6 → 29.8
+  1440            604 → 657     31.6 → 34.4      31.1 → 33.6
+  1600            671 → 730     35.2 → 38.2      34.6 → 37.3
+  1920            831 → 876     43.5 → 45.9      41.5 → 44.7
+  2560           1151 → 1167    60.3 → 61.2      44.0 → 44.8 (cap)
 ```
 
-Shipped `clamp(1.05rem,2.16vw,2.75rem)` = 27.6 / 31.1 / 34.6 / 41.5 / 44.
-**Below 1600 only ~2px of margin remains and 1440 is the width he works at.**
-To go meaningfully bigger the STRING must get shorter, not the type larger.
+Shipped `clamp(1.05rem,2.33vw,2.8rem)` with `padding-inline:2.2vw` in a
+`min-width:900px` query. **That query is load-bearing:** phones keep their
+padding, and the old `1.6rem` floor would otherwise bind from 1164px down and
+wrap the headline at 950px. Padding and type now share one vw scale, so the
+margin is a constant **2.4% from 900px to 1920px** (verified one line at 900,
+950, 1000, 1100, 1164, 1280, 1366, 1440, 1512, 1600, 1728, 1920, 2200, 2560).
+**It is at the wall again — from here the STRING has to get shorter.**
+
+**Quotes came DOWN 15% in the same pass** (his call): `clamp(1.95rem,3.32vw,
+3.57rem)` = 42.5 / 47.8 / 57.1. The whole clamp scales by 0.85 so the step is
+15% at every width, and 26ch is in `ch` so the line count per quote is
+unchanged — tallest of the nine is 313px in a 752px stage at 1440. Phones keep
+2rem. The headline now sits at 0.78 of the quote at 1920, against 0.62; **that
+ratio is the thing to watch if either moves again.**
 
 **⚠️ Multilingual caveat, pre-existing, not caused by the sizing:** German,
 French and Russian are ~60% longer than English and take TWO lines at any size
 that keeps English on one. Arabic and Chinese are fine. Nothing overflows — they
 wrap cleanly. Either those three translations get shortened to English's rhythm,
-or two lines is accepted there. **His call, not yet asked.**
+or two lines is accepted there. **His call, not yet asked.** Re-verified after
+the 2026-08-04 growth at 1440 and 1920: line counts are unchanged and the widest
+line still clears the panel (861/875 worst case, German at 1920).
+
+### The ask bubble is RIMLESS AT REST from ch02 down (2026-08-04)
+
+His call. The ivory rim is a **hover** state now; idle is a bare burgundy disc.
+Know what it cost before "fixing" it back — the rim was the half of the pair
+that carried the dark chapters. Disc alone, against the ground under the button:
+
+```
+ch05 the room 1.08   ch07 menoSTART 1.30   ch02, ch03 ~3.1
+ch06 the tools 5.17  ch08 ivory panel 11.21   the footer 10.64
+```
+
+He was shown these and chose it anyway; the quiet is the point. Rendered at
+1440x900 the disc still reads on ch05 (the floor under it is pale there) and
+ch07 is the genuinely quiet one — the ivory icon is what finds it. If it ever
+has to come back on the dark rooms only, the honest fix is a per-chapter signal
+on the button, **not** a rim everywhere — a rim everywhere is what this removed.
+`border-color:transparent`, not `border-width:0`, so the 1px box stays, the icon
+cannot shift, and hover fades the rim back in on the existing transition.
 
 ### The band
 

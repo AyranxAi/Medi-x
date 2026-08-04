@@ -1176,6 +1176,62 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
   display:grid;grid-template-columns:auto auto auto;justify-content:start;
   column-gap:clamp(3rem,7vw,6.5rem);row-gap:1.5rem;align-items:start;
 }
+/* THE CONTROL ROW RE-LEVELS, 2026-08-04. His ask, once Contact grew a second
+   address. THREE things were level in the 2026-08-02 sketch and the second
+   address broke all three at once — measured at 1440, relative to .fw:
+
+     shipped 2026-08-03   chips 67-111   form 69-113   arrow 65-114   level
+     + second address     chips 92-136   form 69-113   arrow 65-114   chips fell
+                                                                      23 below the
+                                                                      form and 24
+                                                                      below the arrow
+
+   He proposed fixing it in COPY — lengthening "Join our growing community"
+   until it wrapped to two lines and made the columns match. That works exactly
+   once: the wrap point moves with the viewport, so a string that takes two
+   lines at 1440 takes one at 1920 and three at 1024, and the six translations
+   all wrap somewhere else again (German is ~60% longer than English). It would
+   have to be re-tuned on every width, in every language, forever. And it would
+   only have fixed the form, leaving the arrow 24px out.
+
+   Geometry does it once and stays true:
+     · align-items:start → stretch, and the two text columns become flex
+       columns that push their control row down with margin-top:auto. The form
+       and the chip row are both 2.75rem, so bottom-aligning them aligns their
+       tops too — hence a one-line answer rather than a height calculation.
+     · the arrow stops using a tuned top offset and docks to the GRID's bottom
+       edge, which is now the chip row's bottom edge by construction. bottom:
+       -.15rem is the half-difference between the 3.05rem disc and the 2.75rem
+       chips, so their centres coincide. It cannot drift again: change the copy,
+       the language or the address count and the arrow follows.
+   All three land on 93-137 / 93-137 / centre-matched at 1240 → 2560.
+
+   ⚠️ SCOPED TO 1240px UP, and the number is measured, not chosen. Below it the
+   footer is already squeezed — at 1200 the six chips wrap to two rows, at 1100
+   the addresses wrap, at 960 they take three lines. Bottom-aligning a column
+   whose neighbour is 80px taller does not align anything, it just strands the
+   form at the bottom of an empty column. Under 1240 this reverts to exactly
+   what shipped yesterday: .f-grid stays static, so .f-top resolves against .fw
+   with its old top:4.05rem, untouched.
+   ⚠️ THAT SQUEEZE IS A KNOWN, UNFIXED PROBLEM AND THIS PASS MADE IT START
+   EARLIER — the back-to-top disc has always overlapped the address text at
+   960 and below; with two addresses it does so from ~1150. The fix is the
+   footer's shape at those widths (stack sooner, or stop .f-news holding a
+   rigid 22rem), which is his call and not this change's business.
+
+   ⚠️ padding-top on .f-social, not margin: margin-top:auto eats the 1.1rem gap
+   that .f-social carries, and when the column has no free space to absorb, the
+   auto resolves to 0 and the chips would collide with the address above. The
+   form needs no equivalent — the paragraph above it owns that gap in its own
+   margin-bottom. .f-brand already opted into stretch and is unaffected. */
+@media (min-width:1240px){
+  .f-grid{align-items:stretch;position:relative}
+  .f-news,.f-contact{display:flex;flex-direction:column}
+  .f-news form{margin-top:auto}
+  .f-contact .f-social{margin-top:auto;padding-top:1.1rem}
+  /* the arrow's half of this lives next to .f-top itself — it has to come
+     AFTER that rule's top:4.05rem to win on source order */
+}
 @media (max-width:899px){ .f-grid{grid-template-columns:1fr} }
 .f-mark img{display:block;height:64px;width:auto}
 /* the wordmark lost its tagline, so it is now a single object in a column
@@ -1183,7 +1239,9 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
    against the height its neighbours set. Phones stack, so it goes back to the
    top there and the left edge stays the shared one. */
 /* .f-grid is align-items:start, so this cell has to opt back into stretching
-   before centring inside itself means anything. */
+   before centring inside itself means anything. (From 1240px up the grid is
+   stretch anyway — see the block above — and this becomes a no-op there. It
+   stays because it is what carries 900-1239.) */
 .f-brand{align-self:stretch;display:flex;align-items:center}
 @media (max-width:899px){ .f-brand{align-self:start;align-items:flex-start} }
 .f-head{
@@ -1258,6 +1316,13 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
 .f-top:hover{background:#471826}
 .f-top svg{width:18px;height:18px}
 @media (max-width:899px){ .f-top{top:0;right:0} }
+/* the other half of the re-levelling block above. From 1240px up the disc
+   stops measuring down from the top of .fw and docks to the bottom of
+   .f-grid — which, since the chip row bottom-aligns there, IS the chip row's
+   bottom. -.15rem is half the difference between this 3.05rem disc and the
+   2.75rem chips, so the two centres coincide. Must sit after the top:4.05rem
+   above: same specificity, so source order is what decides. */
+@media (min-width:1240px){ .f-top{top:auto;bottom:-.15rem} }
 .f-base p{margin:0;font-size:.7rem;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-soft);text-align:center}
 
 /* ── ask button ─────────────────────────────────────────────
@@ -2223,7 +2288,7 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
           <button type="button" data-i18n="foot.join">Join</button>
         </form>
       </div>
-      <div>
+      <div class="f-contact">
         <h3 class="f-head" data-i18n="foot.contact">Contact us</h3>
         <!-- HIS PICK 2026-08-02 (V2): the address stays WRITTEN — it is
              an address, not a destination; the socials are icons because
@@ -2273,13 +2338,22 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
           </a>
         </div>
       </div>
-    </div>
     <!-- standalone at the far right edge, OUT of the chip row (his call:
          an up-arrow is navigation, not a contact method) and out of the
-         bottom-right corner, which the fixed bot bubble owns -->
+         bottom-right corner, which the fixed bot bubble owns.
+
+         MOVED INSIDE .f-grid on 2026-08-04, markup only — it is absolutely
+         positioned either way, so it takes no track and nothing reflows. It is
+         here so that from 1240px up it can dock to the GRID's bottom edge,
+         which is the chip row's bottom edge, instead of the tuned top:4.05rem
+         that the second address quietly left 24px out. Below 1240 .f-grid is
+         static, so this still resolves against .fw exactly as it always did.
+         Tab order is unchanged: it was already the last thing before the
+         copyright line, and it still is. -->
     <a class="f-top" href="#top" aria-label="Back to top" data-i18n-aria="a11y.top">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="m5.5 11.5 6.5-6.5 6.5 6.5"/></svg>
     </a>
+    </div>
     <div class="f-base">
       <p data-i18n="foot.copy">Copyright &copy; 2026 Medi-Gyn | Powered by Medi-Gyn Health Planning Consultancies LLC</p>
     </div>

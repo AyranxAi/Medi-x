@@ -40,7 +40,7 @@ says so. Six changes, all detailed in §4 and in the CSS comments:
 3. ch08 quotes −15%
 4. ch08 cover crop capped, so the masthead and signature stop being cut
 5. ch06 takes his `product visible` frame
-6. the footer carries two addresses
+6. the footer carries two addresses, and its control row re-levels
 
 ---
 
@@ -157,6 +157,55 @@ Two things in there are load-bearing:
 
 **⚠️ `strategy@medi-gyn.com` is live in a `mailto:` and nobody here has proved
 the mailbox exists.** Worth one send before the demo.
+
+**The control row re-levels from 1240px up.** The second address broke three
+alignments at once, not one — measured at 1440, relative to `.fw`:
+
+```
+shipped 2026-08-03   chips 67-111   form 69-113   arrow 65-114   level
++ second address     chips 92-136   form 69-113   arrow 65-114   chips fell 23
+                                                                 below the form,
+                                                                 24 below the arrow
+now                  chips 93-137   form 93-137   arrow 91-140   level again
+```
+
+He proposed fixing it in copy — lengthening the newsletter line until it wrapped
+and the columns matched. **Rejected as a mechanism**: the wrap point moves with
+the viewport and each of the six languages wraps somewhere else, so it would
+need re-tuning at every width forever, and it would only have fixed the form,
+leaving the arrow 24px out. Geometry does it once: the columns stretch and push
+their control rows down with `margin-top:auto`, and `.f-top` moved inside
+`.f-grid` (markup only — it is absolutely positioned, takes no track) so it can
+dock to the grid's bottom edge, which IS the chip row's bottom edge. Verified
+level at 1240 → 2560 and in all six languages.
+
+**⚠️ Scoped to `min-width:1240px`, and the number is measured.** Below it the
+footer is already squeezed: at 1200 the six chips wrap to two rows, at 1100 the
+addresses wrap, at 960 they take three lines. Bottom-aligning against a column
+80px taller strands the form in an empty one. Under 1240 everything reverts to
+what shipped on 2026-08-03.
+
+**⚠️ KNOWN AND UNFIXED, and this pass made it start earlier:** the back-to-top
+disc overlaps the address text at narrow desktop. It always did at ≤960; with
+two addresses it does from ~1150. The fix is the footer's SHAPE at those widths
+— stack sooner, or stop `.f-news` holding a rigid 22rem — and both change a
+layout he signed off, so it is his call. **Not a regression at any width he
+works at** (1240 up is clean).
+
+**His copy instinct was right, for a reason he did not have.** Geometry now owns
+the alignment, but bottom-aligning exposes a 24px hole under a one-line
+newsletter intro. Measured at 1440, gap text→form / address→chips, where 14 and
+18 are the natural margins:
+
+```
+"Join our growing community."   1 line    38 / 18   ← 24px hole in Newsletter
+a TWO-line intro                2 lines   14 / 18   ← no hole anywhere
+a THREE-line intro              3 lines   14 / 42   ← hole moves to Contact
+```
+
+**Two lines is the target, not "longer".** Three overshoots and moves the hole
+across. Options were put to him 2026-08-04; the English is unchanged until he
+picks, and whichever he picks needs its five translations.
 
 ### Chapter 08
 

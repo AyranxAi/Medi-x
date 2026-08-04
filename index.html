@@ -312,9 +312,34 @@ main{position:relative}
    real fix for a frame with no dark region is dark text, not more scrim —
    offered to the user 2026-08-01, not taken up yet. */
 @media (min-width:900px){
+  /* TAIL PULLED IN, 2026-08-04 — his call: "the product has a skim on the pink
+     one, that is our best seller, please fix". The stop that moved is the last
+     one, 78% → 62%, with the .62 knee brought 52% → 50% so the falloff is not a
+     visible hard edge.
+
+     WHY IT WAS BROKEN: this gradient still carried .62 alpha at 52% and did not
+     reach zero until 78%. The bottles sit at 58.2-90.8% of the viewport, so it
+     lay across the vaginal cream at roughly .47 alpha — measured, that bottle
+     kept only 65% of its brightness while the night cream on the right kept 98%.
+     The scrim was lighting the three products unevenly and hitting the best
+     seller hardest.
+
+     ⚠️ IT IS A TRADE, AND THE STOP VALUE IS THE BALANCE POINT. The copy column
+     ends at 52.7% and the first bottle starts at 58.2% — 5.5pp apart — so the
+     scrim cannot fully clear one without exposing the other. Measured, pink
+     brightness vs headline worst-2% contrast (floor 3.0 for large text):
+        A  zero at 78% (was)   65%   6.36:1
+        B  zero at 62% (this)  92%   4.92:1
+        C  zero at 58%         97%   2.64:1   ← headline under the floor
+        D  zero at 54%         97%   1.69:1
+     B is the knee: it returns nearly all of the bottle and still leaves the
+     headline 64% above the floor. C and D buy 5 more points on the bottle by
+     making the headline fail, which is not a trade worth taking.
+     ⚠️ RE-MEASURE BOTH NUMBERS if the frame, the copy width or the crop
+     position ever changes — they are what makes this value defensible. */
   #s6::after{
     background:
-      linear-gradient(to right,rgba(26,17,14,.93) 0%,rgba(26,17,14,.88) 33%,rgba(26,17,14,.62) 52%,rgba(26,17,14,0) 78%),
+      linear-gradient(to right,rgba(26,17,14,.93) 0%,rgba(26,17,14,.88) 33%,rgba(26,17,14,.62) 50%,rgba(26,17,14,0) 62%),
       linear-gradient(to top,rgba(26,17,14,.3) 0%,rgba(26,17,14,0) 44%);
   }
 }
@@ -465,6 +490,17 @@ main{position:relative}
   color:var(--gold);margin:0 0 1.35rem;
 }
 .kicker::after{content:"";flex:0 0 3.2rem;height:1px;background:linear-gradient(to right,var(--gold),transparent)}
+/* "Private. Personal. Powerful." OFF ON PHONES, 2026-08-04 — his call: it
+   "interferes with the look". Scoped to #s1 because the hero is the only
+   chapter still carrying a kicker (02/03/05/06/07 lost theirs on 2026-08-02)
+   and ch08's panel title is an h2, not this class — so an unscoped rule would
+   be waiting to hide something else the day a kicker comes back.
+   ⚠️ display:none, not visibility:hidden, on purpose: the copy block is
+   bottom-anchored below 900px, so the row has to leave the flow entirely or
+   the headline keeps the gap and climbs no lower. It also hands the headline
+   back ~2.9rem of the scrim's dark end, which is where mobile legibility is
+   worst. The gold rule (::after) goes with it — it is part of the same row. */
+@media (max-width:899px){ #s1 .kicker{display:none} }
 
 /* Chapter headlines — PLAYFAIR VARIABLE, his spec 2026-08-03: weight 450 and
    a LOW optical size. opsz is the reason this family was chosen over GFS
@@ -1254,7 +1290,18 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
      unused inside it; this spends 50 of them and the section still fits a
      844px screen without growing. Re-measure ALL NINE quotes, not the first
      one, if this size or that copy ever changes. */
-  .cvoices{min-height:40svh}
+  /* 40svh → 42svh, 2026-08-04 — THIS IS THE DARK LINE HE SAW ON HIS PHONE.
+     Not a border and nothing was drawing one: .sec--world is min-height:100svh
+     here, and its two children came to 58svh + 40svh = 98svh. The missing 2svh
+     — measured at 17px on a 844px screen — left a strip of the section with no
+     child covering it, so the BODY's --ink #2E2228 showed through between the
+     quote panel and the sponsor wall. Making the children add up to 100svh
+     closes it at every phone height, which a fixed pixel patch would not.
+     ⚠️ It also repays a debt flagged earlier the same day: the tallest of the
+     nine quotes cleared the stage by ~1px at the tightest realistic phone
+     height. The extra 2svh takes that to ~18px. Do not take it back without
+     re-measuring ALL NINE. */
+  .cvoices{min-height:42svh}
   /* phones grow with desktop (1.75 → 2rem) but not by the same factor */
   /* 2026-08-04: 2rem → 1.8rem, the same −10% desktop took. See the note on
      .cvoice p above for why phones came along this time. Smaller type only

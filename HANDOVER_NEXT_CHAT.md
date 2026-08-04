@@ -30,11 +30,17 @@ AND again before you push.** Rebase, never force.
 
 **Live head = `c7f1474` on `main`.** Working tree clean.
 
-**⚠️ NOT ON MAIN YET:** the 2026-08-04 pass — the rimless ask bubble and the
-three chapter-08 refinements (headline +8%, quotes −15%, capped cover crop) —
-is on branch **`claude/medi-x-gin-ui-refinements-vpj444`**, deliberately not on
-`main`, because he is mid-demo and `git push` to `main` IS the deploy. It lands
-when he says so. Its details are in §4 below and in the CSS comments.
+**⚠️ NOT ON MAIN YET:** the whole 2026-08-04 pass is on branch
+**`claude/medi-x-gin-ui-refinements-vpj444`**, deliberately not on `main`,
+because he is mid-demo and `git push` to `main` IS the deploy. It lands when he
+says so. Six changes, all detailed in §4 and in the CSS comments:
+
+1. the ask bubble is rimless at rest
+2. ch08 headline +8% (paid for by the panel's side padding)
+3. ch08 quotes −15%
+4. ch08 cover crop capped, so the masthead and signature stop being cut
+5. ch06 takes his `product visible` frame
+6. the footer carries two addresses
 
 ---
 
@@ -106,6 +112,51 @@ text with `visibility:hidden`, shoot the FULL viewport, crop per LINE via
 `range.getClientRects()`, report the **brightest 2%**.
 Current: every headline clears at 1440 and 1920 (worst 3.18). **The body
 paragraph does not — 4.09 at 1920 — and growing it makes it worse.**
+
+### Chapter 06 — the frame is `products-visible.webp` (2026-08-04)
+
+His upload `images/product visible.png` (commit `26c0c80`), named for what it
+fixes: same set, same 1672x941, but pushed RIGHT so the left ~40% is empty wall
+— which is where the copy column sits. On the frame it replaced, the arch and
+the gold blocks stood behind the headline and the vaginal-cream label sat under
+the scrim, half-legible. Encoded q92 to a NEW filename; `products-shop.webp`,
+`products-closer.webp` and `products-lineup.webp` all stay.
+
+Measured before swapping, worst LINE, ivory on the frame, old → new:
+
+```
+1440   headline 6.97 → 7.05     body 8.34 → 8.49     cta 14.00 → 14.15
+1920   headline 11.16 → 11.15   body 11.48 → 11.82   cta 14.50 → 14.54
+390    headline 2.11 → 1.87     body 3.18 → 3.04     cta 6.06 → 6.15
+```
+
+Desktop flat-to-better and clear of its floors. **Phones lose 0.24 on a line
+that was already failing** — same structural cause as always (bottom-anchored
+copy, bottom-to-top scrim), not a new one. No photograph of this beige set
+moves it either way; only the parked scrim pass can.
+
+### The footer carries TWO addresses (2026-08-04)
+
+`General: info@medi-gyn.com` / `Business: strategy@medi-gyn.com`, his copy.
+He drafted them with a leading "For" ("For more info:" / "For Business
+Inquiries:") and asked; the answer was no, and the reasons are measurable, not
+taste — 13 characters against 22 put the two addresses at visibly different
+starts in a narrow column (they now begin within 2px of each other), his draft
+mixed sentence case with Title Case so one was wrong either way, and "For" plus
+a colon says the same thing twice. **His exact strings are one edit away in
+`foot.mail_general` / `foot.mail_business` if he wants them back.**
+
+Two things in there are load-bearing:
+
+- **The colon lives in the TRANSLATION, not the markup** — French wants a space
+  before it, Chinese wants the fullwidth `：`. Six new pairs of keys.
+- **`.f-mail a` carries `unicode-bidi:isolate`** for Arabic. The address is
+  strong-LTR but its dots and `@` are neutral, and in an RTL paragraph trailing
+  neutrals reorder — without isolation the colon lands on the wrong end. Not
+  `direction:ltr`, which would drag the label out of the RTL flow too.
+
+**⚠️ `strategy@medi-gyn.com` is live in a `mailto:` and nobody here has proved
+the mailbox exists.** Worth one send before the demo.
 
 ### Chapter 08
 

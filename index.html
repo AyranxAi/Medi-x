@@ -1216,7 +1216,18 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
    docks at the row's end. Chips share the header-control grammar:
    hairline circles, burgundy fill on hover. */
 .f-mail{margin:.1rem 0 0;font-size:.95rem;color:var(--ink)}
-.f-mail a{text-decoration:none;transition:color .25s var(--ease)}
+/* two addresses since 2026-08-04, so they need air between them — .1rem set
+   the gap to a heading, not to a sibling line */
+.f-mail + .f-mail{margin-top:.34rem}
+/* the label recedes so the ADDRESS is still the object on the line: it is the
+   thing you read, click and copy. --ink-soft is the footer's own quiet value,
+   already carrying the newsletter body and the colophon. */
+.f-mail__k{color:var(--ink-soft)}
+/* isolate, for Arabic: the address is strong-LTR but its dots and @ are
+   neutral, and in an RTL paragraph trailing neutrals reorder — which would
+   put the colon on the wrong end of the line. Isolation is the fix, not
+   direction:ltr, which would also drag the label out of the RTL flow. */
+.f-mail a{text-decoration:none;unicode-bidi:isolate;transition:color .25s var(--ease)}
 .f-mail a:hover{color:var(--burgundy)}
 .f-social{display:flex;gap:.6rem;margin-top:1.1rem;flex-wrap:wrap}
 .f-social a{
@@ -1994,20 +2005,31 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
   </section>
 
   <section class="sec light" id="s6" data-nav="Products &amp; Therapies">
-    <!-- 2026-08-03 (later): HIS CALL — the frame he uploaded himself through the
-         GitHub web UI, `images/the shop products.png` (commit cbeabda), the only
-         file in that commit so there was nothing to pick between. Encoded q92 to
-         images/products-shop.webp. Third render of the same set now in the repo;
-         the predecessors stay under their own names — products-closer.webp (the
-         closer framing) and products-lineup.webp (the wider `product legit`
-         labels). New filename, never an overwrite, so no cache holds a stale
-         frame and a revert is one line.
-         ⚠️ MEASURED BEFORE SWAPPING, and it does NOT change the contrast: region
-         luminance is within .01 of the frame it replaces (left third .584 vs
-         .596, bottom third .617 vs .613). The headline still fails on phones for
-         the structural reason in HANDOVER_MOBILE_UX.md — a different photograph
-         of the same beige set cannot fix it, only the scrim can. -->
-    <div class="bg" data-src="images/products-shop.webp"></div>
+    <!-- 2026-08-04: HIS CALL — `images/product visible.png`, uploaded through the
+         GitHub web UI (commit 26c0c80, the only file in it, so nothing to pick
+         between) and named for what it fixes. Same set, same 1672x941, but the
+         arrangement is pushed RIGHT: the left ~40% is now empty wall, which is
+         exactly where the copy column sits. On the frame it replaces the arch
+         and the gold blocks stood behind the headline. Encoded q92 to
+         images/products-visible.webp (116 KB against 118). Fourth render of this
+         set in the repo; the predecessors keep their own names —
+         products-shop.webp, products-closer.webp, products-lineup.webp. New
+         filename, never an overwrite, so no cache holds a stale frame and the
+         revert is this one line.
+         ⚠️ MEASURED BEFORE SWAPPING, by the repo's own method — hide the copy,
+         shoot the full viewport, crop per LINE off range.getClientRects(),
+         take the brightest 2%. Worst line, ivory on the frame, old → new:
+           1440   headline 6.97 → 7.05    body 8.34 → 8.49    cta 14.00 → 14.15
+           1920   headline 11.16 → 11.15  body 11.48 → 11.82  cta 14.50 → 14.54
+           390    headline 2.11 → 1.87    body 3.18 → 3.04    cta 6.06 → 6.15
+         Desktop is flat to slightly better everywhere and clears its floors by
+         a wide margin. PHONES GET WORSE BY 0.24 on a line that was already
+         failing — and that is the same structural failure as before, not a new
+         one: at <900px the copy is bottom-anchored while the scrim runs
+         bottom-to-top, so the headline climbs out of its own ground. See
+         HANDOVER_MOBILE_UX.md. No photograph of this beige set fixes it in
+         either direction; only the scrim pass can, and it is parked. -->
+    <div class="bg" data-src="images/products-visible.webp"></div>
     <div class="inner"><div class="copy">
       <h2 class="reveal" data-i18n="ch6.h2">Personalised Health Solutions. <em>Tailored to You</em></h2>
       <p class="body reveal" data-i18n="ch6.body">Explore our carefully selected hormone and peptide therapies, supplements and biohacking solutions designed to support your body &mdash; not overwhelm it.</p>
@@ -2206,8 +2228,23 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
         <!-- HIS PICK 2026-08-02 (V2): the address stays WRITTEN — it is
              an address, not a destination; the socials are icons because
              an icon is their whole identity. The V1 envelope-chip variant
-             lost and was removed (git history has it). -->
-        <p class="f-mail"><a href="mailto:info@medi-gyn.com">info@medi-gyn.com</a></p>
+             lost and was removed (git history has it).
+
+             TWO ADDRESSES from 2026-08-04, his copy. He asked whether to keep
+             the "For" he had drafted ("For more info:" / "For Business
+             Inquiries:") and the answer was no, for reasons that are not
+             taste: the two labels were 13 and 22 characters, so the addresses
+             started at visibly different points and the pair read ragged in a
+             narrow column — "General"/"Business" are 7 and 8, so they line up;
+             his draft mixed sentence case with Title Case, so one of the two
+             was wrong either way; and "For" plus a colon says the same thing
+             twice. His exact strings are one edit away in foot.mail_* if he
+             wants them back.
+             The COLON LIVES IN THE TRANSLATION, not in the markup, because it
+             is not the same mark everywhere — French wants a space before it,
+             Chinese wants the fullwidth ：. -->
+        <p class="f-mail"><span class="f-mail__k" data-i18n="foot.mail_general">General:</span> <a href="mailto:info@medi-gyn.com">info@medi-gyn.com</a></p>
+        <p class="f-mail"><span class="f-mail__k" data-i18n="foot.mail_business">Business:</span> <a href="mailto:strategy@medi-gyn.com">strategy@medi-gyn.com</a></p>
         <!-- one chip row, his sketched order: WhatsApp first (folded in
              from its old text link, same live wa.me href), then the five
              socials — wired 2026-08-03 to the accounts he supplied. All open
@@ -2751,6 +2788,8 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
 "foot.copy": "حقوق النشر © 2026 Medi-Gyn | مدعوم من Medi-Gyn Health Planning Consultancies LLC",
 "foot.email": "بريدكِ الإلكتروني",
 "foot.join": "انضمّي",
+"foot.mail_business": "استفسارات الأعمال:",
+"foot.mail_general": "استفسارات عامة:",
 "foot.news": "النشرة البريدية",
 "foot.news_body": "انضمّي إلى مجتمعنا المتنامي.",
 "hdr.book": "احجزي استشارتك",
@@ -2870,6 +2909,8 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
 "foot.copy": "Copyright © 2026 Medi-Gyn | Bereitgestellt von Medi-Gyn Health Planning Consultancies LLC",
 "foot.email": "Ihre E-Mail",
 "foot.join": "Anmelden",
+"foot.mail_business": "Geschäftlich:",
+"foot.mail_general": "Allgemein:",
 "foot.news": "Newsletter",
 "foot.news_body": "Werden Sie Teil unserer wachsenden Community.",
 "hdr.book": "Beratung buchen",
@@ -2989,6 +3030,8 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
 "foot.copy": "Copyright © 2026 Medi-Gyn | Powered by Medi-Gyn Health Planning Consultancies LLC",
 "foot.email": "Your email",
 "foot.join": "Join",
+"foot.mail_business": "Business:",
+"foot.mail_general": "General:",
 "foot.news": "Newsletter",
 "foot.news_body": "Join our growing community.",
 "hdr.book": "Book your consultation",
@@ -3108,6 +3151,8 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
 "foot.copy": "Copyright © 2026 Medi-Gyn | Propulsé par Medi-Gyn Health Planning Consultancies LLC",
 "foot.email": "Votre e-mail",
 "foot.join": "S’inscrire",
+"foot.mail_business": "Entreprises :",
+"foot.mail_general": "Général :",
 "foot.news": "Newsletter",
 "foot.news_body": "Rejoignez notre communauté grandissante.",
 "hdr.book": "Réserver une consultation",
@@ -3227,6 +3272,8 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
 "foot.copy": "Copyright © 2026 Medi-Gyn | При поддержке Medi-Gyn Health Planning Consultancies LLC",
 "foot.email": "Ваш e-mail",
 "foot.join": "Подписаться",
+"foot.mail_business": "Деловые запросы:",
+"foot.mail_general": "Общие вопросы:",
 "foot.news": "Рассылка",
 "foot.news_body": "Присоединяйтесь к нашему растущему сообществу.",
 "hdr.book": "Записаться на консультацию",
@@ -3346,6 +3393,8 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
 "foot.copy": "版权所有 © 2026 Medi-Gyn | 由 Medi-Gyn Health Planning Consultancies LLC 提供支持",
 "foot.email": "您的邮箱",
 "foot.join": "订阅",
+"foot.mail_business": "商务合作：",
+"foot.mail_general": "一般查询：",
 "foot.news": "订阅通讯",
 "foot.news_body": "加入我们不断成长的社群。",
 "hdr.book": "预约咨询",

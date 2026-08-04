@@ -1566,6 +1566,61 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
 .f-top:hover{background:#471826}
 .f-top svg{width:18px;height:18px}
 @media (max-width:899px){ .f-top{top:0;right:0} }
+
+/* ── PHONE SECTIONS OVERSHOOT THE VIEWPORT, 2026-08-04 ────────────────────
+   His report: "the picture is always constantly changing and resizing to fit
+   the site". It was not the picture. Every section was min-height:100svh, and
+   `svh` is the SMALLEST viewport — the height with Safari's toolbar EXPANDED.
+   The moment the toolbar retracts the viewport grows to `lvh` and the section
+   no longer fills it, so a strip of the NEXT chapter slides into view and
+   slides back out again. Safari drives that toolbar continuously from scroll,
+   so the framing appears to breathe on every gesture. Measured on an iPhone 14:
+   svh 756, lvh 844, so the strip is 88px.
+
+   The fix is to size to the LARGEST viewport and overshoot it, which is what
+   Clinique La Prairie does — audited 2026-08-04: 48 of their rules use `vh`
+   and NOT ONE uses svh/dvh/lvh, and their hero is `height:110vh` on mobile.
+   `vh` on iOS is the large viewport and is STATIC, so a vh-sized section never
+   changes height when the toolbar moves. 110vh then guarantees the section
+   always exceeds anything the viewport can become, so no boundary is ever
+   inside the screen to reveal.
+
+   ⚠️ 100svh + 8vh WAS PROPOSED FIRST AND IS WRONG: 756 + 67 = 823, still 21px
+   short of 844. The overshoot must clear the whole svh↔lvh delta.
+
+   ⚠️ THE PADDING IS NOT COSMETIC — it is what keeps the CTA on screen. The copy
+   is bottom-anchored here, so a taller section pushes it down by the same
+   amount. The section is now ~84px taller than lvh and ~172px taller than svh,
+   so without compensation the button falls under the toolbar in the very state
+   where the toolbar is visible. +16vh puts the copy's bottom ~40px clear of
+   the svh fold and ~130px clear of the lvh one. Re-measure BOTH states if this
+   value moves.
+
+   ⚠️ NOT COMPATIBLE WITH scroll-snap. Sections taller than the viewport are the
+   failure case for mandatory snapping — the reason he asked about "locking per
+   section" is fixed here instead. CLP has no scroll-snap either.
+
+   ch04 and ch08 are pinned separately because they carry their own internal
+   budgets; ch08's two children have to keep summing to the section height or
+   the dark strip fixed earlier today comes straight back (58+42 of 100 becomes
+   64+46 of 110, the same proportions). */
+@media (max-width:899px){
+  .sec{
+    min-height:110vh;
+    padding-bottom:calc(clamp(3.5rem,9vh,7rem) + 16vh);
+  }
+  /* ⚠️ BOTH OF THESE MUST ZERO THE PADDING ABOVE. They declare `padding:0` in
+     their own rules, and the .sec rule here is later in the sheet, so it wins
+     and hands them 211px of bottom padding they were never designed for.
+     ch08 is `height:auto`, so that padding became 211px of empty section and
+     put the dark strip STRAIGHT BACK — caught by re-running the gap probe, not
+     by reading the diff. ch04 hid it because a fixed height plus border-box
+     absorbs padding rather than growing. */
+  .sec--pw{height:110vh;padding-bottom:0}
+  .sec--world{min-height:110vh;padding-bottom:0}
+  .cpress{height:64vh}
+  .cvoices{min-height:46vh}
+}
 /* the other half of the re-levelling block above. From 1240px up the disc
    stops measuring down from the top of .fw and docks to the bottom of
    .f-grid — which, since the chip row bottom-aligns there, IS the chip row's

@@ -2364,8 +2364,50 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
          4.5, because the cause was never the photograph — see
          HANDOVER_MOBILE_UX.md. Only the scrim pass closes that, and this frame
          hands it a much better starting point. -->
-    <div class="bg" data-src="images/products-visible.webp"
-         data-src-narrow="images/products-visible-portrait.webp"></div>
+    <!-- ── 2026-08-04, LATER: HIS NEW PAIR, and the whole point is the RATIO ──
+         `product desktop mide.png` + `Product mobile mode.png`, both uploaded in
+         ONE GitHub commit (be89d46) so there was nothing to pick between —
+         unlike the near-identical exports sitting in his Downloads, which differ
+         by up to 192 in one small region and would have been a coin toss.
+         Encoded q92 to product-suite.webp / -portrait.webp. Fifth render of this
+         set; every predecessor keeps its own name, so reverting is these two
+         lines and no cache can hold a stale frame.
+
+         ⚠️ q92 IS A DELIBERATE PICK, NOT A DEFAULT. Measured against the source:
+         q82 39.9dB/99KB · q88 41.4dB/142KB · q92 42.6dB/196KB · q96 44.1dB/308KB.
+         q92 is the knee — q96 costs +57% for a difference no one sees. And file
+         size buys LOAD time only: decode cost tracks pixel dimensions, which are
+         identical at every quality, so none of this touches scroll smoothness.
+
+         ── why these two files work across screens (measured, not assumed) ──
+         The desktop frame is 1672x941 = 1.777, i.e. EXACTLY 16:9. So at 1600,
+         1920 and 2560 there is ZERO crop and background-position is a no-op —
+         what he approved in the file is literally what ships. Only 16:10 laptops
+         crop, and only 10% of width. Label survival everywhere: ultrawide 3440
+         loses 25% of HEIGHT and the labels still clear it; tablet landscape 1024
+         keeps 167px of side margin; every phone keeps 33px.
+
+         The portrait frame is 941x1672 = 0.563, NOT the 0.462 of a phone, so it
+         crops ~18% of its width. ⚠️ DO NOT "FIX" THAT BY RE-CROPPING THE FILE TO
+         0.462 — it was considered and measured and it is a trap: the surplus
+         width is exactly what makes tablet portrait (768x1024) work with 183px
+         of margin. Narrow the file and every viewport wider than a phone starts
+         cropping the VERTICAL axis instead, which cuts the bottles.
+
+         POSITIONS DELIBERATELY UNTOUCHED. #s6 keeps 12% on desktop and the base
+         72% on phones. The new set sits within ~3pp of the old one, so the tuned
+         values carry: phones land the bottles at 21.1-82.5% of the screen, which
+         is better balanced than the old frame's 25.5-81.7%.
+         ⚠️ ONE WIDTH TO WATCH, and it is his explicit "leave it": at 1280x800 the
+         leftmost bottle overlaps the copy column's BOX by 0.4pp (~5px). The box
+         is wider than the ink and the last line stops well short, so nothing is
+         visibly touching — but the new set is 2.6pp wider on the left than the
+         old, which is what ate the old clearance. If the copy ever grows, 1280
+         is where it breaks first.
+         Phone legibility is unchanged, so unlike ch01/ch03 this adds no debt:
+         headline band worst-2% 2.40 -> 2.41, median 3.33 -> 3.28. -->
+    <div class="bg" data-src="images/product-suite.webp"
+         data-src-narrow="images/product-suite-portrait.webp"></div>
     <div class="inner"><div class="copy">
       <h2 class="reveal" data-i18n="ch6.h2">Personalised Health Solutions. <em>Tailored to You</em></h2>
       <p class="body reveal" data-i18n="ch6.body">Explore our carefully selected hormone and peptide therapies, supplements and biohacking solutions designed to support your body &mdash; not overwhelm it.</p>

@@ -409,6 +409,52 @@ main{position:relative}
       linear-gradient(to right,rgba(30,20,16,.42) 0%,rgba(30,20,16,0) 55%);
   }
 }
+/* Chapter 01 on the phone now needs the same treatment, 2026-08-04, and for a
+   harder version of the same reason. His new hero plate
+   (team-hero-portrait.webp) puts five ivory/white outfits and a lit floor exactly
+   where the headline lands — the old frame had a shadowed shoulder under that
+   band. Stock light scrim on this frame: h1 2.80 / 2.31 / 2.02 at 430/390/360,
+   against a 3.0 floor for large text.
+
+   ⚠️ THE SHAPE WAS CHOSEN BY MEASUREMENT, NOT BY EYE, and the cheap fixes were
+   tried first and rejected on numbers — on the FIRST vertical, the one where the
+   group sat low enough that the headline crossed their legs:
+     · crop anchor is NOT a lever — 50% and 72% both gave 2.31 at 390. At 0.5626
+       against a 0.462 viewport the plate covers by HEIGHT, so it is only ever
+       cropped horizontally and both windows are equally bright. Vertical
+       background-position does nothing whatsoever here.
+     · zooming the plate to lift the group out of the headline band
+       (background-size:auto 122%, anchored bottom) reached only 2.54.
+   HE THEN RE-SHOT THE FRAME instead, +10% higher, which is the fix CSS could not
+   buy — and it is the plate that ships. It does NOT remove the need for this
+   block: the headline now lands on the open floor rather than on five white
+   outfits, but that floor is bright and even, so on the stock light scrim ch01
+   still measures h1 2.55 at 390 and 1.98 at 360.
+   Three shapes, all re-measured ON THE SHIPPING PLATE:
+     A  #s5's exact shape       390 h1 3.92   360 h1 2.51  ← FAILS at 360
+     B  this one                390 h1 5.70   360 h1 3.65
+     C  heaviest (.94/.86/.72)  390 h1 8.02   360 h1 6.40
+   A is out on measurement, not taste: it clears 430 and 390 and fails the
+   smallest phone — and it failed 360 on the previous vertical too, so the frame
+   change did not rescue it. B is the KNEE, the lightest shape that clears every
+   size, worst line 3.65 against a 3.0 floor. C buys ~3 more points by visibly
+   darkening the floor and the group's legs, which is the photograph paying for
+   margin it does not need. If more separation is ever wanted, C is this same
+   block with .94 0% / .86 38% / .72 64% / .34 82% / 0 96%.
+   Shipped (B), worst line per element:
+     430   h1 7.87   body 6.90   cta 11.67
+     390   h1 5.70   body 6.65   cta 11.54
+     360   h1 3.65   body 6.28   cta 11.37
+   ⚠️ Desktop is untouched by this — the block is max-width:899px, and ch01 on
+   desktop measures fine on the stock scrim (h1 4.23/3.87/3.48). RE-MEASURE all
+   three phone sizes if the hero frame, the copy, or the font ever changes. */
+@media (max-width:899px){
+  #s1::after{
+    background:
+      linear-gradient(to top,rgba(30,20,16,.92) 0%,rgba(30,20,16,.80) 34%,rgba(30,20,16,.64) 60%,rgba(30,20,16,.24) 78%,rgba(30,20,16,0) 92%),
+      linear-gradient(to right,rgba(30,20,16,.42) 0%,rgba(30,20,16,0) 55%);
+  }
+}
 /* ...and its own on desktop, for the reason #s6 has one: this is now a frame with
    no dark region under the copy. The plate it replaced carried a charcoal shelving
    unit right where the column sits, which is where that chapter's ~15:1 CTA came
@@ -2155,19 +2201,63 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
   ── -->
 
   <section class="sec light" id="s1" data-nav="The Light">
-    <!-- PHONE FRAME, 2026-08-04 (his `mature portrait.png`). 533x1153 = ratio
-         0.462, which is exactly 390x844, so it sits UNCROPPED on a phone —
-         nothing of the composition is lost. Desktop is untouched: the narrow
-         frame is only read under 900px (see the loader).
-         ⚠️ PROVISIONAL — HE SHIPPED THIS KNOWING IT COSTS LEGIBILITY, and asked
-         for the frames anyway. Measured at 390 with the copy hidden, headline
-         band: worst-2% 2.46 -> 2.11, median 6.81 -> 5.34, against a 3.0 floor
-         for large text. The old frame already failed; this one fails harder.
-         The fix is the GROUND, not the frame — HANDOVER_MOBILE_UX.md §4 has
-         three scrim options built and measured, awaiting his pick. RE-ASK when
-         that lands, and re-measure this band rather than assuming it is fixed. -->
-    <div class="bg" data-src="images/09-light.webp"
-         data-src-narrow="images/09-light-portrait.webp"></div>
+    <!-- 2026-08-04, LATER THE SAME DAY: HIS PAIR, and the hero is now the TEAM.
+         `images/team-hero-desktop-left-copy.png` (3840x2160) and
+         `...-mobile-bottom-copy.png` (2160x3840), uploaded together through the
+         GitHub web UI (commit 332120b, the only two files in it) and assigned as
+         his own filenames say — the wide one on desktop, the tall one on the
+         phone. The phone plate was then RE-SHOT and re-uploaded as
+         `...-mobile-bottom-copy-higher-10pct.png` (commit 7bfe80b) with the group
+         ~10% higher, after measurement showed the headline crossing their legs;
+         that later file is the one that ships, the first vertical is unused.
+         Encoded q92 to images/team-hero.webp (137 KB) and
+         images/team-hero-portrait.webp (159 KB), downsampled to the site's
+         standard plate size (1672 wide / 941 wide) rather than shipping 8 MB.
+         New filenames, never an overwrite, so no cache holds a stale frame and
+         the revert is these two lines. The predecessors keep their own names:
+         09-light.webp and 09-light-portrait.webp (his `mature portrait.png`,
+         533x1153, which sat uncropped at 390).
+         Both plates are composed FOR the copy: the landscape leaves the left
+         ~50% clear wall where the column sits, the portrait holds all five in
+         the top half with open floor beneath the bottom-anchored stack. Same
+         five people as chapter 05.
+
+         MEASURED, worst LINE, ivory on the frame, old -> new, on the shipped
+         scrims (floors: h1 3.0 large, everything else 4.5):
+           1920  kicker 6.52->7.51  h1 3.26->4.23  body 3.01->3.62  cta 6.65->7.78
+           1440  kicker 6.00->6.29  h1 3.17->3.87  body 2.01->3.36  cta 5.70->6.73
+           1280  kicker 4.52->5.94  h1 2.21->3.48  body 2.07->3.38  cta 5.65->6.43
+         Desktop is a straight gain at every size and it FIXES a real failure:
+         the headline at 1280 was 2.21 against a 3.0 floor and now clears it.
+         The body paragraph is still under 4.5 (3.36-3.62) — it was 2.01-3.07
+         before, so this frame improves it without closing it. That shortfall is
+         the site-wide one described in HANDOVER_NEXT_CHAT.md, not this frame's.
+
+         ON THE PHONE THE FRAME ALONE WAS A LOSS, and it took BOTH a re-shot
+         plate and a new scrim to turn it around. The first vertical, on the
+         stock scrim, old -> new:
+           430   h1 4.79->2.80   body 5.14->4.39   cta 10.04->6.61
+           390   h1 4.09->2.31   body 4.64->4.41   cta  9.99->6.66
+           360   h1 3.13->2.02   body 3.94->2.66   cta 10.07->6.56
+         Cause, verified in the crops: the headline landed across the group's
+         bodies — five ivory/white outfits — where the old portrait had a
+         shadowed shoulder under exactly that band. He re-shot it +10% higher so
+         the headline sits on open floor; that alone got 390 to 2.55, still short
+         of the 3.0 floor, because the floor is bright and even.
+         So #s1 also carries its own phone scrim now, the way #s5 does — see the
+         max-width:899px #s1::after block in the stylesheet, which records the
+         two CSS-only fixes that were tried and failed on numbers (crop anchor,
+         zooming the plate) and the three shapes that were measured on the
+         shipping plate. Shipped:
+           430   h1 7.87   body 6.90   cta 11.67
+           390   h1 5.70   body 6.65   cta 11.54
+           360   h1 3.65   body 6.28   cta 11.37
+         Every phone size now clears h1 3.0 / body 4.5 / cta 4.5 — which the OLD
+         hero did not do either (it failed the body at every phone size, worst
+         3.94 at 360). RE-MEASURE all three rather than assuming, if the frame or
+         the copy ever changes. -->
+    <div class="bg" data-src="images/team-hero.webp"
+         data-src-narrow="images/team-hero-portrait.webp"></div>
     <div class="inner"><div class="copy">
       <p class="kicker reveal" data-i18n="ch1.kicker">Private. Personal. Powerful.</p>
       <h1 class="reveal" data-i18n="ch1.h1">Your hormones.<br>Your health.<br><em>Your best life.</em></h1>

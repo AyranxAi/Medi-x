@@ -38,9 +38,10 @@ says so. Six changes, all detailed in §4 and in the CSS comments:
 1. the ask bubble is rimless at rest
 2. ch08 headline +8% (paid for by the panel's side padding)
 3. ch08 quotes −15%
-4. ch08 cover crop capped, so the masthead and signature stop being cut
-5. ch06 takes his `product visible` frame
-6. the footer carries two addresses, and its control row re-levels
+4. ch08 takes his WIDER cover, with the crop capped on both axes
+5. ch06 takes his `product visible` frame, and phones get his portrait one
+6. the footer carries two addresses, its control row re-levels, and the
+   newsletter line steps up to 1.15rem
 
 ---
 
@@ -130,10 +131,28 @@ Measured before swapping, worst LINE, ivory on the frame, old → new:
 390    headline 2.11 → 1.87     body 3.18 → 3.04     cta 6.06 → 6.15
 ```
 
-Desktop flat-to-better and clear of its floors. **Phones lose 0.24 on a line
-that was already failing** — same structural cause as always (bottom-anchored
-copy, bottom-to-top scrim), not a new one. No photograph of this beige set
-moves it either way; only the parked scrim pass can.
+Desktop flat-to-better and clear of its floors.
+
+**Phones get their OWN frame, also his upload (2026-08-04):**
+`product mobike optimized.png` → `products-visible-portrait.webp`, the same set
+shot portrait (941x1672), products in the top half and the reflective floor
+under the bottom-anchored copy. Wired through a new optional `data-src-narrow`
+on `.bg`, picked in the lazy loader by `matchMedia('(max-width:899px)')` — the
+landscape frame stays the default, so every other chapter is untouched. The pick
+is made once at load; a device crossing 900px afterwards (a tablet rotating, not
+a phone) keeps what it loaded, which is deliberate.
+
+```
+worst line, ivory on the frame     landscape → portrait
+360x780   headline 1.63 → 1.80   body 2.65 → 2.88   cta 6.12 → 6.85
+390x844   headline 1.87 → 2.27   body 3.04 → 3.39   cta 6.15 → 7.08
+430x932   headline 2.54 → 2.73   body 3.19 → 3.67   cta 6.46 → 7.30
+```
+
+**Better on every line at every size, and the CTA now clears comfortably — but
+the headline still misses 3.0 and the body still misses 4.5.** Expected: the
+cause was never the photograph. This hands the parked scrim pass a much better
+starting point; it does not replace it.
 
 ### The footer carries TWO addresses (2026-08-04)
 
@@ -192,20 +211,26 @@ two addresses it does from ~1150. The fix is the footer's SHAPE at those widths
 layout he signed off, so it is his call. **Not a regression at any width he
 works at** (1240 up is clean).
 
-**His copy instinct was right, for a reason he did not have.** Geometry now owns
-the alignment, but bottom-aligning exposes a 24px hole under a one-line
-newsletter intro. Measured at 1440, gap text→form / address→chips, where 14 and
-18 are the natural margins:
+**The newsletter line is 1.15rem and the words are unchanged.** He was offered
+three longer two-line strings that would have closed the gap exactly and chose
+"the sentence I have, bigger".
 
-```
-"Join our growing community."   1 line    38 / 18   ← 24px hole in Newsletter
-a TWO-line intro                2 lines   14 / 18   ← no hole anywhere
-a THREE-line intro              3 lines   14 / 42   ← hole moves to Contact
-```
+**⚠️ Bigger type does not close that gap — do not ship it believing it does.**
+Gap under the line at 1440: `.95rem` 38px · `1.15rem` 33px · `1.45rem` 26px.
+Each px of size buys 1.6px of line box, so closing 24px needs ~+15px of type
+(~2.9rem), which would dwarf the addresses across the gutter. What actually
+answers the hole is **`justify-content:space-between`** on both text columns
+instead of `margin-top:auto`: same bottom-alignment, but the slack spreads
+across every gap rather than pooling in one. Final gaps at 1240→2560 are
+27 / 24 / 18 against the old 18 / 38 / 18.
 
-**Two lines is the target, not "longer".** Three overshoots and moves the hole
-across. Options were put to him 2026-08-04; the English is unchanged until he
-picks, and whichever he picks needs its five translations.
+1.15rem is a ceiling, not a round number: English stays one line to 1.52rem, but
+this is now the largest body text in the footer, a step above the .95rem
+addresses, and that is as far as "the invitation is louder than the information"
+goes before it just looks mismatched. **It costs French a second line** —
+one-line ceilings are en 1.52 / ar 1.75 / zh 1.74 / fr 1.00 / de 0.89 / ru 0.75
+rem, so German and Russian were already wrapping at .95rem and French now joins
+them. Nothing overflows, and space-between means the extra line strands nothing.
 
 ### Chapter 08
 
@@ -213,19 +238,51 @@ Two equal full-bleed halves (`1fr 1fr`). The client rejected the article-width
 version. The article-width rule is in the CSS comment if wanted back.
 Right panel is `--cream`, the footer's own token.
 
-**The cover's crop is capped (2026-08-04).** It used to be plain `cover`, which
-crops `675 − 1080·H/W` source px per side — a function of the WINDOW's ratio,
-so the frame was perfect at 1440x900 (0px) and lost both ends on a wide, short
-one (169px at 1920x900, which clipped the MADAME masthead and the IRINA Bond
-signature; that is what he reported). `--frame-w:min(100%,max(92.31svh,517px))`
-caps the crop at **90px a side** by capping the frame's width, leaving 48 source
-px of air above the masthead (ink starts y138) and 54 below the signature (ink
-ends y1206). It stays **full bleed** at 1280x800, 1440x900, 1512x830, 1600x900,
-1920x1080 and 2560x1440 — `min()` means the cap only bites wide-and-short, worst
-case 65px of ground a side at 1920x900. `margin-inline:auto` keeps her centred
-in the left half; the grid is untouched. `.cpress__cta` offsets off the frame,
-not the column, so PRESS never drifts onto the ground.
-**⚠️ 92.31svh belongs to THIS artwork — re-measure the ink if the frame is swapped.**
+**The cover is `press-04-madame-arabia-wide.webp`, capped on BOTH axes
+(2026-08-04).** Two of his decisions, in order.
+
+It used to be plain `cover` on the 1080x1350 original, which crops by a function
+of the WINDOW's ratio, not of anything in the CSS — perfect at 1440x900 (0px),
+169px a side at 1920x900, which clipped the MADAME masthead and the IRINA Bond
+signature. That is what he reported.
+
+Then he had the cover **extended sideways**: 1182x1330, aspect 0.889 against
+0.800. Better raw material — 0.889 is exactly the half-column aspect at 1600x900,
+1920x1080 and 2560x1440, so those go to zero crop where they lost 68px. **But it
+is not a drop-in, and this is the trap:** wider than 4:5 means it now crops LEFT
+AND RIGHT on 4:5-ish columns, and the signature has only **60px** of margin to
+the right edge. Raw, uncapped: 1440x900 crops 59px a side and the signature
+survives by ONE pixel; **1366x900 crops 86px and clips it by 26.** The wider file
+does not replace the cap — it changes which axis needs one.
+
+Ink on the new file: masthead top y132 / left x209, signature bottom y1155 /
+right x1122. Budgets 132 / 175 / 209 / 60. Allowing 84px of vertical crop and
+30px of horizontal makes the frame the largest box in the column whose aspect
+stays between `a_min = 1122/1330 = 0.8436` and `a_max = 1182/1162 = 1.0172`,
+which is what the two caps say — `--frame-w` caps width (so vertical crop),
+`--frame-h` caps height (so horizontal). Verified at twelve ratios: **nothing is
+ever cut**, worst air 48px on the masthead and 30px on the signature.
+
+```
+                 vCrop  hCrop   bars X   bars Y
+1440x810 / 1600x900 / 1920x1080 / 2560x1440    0      0       0       0
+1280x800 / 1366x900 / 1440x900                 0     30       0    21-45
+1920x900                                      84      0      22       0
+2560x1080                                     84      0      91       0
+```
+
+The trade he accepted: ~22px bars at 1920x900 instead of 65, and zero at 16:9,
+in exchange for 23px of top/bottom bar at 1440x900 where there used to be none.
+`margin:auto` keeps her centred both ways; the grid is untouched; `.cpress__cta`
+offsets off BOTH photo edges so PRESS never drifts onto the ground.
+
+**⚠️ `--frame-h` is in `vw` because CSS has no "percent of containing-block
+width" in a height.** `vw` counts the scrollbar and `.cpress` does not, so it
+over-estimates ~9px at 1440 — about 6 more source px of side crop than the
+nominal 30, leaving the signature ~24px of air. Do not tighten without
+re-checking that.
+**⚠️ ALL FOUR CONSTANTS BELONG TO THIS ARTWORK.** Swap the frame and re-measure
+every ink edge before trusting 101.72 / 59.27.
 
 **Its headline was at the wall; 2026-08-04 bought it 8% by moving the wall.**
 One line is the rule, so the ceiling is the panel's text width ÷ the string's

@@ -870,40 +870,66 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
 
 /* left — the press frame.
 
-   THE CROP IS CAPPED, 2026-08-04 — his call, and the reason is in the artwork.
-   The cover is 1080x1350 and its two pieces of ink sit at the extremes: the
-   MADAME masthead starts at y138 and the IRINA Bond signature ends at y1206,
-   both measured off the file. `cover` in a half column crops symmetrically by
-   675 - 1080·H/W source px per side, which is a function of the WINDOW's
-   ratio, not of anything in the CSS:
-     1440x900  0px      1280x800  0px       (the column is exactly 4:5 there)
-     1920x1080 68px     1600x900  68px      2560x1440 68px
-     1920x900  169px  ← masthead clipped by 31px, signature by 25px
-   So the frame was fine at his working width and lost both ends on a wide,
-   short window — which is what he was looking at.
+   THE CROP IS CAPPED ON BOTH AXES, 2026-08-04. His call, twice over: first the
+   cap, then the WIDER cover he had made for it.
 
-   --frame-w caps the crop at 90px a side by capping the frame's WIDTH, which
-   is the only lever: to show more rows you must show a narrower image.
-   90 keeps 48 source px of air above the masthead and 54 below the signature,
-   i.e. neither is ever tight, let alone cut. 1080/(1350-180) = 0.9231, hence
-   92.31svh; the 517px arm is the same ratio against the section's 560px
-   min-height, so a very short window cannot out-run it.
-   The frame stays FULL BLEED wherever the ratio allows — min() means the cap
-   simply does not bind at 1440x900, 1600x900, 1920x1080 or 2560x1440. It bites
-   only on the wide-and-short windows that were cutting her, and at its worst
-   (1920x900) it costs 65px of ground either side. That ground is #241A1F, the
-   panel's own, so it reads as the frame breathing, not as a letterbox.
-   margin-inline:auto against inset:0 is what keeps her centred in the left
-   half — his condition, and the half-and-half grid is untouched.
-   ⚠️ Both numbers belong to THIS artwork. Swap the frame and re-measure the
-   ink before trusting 92.31svh. */
+   ── why a cap at all ──
+   `cover` in a half column crops by a function of the WINDOW's ratio, not of
+   anything in the CSS, and this cover's ink sits at the extremes. On the
+   original 1080x1350 file the masthead started at y138 and the IRINA Bond
+   signature ended at y1206, so:
+     1440x900 / 1280x800   0px       (the column is exactly 4:5 there)
+     1600x900 / 1920x1080 / 2560x1440   68px
+     1920x900             169px  ← masthead clipped 31px, signature 25px
+   Fine at his working width, both ends gone on a wide, short window — which is
+   the window he was looking at.
+
+   ── the wider cover, and the trap in it ──
+   `press-04-madame-arabia-wide.webp` is his 2026-08-04 upload: the same cover
+   extended sideways, 1182x1330, aspect 0.889 against the original's 0.800. It
+   is better raw material — 0.889 is exactly the half-column aspect at 1600x900,
+   1920x1080 and 2560x1440, so those three go to ZERO crop where they used to
+   lose 68px. But it is NOT a drop-in, and this is the part worth reading before
+   anyone "simplifies" the rule below: being wider than 4:5 it now crops
+   LEFT AND RIGHT on 4:5-ish columns, and the signature has only 60px of margin
+   to the right edge. Measured raw, no cap: 1440x900 crops 59px a side and the
+   signature survives by ONE pixel; 1366x900 crops 86px and CLIPS IT BY 26.
+   The wider file does not replace the cap. It moves which axis needs one.
+
+   ── the rule ──
+   Ink measured off the new file: masthead top y132, left x209; signature
+   bottom y1155, right x1122. Budgets 132 / 175 top and bottom, 209 / 60 left
+   and right. Allow 84px of vertical crop (48 of air above the masthead) and
+   30px of horizontal (30 of air right of the signature), and the frame becomes
+   the largest box inside the column whose aspect stays between
+     a_min = 1122/1330 = 0.8436   and   a_max = 1182/1162 = 1.0172
+   which is exactly what the two mins below say:
+     --frame-w  caps the WIDTH  and so caps the VERTICAL crop   (a_max·height)
+     --frame-h  caps the HEIGHT and so caps the HORIZONTAL crop (width/a_min)
+   Where the column's own aspect already sits between those, both mins pick
+   100% and the frame is full bleed with nothing cropped at all.
+   The 570px arm on --frame-w is a_max against the section's 560px min-height,
+   so a very short window cannot out-run it.
+
+   ⚠️ --frame-h is in vw because there is no unit for "percent of the containing
+   block's WIDTH" in a height. vw counts the scrollbar and .cpress does not, so
+   this over-estimates by ~9px at 1440, i.e. ~6 more source px of side crop than
+   the nominal 30. The signature still keeps ~24px of air. Do not tighten this
+   without re-checking that number.
+   ⚠️ EVERY CONSTANT HERE BELONGS TO THIS ARTWORK. Swap the frame and re-measure
+   all four ink edges before trusting 101.72 / 59.27.
+
+   margin:auto against inset:0 centres her in the left half on both axes — his
+   condition — and the half-and-half grid is untouched. The ground either side
+   is #241A1F, the panel's own, so it reads as the frame breathing. */
 .cpress{
   position:relative;margin:0;overflow:hidden;background:#241A1F;
-  --frame-w:min(100%,max(92.31svh,517px));
+  --frame-w:min(100%,max(101.72svh,570px));
+  --frame-h:min(100%,59.27vw);
 }
 .cpress__img{
-  position:absolute;inset:0;margin-inline:auto;
-  width:var(--frame-w);height:100%;object-fit:cover;
+  position:absolute;inset:0;margin:auto;
+  width:var(--frame-w);height:var(--frame-h);object-fit:cover;
   opacity:0;transition:opacity 1.4s var(--ease);
 }
 .cpress__img.is-on{opacity:1}
@@ -916,14 +942,16 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
    open. Their CSS is in git if the reel ever returns.
    What stays in that corner is the Press button: the page's own frosted
    CTA, bottom-LEFT, because the ask bubble owns bottom-right. */
-/* the inset is measured from the PHOTOGRAPH's edge, not the column's — when
-   the crop cap above pulls the frame in, this comes with it, so the button
-   never drifts onto the ground beside her. Where the frame is full bleed the
-   first term is 0 and this is the clamp it always was. */
+/* the inset is measured from the PHOTOGRAPH's edges, not the column's — when
+   either cap above pulls the frame in, this comes with it, so the button never
+   drifts onto the ground beside or below her. Where the frame is full bleed
+   both first terms are 0 and these are the clamps they always were.
+   The percentages resolve the same way the caps do: against width in `left`,
+   against height in `bottom`. */
 .cpress__cta{
   position:absolute;z-index:2;
   left:calc((100% - var(--frame-w))/2 + clamp(1.4rem,3vw,2.6rem));
-  bottom:clamp(1.4rem,3vw,2.2rem);
+  bottom:calc((100% - var(--frame-h))/2 + clamp(1.4rem,3vw,2.2rem));
   /* HIS PICK 2026-08-02 (P2). Every other CTA on the site sits on a ground of
      luminance 0.017–0.141, which is what the frosted wash was measured against.
      This one sits on a magazine cover at 0.58 — a white blazer — where the
@@ -1067,10 +1095,11 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
   /* the frame is 4:5 — 58svh shows it essentially uncropped at phone
      widths (390 x 4:5 = 487px ≈ 58svh); the old 52svh existed to let
      the burgundy belt peek above the fold, and the belt is gone.
-     --frame-w goes back to the full column here: the desktop cap is sized
-     against the section's own height, and this stack is 58svh of it, so
-     leaving it on would letterbox a landscape phone for no gain. */
-  .cpress{height:58svh;--frame-w:100%}
+     both caps go back to the full column here: the desktop ones are sized
+     against the section's own height and the half column's width, and this
+     stack is neither — 58svh tall and full width — so leaving them on would
+     letterbox a landscape phone for no gain. */
+  .cpress{height:58svh;--frame-w:100%;--frame-h:100%}
   .cright{border-left:none}
   /* 34svh → 40svh. At the bigger quote size four of the nine testimonials
      needed 194px against 155px of stage and were clipping. The section is
@@ -1226,9 +1255,15 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
    margin-bottom. .f-brand already opted into stretch and is unaffected. */
 @media (min-width:1240px){
   .f-grid{align-items:stretch;position:relative}
-  .f-news,.f-contact{display:flex;flex-direction:column}
-  .f-news form{margin-top:auto}
-  .f-contact .f-social{margin-top:auto;padding-top:1.1rem}
+  /* space-between, not margin-top:auto on the control row. Both bottom-align
+     the form and the chips — the last flex item's end edge meets the
+     container's — but the auto margin dumps ALL the slack into one gap, which
+     is what left a 24px hole under a one-line newsletter intro. space-between
+     spreads the same slack across every gap in the column, so it reads as
+     breathing rather than a hole, and the columns' own margins still set the
+     minimum. It is also simpler: no padding-top workaround on .f-social,
+     because nothing is eating its 1.1rem any more. */
+  .f-news,.f-contact{display:flex;flex-direction:column;justify-content:space-between}
   /* the arrow's half of this lives next to .f-top itself — it has to come
      AFTER that rule's top:4.05rem to win on source order */
 }
@@ -1249,7 +1284,25 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
   letter-spacing:.28em;text-transform:uppercase;color:var(--burgundy);
 }
 .f-news{width:22rem;max-width:100%}
-.f-news p{margin:0 0 .9rem;font-size:.95rem;line-height:1.6;color:var(--ink-soft)}
+/* BIGGER, 2026-08-04 — his call, and his words kept. Offered three longer
+   two-line strings that would have closed the gap under this line exactly; he
+   wanted the sentence he has, larger.
+   ⚠️ Bigger type does NOT close that gap, and nobody should ship this expecting
+   it to. Measured at 1440, gap under the line: .95rem 38px · 1.15rem 33px ·
+   1.45rem 26px. Each px of size buys 1.6px of line box, so closing 24px of hole
+   needs ~+15px of type — about 2.9rem, which would dwarf the addresses beside
+   it. space-between in the block above is what actually answers the hole; this
+   is a type decision, made on its own terms.
+   1.15rem is the ceiling worth taking rather than a round number. English stays
+   one line to 1.52rem, so there is room — but this is now the largest body text
+   in the footer, a step above the .95rem addresses across the gutter, and that
+   is as far as "the invitation is louder than the information" can be pushed
+   before it just looks mismatched.
+   ⚠️ It costs French a second line: the one-line ceilings here are en 1.52rem,
+   ar 1.75, zh 1.74, fr 1.00, de 0.89, ru 0.75. German and Russian were ALREADY
+   wrapping at .95rem; this puts French with them. Nothing overflows, and
+   space-between means the extra line no longer strands anything. */
+.f-news p{margin:0 0 .9rem;font-size:1.15rem;line-height:1.6;color:var(--ink-soft)}
 .f-news form{display:flex;gap:.5rem;max-width:24rem}
 .f-news input{
   flex:1;min-width:0;height:2.75rem;padding:0 1.1rem;
@@ -2094,7 +2147,23 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
          bottom-to-top, so the headline climbs out of its own ground. See
          HANDOVER_MOBILE_UX.md. No photograph of this beige set fixes it in
          either direction; only the scrim pass can, and it is parked. -->
-    <div class="bg" data-src="images/products-visible.webp"></div>
+    <!-- PHONES GET THEIR OWN FRAME, 2026-08-04 — his upload
+         `images/product mobike optimized.png`, the same set shot PORTRAIT
+         (941x1672), encoded q92 to products-visible-portrait.webp. The products
+         sit in the top half and the reflective floor holds the bottom, which is
+         where the phone copy is anchored.
+         ⚠️ MEASURED, and it is an improvement but NOT the fix. Worst line,
+         ivory on the frame, landscape → portrait:
+           360x780   headline 1.63 → 1.80   body 2.65 → 2.88   cta 6.12 → 6.85
+           390x844   headline 1.87 → 2.27   body 3.04 → 3.39   cta 6.15 → 7.08
+           430x932   headline 2.54 → 2.73   body 3.19 → 3.67   cta 6.46 → 7.30
+         Better on every line at every size, and the CTA now clears comfortably.
+         The headline still does not reach 3.0 and the body still does not reach
+         4.5, because the cause was never the photograph — see
+         HANDOVER_MOBILE_UX.md. Only the scrim pass closes that, and this frame
+         hands it a much better starting point. -->
+    <div class="bg" data-src="images/products-visible.webp"
+         data-src-narrow="images/products-visible-portrait.webp"></div>
     <div class="inner"><div class="copy">
       <h2 class="reveal" data-i18n="ch6.h2">Personalised Health Solutions. <em>Tailored to You</em></h2>
       <p class="body reveal" data-i18n="ch6.body">Explore our carefully selected hormone and peptide therapies, supplements and biohacking solutions designed to support your body &mdash; not overwhelm it.</p>
@@ -2148,7 +2217,7 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
     <div class="bg"></div>
     <div class="collage">
       <figure class="cpress" role="group" aria-label="Medi-Gyn in the press" data-i18n-aria="a11y.press">
-        <img class="cpress__img is-on" src="images/coverage/press-04-madame-arabia.webp" alt="Irina Bond on the cover of Madame Arabia" data-i18n-alt="ch8.cover_alt" width="1080" height="1350" loading="eager" decoding="async">
+        <img class="cpress__img is-on" src="images/coverage/press-04-madame-arabia-wide.webp" alt="Irina Bond on the cover of Madame Arabia" data-i18n-alt="ch8.cover_alt" width="1182" height="1330" loading="eager" decoding="async">
         <!-- ⚠️ 2026-08-02, HIS CALL: the reel is now ONE still frame (Madame
              Arabia, his pick). The other 14 slides came out — 9 press frames,
              3 candids and BOTH FILMS (the Monaco bone-and-joints interview and
@@ -2404,7 +2473,17 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
   function load(sec){
     var bg=sec.querySelector('.bg');
     if(bg && bg.dataset.src){
-      var src=bg.dataset.src; delete bg.dataset.src;
+      /* A chapter MAY ship a second frame for the phone stack, as data-src-narrow.
+         The landscape frame stays the default and the attribute is optional, so
+         every other chapter is untouched by this. Added 2026-08-04 for ch06,
+         where his portrait render measurably beats the landscape one on phones.
+         The pick is made once, at load: the frame is fetched and painted, and
+         `delete` then closes the door. A device that crosses 900px AFTER that —
+         a tablet rotating, not a phone — keeps the frame it loaded with. That is
+         the accepted cost of not re-fetching a megabyte on every resize. */
+      var narrow=bg.dataset.srcNarrow && window.matchMedia('(max-width:899px)').matches;
+      var src=narrow ? bg.dataset.srcNarrow : bg.dataset.src;
+      delete bg.dataset.src;
       var img=new Image();
       img.onload=function(){ bg.style.backgroundImage='url("'+src+'")'; };
       img.onerror=function(){ bg.style.backgroundImage='url("'+src+'")'; };

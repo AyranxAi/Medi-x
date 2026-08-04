@@ -1040,6 +1040,18 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
   position:relative;background:var(--cream);color:var(--ink);
   display:flex;flex-direction:column;
   padding:clamp(1.6rem,3.2vw,2.8rem) clamp(1.6rem,4vw,4rem);
+  /* the title's size, lifted into a variable so the quote's indent below can
+     be DERIVED from it instead of typed. One value, so they cannot drift. */
+  --head-fs:clamp(1.05rem,2.33vw,2.8rem);
+  /* HIS ALIGNMENT, 2026-08-04: the quote starts on the left edge of the "a"
+     in the first "Real". Measured, not guessed — a Range over the headline's
+     text node puts that glyph's ink at 42.27px from the title's left edge at
+     a 33.552px title, i.e. 1.2597em of --head-fs. Same method as the site's
+     copy line, which starts on the stem of the i in medi·gyn.
+     ⚠️ This number belongs to MEGANTE at letter-spacing .02em — it is the sum
+     of the R and e advances in that face. Change the title's font, its
+     tracking, or the word "Real", and it must be re-measured. */
+  --a-stem:1.2597;
 }
 /* SIDE PADDING TRIMMED, 2026-08-04 — his pick, and it is bought width, not
    taste. The headline below was at its one-line wall; the only two ways past
@@ -1116,7 +1128,7 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
      The quote stays the loud element by design, and by more than before: it
      dropped 15% in the same pass, so this now sits at 0.78 of its size at
      1920 against 0.62. That ratio is the thing to watch if either moves. */
-  font-size:clamp(1.05rem,2.33vw,2.8rem);line-height:1.2;
+  font-size:var(--head-fs);line-height:1.2;
   letter-spacing:.02em;color:var(--burgundy);text-align:left;
 }
 /* LEFT, not centred, 2026-08-03 — his call once the panel went back to half
@@ -1160,6 +1172,11 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
 .cvoices__stage{position:relative;flex:1;min-height:0}
 .cvoice{
   position:absolute;inset:0;margin:0;
+  /* indented to the "a" of "Real" — see --a-stem on .cvoices. It sits on the
+     BLOCKQUOTE, so the quote and its attribution move together and keep the
+     shared left edge they have always had; if he ever wants the name to stay
+     back on the title's edge, move this to `.cvoice p` alone. */
+  padding-left:calc(var(--a-stem) * var(--head-fs));
   display:flex;flex-direction:column;justify-content:center;
   opacity:0;visibility:hidden;
   /* FADE 1.2s → 0.8s, 2026-08-04 — his call, the other half of "move faster".

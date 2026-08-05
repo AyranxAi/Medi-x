@@ -190,45 +190,45 @@ a{color:inherit}
 body.nav-open .hdr{background:transparent;border-bottom-color:transparent;backdrop-filter:none;-webkit-backdrop-filter:none}
 .mark{
   display:inline-flex;padding:.2rem 0;
-  /* soft dark halo keeps the ivory mark legible over the pale frames */
-  filter:drop-shadow(0 0 1px rgba(20,14,17,.35)) drop-shadow(0 2px 18px rgba(20,14,17,.5));
+  /* the dark halo existed only to hold the IVORY mark up over pale frames.
+     The mark is red at every width now, and desktop always ran filter:none,
+     so carrying the halo would put a grey smudge under a dark-red wordmark
+     sitting on a pale wall — the exact look that was rejected on 2026-08-04. */
   transition:opacity .25s var(--ease);
 }
 .mark:hover{opacity:.78}
 .mark__img{display:block;height:var(--logo-h);width:auto}
 /* same artwork, two colourways (626x160 both) — the bar shows the red one */
-.mark__img--red{display:none}
+.mark__img--ivory{display:none}
 .hdr--solid .mark{filter:none}
-.hdr--solid .mark__img--ivory{display:none}
 .hdr--solid .mark__img--red{display:block}
-/* HIS ASK 2026-08-04: "the logo now here will be the default red logo" — i.e.
-   red at scroll 0 too, which is the ONLY place the ivory one was ever shown
-   (.hdr--solid latches at y>=24, so the ivory mark had a 24px life).
-   ⚠️ DESKTOP ONLY, AND THE SCOPE IS MEASURED, NOT CAUTIOUS. The red mark needs
-   the light-key hero under it: on the old dark frame it read 1.31:1. With the
-   wash, desktop is 6.31-6.71. His call, asked and answered: red on desktop,
-   ivory on phones — and the bar swaps to red the moment either one scrolls.
+/* HIS ASK 2026-08-05: "change the logo for the mobile version on the first
+   section to be the same as the actual logo". The red mark is now the default
+   at EVERY width — phones included — so mobile and desktop finally show one
+   wordmark. The ivory colourway survives in exactly one place: body.nav-open,
+   where it sits on the dark overlay (see the nav-open rules below).
 
-   ⚠️⚠️ PROVISIONAL, AND HE HAS NOT SEEN IT LIVE YET — THE PHONE MARK IS THE ONE
-   THING ON THIS CHAPTER THAT GOT WORSE. The 15% vertical shows pale curtains
-   behind the mark (ground L .316 where the old plate gave .177), so measured
-   against the raw ground the IVORY mark now reads 2.26 worst / 2.68 median,
-   where the old hero gave it ~4.35. Red there is worse still (1.62 worst).
-   Both colourways are short on this frame; ivory is the better of the two,
-   which is why the answer above did not change.
-   ⚠️ THE NUMBER UNDERSTATES IT: the measuring pass hides .mark to shoot the
-   ground, so the mark's own drop-shadow halo — which is doing real work here —
-   cannot appear in it. Trust the crop over the ratio for this one element.
-   A heavier halo WAS built and rejected on looks, not numbers: it reads as a
-   grey smudge around the letterforms.
-   Real fixes if he wants one: a mark-sized scrim pad behind the logo (new
-   chrome, budget frozen), or a phone plate whose top strip is darker.
-   RE-ASK once he has seen it on his own phone. */
-@media (min-width:900px){
-  .mark{filter:none}
-  .mark__img--ivory{display:none}
-  .mark__img--red{display:block}
-}
+   WHAT THIS FIXED, and it was the real bug: .hdr--solid latches at y>=24, and
+   it already forced the red mark. So a phone showed the IVORY logo for 24px of
+   scroll and the RED one from 24px onward — two different logos inside one
+   thumb-flick. That is what he spotted.
+
+   ⚠️⚠️ PROVISIONAL — SHIPPED ON A WEAK NUMBER, HIS CALL, MADE WITH THE NUMBER
+   IN FRONT OF HIM. Measured 2026-08-05 against the CURRENT phone hero
+   (hero-team-phone-1424.avif), composited, mark hidden to shoot the ground:
+       ground behind the mark   L .321 median (.207 p5 / .384 p95)
+       ivory  #FAF7F1          2.65 median / 2.26 worst   ← what we replaced
+       logo red #8E2D3A        2.87 median / 1.99 worst   ← SHIPPED
+       burgundy #5C1F31        4.38 median / 3.03 worst   ← measured best
+   Red is the better mark at the median and the weaker one at the worst pixel;
+   BOTH colourways are short on this frame. He was shown all three rendered
+   side by side and picked the actual logo over the number.
+   The two fixes he declined, on looks: an ivory pad behind the mark (reads as
+   a white blob) and a burgundy colourway of the wordmark (a NEW brand
+   colourway — a brand decision, not a code one).
+   ⚠️ RE-ASK if the hero photo changes: this number is a property of that one
+   pale wall, not of the mark. A darker top strip on the phone plate would fix
+   it outright and cost no new chrome. */
 
 .hdr__right{display:flex;align-items:center;gap:.7rem}
 /*

@@ -297,11 +297,18 @@ body.nav-open .hdr{background:transparent;border-bottom-color:transparent;backdr
    the two states it needed are the same two the .globe/.wapp chips above and
    the .cta pill in the hero already carry, so nothing here was load-bearing
    for anything else. */
+/* ⚠️ THE IVORY BAR'S CHIPS ARE A9 OUTLINE — HIS CALL 2026-08-05, AND THE SCOPE
+   IS EXACTLY ONE STATE. "I don't want to change the first one, although when the
+   nav bar is up, the ivory bar, give me the outline one that is A9." So the
+   frosted chips OVER THE HERO are untouched; only the scrolled bar changes.
+   That split is also why it measures: on the ivory bar #8E2D3A reads 6.59, while
+   over the hero the frosted chip is carrying its own ground and does not need a
+   colour to separate. */
 .hdr--solid .globe,.hdr--solid .wapp{
-  border-color:var(--line);background:transparent;color:var(--ink);
+  border-color:var(--logo-red);background:transparent;color:var(--logo-red);
   backdrop-filter:none;-webkit-backdrop-filter:none;
 }
-.hdr--solid .globe:hover,.hdr--solid .wapp:hover{border-color:var(--gold)}
+.hdr--solid .globe:hover,.hdr--solid .wapp:hover{border-color:var(--logo-red);background:var(--logo-red);color:var(--ivory)}
 
 .burger{
   -webkit-appearance:none;appearance:none;cursor:pointer;padding:0;
@@ -316,16 +323,17 @@ body.nav-open .hdr{background:transparent;border-bottom-color:transparent;backdr
 }
 .burger:hover{border-color:var(--ivory);background:rgba(46,34,40,.6)}
 .hdr--solid .burger{
-  border-color:var(--line);background:transparent;
+  border-color:var(--logo-red);background:transparent;
   backdrop-filter:none;-webkit-backdrop-filter:none;
 }
-.hdr--solid .burger:hover{border-color:var(--gold)}
+.hdr--solid .burger:hover{border-color:var(--logo-red);background:var(--logo-red)}
+.hdr--solid .burger:hover span{background:var(--ivory)}
 .burger span{
   display:block;width:20px;height:1px;background:var(--ivory);
   transition:transform .38s var(--ease),opacity .2s linear,width .38s var(--ease),
     background-color .3s var(--ease);
 }
-.hdr--solid .burger span{background:var(--ink)}
+.hdr--solid .burger span{background:var(--logo-red)}
 .burger span:nth-child(2){width:13px}
 .burger:hover span:nth-child(2){width:22px}
 body.nav-open .globe,body.nav-open .wapp,body.nav-open .burger{
@@ -889,9 +897,27 @@ html[lang="en"] #s2 h2{white-space:nowrap}
      Measured English: h2 7.63, body 5.81. Reach 1.5 + alpha x1.25 reaches 12.95
      but visibly milks the group. RE-DERIVE THIS IF THE FRAME CHANGES — it comes
      from where THIS group stands, it is not a transferable number. */
+  /* ⚠️ RE-DERIVED FOR HIS NEW FRAME, 2026-08-05, AND HIS READING OF IT WAS THE
+     ONE THAT SOLVED IT: "stop the scrim ... like a smooth flow already, because
+     look at the background of the image, it's the same colour — maybe you don't
+     even need the scrim that much."
+     He is right about the wall. With the wash ending at 36% the HEADLINE still
+     reads 11.95, so the cream wall carries it unaided. Exactly one thing forces
+     any wash at all: the seated woman's DARK HAIR, which sits at 44.7-45.1% of
+     the viewport, directly under body lines 1, 3 and 4 (the body's ink ends at
+     47%, the headline's at 51.5%).
+     ⚠️ AND THE HAIR IS INVISIBLE TO THE SATURATION SCAN THIS FILE USES ELSEWHERE
+     — that method found her red DRESS at 50.8% and missed the hair entirely,
+     because dark hair is desaturated. For a DARK subject the edge is a LUMINANCE
+     step, not a saturation one. Reuse that distinction.
+     So the shape is short but firm: full weight held THROUGH 46%, then away
+     fast, zero by 57% — against the 70.2% it replaces. Measured: h2 13.19,
+     body 5.14. Simply shortening it fails (zero at 52% -> body 1.30) and simply
+     deepening it passes at 5.51 but visibly milks her face, which is the
+     correction he made on the hero. */
   #s5::after{
     background:
-      linear-gradient(to right,rgba(250,247,241,.86) 0%,rgba(250,247,241,.76) 43.2%,rgba(250,247,241,.50) 59.4%,rgba(250,247,241,0) 70.2%);
+      linear-gradient(to right,rgba(250,247,241,.88) 0%,rgba(250,247,241,.86) 32%,rgba(250,247,241,.82) 46%,rgba(250,247,241,.60) 50%,rgba(250,247,241,0) 57%);
   }
 }
 
@@ -1808,7 +1834,11 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
      dropped 15% in the same pass, so this now sits at 0.78 of its size at
      1920 against 0.62. That ratio is the thing to watch if either moves. */
   font-size:var(--head-fs);line-height:1.2;
-  letter-spacing:.02em;color:var(--burgundy);text-align:left;
+  /* A9 red since 2026-08-05, his call — the same ink as the pill, the mark and
+     the footer, so the panel's one coloured element belongs to the same family.
+     On the panel's ground it reads 6.59 against a 4.5 floor (--burgundy was
+     9.92; both clear, and this buys one red on the page instead of two). */
+  letter-spacing:.02em;color:var(--logo-red);text-align:left;
 }
 /* LEFT, not centred, 2026-08-03 — his call once the panel went back to half
    width. It now starts on the same edge as the quote and the attribution
@@ -3402,10 +3432,18 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
          same value, same reason, now scoped to the image. -->
     <div class="bg">
       <picture>
-        <source media="(max-width:899px) and (orientation:portrait)" type="image/avif" srcset="images/team-clear-phone-1425.avif">
-        <source media="(max-width:899px) and (orientation:portrait)" type="image/webp" srcset="images/team-clear-phone-1425.webp">
-        <source type="image/avif" srcset="images/team-clear-wide-2399.avif">
-        <img src="images/team-clear-wide-2399.webp" alt="" loading="lazy" fetchpriority="low" width="2399" height="1350"
+        <!-- ⚠️ HIS FRAME, 2026-08-05. The desktop plate is his SECOND export —
+             the first sat "too close to the center". New filenames, not
+             overwrites, so the old pair is one line away if this is reverted.
+             ⚠️ RESOLUTION CAVEAT, FLAGGED TO HIM: `new team better.png` is
+             1672x941, where his first upload was 3840x2160. These derivatives
+             are upscaled x1.43, so the desktop plate carries less real detail
+             than the one it replaces. A re-export at 3840 would drop straight
+             in under the same names. -->
+        <source media="(max-width:899px) and (orientation:portrait)" type="image/avif" srcset="images/team-new-phone-1425.avif">
+        <source media="(max-width:899px) and (orientation:portrait)" type="image/webp" srcset="images/team-new-phone-1425.webp">
+        <source type="image/avif" srcset="images/team-new-wide-2399.avif">
+        <img src="images/team-new-wide-2399.webp" alt="" loading="lazy" fetchpriority="low" width="2399" height="1350"
              loading="lazy" decoding="async">
       </picture>
     </div>

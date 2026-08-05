@@ -497,11 +497,21 @@ main{position:relative}
      it whole, but it spends the left wall the copy column is sitting on, which
      is the one thing this plate was chosen for. */
   #s6 .bg img{object-position:12% center}
-  /* team frame: the group sits right of centre and the woman on the end runs to
-     the very edge of the plate, so anchor the crop RIGHT. What that gives up is
-     clear wall on the left — which is exactly what the copy column wants to be
-     sitting on. Centre-cropping cuts her at 1440 and 1280. */
-  #s5 .bg img{object-position:100% center}
+  /* ⚠️ THE ANCHOR IS BACK TO CENTRE, 2026-08-05, AND IT WAS THE REAL CULPRIT.
+     The note this replaces was written for the OLD plate, where the group ran to
+     the frame's right edge and a centre crop cut the end woman. HIS NEW FRAME IS
+     COMPOSED DIFFERENTLY — the group sits inboard — so anchoring right was
+     dragging the seated woman LEFT, straight under the paragraph, which is what
+     forced an unusually heavy scrim on this chapter.
+     He asked why ch05's scrim could not be as light as ch01/02/03's. It could:
+     the scrim was never the problem, the crop was. Measured, centre crop:
+         ch02/03's light wash   h2 12.89   body 6.93
+         ch01's wash            h2 13.29   body 7.08
+     against 100%-anchored, where even ch01's own wash gave body 1.28 and only a
+     scrim heavy enough to milk her face reached 5.13.
+     ⚠️ RE-CHECK THE END WOMAN IF THE FRAME CHANGES AGAIN — that is what the old
+     anchor was protecting, and it is the thing a centre crop can cost. */
+  #s5 .bg img{object-position:50% center}
 }
 /* The product frame was replaced 2026-08-01 with a far brighter set, and
    the bottles now run straight through the copy column. The stock light
@@ -915,9 +925,16 @@ html[lang="en"] #s2 h2{white-space:nowrap}
      body 5.14. Simply shortening it fails (zero at 52% -> body 1.30) and simply
      deepening it passes at 5.51 but visibly milks her face, which is the
      correction he made on the hero. */
+  /* ⚠️ NOW THE SAME LIGHT WASH AS ch02/ch03 — his call: "the scrim for meet the
+     team should be less powerful, like sections 1 2 3". It can be, but only
+     because the CROP moved (see #s5 .bg img above). With the crop still anchored
+     right, this exact gradient measured body 1.28; with the crop centred it
+     measures 6.93. Same gradient, same frame — the difference is entirely where
+     her dark hair lands relative to the paragraph.
+     Measured centre-cropped: h2 12.89, body 6.93. */
   #s5::after{
     background:
-      linear-gradient(to right,rgba(250,247,241,.88) 0%,rgba(250,247,241,.86) 32%,rgba(250,247,241,.82) 46%,rgba(250,247,241,.60) 50%,rgba(250,247,241,0) 57%);
+      linear-gradient(to right,rgba(250,247,241,.645) 0%,rgba(250,247,241,.57) 32%,rgba(250,247,241,.375) 44%,rgba(250,247,241,0) 52%);
   }
 }
 

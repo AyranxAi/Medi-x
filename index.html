@@ -4113,6 +4113,16 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
   var ticking=false;
   function frame(){
     ticking=false;
+    /* ⚠️ Guard the writer, not just the listeners. iOS Safari fires a window
+       resize every time its toolbar collapses or returns — which is every
+       scroll — and the unconditional resize listener below fed that straight
+       into this function, stamping one STALE desktop transform (translate +
+       scale 1.07) onto every visible .bg per bar transition, with no phone
+       scroll listener to ever correct it. That was the "background jumps a
+       little" on iPhones (2026-08-05). No Chrome-based rig can reproduce it:
+       only Safari changes innerHeight mid-scroll. Same condition sync() keys
+       on, so desktop behaviour is identical. */
+    if(!wide.matches||reduce.matches) return;
     var vh=window.innerHeight;
     secs.forEach(function(s){
       var r=s.getBoundingClientRect();

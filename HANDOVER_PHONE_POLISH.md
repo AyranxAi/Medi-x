@@ -388,3 +388,38 @@ design decision and `HANDOVER_MOBILE_UX.md` is parked at his request.** Ask him.
   has a photograph, and neither is a `<picture>`.
 - **The two inert booking CTAs and the quiz stay inert** — his standing decision.
   Do not wire them to WhatsApp to tidy up.
+
+---
+
+## 9. Addendum 2026-08-05 (late) — the Safari scroll jump, found and fixed
+
+He was still feeling "the background jumps a little" in iOS Safari after this
+pass shipped. It was real, it was ours, and **no rig in §1 could ever have
+seen it**: iOS Safari fires a window `resize` every time its toolbar collapses
+or returns — i.e. on every scroll — and the parallax block registered
+`resize → onScroll` unconditionally while `frame()` itself had no width or
+motion gate. On a phone `sync()` correctly attaches no scroll listener, so the
+resize path stamped ONE stale desktop transform (`translate3d ±26px` +
+`scale(1.07)`) onto every visible `.bg` per bar transition — an instant,
+untransitioned 7% zoom pop that then STUCK until the next transition popped it
+somewhere else. Which also means every plate composed in §2.3 was displaying
+7% over-zoomed at a random offset from the first flick of the thumb onward.
+Chrome-based rigs never change `innerHeight` mid-scroll; that is why five
+clean traces coexisted with a glitch his thumb found in five seconds.
+
+**The fix is one guard at the top of `frame()`** — the same
+`wide.matches && !reduce.matches` condition `sync()` keys on — plus a comment
+at the site. Desktop behaviour is identical (the guard is true there; a
+desktop window resize still recomputes). Phones now have **zero scroll-coupled
+geometry writers**. The two things that still move around the bar are the OS's
+own and are not bugs: bottom-anchored fixed discs ride the viewport edge
+during the bar animation, and a fast flick on slow cellular can catch a lazy
+plate arriving.
+
+**Revert:** `git revert` the commit carrying this addendum — one commit, two
+files (`index.html` + this note).
+**Verify:** on the iPhone, scroll down then up around the toolbar
+transitions; the photographs must hold perfectly still while the bar moves.
+Xcode was not on the Mac this session, so MobileSafari could not be driven
+directly; he intends to install it — next session can boot the simulator and
+watch the before/after instead of feeling for it.

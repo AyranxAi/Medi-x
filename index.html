@@ -1245,6 +1245,39 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
 @media (max-width:899px){
   .cta-stack{display:grid;grid-template-columns:max-content;gap:.75rem}
 }
+/* ── THE HERO STACK TIGHTENS FROM THE INSIDE, 2026-08-06 ───────────────────
+   HIS REPORT, on his phone, bands drawn on the screenshot: "too much space on
+   down and up is eating the body of the people". Those are ONE defect counted
+   twice — the copy was pushed up into the photograph in order to hold a gap at
+   the bottom that Safari's toolbar was covering anyway.
+
+   The bottom half is answered in the .sec padding block. This is the top half:
+   the hero copy is BOTTOM-ANCHORED on a phone, so the only way its top edge
+   comes off the photograph WITHOUT moving its bottom is to make the stack
+   SHORTER. Hence four margins and not a position.
+
+   MEASURED at 390x844, settled (⚠️ measure AFTER the entrance animation — read
+   mid-`heroRise` it comes back 18px low and the overlap looks smaller than it
+   is; that mistake was made once already on 2026-08-06):
+     headline top  310 -> 360 from this block alone, -> 402 with the padding
+     the group's feet sit at 381, so the headline now clears them by 21px
+   Type size is NOT touched: the h1 was set at x0.92 on 2026-08-05 and the
+   three-line break is his. Gaps only, so every line breaks where it did.
+
+   ⚠️ SCOPED TO #s1 ON PURPOSE. These are hero numbers answering a hero problem;
+   the other seven chapters are centred, not bottom-anchored, and have no
+   photograph under their headline. Do not lift this to `.copy`.
+   ⚠️ A CROP WAS BUILT FIRST AND WAS NOT NEEDED — a plate with 200px off the top
+   (`hero-team-phone-1503`, since deleted) to raise the group. It worked and it
+   was the wrong tool: the answer was in the padding, not the photograph. If the
+   group ever does need raising, note the master has only ~515px above the heads
+   and 350 of it puts the wordmark ON one; 200 was near the practical ceiling.
+   REVERT: delete this block — the four values fall back to the ones above. */
+@media (max-width:899px){
+  #s1 h1{margin-bottom:.4rem}
+  #s1 .cta-stack{margin-top:1.2rem;gap:.5rem}
+  #s1 .kicker{margin-top:.9rem}
+}
 /* ── THE SECOND HERO ACTION STOPS BEING A TWIN — "B1 IVORY REVERSE", 2026-08-06
    His words: the second CTA "should be different than the main book your
    consultation". Two identical wine pills side by side made neither one lead;
@@ -1341,6 +1374,20 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
   color:rgba(250,247,241,.5);
 }
 .hint i{display:block;width:1px;height:44px;background:linear-gradient(to bottom,rgba(250,247,241,.5),transparent);animation:drop 2.4s var(--ease) infinite}
+/* ── THE SCROLL CUE STANDS DOWN ON PHONES, 2026-08-06 ──────────────────────
+   MEASURED at 390x844: `.hint` is absolute at `bottom:1.6rem` of a section that
+   is `100vh` — and on iOS `vh` is the toolbar-HIDDEN height, so the cue occupied
+   754-818 while the toolbar-SHOWN fold is ~756. The ENTIRE cue lived behind
+   Safari's own bar. It read as "there is something down there I cannot see",
+   which was half of what he was pointing at in his screenshots.
+   It is `aria-hidden` and decorative, so nothing is lost to assistive tech, and
+   nobody needs telling that a phone scrolls. Desktop keeps it — there it sits
+   in real space and does its job.
+   ⚠️ An AFFORDANCE is being removed here, which is his call and not a tidy-up.
+   Made 2026-08-06 against the rendered comparison. Revert = delete this rule.
+   ⚠️ Do NOT "fix" it instead by lifting the cue — that spends the clearance the
+   CTA needs. See the .sec padding block for what that budget actually is. */
+@media (max-width:899px){ .hint{display:none} }
 @keyframes drop{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 
 /* The progress rail — a fixed column of eight chapter dashes on the right
@@ -2465,12 +2512,43 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
      which both floated it AND — because the phone scrim is bottom-anchored —
      carried it up out of its own scrim, making the legibility worse at the
      same time. Less padding puts it back down into the dark end.
-     5vh is a floor, not a taste pick: the copy's bottom lands at ~726px and
-     the toolbar-SHOWN viewport is 756, so it keeps ~30px of clearance. Go
-     lower and the CTA is clipped in that state. */
+
+     ── 5vh → 0, HIS CALL 2026-08-06, AND THE OLD REASONING WAS WRONG ─────────
+     What the 5vh said it was buying: "the copy's bottom lands at ~726 and the
+     toolbar-SHOWN viewport is 756, so it keeps ~30px of clearance. Go lower and
+     the CTA is clipped." The FIRST half was right and the SECOND half was not.
+     726 is the KICKER's bottom. The CTA's bottom is 691 — it was never the
+     thing 30px from the fold, it was 65px from it. The padding was protecting a
+     decorative line of text at the cost of shoving the whole bottom-anchored
+     stack 42px up into the photograph.
+
+     HIS OBSERVATION IS WHAT FOUND IT: "why don't you match the private personal
+     powerful to the chat button?" The chat disc sits happily just above the bar
+     because it is `position:fixed` and iOS pins fixed elements to the VISIBLE
+     edge — an in-flow element at that height goes behind the bar instead. So
+     his literal idea does not transfer. But the question underneath it does:
+     what actually has to clear the toolbar? Only the thing you tap.
+
+     MEASURED at 390x844, settled, with the toolbar-shown fold at 756:
+                          headline top   vs the group's feet (381)   kicker   quiz button
+       5vh, before             310          crosses by 71px          30 spare   65 above
+       0vh + the #s1 block     402          CLEARS by 21px           12 UNDER   22 above
+
+     ⚠️ THIS IS THE COMPROMISE AND IT IS DELIBERATE: "Private. Personal.
+     Powerful." now sits ~12px BEHIND Safari's toolbar while that bar is shown.
+     It reappears the moment you scroll (scrolling retracts the bar). He was
+     offered the version that keeps it visible — 2vh, which clears the group by
+     4px with 5px of kicker to spare — and chose this one on the rendered
+     comparison, for the bigger margin over the photograph. RE-ASK if he ever
+     mentions that line disappearing; 2vh is the one-character change back.
+
+     ⚠️ THE FLOOR IS NOW THE BUTTON, at 22px above the fold. Do not take this
+     below 0 by adding a negative term — that is where the CTA genuinely starts
+     to clip, which is what the old comment was describing about the wrong
+     element. Re-measure the CTA, not the kicker, if this value ever moves. */
   .sec{
     min-height:100vh;
-    padding-bottom:calc(clamp(3.5rem,9vh,7rem) + 5vh);
+    padding-bottom:clamp(3.5rem,9vh,7rem);
   }
   /* ⚠️ BOTH OF THESE MUST ZERO THE PADDING ABOVE. They declare `padding:0` in
      their own rules, and the .sec rule here is later in the sheet, so it wins

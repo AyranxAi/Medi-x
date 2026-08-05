@@ -695,6 +695,45 @@ main{position:relative}
    colourway would put two different buttons back on the page. */
 #s1 .hint{color:rgba(46,34,40,.55)}
 #s1 .hint i{background:linear-gradient(to bottom,rgba(46,34,40,.5),transparent)}
+
+/* ══ CHAPTER 02 TURNS LIGHT-KEY TOO — HIS CALL 2026-08-05 ════════════════════
+   He was shown ch02/ch05/ch07 reversed side by side and picked ch02, then made
+   the point that decided the strength: "we no longer need as big of a skim of
+   white right because the background is already white". He is right, and it is
+   measurable — this frame is a pale desk, far brighter than ch01's wall, so it
+   needs less lifting to carry dark ink.
+   ⚠️ THE WASH IS ch01's SHAPE AT 75% OF ITS ALPHA, AND 75% IS A MEASURED KNEE,
+   NOT A ROUND NUMBER. Worst line, darkest 2%, floors 3.0 headline / 4.5 body:
+       100% (ch01's own)   h2 9.85   body 6.07
+        75% (SHIPPED)      h2 8.65   body 4.78
+        50%                h2 6.37   body 3.50   ← the BODY breaks first
+         0% (no wash)      h2 3.02   body 1.63
+   ⚠️ THE PARAGRAPH IS THE BINDING CONSTRAINT, NOT THE HEADLINE. At 50% the
+   headline still looks fine, which is exactly why this cannot be judged by eye —
+   the copy fails while the picture still reads. Do not lower this without
+   re-running the body number.
+   ⚠️ ch05 AND ch07 WERE MEASURED AND ARE NOT SHIPPING. ch05 fails at ch01's FULL
+   wash (h2 2.51) because its headline's last word and the body's middle lines
+   cross the leftmost woman's hair and belt — a composition problem no alpha
+   fixes. ch07 has no photograph at all, so an ivory wash just films the wine
+   panel and kills the rose italic. ch03/ch06/ch08 are unmeasured — do not
+   generalise this uninvited. */
+#s2 h2{color:var(--ink)}
+#s2 .body{color:rgba(46,34,40,.82)}
+#s2 .kicker{color:#6E5427}
+#s2 .kicker::after{background:linear-gradient(to right,#6E5427,transparent)}
+@media (min-width:900px){
+  #s2::after{
+    background:
+      linear-gradient(to right,rgba(250,247,241,.645) 0%,rgba(250,247,241,.57) 32%,rgba(250,247,241,.375) 44%,rgba(250,247,241,0) 52%);
+  }
+}
+@media (max-width:899px){
+  #s2::after{
+    background:
+      linear-gradient(to top,rgba(250,247,241,.675) 0%,rgba(250,247,241,.63) 34%,rgba(250,247,241,.54) 52%,rgba(250,247,241,.345) 64%,rgba(250,247,241,.105) 74%,rgba(250,247,241,0) 82%);
+  }
+}
 /* ...and its own on desktop, for the reason #s6 has one: this is now a frame with
    no dark region under the copy. The plate it replaced carried a charcoal shelving
    unit right where the column sits, which is where that chapter's ~15:1 CTA came
@@ -2177,9 +2216,21 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
    border-color, not border-width:0 — the 1px box stays, so the icon cannot
    shift and the rim can fade back in on hover. The burgundy shows through
    it: background paints under the border. */
+/* ⚠️ 2026-08-05: THE DISC TAKES THE PILL'S INK AND THE PILL'S MATERIAL —
+   his ask, "make the chat logo's colour based on the A9 colour". So the fill
+   moves --burgundy #5C1F31 → --logo-red #8E2D3A, and it gains the same lit top
+   edge and soft lift the .cta pill now carries. One red, one material.
+   ⚠️ HIS RIMLESS-AT-REST DECISION IS UNTOUCHED — border-color stays transparent
+   and the rim still returns only on hover. The "Apple" in this is the specular
+   top edge and the drop shadow, NOT a rim; adding one back would silently
+   reverse the 2026-08-04 call documented above.
+   ⚠️ The numbers in that comment were measured for #5C1F31 and are now STALE —
+   #8E2D3A is the lighter ink, so the disc separates BETTER on the dark rooms
+   (ch05/ch07) and slightly worse on the ivory panel. Re-measured below. */
 .ask--past-hero,.ask--past-hero.ask--glow-in,.ask--past-hero.ask--glow-out{
-  background:var(--burgundy);border-color:transparent;color:var(--ivory);
-  backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:none;
+  background:var(--logo-red);border-color:transparent;color:var(--ivory);
+  backdrop-filter:none;-webkit-backdrop-filter:none;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.28), 0 8px 24px rgba(20,14,17,.24);
 }
 /* Hover lifts the fill one step and doubles the rim, with the shine held
    INSIDE it — no light lands on the photograph.
@@ -2197,10 +2248,14 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
    lives — it restates ivory over the transparent idle rim above, so the
    hover ring keeps the full two-layer weight it always had and fades in
    over .3s on the border-color transition the button already declares. */
+/* one step up from the NEW ink, which is the same step the .cta pill takes —
+   #A33648, where the ivory glyph still reads 5.96. The lift joins the rim so
+   the disc answers a cursor the way the pill does. */
 .ask--past-hero:hover{
-  background:#7A2C42;border-color:var(--ivory);
+  background:#A33648;border-color:var(--ivory);
   box-shadow:inset 0 0 0 1px var(--ivory),
-             inset 0 0 14px 2px rgba(250,247,241,.45);
+             inset 0 0 14px 2px rgba(250,247,241,.45),
+             0 14px 34px rgba(20,14,17,.30);
 }
 body.nav-open .ask{opacity:0;pointer-events:none}
 
@@ -2246,7 +2301,13 @@ body.nav-open .ask{opacity:0;pointer-events:none}
   width:3.25rem;height:3.25rem;border-radius:999px;
   /* rimless at rest, like .ask--past-hero — the rim returns on hover only.
      border-color, not border-width:0, so the icon cannot shift when it does. */
+  /* ⚠️ 2026-08-05: the SAME Apple material as the assistant disc — lit top edge
+     and soft lift — but the fill stays WhatsApp's own green. The mark is a third
+     party's trademark; putting it on a wine disc would make it read as ours.
+     A wine variant was rendered alongside this and is his to take if he wants
+     the pair to match on colour rather than on material. */
   border:1px solid transparent;background:#0F7A38;color:var(--ivory);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.28), 0 8px 24px rgba(20,14,17,.24);
   display:grid;place-content:center;text-decoration:none;
   /* absent, not merely invisible, until the trigger fires */
   opacity:0;translate:0 .5rem;pointer-events:none;
@@ -2270,7 +2331,8 @@ body.nav-open .ask{opacity:0;pointer-events:none}
 .wa:hover{
   background:#12873B;border-color:var(--ivory);
   box-shadow:inset 0 0 0 1px var(--ivory),
-             inset 0 0 14px 2px rgba(250,247,241,.45);
+             inset 0 0 14px 2px rgba(250,247,241,.45),
+             0 14px 34px rgba(20,14,17,.30);
 }
 body.nav-open .wa{opacity:0;pointer-events:none}
 @media (prefers-reduced-motion:reduce){ .wa{transition:opacity .01s;translate:none} }

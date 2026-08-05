@@ -1313,9 +1313,26 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
    both first terms are 0 and these are the clamps they always were.
    The percentages resolve the same way the caps do: against width in `left`,
    against height in `bottom`. */
+/* ⚠️ RIGHT, NOT LEFT, SINCE 2026-08-05 — and the reason is in the plate, not
+   in the layout. The Harper's Bazaar cover carries a QR CODE in its
+   bottom-left corner, exactly where this button was anchored; the button
+   covered it outright and made it unscannable. Madame Arabia, which this frame
+   held until that day, had nothing there, so the anchor had never been tested
+   against a cover that used its own corner.
+   Checked at both ends before moving: on DESKTOP the right corner holds only
+   the small "Published: 17 September 2014" caption, which the pill clips
+   harmlessly; on PHONE the frame crops that caption out entirely, so the
+   button lands on clear dress and collides with nothing at all. The phone is
+   in fact the stronger case for right — at 390px the tighter frame put the
+   button over ALL of the QR, not just part of it.
+   The mirrored calc is the same expression with `left` swapped for `right`:
+   both measure in from the FRAME's edge, not the figure's, so the inset is
+   identical and nothing else in this rule had to move.
+   ⚠️ If a future cover puts its own artwork bottom-RIGHT, this needs checking
+   again — the honest fix then is a per-plate class, not a third guess. */
 .cpress__cta{
   position:absolute;z-index:2;
-  left:calc((100% - var(--frame-w))/2 + clamp(1.4rem,3vw,2.6rem));
+  right:calc((100% - var(--frame-w))/2 + clamp(1.4rem,3vw,2.6rem));
   bottom:calc((100% - var(--frame-h))/2 + clamp(1.4rem,3vw,2.2rem));
   /* HIS PICK 2026-08-02 (P2). Every other CTA on the site sits on a ground of
      luminance 0.017–0.141, which is what the frosted wash was measured against.

@@ -46,6 +46,54 @@ disc overlaps the address text between roughly 1000 and 1150px wide — a
 pre-existing squeeze that the second address made start earlier. Both are
 written up in §4.
 
+### The 2026-08-05 pass — on `claude/website-logo-header-redesign-ejy9yb`, NOT merged
+
+Five commits, all on the branch, none on `main` yet. Every number below is
+measured and the working is in the CSS comment beside each rule.
+
+1. **The bar.** Logo `34/48 → 36/50`, header inset `+6px`. Both travel through
+   `--copy-x` by design, so all eight chapters' copy moved with the mark — that
+   is the i-stem rule working, not drift. The "Book your consultation" pill is
+   OFF the bar; its `hdr.book` strings stay in all six language tables,
+   unrendered, in case it returns.
+2. **Chapter 01 re-ordered:** headline → body → both buttons on one line →
+   "Private. Personal. Powerful." as the closing note, with its gold rule now
+   running the full column width. Every h1 figure on the page is the old one
+   ×0.92, **all six languages together** — scaling English alone would have
+   undone the floors that make them break to four lines at the same width.
+   The kicker is back on phones; it was hidden on 2026-08-04 for pushing the
+   headline out of the scrim, and as the last row it pushes nothing.
+3. **A WhatsApp disc** above the assistant, on the assistant's own trigger.
+   It is a FILLED dark-green `#0F7A38`, not the green outline he first asked
+   for: no green clears 3:1 on s2/s3/s5/s6, and a per-chapter list cannot fix
+   it because s2 measures 0.344 on desktop and 0.065 on a phone off the same
+   `data-src-narrow` swap. A fill measures the glyph against its own disc —
+   5.09:1 everywhere, no script.
+4. **The WhatsApp glyph is now the real trademark** in all four places. What
+   shipped before was a hand-drawn speech bubble with a scribbled handset.
+   Two sizes on purpose: padded `-2 -2 28 28` at 16px in the header so it sits
+   level with the globe's stroke weight, full-bleed in the footer where its
+   neighbours are Facebook and Instagram at full box.
+5. **Chapter 01's phone crop** takes plain `center`. It had inherited the
+   landscape plates' `72%`, which left 69px of margin left and 132px right.
+   ⚠️ **A tuned 53% was measured, worked, and was REJECTED** — 2.5 CSS px
+   better and a magic constant nobody could later justify.
+6. **Chapter 06 back to the champagne pair**, and **both** positions
+   re-derived — phone `37% → 63%` because the wine plate sat left of its file
+   centre and this one sits right; desktop `12%` kept but re-checked, not
+   assumed.
+7. **Chapter 08 takes the Harper's Bazaar cover** and the button reads
+   "Featured in" (idiomatic in all six, not literal). `.cpress__cta` moved
+   bottom-left → bottom-RIGHT: this cover carries a QR code in the corner the
+   button was anchored to. The phone was the stronger case for moving, not the
+   objection to it.
+8. **Chapter 07 was examined and deliberately left alone.** He asked whether
+   the bloom should take the services scrim `#471826`. It should not: at .55
+   over the `#2E2228` base that colour is luminance 0.0213 against the base's
+   0.0188 and the bloom flattens out. The current `#5C1F31` at .55 already
+   **composites to ≈#47202D**, i.e. the services scrim is what the section
+   renders as today. Shown three ways, his call, no change.
+
 ---
 
 ## 3. His rules. Do not relearn these the hard way.
@@ -360,6 +408,47 @@ smallest ink, because its artwork filled 29.5% of a 400×400 file.
 ---
 
 ## 5. Open, in the order I would take them
+
+00. **⚠️ THE PLATES ARE BEING UPSCALED ON PHONES, AND IT IS WHY THE HERO LOOKS
+    SOFT.** `team-hero-portrait.webp` is 941px wide but renders 475 CSS px,
+    which needs **1424 device px on a 3× phone** — roughly 1.5× upscale on any
+    recent iPhone. Every portrait plate has this. The 2160×3840 sources are all
+    still in `images/` (`15% high phone.png` is the one that ships), so this is
+    a re-encode, not a re-shoot: ~1400 wide takes each file from ~162KB to
+    ~330KB. **Do this BEFORE the `<picture>` work below** so that work just
+    consumes the new assets.
+
+0a. **⚠️ THE "GLITCHING AND RESIZING" HE KEEPS DESCRIBING IS THE LOADER, NOT
+    ANY CROP.** He asked for a "Clinique La Prairie type" fix where the hero
+    stops popping in and re-framing. Three separate causes, all real:
+    - **The pop-in.** Every `.bg` image lives in a `data-src` attribute and is
+      fetched by `new Image()` only after the JS parses (the `load()` function
+      in the inline script). The browser's preload scanner cannot see it, so
+      the hero starts downloading late. **Fix: real `<img>` in `<picture>`,
+      `fetchpriority="high"` on the hero, explicit `width`/`height`.**
+    - **The re-framing.** `cover` + any percentage means every viewport ratio
+      shows a different crop. Art-directed `<source media>` per breakpoint,
+      each plate composed for its own shape, removes **every**
+      `background-position` percentage in the sheet.
+    - **The rotation staleness.** The loader `delete`s `dataset.src` after the
+      first pick, so a tablet crossing 900px keeps the frame it loaded with —
+      documented and accepted at the time, and `<picture>` fixes it for free.
+    This is a proper job, not a tweak. Scope it its own session.
+
+0b. **Look at the 2026-08-05 branch on the real domain before merging.**
+    Playfair loads from Google Fonts, which the sandbox proxy blocks, so every
+    headline screenshot from that pass rendered in a fallback serif. The ×0.92
+    sizes are safe in principle — these ceilings are width limits, so smaller
+    can only gain clearance — but the actual line breaks of "Your best life."
+    were never seen in the real face. **Also re-judge the phone kicker there:**
+    it reverses his 2026-08-04 call on new reasoning, and the one-line revert
+    is sitting commented in the `.kicker` block.
+
+0c. **The hormone quiz is now the loudest inert control on the site.** It sits
+    on the same line as booking, at equal weight, reading as a live offer.
+    Booking at least has a destination coming; the quiz has nothing anywhere on
+    `medi-gyn.com` to point at. He confirmed **inert for now** on 2026-08-05 —
+    this is a note, not a request.
 
 0. **⚠️ CHAPTER 05 SHIPS A FORMER TEAM MEMBER — RE-ASK HIM.** 2026-08-03 the
    empty-lounge `images/team.webp` was replaced with his own frame of the five

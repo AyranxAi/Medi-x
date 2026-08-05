@@ -78,10 +78,20 @@ measured and the working is in the CSS comment beside each rule.
    landscape plates' `72%`, which left 69px of margin left and 132px right.
    ⚠️ **A tuned 53% was measured, worked, and was REJECTED** — 2.5 CSS px
    better and a magic constant nobody could later justify.
-6. **Chapter 06 back to the champagne pair**, and **both** positions
-   re-derived — phone `37% → 63%` because the wine plate sat left of its file
-   centre and this one sits right; desktop `12%` kept but re-checked, not
-   assumed.
+6. **Chapter 06 back to the GLASS pair** — `products-visible` + its portrait,
+   the champagne wall with the acrylic blocks and **no olive branch**.
+   ⚠️ It went to `product-suite` first, which is also champagne but carries a
+   leaf; he corrected it. If the chapter is ever changed again, note the repo
+   holds THREE distinct champagne-ish sets and about a dozen crops of them —
+   `product-suite*` (leaf), `products-visible*`/`products-closer`/
+   `products-lineup`/`products-shop`/`the shop products` (glass, various
+   zooms), and `product-wine*` (burgundy). Show him a contact sheet rather
+   than guessing from a filename.
+   **Both** positions re-derived: phone `63% → 57%`, desktop `12%` kept but
+   re-checked. ⚠️ This pair is the tightest of the three — the phone group is
+   745px wide in a 772.6px window, so ~28px of total slack against 87.6px on
+   the leaf plate. At 360px the margin is ~4px a side. Re-check 360 first if
+   the plate is ever recropped.
 7. **Chapter 08 takes the Harper's Bazaar cover** and the button reads
    "Featured in" (idiomatic in all six, not literal). `.cpress__cta` moved
    bottom-left → bottom-RIGHT: this cover carries a QR code in the corner the

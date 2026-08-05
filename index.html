@@ -346,35 +346,41 @@ main{position:relative}
    Unscoped on purpose: desktop already resolves to centre via the >=900px block,
    so this changes phones only and cannot drift from the desktop value. */
 #s1 .bg{background-position:center}
-/* products frame, PHONE — RE-DERIVED 2026-08-05 for the champagne pair. 63%,
-   and it is measured, not chosen. The old 37% belonged to
-   product-wine-portrait-high.webp and is wrong for this plate: carrying a
-   position across a frame swap is exactly the bug chapter 01 was carrying.
-   `product-suite-portrait.webp` puts its group — the glass arch and left
-   plinth through the right plinth — at x 150..835 of a 941-wide file, centre
-   492.5, i.e. sitting slightly RIGHT of the file's own centre (470.5). That is
-   the opposite of where the wine plate sat, which is why the number moved so
-   far. A phone shows a 772.6px window of that file and the group is 685 wide,
-   so it fits with 87.6px to spare — but only if the window starts at 106.2,
-   which is 63% of the 168.4px of overflow. The inherited 37% starts it at 62.3
-   and slices ~44px off the right plinth.
-   Holds across phone widths: 62% at 360, 63% at 390/414/430 — under half a
-   pixel apart, so one value covers all of them.
+/* products frame, PHONE — RE-DERIVED 2026-08-05 for the GLASS pair. 57%, and
+   it is measured, not chosen. Neither the wine plate's 37% nor the olive-branch
+   plate's 63% belongs here: carrying a position across a frame swap is exactly
+   the bug chapter 01 was found with the same day.
+   `products-visible-portrait.webp` puts its group — the amber block on the left
+   through the acrylic plinth on the right — at x 110..855 of a 941-wide file,
+   centre 482.5, sitting slightly RIGHT of the file's own centre (470.5).
+   ⚠️ THIS IS THE TIGHTEST OF THE THREE PAIRS AND THE LEAST FORGIVING. A phone
+   shows a 772.6px window and the group is 745 wide, so there are only ~28px of
+   slack in total — against 87.6px on the olive-branch plate. Centring it means
+   starting the window at 96.2, i.e. 57% of the 168.4px of overflow, which
+   leaves ~14px of margin on EACH side. There is no room to round this off.
+   Holds across phone widths: 56% at 360, 57% at 390/414/430. At 360 the margin
+   is down to ~4px a side — still clear, but that is the width to re-check
+   first if this plate is ever recropped.
    ⚠️ Phones only, by geometry, not by media query: at 768x1024 the frame is
    narrower than the viewport ratio so `cover` scales by WIDTH and the whole
    file is shown — horizontal position is a no-op there. Tablets are untouched
    by this line. The ≥900px block below carries the desktop value. */
-#s6 .bg{background-position:63% center}
+#s6 .bg{background-position:57% center}
 @media (min-width:900px){
   .bg{background-position:center}
   /* products frame: pull the crop left so the bottles clear the copy column.
-     ⚠️ 12% is KEPT rather than inherited — re-checked against the champagne
-     plate on 2026-08-05, not assumed. product-suite.webp puts its group at
-     x 790..1451 of 1672, and at 12% both 1440 and 1280 show the file window
-     x 20..1526 (the two land within a pixel of each other because both are
-     16:10 against a 16:9 plate), so the bottles clear the right edge by 75px
-     and the whole left 790px stays empty wall for the copy column. Only the
-     sage cloth is cropped, which is a prop.
+     ⚠️ 12% is KEPT rather than inherited — re-checked against the GLASS plate
+     on 2026-08-05, not assumed, and it survives for a different reason than it
+     did on the plate before. products-visible.webp runs its three bottles from
+     x 690 to x 1350 of 1672 and then keeps going: a grey panel to 1450 and a
+     tall clear cylinder to ~1600, both props. At 12% both 1440 and 1280 show
+     the file window x 20..1526 (the two land within a pixel of each other,
+     since both are 16:10 against a 16:9 plate), so every BOTTLE clears with
+     175px to spare and only the cylinder is cut — which reads as framing, not
+     as damage. The whole left 690px stays empty wall for the copy column.
+     ⚠️ Do not "fix" the cropped cylinder by raising this number. 63% would
+     hold it whole, but it spends the left wall the copy column is sitting on,
+     which is the one thing this plate was chosen for.
      At 1920 the plate is 16:9 against a 16:9 viewport: zero crop, and this
      line is a no-op there. */
   #s6 .bg{background-position:12% center}
@@ -3025,8 +3031,8 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
          are not the wine numbers. The old 37% / 12% were measured against
          product-wine-portrait-high.webp and product-wine.webp specifically —
          carrying them across would have been the exact bug the hero had. -->
-    <div class="bg" data-src="images/product-suite.webp"
-         data-src-narrow="images/product-suite-portrait.webp"></div>
+    <div class="bg" data-src="images/products-visible.webp"
+         data-src-narrow="images/products-visible-portrait.webp"></div>
     <div class="inner"><div class="copy">
       <h2 class="reveal" data-i18n="ch6.h2">Personalised Health Solutions. <em>Tailored to You</em></h2>
       <p class="body reveal" data-i18n="ch6.body">Explore our carefully selected hormone and peptide therapies, supplements and biohacking solutions designed to support your body &mdash; not overwhelm it.</p>

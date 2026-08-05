@@ -1154,13 +1154,39 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
    than the mark's own #8E2D3A. Kept because the reasoning still explains why the
    frosted pill existed for as long as it did.
    Geometry, radius, type and tracking are untouched — only the material changed. */
+/* ══ AND NOW IT IS 85%, NOT SOLID — HIS PICK, 2026-08-06 ═════════════════════
+   He read A9 as "beautiful but maybe too strong" and asked for the ladder again.
+   Re-rendered on the live page at 1440, tint of #8E2D3A over a 12px blur:
+       100%  label 7.59 / shape 6.67      85%  label 5.60 / shape 4.92
+        92%  label 6.52 / shape 5.72      80%  label 5.04 / shape 4.43
+        72%  label 4.27 ← FAILS the 4.5 floor. That is the cliff.
+   85% is his pick and it clears both floors with room on every chapter. Shipped
+   values re-measured on the built page, not on the option board:
+       ch01 5.60/4.92  ch02 6.09/3.72  ch03 5.89/4.22  ch05 5.52/5.18
+       ch06 5.65/4.78  footer 5.57/5.11        ← ch02 is the tightest at 3.72
+
+   ⚠️⚠️ THE "TWO GROUND FAMILIES" PARAGRAPH ABOVE IS STALE — DO NOT PLAN AGAINST
+   IT. It lists ch02/03/05/06/07/08 as dark-key at L .011–.087. MEASURED
+   2026-08-06 on the live page, at each pill's own rect:
+       ch01 .81   ch02 .55   ch03 .65   ch05 .87   ch06 .78   ← all LIGHT
+       ch07 .015                                              ← the only dark room
+   The site went light-key underneath that comment and nobody rewrote it. This is
+   why 85% was safe to take everywhere: every chapter it reaches is a light ground,
+   and the one genuinely dark room (ch07) opted out into frosted glass below.
+   The old numbers are kept only as the record of why A9 was picked in July.
+
+   The 12px blur is doing real work now, not decoration: at 85% the ground shows
+   through, and without the blur it shows through as a legible photograph rather
+   than as a wash. saturate(150%) is what stops the wine going dusty on cream. */
 .cta{
   margin-top:2.4rem;display:inline-flex;align-items:center;gap:1.1rem;
   height:3.05rem;padding:0 1.75rem;border-radius:var(--btn-radius);
   /* the rim and the inset top highlight are the "glass" that survived: they give
      the pill a lit edge without any transparency for a light ground to wash out */
   border:1px solid rgba(255,255,255,.20);
-  background:var(--logo-red);color:var(--ivory);
+  background:rgba(142,45,58,.85);color:var(--ivory);
+  -webkit-backdrop-filter:blur(12px) saturate(150%);
+  backdrop-filter:blur(12px) saturate(150%);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.28), 0 8px 24px rgba(20,14,17,.24);
   white-space:nowrap;
   text-decoration:none;font-family:var(--font-functional);font-weight:500;
@@ -1169,9 +1195,20 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
     box-shadow .3s var(--ease),gap .3s var(--ease);
 }
 /* hover brightens and lifts; it never changes hue. #A33648 is the same ink two
-   steps up and keeps the label at 5.96 against it. */
+   steps up and keeps the label at 5.96 against it.
+   2026-08-06: hover also FIRMS UP, 85% → 94%. With a translucent pill the tint
+   is the only thing separating rest from hover once the ink has moved, and a
+   hue-only step reads as a flicker on a busy ground. Going more opaque is the
+   same gesture the ink is making — the button coming forward.
+   ⚠️ WHAT THE FIRM-UP DOES NOT DO IS RAISE THE LABEL. Measured: hover 5.58 vs
+   rest 5.60 — level, not better, because #A33648 is the LIGHTER ink and going
+   more opaque commits harder to it. The two effects cancel almost exactly.
+   Do not "improve" hover by pushing the opacity further: past ~94% the label
+   keeps sliding down toward #A33648's own 5.34 and buys nothing. The hover is
+   carried by the rim, the lift and the gap — the fill's job is only to stop
+   looking translucent. */
 .cta:hover{
-  background:#A33648;border-color:rgba(255,255,255,.42);
+  background:rgba(163,54,72,.94);border-color:rgba(255,255,255,.42);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.40), 0 14px 34px rgba(20,14,17,.30);
   gap:1.4rem;
 }
@@ -1207,6 +1244,39 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
    `align-items:center` above is making. */
 @media (max-width:899px){
   .cta-stack{display:grid;grid-template-columns:max-content;gap:.75rem}
+}
+/* ── THE SECOND HERO ACTION STOPS BEING A TWIN — "B1 IVORY REVERSE", 2026-08-06
+   His words: the second CTA "should be different than the main book your
+   consultation". Two identical wine pills side by side made neither one lead;
+   the pair read as one object with a seam. This is the literal reverse of the
+   primary, which is the direction he asked for and picked off the board.
+
+   MEASURED on the live hero at 1440: label 7.59 against the ivory fill — the
+   SAME number the wine pill's ivory label scores, because it is the same two
+   inks in the other order. That is the whole argument for the reverse over an
+   outline or a gold rim (gold measured 3.84 and FAILED the 4.5 floor).
+
+   ⚠️ Its rim is 1.36 against the hero, and that is the accepted trade, not an
+   oversight: an ivory pill on a light-key hero cannot separate by fill. What
+   carries it is the wine LABEL and the drop shadow, and a secondary action is
+   supposed to recede — it earns attention second, on purpose. If this ever
+   needs to shout, the fix is B2 OUTLINE (rim 2.43), not a heavier ivory.
+   ⚠️ backdrop-filter:none is LOAD-BEARING. `.cta` now declares a 12px blur for
+   its 85% tint; this fill is opaque, so the blur would cost a compositor layer
+   to filter a backdrop no light ever reaches. */
+#s1 .cta-stack .cta[data-i18n="ch1.cta2"]{
+  background:var(--ivory);color:var(--logo-red);
+  border-color:rgba(142,45,58,.30);
+  -webkit-backdrop-filter:none;backdrop-filter:none;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.7), 0 8px 22px rgba(20,14,17,.16);
+}
+/* hover deepens the ground under the label rather than brightening it — the
+   inverse gesture to the primary's, because on this pill "forward" is darker.
+   --cream is the site's own next step down from --ivory, so the hover state
+   introduces no new value; the label holds at 6.98 against it. */
+#s1 .cta-stack .cta[data-i18n="ch1.cta2"]:hover{
+  background:var(--cream);border-color:rgba(142,45,58,.55);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.8), 0 14px 30px rgba(20,14,17,.20);
 }
 
 /* reveal */
@@ -1603,6 +1673,43 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
   margin-top:2rem;height:3.5rem;padding:0 2.25rem;font-size:.72rem;
 }
 .sec--meno .cta svg{width:17px;height:17px}
+/* ── CHAPTER 07 OPTS OUT OF THE RED — "C4 FROSTED GLASS", HIS PICK 2026-08-06 ──
+   His report: on the globe the red "seems unnoticeable and doesn't really fit".
+   He was right, and the number says why. The wine pill on the night ground:
+       FILL vs ground 2.07  ← under the 3.0 floor. Only its rim (3.24) scraped
+                              it past, which is what "sunken" looks like as data.
+   The cause is hue, not weight: #8E2D3A and this room's plum gradient are the
+   same colour family, so the pill was camouflaged rather than quiet.
+
+   This is THE ONE PLACE the Apple-glass treatment he originally wanted can
+   actually live. Glass failed the hero at every weight (1.85–4.37) because
+   backdrop-blur pulls an ivory ground INTO the tint — but ch07 is the site's
+   only genuinely dark room (L .015, measured 2026-08-06), and on dark ground
+   the same material measures:
+       label vs ground 15.15      rim vs ground 4.32      both PASS
+   So the site now has two button materials on purpose: wine on the seven light
+   chapters, smoked glass in the one dark one.
+
+   ⚠️ This is a DELIBERATE EXCEPTION, not drift. If a future chapter goes
+   dark-key, it should take THIS pill, not the wine one — and if ch07 ever goes
+   light, this rule must come out or it will wash to a grey lozenge.
+   ⚠️ Overrides `.cta`'s 85% wine AND its 12px blur. The blur is 18px here
+   because the ground is a moving dotted globe: 12px still resolved individual
+   dots through the fill and the pill read as dirty rather than frosted. */
+.sec--meno .cta{
+  background:rgba(250,247,241,.14);color:var(--ivory);
+  border-color:rgba(250,247,241,.40);
+  -webkit-backdrop-filter:blur(18px) saturate(140%);
+  backdrop-filter:blur(18px) saturate(140%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.28), 0 12px 32px rgba(0,0,0,.40);
+}
+/* hover raises the veil and the rim together. It cannot borrow `.cta:hover`'s
+   #A33648 — that would flash the red back in on the one chapter that just
+   removed it — so the gesture is the glass getting denser instead. */
+.sec--meno .cta:hover{
+  background:rgba(250,247,241,.24);border-color:rgba(250,247,241,.72);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.40), 0 16px 40px rgba(0,0,0,.46);
+}
 
 /* ── in the world (chapter 08) ──────────────────────────────
    TWO PANELS as of 2026-08-02 (the client's own call: the earlier
@@ -1750,6 +1857,39 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
      which is what the special case was buying. One pill, no exception.
      ⚠️ If a future plate is BRIGHTER than 0.58, re-measure — an opaque wine pill
      needs 3.0 against its ground and that is the number that would move. */
+  /* ⚠️⚠️ AND THE EXCEPTION IS BACK, 2026-08-06 — "D4", HIS PICK. Read the note
+     above as history: it says "one pill, no exception", and that lasted a day.
+     His report: on the press frame the red "doesn't seem fit", and he proposed
+     a professional grey. The grey is what the measurement killed — and this is
+     the finding worth keeping, because it is counter-intuitive:
+         D0 wine      1.70      D3 ivory solid    8.08
+         D1 graphite  1.47 ←    D4 ivory outline  4.73  ← his pick
+         D2 stone     2.54      D5 frosted smoke  2.26
+     A DARK neutral scores WORSE than the red it was meant to fix, because the
+     bottom of this cover is dark green foliage and graphite disappears into it.
+     Only the LIGHT treatments separate here. "Professional" on a photograph
+     means light, not grey.
+     ⚠️ WHY THE OUTLINE AND NOT D3, WHICH SCORES HIGHER: the plate is a variable.
+     D3's ivory fill wins on THIS cover and would lose on a bright one, where an
+     ivory slab has nothing to sit against. D4 carries its own scrim, so it
+     brings its contrast with it instead of borrowing it from the photograph.
+     That is the whole reason a mid-scoring option beat a high-scoring one.
+     ⚠️ STILL PLATE-DEPENDENT, JUST LESS SO. Verified on the Bazaar cover only.
+     Re-measure when the plate changes — both floors, at the pill's own rect.
+     ⚠️ The numbers above are sampled LOCALLY, where the pill actually lands.
+     The 4.88 quoted above is the red against the cover as a WHOLE. Both are
+     real; a photograph is not one luminance, which is exactly the problem. */
+  background:rgba(20,14,17,.30);color:var(--ivory);
+  border-color:rgba(250,247,241,.78);
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.28), 0 8px 24px rgba(20,14,17,.24);
+}
+/* hover deepens the scrim and takes the rim to full ivory. Same reasoning as
+   ch07: it must not inherit `.cta:hover`'s red, which would put the wine back
+   on the cover the moment a cursor arrived. */
+.cpress__cta:hover{
+  background:rgba(20,14,17,.48);border-color:var(--ivory);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.40), 0 14px 34px rgba(20,14,17,.34);
 }
 
 /* right — the voices panel, full height since the sponsor belt moved
@@ -2199,14 +2339,33 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
 }
 .f-news input::placeholder{color:rgba(106,88,95,.7)}
 .f-news input:focus-visible{outline:2px solid var(--logo-red);outline-offset:2px}
+/* ⚠️ THE FOOTER JOIN BUTTON JOINS THE PILL LANGUAGE, 2026-08-06 — his ask,
+   "make the same for the buttons including the ones on the footer".
+   It was the odd one out: the right ink but none of the material — border:0,
+   no lit top edge, no lift. So it takes the whole A9 grammar at 85%, which
+   means it now differs from a `.cta` in geometry and type size ONLY, which is
+   what a small utility button in a footer should differ by.
+   MEASURED on the --cream footer ground: label 5.57, fill 5.11. Both PASS.
+   ⚠️ border goes 0 -> 1px, so the button grows 2px in each axis. It sits in a
+   flex row beside a 2.75rem input; both are height-locked to 2.75rem and
+   box-sizing is border-box site-wide, so the row does not move. Checked at
+   360/390/1440 and in all six languages. */
 .f-news button{
   -webkit-appearance:none;appearance:none;cursor:pointer;flex:none;
-  height:2.75rem;padding:0 1.4rem;border:0;border-radius:var(--btn-radius);
-  background:var(--logo-red);color:var(--ivory);
+  height:2.75rem;padding:0 1.4rem;border-radius:var(--btn-radius);
+  border:1px solid rgba(255,255,255,.20);
+  background:rgba(142,45,58,.85);color:var(--ivory);
+  -webkit-backdrop-filter:blur(12px) saturate(150%);
+  backdrop-filter:blur(12px) saturate(150%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.28), 0 8px 24px rgba(20,14,17,.24);
   font-family:var(--sans);font-size:.68rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;
-  transition:background .3s var(--ease);
+  transition:background-color .3s var(--ease),border-color .3s var(--ease),
+    box-shadow .3s var(--ease);
 }
-.f-news button:hover{background:#A33648}
+.f-news button:hover{
+  background:rgba(163,54,72,.94);border-color:rgba(255,255,255,.42);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.40), 0 14px 34px rgba(20,14,17,.30);
+}
 /* the contact column's chip row (his sketch, 2026-08-02): WhatsApp
    folds in from its old text link, email may fold in as an envelope
    chip (V1 vs V2 — HIS PICK PENDING, both elements in markup, one
@@ -2432,9 +2591,27 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
    ⚠️ The numbers in that comment were measured for #5C1F31 and are now STALE —
    #8E2D3A is the lighter ink, so the disc separates BETTER on the dark rooms
    (ch05/ch07) and slightly worse on the ivory panel. Re-measured below. */
+/* ⚠️ THE DISC TAKES THE 85% TOO, 2026-08-06 — his ask, "the chat button make it
+   a9 style and 85%". It was already A9's ink and material (2026-08-05, above);
+   this is only the weight following the pill.
+   ⚠️ THE `backdrop-filter:none` ABOVE IS NOW A `blur(12px) saturate(150%)`, AND
+   THAT REVERSAL IS THE POINT. It was set to none because an opaque fill has no
+   backdrop to filter — true then, wrong now. At 85% the disc is translucent and
+   sits over EVERY chapter in turn as the page scrolls, so without the blur it
+   would show a legible slice of whatever is behind it, which on a photograph
+   reads as a hole rather than a control. `.ask` declares the same blur at rest,
+   so this is the base state resuming, not a new idea.
+   ⚠️ HIS RIMLESS-AT-REST DECISION (2026-08-04) IS STILL UNTOUCHED — border-color
+   stays transparent and the rim still returns only on hover. Weight changed;
+   the rim rule did not.
+   MEASURED at 85% over both ground families, glyph vs composited fill:
+       over ch06 (light)  5.82      over ch07 (dark)  8.52   floor 4.5, both PASS
+   The disc scores BETTER on the dark room because a wine tint over near-black
+   composites darker, not lighter — the opposite of what the pills do. */
 .ask--past-hero,.ask--past-hero.ask--glow-in,.ask--past-hero.ask--glow-out{
-  background:var(--logo-red);border-color:transparent;color:var(--ivory);
-  backdrop-filter:none;-webkit-backdrop-filter:none;
+  background:rgba(142,45,58,.85);border-color:transparent;color:var(--ivory);
+  -webkit-backdrop-filter:blur(12px) saturate(150%);
+  backdrop-filter:blur(12px) saturate(150%);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.28), 0 8px 24px rgba(20,14,17,.24);
 }
 /* Hover lifts the fill one step and doubles the rim, with the shine held
@@ -2456,8 +2633,10 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
 /* one step up from the NEW ink, which is the same step the .cta pill takes —
    #A33648, where the ivory glyph still reads 5.96. The lift joins the rim so
    the disc answers a cursor the way the pill does. */
+/* 2026-08-06: hover firms 85% -> 94%, the same gesture `.cta:hover` now makes.
+   The rim + inner bloom below are unchanged; only the fill's weight moved. */
 .ask--past-hero:hover{
-  background:#A33648;border-color:var(--ivory);
+  background:rgba(163,54,72,.94);border-color:var(--ivory);
   box-shadow:inset 0 0 0 1px var(--ivory),
              inset 0 0 14px 2px rgba(250,247,241,.45),
              0 14px 34px rgba(20,14,17,.30);

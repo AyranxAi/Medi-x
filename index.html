@@ -2339,33 +2339,26 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
 }
 .f-news input::placeholder{color:rgba(106,88,95,.7)}
 .f-news input:focus-visible{outline:2px solid var(--logo-red);outline-offset:2px}
-/* ⚠️ THE FOOTER JOIN BUTTON JOINS THE PILL LANGUAGE, 2026-08-06 — his ask,
-   "make the same for the buttons including the ones on the footer".
-   It was the odd one out: the right ink but none of the material — border:0,
-   no lit top edge, no lift. So it takes the whole A9 grammar at 85%, which
-   means it now differs from a `.cta` in geometry and type size ONLY, which is
-   what a small utility button in a footer should differ by.
-   MEASURED on the --cream footer ground: label 5.57, fill 5.11. Both PASS.
-   ⚠️ border goes 0 -> 1px, so the button grows 2px in each axis. It sits in a
-   flex row beside a 2.75rem input; both are height-locked to 2.75rem and
-   box-sizing is border-box site-wide, so the row does not move. Checked at
-   360/390/1440 and in all six languages. */
+/* ⚠️ THIS BUTTON STAYS SOLID ON PURPOSE — HIS CALL, 2026-08-06, AND IT IS A
+   REVERSAL OF THE SAME DAY. It was taken to the pill's 85% + blur + rim earlier
+   in that session on his ask ("make the same for the buttons including the ones
+   on the footer"), it shipped in `13efe91`, he saw it live and reverted it:
+   "revert the one for the chat button and the footer as they are good if
+   distinct". So the footer's Join and the chat disc are DELIBERATELY NOT in the
+   pill language — a utility control in a footer is not a chapter's call to
+   action, and he wants them reading as a different class of thing.
+   ⚠️ DO NOT "unify" this with `.cta` for consistency. That unification is the
+   exact thing he looked at and turned down. Nothing here is an oversight:
+   border:0, no lit edge, no lift, opaque fill — all intentional.
+   It measured fine at 85% (label 5.57, fill 5.11); this was taste, not contrast. */
 .f-news button{
   -webkit-appearance:none;appearance:none;cursor:pointer;flex:none;
-  height:2.75rem;padding:0 1.4rem;border-radius:var(--btn-radius);
-  border:1px solid rgba(255,255,255,.20);
-  background:rgba(142,45,58,.85);color:var(--ivory);
-  -webkit-backdrop-filter:blur(12px) saturate(150%);
-  backdrop-filter:blur(12px) saturate(150%);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.28), 0 8px 24px rgba(20,14,17,.24);
+  height:2.75rem;padding:0 1.4rem;border:0;border-radius:var(--btn-radius);
+  background:var(--logo-red);color:var(--ivory);
   font-family:var(--sans);font-size:.68rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;
-  transition:background-color .3s var(--ease),border-color .3s var(--ease),
-    box-shadow .3s var(--ease);
+  transition:background .3s var(--ease);
 }
-.f-news button:hover{
-  background:rgba(163,54,72,.94);border-color:rgba(255,255,255,.42);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.40), 0 14px 34px rgba(20,14,17,.30);
-}
+.f-news button:hover{background:#A33648}
 /* the contact column's chip row (his sketch, 2026-08-02): WhatsApp
    folds in from its old text link, email may fold in as an envelope
    chip (V1 vs V2 — HIS PICK PENDING, both elements in markup, one
@@ -2591,27 +2584,23 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
    ⚠️ The numbers in that comment were measured for #5C1F31 and are now STALE —
    #8E2D3A is the lighter ink, so the disc separates BETTER on the dark rooms
    (ch05/ch07) and slightly worse on the ivory panel. Re-measured below. */
-/* ⚠️ THE DISC TAKES THE 85% TOO, 2026-08-06 — his ask, "the chat button make it
-   a9 style and 85%". It was already A9's ink and material (2026-08-05, above);
-   this is only the weight following the pill.
-   ⚠️ THE `backdrop-filter:none` ABOVE IS NOW A `blur(12px) saturate(150%)`, AND
-   THAT REVERSAL IS THE POINT. It was set to none because an opaque fill has no
-   backdrop to filter — true then, wrong now. At 85% the disc is translucent and
-   sits over EVERY chapter in turn as the page scrolls, so without the blur it
-   would show a legible slice of whatever is behind it, which on a photograph
-   reads as a hole rather than a control. `.ask` declares the same blur at rest,
-   so this is the base state resuming, not a new idea.
-   ⚠️ HIS RIMLESS-AT-REST DECISION (2026-08-04) IS STILL UNTOUCHED — border-color
-   stays transparent and the rim still returns only on hover. Weight changed;
-   the rim rule did not.
-   MEASURED at 85% over both ground families, glyph vs composited fill:
-       over ch06 (light)  5.82      over ch07 (dark)  8.52   floor 4.5, both PASS
-   The disc scores BETTER on the dark room because a wine tint over near-black
-   composites darker, not lighter — the opposite of what the pills do. */
+/* ⚠️ THE DISC STAYS SOLID — HIS CALL, 2026-08-06, REVERSING HIS OWN EARLIER ASK
+   THE SAME DAY. He asked for "the chat button make it a9 style and 85%", it
+   shipped at 85% in `13efe91`, he saw it live and reverted it together with the
+   footer's Join: "revert the one for the chat button and the footer as they are
+   good if distinct". The floating disc is a persistent utility control, not a
+   chapter's call to action, and he wants it reading as a different class of
+   thing from the pills.
+   ⚠️ SO `backdrop-filter:none` BELOW IS LOAD-BEARING AGAIN and its original
+   reasoning stands: an opaque fill has no backdrop to filter, and this disc is
+   FIXED — a blur on a fixed element is re-composited every scroll frame in
+   Safari, which is a cost with nothing to show for it here.
+   ⚠️ DO NOT re-unify this with `.cta`'s 85%. That is the exact version he
+   looked at and turned down. It measured fine (5.82 light / 8.52 dark) — the
+   revert was taste, not contrast. */
 .ask--past-hero,.ask--past-hero.ask--glow-in,.ask--past-hero.ask--glow-out{
-  background:rgba(142,45,58,.85);border-color:transparent;color:var(--ivory);
-  -webkit-backdrop-filter:blur(12px) saturate(150%);
-  backdrop-filter:blur(12px) saturate(150%);
+  background:var(--logo-red);border-color:transparent;color:var(--ivory);
+  backdrop-filter:none;-webkit-backdrop-filter:none;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.28), 0 8px 24px rgba(20,14,17,.24);
 }
 /* Hover lifts the fill one step and doubles the rim, with the shine held
@@ -2633,10 +2622,9 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
 /* one step up from the NEW ink, which is the same step the .cta pill takes —
    #A33648, where the ivory glyph still reads 5.96. The lift joins the rim so
    the disc answers a cursor the way the pill does. */
-/* 2026-08-06: hover firms 85% -> 94%, the same gesture `.cta:hover` now makes.
-   The rim + inner bloom below are unchanged; only the fill's weight moved. */
+/* reverted to the solid step with the rest state, 2026-08-06 — see above. */
 .ask--past-hero:hover{
-  background:rgba(163,54,72,.94);border-color:var(--ivory);
+  background:#A33648;border-color:var(--ivory);
   box-shadow:inset 0 0 0 1px var(--ivory),
              inset 0 0 14px 2px rgba(250,247,241,.45),
              0 14px 34px rgba(20,14,17,.30);

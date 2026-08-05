@@ -5,6 +5,16 @@
 parked mobile/scrim brief), `HANDOVER.md` addenda 9–11.
 Rewritten 2026-08-03.
 
+> ### ⚠️ 2026-08-05 — IF YOU ARE HERE FOR THE PHONE PASS, GO TO
+> ### `HANDOVER_PHONE_POLISH.md` INSTEAD.
+>
+> He commissioned a dedicated stabilisation job: *"it has to be smooth and
+> perfect and not glitchy and jump — this is luxury and we are not a trash
+> website."* **It pre-authorises regenerating many images**, which reverses the
+> byte-budget refusals every earlier handover in this repo was written under.
+> That file diagnoses the four separate defects, orders the fix, and lists the
+> traps. Items 00 and 0a in §5 below are its summary — the detail lives there.
+
 ---
 
 ## 1. What this is

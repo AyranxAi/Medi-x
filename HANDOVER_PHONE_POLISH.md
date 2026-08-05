@@ -38,7 +38,7 @@ chapter runs `team-new-*` since `92e390f`)*:
 | chapter | now | was |
 |---|---|---|
 | 01 | `hero-team-phone-1424` / `hero-team-wide-2400` | `team-hero-portrait.webp` / `team-hero.webp` |
-| 02 | `about-report-phone-1170` / `about-report-wide-2399` | *(no phone plate)* / `about.webp` |
+| 02 | `about-report-phone-1425` / `about-report-wide-2399` | *(no phone plate)* / `about.webp` |
 | 03 | `consult-room-phone-1173` / `consult-room-wide-2399` | `06-consult-portrait.webp` / `06-consult.webp` |
 | 05 | `team-clear-phone-1425` / `team-clear-wide-2399` | `team-clear-portrait.webp` / `team-clear.webp` |
 | 06 | `products-glass-phone-1389` / `products-glass-wide-2399` | `products-visible-portrait.webp` / `products-visible.webp` |
@@ -354,9 +354,22 @@ design decision and `HANDOVER_MOBILE_UX.md` is parked at his request.** Ask him.
    screen; this one is 533 real pixels against 1170 and no amount of encoding
    changes that. Same setup, same two people, shot tall. It is the single
    highest-value photograph anyone could hand this site.
-2. **Chapter 02 is the other one.** Its master is 1672×941 and the phone shows a
-   435-pixel-wide window of it — a 2.7× stretch. There is no portrait original
-   anywhere in the repo.
+2. ~~**Chapter 02 is the other one.**~~ **CLOSED 2026-08-05 — he shot it.**
+   `about us phone .png`, 941×1672, same table and same two reports composed
+   vertically, is in `archive/sources/`. Built by the recipe in §2.2 (Lanczos to
+   2532, light unsharp, AVIF q62): `about-report-phone-1425`, 77 KB. The phone
+   window went from 435 real pixels to **773 against 1170** — 1.51×, level with
+   every other chapter — and the old `about-report-phone-1170` pair is in
+   `archive/plates-retired/`.
+   ⚠️ **It also fixed a contrast bug nobody had logged.** The 1170 crop put the
+   reports' dark-red chart bars directly behind the copy: the worst pixel under
+   the text block measured **1.00:1** against the ink. The portrait composition
+   puts the subject in the top half and empty stone under the copy — h2 **5.27**,
+   body **5.18** against the darkest pixel in their own boxes, measured on the
+   composited plate at 390×844. There is no scrim on this chapter, so those are
+   the real numbers, not scrim-assisted ones.
+   ⚠️ **DESKTOP WAS NOT TOUCHED** — his ask was the phone background. Open item 4
+   below (ch02 h2 2.63 at desktop 1280) is untouched and still open.
 3. **Chapter 03's headline fails its floor at 360 and 390** (3.03 / 3.31 against
    3.0 — the second is nominally passing but inside the noise). §4 has the fix
    costed at four lines. His call.

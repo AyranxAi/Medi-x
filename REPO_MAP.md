@@ -26,7 +26,7 @@ tools/press-wordmarks/  generator for the press marquee SVG wordmarks
 | chapter | desktop / landscape | portrait phones & tablets |
 |---|---|---|
 | 01 hero | `hero-team-wide-2400` .avif/.webp | `hero-team-phone-1424` .avif/.webp |
-| 02 about | `about-report-wide-2399` | `about-report-phone-1170` |
+| 02 about | `about-report-wide-2399` | `about-report-phone-1425` |
 | 03 consult | `consult-room-wide-2399` | `consult-room-phone-1173` |
 | 04 pathways | `path-01-bhrt` `path-02-menopause` `path-03-functional` `path-04-peptides` | same |
 | 05 team | `team-new-wide-2399` | `team-new-phone-1425` |
@@ -105,7 +105,9 @@ since 2026-08-03.
 ## Still open (owned by the handovers, listed here as pointers)
 
 1. ch03 needs a **taller original** (533 real px vs the 1170 a phone asks) — `HANDOVER_PHONE_POLISH.md` §7.
-2. ch02 has **no portrait original** at all — same file.
+2. ~~ch02 has **no portrait original** at all~~ — **CLOSED 2026-08-05.** He
+   uploaded `about us phone .png` (941×1672) and ch02's phone frame is now
+   `about-report-phone-1425`, 773 real px against 1170. ch03 is the last one.
 3. ch03 headline below its 3.0 floor at 360/390; costed fix in §4 — his call.
 4. ch02 fails on **desktop 1280** (h2 2.63) — worse than any phone number.
 5. ch05 still ships a former team member — he has said "ok for now" twice; **do not re-ask**.

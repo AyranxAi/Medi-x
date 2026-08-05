@@ -3099,34 +3099,34 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
   </section>
 
   <section class="sec light" id="s2" data-nav="Why Medi-Gyn">
-    <!-- ── THIS CHAPTER HAD NO PHONE FRAME AT ALL, AND NOW IT HAS ONE ─────────
-         about.webp is a LANDSCAPE plate, so on a 390px phone `cover` scaled it
-         to 1500 CSS px wide and showed a 26% slice of it, positioned by the old
-         global 72%. The picture on screen was fine — it is the hand and the
-         report — but the mechanism was not: the phone was downloading and
-         decoding 3344x1882 (6.3 megapixels) to look at about a sixth of it.
-         ⚠️ AND THOSE PIXELS WERE NOT REAL. about.webp is a straight 2x upscale
-         of `About us.png`, which is 1672x941 — someone doubled it in place on
-         2026-08-03 and it has been costing four times the decode for no extra
-         detail ever since. Same story on chapter 03. Both are back to honest
-         dimensions here.
-         The phone plate is the EXACT window the phone already showed, cut out of
-         the master and carried up: about.webp at 390 cover-scales by
-         844/1882 = .44846, and `72% center` puts the visible window at source
-         x 1781..2651, which is x 891..1326 of the 1672 master. So the crop is
-         derived from the CSS it replaces, not eyeballed — the same picture is on
-         screen, `center` is correct by construction, and the decode drops from
-         6.3 megapixels to 3.0.
-         ⚠️ THE ONE FRAME ON THE SITE STILL SHORT OF ITS OWN SCREEN. That window
-         is only 435 real pixels wide against 1170 device pixels, because the
-         master is 941 tall and no portrait original exists anywhere in the repo.
-         Lanczos and a light unsharp mask make the stretch look better than the
-         browser's would; they do not invent detail. This is the frame that would
-         gain most from a tall original — flagged, not fixed. -->
+    <!-- ── THE TALL ORIGINAL ARRIVED, AND THIS FRAME IS NO LONGER FLAGGED ─────
+         The previous note here ended "this is the frame that would gain most
+         from a tall original — flagged, not fixed", because the only About
+         master in the repo was landscape (`About us.png`, 1672x941) and the
+         phone plate had to be a 435-pixel window of it stretched to 1170. He
+         shot/staged the portrait and uploaded it on 2026-08-05 as
+         `about us phone .png`, 941x1672 — the same table, the same two reports,
+         the same hands, composed vertically. It is now `archive/sources/`.
+         Same recipe as the other 941-wide masters (HANDOVER_PHONE_POLISH.md
+         §2.2): Lanczos to 2532 tall so the plate meets a 390px screen at DPR 3,
+         width following the master's own aspect (941 x 2532/1672 = 1425), a
+         light unsharp mask so the resample happens once here instead of on
+         every phone, AVIF q62 + a webp fallback. Measured mean gradient on this
+         photograph: 1.675 if the browser stretches it, 2.014 Lanczos alone,
+         2.209 with the mask.
+         ⚠️ THE RESOLUTION COMPLAINT IS ANSWERED, NOT DODGED. The visible window
+         is now 773 real master pixels wide against 1170 device pixels (1.51x,
+         level with every other chapter) where it used to be 435 (2.69x). No
+         position value: at 390x844 `cover` crops by height to master x 84..857,
+         which holds both hands and both reports, so plain `center` is correct
+         by construction — 430x932 lands within a pixel of the same window, and
+         a 375x667 SE is 0.562 against the master's 0.563 and sees it whole.
+         DESKTOP IS DELIBERATELY UNTOUCHED — his ask was the phone background,
+         and the wide plate is the same scene in landscape. -->
     <div class="bg">
       <picture>
-        <source media="(max-width:899px) and (orientation:portrait)" type="image/avif" srcset="images/about-report-phone-1170.avif">
-        <source media="(max-width:899px) and (orientation:portrait)" type="image/webp" srcset="images/about-report-phone-1170.webp">
+        <source media="(max-width:899px) and (orientation:portrait)" type="image/avif" srcset="images/about-report-phone-1425.avif">
+        <source media="(max-width:899px) and (orientation:portrait)" type="image/webp" srcset="images/about-report-phone-1425.webp">
         <source type="image/avif" srcset="images/about-report-wide-2399.avif">
         <img src="images/about-report-wide-2399.webp" alt="" loading="lazy" fetchpriority="low" width="2399" height="1350"
              decoding="async">

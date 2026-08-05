@@ -744,6 +744,23 @@ main{position:relative}
    panel and kills the rose italic. ch03/ch06/ch08 are unmeasured — do not
    generalise this uninvited. */
 #s2 h2{color:var(--ink)}
+/* ⚠️ THE <br>s ALONE DO NOT BUY THREE LINES — the CLAUSES re-wrap, 2026-08-05.
+   Forcing the breaks fixed where the line divides but not how many there are:
+   at 1920 "Personalised Solutions," still took two lines (419+323 in a 704px
+   column at 81.6px type) and at 360 it split "Personalised / Solutions,".
+   nowrap is what actually delivers three, measured at 1920/1440/390/360:
+       1920  the first line runs 761px past a 704px column — a ~57px overhang,
+             which is exactly his "it's okay if Solutions points out"
+       1440 / 390  unchanged, they already sat at three
+       360   fixed, 321px inside a 317px column
+   ⚠️ ENGLISH ONLY, AND THE SCOPE IS LOAD-BEARING, NOT TIDINESS. His scope was
+   English; German ("Personalisierte Lösungen,") and French are materially
+   longer, and nowrap on those would push a real overflow instead of a graceful
+   overhang. `apply()` sets html[lang] on every switch, so this rule follows it.
+   ⚠️ NOT A REGRESSION TO CHASE: 360px already overflows to 373px docWidth with
+   or without this rule — something else on the page has a ~374px min-width.
+   Measured identical before and after. Chase it separately. */
+html[lang="en"] #s2 h2{white-space:nowrap}
 #s2 .body{color:rgba(46,34,40,.82)}
 #s2 .kicker{color:#6E5427}
 #s2 .kicker::after{background:linear-gradient(to right,#6E5427,transparent)}
@@ -2982,7 +2999,17 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
       </picture>
     </div>
     <div class="inner"><div class="copy">
-      <h2 class="reveal" data-i18n="ch2.h2">Personalised Solutions, Precision Medicine, Healthy Ageing</h2>
+      <!-- ⚠️ THE THREE BREAKS ARE FORCED, HIS CALL 2026-08-05, AND THEY ARE NOT
+           COSMETIC — the line was measured breaking to FOUR at both ends of the
+           range: 1920 (419/647/591/230) and 360 (177/136/270/212). It only sat
+           at three between 1280 and 430. Three clauses, three lines, at every
+           width. Ragged right is expected and was his explicit "it's okay if
+           Solutions points out".
+           The breaks live in the ENGLISH DICTIONARY VALUE too (his scope was
+           English only) — these here are the pre-JS fallback. See setText: a
+           value containing "<" takes the innerHTML path, which is what lets a
+           <br> survive at all. -->
+      <h2 class="reveal" data-i18n="ch2.h2">Personalised Solutions,<br>Precision Medicine,<br>Healthy Ageing</h2>
       <p class="body reveal" data-i18n="ch2.body">Evidence-based medicine meets personalised care &mdash; from hormone optimisation and functional medicine to peptides and longevity medicine.</p>
       <div class="reveal">
         <a class="cta" href="https://medi-gyn.com/about-us/" target="_blank" rel="noopener" data-i18n="ch2.cta">About us
@@ -4467,7 +4494,7 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
 "ch1.scroll": "Scroll",
 "ch2.body": "Evidence-based medicine meets personalised care — from hormone optimisation and functional medicine to peptides and longevity medicine.",
 "ch2.cta": "About us",
-"ch2.h2": "Personalised Solutions, Precision Medicine, Healthy Ageing",
+"ch2.h2": "Personalised Solutions,<br>Precision Medicine,<br>Healthy Ageing",
 "ch3.body": "Meet Irina Bond, the founder of Medi-Gyn and Hormone Health Educator. During your complimentary discovery call, she will help you understand your concerns, answer your questions, and help you explore the next step with clarity and confidence.",
 "ch3.cta": "Book a free discovery call",
 "ch3.h2": "Start With a Conversation, Leave With Clarity",
@@ -4976,6 +5003,16 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
   function setText(el,val){
     if(val==null) return;
     if(val.indexOf('<')>-1){ el.innerHTML=val; return; }
+    /* ⚠️ THE ASYMMETRY GUARD, 2026-08-05. Only ENGLISH carries <br> (ch2.h2,
+       his scope). Without this line, switching English -> any other language
+       leaves the English fragments stranded: the loop below overwrites the
+       FIRST text node and walks away, so the element keeps "<br>Precision
+       Medicine,<br>Healthy Ageing" after the German string lands on top of
+       "Personalised Solutions,". Verified by switching all six.
+       Scoped to <br> ON PURPOSE — several CTAs are text PLUS an <svg> arrow,
+       and blanket-wiping would delete those arrows. A <br> is only ever here
+       because a translation put it there. */
+    if(el.querySelector && el.querySelector('br')){ el.textContent=val; return; }
     for(var i=0;i<el.childNodes.length;i++){
       var n=el.childNodes[i];
       if(n.nodeType===3 && n.nodeValue.replace(/\s/g,'')!==''){

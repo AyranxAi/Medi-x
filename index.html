@@ -10,6 +10,31 @@
      total). Cormorant stays on Google purely for the chapter-08 pull quotes —
      the one role the brand guideline still reserves for it. Inter is gone. -->
 <link rel="preload" href="fonts/medigyn-now-400.woff2" as="font" type="font/woff2" crossorigin>
+<!-- ── THE HERO IS PRELOADED FROM THE HEAD, AND THAT IS THE POINT ────────────
+     The chapter frames used to live in `data-src` attributes fetched by a
+     `new Image()` after the script ran. A `data-` attribute is invisible to the
+     browser's preload scanner, so the most important photograph on the site was
+     not even DISCOVERED until the parser had finished the document — measured on
+     2026-08-05 at 2632ms LCP on Fast 3G at 390px, with the hero arriving as the
+     EIGHTEENTH image because a Harper's Bazaar cover and thirteen sponsor marks,
+     all of them below the fold and all of them eager, were ahead of it in the
+     queue. That beat of empty ivory followed by a slab of photograph is the
+     "glitch".
+     The frames are real <picture> elements now, so the scanner sees them — but
+     this document is 293 KB and chapter 01's markup does not arrive until byte
+     ~165,000, which on Fast 3G is 800ms of nothing. These two lines sit in the
+     first kilobyte instead. `media` picks the same frame the <picture> will pick,
+     so nothing is fetched twice; `type` lets a browser without AVIF skip to the
+     webp line rather than download both.
+     ⚠️ THE TWO CONDITIONS MUST STAY MUTUALLY EXCLUSIVE AND EXHAUSTIVE, and they
+     must keep matching the <source> media on chapter 01. Portrait phone and
+     portrait tablet take the first; landscape phone, landscape tablet and every
+     desktop take the second. Leave a gap and a device silently loses its
+     preload; overlap them and it downloads both frames. -->
+<link rel="preload" as="image" type="image/avif" media="(max-width:899px) and (orientation:portrait)"
+      href="images/hero-team-phone-1424.avif" fetchpriority="high">
+<link rel="preload" as="image" type="image/avif" media="(min-width:900px),(orientation:landscape)"
+      href="images/hero-team-wide-2400.avif" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- Playfair — the NEWER variable family, not Playfair Display — is the
@@ -112,7 +137,22 @@
    ⚠️ <meta name="theme-color"> is still #2E2228 — that is the iOS browser
    CHROME, a different surface, and matching it would take the whole toolbar
    light across every page. Left dark on purpose; his call, flagged to him. */
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;background:var(--ivory)}
+/* ⚠️ scroll-behavior is INSIDE a motion query as of 2026-08-05. It was
+   unconditional here while the reduced-motion block further down set it back to
+   `auto` — which worked, but only because that block wins on source order. One
+   reordered stylesheet and a visitor who has asked their phone to stop animating
+   gets smooth-scrolled anyway. Stated once, in the place that means it. */
+html{-webkit-text-size-adjust:100%;background:var(--ivory)}
+@media (prefers-reduced-motion:no-preference){ html{scroll-behavior:smooth} }
+/* ── THE RUBBER BAND, 2026-08-05 ─────────────────────────────────────────────
+   Dragging past the top or the bottom on a phone bounces the whole document and
+   opens a strip of canvas underneath it. The canvas was repainted ivory on
+   2026-08-04 BECAUSE of that bounce — this removes the cause rather than
+   recolouring the symptom, and the ivory stays as the belt-and-braces.
+   ⚠️ It also turns off Android's pull-to-refresh on this page. That is the
+   intended trade for a full-bleed site whose top chapter is a photograph: the
+   gesture currently reads as the page coming loose. */
+html{overscroll-behavior-y:none}
 body{
   margin:0;background:var(--ink);color:var(--ivory);
   /* NOW Regular, not Light: almost all copy on this site sits over a
@@ -318,78 +358,105 @@ main{position:relative}
   isolation:isolate;
 }
 @media (min-width:900px){ .sec{align-items:center;padding-bottom:0} }
+/* ⚠️ content-visibility:auto WAS TRIED HERE AND MEASURED WORSE. DO NOT RE-ADD.
+   HANDOVER_PHONE_POLISH.md §4 called it "likely the single biggest scroll-
+   smoothness win after the images", which is the right instinct for a page of
+   eight full-bleed sections — and it is wrong for THIS page. It shipped on
+   #s3/#s5/#s6/#s8 with contain-intrinsic-size:auto 100svh, then was ablated at
+   runtime and re-traced: five scroll passes each, 4x CPU, 390x844 @ DPR3, top
+   to bottom, medians, run in both orders to rule out warm-up:
+
+     with content-visibility   p95 23.0ms   p99 87.4ms   long tasks  91ms
+     without                   p95 21.2ms   p99 66.5ms   long tasks  68ms
+     (order reversed)
+     with content-visibility   p95 23.8ms   p99 92.3ms   long tasks  90ms
+     without                   p95 21.3ms   p99 53.7ms   long tasks   0ms
+
+   It costs a ~90ms long task and roughly doubles the worst frame. The reason is
+   structural: each chapter is ONE full-bleed image and a short copy block, so
+   there is almost no layout to skip — but every section still has to be laid
+   out and painted in a burst as it enters, and those bursts land on the frames
+   the visitor is actually scrolling through. The saving is theoretical and the
+   entry cost is real.
+   The scroll cost of the bigger plates is paid instead by `loading="lazy"`,
+   `decoding="async"` and dropping `will-change` off seven of the eight layers —
+   which together hold p95 flat at 2.3x the pixel data. */
 
 .bg{
   position:absolute;inset:0;z-index:-2;
+  /* still carries a background for the two chapters that have no photograph —
+     ch07's night gradient and ch08's. `cover` on a gradient is the box itself,
+     so no position is needed or possible there. */
   background-repeat:no-repeat;background-size:cover;
-  background-position:72% center;
-  will-change:transform;
 }
-/* team frame, phone: team-clear-portrait.webp is composed FOR this shape, so it
-   wants the plain centre rather than the 72% the landscape frames need. */
-#s5 .bg{background-position:center}
-/* hero frame — SAME REASON, and this was a gap, not a decision (fixed 2026-08-05
-   after he spotted "too much space on the right of the last lady on the right").
-   `.bg` defaults to 72% for the LANDSCAPE plates; ch05 and ch06 each got a phone
-   override when their portrait plates landed, and ch01 simply never did, so the
-   hero inherited a number composed for a different shape.
-   MEASURED on team-hero-portrait.webp (941x1673): the group spans x 190..762,
-   centre 476 against the file's own 470 — i.e. the plate is already composed
-   centred, as its own note two screens down says it is. At 72% a 390px phone
-   shows x 121..894, leaving 69px of margin on the left and 132px on the right.
-   Plain centre gives 106 / 95.
-   ⚠️ A tuned 53% balances it to 101 / 100 and was rejected: the difference is
-   2.5 CSS px, invisible, and it would leave a magic constant in the sheet that
-   the next person deletes without knowing what it bought. `center` says the
-   true thing — this plate is composed for this shape — and it is the same
-   sentence #s5 above is already making.
-   Unscoped on purpose: desktop already resolves to centre via the >=900px block,
-   so this changes phones only and cannot drift from the desktop value. */
-#s1 .bg{background-position:center}
-/* products frame, PHONE — RE-DERIVED 2026-08-05 for the GLASS pair. 57%, and
-   it is measured, not chosen. Neither the wine plate's 37% nor the olive-branch
-   plate's 63% belongs here: carrying a position across a frame swap is exactly
-   the bug chapter 01 was found with the same day.
-   `products-visible-portrait.webp` puts its group — the amber block on the left
-   through the acrylic plinth on the right — at x 110..855 of a 941-wide file,
-   centre 482.5, sitting slightly RIGHT of the file's own centre (470.5).
-   ⚠️ THIS IS THE TIGHTEST OF THE THREE PAIRS AND THE LEAST FORGIVING. A phone
-   shows a 772.6px window and the group is 745 wide, so there are only ~28px of
-   slack in total — against 87.6px on the olive-branch plate. Centring it means
-   starting the window at 96.2, i.e. 57% of the 168.4px of overflow, which
-   leaves ~14px of margin on EACH side. There is no room to round this off.
-   Holds across phone widths: 56% at 360, 57% at 390/414/430. At 360 the margin
-   is down to ~4px a side — still clear, but that is the width to re-check
-   first if this plate is ever recropped.
-   ⚠️ Phones only, by geometry, not by media query: at 768x1024 the frame is
-   narrower than the viewport ratio so `cover` scales by WIDTH and the whole
-   file is shown — horizontal position is a no-op there. Tablets are untouched
-   by this line. The ≥900px block below carries the desktop value. */
-#s6 .bg{background-position:57% center}
+/* ── THE FRAME IS AN <img> NOW ───────────────────────────────────────────────
+   `object-fit:cover` + `object-position:center` replaces `background-size` and
+   `background-position` outright, and `center` is the ONLY value in this
+   stylesheet below 900px.
+
+   ⚠️ THAT IS THE FIX, AND IT IS THE DELETION THAT MATTERS. `.bg` used to
+   default to `background-position:72% center` — a number measured against one
+   specific landscape plate, inherited by every chapter that did not override
+   it. Three separate bugs in this repo have been "a position inherited across
+   a frame swap": chapter 01 carried the landscape 72% for weeks, chapter 06 was
+   handed the wine plate's 37% and then the leaf plate's 63%. A chapter that
+   forgets now inherits `center`, which is safe, rather than someone else's
+   composition, which is not.
+   Where a plate's subject genuinely was not centred in its own file — chapter
+   06's group sat 12px right of centre in a 941-wide master — the shift is baked
+   into the PLATE, not written here. A crop cannot be inherited by the next
+   photograph; a percentage can.
+   The four `<img>` box rules are absolute inside an already-absolute `.bg`, so
+   the frames contribute nothing to layout and cannot shift it. Explicit
+   width/height on every <img> holds the intrinsic ratio anyway. */
+.bg picture{display:contents}
+.bg img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:center;
+}
+/* ⚠️ PROMOTION IS SCOPED TO WHERE THE PARALLAX ACTUALLY RUNS, 2026-08-05.
+   `will-change:transform` was on `.bg` unconditionally — eight full-bleed
+   compositor layers held permanently on a phone that never animates any of
+   them, because the parallax is desktop-and-motion-allowed only. MEASURED at
+   390 @ DPR3 on the hero, mean |Laplacian| over the faces: 4.101 with the hint,
+   4.340 without. It was costing sharpness on the one device that got no benefit
+   from it, which is the "reads soft" complaint arriving by a second route.
+   Desktop keeps it, because there it is paying for something. */
+@media (min-width:900px) and (prefers-reduced-motion:no-preference){
+  .bg{will-change:transform}
+}
+/* ── the two positions that survive, and why they are not magic numbers ──────
+   Below 900px there are NONE. Every phone plate is composed so that plain
+   `center` is correct, which is what the block above is about.
+   These two are DESKTOP ONLY and they exist because the composition genuinely
+   places its subject against one edge of the frame — that is a photograph
+   decision, not an inherited constant. Both were re-derived against the plates
+   that ship today (2026-08-05), and both are scoped to the <img>, so a chapter
+   that swaps its frame and forgets this line gets `center` back rather than the
+   previous plate's crop.
+   ⚠️ Neither does anything at 1920 or 2560: the plates are 16:9 against a 16:9
+   viewport there, so `cover` crops nothing and position is a no-op. They are
+   16:10-laptop rules, which is the only band where the crop budget is spent. */
 @media (min-width:900px){
-  .bg{background-position:center}
   /* products frame: pull the crop left so the bottles clear the copy column.
      ⚠️ 12% is KEPT rather than inherited — re-checked against the GLASS plate
      on 2026-08-05, not assumed, and it survives for a different reason than it
-     did on the plate before. products-visible.webp runs its three bottles from
-     x 690 to x 1350 of 1672 and then keeps going: a grey panel to 1450 and a
-     tall clear cylinder to ~1600, both props. At 12% both 1440 and 1280 show
-     the file window x 20..1526 (the two land within a pixel of each other,
-     since both are 16:10 against a 16:9 plate), so every BOTTLE clears with
-     175px to spare and only the cylinder is cut — which reads as framing, not
-     as damage. The whole left 690px stays empty wall for the copy column.
-     ⚠️ Do not "fix" the cropped cylinder by raising this number. 63% would
-     hold it whole, but it spends the left wall the copy column is sitting on,
-     which is the one thing this plate was chosen for.
-     At 1920 the plate is 16:9 against a 16:9 viewport: zero crop, and this
-     line is a no-op there. */
-  #s6 .bg{background-position:12% center}
+     did on the plate before. The three bottles run x 690 to x 1350 of the
+     1672-wide master and then keep going: a grey panel to 1450 and a tall clear
+     cylinder to ~1600, both props. At 12% both 1440 and 1280 show the file
+     window x 20..1526 (the two land within a pixel of each other, since both
+     are 16:10 against a 16:9 plate), so every BOTTLE clears with 175px to spare
+     and only the cylinder is cut — which reads as framing, not as damage. The
+     whole left 690px stays empty wall for the copy column.
+     ⚠️ Do not "fix" the cropped cylinder by raising this number. 63% would hold
+     it whole, but it spends the left wall the copy column is sitting on, which
+     is the one thing this plate was chosen for. */
+  #s6 .bg img{object-position:12% center}
   /* team frame: the group sits right of centre and the woman on the end runs to
      the very edge of the plate, so anchor the crop RIGHT. What that gives up is
      clear wall on the left — which is exactly what the copy column wants to be
-     sitting on. Centre-cropping cuts her at 1440 and 1280; at 1920 the frame is
-     16:9 against a 16:9 viewport and nothing is lost either way. */
-  #s5 .bg{background-position:100% center}
+     sitting on. Centre-cropping cuts her at 1440 and 1280. */
+  #s5 .bg img{object-position:100% center}
 }
 /* The product frame was replaced 2026-08-01 with a far brighter set, and
    the bottles now run straight through the copy column. The stock light
@@ -866,6 +933,23 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
    sense when the two pills were the same stretched width. */
 .cta-stack{margin-top:2.4rem;display:flex;flex-wrap:wrap;align-items:center;gap:.9rem}
 .cta-stack .cta{margin-top:0}
+/* ── THE HERO PAIR STOPS BEING RAGGED ON A PHONE, 2026-08-05 ─────────────────
+   MEASURED at 360, 390 and 430: the two buttons never share a line at any phone
+   width — 250px + 207px + gap against a 342px column — so `flex-wrap` drops
+   them into a stack of two different widths with a ragged right edge. He
+   approved the stack on 2026-08-05, and the stack is right; it was the RAGGE
+   that was never chosen, it just fell out of wrapping.
+   One column of `max-content` sizes itself to the wider button and the narrower
+   one stretches to meet it. ⚠️ This cannot make overflow worse in any language:
+   the column is exactly as wide as the widest button already is, and that
+   button has to fit today regardless — `.cta` is white-space:nowrap. Verified
+   at 360px in all six languages.
+   Desktop keeps the flex row: above 900px the pair does share a line, and
+   there each button should keep its own width — which is the sentence the
+   `align-items:center` above is making. */
+@media (max-width:899px){
+  .cta-stack{display:grid;grid-template-columns:max-content;gap:.75rem}
+}
 
 /* reveal */
 .reveal{opacity:0;transform:translateY(26px)}
@@ -878,6 +962,48 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
 .in .reveal:nth-child(4){transition-delay:.27s}
 .in .reveal:nth-child(5){transition-delay:.36s}
 .in .reveal:nth-child(6){transition-delay:.45s}
+/* ⚠️ THE PHONE GETS ITS OWN NUMBERS, 2026-08-05. 26px and .95s were chosen on a
+   desktop, where 26px is 2% of the viewport height and a chapter enters alone.
+   On a 390x844 phone 26px is 3% of the screen, and scrolling at any speed puts
+   two or three chapters over the .22 threshold inside the same second — six
+   elements each, staggered to .45s, all easing at once. That is not a fade, it
+   is a lurch, and it is a large part of what reads as "jumpy".
+   Shorter distance, shorter duration, tighter stagger: the copy still arrives
+   rather than being simply present, but it is done before the next chapter
+   starts. The whole stack now finishes in .87s against 1.40s. */
+@media (max-width:899px){
+  .reveal{transform:translateY(14px)}
+  .in .reveal{transition:opacity .62s var(--ease),transform .62s var(--ease)}
+  .in .reveal:nth-child(2){transition-delay:.05s}
+  .in .reveal:nth-child(3){transition-delay:.10s}
+  .in .reveal:nth-child(4){transition-delay:.15s}
+  .in .reveal:nth-child(5){transition-delay:.20s}
+  .in .reveal:nth-child(6){transition-delay:.25s}
+}
+/* ── THE HERO'S COPY DOES NOT WAIT FOR JAVASCRIPT ────────────────────────────
+   `.reveal` is `opacity:0` until an IntersectionObserver adds `.in`, so until
+   this document's 293 KB had parsed AND the script had run, the first thing a
+   visitor saw was an empty frame. Measured on 2026-08-05, Fast 3G at 390px:
+   first contentful paint 1004ms, hero headline 2632ms — 1.6 seconds of nothing,
+   and that gap WAS the largest contentful paint.
+   Chapter 01 is always in view, so it never needed the observer. Its base state
+   is now visible and the entrance is a CSS animation, which starts when the
+   markup is parsed rather than when the script runs. Everything below the fold
+   keeps the observer — there the point is to fire on approach, not on load.
+   ⚠️ The animation overrides `.in .reveal` regardless of source order (animation
+   origin beats normal author declarations), so the observer adding `.in` later
+   is harmless. `backwards` holds the from-state through the delay; after it
+   ends the element falls back to the visible base above. */
+#s1 .reveal{opacity:1;transform:none}
+@media (prefers-reduced-motion:no-preference){
+  #s1 .reveal{animation:heroRise .8s var(--ease) backwards}
+  #s1 .reveal:nth-child(2){animation-delay:.06s}
+  #s1 .reveal:nth-child(3){animation-delay:.12s}
+  #s1 .reveal:nth-child(4){animation-delay:.18s}
+  #s1 .reveal:nth-child(5){animation-delay:.24s}
+  #s1 .reveal:nth-child(6){animation-delay:.30s}
+}
+@keyframes heroRise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 
 /* hero scroll hint */
 .hint{
@@ -2207,6 +2333,13 @@ body.nav-open .lang__menu{
   font-family:var(--font-functional);font-size:.84rem;font-weight:400;
   transition:background-color .2s var(--ease);
 }
+/* ⚠️ 36px WAS THE SMALLEST TOUCH TARGET ON THE SITE, 2026-08-05. Six rows of
+   it, on a phone, in a menu that opens under a fingertip. `.cta` is 49px and
+   the floating discs are 52px; this was the one control nobody had measured,
+   because it is invisible until the menu is open. min-height only — the padding
+   and the type are untouched, so a closed menu looks identical and an open one
+   is simply taller. Desktop is unaffected: it already had a cursor. */
+@media (max-width:899px){ .lang__item{min-height:44px} }
 .lang__item:hover,.lang__item:focus-visible{background:rgba(250,247,241,.13);outline:none}
 .hdr--solid .lang__item:hover,.hdr--solid .lang__item:focus-visible{background:rgba(92,31,49,.07)}
 .lang__item[aria-checked="true"]{font-weight:500}
@@ -2584,8 +2717,48 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
          breaks first: it is the copy column reaching furthest right relative to
          the wash. If the column widens, the type grows, or the wash is lightened,
          RE-MEASURE 1280 before anything else. -->
-    <div class="bg" data-src="images/team-hero.webp"
-         data-src-narrow="images/team-hero-portrait.webp"></div>
+    <!-- ── RE-ENCODED AND RE-WIRED FOR THE PHONE, 2026-08-05 ──────────────────
+         Same two photographs, same framing, same masters — this is a re-encode,
+         not a re-shoot, and nothing above changes except the numbers it quotes.
+           phone    team-hero-portrait.webp  941x1673 -> hero-team-phone-1424  1424x2532
+           desktop  team-hero.webp          1672x941  -> hero-team-wide-2400   2400x1350
+         WHY 2532 TALL, derived rather than picked: a portrait plate is
+         cover-cropped by HEIGHT on a phone, so the visible source width is
+         390 * H / 844. A 390px screen at DPR 3 has 1170 device pixels to fill,
+         which needs H >= 2532. At 941x1673 the old plate was being blown up
+         1.51x; at 1424x2532 it lands 1:1. Both masters are far bigger than the
+         target (2160x3840 and 3840x2160), so this is REAL detail arriving, not
+         an upscale — the one chapter on the site where that is true of both
+         frames.
+         AVIF FIRST, webp behind it. The hero is 161 KB as AVIF against 165 KB
+         for the old 941px webp: two and a half times the pixels for four
+         kilobytes less. That is what makes "sharper" and "arrives sooner"
+         stop being a trade. Every browser that cannot read AVIF takes the
+         webp line and is no worse off than it was.
+         Preloaded from the <head> as well — see the note there; it is the
+         single biggest thing in this pass.
+
+         ⚠️ `and (orientation:portrait)` IS LOAD-BEARING, on all five chapters.
+         The old loader picked its frame with matchMedia('(max-width:899px)'),
+         so a phone TURNED SIDEWAYS — 844x390, still under 899 — was handed the
+         tall plate and `cover` cropped it to a strip. Shot at 844x390: the hero
+         showed five pairs of legs and shoes, and not one face. It has been like
+         that on every rotated phone since the narrow plates landed, and it was
+         invisible because nobody screenshots landscape.
+         Portrait phone and portrait tablet take the tall frame; a phone or
+         tablet in landscape now takes the wide one, which is the shape it
+         actually is. <picture> re-evaluates on rotation, so the frame follows
+         the device — the old loader ran `delete bg.dataset.src` after the first
+         pick and could not, which is §1.3 of the brief. -->
+    <div class="bg">
+      <picture>
+        <source media="(max-width:899px) and (orientation:portrait)" type="image/avif" srcset="images/hero-team-phone-1424.avif">
+        <source media="(max-width:899px) and (orientation:portrait)" type="image/webp" srcset="images/hero-team-phone-1424.webp">
+        <source type="image/avif" srcset="images/hero-team-wide-2400.avif">
+        <img src="images/hero-team-wide-2400.webp" alt="" width="2400" height="1350"
+             fetchpriority="high" decoding="async">
+      </picture>
+    </div>
     <!-- HIS RE-ORDER, 2026-08-05. The chapter now reads headline → body →
          both buttons on one line → "Private. Personal. Powerful." as the
          closing note. The kicker moved from the top of this block to the
@@ -2627,7 +2800,39 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
   </section>
 
   <section class="sec light" id="s2" data-nav="Why Medi-Gyn">
-    <div class="bg" data-src="images/about.webp"></div>
+    <!-- ── THIS CHAPTER HAD NO PHONE FRAME AT ALL, AND NOW IT HAS ONE ─────────
+         about.webp is a LANDSCAPE plate, so on a 390px phone `cover` scaled it
+         to 1500 CSS px wide and showed a 26% slice of it, positioned by the old
+         global 72%. The picture on screen was fine — it is the hand and the
+         report — but the mechanism was not: the phone was downloading and
+         decoding 3344x1882 (6.3 megapixels) to look at about a sixth of it.
+         ⚠️ AND THOSE PIXELS WERE NOT REAL. about.webp is a straight 2x upscale
+         of `About us.png`, which is 1672x941 — someone doubled it in place on
+         2026-08-03 and it has been costing four times the decode for no extra
+         detail ever since. Same story on chapter 03. Both are back to honest
+         dimensions here.
+         The phone plate is the EXACT window the phone already showed, cut out of
+         the master and carried up: about.webp at 390 cover-scales by
+         844/1882 = .44846, and `72% center` puts the visible window at source
+         x 1781..2651, which is x 891..1326 of the 1672 master. So the crop is
+         derived from the CSS it replaces, not eyeballed — the same picture is on
+         screen, `center` is correct by construction, and the decode drops from
+         6.3 megapixels to 3.0.
+         ⚠️ THE ONE FRAME ON THE SITE STILL SHORT OF ITS OWN SCREEN. That window
+         is only 435 real pixels wide against 1170 device pixels, because the
+         master is 941 tall and no portrait original exists anywhere in the repo.
+         Lanczos and a light unsharp mask make the stretch look better than the
+         browser's would; they do not invent detail. This is the frame that would
+         gain most from a tall original — flagged, not fixed. -->
+    <div class="bg">
+      <picture>
+        <source media="(max-width:899px) and (orientation:portrait)" type="image/avif" srcset="images/about-report-phone-1170.avif">
+        <source media="(max-width:899px) and (orientation:portrait)" type="image/webp" srcset="images/about-report-phone-1170.webp">
+        <source type="image/avif" srcset="images/about-report-wide-2399.avif">
+        <img src="images/about-report-wide-2399.webp" alt="" loading="lazy" fetchpriority="low" width="2399" height="1350"
+             decoding="async">
+      </picture>
+    </div>
     <div class="inner"><div class="copy">
       <h2 class="reveal" data-i18n="ch2.h2">Personalised Solutions, Precision Medicine, Healthy Ageing</h2>
       <p class="body reveal" data-i18n="ch2.body">Evidence-based medicine meets personalised care &mdash; from hormone optimisation and functional medicine to peptides and longevity medicine.</p>
@@ -2649,8 +2854,42 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
          median 4.90 -> 3.86, floor 3.0. The median crossing under 4 is the part
          to watch: this frame is bright right where the headline sits.
          HANDOVER_MOBILE_UX.md §4 is the fix. RE-ASK and re-measure. -->
-    <div class="bg" data-src="images/06-consult.webp"
-         data-src-narrow="images/06-consult-portrait.webp"></div>
+    <!-- ── RE-ENCODED, AND THE FRAMING IS DELIBERATELY UNCHANGED ─────────────
+           phone    06-consult-portrait.webp  533x1153 -> consult-room-phone-1173  1173x2532
+           desktop  06-consult.webp          3344x1882 -> consult-room-wide-2399   2399x1350
+         ⚠️ THIS IS THE SOFTEST FRAME ON THE SITE AND IT CANNOT BE FIXED HERE.
+         A template match against his 941x1672 master (`ChatGPT Image Aug 3,
+         2026, 09_49_28 AM.png`, in the repo root) puts the shipped plate at
+         x276 y521 533x1151, mean absolute difference 3.2 — it is a 1:1 PIXEL
+         CROP of that master, not a downscale of it. So this framing already
+         holds every real pixel it will ever have: 533, against the 1170 a
+         390px phone at DPR 3 asks for. 2.2x blown up, where every other
+         chapter sits at 1.5x.
+         ⚠️ TAKING THE MASTER WHOLE WAS TRIED AND REJECTED — and the rejection
+         is the useful part. It gives 773 visible source pixels, 45% more, level
+         with every other chapter. It also shrinks the two women to a third of
+         the frame, puts them behind the copy block and leaves the top 60% as
+         empty wall, and it drops the headline to 2.72 at 360 against a 3.0
+         floor. That is a redesign bought with a resolution number, which is
+         exactly what this pass was told not to do. The plate above is his crop
+         to the pixel; the only thing that changed is that the 2.2x resample is
+         now done once, with Lanczos and a light unsharp mask, instead of by the
+         GPU on every phone.
+         THE REAL FIX IS A TALLER ORIGINAL of this same setup. Flagged, not
+         invented.
+         Desktop: 06-consult.webp was ALSO a 2x upscale in place (1672x941 ->
+         3344x1882, commit 02a7d08) and the 1672 original was recovered from
+         git — same picture, a quarter of the decode, no detail lost because
+         there was none there to lose. -->
+    <div class="bg">
+      <picture>
+        <source media="(max-width:899px) and (orientation:portrait)" type="image/avif" srcset="images/consult-room-phone-1173.avif">
+        <source media="(max-width:899px) and (orientation:portrait)" type="image/webp" srcset="images/consult-room-phone-1173.webp">
+        <source type="image/avif" srcset="images/consult-room-wide-2399.avif">
+        <img src="images/consult-room-wide-2399.webp" alt="" loading="lazy" fetchpriority="low" width="2399" height="1350"
+             loading="lazy" decoding="async">
+      </picture>
+    </div>
     <div class="inner"><div class="copy">
       <h2 class="reveal" data-i18n="ch3.h2">Start With a Conversation, Leave With Clarity</h2>
       <p class="body reveal" data-i18n="ch3.body">Meet Irina Bond, the founder of Medi-Gyn and Hormone Health Educator. During your complimentary discovery call, she will help you understand your concerns, answer your questions, and help you explore the next step with clarity and confidence.</p>
@@ -2886,8 +3125,28 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
          the left end of the group, and the entire crop budget at 1440 is ~16% of
          frame width. The fix is a frame she is not in; when one exists, drop it
          in and delete this block. -->
-    <div class="bg" data-src="images/team-clear.webp"
-         data-src-narrow="images/team-clear-portrait.webp"></div>
+    <!-- ── RE-ENCODED FOR THE PHONE, 2026-08-05. His pair, unchanged. ─────────
+           phone    team-clear-portrait.webp  941x1672 -> team-clear-phone-1425  1425x2532
+           desktop  team-clear.webp          1672x941  -> team-clear-wide-2399   2399x1350
+         Same masters, same framing, same crop — every measurement above still
+         describes what is on screen. ⚠️ The masters ARE 941/1672, so unlike
+         chapter 01 this is a Lanczos upscale with a light unsharp mask, not new
+         detail. It is still worth doing: measured on this exact chapter at 390 @
+         DPR 3, mean |Laplacian| over the frame goes 4.014 (browser stretches the
+         941 plate) -> 4.277 (Lanczos alone) -> 4.838 (with the mask). The
+         browser's own GPU stretch is the worst of the three, so the work is in
+         stopping a second resample, not in faking resolution.
+         The 100% desktop crop anchor moved to `#s5 .bg img{object-position}` —
+         same value, same reason, now scoped to the image. -->
+    <div class="bg">
+      <picture>
+        <source media="(max-width:899px) and (orientation:portrait)" type="image/avif" srcset="images/team-clear-phone-1425.avif">
+        <source media="(max-width:899px) and (orientation:portrait)" type="image/webp" srcset="images/team-clear-phone-1425.webp">
+        <source type="image/avif" srcset="images/team-clear-wide-2399.avif">
+        <img src="images/team-clear-wide-2399.webp" alt="" loading="lazy" fetchpriority="low" width="2399" height="1350"
+             loading="lazy" decoding="async">
+      </picture>
+    </div>
     <div class="inner"><div class="copy">
       <h2 class="reveal" data-i18n="ch5.h2">Meet The Experts Behind <em>Your Journey</em></h2>
       <p class="body reveal" data-i18n="ch5.body">Behind every personalised journey is a team chosen not only for their expertise, but for their dedication to listening, understanding, and delivering the highest standard of care. Meet the professionals committed to helping you achieve lasting zest for life, vitality and health-span.</p>
@@ -3031,8 +3290,32 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
          are not the wine numbers. The old 37% / 12% were measured against
          product-wine-portrait-high.webp and product-wine.webp specifically —
          carrying them across would have been the exact bug the hero had. -->
-    <div class="bg" data-src="images/products-visible.webp"
-         data-src-narrow="images/products-visible-portrait.webp"></div>
+    <!-- ── RE-ENCODED FOR THE PHONE, 2026-08-05, AND THE 57% IS GONE ──────────
+           phone    products-visible-portrait.webp 941x1672 -> products-glass-phone-1389 1389x2532
+           desktop  products-visible.webp         1672x941  -> products-glass-wide-2399  2399x1350
+         Same champagne pair he came back to, same composition on screen.
+         ⚠️ THE PHONE CROP IS BAKED INTO THE PLATE NOW. Everything the note above
+         says about `57%` is still true of the master — the group runs x110..855
+         of 941, centre 482.5 against the file's 470.5, which is why a percentage
+         was needed at all. So the plate is cut 24px in from the LEFT before the
+         resize: the group lands at 86..831 of 917, centre 458.5, exactly the
+         file's own centre, and plain `center` becomes correct. Nothing of the
+         group is lost — it starts at x110, well clear of the cut.
+         That is the difference between this and the three bugs this chapter's
+         history is made of: a crop belongs to one photograph and cannot be
+         inherited by the next one. A percentage in the stylesheet can, and twice
+         already has been.
+         The 12% desktop anchor survives, moved to `#s6 .bg img{object-position}`
+         — re-checked against this plate, and a no-op at 1920/2560 either way. -->
+    <div class="bg">
+      <picture>
+        <source media="(max-width:899px) and (orientation:portrait)" type="image/avif" srcset="images/products-glass-phone-1389.avif">
+        <source media="(max-width:899px) and (orientation:portrait)" type="image/webp" srcset="images/products-glass-phone-1389.webp">
+        <source type="image/avif" srcset="images/products-glass-wide-2399.avif">
+        <img src="images/products-glass-wide-2399.webp" alt="" loading="lazy" fetchpriority="low" width="2399" height="1350"
+             loading="lazy" decoding="async">
+      </picture>
+    </div>
     <div class="inner"><div class="copy">
       <h2 class="reveal" data-i18n="ch6.h2">Personalised Health Solutions. <em>Tailored to You</em></h2>
       <p class="body reveal" data-i18n="ch6.body">Explore our carefully selected hormone and peptide therapies, supplements and biohacking solutions designed to support your body &mdash; not overwhelm it.</p>
@@ -3098,7 +3381,7 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
              object-position is centre by default and was checked at every
              breakpoint before shipping; if the frame ratio is ever retuned,
              re-check that "BAZAAR" still survives the crop. -->
-        <img class="cpress__img is-on" src="images/bazaar.webp" alt="Irina Bond on the cover of Harper's Bazaar" data-i18n-alt="ch8.cover_alt" width="1080" height="1350" loading="eager" decoding="async">
+        <img class="cpress__img is-on" src="images/bazaar.webp" alt="Irina Bond on the cover of Harper's Bazaar" data-i18n-alt="ch8.cover_alt" width="1080" height="1350" loading="lazy" decoding="async">
         <!-- ⚠️ 2026-08-02, HIS CALL: the reel is now ONE still frame (Madame
              Arabia, his pick). The other 14 slides came out — 9 press frames,
              3 candids and BOTH FILMS (the Monaco bone-and-joints interview and
@@ -3183,36 +3466,36 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
   <section class="sband" aria-label="Our sponsors" data-i18n-aria="a11y.sponsors">
     <div class="sband__belt">
         <div class="sband__set">
-          <img class="sl sl--01" src="images/sponsors/sponsor-01-monaco-women-network.webp" alt="Monaco Women Network" width="728" height="400" decoding="async">
-          <img class="sl sl--02" src="images/sponsors/sponsor-02-purovitalis-black.webp" alt="Purovitalis" width="1200" height="426" decoding="async">
-          <img class="sl sl--03" src="images/sponsors/sponsor-03-richmont-monaco.webp" alt="Richmont Monaco" width="1539" height="373" decoding="async">
-          <img class="sl sl--04" src="images/sponsors/sponsor-04-forsthaus-apotheke.webp" alt="Forsthaus Apotheke" width="315" height="52" decoding="async">
-          <img class="sl sl--05" src="images/sponsors/sponsor-05-wellbeing-sanctuary.webp" alt="The Wellbeing Sanctuary" width="401" height="400" decoding="async">
-          <img class="sl sl--06" src="images/sponsors/sponsor-06-lvi-medical-trim.webp" alt="LVI Medical" width="342" height="118" decoding="async">
-          <img class="sl sl--07" src="images/sponsors/sponsor-07-menopause-livia.webp" alt="Menopause Livia" width="1334" height="400" decoding="async">
-          <img class="sl sl--08" src="images/sponsors/sponsor-08-b-health.webp" alt="b.health+" width="1500" height="265" decoding="async">
-          <img class="sl sl--09" src="images/sponsors/sponsor-09-matches-talent.webp" alt="Matches Talent" width="489" height="400" decoding="async">
-          <img class="sl sl--10" src="images/sponsors/sponsor-10-nordic-genex.webp" alt="Nordic Genex" width="430" height="400" decoding="async">
-          <img class="sl sl--11" src="images/sponsors/sponsor-11-activecells.webp" alt="ActiveCells" width="153" height="63" decoding="async">
-          <img class="sl sl--12" src="images/sponsors/sponsor-12-feza-wellness.webp" alt="Fez&#257; Wellness" width="353" height="275" decoding="async">
-          <img class="sl sl--13" src="images/sponsors/sponsor-13-longevity-hub.webp" alt="Longevity Hub" width="677" height="400" decoding="async">
+          <img class="sl sl--01" src="images/sponsors/sponsor-01-monaco-women-network.webp" alt="Monaco Women Network" loading="lazy" width="728" height="400" decoding="async">
+          <img class="sl sl--02" src="images/sponsors/sponsor-02-purovitalis-black.webp" alt="Purovitalis" loading="lazy" width="1200" height="426" decoding="async">
+          <img class="sl sl--03" src="images/sponsors/sponsor-03-richmont-monaco.webp" alt="Richmont Monaco" loading="lazy" width="1539" height="373" decoding="async">
+          <img class="sl sl--04" src="images/sponsors/sponsor-04-forsthaus-apotheke.webp" alt="Forsthaus Apotheke" loading="lazy" width="315" height="52" decoding="async">
+          <img class="sl sl--05" src="images/sponsors/sponsor-05-wellbeing-sanctuary.webp" alt="The Wellbeing Sanctuary" loading="lazy" width="401" height="400" decoding="async">
+          <img class="sl sl--06" src="images/sponsors/sponsor-06-lvi-medical-trim.webp" alt="LVI Medical" loading="lazy" width="342" height="118" decoding="async">
+          <img class="sl sl--07" src="images/sponsors/sponsor-07-menopause-livia.webp" alt="Menopause Livia" loading="lazy" width="1334" height="400" decoding="async">
+          <img class="sl sl--08" src="images/sponsors/sponsor-08-b-health.webp" alt="b.health+" loading="lazy" width="1500" height="265" decoding="async">
+          <img class="sl sl--09" src="images/sponsors/sponsor-09-matches-talent.webp" alt="Matches Talent" loading="lazy" width="489" height="400" decoding="async">
+          <img class="sl sl--10" src="images/sponsors/sponsor-10-nordic-genex.webp" alt="Nordic Genex" loading="lazy" width="430" height="400" decoding="async">
+          <img class="sl sl--11" src="images/sponsors/sponsor-11-activecells.webp" alt="ActiveCells" loading="lazy" width="153" height="63" decoding="async">
+          <img class="sl sl--12" src="images/sponsors/sponsor-12-feza-wellness.webp" alt="Fez&#257; Wellness" loading="lazy" width="353" height="275" decoding="async">
+          <img class="sl sl--13" src="images/sponsors/sponsor-13-longevity-hub.webp" alt="Longevity Hub" loading="lazy" width="677" height="400" decoding="async">
         </div>
         <!-- exact duplicate, hidden from assistive tech: it exists only so
              the -50% slide can loop without a visible seam -->
         <div class="sband__set" aria-hidden="true">
-          <img class="sl sl--01" src="images/sponsors/sponsor-01-monaco-women-network.webp" alt="" width="728" height="400" decoding="async">
-          <img class="sl sl--02" src="images/sponsors/sponsor-02-purovitalis-black.webp" alt="" width="1200" height="426" decoding="async">
-          <img class="sl sl--03" src="images/sponsors/sponsor-03-richmont-monaco.webp" alt="" width="1539" height="373" decoding="async">
-          <img class="sl sl--04" src="images/sponsors/sponsor-04-forsthaus-apotheke.webp" alt="" width="315" height="52" decoding="async">
-          <img class="sl sl--05" src="images/sponsors/sponsor-05-wellbeing-sanctuary.webp" alt="" width="401" height="400" decoding="async">
-          <img class="sl sl--06" src="images/sponsors/sponsor-06-lvi-medical-trim.webp" alt="" width="342" height="118" decoding="async">
-          <img class="sl sl--07" src="images/sponsors/sponsor-07-menopause-livia.webp" alt="" width="1334" height="400" decoding="async">
-          <img class="sl sl--08" src="images/sponsors/sponsor-08-b-health.webp" alt="" width="1500" height="265" decoding="async">
-          <img class="sl sl--09" src="images/sponsors/sponsor-09-matches-talent.webp" alt="" width="489" height="400" decoding="async">
-          <img class="sl sl--10" src="images/sponsors/sponsor-10-nordic-genex.webp" alt="" width="430" height="400" decoding="async">
-          <img class="sl sl--11" src="images/sponsors/sponsor-11-activecells.webp" alt="" width="153" height="63" decoding="async">
-          <img class="sl sl--12" src="images/sponsors/sponsor-12-feza-wellness.webp" alt="" width="353" height="275" decoding="async">
-          <img class="sl sl--13" src="images/sponsors/sponsor-13-longevity-hub.webp" alt="" width="677" height="400" decoding="async">
+          <img class="sl sl--01" src="images/sponsors/sponsor-01-monaco-women-network.webp" alt="" loading="lazy" width="728" height="400" decoding="async">
+          <img class="sl sl--02" src="images/sponsors/sponsor-02-purovitalis-black.webp" alt="" loading="lazy" width="1200" height="426" decoding="async">
+          <img class="sl sl--03" src="images/sponsors/sponsor-03-richmont-monaco.webp" alt="" loading="lazy" width="1539" height="373" decoding="async">
+          <img class="sl sl--04" src="images/sponsors/sponsor-04-forsthaus-apotheke.webp" alt="" loading="lazy" width="315" height="52" decoding="async">
+          <img class="sl sl--05" src="images/sponsors/sponsor-05-wellbeing-sanctuary.webp" alt="" loading="lazy" width="401" height="400" decoding="async">
+          <img class="sl sl--06" src="images/sponsors/sponsor-06-lvi-medical-trim.webp" alt="" loading="lazy" width="342" height="118" decoding="async">
+          <img class="sl sl--07" src="images/sponsors/sponsor-07-menopause-livia.webp" alt="" loading="lazy" width="1334" height="400" decoding="async">
+          <img class="sl sl--08" src="images/sponsors/sponsor-08-b-health.webp" alt="" loading="lazy" width="1500" height="265" decoding="async">
+          <img class="sl sl--09" src="images/sponsors/sponsor-09-matches-talent.webp" alt="" loading="lazy" width="489" height="400" decoding="async">
+          <img class="sl sl--10" src="images/sponsors/sponsor-10-nordic-genex.webp" alt="" loading="lazy" width="430" height="400" decoding="async">
+          <img class="sl sl--11" src="images/sponsors/sponsor-11-activecells.webp" alt="" loading="lazy" width="153" height="63" decoding="async">
+          <img class="sl sl--12" src="images/sponsors/sponsor-12-feza-wellness.webp" alt="" loading="lazy" width="353" height="275" decoding="async">
+          <img class="sl sl--13" src="images/sponsors/sponsor-13-longevity-hub.webp" alt="" loading="lazy" width="677" height="400" decoding="async">
         </div>
     </div>
   </section>
@@ -3362,42 +3645,29 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
   nav.addEventListener('click',function(e){ if(e.target.closest('a')) setNav(false); });
   document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&body.classList.contains('nav-open')) setNav(false); });
 
-  /* ---- lazy background + reveal ---- */
-  function load(sec){
-    var bg=sec.querySelector('.bg');
-    if(bg && bg.dataset.src){
-      /* A chapter MAY ship a second frame for the phone stack, as data-src-narrow.
-         The landscape frame stays the default and the attribute is optional, so
-         every other chapter is untouched by this. Added 2026-08-04 for ch06,
-         where his portrait render measurably beats the landscape one on phones.
-         The pick is made once, at load: the frame is fetched and painted, and
-         `delete` then closes the door. A device that crosses 900px AFTER that —
-         a tablet rotating, not a phone — keeps the frame it loaded with. That is
-         the accepted cost of not re-fetching a megabyte on every resize. */
-      var narrow=bg.dataset.srcNarrow && window.matchMedia('(max-width:899px)').matches;
-      var src=narrow ? bg.dataset.srcNarrow : bg.dataset.src;
-      delete bg.dataset.src;
-      var img=new Image();
-      img.onload=function(){ bg.style.backgroundImage='url("'+src+'")'; };
-      img.onerror=function(){ bg.style.backgroundImage='url("'+src+'")'; };
-      img.src=src;
-    }
-  }
-  load(secs[0]); load(secs[1]);
-
+  /* ---- reveal ----
+     ⚠️ THE LAZY BACKGROUND LOADER IS GONE, 2026-08-05, and its absence is the
+     feature. It was a `load(sec)` that read `data-src` / `data-src-narrow`,
+     fetched through `new Image()` and assigned `bg.style.backgroundImage` on
+     load. Three things were wrong with it and none of them were fixable in
+     place:
+       · a `data-` attribute is invisible to the preload scanner, so no frame —
+         including the hero — was DISCOVERED until this script ran;
+       · it fetched each frame twice in practice, once as the probe Image and
+         once as the CSS background;
+       · it ran `delete bg.dataset.src` after the first pick, so a tablet that
+         crossed 900px later kept whichever plate it had loaded with. That was
+         documented as "the accepted cost of not re-fetching a megabyte on every
+         resize" — <picture> makes the swap free, so the trade is off the table.
+     All six photographic chapters are <picture> elements now; ch07 and ch08 draw
+     CSS gradients and never had a photograph. Nothing here loads images. */
   if('IntersectionObserver' in window){
-    var near=new IntersectionObserver(function(es){
-      es.forEach(function(e){ if(e.isIntersecting){ load(e.target); near.unobserve(e.target); } });
-    },{rootMargin:'120% 0px'});
-    secs.forEach(function(s){ near.observe(s); });
-
     var shown=new IntersectionObserver(function(es){
-      es.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('in'); });
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); shown.unobserve(e.target); } });
     },{threshold:.22});
     secs.forEach(function(s){ shown.observe(s); });
-
   }else{
-    secs.forEach(function(s){ load(s); s.classList.add('in'); });
+    secs.forEach(function(s){ s.classList.add('in'); });
   }
 
   /* ---- pathways accordion (chapter 04) ----

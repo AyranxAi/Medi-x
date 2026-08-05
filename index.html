@@ -202,7 +202,19 @@ a{color:inherit}
    ⚠️ No visibility/display juggling is needed and none should be added: `.hdr`
    is already pointer-events:none and the rule below turns its children off, so
    a fully faded bar cannot catch a click even though it is still in the layer. */
-.hdr--hidden{opacity:0;transition:opacity var(--hdr-fade-out) var(--ease)}
+/* ⚠️ THE 0s DELAYS ARE THE WHOLE POINT, DO NOT "TIDY" THEM INTO THE SHORTHAND.
+   The ivory state is switched on at the same instant the bar starts hiding (see
+   hdrSync), so background and border must not animate WITH the fade or you watch
+   the bar turn ivory at 60% opacity — the substitution he objected to, just
+   slower. Holding them until the fade-out has finished makes the swap happen at
+   zero opacity, so scrolling down you only ever see it leave. */
+.hdr--hidden{
+  opacity:0;
+  transition:opacity var(--hdr-fade-out) var(--ease),
+    background-color 0s linear var(--hdr-fade-out),
+    border-color 0s linear var(--hdr-fade-out),
+    backdrop-filter 0s linear var(--hdr-fade-out);
+}
 .hdr--hidden > *{pointer-events:none}
 /* revealed mid-page it lands over unknown content, so it brings its own backdrop */
 /* the revealed bar is medi-blond's: near-opaque ivory over blur, hairline base */
@@ -3865,16 +3877,50 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
      past 24px of scroll; it hides scrolling down beyond 240 and returns
      on any upward scroll (6px jitter guard) ---- */
   var hdrY=window.scrollY;
-  function hdrSync(){
+  /* ⚠️ THE SOLID BAR NOW ONLY APPEARS WHILE THE HEADER IS INVISIBLE — HIS CALL
+     2026-08-05, and he diagnosed it exactly: "the moment I went down it's like
+     it's already been replaced by the nav that is the other one. If I go down it
+     shouldn't pop up a new thing, it should fade out."
+
+     He was describing TWO behaviours colliding. `hdr--solid` latched at y>=24 and
+     swapped the transparent bar for an ivory one, so 24px of scroll REPLACED the
+     header — while `hdr--hidden`, the fade, did not start until 240. You saw the
+     substitution long before you saw the fade, which reads as a second nav
+     arriving rather than the first one leaving.
+
+     Now the ivory state is added at the SAME moment the bar hides, and
+     `.hdr--hidden` delays its background/border transitions by the full fade-out
+     (see the CSS), so the swap happens under zero opacity. Scrolling down you
+     only ever see it leave. Scrolling up it returns already solid — which is the
+     reason the ivory state exists at all: revealed mid-page it lands over unknown
+     content and has to bring its own backdrop.
+
+     ⚠️ THE `init` BRANCH IS LOAD-BEARING, NOT TIDINESS. On a refresh or a deep
+     link at y>240 the jitter guard below never fires, so without it the bar would
+     sit transparent over a dark chapter — and the red mark reads 1.31:1 there,
+     i.e. invisible. Set the state directly on first run.
+     ⚠️ Between 24 and 240 the bar stays transparent on the way down. That is
+     safe ONLY because the hero is 900px tall, so that whole range is over ch01.
+     Re-check this if the hero ever gets shorter than 240px. */
+  function hdrSync(init){
     var y=window.scrollY;
-    hdr.classList.toggle('hdr--solid',y>=24);
+    if(init){
+      hdr.classList.toggle('hdr--solid',y>=240);
+      hdrY=y;
+      return;
+    }
     if(Math.abs(y-hdrY)>=6){
-      if(y>hdrY&&y>240){hdr.classList.add('hdr--hidden');}
+      if(y>hdrY&&y>240){
+        hdr.classList.add('hdr--solid');   /* invisible: see .hdr--hidden delay */
+        hdr.classList.add('hdr--hidden');
+      }
       else{hdr.classList.remove('hdr--hidden');}
       hdrY=y;
     }
+    /* back at the top the hero is behind it again, so it dissolves to clear */
+    if(y<24) hdr.classList.remove('hdr--solid');
   }
-  hdrSync();
+  hdrSync(true);
   window.addEventListener('scroll',function(){
     if(body.classList.contains('nav-open')){ hdrY=window.scrollY; return; }
     hdrSync();

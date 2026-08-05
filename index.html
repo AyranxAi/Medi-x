@@ -328,6 +328,24 @@ main{position:relative}
 /* team frame, phone: team-clear-portrait.webp is composed FOR this shape, so it
    wants the plain centre rather than the 72% the landscape frames need. */
 #s5 .bg{background-position:center}
+/* hero frame — SAME REASON, and this was a gap, not a decision (fixed 2026-08-05
+   after he spotted "too much space on the right of the last lady on the right").
+   `.bg` defaults to 72% for the LANDSCAPE plates; ch05 and ch06 each got a phone
+   override when their portrait plates landed, and ch01 simply never did, so the
+   hero inherited a number composed for a different shape.
+   MEASURED on team-hero-portrait.webp (941x1673): the group spans x 190..762,
+   centre 476 against the file's own 470 — i.e. the plate is already composed
+   centred, as its own note two screens down says it is. At 72% a 390px phone
+   shows x 121..894, leaving 69px of margin on the left and 132px on the right.
+   Plain centre gives 106 / 95.
+   ⚠️ A tuned 53% balances it to 101 / 100 and was rejected: the difference is
+   2.5 CSS px, invisible, and it would leave a magic constant in the sheet that
+   the next person deletes without knowing what it bought. `center` says the
+   true thing — this plate is composed for this shape — and it is the same
+   sentence #s5 above is already making.
+   Unscoped on purpose: desktop already resolves to centre via the >=900px block,
+   so this changes phones only and cannot drift from the desktop value. */
+#s1 .bg{background-position:center}
 /* products frame, PHONE — 2026-08-04, and 37% is measured, not chosen.
    `product-wine-portrait-high.webp` puts its whole group at x 81..816 of a
    941-wide file, i.e. sitting slightly LEFT of centre. A phone shows a 772px

@@ -6,6 +6,45 @@ deploy). §7 below is what is still open.
 
 ---
 
+## HOW TO PUT IT BACK
+
+He asked for this before it went to main, so it is the first thing in the file.
+The state before this pass is tagged **`pre-phone-polish`** (= `d72f373`).
+
+**All of it, one command, no force-push:**
+
+```
+git revert --no-edit pre-phone-polish..HEAD
+git push origin main
+```
+
+That writes new commits undoing the three, so nothing is rewritten and Vercel
+rebuilds from a real commit. To preview the old site first:
+`git checkout pre-phone-polish` and open `index.html`.
+
+**Or just one chapter.** Nothing in `images/` was overwritten — that rule held
+through the whole pass — so every old plate is still on disk and any single
+frame goes back by pointing its `<picture>` at its old file:
+
+| chapter | now | was |
+|---|---|---|
+| 01 | `hero-team-phone-1424` / `hero-team-wide-2400` | `team-hero-portrait.webp` / `team-hero.webp` |
+| 02 | `about-report-phone-1170` / `about-report-wide-2399` | *(no phone plate)* / `about.webp` |
+| 03 | `consult-room-phone-1173` / `consult-room-wide-2399` | `06-consult-portrait.webp` / `06-consult.webp` |
+| 05 | `team-clear-phone-1425` / `team-clear-wide-2399` | `team-clear-portrait.webp` / `team-clear.webp` |
+| 06 | `products-glass-phone-1389` / `products-glass-wide-2399` | `products-visible-portrait.webp` / `products-visible.webp` |
+
+**Or just one behaviour.** Each is independent and each is one edit:
+the `<head>` preload (two lines), the `loading="lazy"` on the sponsor wall and
+the Bazaar cover, `overscroll-behavior-y` on `html`, the phone `.reveal` block,
+the hero's `heroRise` animation, the `.cta-stack` grid, `.lang__item`'s
+`min-height`, and `and (orientation:portrait)` on the `<source>` media.
+⚠️ The one thing that is NOT independent: if the `<source>` media queries change,
+the two `<head>` preloads must change with them or a device loses its preload or
+downloads both frames.
+
+---
+
 ## 0. His brief, in his words
 
 > "stabilizing and making phone mode better like cta **no matter what it takes

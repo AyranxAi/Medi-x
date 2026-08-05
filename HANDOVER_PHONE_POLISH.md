@@ -1,8 +1,8 @@
 # Medi✦X — THE PHONE PASS
 
-**Read `HANDOVER_NEXT_CHAT.md` §1–§3 first** (what this is, his rules, the
-deploy). This file is the brief for one job and one job only.
-Written 2026-08-05, immediately after the logo/header/chapter pass went live.
+**Status: DONE and shipped 2026-08-05.** This file was the brief; it is now the
+record. Read `HANDOVER_NEXT_CHAT.md` §1–§3 first (what this is, his rules, the
+deploy). §7 below is what is still open.
 
 ---
 
@@ -11,252 +11,335 @@ Written 2026-08-05, immediately after the logo/header/chapter pass went live.
 > "stabilizing and making phone mode better like cta **no matter what it takes
 > even if we have to regenerate alot of pictures** alright it has to be smooth
 > and perfect and not glitchy and jump this is **luxury and we are not a trash
-> website** this will impact the effect we have … even smooth scroll or
-> something"
+> website** … even smooth scroll or something"
 
-Read that twice before you start, because it inverts the constraint every
-previous handover in this repo operated under.
-
-**The budget is no longer the constraint. The FEELING is the spec.** Earlier
-passes refused things on cost — "not re-fetching a megabyte on every resize",
-"rather than shipping 8 MB", "budget frozen". Those refusals are now void where
-they trade smoothness for bytes. **He has explicitly pre-authorised regenerating
-many images.** If a plate needs re-shooting, re-cropping or re-encoding at 3×,
-do it and tell him what you did.
-
-**What he does NOT mean:** this is not licence to redesign. The type scale, the
-colour board, the i-stem copy line, the chapter order and the eight frames are
-settled and were fought for. This job is about *motion, loading and framing* —
-how the site behaves, not what it says. If you find yourself changing a
-headline, stop.
+**The budget was not the constraint. The FEELING was the spec.** He explicitly
+pre-authorised regenerating images. What he did NOT authorise was a redesign —
+the type scale, the colour board, the i-stem copy line, the chapter order and
+the eight frames are settled and were fought for. One change in this pass got as
+far as being built before it was reverted for exactly that reason; see §4.
 
 ---
 
-## 1. What "glitchy and jumpy" actually is — diagnosed, not guessed
+## 1. The numbers
 
-Four distinct defects. They are not one bug and they do not share a fix.
+Medians of 5 runs. **Fast 3G, 4× CPU throttle, 390×844 at DPR 3**, served with
+Brotli, correct MIME types and Vercel-like cache headers.
 
-### 1.1 The hero pops in. This is the loudest one.
+| | before | after | |
+|---|---|---|---|
+| First contentful paint | 636 ms | 632 ms | flat |
+| **Largest contentful paint** | **1824 ms** | **1256 ms** | **−31%** |
+| **Hero photograph on screen** | **5365 ms** | **2347 ms** | **−56%** |
+| Load event | 5429 ms | 2351 ms | −57% |
+| Cumulative layout shift | 0 | 0 | held |
+| Image bytes, first screen | 930 KB | 312 KB | −66% |
+| Hero plate | 941×1673 webp | 1424×2532 avif | **2.3× the pixels** |
 
-`index.html`, the `load()` function in the inline script (search
-`lazy background + reveal`). **Every** chapter's photograph lives in a
-`data-src` attribute and is fetched by `new Image()` only *after* the JS parses
-and runs:
+Scroll, 5 traces each, 4× CPU, top to bottom:
 
-```js
-var narrow = bg.dataset.srcNarrow && matchMedia('(max-width:899px)').matches;
-var src = narrow ? bg.dataset.srcNarrow : bg.dataset.src;
-var img = new Image();
-img.onload = function(){ bg.style.backgroundImage = 'url("'+src+'")'; };
-```
-
-The browser's **preload scanner cannot see a `data-` attribute**. So the single
-most important image on the site — the hero — is not even *discovered* until
-the parser has finished the document and executed the script. On a phone on
-mobile data that is a visible beat of empty ivory, then a slab of photograph
-appearing at once. That beat is the "glitch" he is describing.
-
-`load(secs[0]); load(secs[1]);` runs eagerly for the first two chapters, so
-this is not lazy-loading in the usual sense — it is *late* loading, which is
-worse, because it looks deliberate.
-
-### 1.2 The frame changes shape with the viewport
-
-`background-size:cover` plus a `background-position` percentage means **every
-viewport ratio shows a different crop**. Rotate a phone, open the keyboard,
-change the URL-bar height on iOS Safari — the photograph re-frames under the
-copy. Chapter 01's `svh`-based sizing makes this worse, not better.
-
-There are now **five tuned percentages** in the sheet, every one of them
-measured against one specific file:
-
-| rule | value | measured against |
+| | before | after |
 |---|---|---|
-| `.bg` | `72% center` | the landscape plates generally |
-| `.bg` ≥900px | `center` | — |
-| `#s1 .bg` | `center` | `team-hero-portrait.webp` (2026-08-05) |
-| `#s5 .bg` | `center` / `100%` ≥900 | `team-clear-portrait.webp` |
-| `#s6 .bg` | `57%` / `12%` ≥900 | `products-visible*` (2026-08-05) |
+| median frame | 16.7 ms | 16.7 ms |
+| p95 frame | 22.8 ms | 20.6 ms |
+| frames > 32 ms | 2 | 1 |
+| long-task total | 96 ms | 62 ms |
 
-⚠️ **Three separate bugs in this repo have been "a position inherited across a
-frame swap."** Chapter 01 carried the landscape `72%` for weeks. Chapter 06 was
-handed the wine plate's `37%`, then the leaf plate's `63%`. **The permanent fix
-is to delete the category**, not to keep re-deriving numbers: compose each plate
-FOR its breakpoint so plain `center` is correct, which is the sentence `#s5`
-already makes in its comment.
-
-### 1.3 A rotated tablet keeps the wrong frame
-
-Same `load()`: after the first pick it runs `delete bg.dataset.src`, so a device
-that crosses the 900px boundary later keeps whichever plate it loaded with. This
-was documented and accepted at the time — "the accepted cost of not re-fetching
-a megabyte on every resize". **`<picture>` makes it free, so the trade no longer
-needs making.**
-
-### 1.4 Everything is upscaled on a modern phone
-
-**This is why it looks soft, and he has noticed without naming it.**
-
-`team-hero-portrait.webp` is **941px wide**. On a 390px phone it renders **475
-CSS px** wide, which on a **3× display needs 1424 device pixels**. It is being
-blown up ~1.5×. Every portrait plate in the repo has this, because 941 was
-adopted as "the site's standard plate size" back when the only concern was file
-weight.
-
-The sources are all still in `images/` at full resolution — `15% high phone.png`
-(2160×3840) is the hero's, and the desktop/mobile originals for the rest are
-beside it. **This is a re-encode, not a re-shoot.**
+⚠️ **MEASURE WITH COMPRESSION OR DO NOT MEASURE.** The first pass of this work
+was done against a plain static server and read LCP 2632 → 2572, i.e. "no
+improvement", and nearly sent the whole investigation after the wrong thing. The
+document is 302 KB raw and 83 KB Brotli'd; uncompressed, the HTML download IS
+the critical path and swamps every other signal. Vercel Brotlis. The rig is in
+the session scratchpad (`serve.mjs` HTTP/1.1, `serve2.mjs` HTTP/2+TLS).
 
 ---
 
-## 2. The fix, in the order it must happen
+## 2. What was wrong, and what fixed it
 
-Do not reorder these. Each one makes the next cheaper.
+### 2.1 The hero popped in — and it was worse than diagnosed
 
-### Step 1 — Re-encode every plate at 2× (do this FIRST)
+The brief had this right: every `.bg` lived in a `data-src` that the preload
+scanner cannot see, so the hero was not *discovered* until the parser finished
+and the script ran. The waterfall showed something worse on top of it: the hero
+was the **eighteenth** image requested. Ahead of it, all eager, all below the
+fold — the Harper's Bazaar cover (155 KB, `loading="eager"` in the markup) and
+**thirteen sponsor marks** (375 KB). Half a megabyte of furniture had the pipe
+while the most important photograph on the site waited.
 
-New files, **never an overwrite** — that rule is absolute in this repo, it is
-how the revert stays one line and how no CDN cache holds a stale frame.
+Three fixes, in order of size:
 
-- Portrait plates: 941 → **~1400px wide** (~162 KB → ~330 KB each)
-- Landscape plates: 1672 → **~2400px wide**
-- Keep q92; it is what every existing plate used and it has never been the
-  problem.
+- **Fourteen below-the-fold images went `loading="lazy"`.** First-screen image
+  bytes: 930 KB → 312 KB.
+- **The six photographic chapters are real `<picture>` elements.**
+- **The hero is preloaded from the `<head>`.** This is the one that would be
+  easy to leave out and it is worth ~700 ms on its own: chapter 01's markup does
+  not arrive until byte ~165,000 of this document, which on Fast 3G is 800 ms of
+  nothing even with a preload scanner that can see it. The `<link>` is in the
+  first kilobyte.
 
-If you do this and stop, the site is already visibly sharper on his phone.
+### 2.2 Every plate was upscaled — and `will-change` was making it worse
 
-### Step 2 — Compose each plate for its own breakpoint
+Two causes, both measured on the rendered device pixels (mean |Laplacian| over
+the faces, 390 @ DPR 3), not reasoned about:
 
-For every chapter, crop the plate so that **plain `center` is correct** at that
-breakpoint. Then delete `#s1/#s5/#s6`'s position overrides and the global `72%`.
+| | detail |
+|---|---|
+| as shipped — 941px plate, `will-change:transform` | 4.101 |
+| same plate, no `will-change` | 4.340 |
+| 1425px plate, `will-change` | 4.940 |
+| 1425px plate, no `will-change` | 5.102 |
+| 2160px plate, no `will-change` | 6.203 |
 
-This is the step he pre-authorised the image work for. It is also the step that
-permanently kills §1.2 and the whole class of bug in §1.2's ⚠️.
+Source resolution dominates, but **`will-change:transform` was costing ~6% of
+edge energy on its own** — it was on all eight `.bg` layers permanently, on a
+phone that never animates any of them, because the parallax is desktop-and-
+motion-allowed only. It is now scoped to
+`@media (min-width:900px) and (prefers-reduced-motion:no-preference)`, where it
+is paying for something. Eight permanent compositor layers on a phone: gone.
 
-### Step 3 — Replace the JS loader with `<picture>`
+**Sizing is derived, not picked.** A portrait plate is cover-cropped by HEIGHT on
+a phone, so the visible source width is `390 × H / 844`. To reach the 1170 device
+pixels a 390px screen has at DPR 3, `H ≥ 2532`. **Every portrait plate is now
+2532 tall**, width following its master's own aspect. Landscape plates take 1350
+(2400 wide at 16:9) on the same logic for a 1440 laptop.
 
-```html
-<picture>
-  <source media="(max-width:899px)" srcset="images/x-portrait-1400.webp 1400w" sizes="100vw">
-  <source srcset="images/x-2400.webp 2400w" sizes="100vw">
-  <img src="images/x-2400.webp" alt="" width="2400" height="1350"
-       fetchpriority="high" decoding="async">
-</picture>
-```
+**AVIF is what makes "sharper" and "arrives sooner" stop being a trade.** At the
+same PSNR, AVIF is roughly half the bytes of webp. The hero is **161 KB at
+1424×2532 against 165 KB for the 941×1673 webp it replaces** — two and a half
+times the pixels for four kilobytes less. Every `<picture>` carries a webp
+`<source>` for the phone and a webp `<img>` fallback for desktop, so a browser
+without AVIF is exactly where it was.
 
-- `fetchpriority="high"` **on chapter 01 only.** Everything below the fold keeps
-  `loading="lazy"` — the point is to make the hero early, not to make everything
-  compete.
-- Explicit `width`/`height` on every `<img>`, so nothing reflows as it arrives.
-- `object-fit:cover` + `object-position:center` replaces `background-size` /
-  `background-position` entirely.
-- Delete `load()`, its `IntersectionObserver`, and `data-src`/`data-src-narrow`
-  from all eight chapters.
+Quality is allocated where there is detail to protect: the hero is q72 because
+its masters (2160×3840 and 3840×2160) are genuinely larger than the target. The
+other four are Lanczos upscales of 941px masters and ship at q62 — indistinguish-
+able at 3× zoom, and chapters 02 and 03 in particular are fetched during the
+initial load, so every kilobyte they hold is one the hero waits behind.
 
-⚠️ `.bg` is also the element the `::after` scrims and `.sec--meno`'s CSS
-gradients paint against. Chapter 07 has **no photograph at all** — it is four
-stacked gradients — and chapter 08's `.bg` is likewise CSS. **Do not convert
-those two.** Only the six photographic chapters change.
+⚠️ **The upscale is not fake sharpening, and it is not new detail either.**
+Measured on chapter 05 at 390 @ DPR 3: 4.014 (browser stretches the 941 plate) →
+4.277 (Lanczos alone) → 4.838 (Lanczos + a light unsharp mask). The browser's own
+GPU stretch is the worst of the three. The work is in stopping a second resample,
+not in inventing resolution.
 
-### Step 4 — Motion, and this is where "luxury" is won or lost
+### 2.3 The frame re-shaped with the viewport
 
-- **`scroll-behavior:smooth`** on `html`, wrapped in
-  `@media (prefers-reduced-motion:no-preference)`. He named this himself. It
-  affects the `#top` logo link and any in-page anchor.
-- **`overscroll-behavior-y:none`** on `body` — kills the rubber-band that
-  exposes the canvas colour at the top and bottom. (The canvas was already
-  changed to ivory on 2026-08-04 *because* of that rubber-band; this removes
-  the cause rather than repainting the symptom.)
-- **The reveal animations.** `.reveal` fires on an `IntersectionObserver` at
-  `threshold:.22` with a `.95s` transition. On a phone, scrolling fast means
-  several chapters fire at once and it reads as lurching. Consider a shorter
-  distance (26px is a lot on a 390px screen) and a tighter duration on
-  small viewports.
-- **`content-visibility:auto`** on off-screen chapters, with
-  `contain-intrinsic-size` set, so the browser stops doing layout and paint for
-  eight full-bleed sections at once. This is likely the single biggest scroll-
-  smoothness win after the images.
-- **Audit `will-change:transform`** on `.bg`. It is on all eight at once, which
-  on a phone means eight promoted compositor layers permanently. That is a
-  memory cost that can cause exactly the jank it was added to prevent. Measure
-  before and after; do not assume it helps.
-- **The menoSTART canvas globe** (`#meno-globe`) animates continuously. Check
-  whether it runs when off-screen, and whether it respects
-  `prefers-reduced-motion`.
+**The `72%` default is deleted.** `.bg` used to carry
+`background-position:72% center` — a number measured against one specific
+landscape plate and inherited by every chapter that did not override it. Three
+separate bugs in this repo have been "a position inherited across a frame swap".
 
-### Step 5 — The CTAs, which he named first
+Below 900px there is now **no position value anywhere**: every phone plate is
+composed so plain `center` is correct. Where a subject genuinely was not centred
+in its own file — chapter 06's group sat 12px right of centre in a 941-wide
+master, which is what `57%` was buying — the shift is **baked into the plate**
+(cut 24px off the left before the resize). A crop belongs to one photograph and
+cannot be inherited by the next one. A percentage in a stylesheet can, and twice
+already has been.
 
-He said "phone mode better **like cta**". Concretely, on 390px today:
+Two values survive on desktop, as `object-position` on the `<img>`:
+`#s5` 100% and `#s6` 12%. Those are not inherited constants — they are
+compositions that deliberately place a subject against one edge, re-derived
+against the plates that ship today, and both are a no-op at 1920/2560 where the
+plates are 16:9 against a 16:9 viewport. A chapter that swaps its frame and
+forgets its line now falls back to `center`, which is safe.
 
-- The two hero buttons **wrap to two lines**. He approved this on 2026-08-05
-  when the alternative was shrinking them — but that was a choice between two
-  bad options at the old label lengths. With the hero re-ordered, look again.
-- `.cta` is `height:3.05rem` — fine — but check every CTA against a **48px**
-  target, not 44px, and check the spacing between the stacked pair.
-- **The floating stack.** There are now TWO discs bottom-right (WhatsApp above
-  the assistant) plus a header WhatsApp icon. On a 390×844 phone that is a lot
-  of furniture in one corner. He was asked and said keep all three — but he has
-  not yet seen them on his own phone while scrolling. Re-ask with a screenshot.
-- Check the discs against the **iOS home indicator** and Safari's collapsing
-  bottom bar. `env(safe-area-inset-bottom)` is already in the `bottom:` calc;
-  verify it actually clears on a real device, not just in the emulator.
+### 2.4 A rotated device kept the wrong frame — and it was hiding something
 
----
+`<picture>` fixes the stated bug for free (the old loader ran
+`delete bg.dataset.src` after the first pick and could not re-evaluate).
+Screenshotting landscape turned up the bigger problem: the old loader chose with
+`matchMedia('(max-width:899px)')`, so a phone **turned sideways** — 844×390,
+still under 899 — got the tall plate and `cover` cropped it to a strip. At
+844×390 the hero showed five pairs of legs and shoes and **not one face**. Every
+chapter was a fragment. It had been like that since the narrow plates landed.
 
-## 3. How to know it worked
+Every `<source>` is now `(max-width:899px) and (orientation:portrait)`. Portrait
+phone and portrait tablet take the tall frame; anything in landscape takes the
+wide one, which is the shape it actually is.
 
-Do not ship this on "looks fine to me". Measure:
+### 2.5 Two more things that were not in the brief
 
-- **LCP on the hero, throttled to Fast 3G, on a 390px viewport.** Record the
-  number BEFORE you start. That single figure is the whole of §1.1.
-- **CLS must be 0.** Explicit `width`/`height` on every `<img>` is what buys it.
-- **A scroll trace at 4× CPU throttle**, top to bottom. Look for long tasks and
-  dropped frames, chapter by chapter. §1.2 and Step 4 both show up here.
-- **Screenshot every chapter at 360 / 390 / 430 and rotated**, and diff against
-  the same set before your change. Framing regressions are silent otherwise —
-  this is exactly how chapter 06's crop was wrong twice.
-
-⚠️ **The rig lies if you let it.** `HANDOVER_NEXT_CHAT.md` §6 is a list of
-confident wrong numbers this project has already produced — stale viewport
-overrides, dead IntersectionObservers, unpainted images that still return a
-contrast ratio, sampling in the wrong pixel space. Read it before you trust a
-measurement. And when two passes disagree, **stop measuring and look at the
-crop.**
-
-⚠️ **Playfair does not load in the sandbox.** Google Fonts is blocked by the
-agent proxy, so every headline screenshot renders in a fallback serif. Anything
-about line-breaking must be confirmed on the real domain.
+- **`about.webp` and `06-consult.webp` were 2× upscales made in place**
+  (1672×941 → 3344×1882, commit 02a7d08). Six point three megapixels of fake
+  resolution each, that a phone had to decode to look at about a sixth of.
+  The 1672 originals were recovered from git.
+- **Chapter 02 had no phone frame at all** — a landscape plate cover-cropped to
+  26% of its width. It has one now, cut from the exact window the phone was
+  already showing (derived from the CSS it replaces, not eyeballed), so the same
+  picture is on screen at a third of the decode.
 
 ---
 
-## 4. Traps specific to this job
+## 3. Motion
+
+- **`scroll-behavior:smooth`** was already on `html` but unconditionally, relying
+  on a later block to undo it under `prefers-reduced-motion`. It is now stated
+  once, inside `@media (prefers-reduced-motion:no-preference)`.
+- **`overscroll-behavior-y:none`** on `html` — the rubber-band that exposed the
+  canvas is gone. (The canvas was repainted ivory on 2026-08-04 *because* of that
+  bounce; this removes the cause. ⚠️ It also disables Android pull-to-refresh on
+  this page — intended.)
+- **The reveal animation has its own phone numbers.** 26px and .95s were chosen
+  on a desktop where a chapter enters alone. On a phone, scrolling at any speed
+  puts two or three chapters over the .22 threshold inside a second — six
+  elements each, staggered to .45s, all easing at once. Below 900px: 14px, .62s,
+  stagger halved. The stack finishes in .87s against 1.40s.
+- **The hero's copy no longer waits for JavaScript.** `.reveal` is `opacity:0`
+  until an observer adds `.in`, so until this 293 KB document had parsed *and*
+  the script had run, the first screen was empty. Chapter 01 is always in view
+  and never needed the observer; its entrance is a CSS animation that starts when
+  the markup is parsed. Everything below the fold keeps the observer.
+- **The globe was already correct** — `prefers-reduced-motion` draws one static
+  frame and returns, and an IntersectionObserver starts/stops the rAF loop.
+  Checked, not changed.
+
+### ⚠️ `content-visibility:auto` was tried and MEASURED WORSE. Do not re-add.
+
+§4 of the original brief called it "likely the single biggest scroll-smoothness
+win after the images". It is the right instinct for a page of eight full-bleed
+sections and it is wrong for this one. Shipped on `#s3/#s5/#s6/#s8`, then ablated
+at runtime and re-traced — five passes each, both orders, to rule out warm-up:
+
+| | p95 | p99 | long tasks |
+|---|---|---|---|
+| with `content-visibility` | 23.0 ms | 87.4 ms | 91 ms |
+| without | 21.2 ms | 66.5 ms | 68 ms |
+| with (order reversed) | 23.8 ms | 92.3 ms | 90 ms |
+| without (order reversed) | 21.3 ms | 53.7 ms | **0 ms** |
+
+It costs a ~90 ms long task and roughly doubles the worst frame. The reason is
+structural: each chapter is ONE full-bleed image and a short copy block, so there
+is almost no layout to skip — but every section still has to be laid out and
+painted in a burst as it enters, and those bursts land on the frames the visitor
+is actually scrolling through. The saving is theoretical; the entry cost is real.
+The note is left in the stylesheet at the point where someone would add it.
+
+---
+
+## 4. ⚠️ The change that was built and then reverted
+
+Chapter 03's phone plate is 533×1153 and a template match proves it is a **1:1
+pixel crop** of his 941×1672 master (x276 y521 533×1151, MAD 3.2) — not a
+downscale. So that framing already holds every real pixel it will ever have: 533,
+against the 1170 a 390px phone asks for. It is the softest frame on the site,
+2.2× blown up where every other chapter sits at 1.5×.
+
+Taking the master whole was built, shipped into the branch, screenshotted, and
+reverted. It gives 773 visible source pixels — 45% more, level with every other
+chapter. It also shrinks the two women to a third of the frame, puts them behind
+the copy block, leaves the top 60% as empty wall, and drops the headline to 2.72
+at 360 against a 3.0 floor.
+
+**That is a redesign bought with a resolution number, which is the one thing the
+brief said not to do.** His crop ships, carried up with Lanczos and an unsharp
+mask so the 2.2× resample happens once at build time instead of on every phone.
+
+While it was in, chapter 03 got a reshaped scrim to pay for the new ground. That
+came out with the frame. **The measurements are worth keeping**, because chapter
+03 is failing its headline floor *today* and always has:
+
+| stops | 360 | 390 | 430 | (h2 / body) |
+|---|---|---|---|---|
+| stock light (**ships today**) | **3.03**/4.22 | **3.31**/5.44 | 4.16/5.56 |
+| ch05's shape | 3.97/6.48 | 4.48/6.20 | 6.72/7.14 |
+| reach to 88% | 4.96/7.37 | 5.24/7.08 | 7.59/8.06 |
+| heavier top | 6.49/8.62 | 6.75/8.37 | 8.94/9.15 ← dulls the frame |
+
+Chapter 05's shape is the lightest that clears everything, which is the same
+reason option A won in `HANDOVER_MOBILE_UX.md` §4. It is four lines and it is
+costed. **It was not applied because darkening a photograph he approved is a
+design decision and `HANDOVER_MOBILE_UX.md` is parked at his request.** Ask him.
+
+---
+
+## 5. CTAs
+
+- **Every `.cta` measures 49px** at 360/390/430, so the 48px target the brief
+  asked for is already met. The floating discs are 52px with 21px of clearance
+  and 26px between them, and **no CTA overlaps either disc at any phone width** —
+  checked by rect intersection, not by eye.
+- **The hero pair never shares a line on a phone** — 250 + 207 against a 342px
+  column at every width, so `flex-wrap` was dropping them into a stack of two
+  different widths. He approved the stack; the *ragged edge* was never chosen, it
+  fell out of wrapping. Below 900px the stack is now one `max-content` grid
+  column, so both buttons take the width of the wider one. ⚠️ This cannot make
+  overflow worse in any language — the column is exactly as wide as the widest
+  button already is. Verified at 360 and 390 in all six languages; Russian is
+  widest at 254px. Desktop keeps the flex row, where the pair does share a line.
+- **The language menu rows were 36px** — the smallest touch target on the site,
+  six of them, in a menu that opens under a fingertip, and invisible to every
+  previous audit because it only exists when open. `min-height:44px` below 900px.
+  Padding and type untouched, so a closed menu is identical.
+- The header's globe / WhatsApp / burger discs are **44px** and were left alone.
+  That is Apple's own minimum and he sized the wordmark against them on
+  2026-08-05 ("the mark carries the bar"); changing them would move the header
+  composition he had just settled.
+
+---
+
+## 6. What was verified
+
+- **Contrast, every chapter × 360/390/430/1280/1440**, by this repo's own method
+  (§7 of `HANDOVER_MOBILE_UX.md`: per-LINE rects, text hidden, full-viewport
+  shot, brightest 2%). **Every number is within ±0.05 of before.** Nothing
+  regressed.
+- **Framing diffed at 360/390/430/rotated/768-tablet/1440**, chapter by chapter.
+  Desktop is pixel-identical. Phone is identical. Landscape is transformed.
+- CLS held at 0. Explicit `width`/`height` on every `<img>`, and the frames are
+  absolutely positioned inside an already-absolute `.bg`, so they contribute
+  nothing to layout and cannot shift it.
+- Functional smoke: all 5 chapter frames decode, all 8 sections reveal, nav
+  opens and closes, language switch works (de → "Beratung buchen"), the globe
+  paints, no failed loads, no page errors.
+- Every `<picture>` checked for a webp `<source>` and a webp `<img>` fallback in
+  all four media/format combinations. All 40 image references resolve on disk.
+- ⚠️ **Playfair does not load in the sandbox** — Google Fonts is blocked by the
+  agent proxy, so every headline here rendered in a fallback serif. Anything
+  about line-breaking must be confirmed on the real domain.
+
+---
+
+## 7. Still open
+
+1. **Chapter 03 needs a taller original.** Everything else is at or above its
+   screen; this one is 533 real pixels against 1170 and no amount of encoding
+   changes that. Same setup, same two people, shot tall. It is the single
+   highest-value photograph anyone could hand this site.
+2. **Chapter 02 is the other one.** Its master is 1672×941 and the phone shows a
+   435-pixel-wide window of it — a 2.7× stretch. There is no portrait original
+   anywhere in the repo.
+3. **Chapter 03's headline fails its floor at 360 and 390** (3.03 / 3.31 against
+   3.0 — the second is nominally passing but inside the noise). §4 has the fix
+   costed at four lines. His call.
+4. **Chapter 02 fails badly on DESKTOP at 1280** — h2 2.63, body 2.27. That is
+   worse than anything on a phone and it is not in any handover yet.
+5. **Chapter 05 still ships a former team member.** He has said "it's ok for
+   now" twice with the facts in front of him — do NOT re-ask. The fix is a frame
+   she is not in.
+6. **The header overlaps the headline in landscape** on a phone. Visible in the
+   844×390 shots. Pre-existing, unrelated to this pass.
+7. **`env(safe-area-inset-bottom)` could not be verified on real hardware.** The
+   discs clear correctly in the emulator, where the inset is 0. On a real iPhone
+   the calc resolves to 34px and should clear the home indicator — confirm on the
+   actual device.
+8. **The old plates are all still in `images/`** — `team-hero-portrait.webp`,
+   `team-clear-portrait.webp`, `products-visible-portrait.webp`,
+   `06-consult-portrait.webp`, `about.webp`, `06-consult.webp` and the landscape
+   pairs. Nothing was overwritten, so every chapter reverts by pointing its
+   `<picture>` back at its old file.
+
+---
+
+## 8. Traps, still true
 
 - **`git fetch origin main` before you build AND again before you push.** He
-  uploads files through the GitHub web UI mid-session and other sessions push.
-- **Commit author MUST be `AyranxAi <ayranxai@gmail.com>`** or Vercel refuses
-  the build. This was nearly shipped wrong on 2026-08-05; the branch had to be
-  rebased with
-  `--exec 'git commit --amend --no-edit --author="AyranxAi <ayranxai@gmail.com>"'`
-  before merging. Set `git config user.email` at the start and save yourself
-  the rebase.
-- **`main` IS the deploy.** There is no staging. He is demoing this to the
-  owners — ask before pushing anything visibly different.
+  uploads files through the GitHub web UI mid-session.
+- **Commit author MUST be `AyranxAi <ayranxai@gmail.com>`** or Vercel refuses the
+  build. `git config` is set in this clone; a fresh clone is not.
+- **`main` IS the deploy.** There is no staging.
 - **Never overwrite an image filename.** New name, every time.
 - **Do not touch chapter 07's gradients or chapter 08's collage `.bg`.** Neither
-  has a photograph.
-- **The two inert booking CTAs and the quiz stay inert** — his standing
-  decision, re-confirmed 2026-08-05. Do not wire them to WhatsApp to tidy up.
-  That is the specific option he turned down.
-- **Chapter 05 still ships a former team member.** Unrelated to this job, but if
-  you are regenerating plates anyway, that frame is the one that most needs it.
-  See `HANDOVER_NEXT_CHAT.md` §5 item 0.
-
----
-
-## 5. The one-line summary for whoever picks this up
-
-The site is not jumpy because of its CSS. It is jumpy because **the hero image
-is invisible to the preload scanner, every plate is upscaled 1.5× on a modern
-phone, and the crop is recomputed from a magic percentage on every viewport
-change.** Fix those three in that order, then spend the remaining effort on
-scroll motion. He has pre-authorised the image work. Take him at his word.
+  has a photograph, and neither is a `<picture>`.
+- **The two inert booking CTAs and the quiz stay inert** — his standing decision.
+  Do not wire them to WhatsApp to tidy up.

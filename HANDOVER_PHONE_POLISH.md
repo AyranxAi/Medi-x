@@ -9,18 +9,24 @@ deploy). §7 below is what is still open.
 ## HOW TO PUT IT BACK
 
 He asked for this before it went to main, so it is the first thing in the file.
-The state before this pass is tagged **`pre-phone-polish`** (= `d72f373`).
+**The state before this pass is commit `d72f373`** ("The phone pass gets its own
+brief, and the budget rule is inverted in writing").
+
+⚠️ A `pre-phone-polish` tag exists locally but is NOT on the remote — this
+repo's git gateway refuses tag refs, four attempts, `Everything up-to-date`
+followed by a disconnect every time. Use the SHA. It is permanent and it is
+already in main's history; a tag would only have been a nickname for it.
 
 **All of it, one command, no force-push:**
 
 ```
-git revert --no-edit pre-phone-polish..HEAD
+git revert --no-edit d72f373..HEAD
 git push origin main
 ```
 
 That writes new commits undoing the three, so nothing is rewritten and Vercel
 rebuilds from a real commit. To preview the old site first:
-`git checkout pre-phone-polish` and open `index.html`.
+`git checkout d72f373` and open `index.html`.
 
 **Or just one chapter.** Nothing in `images/` was overwritten — that rule held
 through the whole pass — so every old plate is still on disk and any single

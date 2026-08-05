@@ -78,10 +78,21 @@
                    "referring to each other's serif" part of his instruction,
                    and it is subtracted so the INK lands on the stem, not the box
      Change the logo artwork and only --i-stem needs re-measuring. */
-  --logo-h:clamp(34px,3.4vw,48px);
+  /* +2px at both ends, his call 2026-08-05. The mark carries the bar on its
+     own now that the book pill has left it, and at 34/48 it was reading small
+     against the three 2.75rem control discs beside it.
+     ⚠️ This moves --copy-x: the stem of the i travels right with the artwork,
+     so every chapter's copy column shifts ~1px at desktop. That is the rule
+     working, not drifting — do not "correct" it back. */
+  --logo-h:clamp(36px,3.6vw,50px);
   --logo-ar:3.9125;
   --i-stem:.44728;
-  --hdr-pad:clamp(1.15rem,3vw,2.2rem);
+  /* +6px, his call 2026-08-05 ("move the header on the right by a few").
+     ONE token does the whole job because --copy-x is built on it: the mark,
+     the globe/whatsapp/burger cluster, and all eight chapters' copy move
+     together as a single inset. Nudging .mark alone would have bought the
+     indent by breaking the vertical the copy line exists to hold. */
+  --hdr-pad:clamp(1.5rem,3.4vw,2.6rem);
   --serif-fix:1px;
   --copy-x:calc(var(--hdr-pad) + var(--logo-h) * var(--logo-ar) * var(--i-stem) - var(--serif-fix));
   /* one token decides pill vs box for every CTA-shaped control */
@@ -197,28 +208,16 @@ body.nav-open .hdr{background:transparent;border-bottom-color:transparent;backdr
 }
 .globe:hover,.wapp:hover{border-color:var(--ivory);background:rgba(46,34,40,.6)}
 .globe svg,.wapp svg{width:19px;height:19px}
-.hdr__book{
-  display:inline-flex;align-items:center;white-space:nowrap;
-  height:2.75rem;padding:0 1.5rem;border-radius:var(--btn-radius);
-  border:1px solid rgba(250,247,241,.6);
-  background:rgba(46,34,40,.45);color:var(--ivory);
-  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-  font-size:.62rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;
-  text-decoration:none;cursor:pointer;
-  transition:background-color .3s var(--ease),border-color .3s var(--ease),color .3s var(--ease);
-}
-.hdr__book:hover{border-color:var(--ivory);background:rgba(46,34,40,.6)}
-@media (max-width:639px){ .hdr__book{display:none} }
+/* .hdr__book (the bar's booking pill) was removed on 2026-08-05, his call —
+   see the header markup. Its rules are gone with it rather than left dead:
+   the two states it needed are the same two the .globe/.wapp chips above and
+   the .cta pill in the hero already carry, so nothing here was load-bearing
+   for anything else. */
 .hdr--solid .globe,.hdr--solid .wapp{
   border-color:var(--line);background:transparent;color:var(--ink);
   backdrop-filter:none;-webkit-backdrop-filter:none;
 }
 .hdr--solid .globe:hover,.hdr--solid .wapp:hover{border-color:var(--gold)}
-.hdr--solid .hdr__book{
-  border-color:rgba(92,31,49,.4);background:transparent;color:var(--burgundy);
-  backdrop-filter:none;-webkit-backdrop-filter:none;
-}
-.hdr--solid .hdr__book:hover{border-color:var(--burgundy);background:rgba(92,31,49,.05)}
 
 .burger{
   -webkit-appearance:none;appearance:none;cursor:pointer;padding:0;
@@ -248,9 +247,6 @@ body.nav-open .hdr{background:transparent;border-bottom-color:transparent;backdr
 body.nav-open .globe,body.nav-open .wapp,body.nav-open .burger{
   border-color:rgba(250,247,241,.6);background:rgba(46,34,40,.45);color:var(--ivory);
   backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-}
-body.nav-open .hdr__book{
-  border-color:rgba(250,247,241,.6);background:rgba(46,34,40,.45);color:var(--ivory);
 }
 body.nav-open .burger span{background:var(--ivory)}
 body.nav-open .mark__img--ivory{display:block}
@@ -658,7 +654,7 @@ main{position:relative}
      to four lines, so the ceiling is 704 / (width-per-px of the face).
      Playfair at 6.609 gives 106px; 103.2px is the value below, leaving 22px.
      Re-derive it, never carry it over. Ratios are in the h1,h2 block. */
-  #s1 h1{font-size:clamp(5.37rem,5.9vw,6.45rem)}
+  #s1 h1{font-size:clamp(4.94rem,5.43vw,5.93rem)}
   #s2 h2,#s3 h2,#s5 h2,#s6 h2{font-size:clamp(4.19rem,4.62vw,5.1rem)}
   /* the buttons grow with the type they sit under. They are the one control
      that does not depend on the photograph — the wash and hairline carry
@@ -679,17 +675,24 @@ main{position:relative}
   color:var(--gold);margin:0 0 1.35rem;
 }
 .kicker::after{content:"";flex:0 0 3.2rem;height:1px;background:linear-gradient(to right,var(--gold),transparent)}
-/* "Private. Personal. Powerful." OFF ON PHONES, 2026-08-04 — his call: it
-   "interferes with the look". Scoped to #s1 because the hero is the only
-   chapter still carrying a kicker (02/03/05/06/07 lost theirs on 2026-08-02)
-   and ch08's panel title is an h2, not this class — so an unscoped rule would
-   be waiting to hide something else the day a kicker comes back.
-   ⚠️ display:none, not visibility:hidden, on purpose: the copy block is
-   bottom-anchored below 900px, so the row has to leave the flow entirely or
-   the headline keeps the gap and climbs no lower. It also hands the headline
-   back ~2.9rem of the scrim's dark end, which is where mobile legibility is
-   worst. The gold rule (::after) goes with it — it is part of the same row. */
-@media (max-width:899px){ #s1 .kicker{display:none} }
+/* ── "PRIVATE. PERSONAL. POWERFUL." IS NOW THE HERO'S LAST LINE ────────────
+   His re-order, 2026-08-05: headline → body → the two buttons → this. It used
+   to open the chapter; it now closes it, so the margin flips from bottom to
+   top and it needs more of a gap than the 1.35rem it had (it is answering the
+   buttons above it, not introducing the headline below).
+
+   ⚠️ AND THAT IS WHY IT IS BACK ON PHONES. It was hidden below 900px on
+   2026-08-04 because it "interferes with the look" — as the FIRST row of a
+   bottom-anchored stack, where it pushed the headline up out of the dark end
+   of the scrim and cost real legibility. As the LAST row it pushes nothing;
+   the headline keeps the position it just gained from the x0.92 size cut.
+   The 2026-08-04 objection was to where it sat, and it no longer sits there.
+   If he still dislikes it on a phone, the one-line revert is at the bottom of
+   this block — but it should be re-judged on the new order, not assumed. */
+#s1 .kicker{margin:2.2rem 0 0}
+@media (max-width:899px){ #s1 .kicker{margin-top:1.8rem} }
+/* revert line, if the phone kicker is rejected on sight:
+   @media (max-width:899px){ #s1 .kicker{display:none} } */
 
 /* Chapter headlines — PLAYFAIR VARIABLE, his spec 2026-08-03: weight 450 and
    a LOW optical size. opsz is the reason this family was chosen over GFS
@@ -712,7 +715,14 @@ h1,h2{
   word-spacing:.05em;
   margin:0 0 1.15rem;text-wrap:pretty;
 }
-h1{font-size:clamp(2.7rem,6.28vw,4.83rem)}
+/* HIS CALL 2026-08-05: the hero headline comes down "a little" — every h1
+   figure on the page is the old one x0.92, floors and ceilings alike, so the
+   three-line break behaves exactly as before at every width.
+   The direction is the safe one: these ceilings are WIDTH limits wearing a
+   height's clothing (see the 1500px block), so a smaller cap can only gain
+   clearance against the 704px column, never lose it. h2 is untouched — he
+   asked for the header, not the chapter titles. */
+h1{font-size:clamp(2.48rem,5.78vw,4.44rem)}
 h2{font-size:clamp(2.15rem,4.94vw,3.76rem)}
 h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
   font-optical-sizing:none;font-variation-settings:'opsz' 30;color:var(--rose)}
@@ -787,8 +797,17 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
    inline-flex + stretch: the container hugs the longer pill and the shorter
    one grows to match, so the two read as one deliberate pair. Labels hold the
    left edge, arrows the right. */
-.cta-stack{margin-top:2.4rem;display:inline-flex;flex-direction:column;align-items:stretch;gap:.9rem}
-.cta-stack .cta{margin-top:0;justify-content:space-between}
+/* HIS CALL 2026-08-05: the two hero buttons share one horizontal line.
+   `flex` not `inline-flex` + `wrap` is the whole safety net — the labels were
+   shortened for this ("Book consultation", "Hormone quiz"), but .cta is
+   white-space:nowrap and the six languages are not all as short as English,
+   so on a narrow phone the pair drops back to the stacked layout it had
+   rather than overflowing the column. align-items:center, not stretch:
+   stacked they matched widths, side by side they must keep their own.
+   justify-content goes back to .cta's default gap — space-between only made
+   sense when the two pills were the same stretched width. */
+.cta-stack{margin-top:2.4rem;display:flex;flex-wrap:wrap;align-items:center;gap:.9rem}
+.cta-stack .cta{margin-top:0}
 
 /* reveal */
 .reveal{opacity:0;transform:translateY(26px)}
@@ -1952,6 +1971,77 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
 }
 body.nav-open .ask{opacity:0;pointer-events:none}
 
+/* ── THE WHATSAPP BUBBLE, his ask 2026-08-05 ──────────────────────────────
+   Sits directly above the assistant and rides the SAME trigger: it is absent
+   over the hero and arrives at the instant the burgundy lands, so the two
+   discs appear as one pair rather than one control growing a second head.
+   It fades AND rises 8px — a control that simply blinks on at scroll reads
+   as a rendering fault.
+
+   ⚠️ WHY THIS IS A FILLED DISC AND NOT THE GREEN OUTLINE HE ASKED FOR.
+   The outline was built, measured on the real page, and rejected on the
+   numbers — his call once he saw them, 2026-08-05. Median luminance of the
+   photograph behind this corner, and what each green scores against it:
+
+     chapter              ground L   ring #0F7A38   fill #25D366
+     s2 Why Medi-Gyn        0.344       2.04            1.34
+     s3 Discovery           0.273       1.67            1.64
+     s4 Pathways            0.036       2.24            6.16 ✓
+     s5 Team                0.133       1.05            2.66
+     s6 Products            0.149       1.03            2.66
+     s7 menoSTART           0.016       2.93            8.02 ✓
+     s8 In the World        0.721       3.99 ✓          1.46
+
+   NEITHER green clears 3:1 on s2/s3/s5/s6 — those grounds sit at exactly the
+   luminance where dark green and bright green both vanish, and there is no
+   third green to reach for: a ring is only ever as good as the gap between
+   ITS luminance and the photograph's.
+   ⚠️ AND A CHAPTER LIST CANNOT FIX IT. s2 measures 0.344 on desktop but 0.065
+   on a phone, because data-src-narrow loads a different crop — so any static
+   "these chapters are dark" rule is wrong on one of the two viewports.
+
+   A FILL sidesteps all of it: the glyph is measured against its own disc, not
+   against the photograph, so it reads 5.09:1 on every chapter at every width
+   with no script and no list. This is exactly why the assistant below it is a
+   solid burgundy disc — its own note accepts an edge as low as 1.08:1 on ch05
+   precisely because the ivory glyph inside never depends on the ground.
+   The two discs now share that logic as well as their trigger. */
+.wa{
+  position:fixed;z-index:45;
+  right:max(1.3rem,env(safe-area-inset-right));
+  bottom:calc(max(1.3rem,env(safe-area-inset-bottom)) + 3.25rem + .8rem);
+  width:3.25rem;height:3.25rem;border-radius:999px;
+  /* rimless at rest, like .ask--past-hero — the rim returns on hover only.
+     border-color, not border-width:0, so the icon cannot shift when it does. */
+  border:1px solid transparent;background:#0F7A38;color:var(--ivory);
+  display:grid;place-content:center;text-decoration:none;
+  /* absent, not merely invisible, until the trigger fires */
+  opacity:0;translate:0 .5rem;pointer-events:none;
+  transition:opacity .4s var(--ease),translate .4s var(--ease),
+    background-color .3s var(--ease),border-color .3s var(--ease),color .3s var(--ease);
+}
+.wa svg{width:22px;height:22px}
+@media (min-width:900px){
+  /* matches .ask's own 3.25 → 3.5 step, and the offset has to follow it or
+     the gap between the two discs changes at 900px */
+  .wa{width:3.5rem;height:3.5rem;
+      bottom:calc(max(1.3rem,env(safe-area-inset-bottom)) + 3.5rem + .8rem)}
+  .wa svg{width:24px;height:24px}
+}
+.wa--in{opacity:1;translate:0 0;pointer-events:auto}
+/* Hover lifts the fill one step and brings the ivory rim in, the shine held
+   INSIDE it — copied wholesale from .ask--past-hero:hover so the two discs
+   answer a cursor identically. One step is the ceiling for the same reason it
+   is there: at #12873B the ivory glyph still reads 4.31:1, and going lighter
+   trades the glyph away to buy an edge the rim is already carrying. */
+.wa:hover{
+  background:#12873B;border-color:var(--ivory);
+  box-shadow:inset 0 0 0 1px var(--ivory),
+             inset 0 0 14px 2px rgba(250,247,241,.45);
+}
+body.nav-open .wa{opacity:0;pointer-events:none}
+@media (prefers-reduced-motion:reduce){ .wa{transition:opacity .01s;translate:none} }
+
 /* the panel is a SHELL — its contents and design are still open.
    Accessibility recipe copied from the chapter-08 film lightbox:
    role=dialog + aria-modal, focus to the close button on open,
@@ -2116,14 +2206,18 @@ html[lang="ru"]{
    English held with 13% to spare. Their floors are set to give them the SAME
    13% margin English has at that width, so all six degrade together on a
    narrow phone rather than three of them degrading first. */
-html[lang="fr"] #s1 h1{font-size:clamp(2.30rem,6.28vw,4.83rem)}
-html[lang="ru"] #s1 h1{font-size:clamp(1.96rem,5.71vw,4.20rem)}
+/* ⚠️ ALL SIX LANGUAGES CARRY THE SAME x0.92 as the English h1 above (2026-08-05).
+   Scaling English alone would have broken the thing this block exists to do:
+   the floors were tuned so all six break to four lines at the SAME width, and
+   a headline that shrinks in one language only puts that back where it was. */
+html[lang="fr"] #s1 h1{font-size:clamp(2.12rem,5.78vw,4.44rem)}
+html[lang="ru"] #s1 h1{font-size:clamp(1.80rem,5.25vw,3.86rem)}
 @media (min-width:1500px){
-  html[lang="ar"] #s1 h1{font-size:clamp(5.37rem,5.9vw,6.15rem)}
-  html[lang="de"] #s1 h1{font-size:clamp(5.37rem,5.9vw,6.15rem)}
-  html[lang="zh"] #s1 h1{font-size:clamp(5.37rem,5.9vw,6.05rem)}
-  html[lang="fr"] #s1 h1{font-size:clamp(5.37rem,5.9vw,5.50rem)}
-  html[lang="ru"] #s1 h1{font-size:clamp(4.40rem,5.9vw,4.70rem)}
+  html[lang="ar"] #s1 h1{font-size:clamp(4.94rem,5.43vw,5.66rem)}
+  html[lang="de"] #s1 h1{font-size:clamp(4.94rem,5.43vw,5.66rem)}
+  html[lang="zh"] #s1 h1{font-size:clamp(4.94rem,5.43vw,5.57rem)}
+  html[lang="fr"] #s1 h1{font-size:clamp(4.94rem,5.43vw,5.06rem)}
+  html[lang="ru"] #s1 h1{font-size:clamp(4.05rem,5.43vw,4.32rem)}
 }
 /* Neither Arabic nor Chinese has an italic. The rose/ivory <em> is the
    signature of every headline on this page, so in those two it survives as
@@ -2225,14 +2319,14 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
         <path d="M8.9 8.95c.15-.4.35-.45.55-.45h.45c.15 0 .35.05.5.4l.55 1.3c.1.2.05.4-.1.55l-.35.45c-.1.15-.12.3-.02.5.3.55.95 1.3 1.8 1.7.2.1.35.08.5-.08l.45-.55c.15-.2.3-.22.55-.12l1.3.6c.25.12.35.27.35.47v.5c0 .2-.1.4-.45.55-.35.2-.9.3-1.55.1-1.2-.35-2.4-1.2-3.3-2.5-.65-.9-.85-1.75-.65-2.4.08-.35.27-.62.42-1.02Z" fill="currentColor"/>
       </svg>
     </a>
-    <!-- ⚠️ DELIBERATELY INERT — HIS DECISION, 2026-08-03, not an oversight.
-         Offered WhatsApp (the link already live 3× on this page and the funnel
-         medi-gyn.com itself pushes), /contact-us/, or a real scheduler; he
-         chose to WAIT for a proper booking destination rather than settle.
-         PROVISIONAL: re-ask him once a scheduler exists. Do NOT quietly wire
-         this to WhatsApp "to be helpful" — that is the option he turned down.
-         Same applies to ch01.cta1 and ch03.cta. -->
-    <a class="hdr__book" data-i18n="hdr.book">Book your consultation</a>
+    <!-- The "Book your consultation" pill lived here until 2026-08-05, when he
+         asked for it off the bar. The bar now carries the mark, the globe, the
+         WhatsApp icon and the menu — the booking ask belongs to the hero, which
+         still makes it twice (ch01.cta1 and ch03.cta).
+         Its `hdr.book` string is still in all six language tables on purpose:
+         nothing renders it (the i18n pass is data-i18n driven, so an unused key
+         costs nothing), and it is the whole translation ready to go if the pill
+         comes back. Delete the keys only if the decision is final. -->
     <button class="burger" id="burger" aria-label="Open menu" data-i18n-aria="a11y.menu_open" aria-expanded="false" aria-controls="nav">
       <span></span><span></span><span></span>
     </button>
@@ -2267,6 +2361,23 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
     <li style="--i:5"><a href="https://medi-gyn.com/educational-events/" target="_blank" rel="noopener" data-i18n="nav.events">Events</a></li>
   </ol>
 </nav>
+
+<!-- WhatsApp, above the assistant. Unlike the two booking controls this one is
+     LIVE on purpose: it is the same link the header icon and the ask panel
+     already carry, so it opens a real conversation rather than waiting on the
+     scheduler decision. It is a 4th entry point to the same thread — worth
+     his eye, since the header icon now sits ~60px away in the same corner
+     region on a phone. Say the word and the header one comes off.
+     aria-label reuses the existing a11y.whatsapp key: already translated in
+     all six languages, no new string. -->
+<a class="wa" id="wafloat" aria-label="Chat on WhatsApp" data-i18n-aria="a11y.whatsapp"
+   target="_blank" rel="noopener"
+   href="https://api.whatsapp.com/send/?phone=971555450797&amp;text=Hello%2C%20I%27m%20interested%20in%20a%20private%20consultation%20for%20hormone%20therapy%20support.&amp;type=phone_number&amp;app_absent=0">
+  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path d="M12 3.6a8.4 8.4 0 0 0-7.25 12.65L3.6 20.4l4.25-1.1A8.4 8.4 0 1 0 12 3.6Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+    <path d="M8.9 8.95c.15-.4.35-.45.55-.45h.45c.15 0 .35.05.5.4l.55 1.3c.1.2.05.4-.1.55l-.35.45c-.1.15-.12.3-.02.5.3.55.95 1.3 1.8 1.7.2.1.35.08.5-.08l.45-.55c.15-.2.3-.22.55-.12l1.3.6c.25.12.35.27.35.47v.5c0 .2-.1.4-.45.55-.35.2-.9.3-1.55.1-1.2-.35-2.4-1.2-3.3-2.5-.65-.9-.85-1.75-.65-2.4.08-.35.27-.62.42-1.02Z" fill="currentColor"/>
+  </svg>
+</a>
 
 <!-- ask button: the panel behind it is a shell, contents still to be decided -->
 <button type="button" class="ask ask--glow-in" id="ask" aria-expanded="false" aria-controls="askp"
@@ -2388,24 +2499,42 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
          RE-MEASURE 1280 before anything else. -->
     <div class="bg" data-src="images/team-hero.webp"
          data-src-narrow="images/team-hero-portrait.webp"></div>
+    <!-- HIS RE-ORDER, 2026-08-05. The chapter now reads headline → body →
+         both buttons on one line → "Private. Personal. Powerful." as the
+         closing note. The kicker moved from the top of this block to the
+         bottom of it; nothing else about it changed except that it is on
+         phones again (the .kicker block in the stylesheet has the why). -->
     <div class="inner"><div class="copy">
-      <p class="kicker reveal" data-i18n="ch1.kicker">Private. Personal. Powerful.</p>
       <h1 class="reveal" data-i18n="ch1.h1">Your hormones.<br>Your health.<br><em>Your best life.</em></h1>
       <p class="body reveal" data-i18n="ch1.body">Personalised hormones, menopause care and longevity medicine designed around you &mdash; so you can feel like yourself again.</p>
-      <!-- Both still inert, for two different reasons. cta1 (booking) is
-           DELIBERATELY inert by his 2026-08-03 decision — see the header's
-           .hdr__book comment; it is provisional and he wants re-asking once a
-           scheduler exists. cta2 (the quiz) is the one control on this page
-           with nothing anywhere to point at: medi-gyn.com has no quiz. It is
-           the single genuine build left. -->
+      <!-- ⚠️ BOTH STILL DELIBERATELY INERT, for two different reasons, and this
+           is now the ONLY copy of the first one — the header pill that used to
+           carry it was removed on 2026-08-05 at his request.
+
+           cta1 (booking) is inert by HIS 2026-08-03 DECISION, not an oversight.
+           He was offered WhatsApp (already live 4x on this page), /contact-us/,
+           or a real scheduler, and chose to WAIT for a proper booking
+           destination rather than settle. PROVISIONAL: re-ask once a scheduler
+           exists. Do NOT quietly wire this to WhatsApp "to be helpful" — that
+           is the exact option he turned down. Same applies to ch03.cta.
+
+           cta2 (the quiz) is the one control on this page with nothing anywhere
+           to point at: medi-gyn.com has no quiz. It is the single genuine
+           build left.
+
+           Labels shortened here on 2026-08-05 ("Book your consultation" →
+           "Book consultation", "Take the hormone quiz" → "Hormone quiz") —
+           they share a line now, and two full-length labels did not fit the
+           column at 1280 in any language. -->
       <div class="cta-stack reveal">
-        <a class="cta" data-i18n="ch1.cta1">Book your consultation
+        <a class="cta" data-i18n="ch1.cta1">Book consultation
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
         </a>
-        <a class="cta" data-i18n="ch1.cta2">Take the hormone quiz
+        <a class="cta" data-i18n="ch1.cta2">Hormone quiz
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
         </a>
       </div>
+      <p class="kicker reveal" data-i18n="ch1.kicker">Private. Personal. Powerful.</p>
     </div></div>
     <div class="hint" aria-hidden="true"><i></i><span data-i18n="ch1.scroll">Scroll</span></div>
   </section>
@@ -2439,8 +2568,9 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
       <h2 class="reveal" data-i18n="ch3.h2">Start With a Conversation, Leave With Clarity</h2>
       <p class="body reveal" data-i18n="ch3.body">Meet Irina Bond, the founder of Medi-Gyn and Hormone Health Educator. During your complimentary discovery call, she will help you understand your concerns, answer your questions, and help you explore the next step with clarity and confidence.</p>
       <div class="reveal">
-        <!-- inert by his 2026-08-03 decision, same as the header's book
-             button — see .hdr__book. Provisional; re-ask on a scheduler. -->
+        <!-- inert by his 2026-08-03 decision, same as ch01.cta1 — see the full
+             note there (the header pill that used to hold it was removed on
+             2026-08-05). Provisional; re-ask on a scheduler. -->
         <a class="cta" data-i18n="ch3.cta">Book a free discovery call
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
         </a>
@@ -3493,13 +3623,22 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
      no rAF, no scroll events — and headless never fires them at all, so both
      will show a button that looks stuck when nothing is wrong. */
   var next=document.getElementById('s2');
+  var wa=document.getElementById('wafloat');
   if(next){
     var askTick=false;
     function askState(){
       askTick=false;
       var seam=next.getBoundingClientRect().top;
       var r=btn.getBoundingClientRect();
-      btn.classList.toggle('ask--past-hero',seam<=r.top);
+      var past=seam<=r.top;
+      btn.classList.toggle('ask--past-hero',past);
+      /* Both discs answer the same seam — his instruction was that whatever
+         turns the assistant burgundy is what brings this one in. That is the
+         WHOLE of the WhatsApp button's behaviour: it has one appearance, so
+         there is nothing here to keep in sync with the chapter under it.
+         (A per-chapter colour swap lived here briefly and was removed once the
+         grounds were measured — the .wa stylesheet block has the table.) */
+      if(wa) wa.classList.toggle('wa--in',past);
     }
     function askSoon(){ if(!askTick){ askTick=true; requestAnimationFrame(askState); } }
     window.addEventListener('scroll',askSoon,{passive:true});
@@ -3541,8 +3680,8 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
 "ask.cta": "تحدّثي إلينا الآن",
 "ask.title": "اسألي medi-gyn",
 "ch1.body": "هرمونات مخصّصة، ورعاية لانقطاع الطمث، وطب طول العمر — مصمّمة حولكِ، لتشعري بأنكِ أنتِ من جديد.",
-"ch1.cta1": "احجزي استشارتك",
-"ch1.cta2": "اخضعي لاختبار الهرمونات",
+"ch1.cta1": "احجزي استشارة",
+"ch1.cta2": "اختبار الهرمونات",
 "ch1.h1": "هرموناتكِ.<br>صحّتكِ.<br><em>أفضل حياة لكِ.</em>",
 "ch1.kicker": "خاصّ. شخصيّ. فعّال.",
 "ch1.scroll": "مرّري",
@@ -3663,7 +3802,7 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
 "ask.title": "medi-gyn fragen",
 "ch1.body": "Personalisierte Hormone, Wechseljahresbegleitung und Longevity-Medizin — ganz auf Sie abgestimmt, damit Sie sich wieder wie Sie selbst fühlen.",
 "ch1.cta1": "Beratung buchen",
-"ch1.cta2": "Zum Hormon-Test",
+"ch1.cta2": "Hormon-Test",
 "ch1.h1": "Ihre Hormone.<br>Ihre Gesundheit.<br><em>Ihr bestes Leben.</em>",
 "ch1.kicker": "Vertraulich. Persönlich. Wirkungsvoll.",
 "ch1.scroll": "Scrollen",
@@ -3783,8 +3922,8 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
 "ask.cta": "Talk to us now",
 "ask.title": "Ask medi-gyn",
 "ch1.body": "Personalised hormones, menopause care and longevity medicine designed around you — so you can feel like yourself again.",
-"ch1.cta1": "Book your consultation",
-"ch1.cta2": "Take the hormone quiz",
+"ch1.cta1": "Book consultation",
+"ch1.cta2": "Hormone quiz",
 "ch1.h1": "Your hormones.<br>Your health.<br><em>Your best life.</em>",
 "ch1.kicker": "Private. Personal. Powerful.",
 "ch1.scroll": "Scroll",
@@ -3904,8 +4043,8 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
 "ask.cta": "Parlons dès maintenant",
 "ask.title": "Demander à medi-gyn",
 "ch1.body": "Hormones personnalisées, accompagnement de la ménopause et médecine de la longévité, conçus autour de vous — pour vous sentir à nouveau vous-même.",
-"ch1.cta1": "Réserver une consultation",
-"ch1.cta2": "Faire le test hormonal",
+"ch1.cta1": "Réserver",
+"ch1.cta2": "Test hormonal",
 "ch1.h1": "Vos hormones.<br>Votre santé.<br><em>Votre plus belle vie.</em>",
 "ch1.kicker": "Confidentiel. Personnel. Puissant.",
 "ch1.scroll": "Défiler",
@@ -4025,8 +4164,8 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
 "ask.cta": "Связаться сейчас",
 "ask.title": "Спросить medi-gyn",
 "ch1.body": "Персонализированная гормональная терапия, сопровождение менопаузы и медицина долголетия, выстроенные вокруг вас — чтобы вы снова почувствовали себя собой.",
-"ch1.cta1": "Записаться на консультацию",
-"ch1.cta2": "Пройти гормональный тест",
+"ch1.cta1": "Записаться",
+"ch1.cta2": "Гормональный тест",
 "ch1.h1": "Ваши гормоны.<br>Ваше здоровье.<br><em>Ваша лучшая жизнь.</em>",
 "ch1.kicker": "Конфиденциально. Персонально. Действенно.",
 "ch1.scroll": "Листайте",
@@ -4147,7 +4286,7 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
 "ask.title": "咨询 medi-gyn",
 "ch1.body": "为您量身定制的激素方案、更年期照护与长寿医学 —— 让您重新感觉像自己。",
 "ch1.cta1": "预约咨询",
-"ch1.cta2": "进行激素测评",
+"ch1.cta2": "激素测评",
 "ch1.h1": "您的激素。<br>您的健康。<br><em>您最好的人生。</em>",
 "ch1.kicker": "私密。专属。有力。",
 "ch1.scroll": "向下滚动",

@@ -519,10 +519,12 @@ main{position:relative}
      making the headline fail, which is not a trade worth taking.
      ⚠️ RE-MEASURE BOTH NUMBERS if the frame, the copy width or the crop
      position ever changes — they are what makes this value defensible. */
+  /* ⚠️ LIGHT-KEY SINCE 2026-08-05 — everything above is the DARK-key argument
+     and is kept as history, not instruction. ch01's wash shape at 75%, the same
+     value ch02/ch03 take. Measured English, worst line: h2 9.87, body 6.19. */
   #s6::after{
     background:
-      linear-gradient(to right,rgba(26,17,14,.93) 0%,rgba(26,17,14,.88) 33%,rgba(26,17,14,.62) 50%,rgba(26,17,14,0) 62%),
-      linear-gradient(to top,rgba(26,17,14,.3) 0%,rgba(26,17,14,0) 44%);
+      linear-gradient(to right,rgba(250,247,241,.645) 0%,rgba(250,247,241,.57) 32%,rgba(250,247,241,.375) 44%,rgba(250,247,241,0) 52%);
   }
 }
 
@@ -585,10 +587,24 @@ main{position:relative}
    HANDOVER_MOBILE_UX.md describes the same bottom-anchored-copy against
    bottom-up-scrim geometry site-wide, and the other chapters still carry it. */
 @media (max-width:899px){
+  /* ⚠️ LIGHT-KEY SINCE 2026-08-05. The phone needs the FULL wash, no reduction:
+     h2 6.70, body 6.75 measured in English. Its copy is bottom-anchored rather
+     than beside the group, which is why it does not need the desktop's reach. */
   #s5::after{
     background:
-      linear-gradient(to top,rgba(30,20,16,.92) 0%,rgba(30,20,16,.74) 32%,rgba(30,20,16,.54) 58%,rgba(30,20,16,0) 84%),
-      linear-gradient(to right,rgba(30,20,16,.42) 0%,rgba(30,20,16,0) 55%);
+      linear-gradient(to top,rgba(250,247,241,.90) 0%,rgba(250,247,241,.84) 34%,rgba(250,247,241,.72) 52%,rgba(250,247,241,.46) 64%,rgba(250,247,241,.14) 74%,rgba(250,247,241,0) 82%);
+  }
+}
+
+/* ⚠️ ch06 HAD NO PHONE SCRIM OF ITS OWN — it inherited the dark `.sec::after`,
+   so turning the chapter light-key on desktop alone left the phone at h2 1.69 /
+   body 1.10. This is the missing half. It sits AFTER ch06's desktop block on
+   purpose: same specificity, so source order is what decides.
+   ch01's wash at 75%, measured English: h2 9.92, body 6.43. */
+@media (max-width:899px){
+  #s6::after{
+    background:
+      linear-gradient(to top,rgba(250,247,241,.675) 0%,rgba(250,247,241,.63) 34%,rgba(250,247,241,.54) 52%,rgba(250,247,241,.345) 64%,rgba(250,247,241,.105) 74%,rgba(250,247,241,0) 82%);
   }
 }
 /* ⚠️ HISTORY, KEPT BECAUSE IT IS THE ARGUMENT FOR THE BLOCK BELOW, 2026-08-04.
@@ -805,6 +821,41 @@ html[lang="en"] #s2 h2{white-space:nowrap}
       linear-gradient(to top,rgba(250,247,241,.90) 0%,rgba(250,247,241,.84) 34%,rgba(250,247,241,.72) 52%,rgba(250,247,241,.46) 64%,rgba(250,247,241,.14) 74%,rgba(250,247,241,0) 82%);
   }
 }
+
+/* ══ CHAPTERS 05 AND 06 TURN LIGHT-KEY — HIS CALL 2026-08-05 ═════════════════
+   ⚠️ MEASURED IN ENGLISH, AND THAT MATTERED. The first pass ran with German
+   still set in the rig's shared Chrome profile from an earlier language test,
+   and German copy is longer and wraps differently — it reported ch05's PHONE as
+   a failure (3.51/4.29) when English clears comfortably (6.70/6.75). Force the
+   language before measuring; never trust a number from a profile you did not
+   reset.
+
+   ── ch06 is the easy one. Passes everywhere, so it takes ch02/ch03's 75%:
+        desktop  75%  h2 9.87  body 6.19      phone  75%  h2 9.92  body 6.43
+
+   ── ⚠️ ch05 IS THE HARD ONE AND ITS DESKTOP WASH IS A DIFFERENT SHAPE ON
+   PURPOSE. At ch01's wash it FAILS: h2 2.51 against a 3.0 floor, because the
+   headline's last word and the body's middle lines cross the leftmost woman's
+   hair and belt. More ALPHA does not fix that — it just films her, which is the
+   correction he made on the hero ("no need to make it so white on their body").
+   What fixes it is REACH: the same alphas carried 1.35x further across the frame,
+   so the wash is still under the copy where the copy actually ends.
+        desktop  100%       h2 2.51   body 4.53   FAIL
+        desktop  reach 1.35 h2 7.63   body 5.81   SHIPPED
+        desktop  reach 1.5 + alpha x1.25   h2 12.95  body 7.54  (works, too heavy)
+   The phone needs none of this — its copy is bottom-anchored, not beside her —
+   so it takes the plain full wash.
+   ⚠️ RE-MEASURE ch05 IF THE FRAME CHANGES. This reach is derived from where THIS
+   group stands; it is not a general value. */
+#s5 h2,#s6 h2{color:var(--ink)}
+#s5 .body,#s6 .body{color:rgba(46,34,40,.82)}
+#s5 .kicker,#s6 .kicker{color:#6E5427}
+#s5 .kicker::after,#s6 .kicker::after{background:linear-gradient(to right,#6E5427,transparent)}
+/* ⚠️ ch05 AND ch06 DO NOT DECLARE THEIR SCRIMS HERE. Both chapters already own
+   `#s5::after` / `#s6::after` further down, and ch05's desktop block sits AFTER
+   this point in the file — a second rule here lost on source order and measured
+   1.07 while the mockup measured 7.63. The light-key gradients are written into
+   those existing blocks instead, each beside its own history. */
 /* ...and its own on desktop, for the reason #s6 has one: this is now a frame with
    no dark region under the copy. The plate it replaced carried a charcoal shelving
    unit right where the column sits, which is where that chapter's ~15:1 CTA came
@@ -817,10 +868,18 @@ html[lang="en"] #s2 h2{white-space:nowrap}
      1440  h2 6.55  body 7.07  cta 12.87
      1280  h2 4.16  body 5.68  cta 12.87 */
 @media (min-width:900px){
+  /* ⚠️ LIGHT-KEY SINCE 2026-08-05, AND ITS REACH IS THE WHOLE TRICK. At ch01's
+     wash this chapter FAILS — h2 2.51 against a 3.0 floor — because the
+     headline's last word and the body's middle lines cross the leftmost woman's
+     hair and belt. More ALPHA does not fix that, it just films her, which is the
+     correction he made on the hero. The same alphas carried 1.35x further across
+     the frame do: the wash is still under the copy where the copy actually ends.
+     Measured English: h2 7.63, body 5.81. Reach 1.5 + alpha x1.25 reaches 12.95
+     but visibly milks the group. RE-DERIVE THIS IF THE FRAME CHANGES — it comes
+     from where THIS group stands, it is not a transferable number. */
   #s5::after{
     background:
-      linear-gradient(to right,rgba(30,20,16,.92) 0%,rgba(30,20,16,.86) 32%,rgba(30,20,16,.58) 52%,rgba(30,20,16,0) 76%),
-      linear-gradient(to top,rgba(30,20,16,.3) 0%,rgba(30,20,16,0) 44%);
+      linear-gradient(to right,rgba(250,247,241,.86) 0%,rgba(250,247,241,.76) 43.2%,rgba(250,247,241,.50) 59.4%,rgba(250,247,241,0) 70.2%);
   }
 }
 
@@ -1239,35 +1298,51 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
 .pw__panel[data-active="false"].hov .pw__img,
 .pw__panel[data-active="false"].kfoc .pw__img{filter:brightness(.94)}
 
-/* deep-burgundy scrims, alphas carried over from the source verbatim */
+/* ══ THE PATHWAY SCRIMS ARE A9 RED NOW — HIS CALL 2026-08-05 ═════════════════
+   "I want the original style that the scrim is on the bottom, but please use
+   the red that we have, the A9." So every shape below is UNCHANGED and only the
+   ink moved, #471826 -> #8E2D3A.
+   ⚠️ THE ALPHAS COULD NOT COME ACROSS VERBATIM, AND THAT IS THE WHOLE POINT OF
+   THIS NOTE. #8E2D3A is materially lighter than #471826, so at the source alphas
+   the copy fell through its floor. Measured on the real panels, worst of four,
+   ivory copy vs the composited ground (12px number needs 4.5):
+       source alphas (.92/.88/.64/.30/.12/.08)   name 4.60   number 3.44  FAIL
+       +6pts                                     name 5.39   number 4.15  FAIL
+       SHIPPED (.985/.96/.79/.43/.19/.12)        name 5.79   number 4.52  OK
+       +12pts (deepest tried)                    name 6.19   number 4.95  OK
+   He asked for "A9 red lighter by a little bit" off the deepest, and the value
+   above is the lightest step that still clears — one notch lighter measured 4.34.
+   ⚠️ LIGHTENING THE RED ITSELF WAS TESTED AND FAILS AT EVERY STEP: #9E3343 4.40,
+   #AE3B4D 3.87, #BE4457 3.39. Depth is the only lever that works here.
+   The three other scrims are lifted proportionally so the open state matches. */
 .pw__scrim{position:absolute;inset:0;transition:opacity var(--pw-scrim-ms) var(--pw-ease)}
 .pw__scrim[data-show="false"]{opacity:0}
 .pw__scrim--closed{
   background:
-    linear-gradient(to right,rgba(71,24,38,.66) 0%,rgba(71,24,38,.6) 52%,rgba(71,24,38,0) 96%),
-    linear-gradient(to top,rgba(71,24,38,.4) 0%,rgba(71,24,38,.3) 100%);
+    linear-gradient(to right,rgba(142,45,58,.72) 0%,rgba(142,45,58,.66) 52%,rgba(142,45,58,0) 96%),
+    linear-gradient(to top,rgba(142,45,58,.46) 0%,rgba(142,45,58,.35) 100%);
 }
 @media (min-width:1024px){
   .pw__scrim--closed{
     background:linear-gradient(to top,
-      rgba(71,24,38,.92) 0,rgba(71,24,38,.88) 180px,rgba(71,24,38,.64) 300px,
-      rgba(71,24,38,.3) 420px,rgba(71,24,38,.12) 540px,rgba(71,24,38,.08) 100%);
+      rgba(142,45,58,.985) 0,rgba(142,45,58,.96) 180px,rgba(142,45,58,.79) 300px,
+      rgba(142,45,58,.43) 420px,rgba(142,45,58,.19) 540px,rgba(142,45,58,.12) 100%);
   }
 }
 .pw__panel[data-active="false"].hov .pw__scrim--closed,
 .pw__panel[data-active="false"].kfoc .pw__scrim--closed{opacity:.8}
 .pw__scrim--open{
   background:linear-gradient(to top,
-    rgba(71,24,38,.95) 0,rgba(71,24,38,.92) 150px,rgba(71,24,38,.86) 250px,
-    rgba(71,24,38,.66) 300px,rgba(71,24,38,.32) 350px,rgba(71,24,38,.08) 400px,
-    rgba(71,24,38,0) 440px);
+    rgba(142,45,58,.98) 0,rgba(142,45,58,.96) 150px,rgba(142,45,58,.91) 250px,
+    rgba(142,45,58,.72) 300px,rgba(142,45,58,.36) 350px,rgba(142,45,58,.10) 400px,
+    rgba(142,45,58,0) 440px);
 }
 @media (min-width:1024px){
   .pw__scrim--open{
     background:linear-gradient(to top,
-      rgba(71,24,38,.95) 0,rgba(71,24,38,.9) 150px,rgba(71,24,38,.82) 280px,
-      rgba(71,24,38,.6) 360px,rgba(71,24,38,.3) 440px,rgba(71,24,38,.08) 510px,
-      rgba(71,24,38,0) 570px);
+      rgba(142,45,58,.98) 0,rgba(142,45,58,.95) 150px,rgba(142,45,58,.88) 280px,
+      rgba(142,45,58,.67) 360px,rgba(142,45,58,.34) 440px,rgba(142,45,58,.10) 510px,
+      rgba(142,45,58,0) 570px);
   }
 }
 
@@ -1420,7 +1495,7 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
    film grain keeping the frame photographic, not flat). */
 .sec--meno .bg{
   background-image:
-    radial-gradient(52% 68% at 71% 46%,rgba(92,31,49,.55),transparent 72%),
+    radial-gradient(52% 68% at 71% 46%,rgba(142,45,58,.55),transparent 72%),
     radial-gradient(40% 52% at 71% 46%,rgba(199,154,146,.12),transparent 70%),
     radial-gradient(60% 80% at 12% 8%,rgba(199,154,146,.08),transparent 65%),
     linear-gradient(160deg,#241A1F 0%,#2E2228 55%,#241A1F 100%);

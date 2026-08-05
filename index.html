@@ -346,22 +346,37 @@ main{position:relative}
    Unscoped on purpose: desktop already resolves to centre via the >=900px block,
    so this changes phones only and cannot drift from the desktop value. */
 #s1 .bg{background-position:center}
-/* products frame, PHONE — 2026-08-04, and 37% is measured, not chosen.
-   `product-wine-portrait-high.webp` puts its whole group at x 81..816 of a
-   941-wide file, i.e. sitting slightly LEFT of centre. A phone shows a 772px
-   window of that file, and the group is 735 wide, so it fits with 37px to
-   spare — but only if the window starts at 62.5. The inherited 72% starts it
-   at 121.6 and slices 41px off the left plinth; plain centre still clips 4px.
-   37% lands 18.5px of margin on BOTH sides, and holds at every phone width
-   (360/375/390/414/430 all within 0.5px of each other).
+/* products frame, PHONE — RE-DERIVED 2026-08-05 for the champagne pair. 63%,
+   and it is measured, not chosen. The old 37% belonged to
+   product-wine-portrait-high.webp and is wrong for this plate: carrying a
+   position across a frame swap is exactly the bug chapter 01 was carrying.
+   `product-suite-portrait.webp` puts its group — the glass arch and left
+   plinth through the right plinth — at x 150..835 of a 941-wide file, centre
+   492.5, i.e. sitting slightly RIGHT of the file's own centre (470.5). That is
+   the opposite of where the wine plate sat, which is why the number moved so
+   far. A phone shows a 772.6px window of that file and the group is 685 wide,
+   so it fits with 87.6px to spare — but only if the window starts at 106.2,
+   which is 63% of the 168.4px of overflow. The inherited 37% starts it at 62.3
+   and slices ~44px off the right plinth.
+   Holds across phone widths: 62% at 360, 63% at 390/414/430 — under half a
+   pixel apart, so one value covers all of them.
    ⚠️ Phones only, by geometry, not by media query: at 768x1024 the frame is
    narrower than the viewport ratio so `cover` scales by WIDTH and the whole
    file is shown — horizontal position is a no-op there. Tablets are untouched
-   by this line. The ≥900px block below restates it as 12% for desktop. */
-#s6 .bg{background-position:37% center}
+   by this line. The ≥900px block below carries the desktop value. */
+#s6 .bg{background-position:63% center}
 @media (min-width:900px){
   .bg{background-position:center}
-  /* products frame: pull the crop left so the bottles clear the copy column */
+  /* products frame: pull the crop left so the bottles clear the copy column.
+     ⚠️ 12% is KEPT rather than inherited — re-checked against the champagne
+     plate on 2026-08-05, not assumed. product-suite.webp puts its group at
+     x 790..1451 of 1672, and at 12% both 1440 and 1280 show the file window
+     x 20..1526 (the two land within a pixel of each other because both are
+     16:10 against a 16:9 plate), so the bottles clear the right edge by 75px
+     and the whole left 790px stays empty wall for the copy column. Only the
+     sage cloth is cropped, which is a prop.
+     At 1920 the plate is 16:9 against a 16:9 viewport: zero crop, and this
+     line is a no-op there. */
   #s6 .bg{background-position:12% center}
   /* team frame: the group sits right of centre and the woman on the end runs to
      the very edge of the plate, so anchor the crop RIGHT. What that gives up is
@@ -716,6 +731,18 @@ main{position:relative}
    this block — but it should be re-judged on the new order, not assumed. */
 #s1 .kicker{margin:2.2rem 0 0}
 @media (max-width:899px){ #s1 .kicker{margin-top:1.8rem} }
+/* HIS CALL 2026-08-05: the rule runs the width of the copy column instead of
+   stopping at a fixed 3.2rem. He asked for a matching rule on the LEFT to
+   balance it; that was built, looked at, and turned down for what it cost —
+   a leading rule pushes the text ~4rem in, and "Private. Personal. Powerful."
+   becomes the only thing in the hero not starting on the stem of the i.
+   This buys the same balance from the other end: the line now resolves against
+   the button row above it rather than trailing off at an arbitrary length,
+   and the text does not move at all.
+   flex:1 1 auto, not a width — the gradient then spans whatever the column is
+   at that viewport, so it stays proportional at every width with no second
+   number to keep in sync. */
+#s1 .kicker::after{flex:1 1 auto}
 /* revert line, if the phone kicker is rejected on sight:
    @media (max-width:899px){ #s1 .kicker{display:none} } */
 
@@ -2972,8 +2999,17 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
          HANDOVER_MOBILE_UX.md could not get over its floor). Crop position
          moved with it — see `#s6 .bg` in the CSS, 37% is measured.
          The landscape desktop frame is UNTOUCHED. -->
-    <div class="bg" data-src="images/product-wine.webp"
-         data-src-narrow="images/product-wine-portrait-high.webp"></div>
+    <!-- 2026-08-05, HIS CALL: back to the CHAMPAGNE pair. This chapter has now
+         carried four sets — products-visible, product-suite, product-wine (with
+         a second, raised phone frame) and now product-suite again. Nothing was
+         ever deleted, so this is a two-line revert in either direction; the
+         wine plates keep their own names in images/.
+         ⚠️ BOTH background-positions BELOW WERE RE-DERIVED FOR THIS PAIR and
+         are not the wine numbers. The old 37% / 12% were measured against
+         product-wine-portrait-high.webp and product-wine.webp specifically —
+         carrying them across would have been the exact bug the hero had. -->
+    <div class="bg" data-src="images/product-suite.webp"
+         data-src-narrow="images/product-suite-portrait.webp"></div>
     <div class="inner"><div class="copy">
       <h2 class="reveal" data-i18n="ch6.h2">Personalised Health Solutions. <em>Tailored to You</em></h2>
       <p class="body reveal" data-i18n="ch6.body">Explore our carefully selected hormone and peptide therapies, supplements and biohacking solutions designed to support your body &mdash; not overwhelm it.</p>
@@ -3027,7 +3063,19 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
     <div class="bg"></div>
     <div class="collage">
       <figure class="cpress" role="group" aria-label="Medi-Gyn in the press" data-i18n-aria="a11y.press">
-        <img class="cpress__img is-on" src="images/coverage/press-04-madame-arabia-wide.webp" alt="Irina Bond on the cover of Madame Arabia" data-i18n-alt="ch8.cover_alt" width="1182" height="1330" loading="eager" decoding="async">
+        <!-- 2026-08-05, HIS PICK: the Harper's Bazaar cover replaces Madame
+             Arabia (`images/bazaar.webp`, uploaded through the GitHub web UI in
+             commit 01a54c1, the only file in it). Madame Arabia is NOT deleted —
+             it stays at images/coverage/press-04-madame-arabia-wide.webp with the
+             other 14 retired slides, so the revert is this one line.
+             ⚠️ The plate is 1080x1350 (4:5) where the old one was 1182x1330
+             (~8:9), i.e. noticeably taller. object-fit:cover handles the frame,
+             but cover crops the LONG axis — on a 4:5 plate in a wider frame that
+             is the top and bottom, which is where this cover keeps its masthead.
+             object-position is centre by default and was checked at every
+             breakpoint before shipping; if the frame ratio is ever retuned,
+             re-check that "BAZAAR" still survives the crop. -->
+        <img class="cpress__img is-on" src="images/bazaar.webp" alt="Irina Bond on the cover of Harper's Bazaar" data-i18n-alt="ch8.cover_alt" width="1080" height="1350" loading="eager" decoding="async">
         <!-- ⚠️ 2026-08-02, HIS CALL: the reel is now ONE still frame (Madame
              Arabia, his pick). The other 14 slides came out — 9 press frames,
              3 candids and BOTH FILMS (the Monaco bone-and-joints interview and
@@ -3036,7 +3084,14 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
              `git show` away. The films now have no home on the site at all —
              flagged to him; the Press button below is the natural place for
              them once it has a destination. -->
-        <a class="cta cpress__cta" href="https://medi-gyn.com/press/" target="_blank" rel="noopener" data-i18n="ch8.press">Press
+        <!-- "Press" -> "Featured in", his wording 2026-08-05. The href is
+             unchanged: it still points at the live /press/ page, which is what
+             the label is now describing rather than naming. The five
+             translations moved with it and are NOT literal — each takes the
+             idiom that language actually uses for this ("Bekannt aus",
+             "Vu dans", "О нас пишут"), because a literal "Featured in" is not
+             a phrase in any of them. -->
+        <a class="cta cpress__cta" href="https://medi-gyn.com/press/" target="_blank" rel="noopener" data-i18n="ch8.press">Featured in
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
         </a>
       </figure>
@@ -3751,10 +3806,10 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
 "ch8.c7": "إحدى مريضات medi-gyn — من الفيلم",
 "ch8.c8": "Hasnaa M.، دبي",
 "ch8.c9": "Hala، دبي",
-"ch8.cover_alt": "إيرينا بوند على غلاف Madame Arabia",
+"ch8.cover_alt": "إيرينا بوند على غلاف Harper's Bazaar",
 "ch8.head": "مريضات حقيقيات، قصص حقيقية، أثر حقيقي",
 "ch8.note": "مترجَم عن النص الإنجليزي الأصلي",
-"ch8.press": "الصحافة",
+"ch8.press": "ظهرنا في",
 "ch8.q1": "«لقد ارتقى هذا بحياتي اليومية إلى مستوى آخر بالفعل. كان تحوّلًا حقيقيًا.»",
 "ch8.q2": "«فزتُ بالميدالية الذهبية في بطولة العالم في AD مع فريقي. كل أعضاء الفريق في الخامسة والعشرين، وأنا في السابعة والأربعين.»",
 "ch8.q3": "«لم أشعر يومًا بهذا القدر من الأمان والتفهّم كامرأة تبحث عن رعاية طبية.»",
@@ -3872,10 +3927,10 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
 "ch8.c7": "Eine medi-gyn Patientin — im Film",
 "ch8.c8": "Hasnaa M., Dubai",
 "ch8.c9": "Hala, Dubai",
-"ch8.cover_alt": "Irina Bond auf dem Cover von Madame Arabia",
+"ch8.cover_alt": "Irina Bond auf dem Cover von Harper's Bazaar",
 "ch8.head": "Echte Patientinnen, echte Geschichten, echte Wirkung",
 "ch8.note": "Aus dem englischen Original übersetzt",
-"ch8.press": "Presse",
+"ch8.press": "Bekannt aus",
 "ch8.q1": "„Das hat meinen Alltag buchstäblich auf ein anderes Level gehoben. Es war eine echte Verwandlung.“",
 "ch8.q2": "„Ich habe mit meinem Team bei der Weltmeisterschaft in AD eine Goldmedaille gewonnen. Alle im Team waren 25 — und ich 47.“",
 "ch8.q3": "„Nie habe ich mich als Frau, die medizinische Hilfe sucht, so sicher und so verstanden gefühlt.“",
@@ -3993,10 +4048,10 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
 "ch8.c7": "A medi-gyn patient — on film",
 "ch8.c8": "Hasnaa M., Dubai",
 "ch8.c9": "Hala, Dubai",
-"ch8.cover_alt": "Irina Bond on the cover of Madame Arabia",
+"ch8.cover_alt": "Irina Bond on the cover of Harper's Bazaar",
 "ch8.head": "Real Patients, Real Stories, Real Impact",
 "ch8.note": "",
-"ch8.press": "Press",
+"ch8.press": "Featured in",
 "ch8.q1": "“This literally elevated my everyday life to another level. It was transformational.”",
 "ch8.q2": "“I got a golden medal in world championship in AD with my team. All members of the team were 25 years old and I’m 47.”",
 "ch8.q3": "“I’ve never felt so safe and understood as a woman seeking medical care.”",
@@ -4114,10 +4169,10 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
 "ch8.c7": "Une patiente medi-gyn — à l’image",
 "ch8.c8": "Hasnaa M., Dubaï",
 "ch8.c9": "Hala, Dubaï",
-"ch8.cover_alt": "Irina Bond en couverture de Madame Arabia",
+"ch8.cover_alt": "Irina Bond en couverture de Harper's Bazaar",
 "ch8.head": "De vraies patientes, de vraies histoires, un vrai impact",
 "ch8.note": "Traduit de l’anglais",
-"ch8.press": "Presse",
+"ch8.press": "Vu dans",
 "ch8.q1": "« Cela a littéralement porté mon quotidien à un autre niveau. Ce fut une transformation. »",
 "ch8.q2": "« J’ai remporté une médaille d’or au championnat du monde d’AD avec mon équipe. Toutes les membres avaient 25 ans, et moi 47. »",
 "ch8.q3": "« Jamais je ne me suis sentie aussi en sécurité et aussi comprise, en tant que femme cherchant des soins. »",
@@ -4235,10 +4290,10 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
 "ch8.c7": "Пациентка medi-gyn — на видео",
 "ch8.c8": "Hasnaa M., Дубай",
 "ch8.c9": "Hala, Дубай",
-"ch8.cover_alt": "Ирина Бонд на обложке Madame Arabia",
+"ch8.cover_alt": "Ирина Бонд на обложке Harper's Bazaar",
 "ch8.head": "Реальные пациентки, реальные истории, реальный результат",
 "ch8.note": "Перевод с английского оригинала",
-"ch8.press": "Пресса",
+"ch8.press": "О нас пишут",
 "ch8.q1": "«Это буквально подняло мою повседневную жизнь на другой уровень. Это было преображение.»",
 "ch8.q2": "«Я выиграла золотую медаль на чемпионате мира по AD вместе со своей командой. Всем в команде было по 25, а мне 47.»",
 "ch8.q3": "«Никогда прежде я не чувствовала себя настолько защищённой и понятой как женщина, обратившаяся за медицинской помощью.»",
@@ -4356,7 +4411,7 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
 "ch8.c7": "一位 medi-gyn 患者 —— 影片中",
 "ch8.c8": "Hasnaa M.，迪拜",
 "ch8.c9": "Hala，迪拜",
-"ch8.cover_alt": "Irina Bond 登上《Madame Arabia》封面",
+"ch8.cover_alt": "Irina Bond 登上《Harper's Bazaar》封面",
 "ch8.head": "真实的患者，真实的故事，真实的改变",
 "ch8.note": "译自英文原文",
 "ch8.press": "媒体报道",

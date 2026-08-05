@@ -30,7 +30,10 @@ rebuilds from a real commit. To preview the old site first:
 
 **Or just one chapter.** Nothing in `images/` was overwritten — that rule held
 through the whole pass — so every old plate is still on disk and any single
-frame goes back by pointing its `<picture>` at its old file:
+frame goes back by pointing its `<picture>` at its old file
+*(2026-08-05 late: retired plates moved to `archive/plates-retired/`, same
+filenames — prefix that path; the ch05 row below is itself superseded, the
+chapter runs `team-new-*` since `92e390f`)*:
 
 | chapter | now | was |
 |---|---|---|
@@ -368,11 +371,12 @@ design decision and `HANDOVER_MOBILE_UX.md` is parked at his request.** Ask him.
    discs clear correctly in the emulator, where the inset is 0. On a real iPhone
    the calc resolves to 34px and should clear the home indicator — confirm on the
    actual device.
-8. **The old plates are all still in `images/`** — `team-hero-portrait.webp`,
+8. **The old plates are all kept** — `team-hero-portrait.webp`,
    `team-clear-portrait.webp`, `products-visible-portrait.webp`,
    `06-consult-portrait.webp`, `about.webp`, `06-consult.webp` and the landscape
    pairs. Nothing was overwritten, so every chapter reverts by pointing its
-   `<picture>` back at its old file.
+   `<picture>` back at its old file. *(2026-08-05 late: they now live in
+   `archive/plates-retired/`, filenames unchanged — see `REPO_MAP.md`.)*
 
 ---
 

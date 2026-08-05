@@ -687,10 +687,12 @@ main{position:relative}
 #s1 .body{color:rgba(46,34,40,.82)}
 #s1 .kicker{color:#6E5427}
 #s1 .kicker::after{background:linear-gradient(to right,#6E5427,transparent)}
-#s1 .cta{
-  border-color:rgba(46,34,40,.45);background:rgba(250,247,241,.55);color:var(--ink);
-}
-#s1 .cta:hover{border-color:var(--ink);background:rgba(250,247,241,.75)}
+/* ⚠️ THE HERO'S CTA OVERRIDE IS GONE ON PURPOSE, 2026-08-05. It existed to flip
+   the TRANSLUCENT pill for a light ground — an ivory wash with dark ink, because
+   the shared dark wash turned into a grey lozenge here. The shared pill is opaque
+   #8E2D3A now, so ground luminance no longer reaches it: the same pill measures
+   7.44 on this wash and 9.05 on the dark chapters. Reinstating a hero-only
+   colourway would put two different buttons back on the page. */
 #s1 .hint{color:rgba(46,34,40,.55)}
 #s1 .hint i{background:linear-gradient(to bottom,rgba(46,34,40,.5),transparent)}
 /* ...and its own on desktop, for the reason #s6 has one: this is now a frame with
@@ -905,18 +907,50 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
   Geometry is the header's, deliberately: same radius token, same hairline,
   same blur, same tracking. Header/footer chrome is untouched.
 */
+/* ══ THE PILL IS SOLID #8E2D3A NOW — HIS PICK "A9", 2026-08-05 ═══════════════
+   The owner asked for burgundy CTAs. That was measured before it was built, and
+   the finding that decided the shape of the answer is this: THE SITE HAS TWO
+   GROUND FAMILIES. Composited, sampled at each pill's own rect —
+       ch01 hero        L .81–.86   (light-key since 2026-08-04)
+       ch02/03/05/06/07/08  L .011–.087  (dark-key)
+   so a TRANSLUCENT wine fill cannot serve both: it desaturates to dusty pink on
+   the hero and sinks to near-black on the dark chapters. He asked specifically
+   for an Apple-style glass treatment and ten weights were rendered on the real
+   page; the ivory label against the composited fill measured
+       dark ch05   9.05–11.60 at EVERY weight (glass works there)
+       light hero  veil 1.85 · 44% 2.38 · 58% 3.12 · 74% 4.37 · gold-rim 3.65
+                   — every glass weight FAILS the 4.5 floor, because
+                     backdrop-blur pulls the ivory ground INTO the tint
+       light hero  SOLID #8E2D3A  7.44   ← the only one that clears it
+   An opaque fill also makes ground luminance irrelevant, which is why the
+   ch08 press-CTA special case below could be retired.
+   ⚠️ THE OLD COMMENT ABOVE IS NOW HISTORY, NOT INSTRUCTION. It says the hairline
+   carries the shape and a burgundy pill sat at 1.3–1.5:1 — both were true of the
+   TRANSLUCENT era and of `--burgundy` #5C1F31, which is a different, darker ink
+   than the mark's own #8E2D3A. Kept because the reasoning still explains why the
+   frosted pill existed for as long as it did.
+   Geometry, radius, type and tracking are untouched — only the material changed. */
 .cta{
   margin-top:2.4rem;display:inline-flex;align-items:center;gap:1.1rem;
   height:3.05rem;padding:0 1.75rem;border-radius:var(--btn-radius);
-  border:1px solid rgba(250,247,241,.6);
-  background:rgba(46,34,40,.45);color:var(--ivory);
-  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  /* the rim and the inset top highlight are the "glass" that survived: they give
+     the pill a lit edge without any transparency for a light ground to wash out */
+  border:1px solid rgba(255,255,255,.20);
+  background:var(--logo-red);color:var(--ivory);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.28), 0 8px 24px rgba(20,14,17,.24);
   white-space:nowrap;
   text-decoration:none;font-family:var(--font-functional);font-weight:500;
   font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;
-  transition:background-color .3s var(--ease),border-color .3s var(--ease),gap .3s var(--ease);
+  transition:background-color .3s var(--ease),border-color .3s var(--ease),
+    box-shadow .3s var(--ease),gap .3s var(--ease);
 }
-.cta:hover{border-color:var(--ivory);background:rgba(46,34,40,.62);gap:1.4rem}
+/* hover brightens and lifts; it never changes hue. #A33648 is the same ink two
+   steps up and keeps the label at 5.96 against it. */
+.cta:hover{
+  background:#A33648;border-color:rgba(255,255,255,.42);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.40), 0 14px 34px rgba(20,14,17,.30);
+  gap:1.4rem;
+}
 .cta svg{width:15px;height:15px;flex:none}
 /* hero carries two actions stacked; the stack owns the margin, not the pills.
    inline-flex + stretch: the container hugs the longer pill and the shorter
@@ -1466,19 +1500,17 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
   position:absolute;z-index:2;
   right:calc((100% - var(--frame-w))/2 + clamp(1.4rem,3vw,2.6rem));
   bottom:calc((100% - var(--frame-h))/2 + clamp(1.4rem,3vw,2.2rem));
-  /* HIS PICK 2026-08-02 (P2). Every other CTA on the site sits on a ground of
-     luminance 0.017–0.141, which is what the frosted wash was measured against.
-     This one sits on a magazine cover at 0.58 — a white blazer — where the
-     .45 wash turns into a grey lozenge on white: 2.0 against its ground, 3.0
-     on its label, against floors of 3.0 and 4.5. Geometry, radius, type,
-     hairline and hover are untouched; only the wash is weighted for a light
-     ground, and it measures 7.0 / 10.8. Do NOT "restore" this to the shared
-     .45 for consistency — the consistency is the SHAPE, and the shape is what
-     the shared value loses here. */
-  background:rgba(36,26,31,.86);
-  border-color:rgba(250,247,241,.75);
+  /* ⚠️ THE P2 WASH OVERRIDE WAS RETIRED 2026-08-05, and the reason it existed is
+     the reason it can go. HIS PICK 2026-08-02 (P2) deepened the wash to .86 for
+     this one button because it sits on a magazine cover at luminance 0.58 — a
+     white blazer — where the shared .45 translucent wash became a grey lozenge
+     (2.0 against its ground, 3.0 on its label, floors 3.0 and 4.5).
+     The shared pill is OPAQUE #8E2D3A now, so what is behind it cannot tint it:
+     the same fill measures 4.88 against this cover and holds its label at 7.34,
+     which is what the special case was buying. One pill, no exception.
+     ⚠️ If a future plate is BRIGHTER than 0.58, re-measure — an opaque wine pill
+     needs 3.0 against its ground and that is the number that would move. */
 }
-.cpress__cta:hover{background:rgba(36,26,31,.94)}
 
 /* right — the voices panel, full height since the sponsor belt moved
    to its own band below the section (2026-08-02, two-panel collage) */

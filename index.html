@@ -122,6 +122,12 @@
   --copy-x:calc(var(--hdr-pad) + var(--logo-h) * var(--logo-ar) * var(--i-stem) - var(--serif-fix));
   /* one token decides pill vs box for every CTA-shaped control */
   --btn-radius:999px;
+  /* the header dissolves rather than slides (see .hdr--hidden). Out is slow
+     because that is where the luxury is; in is quick because a bar you have
+     just asked for should not make you wait. CLP's own is a symmetric 1s —
+     set both of these to 1s for exact parity. */
+  --hdr-fade-out:.9s;
+  --hdr-fade-in:.45s;
 }
 *,*::before,*::after{box-sizing:border-box}
 /* IVORY CANVAS, 2026-08-04 — his call. Dragging past the top or the bottom
@@ -172,12 +178,31 @@ a{color:inherit}
   /* the bar spans the viewport but only its controls should catch clicks */
   pointer-events:none;
   border-bottom:1px solid transparent;
-  transition:translate .45s var(--ease),background-color .3s var(--ease),
+  transition:opacity var(--hdr-fade-in) var(--ease),background-color .3s var(--ease),
     border-color .3s var(--ease),padding .4s var(--ease);
 }
 .hdr > *{pointer-events:auto}
-/* smart header: gone on the first downward scroll, back on the first upward one */
-.hdr--hidden{translate:0 -110%}
+/* ══ THE BAR FADES IN PLACE — HIS ASK 2026-08-05, AND IT IS CLP'S BEHAVIOUR ═══
+   His words: "their navigation bar is not something that goes down or up, it
+   simply appears to be there, and when you scroll down it feels like it will
+   fade on its original place and then when you go up it will fade to the same
+   location — I think that's a kind of luxury".
+   ⚠️ VERIFIED ON THEIR LIVE SITE, not assumed: cliniquelaprairie.com's
+   `.c-page-header` computes to `transform:none` with `transition: … opacity 1s`.
+   They never translate the bar. It dissolves where it stands and resolves in the
+   same place. (Their scroll is hijacked by a custom scroller, so the page cannot
+   be driven programmatically — the computed styles are the evidence.)
+   What this replaces: `translate:0 -110%`, which slid the bar up out of frame.
+   Same JS trigger, same 240px threshold — only the property being animated
+   changed, so nothing in the scroll logic moved.
+   ⚠️ THE TWO DURATIONS ARE DELIBERATELY ASYMMETRIC, AND THIS IS A TASTE CALL HE
+   SHOULD CONFIRM. Fading OUT slowly is the luxury; fading IN slowly is just a
+   slow website — when you scroll up you WANT the nav, so it should not make you
+   wait. CLP runs a symmetric 1s. Exact parity is one value: set both to 1s.
+   ⚠️ No visibility/display juggling is needed and none should be added: `.hdr`
+   is already pointer-events:none and the rule below turns its children off, so
+   a fully faded bar cannot catch a click even though it is still in the layer. */
+.hdr--hidden{opacity:0;transition:opacity var(--hdr-fade-out) var(--ease)}
 .hdr--hidden > *{pointer-events:none}
 /* revealed mid-page it lands over unknown content, so it brings its own backdrop */
 /* the revealed bar is medi-blond's: near-opaque ivory over blur, hairline base */
@@ -732,6 +757,35 @@ main{position:relative}
   #s2::after{
     background:
       linear-gradient(to top,rgba(250,247,241,.675) 0%,rgba(250,247,241,.63) 34%,rgba(250,247,241,.54) 52%,rgba(250,247,241,.345) 64%,rgba(250,247,241,.105) 74%,rgba(250,247,241,0) 82%);
+  }
+}
+
+/* ══ CHAPTER 03 TURNS LIGHT-KEY — HIS CALL 2026-08-05 ════════════════════════
+   Same treatment as ch02, and it was measured before it shipped rather than
+   assumed to transfer. ⚠️ IT DOES NOT TRANSFER CLEANLY: THE TWO BREAKPOINTS
+   NEED DIFFERENT ALPHAS, which is the whole reason this block is not just a
+   second selector on ch02's rule. Worst line, darkest 2%, floors 3.0 / 4.5:
+       DESKTOP   100%  h2 10.31  body 5.69      PHONE  100%  h2 8.49  body 5.92
+                  75%  h2  9.27  body 5.38  ←SHIPPED       75%  h2 6.63  body 4.37 ✗
+                  50%  h2  8.32  body 4.68              50%  h2 5.02  body 3.11 ✗
+   Desktop clears at every level and takes 75% to sit consistently with ch02.
+   The PHONE fails at 75% — body 4.37 against a 4.5 floor — so it keeps the full
+   wash. The frame is tighter there and the copy has nowhere else to go.
+   ⚠️ Do not "tidy" these two to one number. 75% on a phone is a measured fail. */
+#s3 h2{color:var(--ink)}
+#s3 .body{color:rgba(46,34,40,.82)}
+#s3 .kicker{color:#6E5427}
+#s3 .kicker::after{background:linear-gradient(to right,#6E5427,transparent)}
+@media (min-width:900px){
+  #s3::after{
+    background:
+      linear-gradient(to right,rgba(250,247,241,.645) 0%,rgba(250,247,241,.57) 32%,rgba(250,247,241,.375) 44%,rgba(250,247,241,0) 52%);
+  }
+}
+@media (max-width:899px){
+  #s3::after{
+    background:
+      linear-gradient(to top,rgba(250,247,241,.90) 0%,rgba(250,247,241,.84) 34%,rgba(250,247,241,.72) 52%,rgba(250,247,241,.46) 64%,rgba(250,247,241,.14) 74%,rgba(250,247,241,0) 82%);
   }
 }
 /* ...and its own on desktop, for the reason #s6 has one: this is now a frame with
@@ -1963,7 +2017,7 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
 @media (max-width:899px){ .f-brand{align-self:start;align-items:flex-start} }
 .f-head{
   margin:0 0 1.1rem;font-size:.72rem;font-weight:500;
-  letter-spacing:.28em;text-transform:uppercase;color:var(--burgundy);
+  letter-spacing:.28em;text-transform:uppercase;color:var(--logo-red);
 }
 .f-news{width:22rem;max-width:100%}
 /* BIGGER, 2026-08-04 — his call, and his words kept. Offered three longer
@@ -1993,15 +2047,15 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
   font-family:var(--font-functional);font-size:.95rem;font-weight:400;
 }
 .f-news input::placeholder{color:rgba(106,88,95,.7)}
-.f-news input:focus-visible{outline:2px solid var(--burgundy);outline-offset:2px}
+.f-news input:focus-visible{outline:2px solid var(--logo-red);outline-offset:2px}
 .f-news button{
   -webkit-appearance:none;appearance:none;cursor:pointer;flex:none;
   height:2.75rem;padding:0 1.4rem;border:0;border-radius:var(--btn-radius);
-  background:var(--burgundy);color:var(--ivory);
+  background:var(--logo-red);color:var(--ivory);
   font-family:var(--sans);font-size:.68rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;
   transition:background .3s var(--ease);
 }
-.f-news button:hover{background:#471826}
+.f-news button:hover{background:#A33648}
 /* the contact column's chip row (his sketch, 2026-08-02): WhatsApp
    folds in from its old text link, email may fold in as an envelope
    chip (V1 vs V2 — HIS PICK PENDING, both elements in markup, one
@@ -2021,15 +2075,15 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
    put the colon on the wrong end of the line. Isolation is the fix, not
    direction:ltr, which would also drag the label out of the RTL flow. */
 .f-mail a{text-decoration:none;unicode-bidi:isolate;transition:color .25s var(--ease)}
-.f-mail a:hover{color:var(--burgundy)}
+.f-mail a:hover{color:var(--logo-red)}
 .f-social{display:flex;gap:.6rem;margin-top:1.1rem;flex-wrap:wrap}
 .f-social a{
   display:grid;place-content:center;width:2.75rem;height:2.75rem;
-  border-radius:999px;border:1px solid rgba(71,24,38,.28);color:var(--burgundy);
+  border-radius:999px;border:1px solid rgba(142,45,58,.30);color:var(--logo-red);
   transition:border-color .3s var(--ease),color .3s var(--ease),background-color .3s var(--ease);
   cursor:pointer;
 }
-.f-social a:hover{border-color:var(--burgundy);color:var(--ivory);background:var(--burgundy)}
+.f-social a:hover{border-color:var(--logo-red);color:var(--ivory);background:var(--logo-red)}
 .f-social svg{width:17px;height:17px}
 .f-base{
   margin-top:2rem;padding-top:1.4rem;
@@ -2045,10 +2099,10 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
   position:absolute;right:0;top:4.05rem;
   display:grid;place-content:center;
   width:3.05rem;height:3.05rem;border-radius:999px;
-  background:var(--burgundy);color:var(--ivory);
+  background:var(--logo-red);color:var(--ivory);
   transition:background .3s var(--ease);
 }
-.f-top:hover{background:#471826}
+.f-top:hover{background:#A33648}
 .f-top svg{width:18px;height:18px}
 @media (max-width:899px){ .f-top{top:0;right:0} }
 

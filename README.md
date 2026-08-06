@@ -1,43 +1,122 @@
-# Medi&#10022;X — full-bleed experiment
+# Medi✦X — Medi-Gyn Landing Experience
 
-A single static page for **medi-gyn**: **eight full-bleed chapters**, one
-photograph and one idea each. No framework, no build step —
-`index.html` + `images/` + `fonts/`. Live at **medi-x-gin.vercel.app**
-(Vercel tracks `main`; GitHub Pages mirror at `ayranxai.github.io/Medi-x/`).
+A single-page, full-bleed marketing site for **Medi-Gyn** (advanced women's
+hormone health, menopause and longevity medicine). Editorial magazine layout:
+eight full-viewport chapters, photographic plates, six languages.
 
-**`REPO_MAP.md` is the map**: what the page uses, what `archive/` holds and
-why, the working rules, and the open list. Session-to-session state lives in
-the `HANDOVER_*.md` files — start from `HANDOVER_NEXT_CHAT.md`.
+Live: https://medi-x-gin.vercel.app
 
-## Shape of the page
+## Architecture
 
-| # | chapter | frame |
-|---|---|---|
-| 01 | hero — the team | `hero-team-*` (photo, light-key ivory wash) |
-| 02 | about — the report | `about-report-*` |
-| 03 | the conversation | `consult-room-*` |
-| 04 | the pathways | 4-panel accordion, `path-01..04-*` |
-| 05 | meet the experts | `team-new-*` |
-| 06 | the tools | `products-glass-*` |
-| 07 | menoSTART | night gradient + canvas globe (no photo) |
-| 08 | voices / press | Madame Arabia still + press marquee + sponsor belt |
+The site is **one static HTML file with zero dependencies and no build step**.
 
-Each photographic chapter is a `<picture>`: AVIF + webp, a portrait source
-for `(max-width:899px) and (orientation:portrait)`, a wide frame for
-everything else. Copy reveals once per section; a ~26px parallax drift on
-the backgrounds runs **desktop only** (`min-width:900px`, motion-allowed) —
-guarded inside `frame()` itself, because iOS Safari fires `resize` on every
-toolbar collapse and must never reach the transform writer.
+```
+index.html      the entire site — markup, styles, scripts, translations
+fonts/          all typefaces, self-hosted (woff2)
+images/         photographic plates and logos (AVIF + WebP)
+  coverage/     press-feature cards (staged for a future section)
+  sponsors/     partner logos
+favicon.svg     brand monogram (favicon.ico for legacy browsers)
+```
 
-## Type / palette
+There is deliberately no framework, bundler or package manager: the page is a
+finished editorial artifact, and a single file keeps hosting trivial (any
+static host or CDN serves it as-is) and guarantees the design cannot drift
+through dependency updates.
 
-Playfair Display (editorial), Megante (wordmark), NOW (sans); Arabic,
-Chinese and Russian faces load per-language. Ivory `#FAF7F1`, burgundy
-`#5C1F31`, logo red `#8E2D3A`, ink `#2E2228`. Six languages via `data-i18n`
-(`HANDOVER_LANGUAGES.md`).
+## Running locally
 
-## Run / deploy
+Serve the folder over HTTP (fonts and AVIF need a server, not `file://`):
 
-Any static server for local work. Deploy = push to `main` (commit author
-must be `AyranxAi` or Vercel refuses the build). Fetch before building and
-again before pushing — the repo is edited from several places at once.
+```bash
+python3 -m http.server 8000
+```
+
+Then open `http://localhost:8000`.
+
+## Deployment
+
+Pushing to `main` auto-deploys via Vercel. The site is static output only —
+no environment variables, no server functions.
+
+## Typography
+
+Four faces, all self-hosted in `fonts/`:
+
+| Face | Role | Licence |
+|------|------|---------|
+| Playfair (variable, upright + italic) | Editorial headlines | SIL OFL 1.1 |
+| MediGyn NOW (300/400/500/700) | Functional text, buttons, body | Proprietary — Medi-Gyn brand |
+| MediGyn Megante | Chapter identifiers, chapter-08 title | Proprietary — Medi-Gyn brand |
+| Cormorant Garamond (italic) | Chapter-08 pull quotes | SIL OFL 1.1 |
+
+The Playfair/Cormorant `@font-face` blocks mirror Google Fonts' serving CSS,
+including `unicode-range` subsetting (latin, latin-ext, cyrillic — Russian
+headlines render in Playfair). Do not replace these with a Google Fonts
+`<link>`: self-hosting is what guarantees identical rendering on every
+network and satisfies EU privacy requirements.
+
+## Languages
+
+Six languages ship in `index.html` itself: English, Arabic (RTL), Simplified
+Chinese, French, German, Russian. Mechanics:
+
+- Strings live in inline dictionaries keyed by `data-i18n` attributes
+  (136 bound elements; also `data-i18n-aria/-alt/-ph/-content` for attributes).
+- The globe button switches language; the choice persists in `localStorage`.
+- Arabic flips `dir="rtl"` on the root — flex rows reverse automatically, so
+  only physical properties are restated in CSS. Arabic/Chinese/Russian body
+  faces load on demand from Google Fonts (the one remaining remote font path).
+- The English headline copy carries deliberate `<br>` lockups; other languages
+  wrap fluidly, and their line limits were derived per language — re-derive
+  before changing any headline's size or wording.
+
+## Images
+
+Every chapter plate ships as AVIF with WebP fallback via `<picture>`. Phones
+(`max-width: 899px`, portrait) receive dedicated portrait crops composed so the
+copy lands on calm regions of the photograph. Wide plates are ~2400px,
+portrait plates ~1400px, encoded at measured quality (PSNR-checked). When
+replacing a plate, keep the filename discipline: new name, never an overwrite,
+so CDN and browser caches can never serve a stale frame.
+
+## Design constants worth knowing before editing
+
+- Color tokens are defined once in `:root` (`--ivory`, `--cream`, `--burgundy`,
+  `--logo-red` — the red is sampled from the wordmark, not invented).
+- **Scrim and overlay alpha values are measured minimums, not taste.** The
+  gradient stops over photographs were tuned so copy clears WCAG contrast
+  floors (4.5:1 small text, 3:1 large) at the worst-case pixel of each plate.
+  Comments at each site record the measured values. Lightening a scrim
+  requires re-measuring against the actual plate.
+- Chapter sections size in `vh` (not `svh`/`dvh`) on purpose: on iOS, `vh` is
+  the large, static viewport, which prevents both the toolbar-collapse seam
+  and intra-chapter background pan.
+- The desktop parallax is gated to `min-width: 900px` and its frame writer is
+  guarded against iOS Safari's toolbar `resize` events — see the comment at
+  the guard before changing scroll or resize handling.
+- Buttons: one primary pill material (translucent brand red with backdrop
+  blur) plus three deliberate exceptions (hero secondary, chapter-07 globe,
+  chapter-08 press), each with its own measured rationale in the CSS.
+
+## Accessibility
+
+Interactive elements carry ARIA labels (translated per language), the pathway
+accordion is keyboard-operable, and `prefers-reduced-motion` disables the
+parallax. Contrast floors are treated as hard constraints (see above).
+
+<!-- repo-only -->
+## Development repository notes
+
+These folders are internal working material and are **not part of the
+distributable site** (a handover package excludes them):
+
+- `archive/` — source masters, retired plates, superseded variants, press
+  scans. Nothing in `index.html` references it.
+- `tools/` — internal asset-generation helpers.
+
+Operational: the Vercel project deploys commits authored by the repository
+owner account; verify a deploy via the commit status API rather than polling
+the production domain (bot protection rate-limits repeated requests). A
+GitHub Pages mirror of `main` serves as a secondary check.
+<!-- /repo-only -->

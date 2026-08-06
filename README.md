@@ -99,6 +99,18 @@ so CDN and browser caches can never serve a stale frame.
   blur) plus three deliberate exceptions (hero secondary, chapter-07 globe,
   chapter-08 press), each with its own measured rationale in the CSS.
 
+## Deliberately unwired controls
+
+Four controls are intentionally inert while their destinations are still being
+designed — do not "fix" them by pointing them at placeholder URLs:
+
+- **Book consultation** (header, chapter 01, chapter 03) — awaits the real
+  booking flow.
+- **Join menoSTART** (chapter 07) — awaits its programme destination.
+- **Hormone quiz** (chapter 01) — the feature is not yet built.
+- **Newsletter Join** — collects the address but is not yet connected to a
+  CRM (planned: Zoho, with source tracking).
+
 ## Accessibility
 
 Interactive elements carry ARIA labels (translated per language), the pathway

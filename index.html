@@ -35,16 +35,22 @@
       href="images/hero-team-phone-1424.avif" fetchpriority="high">
 <link rel="preload" as="image" type="image/avif" media="(min-width:900px),(orientation:landscape)"
       href="images/hero-team-wide-2400.avif" fetchpriority="high">
+<!-- The preconnects serve the LANGUAGE faces only (Arabic/Chinese/Russian body,
+     loaded on demand by the language switcher). Playfair and Cormorant are
+     SELF-HOSTED in fonts/ (2026-08-06) so every visitor renders identical type
+     regardless of network access to Google — see the @font-face blocks below. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- Playfair — the NEWER variable family, not Playfair Display — is the
-     editorial face (his call 2026-08-03). It is the one that carries an opsz
+     editorial face (2026-08-03). It is the one that carries an opsz
      axis AND a drawn upright/italic system, which is the whole reason for
      choosing it over GFS Didot: a real italic rather than a slanted upright.
      Held at weight 450 and a LOW opsz (30), which thickens the horizontal
      hairlines while keeping the Didot-like proportions — see the rule on
-     h1,h2. Cormorant still comes along for the chapter-08 pull quotes only. -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair:ital,opsz,wght@0,5..1200,300..900;1,5..1200,300..900&family=Cormorant+Garamond:ital,wght@1,300;1,500&display=swap" rel="stylesheet">
+     h1,h2. Cormorant still comes along for the chapter-08 pull quotes only.
+     Both faces are SIL OFL 1.1 — self-hosting is licence-clean. -->
+<link rel="preload" as="font" type="font/woff2" href="fonts/playfair-normal-var-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="fonts/playfair-italic-var-latin.woff2" crossorigin>
 <!-- favicon: medi-blond's mg monogram, copied verbatim from
      medi-gyn-app/app/icon.svg (one favicon across the family);
      the ico is the same artwork rasterised for older browsers -->
@@ -54,11 +60,14 @@
 <style>
 /* ── brand faces ────────────────────────────────────────────
    Playfair (variable) = editorial headlines, NOW = everything functional,
-   Megante = chapter identifiers and the chapter-08 title. NOW and Megante are
-   real files; Playfair comes from Google as a variable font (see the head).
-   ⚠️ DIDOT IS OUT (his call 2026-08-02) — the two woff2 files are still in
-   fonts/ and nothing references them. Delete them only when the swap is
-   signed off; getting them back means re-extracting from the brand PDF. */
+   Megante = chapter identifiers and the chapter-08 title,
+   Cormorant Garamond italic = chapter-08 pull quotes.
+   ALL FOUR are self-hosted in fonts/ (Playfair + Cormorant moved local
+   2026-08-06; the @font-face blocks below mirror Google's served CSS exactly,
+   including unicode-range subsetting — latin, latin-ext, cyrillic, cyrillic-ext.
+   Cyrillic stays because Russian headlines render in Playfair). The Cormorant
+   file is a variable font: both declared weights point at one file per subset,
+   exactly as Google serves it. */
 @font-face{font-family:"MediGyn NOW";src:url(fonts/medigyn-now-300.woff2) format("woff2");
   font-weight:300;font-style:normal;font-display:swap}
 @font-face{font-family:"MediGyn NOW";src:url(fonts/medigyn-now-400.woff2) format("woff2");
@@ -69,6 +78,70 @@
   font-weight:700;font-style:normal;font-display:swap}
 @font-face{font-family:"MediGyn Megante";src:url(fonts/medigyn-megante-400.woff2) format("woff2");
   font-weight:400;font-style:normal;font-display:swap}
+/* cyrillic-ext */
+@font-face{font-family:"Cormorant Garamond";font-style:italic;font-weight:300;
+  font-display:swap;src:url(fonts/cormorant-garamond-italic-cyrillic-ext.woff2) format("woff2");
+  unicode-range:U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F}
+/* cyrillic */
+@font-face{font-family:"Cormorant Garamond";font-style:italic;font-weight:300;
+  font-display:swap;src:url(fonts/cormorant-garamond-italic-cyrillic.woff2) format("woff2");
+  unicode-range:U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116}
+/* latin-ext */
+@font-face{font-family:"Cormorant Garamond";font-style:italic;font-weight:300;
+  font-display:swap;src:url(fonts/cormorant-garamond-italic-latin-ext.woff2) format("woff2");
+  unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+/* latin */
+@font-face{font-family:"Cormorant Garamond";font-style:italic;font-weight:300;
+  font-display:swap;src:url(fonts/cormorant-garamond-italic-latin.woff2) format("woff2");
+  unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+/* cyrillic-ext */
+@font-face{font-family:"Cormorant Garamond";font-style:italic;font-weight:500;
+  font-display:swap;src:url(fonts/cormorant-garamond-italic-cyrillic-ext.woff2) format("woff2");
+  unicode-range:U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F}
+/* cyrillic */
+@font-face{font-family:"Cormorant Garamond";font-style:italic;font-weight:500;
+  font-display:swap;src:url(fonts/cormorant-garamond-italic-cyrillic.woff2) format("woff2");
+  unicode-range:U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116}
+/* latin-ext */
+@font-face{font-family:"Cormorant Garamond";font-style:italic;font-weight:500;
+  font-display:swap;src:url(fonts/cormorant-garamond-italic-latin-ext.woff2) format("woff2");
+  unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+/* latin */
+@font-face{font-family:"Cormorant Garamond";font-style:italic;font-weight:500;
+  font-display:swap;src:url(fonts/cormorant-garamond-italic-latin.woff2) format("woff2");
+  unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+/* cyrillic-ext */
+@font-face{font-family:"Playfair";font-stretch:100%;font-style:italic;font-weight:300 900;
+  font-display:swap;src:url(fonts/playfair-italic-var-cyrillic-ext.woff2) format("woff2");
+  unicode-range:U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F}
+/* cyrillic */
+@font-face{font-family:"Playfair";font-stretch:100%;font-style:italic;font-weight:300 900;
+  font-display:swap;src:url(fonts/playfair-italic-var-cyrillic.woff2) format("woff2");
+  unicode-range:U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116}
+/* latin-ext */
+@font-face{font-family:"Playfair";font-stretch:100%;font-style:italic;font-weight:300 900;
+  font-display:swap;src:url(fonts/playfair-italic-var-latin-ext.woff2) format("woff2");
+  unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+/* latin */
+@font-face{font-family:"Playfair";font-stretch:100%;font-style:italic;font-weight:300 900;
+  font-display:swap;src:url(fonts/playfair-italic-var-latin.woff2) format("woff2");
+  unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+/* cyrillic-ext */
+@font-face{font-family:"Playfair";font-stretch:100%;font-style:normal;font-weight:300 900;
+  font-display:swap;src:url(fonts/playfair-normal-var-cyrillic-ext.woff2) format("woff2");
+  unicode-range:U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F}
+/* cyrillic */
+@font-face{font-family:"Playfair";font-stretch:100%;font-style:normal;font-weight:300 900;
+  font-display:swap;src:url(fonts/playfair-normal-var-cyrillic.woff2) format("woff2");
+  unicode-range:U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116}
+/* latin-ext */
+@font-face{font-family:"Playfair";font-stretch:100%;font-style:normal;font-weight:300 900;
+  font-display:swap;src:url(fonts/playfair-normal-var-latin-ext.woff2) format("woff2");
+  unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+/* latin */
+@font-face{font-family:"Playfair";font-stretch:100%;font-style:normal;font-weight:300 900;
+  font-display:swap;src:url(fonts/playfair-normal-var-latin.woff2) format("woff2");
+  unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
 :root{
   --ivory:#FAF7F1; --cream:#F4EDE1; --line:#DED4C2;
   --burgundy:#5C1F31; --rose:#C79A92;

@@ -1543,51 +1543,44 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
 .pw__panel[data-active="false"].hov .pw__img,
 .pw__panel[data-active="false"].kfoc .pw__img{filter:brightness(.94)}
 
-/* ══ THE PATHWAY SCRIMS ARE A9 RED NOW — HIS CALL 2026-08-05 ═════════════════
-   "I want the original style that the scrim is on the bottom, but please use
-   the red that we have, the A9." So every shape below is UNCHANGED and only the
-   ink moved, #471826 -> #8E2D3A.
-   ⚠️ THE ALPHAS COULD NOT COME ACROSS VERBATIM, AND THAT IS THE WHOLE POINT OF
-   THIS NOTE. #8E2D3A is materially lighter than #471826, so at the source alphas
-   the copy fell through its floor. Measured on the real panels, worst of four,
-   ivory copy vs the composited ground (12px number needs 4.5):
-       source alphas (.92/.88/.64/.30/.12/.08)   name 4.60   number 3.44  FAIL
-       +6pts                                     name 5.39   number 4.15  FAIL
-       SHIPPED (.985/.96/.79/.43/.19/.12)        name 5.79   number 4.52  OK
-       +12pts (deepest tried)                    name 6.19   number 4.95  OK
-   He asked for "A9 red lighter by a little bit" off the deepest, and the value
-   above is the lightest step that still clears — one notch lighter measured 4.34.
-   ⚠️ LIGHTENING THE RED ITSELF WAS TESTED AND FAILS AT EVERY STEP: #9E3343 4.40,
-   #AE3B4D 3.87, #BE4457 3.39. Depth is the only lever that works here.
-   The three other scrims are lifted proportionally so the open state matches. */
+/* ══ PATHWAY SCRIMS — BURGUNDY #5C1F31, ORIGINAL ALPHA GEOMETRY (2026-08-06) ═══
+   The scrim ink is the brand token --burgundy at the section's original alpha
+   stops (the airy set). Measured on the real panels, ivory copy vs the
+   composited ground, worst-2% pixel per element, floor 4.5:
+     desktop worst-of-four   name 6.65   number 5.67
+     phone   worst-of-four   name 4.63   number 7.41
+   These alphas are MINIMUMS for this ink on these photographs. Lightening any
+   stop, brightening the ink, or replacing a panel photo requires re-measuring
+   (brightest plate governs). A lighter red was previously tried here and
+   failed the floor at every step — depth, not hue, is the working lever. */
 .pw__scrim{position:absolute;inset:0;transition:opacity var(--pw-scrim-ms) var(--pw-ease)}
 .pw__scrim[data-show="false"]{opacity:0}
 .pw__scrim--closed{
   background:
-    linear-gradient(to right,rgba(142,45,58,.72) 0%,rgba(142,45,58,.66) 52%,rgba(142,45,58,0) 96%),
-    linear-gradient(to top,rgba(142,45,58,.46) 0%,rgba(142,45,58,.35) 100%);
+    linear-gradient(to right,rgba(92,31,49,.66) 0%,rgba(92,31,49,.6) 52%,rgba(92,31,49,0) 96%),
+    linear-gradient(to top,rgba(92,31,49,.4) 0%,rgba(92,31,49,.3) 100%);
 }
 @media (min-width:1024px){
   .pw__scrim--closed{
     background:linear-gradient(to top,
-      rgba(142,45,58,.985) 0,rgba(142,45,58,.96) 180px,rgba(142,45,58,.79) 300px,
-      rgba(142,45,58,.43) 420px,rgba(142,45,58,.19) 540px,rgba(142,45,58,.12) 100%);
+      rgba(92,31,49,.92) 0,rgba(92,31,49,.88) 180px,rgba(92,31,49,.64) 300px,
+      rgba(92,31,49,.3) 420px,rgba(92,31,49,.12) 540px,rgba(92,31,49,.08) 100%);
   }
 }
 .pw__panel[data-active="false"].hov .pw__scrim--closed,
 .pw__panel[data-active="false"].kfoc .pw__scrim--closed{opacity:.8}
 .pw__scrim--open{
   background:linear-gradient(to top,
-    rgba(142,45,58,.98) 0,rgba(142,45,58,.96) 150px,rgba(142,45,58,.91) 250px,
-    rgba(142,45,58,.72) 300px,rgba(142,45,58,.36) 350px,rgba(142,45,58,.10) 400px,
-    rgba(142,45,58,0) 440px);
+    rgba(92,31,49,.95) 0,rgba(92,31,49,.92) 150px,rgba(92,31,49,.86) 250px,
+    rgba(92,31,49,.66) 300px,rgba(92,31,49,.32) 350px,rgba(92,31,49,.08) 400px,
+    rgba(92,31,49,0) 440px);
 }
 @media (min-width:1024px){
   .pw__scrim--open{
     background:linear-gradient(to top,
-      rgba(142,45,58,.98) 0,rgba(142,45,58,.95) 150px,rgba(142,45,58,.88) 280px,
-      rgba(142,45,58,.67) 360px,rgba(142,45,58,.34) 440px,rgba(142,45,58,.10) 510px,
-      rgba(142,45,58,0) 570px);
+      rgba(92,31,49,.95) 0,rgba(92,31,49,.9) 150px,rgba(92,31,49,.82) 280px,
+      rgba(92,31,49,.6) 360px,rgba(92,31,49,.3) 440px,rgba(92,31,49,.08) 510px,
+      rgba(92,31,49,0) 570px);
   }
 }
 

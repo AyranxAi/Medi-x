@@ -95,6 +95,9 @@ readme = (ROOT / "README.md").read_text()
 readme = re.sub(r'<!-- repo-only -->.*?<!-- /repo-only -->\n?', "", readme, flags=re.S).rstrip() + "\n"
 (STAGE / "README.md").write_text(readme)
 
+shutil.copy2(ROOT / "BRAND.md", STAGE / "BRAND.md")
+shutil.copytree(ROOT / "LICENSES", STAGE / "LICENSES")
+
 for rel in files:
     dest = STAGE / rel
     dest.parent.mkdir(parents=True, exist_ok=True)

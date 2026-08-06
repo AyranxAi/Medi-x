@@ -883,6 +883,15 @@ html[lang="en"] #s2 h2{white-space:nowrap}
 #s2 .body{color:rgba(46,34,40,.82)}
 #s2 .kicker{color:#6E5427}
 #s2 .kicker::after{background:linear-gradient(to right,#6E5427,transparent)}
+/* ≤1399px the body column ends at 28em, 2026-08-06 — measured, same move as
+   chapter 1's narrow-screen measure. At 1280 the full column's right edge
+   reached 51.5% of the viewport, past the ivory wash's 52% end stop, so the
+   last words sat on bare photograph at 3.32:1 (floor 4.5). Deepening the wash
+   was measured near-useless (3.2→3.5 at +45%): text past a gradient's edge
+   needs a shorter column, not more alpha. At 28em the edge lands at 46%,
+   inside the wash: worst-2% 5.60. 30em just misses (4.46). Wider screens
+   already pass (5.59 at 1440) and are untouched. */
+@media (max-width:1399px){ #s2 .body{max-width:28em} }
 @media (min-width:900px){
   #s2::after{
     background:
@@ -1067,7 +1076,10 @@ html[lang="en"] #s2 h2{white-space:nowrap}
      Playfair at 6.609 gives 106px; 103.2px is the value below, leaving 22px.
      Re-derive it, never carry it over. Ratios are in the h1,h2 block. */
   #s1 h1{font-size:clamp(4.94rem,5.43vw,5.93rem)}
-  #s2 h2,#s3 h2,#s5 h2,#s6 h2{font-size:clamp(4.19rem,4.62vw,5.1rem)}
+  /* max 4.5rem (72px), 2026-08-06: the old 5.1rem ceiling let large monitors
+     reach 82px — measured against the luxury field (CLP 48–54, VIVAMAYR 72,
+     Montecito headings 49), 72 is the peers' upper bound. ≤1440 unchanged. */
+  #s2 h2,#s3 h2,#s5 h2,#s6 h2{font-size:clamp(4.19rem,4.62vw,4.5rem)}
   /* the buttons grow with the type they sit under. They are the one control
      that does not depend on the photograph — the wash and hairline carry
      themselves — so this is a proportion decision, not a contrast one. */

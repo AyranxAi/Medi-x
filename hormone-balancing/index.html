@@ -485,10 +485,25 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
 .scene-glow{position:absolute;right:-22vw;top:-26vh;width:72vw;height:72vw;border-radius:50%;pointer-events:none;
   background:radial-gradient(circle,rgba(92,31,49,.38) 0%,rgba(46,34,40,0) 62%)}
 .scene-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+/* THE SYMPTOMS ARE PLATE ANNOTATIONS NOW, NOT CHIPS — his note 2026-08-10: they were
+   "not that big and obvious". 16px→34px is the answer to that, and the frosted pill is
+   what the answer costs. A pill scaled to hold 34px type becomes a BUTTON, and eight
+   buttons ringing a body read as an interface, not a diagnosis; the word alone, with a
+   hairline reaching to it, is the anatomical-plate language this scene was always after.
+   Tracking drops .04em→.005em for the same reason the landing bar's kicker runs .16em
+   where Inter ran .3em: Megante is a wide flared face and needs less of it at size.
+   The shadow is the only job of the pill that survived — it separates the word from the
+   particle field where the two overlap, and is invisible against flat ink everywhere else.
+   ⚠️ THE TETHER GEOMETRY DEPENDS ON THIS. With no pill to hide under, the line has to stop
+   at the word's edge or it draws straight through the letters — the scene script measures
+   offsetWidth and ends the tether at halfW + TERM_GAP. Restoring the pill here means
+   setting TERM_GAP to 0 there, or the ring terminal floats away from the word.
+   Revert to the pill: border:1px solid rgba(250,247,241,.26);border-radius:999px;
+   padding:10px 22px;background:rgba(46,34,40,.4);backdrop-filter:blur(6px). */
 .scene-label{position:absolute;left:0;top:0;opacity:0;will-change:transform,opacity;white-space:nowrap;
-  font-family:var(--quote);font-size:clamp(12px,1.3vw,16px);letter-spacing:.04em;color:rgba(250,247,241,.95);
-  border:1px solid rgba(250,247,241,.26);border-radius:999px;padding:10px 22px;
-  background:rgba(46,34,40,.4);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+  font-family:var(--quote);font-size:clamp(21px,2.35vw,34px);line-height:1.1;letter-spacing:.005em;
+  color:rgba(250,247,241,.97);
+  text-shadow:0 1px 16px rgba(46,34,40,.9),0 0 38px rgba(46,34,40,.72)}
 .scene-answer{position:absolute;left:0;top:0;opacity:0;white-space:nowrap;display:flex;gap:12px;align-items:baseline;
   font-family:var(--serif);font-size:clamp(14px,1.6vw,22px);color:var(--scene-fg)} /* they persist onto the ivory dawn */
 .scene-answer .star{color:var(--gold);font-size:.7em}
@@ -515,8 +530,27 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
 .scene-solo .scene-track{height:100svh}
 @media (max-width:760px){
   .scene-track{height:460vh}
-  .scene-label{font-size:11px;padding:7px 14px;background:rgba(46,34,40,.55);backdrop-filter:none;-webkit-backdrop-filter:none}
+  /* 11px→~18px at 390, ~20px at 430. The old phone rule SHRANK the label, because eight
+     long phrases could only survive as centred rows above and below the body — precisely
+     the stacking he rejected. Two-word labels flank the figure instead (slots are
+     edge-pinned in the scene script), so the phone gets the big type rather than a
+     reduction of it. Against the 11px it replaces this is ~1.6×, and against the screen
+     it sits on it is ~4.6% of the width where desktop's 34px is 2.4% — the phone now
+     carries the MORE emphatic type of the two, which is where the complaint came from.
+     ⚠️ THE CEILING IS MEASURED, NOT CHOSEN. A phone label is pinned to its own frame
+     edge, so what it leaves is W/2 − EDGE − width − (silhouette half-width at that
+     height, .139·figH out at the arms). The widest word is "Mood swings" — wider than
+     "Erratic cycles" in this face — at ~6.3× the font size. Solving that for a real gap
+     gives 17.5px at 360, 18.1px at 390, 21px at 430: almost exactly 4.6vw, which is why
+     this is a vw clamp and not a breakpoint step. Measured clearance runs 13–21px across
+     360/390/430. Raising the cap means shortening that word or narrowing the body. */
+  .scene-label{font-size:clamp(16px,4.6vw,20px)}
+  /* Stays at 12%. Tried 10% to buy the labels room at the top, and gave it back: the
+     figure is derived now, so the copy already clears the first label by 85px at 360×640
+     — its tightest case — while 10% left only 2px between the copy's first line and the
+     phase indicator, which is right-aligned across the same band. */
   .scene-copy{top:12%}
+  .scene-answer{font-size:16px} /* they were 14px flanking nothing; they get the band below the figure now */
   .scene-phase{top:calc(max(1rem,env(safe-area-inset-top)) + 2.2rem)}
 }
 
@@ -633,15 +667,26 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
         <div class="scene-stage">
           <div class="scene-glow" aria-hidden="true"></div>
           <canvas class="scene-canvas" aria-hidden="true"></canvas>
+          <!-- HIS CALL 2026-08-10: "the symptoms are not that big and obvious… more not
+               wordy, like 2 words max — low libido, no energy, somethings like this".
+               So every phrase collapsed to one or two words. This is not only a length
+               cut, it is what lets the type double in size and the phones use their
+               SIDES: at ~34px the old "a body that stopped answering the gym" was 500px
+               wide and could only live at the screen edge. Two words fit beside a body.
+               ⚠️ ORDER IS LOAD-BEARING, TWICE OVER — the release cuts these one by one in
+               DOM order (rel(i) in the scene script), and the slots run head→pelvis down
+               the figure, so the story unzips downward. Re-order these and the tethers
+               cross and the descent breaks. The matching chips in .scene-fallback below
+               carry the same eight words in the same order. -->
           <div class="scene-labels" aria-hidden="true">
-            <span class="scene-label">waking at 3am, wide awake</span>
-            <span class="scene-label">fog in the middle of a sentence</span>
-            <span class="scene-label">cycles you can't predict anymore</span>
-            <span class="scene-label">energy that ends by noon</span>
-            <span class="scene-label">moods that arrive uninvited</span>
-            <span class="scene-label">a body that stopped answering the gym</span>
-            <span class="scene-label">desire on mute</span>
-            <span class="scene-label">running hot, then cold, then hot</span>
+            <span class="scene-label">3am again</span>
+            <span class="scene-label">Brain fog</span>
+            <span class="scene-label">Hot flashes</span>
+            <span class="scene-label">Mood swings</span>
+            <span class="scene-label">No energy</span>
+            <span class="scene-label">Weight gain</span>
+            <span class="scene-label">Erratic cycles</span>
+            <span class="scene-label">Low libido</span>
           </div>
           <div class="scene-answers" aria-hidden="true">
             <span class="scene-answer"><i class="star">✦</i> Mornings you look forward to</span>
@@ -676,15 +721,19 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
             If you've been told it's <em>just stress</em>, <em>just age</em>,
             <em>just hormones</em> — we beg to differ.
           </p>
+          <!-- The same eight words as the scene, in the same order: reduced-motion and
+               no-JS visitors get the identical vocabulary, not a second draft of it.
+               The poetry the chips used to carry now lives one paragraph down, where
+               length costs nothing. -->
           <div class="chips" data-chips>
-            <span class="chip">waking at 3am, wide awake</span>
-            <span class="chip">fog in the middle of a sentence</span>
-            <span class="chip">cycles you can't predict anymore</span>
-            <span class="chip">energy that ends by noon</span>
-            <span class="chip">moods that arrive uninvited</span>
-            <span class="chip">a body that stopped answering the gym</span>
-            <span class="chip">desire on mute</span>
-            <span class="chip">running hot, then cold, then hot</span>
+            <span class="chip">3am again</span>
+            <span class="chip">Brain fog</span>
+            <span class="chip">Hot flashes</span>
+            <span class="chip">Mood swings</span>
+            <span class="chip">No energy</span>
+            <span class="chip">Weight gain</span>
+            <span class="chip">Erratic cycles</span>
+            <span class="chip">Low libido</span>
           </div>
           <p class="signals-close" data-reveal>
             These aren't character flaws, and they aren't the end of anything.
@@ -1174,6 +1223,8 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
 
   const mobile = matchMedia("(max-width:760px)").matches;
   const fine   = matchMedia("(pointer:fine)").matches && !mobile;
+  const EDGE     = mobile?16:26;  /* frame margin a label may never cross — 16 answers to the page's own 20px phone gutter */
+  const TERM_GAP = 12;            /* air between the word and its tether's ring terminal — 0 restores pill-era geometry */
 
   const INK=[46,34,40], IVORY=[250,247,241], STONE=[168,152,153], GOLD=[194,160,94]; /* rose-grey, not cold stone */
   const ss=(a,b,x)=>{x=Math.max(0,Math.min(1,(x-a)/(b-a)));return x*x*(3-2*x)};
@@ -1201,16 +1252,45 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
     let t=L2?((x-c[0])*dx+(y-c[1])*dy)/L2:0;t=Math.max(0,Math.min(1,t));
     return Math.hypot(x-(c[0]+dx*t),y-(c[1]+dy*t))-c[4];}
 
-  /* per label: [slotX, slotY (stage fractions), anchorX, anchorY (figure space)] */
-  const CFG = mobile ? [
-    [.5,.23, .006,.028],[.5,.288, .096,.205],[.5,.346,-.093,.198],[.5,.404, 0,.27],
-    [.5,.835,-.103,.53],[.5,.88, .115,.535],[.5,.925, 0,.515],[.5,.97, .045,.505]
-  ] : [
-    [.13,.30, .006,.028],[.87,.28, .096,.205],[.09,.52,-.05,.49],[.90,.50, .045,.505],
-    [.16,.74,-.103,.53],[.84,.72, .115,.535],[.34,.86, 0,.515],[.66,.88, 0,.27]
+  /* per label: [side (-1 left / +1 right), slotY as a fraction of FIGURE height from
+     figTop, anchorX, anchorY (figure space)].
+     ⚠️ THE SLOTS HANG OFF THE FIGURE NOW, NOT THE VIEWPORT — this replaces stage
+     fractions on both breakpoints, and it is what fixes the two things he named.
+       · Phones: the old table put all eight at x .5 — four centred rows above the body,
+         four below ("too vertically stacked, not using the sides"). Sides alternate
+         strictly L,R,L,R… and each slot is pinned flush to its screen edge, so the body
+         keeps the middle and the tethers zigzag into it instead of running through it.
+       · Desktop: the old .09/.90 columns were viewport fractions, so a 2560px monitor
+         parked the words 900px from the body they belong to and the tethers became
+         near-horizontal rules across dead space. Offset from centre is capped at
+         figH*.66 (the `spread` term in update()), so the plate composes IDENTICALLY at
+         1440, 1920 and 2560 — measured body clearance is 169–216px at all three, the
+         same principle as the landing page's "big monitors stop shouting".
+     Sides also govern the ANCHORS: a left slot only ever tethers to a left-of-spine
+     point, so no line crosses the body. Anchors sit just inside the silhouette edge —
+     reaching into the body, not stopping politely at it.
+     Slot Y trails its anchor Y down the figure, so every tether reads as a short
+     outward descent rather than a long diagonal across the legs. */
+  const CFG = [
+    [-1,.02, -.032,.050],   /* 3am again      → head, left      */
+    [ 1,.10,  .036,.088],   /* Brain fog      → head, right     */
+    [-1,.23, -.078,.192],   /* Hot flashes    → neck/shoulder L */
+    [ 1,.32,  .068,.248],   /* Mood swings    → chest, right    */
+    [-1,.45, -.062,.332],   /* No energy      → chest/core L    */
+    [ 1,.58,  .040,.428],   /* Weight gain    → waist, right    */
+    [-1,.72, -.070,.500],   /* Erratic cycles → pelvis, left    */
+    [ 1,.84,  .066,.508]    /* Low libido     → pelvis, right   */
   ];
-  /* the good things: a quiet ring around the freed figure — they arrive AFTER release and stay */
-  const ANS = mobile ? [[.5,.29],[.5,.345],[.5,.865],[.5,.92]] : [[.22,.36],[.78,.33],[.20,.72],[.80,.75]];
+  /* the good things: a quiet ring around the freed figure — they arrive AFTER release and stay.
+     [side, slotY as a fraction of figure height]. Desktop flanks him, two high two low.
+     Phones can't: these are SENTENCES, not two-word labels, and at 390px a flanking
+     answer lands on the body. They take the band the figure leaves below instead —
+     measured per device in update(), so a 640px phone and a 932px phone both get even
+     rhythm rather than a fixed fraction that collides on one of them.
+     That band runs to H-44 rather than to the "Scroll to listen" hint: the hint is fully
+     faded by p .10 and these arrive at p .80, so it is not there to collide with. 44 is
+     the home-indicator gutter (the page is viewport-fit=cover). */
+  const ANS = [[-1,.06],[1,.02],[-1,.66],[1,.74]];
   const rel = i => .56 + i*.0275;                     /* eight cuts, one by one */
   /* narrative beats: [in, out] progress (out>1 = holds to the end) — long holds, nothing rushed */
   const SCHED=[[.05,.17],[.185,.31],[.32,.42],[.43,.49],[.49,.555],[.575,.70],[.79,.875],[.88,.945],[.955,9]];
@@ -1223,15 +1303,28 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
     if(!W||!H) return;
     DPR=Math.min(devicePixelRatio||1,1.5);
     canvas.width=Math.round(W*DPR); canvas.height=Math.round(H*DPR);
-    figH=Math.min(H*(mobile?.38:.60), mobile?315:540);
-    figTop=H*(mobile?.44:.32); cx=W/2;
+    /* Phones: 315→380px tall, sitting at .30 of the viewport instead of .44. The old
+       figure was small and LOW because it had to survive four rows of stacked labels
+       above it; the sides carry those now, so the height is free and the body can be
+       what the scene is actually about.
+       ⚠️ THE PHONE HEIGHT IS DERIVED, NOT PICKED. The third term reserves 150px under
+       the figure for the ✦ answers — they are sentences, they can only live below him
+       on a phone (see ANS), and on a 640px screen a fixed fraction makes the body and
+       the payoff fight for the same band. Deriving it means a 640 and a 932 phone each
+       give the figure whatever is genuinely spare, and neither collides.
+       The 380 cap is the OTHER half of the trade: the silhouette's widest reach is its
+       arms at .139 of figH, and every px of figure width comes off the label beside it
+       on a 390px screen. 380 is the largest body that still leaves the widest word
+       ("Mood swings") a real gap. Raising it means dropping the phone type. */
+    figH=mobile ? Math.min(H*.48, 380, H-H*.30-150) : Math.min(H*.60, 540);
+    figTop=H*(mobile?.30:.32); cx=W/2;
     /* v1 soft-scatter, developed: particles live ON the skeleton's capsules and stream
        through the body — no rim tracing, no light bias, just a breathing silhouette of current */
     segs=CAPS.map(c=>{const dx=c[2]-c[0],dy=c[3]-c[1];const len=Math.hypot(dx,dy);
       const circ=len<1e-4;const ux=circ?1:dx/len,uy=circ?0:dy/len;
       return {x1:c[0],y1:c[1],ux,uy,nx:-uy,ny:ux,len,r:c[4],circ,w:circ?c[4]*c[4]*2.4:len*c[4]*2};});
     const totW=segs.reduce((a,s)=>a+s.w,0);
-    const N=mobile?1400:2600;
+    const N=mobile?2000:2600;  /* the phone silhouette grew ~45% in area — density held, not thinned out */
     buckets=Array.from({length:6},(_,q)=>({shade:(q+.5)/6,pts:[]}));
     haloPts=[];
     for(let made=0;made<N;made++){
@@ -1248,6 +1341,11 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
   }
   build();
   addEventListener("resize", build);
+  /* ⚠️ REQUIRED, not belt-and-braces: placement is now DERIVED from these measurements —
+     a slot's x is the screen edge minus the word's own half-width. Measure before Megante
+     arrives and every label is laid out to a fallback face's metrics and sits wrong for
+     the rest of the session. The page already waits on this promise for SplitText. */
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(build);
 
   /* particle position in unit figure space: [x, y, endFade] — the current streams toward head and heart */
   function posOf(pt){
@@ -1298,14 +1396,24 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
 
     /* tethered labels — deterministic drift + parallax + staggered release */
     for(let i=0;i<8;i++){
-      const cfg=CFG[i], wob=(mobile?.4:1)*damp; /* phones: calm drift so the stacked rows never kiss */
-      let x=W*cfg[0]+Math.sin(t*.33+i*1.7)*11*wob+Math.sin(t*.19+i*3.1)*6*wob;
-      let y=H*cfg[1]+Math.cos(t*.27+i*2.3)*9*wob+Math.cos(t*.15+i*2.9)*5*wob;
+      const cfg=CFG[i], side=cfg[0];
+      /* Phones pin each word flush to its own screen edge: that IS the most room a 390px
+         viewport has to give, and it is what keeps the middle for the body. Desktop holds
+         it at figH*.66 from centre so the plate never spreads with the monitor — the
+         floor below that clears the silhouette when a narrow laptop makes .66 too small. */
+      const spread = mobile
+        ? W*.5-halfW[i]-EDGE
+        : Math.max(figH*.14+halfW[i]+22, Math.min(figH*.66, W*.5-halfW[i]-EDGE));
+      /* phones drop the horizontal drift outright — a word pinned to the edge that also
+         wanders sideways either clips the frame or walks onto the figure. Breath stays vertical. */
+      const wobX=(mobile?0:1)*damp, wobY=(mobile?.45:1)*damp;
+      let x=cx+side*spread+Math.sin(t*.33+i*1.7)*11*wobX+Math.sin(t*.19+i*3.1)*6*wobX;
+      let y=figTop+figH*cfg[1]+Math.cos(t*.27+i*2.3)*9*wobY+Math.cos(t*.15+i*2.9)*5*wobY;
       if(fine){const d=.55+((i*.37)%1)*.75; x+=smx*26*d; y+=smy*15*d;}
       const rK=eoc(ss(rel(i),rel(i)+.10,p));
       y-=rK*70;                     /* the released label sighs upward and dissolves */
-      x+=rK*(i%2?12:-12);
-      x=Math.max(halfW[i]+10,Math.min(W-halfW[i]-10,x));
+      x+=rK*side*12;                /* …drifting a little further out as it goes */
+      x=Math.max(halfW[i]+EDGE,Math.min(W-halfW[i]-EDGE,x));
       const a=ss(.03+i*.012,.11+i*.012,p)*(1-ss(rel(i)+.01,rel(i)+.07,p));
       const el=labels[i];
       el.style.transform=`translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) translate(-50%,-50%)`;
@@ -1314,11 +1422,21 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
       lpos[i]=[x,y,a];
     }
 
-    /* ✦ the good things arrive once he's free — and they stay, floating around him */
+    /* ✦ the good things arrive once he's free — and they stay, floating around him.
+       Phones take the band the figure leaves below, measured live: a 640px phone and a
+       932px phone both get even rhythm, where a fixed stage fraction collided on one. */
+    const ansTop=figTop+figH+26, ansStep=Math.max(26,(H-44-ansTop)/3);
     answers.forEach((el,j)=>{
       const a=ss(.80+j*.022,.85+j*.022,p);
-      let x=W*ANS[j][0]+Math.sin(t*.22+j*2.1)*9;
-      const y=H*ANS[j][1]+Math.cos(t*.18+j*1.7)*7+(1-a)*18;
+      let x,y;
+      if(mobile){
+        x=cx+Math.sin(t*.22+j*2.1)*5;
+        y=ansTop+ansStep*j+Math.cos(t*.18+j*1.7)*4+(1-a)*16;
+      }else{
+        const sp=Math.min(figH*.78, W*.5-aHalfW[j]-26);   /* flanks him, and stops flanking wider on a 32" */
+        x=cx+ANS[j][0]*sp+Math.sin(t*.22+j*2.1)*9;
+        y=figTop+figH*ANS[j][1]+Math.cos(t*.18+j*1.7)*7+(1-a)*18;
+      }
       x=Math.max(aHalfW[j]+10,Math.min(W-aHalfW[j]-10,x));
       el.style.transform=`translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) translate(-50%,-50%)`;
       el.style.opacity=a.toFixed(3);
@@ -1344,7 +1462,13 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
       const L=lpos[i]; if(!L) continue;
       const ax=fx0+CFG[i][2]*figH, ay=figTop+CFG[i][3]*figH;
       const cutK=ss(rel(i),rel(i)+.06,p);
-      const ex=mix(L[0],ax,eoc(cutK)), ey=mix(L[1],ay,eoc(cutK));
+      /* ⚠️ The tether stops at the WORD'S INNER EDGE, not its centre. Under the old pill
+         it could run to the centre because the frosted ground hid the last 100px of it;
+         bare type has nothing to hide behind, and a line through the letters is the one
+         thing that would make big labels look worse than small ones. CFG[i][0] is the
+         slot's side, so subtracting it walks back toward the figure from either column. */
+      const tx=L[0]-CFG[i][0]*(halfW[i]+TERM_GAP);
+      const ex=mix(tx,ax,eoc(cutK)), ey=mix(L[1],ay,eoc(cutK));
       const aL=.5*(1-cutK)*Math.min(1,L[2]*1.4);
       const mqx=(ax+ex)/2, mqy=(ay+ey)/2+sag;
       if(aL>.004){
@@ -1354,8 +1478,8 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
       }
       if(p>.43 && p<.575 && cutK<1){      /* gold pulse: label → body (the body, listening) */
         const q=(t*.42+i*.127)%1, s=1-q;
-        const px=(1-s)*(1-s)*ax+2*(1-s)*s*mqx+s*s*L[0];
-        const py=(1-s)*(1-s)*ay+2*(1-s)*s*mqy+s*s*L[1];
+        const px=(1-s)*(1-s)*ax+2*(1-s)*s*mqx+s*s*ex;   /* the pulse rides the curve that is actually drawn */
+        const py=(1-s)*(1-s)*ay+2*(1-s)*s*mqy+s*s*ey;
         const pa=ss(.43,.46,p)*(1-ss(.545,.575,p))*ss(0,.08,q)*(1-ss(.92,1,q));
         if(pa>.01){ ctx.fillStyle=rgba(GOLD,pa*.9); ctx.beginPath(); ctx.arc(px,py,2.3,0,6.283); ctx.fill(); }
       }

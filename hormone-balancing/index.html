@@ -293,12 +293,12 @@ section{position:relative}
 .turn-glow{position:absolute;right:-18vw;top:-20vh;width:60vw;height:60vw;border-radius:50%;
   background:radial-gradient(circle,rgba(199,154,146,.16) 0%,rgba(92,31,49,0) 62%);pointer-events:none}
 
-/* ─── ONE DOOR MATERIAL, SHARED BY 03 AND 04 — NEW 2026-08-11 ────────────────
+/* ─── THE DOOR MATERIAL, USED BY THE CONSULTATION DOORS — NEW 2026-08-11 ─────
    The primary red pill still exists, and it still means "book". THIS means "go
-   and read", and the distinction is the whole point of the rebuild below: this
-   page is an introduction whose job is to route to the service pages (his
-   framing, 2026-08-11), and a directory built out of primary CTAs reads as three
-   sales rather than three doors. One material, used wherever the page hands off. */
+   and read": a directory built out of primary CTAs reads as three sales rather
+   than three doors. Used by the three consultation doors only — section 03 used
+   to share it, until his correction that this page IS the BHRT intro and has
+   nowhere to hand off to. One material, wherever the page routes. */
 .link-arrow{
   display:inline-flex;align-items:center;gap:11px;
   font-family:var(--sans);font-weight:500;font-size:11.5px;letter-spacing:.2em;
@@ -308,50 +308,60 @@ section{position:relative}
 .link-arrow:hover svg{transform:translateX(6px)}
 
 /* ─────────────────────────── 03 · THE ANSWER ────────────────────────────────
-   HIS PICK 2026-08-11 — "direction B", chosen from four rendered options.
-   ⚠️ THE BREVITY IS THE DESIGN. Do not helpfully re-expand this. It sits directly
-   after a six-screen pinned scroll story that ends on a dawn, and the version it
-   replaces spent ~90 words there: a headline, a four-line lede, three bordered
-   tiles, a centred punchline and a disclaimer. That asked the reader to start
-   studying at the exact moment they were still feeling something. This runs under
-   thirty words and hands off.
-   THE FULL EXPLANATION BELONGS ON THE BHRT SERVICE PAGE, which is where length
-   costs nothing. The old .tile / .bhrt-tiles / .bhrt-punch / .bhrt-lede rules are
-   gone with the markup that used them. */
+   HIS CALL 2026-08-11: "full and center, and not one full section like a segment"
+   — and he was right about the category. 03 is a DEFINITION: one thought, read
+   once, on the way somewhere. A chapter is a place the reader stops inside. They
+   should not be the same height, and until now they were.
+   ⚠️ THIS IS A SEGMENT AND MUST STAY ONE. Measured at 1440: the full-height
+   left-aligned version it replaces was 774px; this is 591px. If it grows back past
+   ~650 it has quietly become a chapter again and the beat between the scroll story
+   and the directory is gone.
+   The vocabulary is borrowed from the marquee band directly above the scene —
+   full width, hairline top and bottom, nothing but centred type between them — so
+   the page reads as having two bands rather than one band and one odd section.
+   ⚠️ NO CTA. This page IS the BHRT intro (his correction, same day), so there is no
+   service page to hand off to. Section 03 explains and stops. Do not add an arrow. */
 .bhrt{background:var(--cream)}
-/* the hook device, reused deliberately: the same question-above-the-thing move
-   that makes the consultation doors read as an invitation rather than a list. */
-.bhrt-q{
-  font-family:var(--quote);font-size:clamp(19px,2.3vw,30px);line-height:1.35;
-  color:var(--burgundy);opacity:.62;max-width:24ch;margin-bottom:clamp(18px,2.4vh,28px);
+/* No 100vw here on purpose. Sections in this page are already full-bleed — .wrap
+   does the constraining — so width:100vw would buy nothing and cost a horizontal
+   scrollbar on every desktop that renders a classic scrollbar, because 100vw
+   includes its width and the body does not. */
+.seg{
+  padding-block:clamp(58px,9vh,112px);
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  text-align:center;
 }
-.bhrt-line{font-size:clamp(30px,4.4vw,62px);line-height:1.14;letter-spacing:-.008em;max-width:20ch}
-.bhrt-line em{color:var(--logo-red)}
-/* .sec-head carries a clamp(44px,6.5vh,80px) bottom margin for sections whose head
-   is a kicker and a headline. This head holds three things and the lede sets its own
-   rhythm, so the two margins were stacking to ~112px and opening a hole under the
-   headline. The gap below is owned by .bhrt-sub alone. */
-.bhrt .sec-head{margin-bottom:0}
-.bhrt-sub{
-  margin-top:clamp(30px,4vh,44px);font-size:clamp(15px,1.35vw,18px);
-  color:var(--ink-soft);line-height:1.75;max-width:46ch;
+.seg-in{max-width:1280px;margin-inline:auto;padding-inline:var(--pad)}
+/* .kicker is a flex row with a 34px gold rule on its LEFT. Centred, that rule hangs
+   off one side and the whole label reads as though it slipped out of alignment, so
+   it gets a matching rule on the right and becomes a symmetrical mark. */
+.seg .kicker{justify-content:center}
+.seg .kicker::after{content:"";width:34px;height:1px;background:var(--gold)}
+/* ⚠️ EVERY PLAYFAIR BELOW RE-PINS THE OPTICAL SIZE, and this is not decoration.
+   The stylesheet pins font-variation-settings:"opsz" 30 on h1,h2,h3 only (line ~54;
+   BRAND.md records the 450/30 pairing). Anything else inherits the browser default
+   font-optical-sizing:auto, which ties opsz to the rendered size — so at 116px
+   Playfair swings to its display cut, the hairlines go razor-thin, and the H's
+   crossbar disappears entirely: "BHRT" rendered as "BIIRT". Letter-spacing was the
+   wrong suspect; opening it up changed nothing. Any large Playfair outside a
+   heading needs these two declarations. */
+.seg-word{
+  font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30;
+  font-size:clamp(48px,8vw,116px);line-height:.96;letter-spacing:.015em;
+  margin-top:clamp(20px,2.6vh,30px);
 }
-.bhrt-sub strong{font-weight:500;color:var(--burgundy)}
-/* These answer "…and can help with what?" without spending a sentence on it, and
-   they double as a contents preview of the service page the arrow leads to.
-   Same pill geometry as the scene fallback's .chip, one step quieter on purpose:
-   those are symptoms the reader recognises, these are outcomes we are claiming. */
-.bhrt-helps{list-style:none;margin:clamp(26px,3.4vh,38px) 0 0;padding:0;display:flex;flex-wrap:wrap;gap:9px}
-.bhrt-helps li{
-  font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--ink-soft);background:var(--ivory);
-  border:1px solid var(--line);border-radius:999px;padding:9px 16px;
+.seg-gloss{
+  margin-top:clamp(12px,1.6vh,18px);font-family:var(--quote);
+  font-size:clamp(12px,1.15vw,16px);letter-spacing:.16em;text-transform:uppercase;
+  color:var(--gold-deep);
 }
-.bhrt-foot{
-  display:flex;align-items:center;gap:clamp(20px,3vw,40px);flex-wrap:wrap;
-  margin-top:clamp(34px,4.6vh,52px);padding-top:clamp(22px,3vh,32px);border-top:1px solid var(--line);
+.seg-def{
+  font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30;
+  font-size:clamp(18px,2vw,28px);line-height:1.4;max-width:30ch;
+  margin:clamp(24px,3.2vh,38px) auto 0;
 }
-.bhrt-note{font-size:12px;color:var(--ink-soft);opacity:.85;max-width:46ch}
+.seg-def em{color:var(--logo-red);font-style:italic}
+.seg-note{margin-top:clamp(26px,3.4vh,38px);font-size:12px;color:var(--ink-soft);opacity:.8}
 
 /* ─────────────────────────── 04 · CONSULTATIONS ─────────────────────────────
    HIS PICK 2026-08-11 — "direction B", three doors.
@@ -709,8 +719,10 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
   /* a 390px viewport gives 78% ≈ 304px, which is back to the squeeze the rail
      exists to avoid; at 86% the door is ~335px and the hook holds three lines */
   .doors{grid-auto-columns:86%}
-  .bhrt-helps{gap:8px}
-  .bhrt-helps li{padding:8px 14px;letter-spacing:.16em}
+  /* the segment's own tightening: at 390 the clamp floor already holds the word at
+     48px, so only the rhythm around it needs to come in */
+  .seg{padding-block:clamp(46px,7vh,72px)}
+  .seg-def{font-size:17px}
 }
 @media (prefers-reduced-motion:reduce){
   .marquee-track{animation:none}
@@ -924,30 +936,15 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
     </div>
   </div>
 
-  <!-- ══════════ 03 · THE ANSWER ══════════ -->
-  <section class="bhrt sec-pad" id="bhrt">
-    <div class="wrap">
-      <div class="sec-head">
-        <p class="kicker">03 · The answer</p>
-        <!-- The hook device, deliberately reused from the doors below: a question the
-             reader is already asking, set above the thing that answers it. -->
-        <p class="bhrt-q" data-reveal>“So what is BHRT, actually?”</p>
-        <h2 class="bhrt-line" data-reveal>Hormones identical to the ones you <em>already make</em>.</h2>
-      </div>
-      <p class="bhrt-sub" data-reveal>We replace what has gone — <strong>guided by your labs</strong>,
-      adjusted as you feel the change.</p>
-      <ul class="bhrt-helps" data-reveal>
-        <li>Sleep</li><li>Energy</li><li>Mood</li><li>Libido</li><li>Focus</li><li>Strength</li>
-      </ul>
-      <div class="bhrt-foot" data-reveal>
-        <!-- ⚠️ UNWIRED ON PURPOSE — the BHRT service page does not exist yet, and this
-             repo's standing rule is that a control with no destination stays inert
-             rather than being pointed at a placeholder URL (see the four others in
-             ../README.md). No href, exactly like the landing page's ch1/ch3 CTAs.
-             Wiring it is one attribute: add href="…" and it becomes a link. -->
-        <a class="link-arrow" data-soon>How BHRT works <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
-        <p class="bhrt-note">BHRT requires individual medical assessment and may not be suitable for everyone.</p>
-      </div>
+  <!-- ══════════ 03 · THE ANSWER — A SEGMENT, NOT A CHAPTER ══════════ -->
+  <section class="bhrt seg" id="bhrt">
+    <div class="seg-in">
+      <p class="kicker">03 · The answer</p>
+      <p class="seg-word">BHRT</p>
+      <p class="seg-gloss">Bio-identical hormone replacement therapy</p>
+      <p class="seg-def" data-reveal>Hormones structurally <em>identical</em> to the ones your
+      body already makes — replenished as your own decline, dosed from your labs.</p>
+      <p class="seg-note">BHRT requires individual medical assessment and may not be suitable for everyone.</p>
     </div>
   </section>
 

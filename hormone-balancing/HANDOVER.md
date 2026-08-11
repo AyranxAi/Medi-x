@@ -28,7 +28,7 @@ readable static sections.
    then eight two-word reversals land in the symptoms' own slots, "Meet BHRT."). Word-blooms
    on *this* / *differ* / *yourself* (`.w` spans). Phase indicator top-right, "Scroll to
    listen" hint.
-4. **03 The answer** (cream) → **04 Consultations** (3 doors) → **05 Booster programs**
+4. **03 The answer** (cream, a *segment* — see below) → **04 Consultations** (3 doors) → **05 Booster programs**
    (cream) → **Stories** (placeholder testimonials, labelled as such — replace with real
    voices before real marketing) → **FAQ** → **final CTA**.
    ⚠️ 03/04/05 were rebuilt on 2026-08-11 — see **The lower half** below before editing them.
@@ -119,11 +119,21 @@ figure, or lengthens that word.
 people to the individual service pages — his framing, 2026-08-11. Everything below follows
 from that, and reverting any of it without reverting the framing will reintroduce the fault.
 
-- **03 · The answer** — was a headline, a four-line lede, three bordered tiles, a centred
-  punchline and a disclaimer: ~90 words, immediately after a six-screen story that ends on a
-  dawn. Now a hook question, one headline, one sentence, six outcome chips and a door: under
-  thirty. ⚠️ **The brevity is the design** — the full BHRT explanation belongs on the service
-  page, where length costs nothing. Don't re-expand it here.
+- **03 · The answer — a SEGMENT, not a chapter.** Two rounds got it here. It was a headline,
+  a four-line lede, three bordered tiles, a centred punchline and a disclaimer — ~90 words
+  immediately after a six-screen story that ends on a dawn. It is now the acronym at 116px,
+  its gloss, one sentence and the disclaimer, centred, between two hairlines.
+  ⚠️ **It must stay a segment.** Measured at 1440: the full-height left-aligned version was
+  **774px**, this is **591px** (447px at 390). Past roughly 650 it has quietly become a
+  chapter again and the beat between the scroll story and the directory is gone.
+  The vocabulary is borrowed from the marquee band — full width, hairline top and bottom,
+  nothing but centred type between — so the page reads as having two bands rather than one
+  band and one odd section.
+  ⚠️ **No CTA, and this is not an oversight.** This page *is* the BHRT intro, so 03 has no
+  service page to hand off to. It explains and stops. Don't add an arrow.
+  ⚠️ A dark treatment for this segment is **not available** while 02 ends dark — it was built
+  and rejected: burgundy-on-burgundy merged with the chapter above and stopped reading as a
+  separate thing at all, hairline included.
 - **04 · Consultations** — was three table rows each ending in its own red pill. Three primary
   CTAs in one viewport is three times the ask at a third of the weight, and it asked for the
   sale before the reader knew what they were buying. Now three photographic doors that route,
@@ -142,8 +152,9 @@ from that, and reverting any of it without reverting the framing will reintroduc
 pill's "book". Used by 03 and by every door.
 
 ### What is deliberately unfinished here
-- **Five controls are inert** (`data-soon`, no `href`): 03's *How BHRT works*, the three door
-  *Explore* links, and 05's *Explore the programs*. Same rule as the rest of the repo — a
+- **Four controls are inert** (`data-soon`, no `href`): the three door *Explore* links and
+  05's *Explore the programs*. (03's *How BHRT works* is gone — it existed only because I had
+  wrongly assumed BHRT had a separate page.) Same rule as the rest of the repo — a
   control with no destination stays inert rather than pointing at a placeholder URL. Wiring
   each is **one attribute**; on a door, adding `href` also makes the whole panel clickable
   via `.door a[href]::after`, with no markup change.

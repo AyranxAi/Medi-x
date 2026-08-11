@@ -504,21 +504,41 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
   font-family:var(--quote);font-size:clamp(21px,2.35vw,34px);line-height:1.1;letter-spacing:.005em;
   color:rgba(250,247,241,.97);
   text-shadow:0 1px 16px rgba(46,34,40,.9),0 0 38px rgba(46,34,40,.72)}
+/* ⚠️ FIXED INK, NOT --scene-fg. These used to ride the same ivory→ink lerp as the ground
+   they sit on, which meant text and ground crossed each other mid-dawn: measured 1.42:1
+   at p .87, against a 3.0 floor for large text. They now arrive AFTER the dawn has landed
+   (see the answer schedule in update()), so ink is correct for their whole life. */
 .scene-answer{position:absolute;left:0;top:0;opacity:0;white-space:nowrap;display:flex;gap:12px;align-items:baseline;
-  font-family:var(--serif);font-size:clamp(14px,1.6vw,22px);color:var(--scene-fg)} /* they persist onto the ivory dawn */
-.scene-answer .star{color:var(--gold);font-size:.7em}
+  font-family:var(--serif);font-size:clamp(14px,1.6vw,22px);color:var(--ink)}
+/* gold-deep, not gold: these marks only ever appear on the risen ivory, where --gold
+   measures 2.31:1 and --gold-deep 4.69:1 */
+.scene-answer .star{color:var(--gold-deep);font-size:.7em}
 .scene-copy{position:absolute;left:50%;top:13%;transform:translateX(-50%);width:min(92vw,780px);text-align:center;pointer-events:none}
+/* ⚠️ EVERY BEAT HAS A FIXED POLARITY — his note 2026-08-10, "color is bad while
+   transitioning", on this exact line of copy. The beats used to take --scene-fg, which
+   lerps ivory→ink across the dawn while the GROUND lerps ink→ivory underneath them. Two
+   colours moving toward each other cross in the middle: measured contrast fell to
+   1.42:1 at p .87, where 3.0 is the floor for large text and 14.3:1 is what the beat has
+   at either end. "This is not the end of feeling like yourself" ran .79–.875 — straight
+   through the worst of it, which is why that was the one he noticed.
+   A light-on-dark element cannot survive a ground that turns light; no amount of easing
+   fixes that. So the copy no longer changes colour AT ALL — beats 0–6 are ivory on the
+   dark stage, beats 7–8 are ink on the risen one, and the schedule keeps the dawn itself
+   copy-free so nothing is ever on screen while the ground is mid-flight. The halo is the
+   belt to that braces: it separates the glyph from the particle field either way. */
 .scene-beat{position:absolute;left:0;right:0;top:0;opacity:0;font-family:var(--serif);
-  font-size:clamp(23px,3vw,42px);line-height:1.22;color:var(--scene-fg)}
+  font-size:clamp(23px,3vw,42px);line-height:1.22;
+  color:var(--ivory);text-shadow:0 1px 24px rgba(46,34,40,.62)}
+.scene-beat.light{color:var(--ink);text-shadow:0 1px 24px rgba(250,247,241,.8)}
 .scene-beat em{font-style:italic;color:var(--rose)}
 /* the held word — blooms in a beat after its sentence lands */
 .scene-beat .w{display:inline-block;font-style:italic;color:var(--rose);opacity:0;
   transform:translateY(.35em) scale(.92);filter:blur(5px);
   transition:opacity .8s var(--ease),transform .8s var(--ease),filter .8s var(--ease)}
 .scene-beat .w.on{opacity:1;transform:none;filter:blur(0)}
-.scene-beat.gold{color:var(--gold)} /* the key validating line, lit — wins over --scene-fg */
+.scene-beat.gold{color:var(--gold)} /* the key validating line, lit — lives entirely on the dark stage */
 .scene-beat.reveal{font-size:clamp(38px,5.6vw,78px);line-height:1.05}
-.scene-beat.reveal .star{color:var(--gold);font-size:.5em;vertical-align:.35em;padding-right:.25em}
+.scene-beat.reveal .star{color:var(--gold-deep);font-size:.5em;vertical-align:.35em;padding-right:.25em} /* on ivory — see .scene-answer .star */
 .scene-phase{position:absolute;top:calc(max(1rem,env(safe-area-inset-top)) + 4.2rem);right:var(--hdr-pad);
   font-family:var(--accent);font-size:11px;letter-spacing:.3em;color:var(--scene-fg);opacity:.7;text-transform:uppercase}
 .scene-hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);
@@ -702,8 +722,10 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
             <p class="scene-beat gold">They're signals — your body asking, clearly, for support.</p>
             <p class="scene-beat">With modern diagnostics, we can finally hear exactly what it's asking for.</p>
             <p class="scene-beat">This is not the end of feeling like <span class="w">yourself</span>.</p>
-            <p class="scene-beat">It's the beginning of getting yourself back.</p>
-            <p class="scene-beat reveal"><span class="star">✦</span>Meet BHRT.</p>
+            <!-- .light = ink on the risen ivory. These two are the only beats that live
+                 after the dawn, and they never see the dark stage. -->
+            <p class="scene-beat light">It's the beginning of getting yourself back.</p>
+            <p class="scene-beat light reveal"><span class="star">✦</span>Meet BHRT.</p>
           </div>
           <p class="scene-phase" aria-hidden="true">01 — Recognition</p>
           <p class="scene-hint">Scroll to listen</p>
@@ -1227,6 +1249,10 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
   const TERM_GAP = 12;            /* air between the word and its tether's ring terminal — 0 restores pill-era geometry */
 
   const INK=[46,34,40], IVORY=[250,247,241], STONE=[168,152,153], GOLD=[194,160,94]; /* rose-grey, not cold stone */
+  /* --gold-deep from BRAND.md. The figure is lit in --gold, which measures 2.31:1 against
+     the risen ivory — it washed out at exactly the moment the dawn was given the stage to
+     itself. Deepening to this as the ground rises restores it to 4.69:1. */
+  const GOLD_DEEP=[138,106,52];
   const ss=(a,b,x)=>{x=Math.max(0,Math.min(1,(x-a)/(b-a)));return x*x*(3-2*x)};
   const mix=(a,b,k)=>a+(b-a)*k;
   const mixC=(A,B,k)=>[Math.round(mix(A[0],B[0],k)),Math.round(mix(A[1],B[1],k)),Math.round(mix(A[2],B[2],k))];
@@ -1292,8 +1318,29 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
      the home-indicator gutter (the page is viewport-fit=cover). */
   const ANS = [[-1,.06],[1,.02],[-1,.66],[1,.74]];
   const rel = i => .56 + i*.0275;                     /* eight cuts, one by one */
-  /* narrative beats: [in, out] progress (out>1 = holds to the end) — long holds, nothing rushed */
-  const SCHED=[[.05,.17],[.185,.31],[.32,.42],[.43,.49],[.49,.555],[.575,.70],[.79,.875],[.88,.945],[.955,9]];
+  /* narrative beats: [in, out] progress (out>1 = holds to the end).
+     ⚠️ REBUILT 2026-08-10 — his note: "the words that come are not smooth… not snappy…
+     rather than being grounded a user can miscroll some and they are low opacity
+     sometimes". All three were the same arithmetic fault. The old windows were as narrow
+     as .060 while the fade was .045 at EACH end, so a beat spent .090 of progress fading
+     inside a .060 window and never reached opacity 1 at all. Five of the nine never did —
+     including the gold line, the whole point of act 02, and "This is not the end of
+     feeling like yourself". What he read as "low opacity" was the copy being permanently
+     mid-fade; what he read as "not snappy" was a fade lasting 27vh of scroll.
+     The rule now: FADE is short and every window is at least four times it, so each beat
+     holds at full strength for 54–77% of its life instead of 0–28%.
+     Second fault: 21.5% of the scroll showed NOTHING — seven scattered dead bands,
+     including a 9% hole immediately before the line he named. That is the "miscroll":
+     nothing to land on. The windows are contiguous now — each beat hands straight over to
+     the next — with exactly ONE deliberate gap left, .808→.865, which is the dawn.
+     ⚠️ THAT GAP IS LOad-BEARING. Copy cannot cross the dawn (see .scene-beat), so the
+     dawn gets the stage to itself: the figure is fully gold by .775, the ground rises
+     .812→.862, and the words return in ink on the other side. The line lands, the light
+     answers it without words, then "It's the beginning of getting yourself back."
+     Do not fill this gap without re-solving the contrast problem first. */
+  const FADE=.016;
+  const SCHED=[[.045,.175],[.175,.315],[.315,.425],[.425,.495],[.495,.585],[.585,.700],
+               [.700,.808],  /* ── dawn .812→.862, copy-free ── */  [.865,.950],[.950,9]];
 
   let W,H,DPR,figH,figTop,cx,buckets=[],haloPts=[],halfW=[],aHalfW=[],mx=0,my=0,smx=0,smy=0;
   let segs=[],flowT=0,lastT=0;
@@ -1387,9 +1434,21 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
     let gold=0; for(let i=0;i<8;i++) gold+=ss(rel(i),rel(i)+.022,p); gold/=8; /* one step brighter per cut */
 
     /* the dawn arrives only after he is fully lit: he ignites in the dark, then morning comes */
-    stage.style.backgroundColor=rgba(mixC(INK,IVORY,ss(.82,.93,p)),1);
-    stage.style.setProperty("--scene-fg",rgba(mixC(IVORY,INK,ss(.82,.90,p)),1));
-    glow.style.opacity=(1-ss(.74,.84,p)).toFixed(3);
+    /* THE DAWN — .818→.850 (was .82→.93), sitting inside the one copy-free window in
+       SCHED. Still after full ignition at .775, his original call, unchanged.
+       ⚠️ IT IS DELIBERATELY FAST, AND THE REASON IS THE FIGURE. A ground sweeping from ink
+       to ivory passes through every luminance in between, so it must at some point match
+       whatever single value the body is drawn in — there is no colour that survives it,
+       the same trap the copy was in. The copy escaped by not being on screen; the figure
+       cannot, it IS the scene. So the crossing is made brief instead: .11 of progress was
+       66vh of scrolling spent in a grey wash where the body all but disappeared, and .032
+       is ~19vh, a fade-up you pass through rather than sit in. */
+    stage.style.backgroundColor=rgba(mixC(INK,IVORY,ss(.818,.850,p)),1);
+    /* --scene-fg now dresses ONLY the phase indicator; the copy stopped taking it (see
+       .scene-beat). It flips fast and late so its own crossover is a sliver, and it is
+       11px of decorative chrome rather than the line the page turns on. */
+    stage.style.setProperty("--scene-fg",rgba(mixC(IVORY,INK,ss(.826,.850,p)),1));
+    glow.style.opacity=(1-ss(.75,.84,p)).toFixed(3);
     hint.style.opacity=(1-ss(.04,.10,p)).toFixed(3);
     const ph = p<.42?"01 — Recognition":p<.56?"02 — Signals":p<.78?"03 — Release":"04 — Support";
     if(ph!==phaseTxt){ phaseTxt=ph; phaseEl.textContent=ph; }
@@ -1427,7 +1486,9 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
        932px phone both get even rhythm, where a fixed stage fraction collided on one. */
     const ansTop=figTop+figH+26, ansStep=Math.max(26,(H-44-ansTop)/3);
     answers.forEach((el,j)=>{
-      const a=ss(.80+j*.022,.85+j*.022,p);
+      /* .80→.868: they now arrive on the FAR side of the dawn, so ink is right for their
+         whole life and they never cross the ground the way the beats used to. */
+      const a=ss(.868+j*.016,.908+j*.016,p);
       let x,y;
       if(mobile){
         x=cx+Math.sin(t*.22+j*2.1)*5;
@@ -1444,12 +1505,14 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
 
     /* narrative beats */
     beats.forEach((el,b)=>{
-      const kIn=ss(SCHED[b][0],SCHED[b][0]+.045,p);
-      const kOut=SCHED[b][1]>2?0:ss(SCHED[b][1]-.045,SCHED[b][1],p);
+      const kIn=ss(SCHED[b][0],SCHED[b][0]+FADE,p);
+      const kOut=SCHED[b][1]>2?0:ss(SCHED[b][1]-FADE,SCHED[b][1],p);
       el.style.opacity=(kIn*(1-kOut)).toFixed(3);
-      el.style.transform=`translateY(${((1-kIn)*18-kOut*18).toFixed(1)}px)`;
+      el.style.transform=`translateY(${((1-kIn)*14-kOut*14).toFixed(1)}px)`; /* 18→14: less travel reads as more arrival */
       const w=el.querySelector(".w");
-      if(w) w.classList.toggle("on", p>SCHED[b][0]+.05); /* the held word blooms after the line lands */
+      /* the held word blooms after the line lands — a third of the way in, so it fires
+         inside every window rather than at a fixed offset that can fall past a short one */
+      if(w) w.classList.toggle("on", p>SCHED[b][0]+Math.min(.05,(Math.min(1,SCHED[b][1])-SCHED[b][0])*.34));
     });
 
     /* ── canvas: tethers, pulses, particle figure ── */
@@ -1487,9 +1550,15 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
     const sc=1-assemble;
     /* one coherent breath on top of the current: the chest widens, the body settles */
     const br=Math.sin(t*.55)*(0.55+0.45*damp)*(1-gold*.4);
+    const dawn=ss(.818,.850,p);   /* how far the ground has risen — the figure answers to it */
+    /* Math.sqrt, not dawn: the deepening is FRONT-LOADED so the body is most of the way to
+       gold-deep while the ground is still dark, which puts the two values on opposite
+       sides of the sweep for as much of it as possible. Alpha lifts too — on ivory the
+       body reads by density as much as by colour. */
+    const deepen=Math.sqrt(dawn);
     for(const bk of buckets){
-      const col=mixC(STONE,GOLD,Math.min(1,gold*(0.8+bk.shade*.4)));
-      ctx.fillStyle=rgba(col,(.34+.44*bk.shade)*gAlpha*(assemble*.75+.25));
+      const col=mixC(mixC(STONE,GOLD,Math.min(1,gold*(0.8+bk.shade*.4))),GOLD_DEEP,deepen);
+      ctx.fillStyle=rgba(col,(.34+.44*bk.shade)*gAlpha*(assemble*.75+.25)*(1+dawn*.78));
       for(const pt of bk.pts){
         const P=posOf(pt);
         const tor=(P[1]>.18&&P[1]<.46)?1:.3;               /* breath lives in the torso */
@@ -1500,8 +1569,8 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
       }
     }
     ctx.globalAlpha=1;
-    if(gold>.03){                          /* soft gold halo once illuminated */
-      ctx.fillStyle=rgba(GOLD,.04*gold);
+    if(gold>.03 && dawn<.98){              /* soft gold halo — it only reads on the dark stage */
+      ctx.fillStyle=rgba(GOLD,.04*gold*(1-dawn));
       for(const pt of haloPts){
         const P=posOf(pt);
         const x=fx0+P[0]*figH+pt.sx*sc, y=figTop+P[1]*figH+pt.sy*sc;

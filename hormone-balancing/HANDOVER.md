@@ -19,7 +19,8 @@ readable static sections.
 ## Page anatomy
 1. **Hero** — "A new *zest* for living." over a Three.js silk shader (hope first — his call;
    the scene below earns it).
-2. **Marquee** — Megante, the good-things words.
+2. ~~**Marquee**~~ — **removed 2026-08-11** (his call: they didn't want it). The hero now
+   hands straight to the scene.
 3. **The Signals scene** (`#signals`) — the heart of the page. A pinned scroll story
    (600vh desktop / 460vh phones): a soft particle silhouette tethered to 8 symptom labels.
    Acts at exact scrub fractions: Recognition 0–.42 → Signals .42–.56 (gold pulses
@@ -27,8 +28,8 @@ readable static sections.
    figure brightens one step per cut) → Support .78–1 (dawn arrives AFTER full ignition,
    then eight two-word reversals land in the symptoms' own slots, "Meet BHRT."). Word-blooms
    on *this* / *differ* / *yourself* (`.w` spans). Phase indicator top-right, "Scroll to
-   listen" hint.
-4. **03 The answer** (cream, a *segment* — see below) → **04 Consultations** (3 doors) → **05 Booster programs**
+   listen" hint, and — new 2026-08-11 — a `◂ ▸ · Replay · Skip` cluster bottom-centre.
+4. **03 The answer** (cream — definition *and* the ledger, see below) → **04 Consultations** (3 doors) → **05 Booster programs**
    (cream) → **Stories** (placeholder testimonials, labelled as such — replace with real
    voices before real marketing) → **FAQ** → **final CTA**.
    ⚠️ 03/04/05 were rebuilt on 2026-08-11 — see **The lower half** below before editing them.
@@ -38,7 +39,7 @@ readable static sections.
 ## The Signals scene layout (rebuilt 2026-08-10, second round)
 
 **The eight words**, in DOM order — which is also the release order and the order they
-descend the body: `3am again · Brain fog · Hot flashes · Mood swings · No energy ·
+descend the body: `Sleeplessness · Brain fog · Hot flashes · Mood swings · No energy ·
 Weight gain · Erratic cycles · Low libido`. The `.scene-fallback` chips carry the same
 eight, same order. ⚠️ Re-ordering breaks two things at once: `rel(i)` cuts the tethers in
 DOM order, and the slots run head→pelvis, so a swap makes tethers cross.
@@ -84,8 +85,15 @@ frosted ground left to hide the last stretch of line under.
 
 **Sizes.** Desktop `clamp(21px,2.35vw,34px)`; phones `clamp(16px,4.6vw,20px)`. The phone
 clamp is solved, not chosen: a pinned label leaves `W/2 − EDGE − width − (silhouette
-half-width, .139·figH at the arms)`, and the widest word ("Mood swings", wider than
-"Erratic cycles" in this face) runs ~6.3× the font size. That yields ~4.6vw.
+half-width, .139·figH at the arms)`, and the widest word runs ~6.3× the font size. That
+yields ~4.6vw.
+⚠️ **The widest word is now "Sleeplessness"**, not "Mood swings" — it replaced "3am again" on
+2026-08-11. Measured: 111px at 360, 118px at 390, 132px at 430, against 127 / 126 / 146px of
+room. **Eight pixels of slack at 390 is the thinnest figure on the page.** Two caveats keep it
+honest: that room figure uses the half-width AT THE ARMS for every label, and this word sits at
+slot .02 — the head, the narrowest part of the body — so its true clearance is larger, and
+"Mood swings" at the chest is still the real binding case. But any future growth in the phone
+type ramp must be re-measured, not assumed.
 
 **The phone figure is derived:** `min(H*.48, 380, H − H*.30 − 40)`. The third term used to
 reserve 150px below him for the four ✦ sentences, which were too wide to flank a body at
@@ -119,21 +127,27 @@ figure, or lengthens that word.
 people to the individual service pages — his framing, 2026-08-11. Everything below follows
 from that, and reverting any of it without reverting the framing will reintroduce the fault.
 
-- **03 · The answer — a SEGMENT, not a chapter.** Two rounds got it here. It was a headline,
-  a four-line lede, three bordered tiles, a centred punchline and a disclaimer — ~90 words
-  immediately after a six-screen story that ends on a dawn. It is now the acronym at 116px,
-  its gloss, one sentence and the disclaimer, centred, between two hairlines.
-  ⚠️ **It must stay a segment.** Measured at 1440: the full-height left-aligned version was
-  **774px**, this is **591px** (447px at 390). Past roughly 650 it has quietly become a
-  chapter again and the beat between the scroll story and the directory is gone.
-  The vocabulary is borrowed from the marquee band — full width, hairline top and bottom,
-  nothing but centred type between — so the page reads as having two bands rather than one
-  band and one odd section.
-  ⚠️ **No CTA, and this is not an oversight.** This page *is* the BHRT intro, so 03 has no
-  service page to hand off to. It explains and stops. Don't add an arrow.
-  ⚠️ A dark treatment for this segment is **not available** while 02 ends dark — it was built
-  and rejected: burgundy-on-burgundy merged with the chapter above and stopped reading as a
-  separate thing at all, hairline included.
+- **03 · The answer — the definition AND the ledger.** Three rounds got it here. It was a
+  headline, a four-line lede, three bordered tiles, a punchline and a disclaimer (~90 words,
+  immediately after a six-screen story). It became a 591px centred segment. It is now that
+  segment plus **the ledger**: the acronym at 116px, its gloss, one sentence, then the scene's
+  **eight pairs in the scene's own order**, each `symptom → outcome` under one "What that
+  changes" axis.
+  ⚠️ **The two lists are the scene's.** Re-order `.scene-label` / `.scene-answer` and you must
+  re-order the `.led-row`s, or the page contradicts its own animation.
+  ⚠️ **This reverses the "must stay a segment" rule** written here last round (591px, ceiling
+  ~650). 03 is now **1277px at 1440, 1008px at 390** — a chapter. That constraint was written
+  for a section that only defined a word; carrying the mechanism earns the height. If the beat
+  is ever wanted back, the ledger lifts out into its own section below without changing a rule.
+  **Why it exists:** the scene tells this once, in motion, to whoever happens to be scrolling at
+  the right speed. Six screens of the best work on the site left *no residue* — miss it and the
+  page never mentioned those pairs again. What the ledger adds over the scene is the causal
+  word: the scene shows symptoms leaving and answers arriving but never names what sits
+  between them.
+  ⚠️ **No CTA, still.** This page *is* the BHRT intro; there is no service page to hand off to.
+  ⚠️ A dark treatment for this section is **not available** while 02 ends dark — built and
+  rejected: burgundy on burgundy merged with the chapter above, hairline included.
+
 - **04 · Consultations** — was three table rows each ending in its own red pill. Three primary
   CTAs in one viewport is three times the ask at a third of the weight, and it asked for the
   sale before the reader knew what they were buying. Now three photographic doors that route,
@@ -153,8 +167,7 @@ pill's "book". Used by 03 and by every door.
 
 ### What is deliberately unfinished here
 - **Four controls are inert** (`data-soon`, no `href`): the three door *Explore* links and
-  05's *Explore the programs*. (03's *How BHRT works* is gone — it existed only because I had
-  wrongly assumed BHRT had a separate page.) Same rule as the rest of the repo — a
+  05's *Explore the programs*. (03 has none — it explains and stops.) Same rule as the repo — a
   control with no destination stays inert rather than pointing at a placeholder URL. Wiring
   each is **one attribute**; on a door, adding `href` also makes the whole panel clickable
   via `.door a[href]::after`, with no markup change.
@@ -169,6 +182,53 @@ pill's "book". Used by 03 and by every door.
   guard. Run the repo's method against the real plates before this goes near paid traffic:
   render, hide the copy, sample the ground behind each copy rectangle, worst 2% of pixels,
   ivory clears 4.5:1 small / 3:1 large.
+
+## The scene, 2026-08-11 — the release named, and the controls
+
+Two changes after *"lackluster"* and *"you can't tell the message is being removed"*.
+
+**The page already said it, at 11px.** The phase indicator reads `03 — Release` through the
+exact window the tethers are cut, and the comment beside it in this file calls it *"11px of
+decorative chrome rather than the line the page turns on."* The one moment the page explained
+its own metaphor, it did so in the smallest type on screen.
+So **beat 5 now names it**: *"One by one, we take them off you."* The slot was chosen, not
+added — `SCHED[5]` already runs .585–.700, dead centre of the release window (.56–.78), in the
+copy stream that is already clear and already Playfair at headline scale. No new element, no
+new timing, no new CSS.
+⚠️ **A centred overlay was tried first and rejected on the render:** the middle of this stage is
+the body flanked by eight labels, so it landed on "Mood swings" and on his chest. There is no
+free centre here.
+⚠️ **Cost:** the diagnostics line that lived in beat 5 is gone. It was the credibility beat, but
+it was a *setup* line sitting on a *payoff* moment. What it carried survives twice — beat 4's
+"your body asking, clearly, for support", and 03's "dosed from your labs". Keeping both means
+splitting the window, and each half then runs ~.055 of scrub against a .03 fade.
+
+**The controls** — `◂ ▸ · Replay · Skip`, bottom-centre of the pinned stage.
+- They **cross-fade with "Scroll to listen"** (both want bottom-centre; the hint is scheduled
+  out by p .10, the controls in over .045–.105). Never both on screen.
+- Colour comes from `--scene-fg`, **not a fixed ivory**. First pass hard-coded ivory on a dark
+  pill: right for five sixths of the scene, invisible for the last sixth once the ground has
+  risen to blush. Same rule the phase indicator follows.
+- Hidden entirely without `html.js-scene` — no JS or reduced-motion means no stage to control,
+  and a dead button is worse than no button. Verified: reduced-motion renders them `display:none`.
+- They are **real `<button>`s**, which is the only reason a keyboard can reach this scene at all.
+- Every control **moves the page**, never the progress variable. The scene stays a pure function
+  of scroll, so scrubbing, the hybrid creep, the latch and the buttons can never disagree.
+
+⚠️ **Seeking is the one thing allowed to lower the latch.** The high-water rule (*"the story only
+moves forward"*) is untouched for ordinary scroll-up — verified: scrolling up 500px does not
+drop `p`. But Replay and ◂ are a deliberate request to go back, and under `Math.max` they were
+silently ignored. While a seek is in flight the latch tracks progress exactly.
+⚠️ **The seek releases on arrival OR after 1.4s, and the timeout is the bug fix, not belt-and-
+braces.** Releasing only on arrival meant a seek that never converged left the latch in tracking
+mode *forever*, taking the scroll-up rule with it.
+
+⚠️ **Stops are beat MIDPOINTS, not beat starts.** `SCHED[b][0]` is the moment a beat begins its
+fade — landing there shows a line at zero opacity, which is the one thing a "next beat" button
+must never do. Measured after the change: every stop lands with exactly one beat fully lit.
+⚠️ **One correction pass in `go()`,** for one measured failure: the first ▸ from p=0 landed on
+beat 2 every time. At the top of the track the stage is not pinned yet, and engaging the pin
+(`pinSpacing:false`) changes document height mid-flight. Later steps are exact, so it no-ops.
 
 ## The scene engine (all inside the last two `<script>` blocks)
 - Everything is a **pure function of pin progress + time** — scrubbing is deterministic.

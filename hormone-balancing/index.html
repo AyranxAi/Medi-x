@@ -345,6 +345,45 @@ section{position:relative}
 .seg-def em{color:var(--logo-red);font-style:italic}
 .seg-note{margin-top:clamp(26px,3.4vh,38px);font-size:12px;color:var(--ink-soft);opacity:.8}
 
+/* ══ THE LEDGER — NEW 2026-08-11 ══════════════════════════════════════════════
+   His idea: symptom → BHRT → better. It is the scroll story's payoff written down,
+   in the SAME EIGHT PAIRS AND THE SAME ORDER, and that duplication is deliberate.
+   The scene tells this once, in motion, to whoever happens to be scrolling at the
+   right speed. Six screens of the best work on the site left NO residue: miss it and
+   the page never mentions those pairs again. This is the residue.
+   ⚠️ THE TWO LISTS ARE THE SCENE'S. Re-order .scene-label / .scene-answer and you must
+   re-order these rows, or the page contradicts its own animation.
+   What it adds over the scene is the CAUSAL word: the scene shows symptoms leaving
+   and answers arriving but never names what sits between them. "Through BHRT" does.
+   ⚠️ IT TURNS 03 BACK INTO A CHAPTER — 1277px against the 591px segment it grew from,
+   and an earlier note in this file said 03 must stay under ~650. That constraint was
+   written for a section that only defined a word; carrying the mechanism earns the
+   height. If the beat is ever wanted back, the ledger lifts out into its own section
+   below without changing a rule. */
+.led{max-width:820px;margin:clamp(38px,5vh,64px) auto 0;border-top:1px solid var(--line);text-align:left}
+.led-axis{
+  display:flex;align-items:center;justify-content:center;gap:14px;
+  margin-top:clamp(40px,5.4vh,68px);margin-bottom:16px;
+  font-family:var(--accent);font-size:12px;letter-spacing:.26em;
+  text-transform:uppercase;color:var(--gold-deep);
+}
+.led-axis i{display:block;width:30px;height:1px;background:var(--gold);opacity:.6}
+.led-row{
+  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
+  gap:clamp(14px,2.4vw,34px);padding-block:clamp(12px,1.7vh,19px);
+  border-bottom:1px solid var(--line);
+}
+.led-from{text-align:right;font-family:var(--quote);font-size:clamp(15px,1.6vw,21px);color:var(--ink-soft);opacity:.72}
+.led-to{font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30;
+  font-size:clamp(17px,1.85vw,25px);color:var(--ink)}
+.led-mid{display:flex;align-items:center;justify-content:center;width:clamp(52px,7vw,92px)}
+.led-mid svg{width:100%;height:12px;overflow:visible}
+.led-mid path{stroke:var(--gold);stroke-width:1;fill:none}
+.led-mid polygon{fill:var(--gold)}
+@media(max-width:640px){
+  .led-from{font-size:14px}.led-to{font-size:15.5px}.led-mid{width:32px}
+}
+
 /* ─────────────────────────── 04 · CONSULTATIONS ─────────────────────────────
    HIS PICK 2026-08-11 — "direction B", three doors.
    ⚠️ THIS SECTION IS A DIRECTORY, NOT A BOOKING FORM. It replaces three table
@@ -652,6 +691,39 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
 .scene-beat.reveal .star{color:var(--gold-deep);font-size:.5em;vertical-align:.35em;padding-right:.25em} /* on ivory — see .scene-answer .star */
 .scene-phase{position:absolute;top:calc(max(1rem,env(safe-area-inset-top)) + 4.2rem);right:var(--hdr-pad);
   font-family:var(--accent);font-size:11px;letter-spacing:.3em;color:var(--scene-fg);opacity:.7;text-transform:uppercase}
+/* ══ THE SCENE CONTROLS — NEW 2026-08-11 ══════════════════════════════════════
+   Skip, replay and step, at the foot of the pinned stage.
+   ⚠️ THEY CROSS-FADE WITH "SCROLL TO LISTEN" RATHER THAN SITTING BESIDE IT. Both
+   want bottom-centre, and the hint is already scheduled out by p .10, so the
+   controls fade in over exactly that window. They are never both on screen.
+   ⚠️ COLOUR COMES FROM --scene-fg, NOT A FIXED IVORY. First pass hard-coded ivory
+   on a dark pill: correct for five sixths of the scene and invisible for the last
+   sixth, because the ground has risen to blush by then and pale-on-pale swallowed
+   them. --scene-fg is the ivory→ink lerp the stage already runs across .826–.850,
+   so they cross the dawn with everything else. Same rule the phase indicator follows.
+   Hidden entirely without the scene: no JS, or reduced-motion, means no stage to
+   control, and a dead button is worse than no button. */
+.scene-ctrl{display:none}
+html.js-scene .scene-ctrl{
+  position:absolute;left:50%;bottom:22px;transform:translateX(-50%);z-index:6;
+  display:flex;align-items:center;gap:clamp(10px,1.6vw,20px);opacity:0;
+  font-family:var(--sans);font-size:10.5px;font-weight:500;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--scene-fg);
+}
+.scene-ctrl button{
+  color:inherit;font:inherit;letter-spacing:inherit;text-transform:inherit;opacity:.78;
+  padding:9px 13px;border:1px solid currentColor;border-radius:999px;
+  background:rgba(128,112,118,.16);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  transition:opacity .3s var(--ease);cursor:pointer;
+}
+.scene-ctrl button:hover,.scene-ctrl button:focus-visible{opacity:1}
+.scene-ctrl .step{display:flex;gap:6px}
+.scene-ctrl .step button{padding:9px 12px;font-size:12px;letter-spacing:0}
+.scene-ctrl i{display:block;width:1px;height:14px;background:currentColor;opacity:.35}
+@media(max-width:560px){
+  .scene-ctrl{gap:8px;font-size:9.5px}
+  .scene-ctrl button{padding:8px 10px}
+}
 .scene-hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);
   font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:rgba(250,247,241,.55)}
 /* ?scene=<0..1> QA mode: only the stage, frozen at that progress */
@@ -840,7 +912,26 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
             <p class="scene-beat">— we beg to <span class="w">differ</span>.</p>
             <p class="scene-beat">These aren't character flaws.</p>
             <p class="scene-beat gold">They're signals — your body asking, clearly, for support.</p>
-            <p class="scene-beat">With modern diagnostics, we can finally hear exactly what it's asking for.</p>
+            <!-- ⚠️ BEAT 5 NAMES THE RELEASE, AND THAT IS ITS WHOLE JOB — his call 2026-08-11
+                 after "you can't tell the message is being removed".
+                 The page DID say it: the phase indicator reads "03 — Release" through this
+                 exact window, at 11px, top-right, in type the comment beside it calls
+                 decorative chrome. The one moment the page explained its own metaphor, it
+                 did so in the smallest type on screen.
+                 This slot was chosen, not added: SCHED[5] already runs .585–.700, dead centre
+                 of the release window (.56–.78), in the copy stream that is already clear and
+                 already Playfair at headline scale. No new element, no new timing, no new CSS.
+                 ⚠️ A CENTRED OVERLAY WAS TRIED FIRST AND REJECTED ON THE RENDER: the middle of
+                 this stage is the body flanked by eight labels, so it landed on "Mood swings"
+                 and on his chest. There is no free centre here.
+                 ⚠️ THE COST: the diagnostics line that used to live here is gone. It was a
+                 SETUP line sitting on top of a PAYOFF moment, which is a large part of why the
+                 release never landed — but it was also the credibility beat. What it carried
+                 survives twice: beat 4 says "your body asking, clearly, for support", and
+                 section 03 says "dosed from your labs". To keep both you would have to split
+                 this window in two, and each half then runs ~.055 of scrub against a .03 fade,
+                 which is tight. Flagged rather than done. -->
+            <p class="scene-beat">One by one, we take them <em>off you</em>.</p>
             <p class="scene-beat">This is not the end of feeling like <span class="w">yourself</span>.</p>
             <!-- .light = ink on the risen ivory. These two are the only beats that live
                  after the dawn, and they never see the dark stage. -->
@@ -849,6 +940,17 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
           </div>
           <p class="scene-phase" aria-hidden="true">01 — Recognition</p>
           <p class="scene-hint">Scroll to listen</p>
+          <!-- Real buttons, not divs: this is the only way into the scene that is not a
+               scroll gesture, which means it is also the only way a keyboard reaches it. -->
+          <div class="scene-ctrl" id="scene-ctrl">
+            <span class="step">
+              <button type="button" data-sc="prev" aria-label="Previous beat">◂</button>
+              <button type="button" data-sc="next" aria-label="Next beat">▸</button>
+            </span>
+            <i aria-hidden="true"></i>
+            <button type="button" data-sc="replay">Replay</button>
+            <button type="button" data-sc="skip">Skip</button>
+          </div>
         </div>
       </div>
     </section>
@@ -912,15 +1014,59 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
     </div>
   </div>
 
-  <!-- ══════════ 03 · THE ANSWER — A SEGMENT, NOT A CHAPTER ══════════ -->
+  <!-- ══════════ 03 · THE ANSWER + THE LEDGER ══════════ -->
   <section class="bhrt seg" id="bhrt">
     <div class="seg-in">
-      <p class="kicker">03 · The answer</p>
+      <p class="kicker">03 · What it is, and what it changes</p>
       <p class="seg-word">BHRT</p>
       <p class="seg-gloss">Bio-identical hormone replacement therapy</p>
       <p class="seg-def" data-reveal>Hormones structurally <em>identical</em> to the ones your
       body already makes — replenished as your own decline, dosed from your labs.</p>
-      <p class="seg-note">BHRT requires individual medical assessment and may not be suitable for everyone.</p>
+      <!-- ⚠️ SAME EIGHT PAIRS, SAME ORDER AS THE SCENE. See the .led block in the stylesheet. -->
+      <p class="led-axis"><i></i>What that changes<i></i></p>
+      <div class="led">
+        <div class="led-row">
+          <span class="led-from">Sleeplessness</span>
+          <span class="led-mid" aria-hidden="true"><svg viewBox="0 0 60 12" preserveAspectRatio="none" aria-hidden="true"><path d="M0 6 H53"/><polygon points="60,6 52,2 52,10"/></svg></span>
+          <span class="led-to">Deep sleep</span>
+        </div>
+        <div class="led-row">
+          <span class="led-from">Brain fog</span>
+          <span class="led-mid" aria-hidden="true"><svg viewBox="0 0 60 12" preserveAspectRatio="none" aria-hidden="true"><path d="M0 6 H53"/><polygon points="60,6 52,2 52,10"/></svg></span>
+          <span class="led-to">Clear head</span>
+        </div>
+        <div class="led-row">
+          <span class="led-from">Hot flashes</span>
+          <span class="led-mid" aria-hidden="true"><svg viewBox="0 0 60 12" preserveAspectRatio="none" aria-hidden="true"><path d="M0 6 H53"/><polygon points="60,6 52,2 52,10"/></svg></span>
+          <span class="led-to">Cool again</span>
+        </div>
+        <div class="led-row">
+          <span class="led-from">Mood swings</span>
+          <span class="led-mid" aria-hidden="true"><svg viewBox="0 0 60 12" preserveAspectRatio="none" aria-hidden="true"><path d="M0 6 H53"/><polygon points="60,6 52,2 52,10"/></svg></span>
+          <span class="led-to">Steady moods</span>
+        </div>
+        <div class="led-row">
+          <span class="led-from">No energy</span>
+          <span class="led-mid" aria-hidden="true"><svg viewBox="0 0 60 12" preserveAspectRatio="none" aria-hidden="true"><path d="M0 6 H53"/><polygon points="60,6 52,2 52,10"/></svg></span>
+          <span class="led-to">Real energy</span>
+        </div>
+        <div class="led-row">
+          <span class="led-from">Weight gain</span>
+          <span class="led-mid" aria-hidden="true"><svg viewBox="0 0 60 12" preserveAspectRatio="none" aria-hidden="true"><path d="M0 6 H53"/><polygon points="60,6 52,2 52,10"/></svg></span>
+          <span class="led-to">Body responds</span>
+        </div>
+        <div class="led-row">
+          <span class="led-from">Erratic cycles</span>
+          <span class="led-mid" aria-hidden="true"><svg viewBox="0 0 60 12" preserveAspectRatio="none" aria-hidden="true"><path d="M0 6 H53"/><polygon points="60,6 52,2 52,10"/></svg></span>
+          <span class="led-to">Cycles settle</span>
+        </div>
+        <div class="led-row">
+          <span class="led-from">Low libido</span>
+          <span class="led-mid" aria-hidden="true"><svg viewBox="0 0 60 12" preserveAspectRatio="none" aria-hidden="true"><path d="M0 6 H53"/><polygon points="60,6 52,2 52,10"/></svg></span>
+          <span class="led-to">Desire back</span>
+        </div>
+      </div>
+      <p class="seg-note">Individual results vary. BHRT requires individual medical assessment and may not be suitable for everyone.</p>
     </div>
   </section>
 
@@ -1337,6 +1483,7 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
   const answers = [...root.querySelectorAll(".scene-answer")];
   const beats   = [...root.querySelectorAll(".scene-beat")];
   const phaseEl = root.querySelector(".scene-phase");
+  const ctrlEl  = root.querySelector(".scene-ctrl");
   const ctx     = canvas.getContext("2d");
 
   document.documentElement.classList.add("js-scene");
@@ -1557,8 +1704,25 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
      Whatever wins here becomes the default; the query override stays for QA. */
   const LEAD_MAX  = Math.min(.30, Math.max(.02, parseFloat(params.get("lead"))  || .10));
   const CREEP_RATE= Math.min(.10, Math.max(.004,parseFloat(params.get("creep")) || .030));
+  /* ⚠️ SEEKING IS THE ONE THING ALLOWED TO LOWER THE LATCH, and the distinction is the
+     point. The latch is a high-water mark on purpose — his call — so a small corrective
+     scroll upward never unravels the story. But Replay and ◂ are a DELIBERATE request to
+     go back, and under Math.max they would be silently ignored: the first frame of the
+     rewind would pull the latch straight back up to where it was. So while a seek is in
+     flight the latch tracks progress exactly, and the high-water rule resumes the moment
+     it lands. Ordinary scroll-up behaviour is untouched. */
+  let seek=null, seekT=0;
   function update(){
-    if(st) latch=Math.max(latch,st.progress);  /* his call: the story only moves forward — scrolling up holds, never re-tethers */
+    if(st){
+      if(seek!==null){
+        latch=st.progress; creep=st.progress;
+        /* ⚠️ THE TIMEOUT IS NOT BELT-AND-BRACES, IT IS THE BUG FIX. Releasing only on
+           arrival means a seek that never converges leaves the latch in tracking mode
+           FOREVER — and with it, the high-water rule that stops an ordinary scroll-up
+           unravelling the story. 1.4s is comfortably past the .9s scroll. */
+        if(Math.abs(st.progress-seek)<.004 || performance.now()-seekT>1400) seek=null;
+      } else latch=Math.max(latch,st.progress);  /* his call: the story only moves forward — scrolling up holds, never re-tethers */
+    }
     const tNow=performance.now()/1000;
     const dtNow=Math.min(.1,Math.max(0,tNow-(lastT||tNow)));
     if(Math.abs(latch-lastLatch)>1e-4){ stillT=0; lastLatch=latch; } else stillT+=dtNow;
@@ -1607,6 +1771,12 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
     stage.style.setProperty("--scene-fg",rgba(mixC(IVORY,INK,ss(.826,.850,p)),1));
     glow.style.opacity=(1-ss(.75,.84,p)).toFixed(3);
     hint.style.opacity=(1-ss(.04,.10,p)).toFixed(3);
+    /* the controls take the hint's place in the same window, so the two never overlap */
+    if(ctrlEl){
+      const cO=ss(.045,.105,p);
+      ctrlEl.style.opacity=cO.toFixed(3);
+      ctrlEl.style.pointerEvents=cO>.25?"auto":"none";
+    }
     const ph = p<.42?"01 — Recognition":p<.56?"02 — Signals":p<.78?"03 — Release":"04 — Support";
     if(ph!==phaseTxt){ phaseTxt=ph; phaseEl.textContent=ph; }
 
@@ -1781,6 +1951,51 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
       }
     }
   }
+  /* ── control wiring ───────────────────────────────────────────────────────
+     Every control moves the PAGE, never the progress variable directly. The scene
+     stays a pure function of scroll that way, so scrubbing, the hybrid creep, the
+     latch and these buttons can never disagree about where the story is.
+     ⚠️ STOPS ARE BEAT MIDPOINTS, NOT BEAT STARTS, and that is a correctness fix rather
+     than a preference. SCHED[b][0] is the moment a beat BEGINS ITS FADE — landing there
+     shows the reader a line at zero opacity, which is the one thing a "next beat" button
+     must never do. The midpoint of each window is always fully lit. It also removes an
+     edge case: the first stop was .045, close enough to the top of the track that the
+     jump fought the pin engaging. */
+  if(st && ctrlEl){
+    const STOPS=SCHED.map(s=>(s[0]+Math.min(1,s[1]))/2).sort((a,b)=>a-b);
+    const yOf=q=>st.start+(st.end-st.start)*Math.max(0,Math.min(1,q));
+    function go(q,retry){
+      const t=Math.max(0,Math.min(1,q));
+      seek=t; seekT=performance.now();
+      const y=yOf(t);
+      if(window.__lenis) window.__lenis.scrollTo(y,{duration:.9});
+      else scrollTo({top:y,behavior:"smooth"});
+      /* ⚠️ ONE CORRECTION PASS, for one measured failure: the very first ▸ from p=0
+         landed on beat 2, not beat 1, every time. At the top of the track the stage is
+         not pinned yet, and engaging the pin (pinSpacing:false) changes the document
+         height mid-flight — so the y computed before the jump stops meaning what it
+         meant. Re-resolving once after the scroll settles lands it. Every later step is
+         already exact, so for them the retry is a no-op. */
+      if(!retry) setTimeout(()=>{ if(Math.abs(pNow-t)>.015) go(t,true); },1000);
+    }
+    ctrlEl.addEventListener("click",e=>{
+      const b=e.target.closest("[data-sc]"); if(!b) return;
+      const p=pNow;
+      switch(b.dataset.sc){
+        case "next": go(STOPS.find(s=>s>p+.006) ?? 1); break;
+        case "prev": go([...STOPS].reverse().find(s=>s<p-.006) ?? 0); break;
+        case "replay": go(0); break;
+        /* +1 clears the pin so the reader lands in section 03 rather than on the
+           last frame of a stage they asked to leave */
+        case "skip": seek=null; {
+          const t=document.getElementById("bhrt");
+          if(window.__lenis) window.__lenis.scrollTo(t||st.end+1,{offset:-70,duration:.9});
+          else (t?t.scrollIntoView({behavior:"smooth"}):scrollTo({top:st.end+1,behavior:"smooth"}));
+        } break;
+      }
+    });
+  }
+
   gsap.ticker.add(update);
   /* ⚠️ Reports the progress the scene is ACTUALLY drawn at, not st.progress. Those are the
      same number under ?play=scroll and deliberately differ under ?play=hybrid — a QA hook

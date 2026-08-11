@@ -30,6 +30,8 @@ scene is intact at `?layout=centre`.
 | `793c227` | Side becomes the default; centred moves to `?layout=centre` |
 | `be712eb` | 03 becomes a headline; ◂ ▸ removed; subtext up; disclaimer out |
 | `8e1853b` | "What is BHRT?" |
+| `9671ff1` | This handoff rewritten; `HANDOVER.md` marked superseded in part |
+| `aad3aaa` | The consultation doors become a triptych, three modes; Venus as interim plates; CC0 recorded |
 
 ---
 
@@ -81,9 +83,15 @@ itself in place — symptom out, outcome in — and the ground rises whole. His 
 
 ## Venus
 
-**Approved by him, 2026-08-11, and cleared for commercial use.** The GLB carries no copyright
-field — only a Sketchfab generator string — so the grant lives with him, not in the file.
-Nothing in `LICENSES/` covers it.
+**Approved by him, and the licence question is closed.** The scan is a plaster cast (ref.
+KAS434/1) in **The Royal Cast Collection at SMK – National Gallery of Denmark**, released
+**CC0 1.0 Public Domain**. CC0 imposes nothing: commercial use, modification and
+redistribution are all permitted and no attribution is required.
+Recorded in [`LICENSES/CC0-VenusDeMilo-SMK.txt`](LICENSES/CC0-VenusDeMilo-SMK.txt) so the
+next session does not have to ask again. SMK invite a note at web@smk.dk from anyone making
+new work from the scans — a courtesy, not a term, and worth doing.
+⚠️ The `.glb` itself is **not** in the repo and is not redistributed; the page ships a render
+and a point cloud.
 
 Two assets, baked together from one normalisation:
 
@@ -150,12 +158,32 @@ measurement that made the side layout necessary rather than merely nicer.
 
 Render both on the scene's camera, light and marble so they land as one system.
 
-**The consultation triptych is designed but not wired.** Three motions were built and shown to
-him as a standalone page: pinned expansion, expand-once-on-entry, static full bleed. His call
-on phones is settled — **stacked, full width, no swiping, in every mode.** The recommendation
-is **expand-once-on-entry**: the pinned version is the better moment in isolation, but it is a
-second pin arriving one screen after a 360vh pinned scene and costs another ~160vh of held
-scroll on a page whose original complaint was pace.
+**The triptych is built and live; the mode is not chosen.** All three ship behind a switch and
+he is judging them on the real page:
+
+| Mode | URL |
+|---|---|
+| Expand once on entry — **default, and the recommendation** | `/hormone-balancing/` |
+| Pinned expansion | `?doors=pinned` |
+| Static full bleed | `?doors=static` |
+| The original scroll rail | `?doors=rail` |
+
+**Delete the two he does not pick**, and the rail with them once the triptych has been seen on
+a real phone. The recommendation is entry: pinned is the better moment in isolation, but it is
+a second pin arriving one screen after a 360vh pinned scene, and costs ~160vh of held scroll
+on a page whose original complaint was pace.
+
+⚠️ **The mode switch runs above `if (probe) return`, deliberately.** Layout is not scroll-gated
+motion and `?probe=1` is the layout QA switch, so it is exactly when you want to see the
+triptych. Probe and reduced-motion skip the *animating* and land on the finished state.
+
+⚠️ **The door plates are interim** — the SMK Venus scaled differently per door, standing in for
+three figures. Better than the flat plum placeholders they replaced, but it is the same woman
+three times and it is commented as a stopgap. Two consequences of using a contained marble
+figure rather than a cropped photograph, both of which revert when photography lands:
+the rail's full-height burgundy scrim washed the subject pink, so the triptych clears its top
+half and darkens only the copy band; and panels are **92vh, not 100vh**, because a panel
+exactly one viewport tall puts its title on its own last pixel.
 
 **Four controls are still inert** — the three door *Explore* links and 05's. Same standing
 rule: a control with no destination stays inert rather than pointing at a placeholder URL.
@@ -170,6 +198,26 @@ rule: a control with no destination stays inert rather than pointing at a placeh
   the FAQ.
 - **The tonal cliff.** The scene ends on a two-tone diptych and the page drops into flat cream
   for five sections. Carrying burgundy plates with sculpture into the doors is most of the fix.
+
+---
+
+## On repo weight — raised, and the answer is "leave it"
+
+`archive/` is **100 MB** (95 MB of it `archive/sources/`), 91 files tracked, mostly 6–8 MB
+uncompressed PNG masters of the team hero. `.git` is a 105 MB pack because that history is in
+it. A clone is ~220 MB.
+
+**None of it reaches a visitor.** Vercel serves static files; nothing in `archive/` is
+referenced by any page — the single grep hit is a comment in `index.html` naming the path.
+Page weight is completely unaffected.
+
+So the cost is clone and CI time, not performance. And the cheap fix does not work: deleting
+the files now shrinks the working tree but **not** `.git`, because they are in history — that
+needs a rewrite (`filter-repo`/BFG) which changes every commit hash.
+
+**Recommendation: leave it alone.** It is doing exactly the job the README says it does —
+source masters for re-crops — it costs nothing at runtime, and the only fix that would
+actually shrink the repo is disruptive out of proportion to a slow clone.
 
 ---
 

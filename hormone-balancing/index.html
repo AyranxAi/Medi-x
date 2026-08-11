@@ -317,6 +317,10 @@ section{position:relative}
 .svc .cta-cell{display:flex;justify-content:flex-end}
 .svc .btn{padding:15px 28px;font-size:12px}
 .svc-note{margin-top:26px;font-size:13px;color:var(--ink-soft);letter-spacing:.02em}
+/* Same emphasis material as every other strong on the page (hero-sub, bhrt-lede,
+   faq-a): weight 500 in burgundy, never the browser's 700. At 13px a default bold
+   in ink-soft reads as a typo rather than a lift. */
+.svc-note strong{font-weight:500;color:var(--burgundy)}
 
 /* ─────────────────────────── 05 · BOOSTERS ─────────────────────────── */
 .boost{background:var(--ink);color:var(--ivory)}
@@ -641,7 +645,12 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
 
 <nav class="nav" id="nav" aria-label="Menu" hidden>
   <ol>
-    <li style="--i:0"><a href="https://medi-x-gin.vercel.app/hormone-balancing/">Hormone Therapy</a></li>
+    <!-- RELATIVE, 2026-08-11. This resolves to exactly the same live address
+         (medi-x-gin.vercel.app/hormone-balancing/) but it also survives the Pages
+         mirror under /Medi-x/, where the hard-coded absolute used to jump the
+         reader off the mirror and onto production mid-QA. Same rule as the landing
+         page's menu item. It is a self-link — the current page — so no target/rel. -->
+    <li style="--i:0"><a href="./">Hormone Therapy</a></li>
     <li style="--i:1"><a href="https://medi-gyn.com/functional-medicine/" target="_blank" rel="noopener">Functional Medicine</a></li>
     <li style="--i:2"><a href="https://medi-gyn.com/peptide-therapy/" target="_blank" rel="noopener">Peptide Therapy</a></li>
     <li style="--i:3"><a href="https://medi-gyn.com/about-us/" target="_blank" rel="noopener">About Us</a></li>
@@ -883,7 +892,16 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
           <div class="cta-cell"><a class="btn" href="#book">Book a consultation <span class="arr">→</span></a></div>
         </article>
       </div>
-      <p class="svc-note" data-reveal>Not sure which fits? Book any consultation — we'll route you to the right one.</p>
+      <!-- HIS CORRECTION 2026-08-11: the entry offer is not "any consultation". It is a
+           FREE 10-MINUTE DISCOVERY CALL WITH IRINA — the same offer the landing page's
+           chapter 03 already sells ("complimentary discovery call", Irina Bond named).
+           The old line also read as a shrug: pick anything, we'll sort it out. The
+           routing promise is the same, but it now costs the reader nothing and has a
+           person's name on it, which is what actually gets the click.
+           ⚠️ Duration is stated on purpose here, and it is the ONE duration on the page:
+           a "45 min" line was removed on 2026-08-10 by his call. Ten minutes reads as
+           low-commitment; forty-five read as an appointment. Don't reintroduce the other. -->
+      <p class="svc-note" data-reveal>Not sure which fits? Start with a <strong>free 10-minute discovery call</strong> — Irina will listen, and point you to the right one.</p>
     </div>
   </section>
 

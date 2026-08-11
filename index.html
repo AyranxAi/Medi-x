@@ -3577,7 +3577,15 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
             <span class="pw__more" data-i18n="pw.more">+2 more</span>
           </div>
           <div class="pw__rise">
-            <a class="pw__cta" href="https://medi-gyn.com/hormone-balancing-for-bhrt/" target="_blank" rel="noopener" data-i18n="pw.cta">Explore pathway
+            <!-- PATHWAY 01 POINTS HOME NOW, 2026-08-11 — the same call, and the same
+                 three rules, as the menu item above (see the note at nav > li --i:0).
+                 Its destination is our own /hormone-balancing/ scroll story, not the
+                 WordPress page: RELATIVE href so the Pages mirror under /Medi-x/ keeps
+                 resolving, and `target`/`rel` come off because a same-site page should
+                 replace this one rather than spawn a tab. The three pathways below are
+                 still external hand-offs and keep theirs — when 02/03/04 get their own
+                 pages here, they change the same way, one line each. -->
+            <a class="pw__cta" href="hormone-balancing/" data-i18n="pw.cta">Explore pathway
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
             </a>
           </div>

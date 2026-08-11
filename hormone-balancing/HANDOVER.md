@@ -1,5 +1,33 @@
 # Hormone Balancing & BHRT — `/hormone-balancing/` (shipped 2026-08-10, four refinement rounds same day)
 
+> ## ⚠️ SUPERSEDED IN PART — 2026-08-11 (evening). READ THIS FIRST.
+>
+> The scene was rebuilt that evening. **This document still describes the centred scene,
+> which now lives at `?layout=centre` and is no longer what the bare URL serves.** It remains
+> accurate for that layout and for the engine's rules; it is wrong about the default. See
+> [`../HANDOFF.md`](../HANDOFF.md) for the current state.
+>
+> Specifically, everything below is false or stale on these points:
+>
+> | Says | Now |
+> |---|---|
+> | Eight symptoms | **Ten** — "Sleeplessness" became "Poor sleep"; muscle pain and joint pain joined |
+> | 600vh / 460vh track | **360vh / 300vh** in the default layout |
+> | The figure is the particle capsule skeleton | **A Venus de Milo** — a point cloud that resolves into pre-rendered marble across `.40–.66` |
+> | The figure is PROVISIONAL, statue question open | **Closed.** He approved Venus and cleared it for commercial use |
+> | Slots alternate L,R,L,R… around a centred body | Default layout puts **all ten on the left**; she stands right and migrates to centre |
+> | 03 is the definition AND the ledger | **The ledger is destroyed.** 03 is a caption: an `<h2>` "What is BHRT?", the gloss, one sentence |
+> | `◂ ▸ · Replay · Skip` | **Chevrons removed.** Replay and Skip only |
+> | Nine beats, `SCHED` has nine rows | **Eight.** "✦ Meet BHRT." left the copy stream and became `.scene-title` in Megante |
+> | The dawn rises across the whole stage | Default layout splits the ground at a **moving seam** behind her; the centred layout still rises whole |
+> | QA harness "not in the repo" | **It is** — `tools/qa/` |
+> | Six FAQ questions | **Six, but all replaced** — five are his, plus "Is this for men too?" |
+>
+> Still true and still load-bearing, for both layouts: everything is a pure function of pin
+> progress; the scroll-up latch; the index-matching of the symptom and answer lists; the
+> `opsz 30` pinning on any large Playfair; and the measured-scrim method.
+
+
 > **Where this stands.** Four rounds after the first ship, all driven by his notes on the
 > live page. In order: (1) the symptoms became two-word plate annotations and the phone
 > started using its sides; (2) the copy transitions were rebuilt after five of nine beats

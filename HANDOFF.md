@@ -1,12 +1,20 @@
-# Handoff — 2026-08-11
+# Handoff — 2026-08-11 (evening)
 
-Everything in this document is **on `main` and deployed**. It covers one working day on
-`/hormone-balancing/` plus one line on the landing page. It is written for whoever picks this
-up next, including future me.
+Everything here is **on `main` and deployed**. It replaces the earlier handoff of the same
+date, which described the scene this session rebuilt.
 
-For durable design law read [`BRAND.md`](BRAND.md); for the service page's own anatomy read
-[`hormone-balancing/HANDOVER.md`](hormone-balancing/HANDOVER.md). **This file is the diff
-between yesterday and today, plus the things that are still open.**
+For durable design law read [`BRAND.md`](BRAND.md). For the service page's own anatomy read
+[`hormone-balancing/HANDOVER.md`](hormone-balancing/HANDOVER.md) — **which this session made
+partly false**; it carries a superseding block at the top listing exactly what.
+
+---
+
+## The one-line version
+
+The Signals scene was rebuilt around his idea: **she stands right, the symptoms are a list on
+the left, ✦ BHRT travels down her, and the ground splits behind her into what she had and what
+she has.** She is a Venus de Milo — a point cloud that resolves into marble. The old centred
+scene is intact at `?layout=centre`.
 
 ---
 
@@ -14,167 +22,189 @@ between yesterday and today, plus the things that are still open.**
 
 | Commit | What |
 |---|---|
-| `b4b1c0e` | Pathway 01 points at our own page; the routing line names the free 10-minute discovery call |
-| `60c8102` | The marquee band goes to tuned capitals |
-| `32a8789` | Sections 03 / 04 / 05 rebuilt — the lower half stops explaining and starts pointing |
-| `d33c899` | 03 becomes a centred segment rather than a chapter |
-| `147ee6f` | The band comes off entirely; "Sleeplessness"; the three new hooks; the doors become a full-bleed rail |
-| `b6616ff` | The scene names its own release, keeps a written receipt, and can be skipped or replayed |
+| `ee47137` | The side layout, Venus, ten symptoms, section 03 stripped, the QA harness |
+| `b065e01` | Glass controls; steppers moved from beats to chapters |
+| `fe60347` | The centred scene says BHRT again (it had stopped) |
+| `8280471` | His five FAQ answers replace the six invented ones |
+| `35ea2af` | "Is this for men too?" restored |
+| `793c227` | Side becomes the default; centred moves to `?layout=centre` |
+| `be712eb` | 03 becomes a headline; ◂ ▸ removed; subtext up; disclaimer out |
+| `8e1853b` | "What is BHRT?" |
 
 ---
 
-## Where each piece stands
+## The scene as it now stands
 
-**Hero** — untouched. Still the Three.js silk shader.
+**Two layouts, one file.** `?layout=centre` is the old centred capsule scene, unchanged in
+behaviour and still correct. Everything else is the default. The fork is `const SIDE` and a
+single `updateSide()`; the original `update()` was not restructured.
 
-**Marquee** — **removed.** It went to tuned capitals in the morning and was cut entirely in the
-afternoon. One consequence worth knowing: section 03's shape was partly justified by rhyming
-with that band, and the comment in the file now says that argument is void.
+**Track: 360vh desktop, 300vh phone** (was 600/460). The old track spent 42% of itself on
+recognition and held the finished picture for the last 3.9%. It now holds from `.80` to the
+end — roughly 72vh against 23vh, in a track 40% shorter.
 
-**01–02 · The Signals scene** — the figure, tethers and timings are as they were after the
-2026-08-10 rounds. Three things changed:
-- **Beat 5 names the release** — *"One by one, we take them off you."* It replaced the
-  diagnostics line, which was a setup line sitting on a payoff moment.
-- **`◂ ▸ · Replay · Skip`** bottom-centre, cross-fading with "Scroll to listen".
-- **"3am again" → "Sleeplessness"**, in the scene, the fallback chips and both index-matched
-  comments.
+**The timeline**, all pure functions of pin progress:
 
-**03 · The answer** — the BHRT lockup *and* the ledger: the scene's eight pairs in the scene's
-order, symptom → outcome. 1277px at 1440.
+| Window | What |
+|---|---|
+| `.015–.20` | The ten symptoms appear, staggered, tethered. Ground wholly dark |
+| `→ .48` | All eight beats run and finish |
+| `.27–.36` | The morning sweeps in from off the right edge to `W*.72` |
+| `.30–.36` | **✦ BHRT** ignites at the pituitary |
+| `.36–.68` | Ten cuts, `rel(i) = .36 + i*.036`. Each: tether retracts, answer lands `.01` later, she nudges left |
+| `.40–.66` | Point cloud cross-fades to marble |
+| `.40–.78` | The seam tracks from `W*.72` to her back |
+| `.80–.88` | **BHRT** in Megante |
 
-**04 · Consultations** — three photographic doors on a full-bleed horizontal rail at every
-width. Hooks are the client's copy. Discovery call sits once, under the set.
+**She migrates** `W*.70 → W*.50`, one tenth per cut, so her position is the progress indicator
+and the stage is never still. That was the answer to "too slow" — which was never about
+duration. BHRT used to arrive at `.56` and the first visible improvement at `.866`, so the
+claim and its proof sat 40% of the scroll apart.
 
-**05 · Booster programs** — light-key, one offer with two halves joined by the brand ✦, one
-door, because both programmes go to one page.
+**The seam is two-phase and the first phase is a correctness fix.** The reversals are fixed
+ink and are only legible once blush is under them. A single ramp converging on her back left
+the seam near the right edge at `.37`, so "Deep sleep" arrived as ink on the dark ground.
+`seamX = mix(mix(W*1.35, W*.72, wipeIn), cx, wipe)`.
 
-**06–08** — untouched. Stories are still placeholder testimonials, labelled as such.
+**Contrast got simpler, not harder.** Each half keeps one permanent ground, so symptoms are
+ivory-on-dark for their whole life and reversals ink-on-blush for theirs. Nothing crosses
+anything — the failure that cost a round when copy and ground lerped toward each other.
 
----
+**Every beat finishes before `.48`, on ground that is still wholly dark.** Not tidiness: the
+seam sweeps through the middle from `.34`, so centred copy would cross it. The back half is
+deliberately wordless.
 
-## Numbers that are constraints, not descriptions
-
-Break any of these and something that was measured stops being true.
-
-- **"Sleeplessness" has ~8px of slack at 390×844** and is the widest label on the page. Measured
-  111 / 118 / 132px at 360 / 390 / 430 against 127 / 126 / 146px of room. That room figure uses
-  the silhouette half-width *at the arms* for every label, and this word sits at the head slot,
-  so its true clearance is larger — "Mood swings" at the chest is still the binding case. **Any
-  growth in the phone type ramp must be re-measured, not assumed.**
-- **The consultation rail needs cards at ~34vw.** At 26vw the three cards plus padding came to
-  1456px against a 1440 viewport: 17px of scroll, invisible. At 34vw the track is 1802px and the
-  third card is cut by the screen edge, which is the entire affordance since the scrollbar is
-  hidden.
-- **Scrim alphas on the doors are a guess.** The placeholder is a mid-tone plum so the ramp is
-  not passing a test a bright photograph would fail — but that is a guard, not a measurement.
-  Run the repo's method against the real plates before paid traffic.
-- **Section grounds run cream · ivory · cream · ivory · cream · burgundy.** 08 is the only dark
-  moment on the way down, deliberately.
+**Phones get no diptych.** 390px will not hold three columns, so the one column rewrites
+itself in place — symptom out, outcome in — and the ground rises whole. His call.
 
 ---
 
-## Traps found the hard way today
+## Venus
 
-Each of these cost real time. None of them announce themselves.
+**Approved by him, 2026-08-11, and cleared for commercial use.** The GLB carries no copyright
+field — only a Sketchfab generator string — so the grant lives with him, not in the file.
+Nothing in `LICENSES/` covers it.
 
-1. **Playfair loses its pinned optical size outside `h1`–`h3`.** The stylesheet pins
-   `font-variation-settings:"opsz" 30` on headings only; everything else inherits
-   `font-optical-sizing: auto`, which ties the axis to the rendered size. At 116px Playfair
-   swings to its display cut, hairlines go razor-thin, and the H's crossbar vanishes — **"BHRT"
-   rendered as "BIIRT"**. Letter-spacing was the wrong suspect and opening it up changed
-   nothing. Re-pin both axes on any large Playfair that is not a heading.
-2. **SVG is XML, so a bare `&` is a parse error — and it fails silently.** The first placeholder
-   plate shipped with `HORMONE THERAPY & BHRT` in its label: `naturalWidth` 0, no console
-   error, the panel just showed its scrim. All three are validated now.
-3. **A high-water latch that only releases on arrival can hang forever.** The scene's seek
-   override tracks progress exactly while a seek is in flight. Released only on arrival, a seek
-   that never converged left the latch in tracking mode permanently, taking the
-   "story only moves forward" rule with it. It now also releases after 1.4s.
-4. **`SCHED[b][0]` is when a beat *starts fading*, not when it is readable.** Stepping to beat
-   starts showed lines at zero opacity. Stops are midpoints.
-5. **A pin with `pinSpacing:false` changes document height when it engages.** The first ▸ from
-   the top of the track landed on beat 2 every time, because the target was computed before the
-   pin engaged. `go()` carries one correction pass.
-6. **`width:100vw` on a full-bleed section buys nothing here and costs a scrollbar.** Sections
-   in this page are already full width — `.wrap` does the constraining — and `100vw` counts the
-   scrollbar's width while the body does not.
-7. **A `<span>` is inline, so `width`/`height` silently do nothing.** Cost a set of invisible
-   gold rules in a mockup.
-8. **Duplicate `id` beats `getElementById`.** A `<style id="seg">` in the head shadowed a
-   `<section id="seg">` and produced a "zero-height section" that was nothing of the kind.
+Two assets, baked together from one normalisation:
+
+- **A 4000-point cloud**, Int16-quantised in figure space, inlined (~21KB). No loader, no
+  runtime GLTF, single-file property intact — the same trade the fonts already make.
+- **`images/scene/venus-stone-*`** — AVIF + WebP, 1005×2400 and 628×1500, 60KB and 36KB.
+
+⚠️ **Both were baked from the same orthographic frame, and that is the only reason the
+cross-fade registers.** Re-bake both together or neither. `VEN_ASPECT = 0.41872` must match.
+
+⚠️ **Pre-rendered, not real-time, on purpose.** The stage is 2D and locked to one camera, so a
+runtime GLB buys nothing visible and costs a loader, ~8MB, and a second WebGL context on
+phones already paying for the hero silk shader.
+
+⚠️ **The scan is wider than the capsule figure** — max half-width `.170` against `.139`. That
+is why the centred layout could not absorb Venus *and* ten symptoms at 390px, and it is the
+measurement that made the side layout necessary rather than merely nicer.
 
 ---
 
-## The QA harness, which is now reproducible
+## Traps found the hard way, this session
 
-The previous handover said the harness was "not in the repo", and that cost a day of rendering
-static fallbacks instead of the real scene. **This is how to get the actual scroll story
-rendering in a sandbox where the CDNs are blocked:**
-
-```bash
-npm install gsap@3.13.0 lenis@1.3.4 three@0.166.1
-```
-
-Then intercept the five jsDelivr requests in Playwright and fulfil them from `node_modules`
-(`gsap/dist/gsap.min.js`, `ScrollTrigger.min.js`, `SplitText.min.js`, `lenis/dist/lenis.min.js`,
-`three/build/three.module.js`; serve the last as `text/javascript`). Nothing about this ships —
-the page still loads them from jsDelivr.
-
-With that in place, `?scene=<0..1>` freezes the stage at any progress and `window.__scene.p`
-reports where the story actually is, which is how the control wiring was verified:
-
-```
-0 → .110 → .245 → .370 → .460 → .540      one fully-lit beat at each stop
-prev .540 → .464      replay → .004       scroll-up latch .175 → .175 (holds)
-```
-
----
-
-## Deliberately unfinished
-
-**Four inert controls** (`data-soon`, no `href`): the three door *Explore* links and 05's
-*Explore the programs*. The repo's standing rule is that a control with no destination stays
-inert rather than pointing at a placeholder URL. **Wiring each is one attribute** — and on a
-door, adding `href` also makes the whole panel clickable via `.door a[href]::after`, with no
-markup change. Section 03 has no CTA at all, on purpose: this page *is* the BHRT intro.
-
-**Three placeholder plates** in `images/placeholders/`. Swapping in photography is a `src`
-change — the crop is `object-fit`, the scrim is a pseudo-element, the sizing is the panel's.
-That folder is not part of the finished site.
-
-**Two photographs do not exist in any form.** A testosterone / men's plate, and a solo portrait
-of Irina. Both are shoots, not crops.
-
-**Testimonials are placeholder voices**, labelled as such in the markup. Replace before any
-paid traffic.
+1. **`OrthographicCamera`'s `top`/`bottom` are camera-relative, not world coordinates.**
+   Passing world Y put the frustum above the model and clipped everything below the ribs, so
+   Venus rendered as a torso fragment. It cost three render passes and a wrong conclusion
+   about the asset. Frame it `(-halfW, halfW, H/2, -H/2)` with the camera at the centre.
+2. **A near/far of ±1e5 on a two-unit model is a real bug but was not *this* bug.** It
+   destroys depth precision and is worth fixing on sight — it just was not why the statue was
+   cut in half. Fixing it changed nothing, which is what proved the frustum was the fault.
+3. **"Faint at the payoff" was a stagger, not a bloom.** At scrub `.90` the last six reversals
+   sat between `.50` and `0` opacity because answer *i* completed at `.898 + i*.009`. The dawn
+   finishes at `.850`, so the ground is identical at `.90` and `.97`. A previous round blamed
+   the radial bloom and nearly moved fixed ink back onto `--scene-fg`, which would have
+   reintroduced the 1.42:1 crossover. **Read opacity from `getComputedStyle` before believing
+   any colour diagnosis.**
+4. **Ten answers against an eight-row `CFG` threw on `CFG[8]`** in the live centred scene.
+   Growing the symptom list touches four DOM lists *and* two anchor tables and two loop bounds.
+5. **Removing the ninth beat silently removed the only BHRT reveal in the centred path.**
+   "✦ Meet BHRT." became `.scene-title`, which only `updateSide()` drove; section 03 had lost
+   its 116px word in the same change. For two commits the live page never said the word above
+   11px. **Deleting an element two code paths read is a two-path change.**
+6. **A flag nobody can find is not a comparison switch.** `?layout=side` shipped opt-in so the
+   two could be compared, and the bare URL then served the old scene to the person who asked
+   to see the new one, three times. Default to the thing you want looked at.
+7. **`--scene-fg` keyed to progress is wrong when the ground is not uniform.** The phase
+   indicator sits top-right, which the blush reaches long before it reaches her; it is keyed to
+   `seamX` now. The controls sit bottom-left on the permanently dark half and take a fixed
+   ivory instead — following `--scene-fg` turned them to ink on ink.
+8. **`.faq-a p` carried the gap between an answer and the next question.** That worked while
+   every answer was one paragraph, because the two spaces were the same thing. His longest
+   answer runs seven and repeated a 24–32px gap six times inside it.
+9. **Both uploaded scans are the same statue.** The OBJ is also a Venus de Milo, lower-poly.
+   There is no male figure in the repo.
 
 ---
 
-## Open, and worth deciding
+## What is open
 
-- **The reversals are faint at the payoff.** Compare "Cool again" and "Steady moods" against
-  "Deep sleep" and "Clear head" at scrub .90 — all fixed ink on the risen blush, but the ones
-  over the brighter part of the bloom lose a lot. Same failure mode the scene controls had
-  before they were moved onto `--scene-fg`. Untouched, and it happens at the exact moment the
-  page is trying to land its promise.
-- **03 is a chapter again.** The "must stay a segment" rule recorded on 2026-08-11 was reversed
-  the same day when the ledger was merged in. If the beat is wanted back, the ledger lifts into
-  its own section below without changing a rule.
-- **The 600vh scroll length.** Deliberately not shortened yet: it is the change most likely to
-  break beat timings tuned over four rounds, and the scroll may stop feeling long now that the
-  reader is told what they are waiting for. Re-watch before touching it.
-- **The scene figure is still provisional** — shipped on "okay *for now*". The
-  statue / point-cloud question from the previous handover is still open.
+**Two statue scans are needed**, cleared the same way Venus was:
+- **A male classical figure** for Testosterone Replacement — Doryphoros, Hermes, Apollo. This
+  is the door with no image in any form.
+- **A second female figure** for Modern Menopause — a draped mature type, so she reads as a
+  different woman rather than the same one twice.
+
+Render both on the scene's camera, light and marble so they land as one system.
+
+**The consultation triptych is designed but not wired.** Three motions were built and shown to
+him as a standalone page: pinned expansion, expand-once-on-entry, static full bleed. His call
+on phones is settled — **stacked, full width, no swiping, in every mode.** The recommendation
+is **expand-once-on-entry**: the pinned version is the better moment in isolation, but it is a
+second pin arriving one screen after a 360vh pinned scene and costs another ~160vh of held
+scroll on a page whose original complaint was pace.
+
+**Four controls are still inert** — the three door *Explore* links and 05's. Same standing
+rule: a control with no destination stays inert rather than pointing at a placeholder URL.
+
+**Recommended for the lower half**, none of it built:
+- **The missing beat is "when".** The page says what BHRT is and where to begin but never how
+  long it takes to feel different. It belongs between the doors and the FAQ.
+- **The placeholder testimonials are the biggest liability on the page.** Invented patient
+  voices on a regulated medical site are a different category of risk from an unfinished
+  photo. Cut the section until three real ones exist.
+- **05 Booster programs interrupts the run** from doors → proof → book. It reads better after
+  the FAQ.
+- **The tonal cliff.** The scene ends on a two-tone diptych and the page drops into flat cream
+  for five sections. Carrying burgundy plates with sculpture into the doors is most of the fix.
 
 ---
 
-## If you change the eight symptoms
+## The QA harness is in the repo
 
-Three lists are index-matched and must move together, or the page contradicts its own animation:
+`tools/qa/` — the CDN interception the last handover described in prose. `npm install
+gsap@3.13.0 lenis@1.3.4 three@0.166.1 playwright@1.49.1`, then `node tools/qa/scene-shots.mjs`.
 
-1. `.scene-label` spans (release order, and they descend head → pelvis)
-2. `.scene-answer` spans (answer *i* lands in symptom *i*'s slot)
-3. `.led-row`s in section 03
+`?scene=<0..1>` freezes the stage; `window.__scene.p` reports where the story actually is;
+`?layout=centre` selects the old scene; `?probe=1` swaps in the static fallback.
 
-Plus the `.scene-fallback` chips, which carry the same eight in the same order for no-JS and
-reduced-motion. And re-measure any new word against the phone clearance above.
+⚠️ Serve `three.module.js` as `text/javascript` or the import map rejects it.
+⚠️ Placement is derived from `offsetWidth`, so anything that measures must wait on
+`document.fonts.ready`. A mock written this session had the exact bug the real code guards
+against, and laid its labels out to fallback metrics.
+
+---
+
+## Deploys
+
+Pushing to `main` deploys via Vercel and **did** fire for these commits, despite the README's
+note that it only deploys owner-authored commits. If a future push does not appear, that note
+is the first thing to check — an empty commit from the owner account forces it.
+
+---
+
+## If you change the ten symptoms
+
+Four lists are index-matched and must move together, or the page contradicts its own
+animation:
+
+1. `.scene-label` spans — release order, and they descend the body
+2. `.scene-answer` spans — answer *i* lands in symptom *i*'s slot
+3. `.scene-fallback` chips — no-JS and reduced-motion
+4. `CFG` (centred) **and** `CFG_SIDE` (default) — two anchor tables, not one
+
+Plus `rel()`'s spacing, which must keep ten cuts inside the release window, and the clearance
+measurement at 390×844.

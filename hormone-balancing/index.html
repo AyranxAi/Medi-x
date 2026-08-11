@@ -1609,7 +1609,11 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
   /* ═══ ?layout=side — figure right, list left, and the ground does the comparing ═══
      Everything below is additive and gated: without the flag this file behaves exactly
      as it did. Flip between them on the same phone before choosing. */
-  const SIDE   = params.get("layout")==="side";
+  /* ⚠️ SIDE IS THE DEFAULT NOW — opt OUT with ?layout=centre, not in with ?layout=side.
+     It shipped opt-in so the two could be compared, and the cost of that was that the bare
+     URL kept serving the old centred particle figure to the person who asked to see the new
+     one. The centred scene is still here and still works; it is one query away. */
+  const SIDE   = params.get("layout")!=="centre";
   if(SIDE) document.documentElement.classList.add("side-scene");
   const stoneEl = root.querySelector(".scene-stone");
   const agentEl = root.querySelector(".scene-agent");

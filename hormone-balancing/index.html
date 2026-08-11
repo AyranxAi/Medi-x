@@ -1728,7 +1728,11 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
   const SCHED = SIDE
     ? [[.020,.075],[.075,.130],[.130,.180],[.180,.230],[.230,.290],[.290,.350],[.350,.415],[.415,.480]]
     : [[.045,.175],[.175,.315],[.315,.425],[.425,.495],[.495,.585],[.585,.700],
-       [.700,.808],  /* ── dawn .812→.862, copy-free ── */  [.865,9]];
+       [.700,.808],  /* ── dawn .812→.862, copy-free ── */  [.865,.950]];
+  /* ⚠️ THE EIGHTH BEAT KEEPS ITS ORIGINAL CLOSE AT .950 rather than holding to the end.
+     It held briefly while the ninth was being removed, and the result was "It's the
+     beginning of getting yourself back." still on screen when BHRT arrived underneath it.
+     .950 is the same handover the ninth beat used to take. */
   /* beat 7 is ink-on-risen-ivory in the default scene; in side mode it runs at .415 while
      the ground is still dark, so it takes the ivory polarity like the seven before it. */
   if(SIDE) beats.forEach(b=>b.classList.remove("light"));
@@ -1781,8 +1785,8 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
     answers.forEach((el,j)=>aHalfW[j]=el.offsetWidth/2||90);
     /* side mode places by measured width too — a right-aligned answer column is the
        screen edge minus the word's own width, same rule as the pinned phone labels. */
-    if(SIDE && agentEl) agentW = agentEl.offsetWidth||96;
-    if(SIDE && titleEl) titleW = titleEl.offsetWidth||240;
+    if(agentEl) agentW = agentEl.offsetWidth||96;
+    if(titleEl) titleW = titleEl.offsetWidth||240;   /* both modes need the title measured */
   }
   build();
   addEventListener("resize", build);
@@ -2066,6 +2070,15 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
        .scene-beat). It flips fast and late so its own crossover is a sliver, and it is
        11px of decorative chrome rather than the line the page turns on. */
     stage.style.setProperty("--scene-fg",rgba(mixC(IVORY,INK,ss(.826,.850,p)),1));
+    /* ⚠️ THE DEFAULT SCENE STILL HAS TO NAME BHRT. Its ninth beat, "✦ Meet BHRT.", left the
+       copy stream to become .scene-title — which side mode drives and this path did not, so
+       for one commit the centred scene reached its payoff without ever saying the word.
+       Same slot the beat held (.950 in, holding to the end), same centred position it had
+       inside .scene-copy, now in Megante and without the verb or the star. */
+    if(titleEl){
+      titleEl.style.opacity=ss(.950,.975,p).toFixed(3);
+      titleEl.style.transform="translate3d("+(W/2-titleW/2).toFixed(1)+"px,"+(H*.093).toFixed(1)+"px,0)";
+    }
     /* the glass flips with the ground under it — a white tint is invisible on the risen
        blush and an ink tint is invisible on the dark stage, so neither can be fixed. */
     { const g=ss(.826,.850,p)>.5;

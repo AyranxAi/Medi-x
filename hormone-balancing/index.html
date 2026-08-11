@@ -236,7 +236,20 @@ body.nav-open .nav li{
 /* ─────────────────────────── MARQUEE ─────────────────────────── */
 .marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:22px 0;overflow:hidden;background:var(--ivory)}
 .marquee-track{display:flex;width:max-content;animation:mq 36s linear infinite}
-.marquee-track span{font-family:var(--quote);font-size:clamp(16px,1.55vw,22px);color:var(--burgundy);letter-spacing:.1em;white-space:nowrap;padding:0 30px;display:flex;align-items:center;gap:60px}
+/* ── THE BAND GOES TO CAPS, AND SMALLER — HIS CALL 2026-08-11 ────────────────
+   Chosen from four rendered options, not from theory. The band is Megante (--quote
+   became Megante on 2026-08-10 when Cormorant was pulled for being unreadable at
+   size), and Megante's capitals are its strongest feature, so caps read as a
+   designed band where the lowercase read as body copy that wandered in.
+   ⚠️ CAPS ALONE WAS REJECTED and this is the part worth keeping. Megante's caps are
+   wider AND taller than its lowercase, so at the old 22px/.1em they crowded and the
+   band read as shouting — which is the opposite of a transition between the hero and
+   the scene. The size comes DOWN as the case goes up: 17px ceiling, .34em tracking,
+   44px padding. Quieter than the original lowercase, and unmistakably a label.
+   Title case was the clear loser of the four: ragged cap-heights, reads as a nav menu.
+   The loop is unaffected — the track holds the seven words exactly twice and the
+   keyframe translates -50%, so any width still seams perfectly. */
+.marquee-track span{font-family:var(--quote);font-size:clamp(13px,1.15vw,17px);color:var(--burgundy);letter-spacing:.34em;text-transform:uppercase;white-space:nowrap;padding:0 44px;display:flex;align-items:center;gap:60px}
 .marquee-track .star{color:var(--gold);font-size:.7em}
 @keyframes mq{to{transform:translateX(-50%)}}
 

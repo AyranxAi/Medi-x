@@ -752,13 +752,35 @@ html.js-scene .scene-ctrl{
   font-family:var(--sans);font-size:10.5px;font-weight:500;letter-spacing:.2em;
   text-transform:uppercase;color:var(--scene-fg);
 }
+/* ═══ THE CONTROLS ARE A GLASS MATERIAL NOW, NOT A TINTED PILL ═══════════════════
+   ⚠️ THE OLD FILL WAS rgba(128,112,118,.16) WITH THE TYPE AT .78 — a mid grey at 16%
+   over a 8px blur, which is close to nothing on any ground, and it was tuned when the
+   stage was dark for five sixths of its life. It now has to survive a stage that is
+   dark on one half and blush on the other.
+   So it is built the way a system material is: enough blur AND saturation that it takes
+   its colour from whatever is behind it, a tint that flips with the ground rather than a
+   fixed grey, a hairline that is not currentColor, and a lit top edge so the pill has an
+   edge to catch. Type goes to full opacity — it was never the thing that should be
+   translucent. The four custom properties are set per frame from the scene script. */
 .scene-ctrl button{
-  color:inherit;font:inherit;letter-spacing:inherit;text-transform:inherit;opacity:.78;
-  padding:9px 13px;border:1px solid currentColor;border-radius:999px;
-  background:rgba(128,112,118,.16);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
-  transition:opacity .3s var(--ease);cursor:pointer;
+  color:inherit;font:inherit;letter-spacing:inherit;text-transform:inherit;opacity:1;
+  padding:11px 16px;border-radius:999px;
+  border:1px solid var(--glass-line,rgba(255,255,255,.26));
+  background:var(--glass-fill,rgba(255,255,255,.12));
+  backdrop-filter:blur(22px) saturate(180%);
+  -webkit-backdrop-filter:blur(22px) saturate(180%);
+  box-shadow:inset 0 1px 0 var(--glass-top,rgba(255,255,255,.34)),
+             inset 0 -1px 0 rgba(20,9,13,.06),
+             0 6px 20px rgba(20,9,13,.16);
+  transition:background .3s var(--ease),border-color .3s var(--ease),transform .2s var(--ease);
+  cursor:pointer;
 }
-.scene-ctrl button:hover,.scene-ctrl button:focus-visible{opacity:1}
+.scene-ctrl button:hover,.scene-ctrl button:focus-visible{
+  background:var(--glass-hi,rgba(255,255,255,.22));transform:translateY(-1px)}
+/* side mode parks them on the half that is dark for the whole scene, so the material is
+   fixed rather than adaptive — no flip to schedule, nothing to cross. */
+html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.24);
+                --glass-line:rgba(255,255,255,.30);--glass-top:rgba(255,255,255,.38)}
 .scene-ctrl .step{display:flex;gap:6px}
 .scene-ctrl .step button{padding:9px 12px;font-size:12px;letter-spacing:0}
 .scene-ctrl i{display:block;width:1px;height:14px;background:currentColor;opacity:.35}
@@ -966,9 +988,9 @@ html.js-scene .scene-ctrl{
                WebGL context on phones that are already paying for the hero silk shader.
                Baked from the scan with an orthographic camera framed IDENTICALLY to the
                point sampling, which is the only reason the cross-fade registers.
-               ⚠️ SOURCE LICENCE IS UNCONFIRMED — the GLB carries no copyright field, only
-               a Sketchfab generator string. Resolve before this goes near production and
-               add the grant to LICENSES/, same discipline as the two fonts. -->
+               Source scan is cleared for commercial use — confirmed by him 2026-08-11.
+               The GLB itself carries no copyright field, only a Sketchfab generator
+               string, so the grant lives with him rather than in the file. -->
           <picture>
             <source media="(max-width:899px)" type="image/avif" srcset="../images/scene/venus-stone-phone-628.avif">
             <source media="(max-width:899px)" type="image/webp" srcset="../images/scene/venus-stone-phone-628.webp">
@@ -1023,8 +1045,8 @@ html.js-scene .scene-ctrl{
                scroll gesture, which means it is also the only way a keyboard reaches it. -->
           <div class="scene-ctrl" id="scene-ctrl">
             <span class="step">
-              <button type="button" data-sc="prev" aria-label="Previous beat">◂</button>
-              <button type="button" data-sc="next" aria-label="Next beat">▸</button>
+              <button type="button" data-sc="prev" aria-label="Previous chapter">◂</button>
+              <button type="button" data-sc="next" aria-label="Next chapter">▸</button>
             </span>
             <i aria-hidden="true"></i>
             <button type="button" data-sc="replay">Replay</button>
@@ -2044,6 +2066,13 @@ html.js-scene .scene-ctrl{
        .scene-beat). It flips fast and late so its own crossover is a sliver, and it is
        11px of decorative chrome rather than the line the page turns on. */
     stage.style.setProperty("--scene-fg",rgba(mixC(IVORY,INK,ss(.826,.850,p)),1));
+    /* the glass flips with the ground under it — a white tint is invisible on the risen
+       blush and an ink tint is invisible on the dark stage, so neither can be fixed. */
+    { const g=ss(.826,.850,p)>.5;
+      stage.style.setProperty("--glass-fill", g?"rgba(46,34,40,.10)":"rgba(255,255,255,.13)");
+      stage.style.setProperty("--glass-hi",   g?"rgba(46,34,40,.17)":"rgba(255,255,255,.24)");
+      stage.style.setProperty("--glass-line", g?"rgba(46,34,40,.22)":"rgba(255,255,255,.30)");
+      stage.style.setProperty("--glass-top",  g?"rgba(255,255,255,.55)":"rgba(255,255,255,.38)"); }
     glow.style.opacity=(1-ss(.75,.84,p)).toFixed(3);
     hint.style.opacity=(1-ss(.04,.10,p)).toFixed(3);
     /* the controls take the hint's place in the same window, so the two never overlap */
@@ -2244,7 +2273,17 @@ html.js-scene .scene-ctrl{
      edge case: the first stop was .045, close enough to the top of the track that the
      jump fought the pin engaging. */
   if(st && ctrlEl){
-    const STOPS=SCHED.map(s=>(s[0]+Math.min(1,s[1]))/2).sort((a,b)=>a-b);
+    /* ⚠️ THE STEPPERS MOVE BY ACT NOW, NOT BY BEAT — his call, and beat stepping had
+       stopped making sense the moment the release became ten near-identical cuts: ▸ ten
+       times through "one more tether comes off" is not navigation, it is scrubbing with
+       extra steps. Four stops, one per phase, each chosen where that act is at its most
+       legible rather than where it begins:
+         01 the list is fully up and tethered · 02 BHRT is lit at the pituitary
+         03 mid-release, the morning is in, roughly half the reversals have landed
+         04 the finished frame
+       ⚠️ The old rule still holds and is the reason these are not act boundaries: a stop
+       must land somewhere fully lit. An act's first frame is its fade-in. */
+    const STOPS = SIDE ? [.24,.33,.55,.92] : [.22,.49,.67,.93];
     const yOf=q=>st.start+(st.end-st.start)*Math.max(0,Math.min(1,q));
     function go(q,retry){
       const t=Math.max(0,Math.min(1,q));

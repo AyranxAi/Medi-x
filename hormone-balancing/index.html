@@ -623,6 +623,11 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
 .js-scene .scene{display:block}
 .js-scene .scene-fallback{display:none}
 .scene-track{height:600vh;position:relative} /* long enough that no beat is a blink */
+/* ⚠️ 600vh → 360vh IN SIDE MODE, and the payoff gets LONGER, not shorter. The old track
+   spent 42% of itself on recognition and held the finished picture for the last 3.9%
+   (~23vh). Here the ten alleviations are the middle of the story rather than a coda, and
+   the completed frame holds from .80 to the end — ~72vh on a 360vh track, 3x the old. */
+html.side-scene .scene-track{height:360vh}
 .scene-stage{height:100svh;width:100%;position:relative;overflow:hidden;background:var(--ink);--scene-fg:var(--ivory)}
 .scene-glow{position:absolute;right:-22vw;top:-26vh;width:72vw;height:72vw;border-radius:50%;pointer-events:none;
   background:radial-gradient(circle,rgba(92,31,49,.38) 0%,rgba(46,34,40,0) 62%)}
@@ -661,6 +666,36 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
 /* gold-deep, not gold: these marks only ever appear on the risen ivory, where --gold
    measures 2.31:1 and --gold-deep 4.69:1 */
 .scene-answer .star{color:var(--gold-deep);font-size:.7em}
+/* ═══ SIDE LAYOUT — the material and the seam ══════════════════════════════════
+   ⚠️ THE STONE IS SIZED AND PLACED FROM JS, not CSS: it has to register with the
+   particle cloud to the pixel or the cross-fade reads as two different bodies.
+   Both are drawn from the same figH/figTop/cx, and the image was baked with an
+   orthographic camera framed identically to the point sampling. */
+.scene-stone{position:absolute;left:0;top:0;opacity:0;pointer-events:none;
+  will-change:opacity;user-select:none}
+/* The agent, small while it works — so the title below is not spent two acts early. */
+.scene-agent{position:absolute;left:0;top:0;opacity:0;white-space:nowrap;
+  font-family:var(--sans);font-size:12.5px;font-weight:500;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--gold);text-shadow:0 0 18px rgba(194,160,94,.5)}
+.scene-agent .star{font-size:1.15em;letter-spacing:0;padding-right:.55em;vertical-align:-.06em}
+/* once she is stone the mark is gold-deep on pale marble; the halo is what keeps it read */
+html.side-scene .scene-agent{text-shadow:0 0 14px rgba(246,231,225,.9),0 0 4px rgba(246,231,225,.8)}
+/* ⚠️ MEGANTE, NOT PLAYFAIR — his call. It is also var(--quote), the face the ten symptom
+   labels are set in, so the word that arrives last speaks in the same voice as the ten it
+   replaced. It sidesteps the Playfair trap as a bonus: at this size an unpinned Playfair
+   swings to its display cut, the H loses its crossbar and BHRT renders as BIIRT. */
+.scene-title{position:absolute;left:0;top:0;opacity:0;white-space:nowrap;
+  font-family:var(--accent);color:var(--ink);
+  font-size:clamp(52px,7.4vw,104px);line-height:1;letter-spacing:.02em}
+/* A cut symptom does not leave — it stays on the dark half as residue, so the finished
+   frame can show what she had beside what she has. Ivory on the dark ground throughout:
+   the seam keeps its side permanently dark, so this colour never has to cross anything. */
+.scene-label.spent{color:rgba(250,247,241,.30);text-shadow:none}
+/* ⚠️ THE COPY CANNOT BE CENTRED ON THE STAGE IN SIDE MODE — she stands in the right half,
+   so a stage-centred beat lands on her chest. It gets the band above the two columns and
+   the empty ground to her left, which is why it is smaller and left-set here. */
+html.side-scene .scene-copy{text-align:left}
+html.side-scene .scene-beat{font-size:clamp(21px,2.6vw,37px);line-height:1.22}
 /* 13%→9.5%, his call: the ceiling was reserving space the figure needed and nothing was
    using it. The reserve is real — the body grows into exactly what this gives back. */
 .scene-copy{position:absolute;left:50%;top:9.5%;transform:translateX(-50%);width:min(92vw,780px);text-align:center;pointer-events:none}
@@ -703,6 +738,13 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
    so they cross the dawn with everything else. Same rule the phase indicator follows.
    Hidden entirely without the scene: no JS, or reduced-motion, means no stage to
    control, and a dead button is worse than no button. */
+/* ⚠️ IN SIDE MODE THE CONTROLS MOVE OFF THE CENTRE LINE. Bottom-centre is exactly where
+   the seam lands once she settles, and a pill straddling a dark/blush boundary has no
+   colour that works on both halves. They go to the dark side, which is permanent. */
+/* ⚠️ AND THEY KEEP IVORY, not --scene-fg. The indicator is dressed by the seam because it
+   sits top-right where the ground changes; the controls sit bottom-LEFT, on the half that
+   is dark for the whole scene, so following --scene-fg would turn them to ink on ink. */
+html.side-scene.js-scene .scene-ctrl{left:var(--hdr-pad,30px);transform:none;color:var(--ivory)}
 .scene-ctrl{display:none}
 html.js-scene .scene-ctrl{
   position:absolute;left:50%;bottom:22px;transform:translateX(-50%);z-index:6;
@@ -733,6 +775,7 @@ html.js-scene .scene-ctrl{
 .scene-solo .scene-track{height:100svh}
 @media (max-width:760px){
   .scene-track{height:460vh}
+  html.side-scene .scene-track{height:300vh}
   /* 11px→~18px at 390, ~20px at 430. The old phone rule SHRANK the label, because eight
      long phrases could only survive as centred rows above and below the body — precisely
      the stacking he rejected. Two-word labels flank the figure instead (slots are
@@ -884,7 +927,7 @@ html.js-scene .scene-ctrl{
                cross and the descent breaks. The matching chips in .scene-fallback below
                carry the same eight words in the same order. -->
           <div class="scene-labels" aria-hidden="true">
-            <span class="scene-label">Sleeplessness</span>
+            <span class="scene-label">Poor sleep</span>
             <span class="scene-label">Brain fog</span>
             <span class="scene-label">Hot flashes</span>
             <span class="scene-label">Mood swings</span>
@@ -892,6 +935,8 @@ html.js-scene .scene-ctrl{
             <span class="scene-label">Weight gain</span>
             <span class="scene-label">Erratic cycles</span>
             <span class="scene-label">Low libido</span>
+            <span class="scene-label">Muscle pain</span>
+            <span class="scene-label">Joint pain</span>
           </div>
           <div class="scene-answers" aria-hidden="true">
             <!-- ⚠️ ORDER MIRRORS THE SYMPTOMS EXACTLY. Answer i lands in symptom i's slot,
@@ -905,7 +950,37 @@ html.js-scene .scene-ctrl{
             <span class="scene-answer">Body responds</span>
             <span class="scene-answer">Cycles settle</span>
             <span class="scene-answer">Desire back</span>
+            <span class="scene-answer">Strength returns</span>
+            <span class="scene-answer">Easy movement</span>
           </div>
+          <!-- ═══ THE STONE ═══════════════════════════════════════════════════════════
+               She opens as the particle cloud and RESOLVES INTO MARBLE across the release.
+               ⚠️ THIS IS NOT DECORATION, IT IS THE MEDIUM CHANGING BECAUSE IT HAS TO.
+               Particles are a LUMINOUS medium: they read only because they are drawn
+               additively on a dark ground. Once the ground rises there is nothing left to
+               add to, and gold grain on blush measures as dirt rather than light — the
+               same failure that forced --gold-deep on the labels, one step further.
+               So the answer is mass, not more particles.
+               ⚠️ PRE-RENDERED, NOT REAL-TIME. The stage is 2D and locked to one camera, so
+               a runtime GLB buys nothing visible and costs a loader, ~8MB, and a second
+               WebGL context on phones that are already paying for the hero silk shader.
+               Baked from the scan with an orthographic camera framed IDENTICALLY to the
+               point sampling, which is the only reason the cross-fade registers.
+               ⚠️ SOURCE LICENCE IS UNCONFIRMED — the GLB carries no copyright field, only
+               a Sketchfab generator string. Resolve before this goes near production and
+               add the grant to LICENSES/, same discipline as the two fonts. -->
+          <picture>
+            <source media="(max-width:899px)" type="image/avif" srcset="../images/scene/venus-stone-phone-628.avif">
+            <source media="(max-width:899px)" type="image/webp" srcset="../images/scene/venus-stone-phone-628.webp">
+            <source type="image/avif" srcset="../images/scene/venus-stone-wide-1005.avif">
+            <img class="scene-stone" src="../images/scene/venus-stone-wide-1005.webp" alt="" aria-hidden="true" decoding="async">
+          </picture>
+          <!-- The agent. Small while it works, so the payoff title is not spent early. -->
+          <p class="scene-agent" aria-hidden="true"><span class="star">✦</span>BHRT</p>
+          <!-- The payoff title. Megante, not Playfair — his call, and it is also the face
+               the symptom labels are set in, so the last word to arrive is in the same
+               voice as the ten it replaced. -->
+          <p class="scene-title" aria-hidden="true">BHRT</p>
           <div class="scene-copy">
             <p class="scene-beat">But maybe, right now, it looks more like <span class="w">this</span> —</p>
             <p class="scene-beat">If you've been told it's <em>just stress</em>, <em>just age</em>, <em>just hormones</em> —</p>
@@ -936,7 +1011,11 @@ html.js-scene .scene-ctrl{
             <!-- .light = ink on the risen ivory. These two are the only beats that live
                  after the dawn, and they never see the dark stage. -->
             <p class="scene-beat light">It's the beginning of getting yourself back.</p>
-            <p class="scene-beat light reveal"><span class="star">✦</span>Meet BHRT.</p>
+            <!-- ⚠️ "✦ Meet BHRT." WAS THE NINTH BEAT AND IS GONE — his call. Two changes in
+                 one: the verb and the star both went ("just BHRT, that's much aesthetic"),
+                 and the word moved out of the copy stream into .scene-title so it can be
+                 Megante at display size and outlive the beat schedule. SCHED is eight
+                 entries now, not nine; the title carries its own window. -->
           </div>
           <p class="scene-phase" aria-hidden="true">01 — Recognition</p>
           <p class="scene-hint">Scroll to listen</p>
@@ -970,7 +1049,7 @@ html.js-scene .scene-ctrl{
                The poetry the chips used to carry now lives one paragraph down, where
                length costs nothing. -->
           <div class="chips" data-chips>
-            <span class="chip">Sleeplessness</span>
+            <span class="chip">Poor sleep</span>
             <span class="chip">Brain fog</span>
             <span class="chip">Hot flashes</span>
             <span class="chip">Mood swings</span>
@@ -978,6 +1057,8 @@ html.js-scene .scene-ctrl{
             <span class="chip">Weight gain</span>
             <span class="chip">Erratic cycles</span>
             <span class="chip">Low libido</span>
+            <span class="chip">Muscle pain</span>
+            <span class="chip">Joint pain</span>
           </div>
           <p class="signals-close" data-reveal>
             These aren't character flaws, and they aren't the end of anything.
@@ -1014,58 +1095,26 @@ html.js-scene .scene-ctrl{
     </div>
   </div>
 
-  <!-- ══════════ 03 · THE ANSWER + THE LEDGER ══════════ -->
+  <!-- ══════════ 03 · WHAT IT IS — a caption between the scene and the doors ══════════ -->
   <section class="bhrt seg" id="bhrt">
     <div class="seg-in">
-      <p class="kicker">03 · What it is, and what it changes</p>
-      <p class="seg-word">BHRT</p>
+      <p class="kicker">03 · What it is</p>
+      <!-- ⚠️ THE LEDGER IS GONE, AND SO IS THE 116px WORD ABOVE IT — his call.
+           The ledger existed for one reason: the scene showed symptoms leaving and answers
+           arriving but never named what sat between them, so six screens of the best work
+           on the site left no residue. That is no longer true. The scene now alleviates
+           each symptom VISIBLY, one at a time, with a labelled agent doing it — so a table
+           of the same ten pairs underneath is a recap of something the reader just watched.
+           ⚠️ .seg-word went for a different reason: the scene now ENDS on BHRT at display
+           size, so the section directly below it opened with the same word at 116px, twice
+           within one screen. The scene names it; this defines it. Do not put it back
+           without also removing the scene title.
+           What is left is a caption, not a chapter — roughly 200px against the old 1277px,
+           and its whole job is to hand the reader to the service doors below. No CTA here,
+           deliberately: the doors are the call. -->
       <p class="seg-gloss">Bio-identical hormone replacement therapy</p>
       <p class="seg-def" data-reveal>Hormones structurally <em>identical</em> to the ones your
       body already makes — replenished as your own decline, dosed from your labs.</p>
-      <!-- ⚠️ SAME EIGHT PAIRS, SAME ORDER AS THE SCENE. See the .led block in the stylesheet. -->
-      <p class="led-axis"><i></i>What that changes<i></i></p>
-      <div class="led">
-        <div class="led-row">
-          <span class="led-from">Sleeplessness</span>
-          <span class="led-mid" aria-hidden="true"><svg viewBox="0 0 60 12" preserveAspectRatio="none" aria-hidden="true"><path d="M0 6 H53"/><polygon points="60,6 52,2 52,10"/></svg></span>
-          <span class="led-to">Deep sleep</span>
-        </div>
-        <div class="led-row">
-          <span class="led-from">Brain fog</span>
-          <span class="led-mid" aria-hidden="true"><svg viewBox="0 0 60 12" preserveAspectRatio="none" aria-hidden="true"><path d="M0 6 H53"/><polygon points="60,6 52,2 52,10"/></svg></span>
-          <span class="led-to">Clear head</span>
-        </div>
-        <div class="led-row">
-          <span class="led-from">Hot flashes</span>
-          <span class="led-mid" aria-hidden="true"><svg viewBox="0 0 60 12" preserveAspectRatio="none" aria-hidden="true"><path d="M0 6 H53"/><polygon points="60,6 52,2 52,10"/></svg></span>
-          <span class="led-to">Cool again</span>
-        </div>
-        <div class="led-row">
-          <span class="led-from">Mood swings</span>
-          <span class="led-mid" aria-hidden="true"><svg viewBox="0 0 60 12" preserveAspectRatio="none" aria-hidden="true"><path d="M0 6 H53"/><polygon points="60,6 52,2 52,10"/></svg></span>
-          <span class="led-to">Steady moods</span>
-        </div>
-        <div class="led-row">
-          <span class="led-from">No energy</span>
-          <span class="led-mid" aria-hidden="true"><svg viewBox="0 0 60 12" preserveAspectRatio="none" aria-hidden="true"><path d="M0 6 H53"/><polygon points="60,6 52,2 52,10"/></svg></span>
-          <span class="led-to">Real energy</span>
-        </div>
-        <div class="led-row">
-          <span class="led-from">Weight gain</span>
-          <span class="led-mid" aria-hidden="true"><svg viewBox="0 0 60 12" preserveAspectRatio="none" aria-hidden="true"><path d="M0 6 H53"/><polygon points="60,6 52,2 52,10"/></svg></span>
-          <span class="led-to">Body responds</span>
-        </div>
-        <div class="led-row">
-          <span class="led-from">Erratic cycles</span>
-          <span class="led-mid" aria-hidden="true"><svg viewBox="0 0 60 12" preserveAspectRatio="none" aria-hidden="true"><path d="M0 6 H53"/><polygon points="60,6 52,2 52,10"/></svg></span>
-          <span class="led-to">Cycles settle</span>
-        </div>
-        <div class="led-row">
-          <span class="led-from">Low libido</span>
-          <span class="led-mid" aria-hidden="true"><svg viewBox="0 0 60 12" preserveAspectRatio="none" aria-hidden="true"><path d="M0 6 H53"/><polygon points="60,6 52,2 52,10"/></svg></span>
-          <span class="led-to">Desire back</span>
-        </div>
-      </div>
       <p class="seg-note">Individual results vary. BHRT requires individual medical assessment and may not be suitable for everyone.</p>
     </div>
   </section>
@@ -1489,6 +1538,16 @@ html.js-scene .scene-ctrl{
   document.documentElement.classList.add("js-scene");
   if (forceP !== null) document.body.classList.add("scene-solo");
 
+  /* ═══ ?layout=side — figure right, list left, and the ground does the comparing ═══
+     Everything below is additive and gated: without the flag this file behaves exactly
+     as it did. Flip between them on the same phone before choosing. */
+  const SIDE   = params.get("layout")==="side";
+  if(SIDE) document.documentElement.classList.add("side-scene");
+  const stoneEl = root.querySelector(".scene-stone");
+  const agentEl = root.querySelector(".scene-agent");
+  const titleEl = root.querySelector(".scene-title");
+  const copyEl  = root.querySelector(".scene-copy");
+
   const mobile = matchMedia("(max-width:760px)").matches;
   const fine   = matchMedia("(pointer:fine)").matches && !mobile;
   const P_GLOW   = true;   /* the dawn arrives from a source, not as a flat fill — one flag to revert */
@@ -1513,6 +1572,25 @@ html.js-scene .scene-ctrl{
   const mixC=(A,B,k)=>[Math.round(mix(A[0],B[0],k)),Math.round(mix(A[1],B[1],k)),Math.round(mix(A[2],B[2],k))];
   const rgba=(C,a)=>`rgba(${C[0]},${C[1]},${C[2]},${a.toFixed(3)})`;
   const eoc=x=>1-Math.pow(1-x,3);
+
+  /* ═══ THE SCAN ═══════════════════════════════════════════════════════════════════
+     4000 surface points off the Venus de Milo scan, quantised to Int16 in figure space
+     (x/20000, y/20000; y 0=crown → 1=hem) and inlined. 21KB, no loader, no runtime GLTF,
+     and the page keeps its one-file property — the same trade the fonts already make.
+     ⚠️ BAKED WITH THE SAME ORTHOGRAPHIC FRAME AS images/scene/venus-stone-*, which is the
+     only reason the particle→marble cross-fade registers instead of reading as two
+     different bodies. Re-bake both together or neither. */
+  const VEN = (()=>{ const bin=atob("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");
+    const u=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) u[i]=bin.charCodeAt(i);
+    const q=new Int16Array(u.buffer), out=new Array(q.length>>1);
+    for(let i=0;i<out.length;i++) out[i]=[q[i*2]/20000, q[i*2+1]/20000];
+    return out; })();
+  const VEN_PROF = [0.0985, 0.1204, 0.127, 0.1274, 0.1184, 0.1138, 0.1, 0.0867, 0.0917, 0.1112, 0.1243, 0.1334, 0.1547, 0.1566, 0.1569, 0.1555, 0.1524, 0.1451, 0.14, 0.1339, 0.13, 0.1001, 0.1046, 0.1153, 0.12, 0.1237, 0.1306, 0.1343, 0.1361, 0.1374, 0.1497, 0.1556, 0.1628, 0.1611, 0.1609, 0.1588, 0.1521, 0.1443, 0.1436, 0.1338, 0.1372, 0.137, 0.1339, 0.1224, 0.1271, 0.1298, 0.1406, 0.1436, 0.1399, 0.1504, 0.1539, 0.1549, 0.1568, 0.1575, 0.1459, 0.1435, 0.154, 0.154, 0.1555, 0.1576, 0.1684, 0.1678, 0.1696, 0.1624];
+  const VEN_ASPECT = 0.41872;                 /* rendered plate w/h — must match the bake */
+  const vhw = y => VEN_PROF[Math.min(63,Math.max(0,Math.floor(y*64)))];
+  /* anchor heights down the scan, head → hem. The last two are the new limb symptoms and
+     they land on the drapery, which is where her legs are. */
+  const CFG_SIDE = [.055,.098,.175,.245,.315,.395,.465,.525,.680,.830];
 
   /* androgynous figure in contrapposto — the classical stance: weight on the left leg,
      tilted pelvis, sloped shoulders, soft elbows, a breath of head-tilt. Never a mannequin.
@@ -1560,7 +1638,15 @@ html.js-scene .scene-ctrl{
     [-1,.45, -.062,.332],   /* No energy      → chest/core L    */
     [ 1,.58,  .040,.428],   /* Weight gain    → waist, right    */
     [-1,.72, -.070,.500],   /* Erratic cycles → pelvis, left    */
-    [ 1,.84,  .066,.508]    /* Low libido     → pelvis, right   */
+    [ 1,.84,  .066,.508],
+    /* ⚠️ THE TWO NEW LIMB SYMPTOMS — his call. They continue the head→pelvis descent into
+       the legs, which were the only unlabelled part of the body, so the strict L,R,L,R…
+       alternation and the no-crossing guarantee both survive. Anchors sit inside the
+       weight-bearing thigh and the stepped-out knee.
+       ⚠️ Ten answers against an eight-row CFG threw on CFG[8] — the default scene has to
+       carry ten too, it is the version that is live. */
+    [-1,.90, -.045,.640],   /* Muscle pain    → thigh, left      */
+    [ 1,.965, .055,.660]    /* Joint pain     → knee, right      */    /* Low libido     → pelvis, right   */
   ];
   /* ═══ THE GLANDS — four, on the midline ═══
      Eight scattered nodes read as a diagram; four down the spine read as a spine of light,
@@ -1580,7 +1666,14 @@ html.js-scene .scene-ctrl{
     }
   }
   buildLamps();
-  const rel = i => .56 + i*.0275;                     /* eight cuts, one by one */
+  /* ⚠️ TEN CUTS NOW, NOT EIGHT, and in side mode they start at .36 instead of .56.
+     The client's note was "too slow", and the cause was not the track length — it was
+     that BHRT arrived at .56 and the first visible improvement landed at .866, so the
+     claim and its proof were 40% of the scroll apart. Here each answer lands ~.01 after
+     its own tether goes: ten small proofs instead of one deferred one.
+     ⚠️ At the old .0275 spacing ten cuts would run to .835 and collide with the dawn. */
+  const REL0 = SIDE ? .36 : .56, RELD = SIDE ? .036 : .022;
+  const rel = i => REL0 + i*RELD;
   /* narrative beats: [in, out] progress (out>1 = holds to the end).
      ⚠️ REBUILT 2026-08-10 — his note: "the words that come are not smooth… not snappy…
      rather than being grounded a user can miscroll some and they are low opacity
@@ -1602,10 +1695,24 @@ html.js-scene .scene-ctrl{
      answers it without words, then "It's the beginning of getting yourself back."
      Do not fill this gap without re-solving the contrast problem first. */
   const FADE=.016;
-  const SCHED=[[.045,.175],[.175,.315],[.315,.425],[.425,.495],[.495,.585],[.585,.700],
-               [.700,.808],  /* ── dawn .812→.862, copy-free ── */  [.865,.950],[.950,9]];
+  /* ⚠️ EIGHT ENTRIES, NOT NINE — "✦ Meet BHRT." left the copy stream and became
+     .scene-title, which carries its own window. The old table's last pair is gone and
+     the eighth now holds to the end.
+     ⚠️ SIDE MODE PUTS EVERY BEAT BEFORE .48, ON GROUND THAT IS STILL WHOLLY DARK. That is
+     not tidiness, it is the contrast rule: the seam sweeps through the middle of the
+     stage from .34, so centred copy would cross it. Beats finish, THEN the release, the
+     morning, the ten reversals and the word run wordless to the end. It is also the
+     honest answer to "too slow" — the back half stops narrating and starts showing. */
+  const SCHED = SIDE
+    ? [[.020,.075],[.075,.130],[.130,.180],[.180,.230],[.230,.290],[.290,.350],[.350,.415],[.415,.480]]
+    : [[.045,.175],[.175,.315],[.315,.425],[.425,.495],[.495,.585],[.585,.700],
+       [.700,.808],  /* ── dawn .812→.862, copy-free ── */  [.865,9]];
+  /* beat 7 is ink-on-risen-ivory in the default scene; in side mode it runs at .415 while
+     the ground is still dark, so it takes the ivory polarity like the seven before it. */
+  if(SIDE) beats.forEach(b=>b.classList.remove("light"));
 
   let W,H,DPR,figH,figTop,cx,buckets=[],haloPts=[],halfW=[],aHalfW=[],mx=0,my=0,smx=0,smy=0;
+  let agentW=96,titleW=240;
   let segs=[],flowT=0,lastT=0;
 
   function build(){
@@ -1650,6 +1757,10 @@ html.js-scene .scene-ctrl{
     }
     labels.forEach((el,i)=>halfW[i]=el.offsetWidth/2||90);
     answers.forEach((el,j)=>aHalfW[j]=el.offsetWidth/2||90);
+    /* side mode places by measured width too — a right-aligned answer column is the
+       screen edge minus the word's own width, same rule as the pinned phone labels. */
+    if(SIDE && agentEl) agentW = agentEl.offsetWidth||96;
+    if(SIDE && titleEl) titleW = titleEl.offsetWidth||240;
   }
   build();
   addEventListener("resize", build);
@@ -1712,6 +1823,169 @@ html.js-scene .scene-ctrl{
      flight the latch tracks progress exactly, and the high-water rule resumes the moment
      it lands. Ordinary scroll-up behaviour is untouched. */
   let seek=null, seekT=0;
+
+  /* ══ SIDE-MODE RENDERER ═════════════════════════════════════════════════════════
+     The composition his notes converged on, in one function so the default scene above
+     is untouched and the two can be compared on the same phone.
+
+       · She stands RIGHT, the ten symptoms are a LIST on the LEFT, tethered across.
+       · ✦ BHRT ignites at the pituitary and travels down her axis. Each tether it
+         reaches RETRACTS INTO HER, and that symptom's reversal lands on the right about
+         .01 later — ten visible alleviations rather than one deferred claim.
+       · Every cut nudges her a tenth of the way left, so her position is the progress
+         indicator and the stage is never still.
+       · The ground is what compares. A seam starts off the right edge and sweeps in to
+         her back: dark survives on the left holding the spent symptoms, blush grows on
+         the right where the outcomes land. She drags the morning across with her.
+       · She opens as the point cloud and RESOLVES INTO MARBLE across .40–.66 — because
+         particles are additive light and stop existing on a pale ground.
+
+     ⚠️ CONTRAST IS SIMPLER HERE, NOT HARDER, AND THAT IS THE POINT OF THE SEAM. Each half
+     keeps one permanent ground, so symptoms are ivory-on-dark for their whole life and
+     reversals are ink-on-blush for theirs. Nothing ever crosses anything, which is the
+     failure that cost a round when the copy and the ground lerped toward each other. */
+  function updateSide(p,t){
+    const EDGE=mobile?16:30, PAD=mobile?4:26, colL=EDGE+PAD;
+    const top=H*.20, bot=H*(mobile?.86:.88), n=labels.length;  /* .88 leaves the controls their corner */
+
+    let migr=0; for(let i=0;i<n;i++) migr+=ss(rel(i),rel(i)+.030,p);
+    migr/=n;
+    figH   = mobile ? Math.min(H*.62,540) : Math.min(H*.86,900);
+    figTop = H*(mobile?.20:.09);
+    cx     = mobile ? W*.70 : W*(.70-.20*migr);
+
+    /* ⚠️ THE SEAM STARTS OFF-SCREEN so the stage opens uniformly dark; it converges on
+       her back as the release runs. Fixed at 50% she would merely stand in front of a
+       backdrop that was always there — moving it is what makes her the cause. */
+    /* ⚠️ TWO-PHASE, AND THE FIRST PHASE IS A CORRECTNESS FIX, NOT A FLOURISH. The
+       reversals are fixed ink; they are legible only once the blush is under them. A
+       single ramp converging on her back left the seam out near the right edge at .37,
+       so "Deep sleep" arrived as ink on the dark ground — the exact polarity failure the
+       default scene had to solve once already. So the morning SWEEPS IN to just left of
+       the answer column as BHRT ignites (.27–.36), and only then tracks her back across
+       the release. The first answer lands at .37, on ground that is already light. */
+    const wipeIn=ss(.27,.36,p), wipe=ss(.40,.78,p);
+    const seamX=mix(mix(W*1.35,W*.72,wipeIn),cx,wipe);
+    if(mobile){
+      /* 390px cannot hold three columns, so there is no diptych: the ground rises whole
+         and the ONE column rewrites itself in place, symptom out / outcome in. */
+      stage.style.backgroundImage="none";
+      stage.style.backgroundColor=rgba(mixC(BG_A,BG_B,wipe),1);
+    }else{
+      const q=(seamX/W)*100;
+      stage.style.backgroundColor=rgba(BG_A,1);
+      stage.style.backgroundImage="linear-gradient(90deg,"+rgba(BG_A,1)+" 0%,"+rgba(BG_A,1)+" "+
+        (q-9).toFixed(2)+"%,"+rgba(BG_B,1)+" "+(q+9).toFixed(2)+"%,"+rgba(BG_B,1)+" 100%)";
+    }
+    /* ⚠️ THE INDICATOR IS DRESSED BY WHERE THE SEAM IS, NOT BY PROGRESS. It sits top-RIGHT,
+       so the blush reaches it long before it reaches her; keying it to the scrub left it
+       ivory on a light ground through the whole release. Keyed to seamX it flips exactly
+       when the ground under it changes, and its own crossover stays a sliver. */
+    stage.style.setProperty("--scene-fg",rgba(mixC(IVORY,INK,1-ss(W*.80,W*1.05,seamX)),1));
+    /* the beats take the band above the columns and the dead ground to her left; the
+       block narrows as she walks into it, which is fine — they are all done by .48. */
+    if(copyEl){
+      const figLeft=cx-figH*VEN_ASPECT/2;
+      copyEl.style.left=colL+"px";
+      copyEl.style.width=Math.max(280,(mobile?W-colL*2:figLeft-colL-40)).toFixed(0)+"px";
+      copyEl.style.top=(H*.045).toFixed(0)+"px";
+      copyEl.style.transform="none";
+    }
+    glow.style.opacity=(1-ss(.28,.42,p)).toFixed(3);
+    hint.style.opacity=(1-ss(.04,.10,p)).toFixed(3);
+    if(ctrlEl){ const c=ss(.045,.105,p);
+      ctrlEl.style.opacity=c.toFixed(3); ctrlEl.style.pointerEvents=c>.25?"auto":"none"; }
+    const ph=p<.29?"01 — Recognition":p<.36?"02 — Signals":p<.76?"03 — Release":"04 — Support";
+    if(ph!==phaseTxt){ phaseTxt=ph; phaseEl.textContent=ph; }
+
+    for(let i=0;i<n;i++){
+      const el=labels[i];
+      const app=ss(.015+i*.013,.070+i*.013,p);
+      const cut=ss(rel(i),rel(i)+.030,p);
+      const ly=top+(bot-top)*(i/(n-1));
+      el.style.transform="translate3d("+colL+"px,"+ly.toFixed(1)+"px,0) translateY(-50%)";
+      /* desktop keeps the spent word as residue so the finished frame shows what she had
+         beside what she has; the phone needs the slot back for its own answer. */
+      el.style.opacity=(app*(mobile?1-cut:1)).toFixed(3);
+      el.classList.toggle("spent",!mobile&&cut>.5);
+      lpos[i]=[colL+halfW[i]*2,ly,app,cut];
+    }
+    /* ⚠️ THE REVERSALS ARE NEVER TETHERED. A line means bound to you; their whole
+       argument is the absence of one. Do not "fix" the asymmetry. */
+    for(let i=0;i<answers.length;i++){
+      const el=answers[i];
+      const a=ss(rel(i)+.010,rel(i)+.048,p);
+      const ly=top+(bot-top)*(i/(answers.length-1));
+      const x=mobile?colL:(W-EDGE-PAD-aHalfW[i]*2);
+      el.style.transform="translate3d("+x.toFixed(1)+"px,"+ly.toFixed(1)+"px,0) translateY(-50%)";
+      el.style.opacity=a.toFixed(3);
+    }
+    beats.forEach((el,b)=>{
+      const kIn=ss(SCHED[b][0],SCHED[b][0]+FADE,p);
+      const kOut=SCHED[b][1]>2?0:ss(SCHED[b][1]-FADE,SCHED[b][1],p);
+      el.style.opacity=(kIn*(1-kOut)).toFixed(3);
+      el.style.transform="translateY("+((1-kIn)*14-kOut*14).toFixed(1)+"px)";
+      const w=el.querySelector(".w");
+      if(w) w.classList.toggle("on",p>SCHED[b][0]+Math.min(.05,(Math.min(1,SCHED[b][1])-SCHED[b][0])*.34));
+    });
+
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+    ctx.clearRect(0,0,W,H);
+    ctx.lineWidth=1;
+    for(let i=0;i<n;i++){
+      const L=lpos[i]; if(!L) continue;
+      const app=L[2],cut=L[3];
+      if(app<.02||cut>.995) continue;
+      const ax=cx-vhw(CFG_SIDE[i])*figH*.55, ay=figTop+CFG_SIDE[i]*figH;
+      const tx=L[0]+12, ty=L[1];
+      /* ⚠️ IT RETRACTS, IT DOES NOT SNAP. The line withdraws INTO her rather than
+         breaking — "your body takes this back" instead of "something cut it off". */
+      const k=1-cut, ex=mix(ax,tx,k), ey=mix(ay,ty,k);
+      ctx.strokeStyle="rgba(199,154,146,"+(app*(.18+.82*k)*.55).toFixed(3)+")";
+      ctx.beginPath(); ctx.moveTo(ex,ey);
+      ctx.bezierCurveTo((ex+ax)/2,ey,(ex+ax)/2,ay,ax,ay); ctx.stroke();
+      ctx.beginPath(); ctx.arc(ex,ey,2.6,0,6.283); ctx.stroke();
+    }
+    const agK=ss(.30,.36,p)*(1-ss(.74,.80,p));
+    const ay0=figTop+figH*.04, ayN=mix(ay0,figTop+figH*.88,ss(.34,.72,p));
+    if(agK>.01){
+      const g=ctx.createLinearGradient(0,ay0,0,ayN);
+      g.addColorStop(0,"rgba(194,160,94,0)");
+      g.addColorStop(1,"rgba(194,160,94,"+(.5*agK).toFixed(3)+")");
+      ctx.strokeStyle=g; ctx.lineWidth=1.5;
+      ctx.beginPath(); ctx.moveTo(cx,ay0); ctx.lineTo(cx,ayN); ctx.stroke();
+      ctx.lineWidth=1;
+    }
+    /* the cloud — ONE path for 4000 points, not 4000 fills */
+    const stoneK=ss(.40,.66,p);
+    if(stoneK<.995){
+      ctx.save(); ctx.globalCompositeOperation="lighter";
+      ctx.fillStyle="rgba(201,164,106,"+((1-stoneK)*(.30+.28*migr)).toFixed(3)+")";
+      ctx.beginPath();
+      for(let i=0;i<VEN.length;i+=(mobile?2:1)){
+        const q=VEN[i], sx=cx+q[0]*figH, sy=figTop+q[1]*figH, r=1.05+(i%9)*.13;
+        ctx.moveTo(sx+r,sy); ctx.arc(sx,sy,r,0,6.283);
+      }
+      ctx.fill(); ctx.restore();
+    }
+    if(stoneEl){
+      const iw=figH*VEN_ASPECT;
+      stoneEl.style.width=iw.toFixed(1)+"px"; stoneEl.style.height=figH.toFixed(1)+"px";
+      stoneEl.style.transform="translate3d("+(cx-iw/2).toFixed(1)+"px,"+figTop.toFixed(1)+"px,0)";
+      stoneEl.style.opacity=stoneK.toFixed(3);
+    }
+    if(agentEl){
+      agentEl.style.opacity=agK.toFixed(3);
+      agentEl.style.color=wipe>.45?"var(--gold-deep)":"var(--gold)";
+      agentEl.style.transform="translate3d("+(cx-agentW/2).toFixed(1)+"px,"+ayN.toFixed(1)+"px,0) translateY(-50%)";
+    }
+    if(titleEl){
+      titleEl.style.opacity=ss(.80,.88,p).toFixed(3);
+      const bx=mobile?colL:(seamX+(W-seamX)*.5-titleW/2);
+      titleEl.style.transform="translate3d("+bx.toFixed(1)+"px,"+(H*.055).toFixed(1)+"px,0)";
+    }
+  }
+
   function update(){
     if(st){
       if(seek!==null){
@@ -1735,13 +2009,14 @@ html.js-scene .scene-ctrl{
     if(!W||!H){ build(); if(!W||!H) return; }
     const t=performance.now()/1000;
     smx=mix(smx,mx,.06); smy=mix(smy,my,.06);
+    if(SIDE){ updateSide(p,t); return; }
 
     const assemble=ss(.02,.12,p);
     const gAlpha=ss(.005,.05,p);
     const damp=1-.7*ss(.42,.49,p);
     const dt=Math.min(.1,Math.max(0,t-lastT)); lastT=t;
     flowT+=dt*(.35+.65*damp);   /* the inner current slows while he's being heard */
-    let gold=0; for(let i=0;i<8;i++) gold+=ss(rel(i),rel(i)+.022,p); gold/=8; /* one step brighter per cut */
+    let gold=0; for(let i=0;i<labels.length;i++) gold+=ss(rel(i),rel(i)+.022,p); gold/=labels.length; /* one step brighter per cut */
 
     /* the dawn arrives only after he is fully lit: he ignites in the dark, then morning comes */
     /* THE DAWN — .818→.850 (was .82→.93), sitting inside the one copy-free window in
@@ -1781,7 +2056,7 @@ html.js-scene .scene-ctrl{
     if(ph!==phaseTxt){ phaseTxt=ph; phaseEl.textContent=ph; }
 
     /* tethered labels — deterministic drift + parallax + staggered release */
-    for(let i=0;i<8;i++){
+    for(let i=0;i<labels.length;i++){
       const cfg=CFG[i], side=cfg[0];
       /* Phones pin each word flush to its own screen edge: that IS the most room a 390px
          viewport has to give, and it is what keeps the middle for the body. Desktop holds
@@ -1813,7 +2088,14 @@ html.js-scene .scene-ctrl{
        label geometry is the whole point: it is the same object, turned over. The ANS table
        and the phone band are gone with the four sentences that needed them. */
     answers.forEach((el,i)=>{
-      const a=ss(.866+i*.009,.898+i*.009,p);
+      /* ⚠️ RE-TIMED, AND IT WAS ALREADY WRONG BEFORE THE TWO NEW SYMPTOMS. Measured in the
+         harness: at scrub .90 the last six reversals sat between .50 and 0 opacity purely
+         because of this stagger, which is what a previous round read as "faint at the
+         payoff" and blamed on the bloom. The ground is identical at .90 and .97 — the dawn
+         finishes at .850 — so the bloom was never the cause. At the old .009 step ten
+         answers would not complete until .979, leaving the finished board on screen for
+         2% of the track. Base earlier, step tighter: complete by .931. */
+      const a=ss(.845+i*.006,.877+i*.006,p);
       const cfg=CFG[i], side=cfg[0];
       const hw=aHalfW[i];
       const spread = mobile
@@ -1844,7 +2126,7 @@ html.js-scene .scene-ctrl{
     const fx0=cx+Math.sin(t*.24)*3+(fine?smx*-7:0);
     const sag=(mobile?22:34)*(1-.7*ss(.42,.52,p));
     ctx.lineWidth=1;
-    for(let i=0;i<8;i++){
+    for(let i=0;i<labels.length;i++){
       const L=lpos[i]; if(!L) continue;
       const ax=fx0+CFG[i][2]*figH, ay=figTop+CFG[i][3]*figH;
       const cutK=ss(rel(i),rel(i)+.06,p);

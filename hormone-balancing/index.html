@@ -533,7 +533,15 @@ section{position:relative}
 .faq-a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .55s var(--ease)}
 .faq-item.open .faq-a{grid-template-rows:1fr}
 .faq-a-in{overflow:hidden}
-.faq-a p{padding:0 44px clamp(24px,3vh,32px) 4px;font-size:15.5px;color:var(--ink-soft);line-height:1.85;max-width:38em}
+/* ⚠️ THE BOTTOM PADDING BELONGS TO THE ANSWER, NOT TO EVERY PARAGRAPH. It was the gap
+   before the next question, and with one paragraph per answer the two were the same
+   thing. His 2026-08-11 copy runs up to seven paragraphs, which repeated that 24–32px
+   gap six times inside a single answer. Closing space moves to :last-child — a
+   one-paragraph answer is pixel-identical to before — and paragraphs get their own
+   rhythm from the em-based margin. */
+.faq-a p{padding:0 44px 0 4px;font-size:15.5px;color:var(--ink-soft);line-height:1.85;max-width:38em}
+.faq-a p+p{margin-top:1.05em}
+.faq-a p:last-child{padding-bottom:clamp(24px,3vh,32px)}
 .faq-a p strong{font-weight:500;color:var(--burgundy)}
 
 /* ─────────────────────────── 08 · FINAL CTA + FOOTER ─────────────────────────── */
@@ -1260,54 +1268,81 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
         <a class="btn ghost" href="#book" style="align-self:flex-start">Ask us directly</a>
       </div>
       <div class="faq-list">
+        <!-- ══ HIS COPY, 2026-08-11 — replaces the six invented questions ═══════════════
+             These five are the client's own words and they are clinical claims, so they are
+             reproduced as written. Three typographic corrections only, no rewriting:
+               · "Pregwnonelone" → "Pregnenolone"
+               · "cream*" — the asterisk had no footnote anywhere on the page, so it is dropped
+               · "at least once per every 6 months" → "at least once every 6 months"
+             ⚠️ Anything else here is his to change, not ours. Route new wording through him
+             rather than tightening it in passing — this is regulated medical copy. -->
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false">Is BHRT safe?<span class="ind" aria-hidden="true"></span></button>
+          <button class="faq-q" aria-expanded="false">Are bioidentical hormones safe?<span class="ind" aria-hidden="true"></span></button>
           <div class="faq-a"><div class="faq-a-in"><p>
-            BHRT is prescribed and monitored by <strong>licensed clinicians</strong> — with lab work
-            before you begin and at regular intervals after. Dosing is individual, reviewed often,
-            and adjusted the moment your body asks for it. Your clinician walks you through the
-            benefits and the risks for <strong>your</strong> specific health picture — never a generic answer.
+            Bioidentical hormones are chemically identical to hormones naturally produced by our
+            bodies. For many women, regulated bioidentical hormone therapy can be an appropriate
+            option — but hormone therapy is <strong>not one-size-fits-all</strong>. Safety depends
+            on your medical history, age, individual risk factors, the type of hormone, dose and
+            how it is administered.
           </p></div></div>
         </div>
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false">What's the difference between BHRT and traditional HRT?<span class="ind" aria-hidden="true"></span></button>
-          <div class="faq-a"><div class="faq-a-in"><p>
-            Bio-identical hormones are <strong>structurally identical</strong> to the ones your body
-            produces; traditional synthetic HRT uses molecules that are similar, but not the same.
-            Many people find bio-identical protocols gentler and easier to fine-tune — and ours are
-            dosed from your labs, not from population averages.
-          </p></div></div>
+          <button class="faq-q" aria-expanded="false">How is BHRT used?<span class="ind" aria-hidden="true"></span></button>
+          <div class="faq-a"><div class="faq-a-in">
+            <p>BHRT can be delivered in several different ways depending on the hormone and the
+            individual woman's needs.</p>
+            <p><strong>Estrogen</strong> may be prescribed as a cream, patch, gel (systemic
+            therapy) or vaginal treatment (non-systemic therapy).</p>
+            <p><strong>Progesterone</strong> is commonly taken orally.</p>
+            <p><strong>Testosterone</strong> may be prescribed through the skin in a cream —
+            transdermally — when clinically appropriate.</p>
+            <p><strong>Pregnenolone</strong> and <strong>DHEA</strong> are in a capsule form.</p>
+            <p>There isn't one standard BHRT protocol for every woman. The hormone, dose and route
+            of administration should be selected according to her symptoms, medical history, stage
+            of menopause and individual risk factors.</p>
+            <p>At Medi-Gyn, we personalise hormone therapy to the woman — rather than fitting the
+            woman to a standard protocol.</p>
+          </div></div>
         </div>
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false">How soon will I feel a difference?<span class="ind" aria-hidden="true"></span></button>
-          <div class="faq-a"><div class="faq-a-in"><p>
-            Many patients notice shifts in <strong>sleep and energy within the first weeks</strong>.
-            Deeper changes — mood, cycles, body composition — typically unfold over two to three
-            months as your levels stabilize. Your follow-up labs let us watch it happen.
-          </p></div></div>
+          <button class="faq-q" aria-expanded="false">How long will I have to be on BHRT?<span class="ind" aria-hidden="true"></span></button>
+          <div class="faq-a"><div class="faq-a-in">
+            <p>Ideally for the rest of your life.</p>
+            <p>There is no fixed time limit for hormone therapy.</p>
+            <p>How long you stay on BHRT depends on your individual health profile, your life
+            goals, and how you respond to treatment.</p>
+            <p>Some women use hormone therapy for a few years, while others may choose to continue
+            for much longer under appropriate medical supervision. Current guidance does not
+            support an arbitrary cut-off simply because a woman reaches a certain age or has been
+            on treatment for a certain number of years.</p>
+            <p>The important thing is <strong>regular review</strong>. Your treatment, dose,
+            benefits and individual risk factors should be reassessed at least once every 6 months,
+            to make sure the therapy continues to be appropriate for you.</p>
+            <p>At Medi-Gyn, we don't treat hormone therapy as a fixed-duration protocol — we
+            personalise it as your body and needs change.</p>
+          </div></div>
         </div>
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false">Do I need lab tests before starting?<span class="ind" aria-hidden="true"></span></button>
-          <div class="faq-a"><div class="faq-a-in"><p>
-            Yes — and that's the point. <strong>Your bloodwork writes the prescription.</strong>
-            We arrange comprehensive panels at a partner lab near you, then review the results
-            together, line by line, before anything is prescribed.
-          </p></div></div>
+          <button class="faq-q" aria-expanded="false">I tried HRT and felt worse. Does that mean hormone therapy isn't for me?<span class="ind" aria-hidden="true"></span></button>
+          <div class="faq-a"><div class="faq-a-in">
+            <p>Not necessarily. Hormone therapy isn't one single treatment. The hormone, dose,
+            route and combination may need to be reviewed, and symptoms may also have causes
+            unrelated to menopause.</p>
+            <p>Feeling worse is a reason to go back to the prescribing clinician and reassess the
+            treatment rather than simply increasing or changing hormones yourself.</p>
+            <p>Alternatively, you may wish to opt for a second opinion.</p>
+          </div></div>
         </div>
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false">Does this work fully online?<span class="ind" aria-hidden="true"></span></button>
-          <div class="faq-a"><div class="faq-a-in"><p>
-            Yes. Consultations happen by video, labs are drawn near you, and medications ship
-            <strong>to your door</strong>. Between visits, your care team stays one message away.
-          </p></div></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q" aria-expanded="false">Is this for men too?<span class="ind" aria-hidden="true"></span></button>
-          <div class="faq-a"><div class="faq-a-in"><p>
-            Absolutely. Hormonal decline isn't only a women's story — our
-            <strong>Testosterone Replacement</strong> and balancing programs are built for men
-            navigating their own version of this change.
-          </p></div></div>
+          <button class="faq-q" aria-expanded="false">Am I too old to start hormone therapy?<span class="ind" aria-hidden="true"></span></button>
+          <div class="faq-a"><div class="faq-a-in">
+            <p>Age alone doesn't answer this question. The decision should consider age, time since
+            menopause, symptoms, medical history and individual risks and benefits. Starting
+            systemic hormone therapy later requires particularly careful individual assessment
+            rather than assuming that HRT is appropriate — or inappropriate — for everyone.</p>
+            <p>Beginning your non-systemic hormone therapy — vaginal creams, estrogen face day or
+            night creams — can be done any time.</p>
+          </div></div>
         </div>
       </div>
     </div>

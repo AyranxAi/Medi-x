@@ -293,76 +293,148 @@ section{position:relative}
 .turn-glow{position:absolute;right:-18vw;top:-20vh;width:60vw;height:60vw;border-radius:50%;
   background:radial-gradient(circle,rgba(199,154,146,.16) 0%,rgba(92,31,49,0) 62%);pointer-events:none}
 
-/* ─────────────────────────── 03 · BHRT EXPLAINER ─────────────────────────── */
-.bhrt{background:var(--cream)}
-.bhrt-lede{max-width:36em;font-size:clamp(16px,1.4vw,20px);color:var(--ink-soft);line-height:1.8;margin-top:-16px}
-.bhrt-lede strong{font-weight:500;color:var(--burgundy)}
-.bhrt-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(18px,2vw,28px);margin-top:clamp(48px,7vh,80px)}
-.tile{
-  background:var(--ivory);border:1px solid var(--line);border-radius:20px;
-  padding:clamp(28px,3vw,44px);display:flex;flex-direction:column;gap:16px;
-  transition:transform .5s var(--ease),box-shadow .5s var(--ease),border-color .5s var(--ease);
+/* ─── ONE DOOR MATERIAL, SHARED BY 03 AND 04 — NEW 2026-08-11 ────────────────
+   The primary red pill still exists, and it still means "book". THIS means "go
+   and read", and the distinction is the whole point of the rebuild below: this
+   page is an introduction whose job is to route to the service pages (his
+   framing, 2026-08-11), and a directory built out of primary CTAs reads as three
+   sales rather than three doors. One material, used wherever the page hands off. */
+.link-arrow{
+  display:inline-flex;align-items:center;gap:11px;
+  font-family:var(--sans);font-weight:500;font-size:11.5px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--logo-red);
 }
-.tile:hover{transform:translateY(-6px);border-color:var(--gold);box-shadow:0 24px 48px -30px rgba(92,31,49,.25)}
-.tile .num{font-family:var(--accent);font-size:12px;letter-spacing:.26em;color:var(--gold-deep)}
-.tile h3{font-size:clamp(21px,1.9vw,27px)}
-.tile p{font-size:15px;color:var(--ink-soft);line-height:1.75}
-.bhrt-punch{
-  margin-top:clamp(52px,8vh,90px);text-align:center;
-  font-family:var(--serif);font-size:clamp(24px,3vw,40px);line-height:1.3;color:var(--ink);
-}
-.bhrt-punch em{color:var(--logo-red)}
-.bhrt-note{margin-top:26px;text-align:center;font-size:12.5px;color:var(--ink-soft);letter-spacing:.02em}
+.link-arrow svg{width:19px;height:19px;flex:none;transition:transform .4s var(--ease)}
+.link-arrow:hover svg{transform:translateX(6px)}
 
-/* ─────────────────────────── 04 · SERVICES ─────────────────────────── */
-.services{background:var(--ivory)}
-.svc-list{display:flex;flex-direction:column;border-top:1px solid var(--line)}
-.svc{
-  display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr) auto;gap:clamp(20px,3vw,60px);
-  align-items:center;padding:clamp(34px,4.6vh,56px) 0;border-bottom:1px solid var(--line);
-  transition:background .4s var(--ease);position:relative;
+/* ─────────────────────────── 03 · THE ANSWER ────────────────────────────────
+   HIS PICK 2026-08-11 — "direction B", chosen from four rendered options.
+   ⚠️ THE BREVITY IS THE DESIGN. Do not helpfully re-expand this. It sits directly
+   after a six-screen pinned scroll story that ends on a dawn, and the version it
+   replaces spent ~90 words there: a headline, a four-line lede, three bordered
+   tiles, a centred punchline and a disclaimer. That asked the reader to start
+   studying at the exact moment they were still feeling something. This runs under
+   thirty words and hands off.
+   THE FULL EXPLANATION BELONGS ON THE BHRT SERVICE PAGE, which is where length
+   costs nothing. The old .tile / .bhrt-tiles / .bhrt-punch / .bhrt-lede rules are
+   gone with the markup that used them. */
+.bhrt{background:var(--cream)}
+/* the hook device, reused deliberately: the same question-above-the-thing move
+   that makes the consultation doors read as an invitation rather than a list. */
+.bhrt-q{
+  font-family:var(--quote);font-size:clamp(19px,2.3vw,30px);line-height:1.35;
+  color:var(--burgundy);opacity:.62;max-width:24ch;margin-bottom:clamp(18px,2.4vh,28px);
 }
-.svc:hover{background:linear-gradient(90deg,rgba(241,231,210,.0),rgba(241,231,210,.55),rgba(241,231,210,.0))}
-.svc .hook{font-family:var(--quote);font-size:clamp(15px,1.55vw,20px);color:var(--rose);line-height:1.4;margin-bottom:12px;display:block;color:var(--burgundy);opacity:.75}
-.svc h3{font-size:clamp(26px,3vw,42px);transition:color .3s}
-.svc:hover h3{color:var(--logo-red)}
-.svc .desc{font-size:15px;color:var(--ink-soft);line-height:1.75;max-width:30em}
-.svc .cta-cell{display:flex;justify-content:flex-end}
-.svc .btn{padding:15px 28px;font-size:12px}
-.svc-note{margin-top:26px;font-size:13px;color:var(--ink-soft);letter-spacing:.02em}
-/* Same emphasis material as every other strong on the page (hero-sub, bhrt-lede,
-   faq-a): weight 500 in burgundy, never the browser's 700. At 13px a default bold
-   in ink-soft reads as a typo rather than a lift. */
+.bhrt-line{font-size:clamp(30px,4.4vw,62px);line-height:1.14;letter-spacing:-.008em;max-width:20ch}
+.bhrt-line em{color:var(--logo-red)}
+/* .sec-head carries a clamp(44px,6.5vh,80px) bottom margin for sections whose head
+   is a kicker and a headline. This head holds three things and the lede sets its own
+   rhythm, so the two margins were stacking to ~112px and opening a hole under the
+   headline. The gap below is owned by .bhrt-sub alone. */
+.bhrt .sec-head{margin-bottom:0}
+.bhrt-sub{
+  margin-top:clamp(30px,4vh,44px);font-size:clamp(15px,1.35vw,18px);
+  color:var(--ink-soft);line-height:1.75;max-width:46ch;
+}
+.bhrt-sub strong{font-weight:500;color:var(--burgundy)}
+/* These answer "…and can help with what?" without spending a sentence on it, and
+   they double as a contents preview of the service page the arrow leads to.
+   Same pill geometry as the scene fallback's .chip, one step quieter on purpose:
+   those are symptoms the reader recognises, these are outcomes we are claiming. */
+.bhrt-helps{list-style:none;margin:clamp(26px,3.4vh,38px) 0 0;padding:0;display:flex;flex-wrap:wrap;gap:9px}
+.bhrt-helps li{
+  font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--ink-soft);background:var(--ivory);
+  border:1px solid var(--line);border-radius:999px;padding:9px 16px;
+}
+.bhrt-foot{
+  display:flex;align-items:center;gap:clamp(20px,3vw,40px);flex-wrap:wrap;
+  margin-top:clamp(34px,4.6vh,52px);padding-top:clamp(22px,3vh,32px);border-top:1px solid var(--line);
+}
+.bhrt-note{font-size:12px;color:var(--ink-soft);opacity:.85;max-width:46ch}
+
+/* ─────────────────────────── 04 · CONSULTATIONS ─────────────────────────────
+   HIS PICK 2026-08-11 — "direction B", three doors.
+   ⚠️ THIS SECTION IS A DIRECTORY, NOT A BOOKING FORM. It replaces three table
+   rows that each ended in their own red pill: three primary CTAs inside a single
+   viewport is three times the ask at a third of the weight, and it asked for the
+   sale before the reader knew what they were buying. Each door now routes to that
+   service's own page, and the discovery call sits underneath the set, once.
+   Three panels standing side by side also read as three choices before a word is
+   processed. That was the deciding factor over the list-and-sticky-plate
+   alternative, which is the better-looking layout on a desktop and has nothing to
+   stick to at 390px — see the 980 breakpoint, where these become a swipe rail. */
+.services{background:var(--ivory)}
+.doors{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(12px,1.6vw,22px)}
+.door{
+  position:relative;min-height:clamp(420px,58vh,580px);
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:clamp(24px,2.4vw,38px);overflow:hidden;isolation:isolate;
+  transition:transform .6s var(--ease);
+}
+.door:hover,.door:focus-visible{transform:translateY(-7px)}
+.door img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;
+  transform:scale(1.02);transition:transform 1.4s var(--ease);
+}
+.door:hover img{transform:scale(1.07)}
+/* ⚠️ THIS ALPHA IS PROVISIONAL AND HAS NOT BEEN MEASURED — the plates are still
+   placeholders. The placeholder is a mid-tone plum precisely so this ramp is not
+   passing a test a bright photograph would fail, but that is a guard, not a
+   measurement. When the real plates land, run the repo's method before shipping:
+   render, hide the copy, sample the ground behind each copy rectangle, take the
+   worst 2% of pixels, and confirm ivory clears 4.5:1 small / 3:1 large. BRAND.md. */
+.door::after{
+  content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,
+  rgba(46,34,40,.16) 0%,rgba(92,31,49,.72) 58%,rgba(26,15,19,.94) 100%);
+}
+.door .hook{
+  font-family:var(--quote);font-size:clamp(14px,1.3vw,17px);line-height:1.4;
+  color:var(--rose);display:block;margin-bottom:12px;
+}
+.door h3{color:var(--ivory);font-size:clamp(22px,2.2vw,31px);line-height:1.14}
+/* gold, not red, on a dark ground — the page's existing inversion rule */
+.door .link-arrow{color:var(--gold);margin-top:18px}
+/* THE WHOLE PANEL BECOMES THE LINK THE MOMENT THE LINK HAS A DESTINATION. Written
+   as a[href] on purpose: while the doors are unwired (no href) nothing is
+   clickable and nothing lies about being clickable, and wiring the directory later
+   is three href attributes with no markup change and no second hit area. */
+.door a[href]::after{content:"";position:absolute;inset:0;z-index:1}
+.svc-note{margin-top:clamp(26px,3.4vh,36px);font-size:13px;color:var(--ink-soft);letter-spacing:.02em}
+/* Same emphasis material as every other strong on the page (hero-sub, faq-a):
+   weight 500 in burgundy, never the browser's 700. At 13px a default bold in
+   ink-soft reads as a typo rather than a lift. */
 .svc-note strong{font-weight:500;color:var(--burgundy)}
 
-/* ─────────────────────────── 05 · BOOSTERS ─────────────────────────── */
-.boost{background:var(--ink);color:var(--ivory)}
-.boost .sec-head h2{color:var(--ivory)}
-.boost .kicker{color:var(--gold)}
-.boost-sub{color:rgba(250,247,241,.7);font-size:clamp(15px,1.3vw,18px);max-width:32em;margin-top:-30px;margin-bottom:clamp(44px,6vh,72px);line-height:1.8}
-.boost-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(18px,2.2vw,30px)}
-.boost-card{
-  position:relative;border:1px solid rgba(250,247,241,.18);border-radius:24px;overflow:hidden;
-  padding:clamp(34px,4vw,56px);display:flex;flex-direction:column;gap:18px;min-height:340px;justify-content:flex-end;
-  background:linear-gradient(160deg,rgba(92,31,49,.55),rgba(46,34,40,.2) 55%);
-  transition:transform .5s var(--ease),border-color .5s var(--ease);
+/* ─────────────────────────── 05 · BOOSTER PROGRAMS ──────────────────────────
+   HIS PICK 2026-08-11 — "direction A", and the ground goes light with it.
+   ⚠️ TWO SEPARATE FAULTS WERE FIXED HERE AND ONLY ONE OF THEM WAS THE COLOUR.
+   (1) This was the single dark block in the lower half, so the page lurched into
+   ink and straight back out of it. Burgundy at 08 is now the only dark moment on
+   the way down, which is where the weight belongs — the section grounds run
+   cream · ivory · cream · ivory · cream · burgundy.
+   (2) BOTH LINKS GO TO THE SAME PAGE (his note, 2026-08-11). Two cards with two
+   buttons promised two destinations and delivered one, and that mismatch was
+   doing as much damage as the colour. The pair is now one offer with two halves
+   and exactly one door. ⚠️ Do not re-split this into per-programme CTAs unless
+   the programmes actually get separate pages. */
+.boost{background:var(--cream)}
+.boost-sub{font-size:clamp(15px,1.35vw,18px);color:var(--ink-soft);line-height:1.8;max-width:38ch;margin-top:-24px}
+.boost-pair{
+  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
+  gap:clamp(20px,3vw,52px);margin-top:clamp(38px,5.5vh,68px);
 }
-.boost-card:hover{transform:translateY(-6px);border-color:var(--gold)}
-.boost-card .plus{
-  position:absolute;top:26px;right:30px;font-family:var(--serif);font-size:clamp(44px,4.6vw,68px);
-  color:var(--gold);opacity:.9;line-height:1;transition:transform .6s var(--ease);
-}
-.boost-card:hover .plus{transform:rotate(90deg)}
-.boost-card .chapter-mark{color:var(--gold)}
-.boost-card h3{color:var(--ivory);font-size:clamp(26px,2.8vw,40px);max-width:10em}
-.boost-card h3 em{color:var(--rose)}
-.boost-card p{color:rgba(250,247,241,.72);font-size:15px;line-height:1.75;max-width:28em}
-.boost-card .link{
-  display:inline-flex;align-items:center;gap:10px;margin-top:8px;
-  font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);
-}
-.boost-card .link .arr{transition:transform .35s var(--ease)}
-.boost-card:hover .link .arr{transform:translateX(5px)}
+.boost-one{text-align:center}
+.boost-one h3{font-size:clamp(24px,3.1vw,44px);line-height:1.14}
+.boost-one h3 em{color:var(--logo-red);display:block}
+.boost-one p{font-size:14.5px;color:var(--ink-soft);line-height:1.7;max-width:26ch;margin:14px auto 0}
+/* The join is the brand's ✦, not a plus sign. A plus between two names that both
+   already contain "+" would read as a third operator; the star reads as "and". */
+/* text-align matters only below 980, where the three-column grid collapses to one
+   and the star stops being an auto-width column: left-aligned, it reads as a bullet
+   belonging to the paragraph above it rather than as the join between the two. */
+.boost-star{font-family:var(--serif);font-size:clamp(30px,3.6vw,52px);color:var(--gold);line-height:1;display:block;text-align:center}
+.boost-foot{display:flex;justify-content:center;margin-top:clamp(36px,5vh,62px)}
 
 /* ─────────────────────────── 06 · TESTIMONIALS ─────────────────────────── */
 .stories{background:var(--ivory)}
@@ -602,10 +674,28 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
 /* ─────────────────────────── RESPONSIVE ─────────────────────────── */
 @media (max-width:980px){
   .turn-cols{grid-template-columns:1fr}
-  .bhrt-tiles{grid-template-columns:1fr}
-  .svc{grid-template-columns:1fr;gap:18px}
-  .svc .cta-cell{justify-content:flex-start}
-  .boost-grid{grid-template-columns:1fr}
+  /* ⚠️ THE THREE DOORS BECOME A SWIPE RAIL, NOT THREE THIN COLUMNS — and this is
+     the reason direction B was chosen over the list-and-sticky-plate layout.
+     At 980 three equal columns give each door ~300px, which wraps the hook to
+     four lines and squeezes the service name to two; below 600 it is unusable.
+     One door at 78% of the viewport, snapped, keeps the plate readable and makes
+     the "there are more of these" affordance visible at the right edge.
+     The negative inline margin cancels .wrap's padding so the rail bleeds to the
+     screen edges while the doors themselves still start on the page's text
+     column — a rail inset by 72px reads as a broken grid, not as a rail. */
+  .doors{
+    grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:78%;
+    overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;
+    margin-inline:calc(var(--pad) * -1);padding-inline:var(--pad);
+    scrollbar-width:none;
+  }
+  .doors::-webkit-scrollbar{display:none}
+  .door{scroll-snap-align:center;min-height:clamp(380px,52vh,470px)}
+  /* touch never sees the hover that lifts the desktop door, and a transform on a
+     snapped rail fights the snap */
+  .door:hover{transform:none}
+  .door:hover img{transform:scale(1.02)}
+  .boost-pair{grid-template-columns:1fr;gap:clamp(26px,4vh,40px)}
   .story-rail{grid-template-columns:1fr}
   .faq-grid{grid-template-columns:1fr}
   .faq-side{position:static}
@@ -616,6 +706,11 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
   .hero-ctas .btn{width:100%;justify-content:center}
   .chips{gap:10px}
   .chip{padding:10px 18px}
+  /* a 390px viewport gives 78% ≈ 304px, which is back to the squeeze the rail
+     exists to avoid; at 86% the door is ~335px and the hook holds three lines */
+  .doors{grid-auto-columns:86%}
+  .bhrt-helps{gap:8px}
+  .bhrt-helps li{padding:8px 14px;letter-spacing:.16em}
 }
 @media (prefers-reduced-motion:reduce){
   .marquee-track{animation:none}
@@ -829,121 +924,104 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
     </div>
   </div>
 
-  <!-- ══════════ 03 · BHRT ══════════ -->
+  <!-- ══════════ 03 · THE ANSWER ══════════ -->
   <section class="bhrt sec-pad" id="bhrt">
     <div class="wrap">
       <div class="sec-head">
         <p class="kicker">03 · The answer</p>
-        <h2 data-reveal>Meet BHRT — hormones your body <em>already knows</em>.</h2>
+        <!-- The hook device, deliberately reused from the doors below: a question the
+             reader is already asking, set above the thing that answers it. -->
+        <p class="bhrt-q" data-reveal>“So what is BHRT, actually?”</p>
+        <h2 class="bhrt-line" data-reveal>Hormones identical to the ones you <em>already make</em>.</h2>
       </div>
-      <p class="bhrt-lede" data-reveal>
-        <strong>Bio-identical Hormone Replacement Therapy</strong> uses hormones that are
-        molecule-for-molecule identical to the ones your body makes itself. As your own levels
-        decline, we gently replenish them — guided by your labs, tailored to your life,
-        and adjusted as you feel the change.
-      </p>
-      <div class="bhrt-tiles">
-        <div class="tile" data-reveal>
-          <span class="num">I</span>
-          <h3>Identical by design</h3>
-          <p>Structurally the same as your own hormones — so your body recognizes them,
-          receives them, and puts them straight to work.</p>
-        </div>
-        <div class="tile" data-reveal>
-          <span class="num">II</span>
-          <h3>Guided by your labs</h3>
-          <p>Dosed to your numbers, not to population averages. Your bloodwork writes the
-          prescription — we read it with you, line by line.</p>
-        </div>
-        <div class="tile" data-reveal>
-          <span class="num">III</span>
-          <h3>Adjusted with you</h3>
-          <p>Follow-up labs and check-ins refine the protocol as your body responds —
-          because balance is a conversation, not a one-time fix.</p>
-        </div>
+      <p class="bhrt-sub" data-reveal>We replace what has gone — <strong>guided by your labs</strong>,
+      adjusted as you feel the change.</p>
+      <ul class="bhrt-helps" data-reveal>
+        <li>Sleep</li><li>Energy</li><li>Mood</li><li>Libido</li><li>Focus</li><li>Strength</li>
+      </ul>
+      <div class="bhrt-foot" data-reveal>
+        <!-- ⚠️ UNWIRED ON PURPOSE — the BHRT service page does not exist yet, and this
+             repo's standing rule is that a control with no destination stays inert
+             rather than being pointed at a placeholder URL (see the four others in
+             ../README.md). No href, exactly like the landing page's ch1/ch3 CTAs.
+             Wiring it is one attribute: add href="…" and it becomes a link. -->
+        <a class="link-arrow" data-soon>How BHRT works <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
+        <p class="bhrt-note">BHRT requires individual medical assessment and may not be suitable for everyone.</p>
       </div>
-      <p class="bhrt-punch" data-reveal>
-        In short: there can be <em>an answer</em><br>to what you've been feeling.
-      </p>
-      <p class="bhrt-note" data-reveal>BHRT requires individual medical assessment and may not be suitable for everyone.</p>
     </div>
   </section>
 
-  <!-- ══════════ 04 · SERVICES ══════════ -->
+  <!-- ══════════ 04 · CONSULTATIONS ══════════ -->
   <section class="services sec-pad" id="services">
     <div class="wrap">
       <div class="sec-head">
         <p class="kicker">04 · Consultations</p>
         <h2 data-reveal>Where would you like to <em>begin</em>?</h2>
       </div>
-      <div class="svc-list">
-        <article class="svc" data-reveal>
-          <div>
-            <span class="hook">"Still feel like your cycle has a mind of its own?"</span>
-            <h3>Hormone Therapy &amp; BHRT</h3>
-          </div>
-          <p class="desc">Complete rebalancing for women and men — estrogen, progesterone,
-          thyroid, testosterone and more, mapped from your labs and built around your life.</p>
-          <div class="cta-cell"><a class="btn" href="#book">Book a consultation <span class="arr">→</span></a></div>
+      <!-- ⚠️ PLACEHOLDER PLATES, and the swap is deliberately trivial: point each
+           img src at the real photograph. Nothing else here changes — the crop is
+           object-fit, the scrim is a pseudo-element, the sizing is the panel's.
+           images/placeholders/ is not part of the finished site; it goes when the
+           three real plates land. The testosterone plate does not exist in any form
+           yet — it is a shoot, not a crop of something we already have.
+           ⚠️ EACH DOOR IS ALSO UNWIRED. Adding href to the .link-arrow inside makes
+           the WHOLE PANEL clickable (see .door a[href]::after in the stylesheet), so
+           wiring the directory is three attributes and no markup change. -->
+      <div class="doors">
+        <article class="door">
+          <img src="../images/placeholders/plate-hormone.svg" alt="Placeholder plate for the hormone therapy pathway." loading="lazy" decoding="async" width="1000" height="1500">
+          <span class="hook">“Still feel like your cycle has a mind of its own?”</span>
+          <h3>Hormone Therapy &amp; BHRT</h3>
+          <a class="link-arrow" data-soon>Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
         </article>
-        <article class="svc" data-reveal>
-          <div>
-            <span class="hook">"Hot flashes, 3am wake-ups, moods that aren't yours?"</span>
-            <h3>Modern Menopause</h3>
-          </div>
-          <p class="desc">Menopause, managed like it's this decade — evidence-led protocols
-          that let you skip the "just suffer through it" chapter entirely.</p>
-          <div class="cta-cell"><a class="btn" href="#book">Book a consultation <span class="arr">→</span></a></div>
+        <article class="door">
+          <img src="../images/placeholders/plate-menopause.svg" alt="Placeholder plate for the modern menopause pathway." loading="lazy" decoding="async" width="1000" height="1500">
+          <span class="hook">“Hot flashes, 3am wake-ups, moods that aren’t yours?”</span>
+          <h3>Modern Menopause</h3>
+          <a class="link-arrow" data-soon>Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
         </article>
-        <article class="svc" data-reveal>
-          <div>
-            <span class="hook">"Drive, strength and spark not what they were?"</span>
-            <h3>Testosterone Replacement Therapy</h3>
-          </div>
-          <p class="desc">For men noticing the slow fade — restore the energy, focus and
-          strength the years have quietly dialed down, safely and under real supervision.</p>
-          <div class="cta-cell"><a class="btn" href="#book">Book a consultation <span class="arr">→</span></a></div>
+        <article class="door">
+          <img src="../images/placeholders/plate-trt.svg" alt="Placeholder plate for the testosterone replacement pathway." loading="lazy" decoding="async" width="1000" height="1500">
+          <span class="hook">“Drive, strength and spark not what they were?”</span>
+          <h3>Testosterone Replacement</h3>
+          <a class="link-arrow" data-soon>Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
         </article>
       </div>
-      <!-- HIS CORRECTION 2026-08-11: the entry offer is not "any consultation". It is a
-           FREE 10-MINUTE DISCOVERY CALL WITH IRINA — the same offer the landing page's
-           chapter 03 already sells ("complimentary discovery call", Irina Bond named).
-           The old line also read as a shrug: pick anything, we'll sort it out. The
-           routing promise is the same, but it now costs the reader nothing and has a
-           person's name on it, which is what actually gets the click.
-           ⚠️ Duration is stated on purpose here, and it is the ONE duration on the page:
-           a "45 min" line was removed on 2026-08-10 by his call. Ten minutes reads as
-           low-commitment; forty-five read as an appointment. Don't reintroduce the other. -->
+      <!-- HIS CORRECTION 2026-08-11: the entry offer is a FREE 10-MINUTE DISCOVERY
+           CALL WITH IRINA, the same offer the landing page's chapter 03 sells. It
+           sits once, under the whole set — the three doors above are for reading,
+           not for booking, which is why none of them carries a red pill.
+           ⚠️ Ten minutes is the only duration on the page: a "45 min" line was
+           removed on 2026-08-10 by his call. Don't reintroduce the other. -->
       <p class="svc-note" data-reveal>Not sure which fits? Start with a <strong>free 10-minute discovery call</strong> — Irina will listen, and point you to the right one.</p>
     </div>
   </section>
 
-  <!-- ══════════ 05 · BOOSTERS ══════════ -->
+  <!-- ══════════ 05 · BOOSTER PROGRAMS ══════════ -->
   <section class="boost sec-pad" id="boosters">
     <div class="wrap">
       <div class="sec-head">
         <p class="kicker">05 · Booster programs</p>
-        <h2 data-reveal>Need more of a <em style="color:var(--rose)">boost</em>?</h2>
+        <h2 data-reveal>Two ways to go <em>further</em>.</h2>
       </div>
-      <p class="boost-sub" data-reveal>Two programs that pair your hormone care with the systems
-      that amplify it — for the ones who want even more from life.</p>
-      <div class="boost-grid">
-        <article class="boost-card" data-reveal>
-          <span class="plus" aria-hidden="true">+</span>
-          <p class="chapter-mark">PROGRAM 01</p>
-          <h3>Hormone Therapy <em>+ Gut Health</em></h3>
-          <p>Balance begins in the gut. We restore absorption and calm inflammation —
-          so the hormones we rebalance actually land, and stay landed.</p>
-          <a class="link" href="#book">Explore the program <span class="arr">→</span></a>
-        </article>
-        <article class="boost-card" data-reveal>
-          <span class="plus" aria-hidden="true">+</span>
-          <p class="chapter-mark">PROGRAM 02</p>
-          <h3>Hormone Therapy <em>+ Energy</em></h3>
-          <p>For the days that ask more of you. Mitochondrial and metabolic support layered
-          over your protocol — energy built at the cellular level, not borrowed from caffeine.</p>
-          <a class="link" href="#book">Explore the program <span class="arr">→</span></a>
-        </article>
+      <p class="boost-sub" data-reveal>Pair your hormone care with the systems that amplify it.</p>
+      <div class="boost-pair">
+        <div class="boost-one" data-reveal>
+          <h3>Hormone Therapy<em>+ Gut Health</em></h3>
+          <p>Balance begins in the gut — so what we rebalance actually lands, and stays landed.</p>
+        </div>
+        <span class="boost-star" aria-hidden="true">✦</span>
+        <div class="boost-one" data-reveal>
+          <h3>Hormone Therapy<em>+ Energy</em></h3>
+          <p>Mitochondrial support layered over your protocol — energy built at the cellular level.</p>
+        </div>
+      </div>
+      <!-- ONE door, because both programmes live on ONE page (his note 2026-08-11).
+           This one keeps the primary pill: it is the section's only action, so it
+           can carry the weight that three of them could not. Unwired like the rest
+           until the programmes page has an address. -->
+      <div class="boost-foot" data-reveal>
+        <a class="btn" data-soon>Explore the programs <span class="arr">→</span></a>
       </div>
     </div>
   </section>

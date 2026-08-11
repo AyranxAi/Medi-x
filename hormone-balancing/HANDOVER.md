@@ -28,9 +28,10 @@ readable static sections.
    then eight two-word reversals land in the symptoms' own slots, "Meet BHRT."). Word-blooms
    on *this* / *differ* / *yourself* (`.w` spans). Phase indicator top-right, "Scroll to
    listen" hint.
-4. **BHRT explainer** (cream) → **Consultations** (3 services, "do you still feel…" hooks)
-   → **Boosters** (2 programs) → **Stories** (placeholder testimonials, labelled as such —
-   replace with real voices before real marketing) → **FAQ** → **final CTA**.
+4. **03 The answer** (cream) → **04 Consultations** (3 doors) → **05 Booster programs**
+   (cream) → **Stories** (placeholder testimonials, labelled as such — replace with real
+   voices before real marketing) → **FAQ** → **final CTA**.
+   ⚠️ 03/04/05 were rebuilt on 2026-08-11 — see **The lower half** below before editing them.
 5. **Header + footer** are verbatim ports of this repo's landing bar and footer (same
    classes, same behaviours, same overlay menu destinations).
 
@@ -111,6 +112,52 @@ height): 360×640 ≥ 17px, 390×844 ≥ 10px, 430×932 ≥ 21px, desktop ≥ 16
 word sitting at the widest part of the body (chest + arm) on the commonest phone width.
 It clears, but it's the first thing that breaks if anyone grows the type, widens the
 figure, or lengthens that word.
+
+## The lower half — rebuilt 2026-08-11 (03, 04, 05)
+
+**The fact that rewrote all three:** this page is an *introduction*, and its job is to send
+people to the individual service pages — his framing, 2026-08-11. Everything below follows
+from that, and reverting any of it without reverting the framing will reintroduce the fault.
+
+- **03 · The answer** — was a headline, a four-line lede, three bordered tiles, a centred
+  punchline and a disclaimer: ~90 words, immediately after a six-screen story that ends on a
+  dawn. Now a hook question, one headline, one sentence, six outcome chips and a door: under
+  thirty. ⚠️ **The brevity is the design** — the full BHRT explanation belongs on the service
+  page, where length costs nothing. Don't re-expand it here.
+- **04 · Consultations** — was three table rows each ending in its own red pill. Three primary
+  CTAs in one viewport is three times the ask at a third of the weight, and it asked for the
+  sale before the reader knew what they were buying. Now three photographic doors that route,
+  with the discovery call once underneath. Below 980 they become a **scroll-snapped swipe
+  rail** at 78% viewport width (86% below 520) — that mobile behaviour is why this direction
+  was chosen over the better-looking desktop alternative (a list against a sticky plate, which
+  has nothing to stick to at 390px).
+- **05 · Booster programs** — two faults, only one of which was the colour. It was the single
+  dark block in the lower half, so the page lurched into ink and back out; grounds now run
+  cream · ivory · cream · ivory · cream · burgundy, and 08 is the only dark moment.
+  And **both links go to the same page**, so two cards with two buttons were promising two
+  destinations. It is now one offer with two halves joined by the brand ✦, and one door.
+  ⚠️ Don't re-split into per-programme CTAs unless the programmes get separate pages.
+
+**One shared material:** `.link-arrow` is the "go and read" control, distinct from the red
+pill's "book". Used by 03 and by every door.
+
+### What is deliberately unfinished here
+- **Five controls are inert** (`data-soon`, no `href`): 03's *How BHRT works*, the three door
+  *Explore* links, and 05's *Explore the programs*. Same rule as the rest of the repo — a
+  control with no destination stays inert rather than pointing at a placeholder URL. Wiring
+  each is **one attribute**; on a door, adding `href` also makes the whole panel clickable
+  via `.door a[href]::after`, with no markup change.
+- **The three door plates are placeholders** (`images/placeholders/plate-*.svg`). Swapping in
+  photography is a `src` change — crop is `object-fit`, scrim is a pseudo-element, sizing is
+  the panel's. That folder is not part of the finished site and goes when the plates land.
+  ⚠️ The testosterone plate does not exist in any form; it is a shoot, not a crop.
+  ⚠️ SVG is XML — the first placeholder shipped with a bare `&` in its label and silently
+  failed to parse (`naturalWidth` 0, no console error, panel showed only its scrim).
+- **The door scrim alpha is a guess, not a measurement.** The placeholder is mid-tone plum on
+  purpose so the ramp isn't passing a test a bright photograph would fail, but that is a
+  guard. Run the repo's method against the real plates before this goes near paid traffic:
+  render, hide the copy, sample the ground behind each copy rectangle, worst 2% of pixels,
+  ivory clears 4.5:1 small / 3:1 large.
 
 ## The scene engine (all inside the last two `<script>` blocks)
 - Everything is a **pure function of pin progress + time** — scrubbing is deterministic.

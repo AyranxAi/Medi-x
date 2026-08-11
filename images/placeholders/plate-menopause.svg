@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1500" width="1000" height="1500" role="img" aria-label="Placeholder plate">
+  <!-- PLACEHOLDER, 2026-08-11. Mid-tone warm plum on purpose: a pale box would let
+       the panel scrim pass a test the real photograph will fail. Replace by pointing
+       the img src at the real plate — the markup, sizing and scrim need no change. -->
+  <rect width="1000" height="1500" fill="#6E5A62"/>
+  <rect x="34" y="34" width="932" height="1432" fill="none" stroke="#FAF7F1" stroke-opacity=".26"/>
+  <text x="500" y="716" text-anchor="middle" font-family="Georgia, serif" font-size="62" fill="#C2A05E">&#10022;</text>
+  <text x="500" y="790" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="27" letter-spacing="6" fill="#FAF7F1" fill-opacity=".62">MODERN MENOPAUSE</text>
+  <text x="500" y="838" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="22" letter-spacing="5" fill="#FAF7F1" fill-opacity=".38">PLATE TO SHOOT</text>
+</svg>

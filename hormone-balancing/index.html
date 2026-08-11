@@ -1417,10 +1417,31 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
   }
 
   const lpos=[];
-  let idle=false, latch=0, phaseTxt="";
+  let idle=false, latch=0, phaseTxt="", creep=0, lastLatch=0, stillT=0, pNow=0;
+  /* ═══ ?play=hybrid — the middle path between scrubbing and autoplay ═══
+     Full autoplay is wrong for THIS scene and the reason is the pin: the stage is held for
+     600vh, so a story that finishes on its own leaves the reader locked in a viewport with
+     nothing happening, still owing six screens of scrolling to escape. It would also
+     retire "Scroll to listen", which is the affordance the whole act is built on.
+     What was actually broken is narrower: stop moving and the scene stops dead, which is
+     what made a half-scroll feel like a stall. So the hybrid keeps scroll in charge and
+     only adds a floor — after .6s of stillness the story breathes forward on its own, and
+     never gets more than LEAD_MAX ahead of where the reader actually is. It finishes the
+     sentence you paused in the middle of, then waits for you. It can never run to the end
+     by itself, and scrolling always outranks it.
+     Opt-in for now: ?play=hybrid. Default is unchanged. */
+  const PLAY = params.get("play") || "scroll";
+  const LEAD_MAX = .10, CREEP_RATE = .014;   /* ≈7s to spend the whole lead */
   function update(){
     if(st) latch=Math.max(latch,st.progress);  /* his call: the story only moves forward — scrolling up holds, never re-tethers */
-    const p = forceP!==null ? forceP : latch;
+    const tNow=performance.now()/1000;
+    const dtNow=Math.min(.1,Math.max(0,tNow-(lastT||tNow)));
+    if(Math.abs(latch-lastLatch)>1e-4){ stillT=0; lastLatch=latch; } else stillT+=dtNow;
+    creep=Math.max(creep,latch);               /* the reader always wins upward */
+    if(PLAY==="hybrid" && st && st.isActive && stillT>.6)
+      creep=Math.min(creep+dtNow*CREEP_RATE, latch+LEAD_MAX, 1);
+    const p = forceP!==null ? forceP : (PLAY==="hybrid" ? creep : latch);
+    pNow=p;
     if(st && !st.isActive && (p<=0||p>=1)){ if(idle) return; idle=true; } else idle=false;
     if(!W||!H){ build(); if(!W||!H) return; }
     const t=performance.now()/1000;
@@ -1579,7 +1600,12 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
     }
   }
   gsap.ticker.add(update);
-  window.__scene={ get p(){return forceP!==null?forceP:(st?st.progress:0);} };
+  /* ⚠️ Reports the progress the scene is ACTUALLY drawn at, not st.progress. Those are the
+     same number under ?play=scroll and deliberately differ under ?play=hybrid — a QA hook
+     that reports the input rather than the result cannot see the hybrid working at all. */
+  window.__scene={ get p(){return forceP!==null?forceP:pNow;},
+                   get lead(){return Math.max(0,pNow-latch);},
+                   get mode(){return forceP!==null?"solo":PLAY;} };
 })();
 </script>
 

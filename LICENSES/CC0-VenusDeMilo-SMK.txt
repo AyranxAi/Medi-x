@@ -1,0 +1,20 @@
+Venus de Milo (Aphrodite of Milos) — 3D scan
+============================================
+
+Used for: images/scene/venus-stone-*.avif|webp, and the inlined point cloud in
+hormone-balancing/index.html. The .glb itself is NOT redistributed by this repo.
+
+Source   Sketchfab — "Venus de Milo (Aphrodite of Milos)"
+         https://sketchfab.com/3d-models/venus-de-milo-aphrodite-of-milos-53082b5d6cef4c34a9701a2a24f58075
+Origin   A 3D scan of a plaster cast (ref. KAS434/1) in The Royal Cast Collection,
+         SMK – National Gallery of Denmark. The sculpture is dated circa 450 BCE.
+         High-resolution models and further reading: https://www.smk.dk/3d
+Licence  CC0 1.0 Universal — Public Domain Dedication
+         https://creativecommons.org/publicdomain/zero/1.0/
+
+CC0 imposes no conditions: commercial use, modification and redistribution are all
+permitted, and no attribution is required. This file exists to record provenance, not
+to satisfy an obligation.
+
+SMK asks — as a courtesy, not a licence term — that anyone producing new work from the
+scans drops them a line at web@smk.dk. Worth doing: this page is new work made from one.

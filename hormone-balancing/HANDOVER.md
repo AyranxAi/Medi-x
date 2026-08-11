@@ -25,8 +25,9 @@ readable static sections.
    Acts at exact scrub fractions: Recognition 0–.42 → Signals .42–.56 (gold pulses
    label→body, drift stills) → Release .56–.78 (tethers cut ONE BY ONE, label sighs upward,
    figure brightens one step per cut) → Support .78–1 (dawn arrives AFTER full ignition,
-   the ✦ answers ring him and stay, "Meet BHRT."). Word-blooms on *this* / *differ* /
-   *yourself* (`.w` spans). Phase indicator top-right, "Scroll to listen" hint.
+   then eight two-word reversals land in the symptoms' own slots, "Meet BHRT."). Word-blooms
+   on *this* / *differ* / *yourself* (`.w` spans). Phase indicator top-right, "Scroll to
+   listen" hint.
 4. **BHRT explainer** (cream) → **Consultations** (3 services, "do you still feel…" hooks)
    → **Boosters** (2 programs) → **Stories** (placeholder testimonials, labelled as such —
    replace with real voices before real marketing) → **FAQ** → **final CTA**.
@@ -85,10 +86,16 @@ clamp is solved, not chosen: a pinned label leaves `W/2 − EDGE − width − (
 half-width, .139·figH at the arms)`, and the widest word ("Mood swings", wider than
 "Erratic cycles" in this face) runs ~6.3× the font size. That yields ~4.6vw.
 
-**The phone figure is derived:** `min(H*.48, 380, H − H*.30 − 150)`. The third term
-reserves the band below him for the ✦ answers — they're sentences and can only live below
-him on a phone. The 380 cap is the trade against label width: every px of body width comes
-off the word beside it.
+**The phone figure is derived:** `min(H*.48, 380, H − H*.30 − 40)`. The third term used to
+reserve 150px below him for the four ✦ sentences, which were too wide to flank a body at
+390px; the reversals use the side slots instead, so that reserve is gone.
+⚠️ **Dropping it bought nothing, and this is worth knowing before anyone tries again.** The
+binding term on a phone is the **380 cap**, not the reserve — and 380 is itself a trade
+against label width, because figure width scales with height (`.139·figH` at the arms) and
+every px of body squeezes the word pinned beside it. At 470px the widest label has ~1px of
+clearance. So the empty band at the bottom of a phone is structurally hard to reclaim with
+a centred body and side labels. The honest fix, if it ever matters: put the eight reversals
+in that band as a 2×4 grid on phones only, and leave the side slots to desktop.
 
 **Playback.** Default is scroll-scrubbed. `?play=hybrid` adds a floor: after .6s of
 stillness the story creeps forward on its own, capped at `lead` ahead of where the reader

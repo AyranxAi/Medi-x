@@ -233,26 +233,6 @@ body.nav-open .nav li{
 .hero-hint .tick::after{content:"";position:absolute;top:-50%;left:0;width:100%;height:50%;background:var(--gold);animation:drip 2.1s var(--ease) infinite}
 @keyframes drip{0%{top:-50%}100%{top:110%}}
 
-/* ─────────────────────────── MARQUEE ─────────────────────────── */
-.marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:22px 0;overflow:hidden;background:var(--ivory)}
-.marquee-track{display:flex;width:max-content;animation:mq 36s linear infinite}
-/* ── THE BAND GOES TO CAPS, AND SMALLER — HIS CALL 2026-08-11 ────────────────
-   Chosen from four rendered options, not from theory. The band is Megante (--quote
-   became Megante on 2026-08-10 when Cormorant was pulled for being unreadable at
-   size), and Megante's capitals are its strongest feature, so caps read as a
-   designed band where the lowercase read as body copy that wandered in.
-   ⚠️ CAPS ALONE WAS REJECTED and this is the part worth keeping. Megante's caps are
-   wider AND taller than its lowercase, so at the old 22px/.1em they crowded and the
-   band read as shouting — which is the opposite of a transition between the hero and
-   the scene. The size comes DOWN as the case goes up: 17px ceiling, .34em tracking,
-   44px padding. Quieter than the original lowercase, and unmistakably a label.
-   Title case was the clear loser of the four: ragged cap-heights, reads as a nav menu.
-   The loop is unaffected — the track holds the seven words exactly twice and the
-   keyframe translates -50%, so any width still seams perfectly. */
-.marquee-track span{font-family:var(--quote);font-size:clamp(13px,1.15vw,17px);color:var(--burgundy);letter-spacing:.34em;text-transform:uppercase;white-space:nowrap;padding:0 44px;display:flex;align-items:center;gap:60px}
-.marquee-track .star{color:var(--gold);font-size:.7em}
-@keyframes mq{to{transform:translateX(-50%)}}
-
 /* ─────────────────────────── SECTION SHELL ─────────────────────────── */
 section{position:relative}
 .sec-pad{padding-top:clamp(90px,13vh,160px);padding-bottom:clamp(90px,13vh,160px)}
@@ -316,9 +296,11 @@ section{position:relative}
    left-aligned version it replaces was 774px; this is 591px. If it grows back past
    ~650 it has quietly become a chapter again and the beat between the scroll story
    and the directory is gone.
-   The vocabulary is borrowed from the marquee band directly above the scene —
-   full width, hairline top and bottom, nothing but centred type between them — so
-   the page reads as having two bands rather than one band and one odd section.
+   ⚠️ This was originally argued as rhyming with the marquee band above the scene.
+   THE BAND WAS REMOVED ON 2026-08-11 (his call — they didn't want it), so that
+   argument is void and the segment now stands on the proportion alone: full width,
+   a rule top and bottom, centred type, and roughly 60% of a chapter's height. It is
+   the only band-shaped thing left on the page, which if anything makes it stronger.
    ⚠️ NO CTA. This page IS the BHRT intro (his correction, same day), so there is no
    service page to hand off to. Section 03 explains and stops. Do not add an arrow. */
 .bhrt{background:var(--cream)}
@@ -375,9 +357,31 @@ section{position:relative}
    alternative, which is the better-looking layout on a desktop and has nothing to
    stick to at 390px — see the 980 breakpoint, where these become a swipe rail. */
 .services{background:var(--ivory)}
-.doors{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(12px,1.6vw,22px)}
+/* ⚠️ .doors SITS OUTSIDE .wrap ON PURPOSE — his call 2026-08-11: "you will scroll
+   right, and when you scroll the cards are full bleed". A rail that stops at the
+   text column has a margin on the right, and a margin tells the reader the row has
+   ended. Running it off the edge of the screen is the whole affordance.
+   The rail is horizontal at EVERY width now, not only on phones.
+   --rail-pad reproduces .wrap's content edge exactly (max-width 1280, centred, plus
+   --pad), so the first card starts flush under the headline while the rail itself
+   bleeds both ways. scroll-padding matches it so a snapped card lands on that same
+   line rather than against the viewport edge. */
+.doors{
+  --rail-pad:max(var(--pad), calc((100% - 1280px) / 2 + var(--pad)));
+  /* ⚠️ CARD WIDTH IS WHAT MAKES THIS A RAIL AT ALL. At 26vw the three cards plus
+     the rail padding came to 1456px against a 1440 viewport — 17px of scroll, which
+     is a row that happens to overflow, not a rail. At 34vw two cards sit fully in
+     frame and the third is cut by the screen edge, which is the entire affordance
+     given the scrollbar is hidden. Measured at 1440: 1804px of track, 364 to scroll. */
+  display:grid;grid-auto-flow:column;grid-auto-columns:clamp(300px,34vw,520px);
+  gap:clamp(12px,1.6vw,22px);
+  overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;
+  padding-inline:var(--rail-pad);scroll-padding-inline:var(--rail-pad);
+  scrollbar-width:none;
+}
+.doors::-webkit-scrollbar{display:none}
 .door{
-  position:relative;min-height:clamp(420px,58vh,580px);
+  position:relative;scroll-snap-align:start;min-height:clamp(440px,64vh,640px);
   display:flex;flex-direction:column;justify-content:flex-end;
   padding:clamp(24px,2.4vw,38px);overflow:hidden;isolation:isolate;
   transition:transform .6s var(--ease);
@@ -651,7 +655,7 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
 .scene-hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);
   font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:rgba(250,247,241,.55)}
 /* ?scene=<0..1> QA mode: only the stage, frozen at that progress */
-.scene-solo header,.scene-solo .progress,.scene-solo .hero,.scene-solo .marquee,.scene-solo .bhrt,
+.scene-solo header,.scene-solo .progress,.scene-solo .hero,.scene-solo .bhrt,
 .scene-solo .services,.scene-solo .boost,.scene-solo .stories,.scene-solo .faq,.scene-solo .final,
 .scene-solo footer{display:none!important}
 .scene-solo .scene-track{height:100svh}
@@ -684,23 +688,10 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
 /* ─────────────────────────── RESPONSIVE ─────────────────────────── */
 @media (max-width:980px){
   .turn-cols{grid-template-columns:1fr}
-  /* ⚠️ THE THREE DOORS BECOME A SWIPE RAIL, NOT THREE THIN COLUMNS — and this is
-     the reason direction B was chosen over the list-and-sticky-plate layout.
-     At 980 three equal columns give each door ~300px, which wraps the hook to
-     four lines and squeezes the service name to two; below 600 it is unusable.
-     One door at 78% of the viewport, snapped, keeps the plate readable and makes
-     the "there are more of these" affordance visible at the right edge.
-     The negative inline margin cancels .wrap's padding so the rail bleeds to the
-     screen edges while the doors themselves still start on the page's text
-     column — a rail inset by 72px reads as a broken grid, not as a rail. */
-  .doors{
-    grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:78%;
-    overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;
-    margin-inline:calc(var(--pad) * -1);padding-inline:var(--pad);
-    scrollbar-width:none;
-  }
-  .doors::-webkit-scrollbar{display:none}
-  .door{scroll-snap-align:center;min-height:clamp(380px,52vh,470px)}
+  /* the rail is now the base behaviour; below 980 only the card width and height
+     change, because 26vw of a tablet is a card too narrow to hold the hook */
+  .doors{grid-auto-columns:min(78vw,420px)}
+  .door{min-height:clamp(380px,52vh,470px)}
   /* touch never sees the hover that lifts the desktop door, and a transform on a
      snapped rail fights the snap */
   .door:hover{transform:none}
@@ -718,14 +709,13 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
   .chip{padding:10px 18px}
   /* a 390px viewport gives 78% ≈ 304px, which is back to the squeeze the rail
      exists to avoid; at 86% the door is ~335px and the hook holds three lines */
-  .doors{grid-auto-columns:86%}
+  .doors{grid-auto-columns:82vw}
   /* the segment's own tightening: at 390 the clamp floor already holds the word at
      48px, so only the rhythm around it needs to come in */
   .seg{padding-block:clamp(46px,7vh,72px)}
   .seg-def{font-size:17px}
 }
 @media (prefers-reduced-motion:reduce){
-  .marquee-track{animation:none}
   .hero-hint .tick::after{animation:none}
   *{transition-duration:.01ms!important}
 }
@@ -803,20 +793,6 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
     <div class="hero-hint" aria-hidden="true"><span>Scroll</span><span class="tick"></span></div>
   </section>
 
-  <!-- ══════════ MARQUEE ══════════ -->
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee-track">
-      <span>deep sleep <i class="star">✦</i></span><span>clarity <i class="star">✦</i></span>
-      <span>energy <i class="star">✦</i></span><span>desire <i class="star">✦</i></span>
-      <span>strength <i class="star">✦</i></span><span>calm <i class="star">✦</i></span>
-      <span>joy <i class="star">✦</i></span>
-      <span>deep sleep <i class="star">✦</i></span><span>clarity <i class="star">✦</i></span>
-      <span>energy <i class="star">✦</i></span><span>desire <i class="star">✦</i></span>
-      <span>strength <i class="star">✦</i></span><span>calm <i class="star">✦</i></span>
-      <span>joy <i class="star">✦</i></span>
-    </div>
-  </div>
-
   <!-- ══════════ 01–02 · THE SIGNALS — tethered scroll scene (fallback below) ══════════ -->
   <div id="signals">
     <section class="scene" aria-label="The signals — a scroll story">
@@ -836,7 +812,7 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
                cross and the descent breaks. The matching chips in .scene-fallback below
                carry the same eight words in the same order. -->
           <div class="scene-labels" aria-hidden="true">
-            <span class="scene-label">3am again</span>
+            <span class="scene-label">Sleeplessness</span>
             <span class="scene-label">Brain fog</span>
             <span class="scene-label">Hot flashes</span>
             <span class="scene-label">Mood swings</span>
@@ -847,7 +823,7 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
           </div>
           <div class="scene-answers" aria-hidden="true">
             <!-- ⚠️ ORDER MIRRORS THE SYMPTOMS EXACTLY. Answer i lands in symptom i's slot,
-                 so "3am again" is replaced in place by "Deep sleep". Re-order one list and
+                 so "Sleeplessness" is replaced in place by "Deep sleep". Re-order one list and
                  you must re-order the other, or the reversal points at the wrong word. -->
             <span class="scene-answer">Deep sleep</span>
             <span class="scene-answer">Clear head</span>
@@ -892,7 +868,7 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
                The poetry the chips used to carry now lives one paragraph down, where
                length costs nothing. -->
           <div class="chips" data-chips>
-            <span class="chip">3am again</span>
+            <span class="chip">Sleeplessness</span>
             <span class="chip">Brain fog</span>
             <span class="chip">Hot flashes</span>
             <span class="chip">Mood swings</span>
@@ -955,35 +931,37 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
         <p class="kicker">04 · Consultations</p>
         <h2 data-reveal>Where would you like to <em>begin</em>?</h2>
       </div>
-      <!-- ⚠️ PLACEHOLDER PLATES, and the swap is deliberately trivial: point each
-           img src at the real photograph. Nothing else here changes — the crop is
-           object-fit, the scrim is a pseudo-element, the sizing is the panel's.
-           images/placeholders/ is not part of the finished site; it goes when the
-           three real plates land. The testosterone plate does not exist in any form
-           yet — it is a shoot, not a crop of something we already have.
-           ⚠️ EACH DOOR IS ALSO UNWIRED. Adding href to the .link-arrow inside makes
-           the WHOLE PANEL clickable (see .door a[href]::after in the stylesheet), so
-           wiring the directory is three attributes and no markup change. -->
-      <div class="doors">
-        <article class="door">
-          <img src="../images/placeholders/plate-hormone.svg" alt="Placeholder plate for the hormone therapy pathway." loading="lazy" decoding="async" width="1000" height="1500">
-          <span class="hook">“Still feel like your cycle has a mind of its own?”</span>
-          <h3>Hormone Therapy &amp; BHRT</h3>
-          <a class="link-arrow" data-soon>Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
-        </article>
-        <article class="door">
-          <img src="../images/placeholders/plate-menopause.svg" alt="Placeholder plate for the modern menopause pathway." loading="lazy" decoding="async" width="1000" height="1500">
-          <span class="hook">“Hot flashes, 3am wake-ups, moods that aren’t yours?”</span>
-          <h3>Modern Menopause</h3>
-          <a class="link-arrow" data-soon>Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
-        </article>
-        <article class="door">
-          <img src="../images/placeholders/plate-trt.svg" alt="Placeholder plate for the testosterone replacement pathway." loading="lazy" decoding="async" width="1000" height="1500">
-          <span class="hook">“Drive, strength and spark not what they were?”</span>
-          <h3>Testosterone Replacement</h3>
-          <a class="link-arrow" data-soon>Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
-        </article>
-      </div>
+    </div>
+    <!-- ⚠️ PLACEHOLDER PLATES, and the swap is deliberately trivial: point each
+         img src at the real photograph. Nothing else here changes — the crop is
+         object-fit, the scrim is a pseudo-element, the sizing is the panel's.
+         images/placeholders/ is not part of the finished site; it goes when the
+         three real plates land. The testosterone plate does not exist in any form
+         yet — it is a shoot, not a crop of something we already have.
+         ⚠️ EACH DOOR IS ALSO UNWIRED. Adding href to the .link-arrow inside makes
+         the WHOLE PANEL clickable (see .door a[href]::after in the stylesheet), so
+         wiring the directory is three attributes and no markup change. -->
+    <div class="doors">
+      <article class="door">
+        <img src="../images/placeholders/plate-hormone.svg" alt="Placeholder plate for the hormone therapy pathway." loading="lazy" decoding="async" width="1000" height="1500">
+        <span class="hook">“Still cycling and noticing changes?”</span>
+        <h3>Hormone Therapy &amp; BHRT</h3>
+        <a class="link-arrow" data-soon>Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
+      </article>
+      <article class="door">
+        <img src="../images/placeholders/plate-menopause.svg" alt="Placeholder plate for the modern menopause pathway." loading="lazy" decoding="async" width="1000" height="1500">
+        <span class="hook">“Twelve months or more since your last period?”</span>
+        <h3>Modern Menopause</h3>
+        <a class="link-arrow" data-soon>Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
+      </article>
+      <article class="door">
+        <img src="../images/placeholders/plate-trt.svg" alt="Placeholder plate for the testosterone replacement pathway." loading="lazy" decoding="async" width="1000" height="1500">
+        <span class="hook">“Concerned about male hormone health?”</span>
+        <h3>Testosterone Replacement</h3>
+        <a class="link-arrow" data-soon>Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
+      </article>
+  </div>
+    <div class="wrap">
       <!-- HIS CORRECTION 2026-08-11: the entry offer is a FREE 10-MINUTE DISCOVERY
            CALL WITH IRINA, the same offer the landing page's chapter 03 sells. It
            sits once, under the whole set — the three doors above are for reading,
@@ -1330,7 +1308,7 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
     ScrollTrigger.refresh();
   });
 
-  /* marquee slow-down on scroll-past (subtle parallax feel) */
+  /* the ✦ in the closing CTA drifts as the section passes */
   gsap.to(".final-star", {y:120, ease:"none",
     scrollTrigger:{trigger:".final", start:"top bottom", end:"bottom top", scrub:true}});
 })();
@@ -1428,7 +1406,7 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
      Slot Y trails its anchor Y down the figure, so every tether reads as a short
      outward descent rather than a long diagonal across the legs. */
   const CFG = [
-    [-1,.02, -.032,.050],   /* 3am again      → head, left      */
+    [-1,.02, -.032,.050],   /* Sleeplessness  → head, left      */
     [ 1,.10,  .036,.088],   /* Brain fog      → head, right     */
     [-1,.23, -.078,.192],   /* Hot flashes    → neck/shoulder L */
     [ 1,.32,  .068,.248],   /* Mood swings    → chest, right    */

@@ -506,14 +506,22 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
   text-shadow:0 1px 16px rgba(46,34,40,.9),0 0 38px rgba(46,34,40,.72)}
 /* ⚠️ FIXED INK, NOT --scene-fg. These used to ride the same ivory→ink lerp as the ground
    they sit on, which meant text and ground crossed each other mid-dawn: measured 1.42:1
-   at p .87, against a 3.0 floor for large text. They now arrive AFTER the dawn has landed
-   (see the answer schedule in update()), so ink is correct for their whole life. */
-.scene-answer{position:absolute;left:0;top:0;opacity:0;white-space:nowrap;display:flex;gap:12px;align-items:baseline;
-  font-family:var(--serif);font-size:clamp(14px,1.6vw,22px);color:var(--ink)}
+   at p .87, against a 3.0 floor for large text. They arrive AFTER the dawn has landed, so
+   ink is correct for their whole life.
+   ⚠️ HIS CALL: four floating sentences became EIGHT TWO-WORD OPPOSITES, one per symptom,
+   landing in that symptom's OWN slot — each word that lifted off him is answered exactly
+   where it used to hang. That is why they now share the label's face and size rather than
+   the old serif: they are the same object, reversed. The cost is the one italic that used
+   to sit in the fourth sentence, which has no home in a two-word line. */
+.scene-answer{position:absolute;left:0;top:0;opacity:0;white-space:nowrap;
+  font-family:var(--quote);font-size:clamp(21px,2.35vw,34px);line-height:1.1;letter-spacing:.005em;
+  color:var(--ink);text-shadow:0 1px 20px rgba(250,247,241,.8)}
 /* gold-deep, not gold: these marks only ever appear on the risen ivory, where --gold
    measures 2.31:1 and --gold-deep 4.69:1 */
 .scene-answer .star{color:var(--gold-deep);font-size:.7em}
-.scene-copy{position:absolute;left:50%;top:13%;transform:translateX(-50%);width:min(92vw,780px);text-align:center;pointer-events:none}
+/* 13%→9.5%, his call: the ceiling was reserving space the figure needed and nothing was
+   using it. The reserve is real — the body grows into exactly what this gives back. */
+.scene-copy{position:absolute;left:50%;top:9.5%;transform:translateX(-50%);width:min(92vw,780px);text-align:center;pointer-events:none}
 /* ⚠️ EVERY BEAT HAS A FIXED POLARITY — his note 2026-08-10, "color is bad while
    transitioning", on this exact line of copy. The beats used to take --scene-fg, which
    lerps ivory→ink across the dawn while the GROUND lerps ink→ivory underneath them. Two
@@ -527,7 +535,7 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
    copy-free so nothing is ever on screen while the ground is mid-flight. The halo is the
    belt to that braces: it separates the glyph from the particle field either way. */
 .scene-beat{position:absolute;left:0;right:0;top:0;opacity:0;font-family:var(--serif);
-  font-size:clamp(23px,3vw,42px);line-height:1.22;
+  font-size:clamp(27px,3.5vw,49px);line-height:1.22;   /* his 1.16x, chosen in the figure room */
   color:var(--ivory);text-shadow:0 1px 24px rgba(46,34,40,.62)}
 .scene-beat.light{color:var(--ink);text-shadow:0 1px 24px rgba(250,247,241,.8)}
 .scene-beat em{font-style:italic;color:var(--rose)}
@@ -537,7 +545,7 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
   transition:opacity .8s var(--ease),transform .8s var(--ease),filter .8s var(--ease)}
 .scene-beat .w.on{opacity:1;transform:none;filter:blur(0)}
 .scene-beat.gold{color:var(--gold)} /* the key validating line, lit — lives entirely on the dark stage */
-.scene-beat.reveal{font-size:clamp(38px,5.6vw,78px);line-height:1.05}
+.scene-beat.reveal{font-size:clamp(44px,6.5vw,90px);line-height:1.05}
 .scene-beat.reveal .star{color:var(--gold-deep);font-size:.5em;vertical-align:.35em;padding-right:.25em} /* on ivory — see .scene-answer .star */
 .scene-phase{position:absolute;top:calc(max(1rem,env(safe-area-inset-top)) + 4.2rem);right:var(--hdr-pad);
   font-family:var(--accent);font-size:11px;letter-spacing:.3em;color:var(--scene-fg);opacity:.7;text-transform:uppercase}
@@ -709,10 +717,17 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
             <span class="scene-label">Low libido</span>
           </div>
           <div class="scene-answers" aria-hidden="true">
-            <span class="scene-answer"><i class="star">✦</i> Mornings you look forward to</span>
-            <span class="scene-answer"><i class="star">✦</i> Sleep that actually restores</span>
-            <span class="scene-answer"><i class="star">✦</i> A spark you thought was gone</span>
-            <span class="scene-answer"><i class="star">✦</i> Feeling like <i>you</i> — again</span>
+            <!-- ⚠️ ORDER MIRRORS THE SYMPTOMS EXACTLY. Answer i lands in symptom i's slot,
+                 so "3am again" is replaced in place by "Deep sleep". Re-order one list and
+                 you must re-order the other, or the reversal points at the wrong word. -->
+            <span class="scene-answer">Deep sleep</span>
+            <span class="scene-answer">Clear head</span>
+            <span class="scene-answer">Cool again</span>
+            <span class="scene-answer">Steady moods</span>
+            <span class="scene-answer">Real energy</span>
+            <span class="scene-answer">Body responds</span>
+            <span class="scene-answer">Cycles settle</span>
+            <span class="scene-answer">Desire back</span>
           </div>
           <div class="scene-copy">
             <p class="scene-beat">But maybe, right now, it looks more like <span class="w">this</span> —</p>
@@ -1245,10 +1260,19 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
 
   const mobile = matchMedia("(max-width:760px)").matches;
   const fine   = matchMedia("(pointer:fine)").matches && !mobile;
+  const P_GLOW   = true;   /* the dawn arrives from a source, not as a flat fill — one flag to revert */
   const EDGE     = mobile?16:26;  /* frame margin a label may never cross — 16 answers to the page's own 20px phone gutter */
   const TERM_GAP = 12;            /* air between the word and its tether's ring terminal — 0 restores pill-era geometry */
 
-  const INK=[46,34,40], IVORY=[250,247,241], STONE=[168,152,153], GOLD=[194,160,94]; /* rose-grey, not cold stone */
+  const INK=[46,34,40], IVORY=[250,247,241];
+  /* ═══ BLUSH — his pick from the figure room, 2026-08-10 ═══
+     The ground no longer resolves to --ivory. Ivory is the colour the REST of the page
+     already is, so the payoff of a six-screen scroll landed on wallpaper: that is why it
+     never read as an arrival. It rises to a pale rose pulled down from --rose instead, off
+     a deeper plum than --ink, and the last of the light arrives as a bloom centred on his
+     chest rather than a flat fill (see the dawn paint below). */
+  const BG_A=[42,27,32], BG_B=[246,231,225];
+  const STONE=[176,154,156], GOLD=[201,164,106]; /* dim → lit, warmed to sit on the blush */
   /* --gold-deep from BRAND.md. The figure is lit in --gold, which measures 2.31:1 against
      the risen ivory — it washed out at exactly the moment the dawn was given the stage to
      itself. Deepening to this as the ground rises restores it to 4.69:1. */
@@ -1307,16 +1331,24 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
     [-1,.72, -.070,.500],   /* Erratic cycles → pelvis, left    */
     [ 1,.84,  .066,.508]    /* Low libido     → pelvis, right   */
   ];
-  /* the good things: a quiet ring around the freed figure — they arrive AFTER release and stay.
-     [side, slotY as a fraction of figure height]. Desktop flanks him, two high two low.
-     Phones can't: these are SENTENCES, not two-word labels, and at 390px a flanking
-     answer lands on the body. They take the band the figure leaves below instead —
-     measured per device in update(), so a 640px phone and a 932px phone both get even
-     rhythm rather than a fixed fraction that collides on one of them.
-     That band runs to H-44 rather than to the "Scroll to listen" hint: the hint is fully
-     faded by p .10 and these arrive at p .80, so it is not there to collide with. 44 is
-     the home-indicator gutter (the page is viewport-fit=cover). */
-  const ANS = [[-1,.06],[1,.02],[-1,.66],[1,.74]];
+  /* ═══ THE GLANDS — four, on the midline ═══
+     Eight scattered nodes read as a diagram; four down the spine read as a spine of light,
+     which is both calmer and more accurate — the pituitary conducts everything under it.
+     They wake in sequence as the tethers cut, and a signal travels the axis between them. */
+  const GLANDS=[[.004,.058,3.2,0],[.002,.142,2.7,.16],[.004,.400,2.7,.34],[.002,.500,3.0,.52]];
+  /* ═══ THE INNER GLOW — soft volume pooled along the skeleton, UNDER the grain ═══
+     Order is load-bearing: glow first, grain on top, nodes last. A glow painted over the
+     grain hazes it straight back into the fog this whole round was spent escaping. */
+  let LAMPS=null;
+  function buildLamps(){
+    LAMPS=[];
+    for(const c of CAPS){
+      const n=Math.max(2,Math.round(Math.hypot(c[2]-c[0],c[3]-c[1])/.02)+2);
+      for(let i=0;i<n;i++){const u=n>1?i/(n-1):0;
+        LAMPS.push([c[0]+(c[2]-c[0])*u, c[1]+(c[3]-c[1])*u, c[4], Math.random()*6.283]);}
+    }
+  }
+  buildLamps();
   const rel = i => .56 + i*.0275;                     /* eight cuts, one by one */
   /* narrative beats: [in, out] progress (out>1 = holds to the end).
      ⚠️ REBUILT 2026-08-10 — his note: "the words that come are not smooth… not snappy…
@@ -1363,15 +1395,17 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
        arms at .139 of figH, and every px of figure width comes off the label beside it
        on a 390px screen. 380 is the largest body that still leaves the widest word
        ("Mood swings") a real gap. Raising it means dropping the phone type. */
-    figH=mobile ? Math.min(H*.48, 380, H-H*.30-150) : Math.min(H*.60, 540);
-    figTop=H*(mobile?.30:.32); cx=W/2;
+    figH=mobile ? Math.min(H*.48, 380, H-H*.30-40) : Math.min(H*.73, 700);
+    figTop=H*(mobile?.30:.24); cx=W/2;
     /* v1 soft-scatter, developed: particles live ON the skeleton's capsules and stream
        through the body — no rim tracing, no light bias, just a breathing silhouette of current */
     segs=CAPS.map(c=>{const dx=c[2]-c[0],dy=c[3]-c[1];const len=Math.hypot(dx,dy);
       const circ=len<1e-4;const ux=circ?1:dx/len,uy=circ?0:dy/len;
       return {x1:c[0],y1:c[1],ux,uy,nx:-uy,ny:ux,len,r:c[4],circ,w:circ?c[4]*c[4]*2.4:len*c[4]*2};});
     const totW=segs.reduce((a,s)=>a+s.w,0);
-    const N=mobile?2000:2600;  /* the phone silhouette grew ~45% in area — density held, not thinned out */
+    /* his 1.5x on desktop. Phones take 2600 rather than 3900: the glow and the nodes are
+       two more layers of alpha over the same pixels, and a mid-range phone pays for all three. */
+    const N=mobile?2600:3900;
     buckets=Array.from({length:6},(_,q)=>({shade:(q+.5)/6,pts:[]}));
     haloPts=[];
     for(let made=0;made<N;made++){
@@ -1431,7 +1465,14 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
      by itself, and scrolling always outranks it.
      Opt-in for now: ?play=hybrid. Default is unchanged. */
   const PLAY = params.get("play") || "scroll";
-  const LEAD_MAX = .10, CREEP_RATE = .014;   /* ≈7s to spend the whole lead */
+  /* He could not feel it at .014/s — 7s to spend the lead is below the threshold where a
+     reader notices motion they did not cause. Both numbers are tunable from the URL so the
+     right feel can be found by hand instead of by redeploy:
+       ?play=hybrid&creep=0.04&lead=0.16   assertive — the beat completes in ~4s
+       ?play=hybrid&creep=0.014            the original, nearly subliminal
+     Whatever wins here becomes the default; the query override stays for QA. */
+  const LEAD_MAX  = Math.min(.30, Math.max(.02, parseFloat(params.get("lead"))  || .10));
+  const CREEP_RATE= Math.min(.10, Math.max(.004,parseFloat(params.get("creep")) || .030));
   function update(){
     if(st) latch=Math.max(latch,st.progress);  /* his call: the story only moves forward — scrolling up holds, never re-tethers */
     const tNow=performance.now()/1000;
@@ -1464,7 +1505,18 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
        cannot, it IS the scene. So the crossing is made brief instead: .11 of progress was
        66vh of scrolling spent in a grey wash where the body all but disappeared, and .032
        is ~19vh, a fade-up you pass through rather than sit in. */
-    stage.style.backgroundColor=rgba(mixC(INK,IVORY,ss(.818,.850,p)),1);
+    /* ⚠️ THE DAWN HAS A SOURCE NOW. A flat fill was the real reason it never read as an
+       arrival: the base travels only 72% of the way, and the last of the light is a radial
+       bloom centred on his chest — so he reads as the thing CAUSING the morning rather than
+       a shape standing in front of one. Painted as a CSS gradient on the stage, not on the
+       canvas, so it stays underneath every particle without touching draw order. */
+    {
+      const dw=ss(.818,.850,p);
+      stage.style.backgroundColor=rgba(mixC(BG_A,BG_B,dw*(P_GLOW?.72:1)),1);
+      stage.style.backgroundImage = (P_GLOW&&dw>.001)
+        ? `radial-gradient(circle at 50% ${(((figTop+figH*.30)/H)*100).toFixed(1)}%, ${rgba(BG_B,dw)} 0%, ${rgba(BG_B,dw*.62)} 42%, ${rgba(BG_B,0)} 100%)`
+        : "none";
+    }
     /* --scene-fg now dresses ONLY the phase indicator; the copy stopped taking it (see
        .scene-beat). It flips fast and late so its own crossover is a sliver, and it is
        11px of decorative chrome rather than the line the page turns on. */
@@ -1502,24 +1554,20 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
       lpos[i]=[x,y,a];
     }
 
-    /* ✦ the good things arrive once he's free — and they stay, floating around him.
-       Phones take the band the figure leaves below, measured live: a 640px phone and a
-       932px phone both get even rhythm, where a fixed stage fraction collided on one. */
-    const ansTop=figTop+figH+26, ansStep=Math.max(26,(H-44-ansTop)/3);
-    answers.forEach((el,j)=>{
-      /* .80→.868: they now arrive on the FAR side of the dawn, so ink is right for their
-         whole life and they never cross the ground the way the beats used to. */
-      const a=ss(.868+j*.016,.908+j*.016,p);
-      let x,y;
-      if(mobile){
-        x=cx+Math.sin(t*.22+j*2.1)*5;
-        y=ansTop+ansStep*j+Math.cos(t*.18+j*1.7)*4+(1-a)*16;
-      }else{
-        const sp=Math.min(figH*.78, W*.5-aHalfW[j]-26);   /* flanks him, and stops flanking wider on a 32" */
-        x=cx+ANS[j][0]*sp+Math.sin(t*.22+j*2.1)*9;
-        y=figTop+figH*ANS[j][1]+Math.cos(t*.18+j*1.7)*7+(1-a)*18;
-      }
-      x=Math.max(aHalfW[j]+10,Math.min(W-aHalfW[j]-10,x));
+    /* ✦ THE REVERSAL — each answer lands in its symptom's OWN slot, same side, same height,
+       so the word that lifted off him is replaced exactly where it used to hang. Sharing the
+       label geometry is the whole point: it is the same object, turned over. The ANS table
+       and the phone band are gone with the four sentences that needed them. */
+    answers.forEach((el,i)=>{
+      const a=ss(.866+i*.009,.898+i*.009,p);
+      const cfg=CFG[i], side=cfg[0];
+      const hw=aHalfW[i];
+      const spread = mobile
+        ? W*.5-hw-EDGE
+        : Math.max(figH*.14+hw+22, Math.min(figH*.66, W*.5-hw-EDGE));
+      let x=cx+side*spread+Math.sin(t*.22+i*1.7)*(mobile?0:7);
+      const y=figTop+figH*cfg[1]+Math.cos(t*.19+i*2.3)*5+(1-a)*14;
+      x=Math.max(hw+EDGE,Math.min(W-hw-EDGE,x));
       el.style.transform=`translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) translate(-50%,-50%)`;
       el.style.opacity=a.toFixed(3);
     });
@@ -1568,10 +1616,32 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
         if(pa>.01){ ctx.fillStyle=rgba(GOLD,pa*.9); ctx.beginPath(); ctx.arc(px,py,2.3,0,6.283); ctx.fill(); }
       }
     }
+    const dawn=ss(.818,.850,p);   /* how far the ground has risen — the figure answers to it */
+    /* ⚠️ THE GRAIN GROWS AS THE STORY RESOLVES — his idea, and it does two jobs. It reads as
+       the body gathering itself rather than merely brightening, and it lands its largest
+       grain exactly where the risen ground would otherwise wash the figure out. */
+    const grain=mix(.50,1.20,ss(.05,.92,p));
+    /* ── inner glow, UNDER everything: soft volume pooled along the skeleton, hottest at
+       head and heart. Additive on the dark stage; plain over the risen blush, where
+       'lighter' on a near-white ground only ever produces white. ── */
+    const glowK=(.55+.45*gold)*(1-dawn*.45)*gAlpha;
+    if(glowK>.01){
+      ctx.globalCompositeOperation = dawn>.5 ? "source-over" : "lighter";
+      for(const L of LAMPS){
+        const core=Math.max(ss(.16,.02,L[1]), ss(.15,.29,L[1])*(1-ss(.29,.44,L[1])));
+        const R=L[2]*figH*1.75, X=fx0+L[0]*figH, Y=figTop+L[1]*figH;
+        const col=mixC(mixC(STONE,IVORY,.35),GOLD,gold*.85);
+        const gr2=ctx.createRadialGradient(X,Y,0,X,Y,R);
+        const a2=(.030+.052*core)*glowK*(.82+.18*Math.sin(t*.9+L[3]));
+        gr2.addColorStop(0,rgba(col,a2)); gr2.addColorStop(.55,rgba(col,a2*.36));
+        gr2.addColorStop(1,rgba(col,0));
+        ctx.fillStyle=gr2; ctx.beginPath(); ctx.arc(X,Y,R,0,6.283); ctx.fill();
+      }
+      ctx.globalCompositeOperation="source-over";
+    }
     const sc=1-assemble;
     /* one coherent breath on top of the current: the chest widens, the body settles */
     const br=Math.sin(t*.55)*(0.55+0.45*damp)*(1-gold*.4);
-    const dawn=ss(.818,.850,p);   /* how far the ground has risen — the figure answers to it */
     /* Math.sqrt, not dawn: the deepening is FRONT-LOADED so the body is most of the way to
        gold-deep while the ground is still dark, which puts the two values on opposite
        sides of the sweep for as much of it as possible. Alpha lifts too — on ivory the
@@ -1586,7 +1656,7 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
         const x=fx0+P[0]*(1+br*.008*tor)*figH+pt.sx*sc+Math.sin(t*.9+pt.ph)*.5;
         const y=figTop+P[1]*figH+pt.sy*sc+Math.cos(t*.8+pt.ph)*.5;
         ctx.globalAlpha=P[2];
-        ctx.beginPath(); ctx.arc(x,y,pt.sz*.55,0,6.283); ctx.fill(); /* round grain, not pixels */
+        ctx.beginPath(); ctx.arc(x,y,pt.sz*.55*grain,0,6.283); ctx.fill(); /* round grain, not pixels */
       }
     }
     ctx.globalAlpha=1;
@@ -1596,6 +1666,34 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
         const P=posOf(pt);
         const x=fx0+P[0]*figH+pt.sx*sc, y=figTop+P[1]*figH+pt.sy*sc;
         ctx.beginPath(); ctx.arc(x,y,pt.sz*2.6,0,6.283); ctx.fill();
+      }
+    }
+    /* ── the glands, LAST so they sit above the grain: four nodes down the midline with the
+       axis running between them and a signal travelling it. They deepen with the ground for
+       the same reason the grain does — --gold is 2.31:1 against a risen ivory. ── */
+    {
+      const base=dawn>.5?GOLD_DEEP:GOLD, kAss=assemble*.75+.25;
+      ctx.lineWidth=1;
+      for(let i=0;i<GLANDS.length-1;i++){
+        const A=GLANDS[i],B=GLANDS[i+1];
+        const ax=fx0+A[0]*figH, ay=figTop+A[1]*figH, bx=fx0+B[0]*figH, by=figTop+B[1]*figH;
+        const gA=(.13+.34*gold)*gAlpha*kAss;
+        const gr3=ctx.createLinearGradient(ax,ay,bx,by);
+        gr3.addColorStop(0,rgba(base,gA)); gr3.addColorStop(1,rgba(base,gA*.3));
+        ctx.strokeStyle=gr3; ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(bx,by); ctx.stroke();
+        const q=(t*.26+i*.29)%1;
+        ctx.fillStyle=rgba(base,(.42+.5*gold)*gAlpha*kAss*Math.sin(q*3.1416));
+        ctx.beginPath(); ctx.arc(mix(ax,bx,q),mix(ay,by,q),1.5,0,6.283); ctx.fill();
+      }
+      for(const nd of GLANDS){
+        const wake=ss(nd[3]*.2+.56,nd[3]*.2+.68,p), pulse=.74+.26*Math.sin(t*1.5+nd[3]*7);
+        const X=fx0+nd[0]*figH, Y=figTop+nd[1]*figH, R=nd[2];
+        const col=mixC(STONE,base,.45+.55*wake);
+        const gr4=ctx.createRadialGradient(X,Y,0,X,Y,R*7);
+        gr4.addColorStop(0,rgba(col,(.32+.46*wake)*pulse*gAlpha*kAss)); gr4.addColorStop(1,rgba(col,0));
+        ctx.fillStyle=gr4; ctx.beginPath(); ctx.arc(X,Y,R*7,0,6.283); ctx.fill();
+        ctx.fillStyle=rgba(dawn>.5?GOLD_DEEP:mixC(IVORY,GOLD,wake),(.74+.26*wake)*gAlpha*kAss);
+        ctx.beginPath(); ctx.arc(X,Y,R*(.58+.14*pulse),0,6.283); ctx.fill();
       }
     }
   }

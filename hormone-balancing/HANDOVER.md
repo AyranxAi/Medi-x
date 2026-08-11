@@ -1,11 +1,14 @@
-# Hormone Balancing & BHRT — `/hormone-balancing/` (shipped 2026-08-10, refined 2026-08-10)
+# Hormone Balancing & BHRT — `/hormone-balancing/` (shipped 2026-08-10, four refinement rounds same day)
 
-> **Refinement round — his two notes after seeing it live.** Both were about the scene:
-> the symptoms weren't big or obvious enough and were too wordy ("2 words max — low
-> libido, no energy"), and the phone was "too vertically stacked, not using a proper way
-> on the sides". Both are fixed; the *Signals scene layout* section below is the record.
-> Still open from that conversation: the figure itself (unchanged, still provisional) and
-> whether it becomes a 3D model — see **The figure, and the 3D question**.
+> **Where this stands.** Four rounds after the first ship, all driven by his notes on the
+> live page. In order: (1) the symptoms became two-word plate annotations and the phone
+> started using its sides; (2) the copy transitions were rebuilt after five of nine beats
+> turned out never to reach full opacity and the dawn was printing text at 1.42:1;
+> (3) `?play=hybrid`; (4) the figure he assembled himself in a live control room — bigger
+> body, four glands, an inner glow, a growing grain, a blush dawn with a light source, and
+> eight two-word reversals replacing the four floating sentences.
+> The figure's *material* is still the shipped particle system and still provisional; the
+> statue / point-cloud question is open. See **The figure, and the 3D question**.
 
 A self-contained service page (one `index.html`, ~535 KB, zero build step): brand fonts
 (Playfair var / MediGyn NOW / Megante) and both logo colourways are base64-embedded; the only
@@ -38,6 +41,29 @@ Weight gain · Erratic cycles · Low libido`. The `.scene-fallback` chips carry 
 eight, same order. ⚠️ Re-ordering breaks two things at once: `rel(i)` cuts the tethers in
 DOM order, and the slots run head→pelvis, so a swap makes tethers cross.
 
+**Round 4 — the scene as it now stands (his settings, chosen in a live preview).**
+- Figure `min(H*.73, 700)` from `H*.24` — 657px at 1440×900, 700px above. It was
+  `min(H*.60, 540)`, and on anything taller than 900px the **540 ceiling** was the binding
+  term, not the fraction: a 1440px-tall monitor still got 540px. That is the whole reason
+  it read small on a desktop.
+- Grain count 1.5× desktop (3900), 2600 on phones — the glow and the nodes are two more
+  alpha layers over the same pixels and a mid-range phone pays for all three.
+- **Grain grows .50 → 1.20 across the scroll.** His idea. It reads as the body gathering
+  itself, and it puts the largest grain exactly where the risen ground would wash it out.
+- **Four glands on the midline** + the axis between them, with a signal travelling it.
+  Eight scattered nodes read as a diagram; four read as a spine of light.
+- **Layer order is load-bearing:** inner glow UNDER the grain, nodes OVER it. A glow
+  painted over the grain hazes it back into fog.
+- **The dawn no longer resolves to ivory** — ivory is what the rest of the page already is,
+  so the payoff of a six-screen scroll landed on wallpaper. It rises to blush (`#F6E7E1`)
+  off a deeper plum (`#2A1B20`), and the last of the light is a **radial bloom centred on
+  his chest**, not a flat fill, so he reads as causing the morning. `P_GLOW` reverts it.
+- **Eight two-word reversals** replaced the four ✦ sentences, each landing in its own
+  symptom's slot. ⚠️ The two lists are index-matched — re-order one and you must re-order
+  the other. Cost: the one italic in the old fourth sentence. Every other emphasis is
+  untouched (`this` / `differ` / `yourself` blooms, the three `just …` italics, the gold line).
+- Headline 1.16×, ceiling 13% → 9.5%.
+
 **Slots hang off the figure, not the viewport.** `CFG` is now
 `[side, slotY (fraction of figure height), anchorX, anchorY]`. Side is strictly
 L,R,L,R… and the anchor is always on the *same* side as its slot, so no tether crosses
@@ -63,6 +89,14 @@ half-width, .139·figH at the arms)`, and the widest word ("Mood swings", wider 
 reserves the band below him for the ✦ answers — they're sentences and can only live below
 him on a phone. The 380 cap is the trade against label width: every px of body width comes
 off the word beside it.
+
+**Playback.** Default is scroll-scrubbed. `?play=hybrid` adds a floor: after .6s of
+stillness the story creeps forward on its own, capped at `lead` ahead of where the reader
+actually scrolled — it finishes the sentence you paused inside, then waits, and can never
+reach the end without you. Full autoplay was rejected because the stage is pinned for
+600vh: a story that finishes by itself leaves the reader locked in a viewport still owing
+six screens of scrolling. Both numbers are URL-readable while the right feel is found:
+`?play=hybrid&creep=0.04&lead=0.16`. `.014/s` was measurably too subtle to notice.
 
 **Measured clearances** (`?scene=0.35`, label edge → silhouette edge at that label's own
 height): 360×640 ≥ 17px, 390×844 ≥ 10px, 430×932 ≥ 21px, desktop ≥ 169px.

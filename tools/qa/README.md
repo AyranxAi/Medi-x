@@ -38,6 +38,44 @@ not the ivory title, which clears by a factor of three. Anything that lightens t
 lower third is the change to watch.
 ⚠️ Expect ±0.05 between runs; AVIF decode is not bit-identical. Trust the pass/fail.
 
+## Booster-plate contrast — `boost-contrast.mjs`
+
+Section 05's diptych puts copy **on** the photograph, so a plate swap there is a
+re-measurement and not a `src` change — the same standing cost 04 carries.
+
+```bash
+npm install playwright@1.49.1 sharp
+node tools/qa/boost-contrast.mjs            # three controls x two plates x two viewports
+node tools/qa/boost-contrast.mjs --shots    # also write the frame it measured
+```
+
+05's twelve measurements were run by hand and the script was never kept, so every plate
+swap since has been a promise rather than a check. This is that script.
+
+⚠️ **The phone moves the goalposts, and this section has already failed on it.** The rose
+`h3 em` is 38px on desktop — *large* text needing only 3 — and 22px at 390, where it needs
+4.5. A scrim tuned on desktop passes there and only there. Baseline as shipped: **12/12
+clear, tightest the rose em on the gut plate at 390×844 — 5.48 against 4.5, margin 0.98.**
+That margin is the budget any brighter plate spends.
+
+⚠️ **A near-1.0 ratio is almost never a real failure** — it means the foreground and the
+background are the same pixels: the copy did not hide, or the rect was read before the
+scroll settled. The harness flags it inline rather than letting you chase a colour bug.
+
+⚠️ **A skip exits non-zero.** Same rule `door-contrast.mjs` learned expensively: a silent
+skip that reads as a pass is worse than a fail.
+
+## Encoding a new plate — `tools/encode-plate.mjs`
+
+```bash
+node tools/encode-plate.mjs <master> <out-basename> [width]
+```
+
+Writes the AVIF/WebP pair the `<picture>` elements expect, prints the source aspect against
+the target's so you know what `cover` is discarding, and **refuses to overwrite an existing
+basename** — BRAND.md's rule, because a visitor holding the old file keeps being served the
+old picture. Encoding is not the last step: if copy sits on the plate, re-measure.
+
 ⚠️ Serve `three.module.js` as `text/javascript` or the import map rejects it.
 ⚠️ Read opacities from `getComputedStyle`, not from the source: several bugs found with
 this harness were elements that were positioned correctly but never reached full opacity.

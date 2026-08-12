@@ -276,6 +276,46 @@ rule: a control with no destination stays inert rather than pointing at a placeh
   placement, and the section that used to be 780px is now ~1340px, so it sits between the doors
   and the proof for twice as long as it did when the note was written.
 
+## 04's shape is decided — "arch", his pick 2026-08-12
+
+The founders' note was that the boxy shape was not working — **the three services, not 05**.
+Six treatments went up behind `?dshape=`; arch won and the other five and the switch are gone.
+
+⚠️ **THE NOTE AND FULL BLEED WERE IN DIRECT CONFLICT, and that was the real decision.** Full
+bleed means the rectangle *is* the viewport: the panel has no edges of its own, so there is
+nothing to shape. The four treatments that read as properly un-boxy — arcade, portal, inset,
+stagger — all got there by giving the panels ground to stand on, which means giving up the
+edge-to-edge wall he had asked for two rounds earlier. **Arch is the only one that satisfies
+both standing requests.** Only the top edge changes; the panels still touch and still reach
+both edges, and the section ground shows through the spandrels between the heads.
+
+`border-radius:50% 50% 0 0 / 20% 20% 0 0`. ⚠️ **Not a true semicircle** — on a 92vh panel a
+half-round head is a dome, because the radius would be half the *width*. ⚠️ **`overflow:hidden`
+is load-bearing**: the img is absolutely positioned to `inset:0` and scaled 1.02, so without it
+it paints straight over the corner the radius just cut.
+
+Contrast re-measured after the shape change: **18/18, tightest the BHRT hook at 5.01.**
+
+⚠️ **05's `?shape=` is still live and still undecided** — "not this one yet". Six frames for the
+booster pictures, on their own parameter so neither question moves the other.
+
+## The Energy plate was replaced 2026-08-12
+
+`images/energy.png` (his upload, `cd1a281`) → `images/boost/energy-lab-1340.{avif,webp}`. A
+clinician with a tablet over a DNA helix, already in the brand's rose. 1920×1080, which is the
+band aspect exactly, so it dropped in without a crop.
+
+⚠️ **New filenames, not an overwrite** — BRAND.md's rule, so no cache can serve the pendulum.
+The retired `energy-band-1340.*` and `energy-tall-941.*` are deleted, and 05's undecided arch
+and tall shapes were repointed at a portrait crop of the new frame (`energy-lab-tall-781.*`,
+anchored on the clinician rather than the centre) so nothing references a plate that is gone.
+
+⚠️ **05's two plates are now both dark.** The pendulum was pale cream against the near-black
+food plate, and that spread was the argument for bands over plates in the first place. The
+argument still holds — the copy sits beside the picture, so there is still no scrim to tune —
+but the pair no longer reads light-against-dark. If that contrast mattered, it is the thing
+that was lost.
+
 ## 05 is decided — "bands", his pick 2026-08-12
 
 Six treatments were built behind `?boost=` and judged on the real page. **He picked bands. The

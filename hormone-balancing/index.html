@@ -528,6 +528,21 @@ html.doors-tri .door--menopause{--plate-y:50%}
 html.doors-tri .door--trt{--plate-y:50%}
 html.doors-tri .door:hover img{transform:scale(1.07)}
 html.doors-tri .door:hover,html.doors-tri .door:focus-visible{transform:none}
+/* ⚠️ THE ARCH — his pick 2026-08-12, from six treatments, for the founders' note that the boxy
+   shape was not working. It is an arcade: elliptical heads with the section ground showing in
+   the spandrels between them. The shape of a loggia, which is the room this page keeps
+   invoking — it opens on a Venus de Milo and the Modern Menopause plate contains actual
+   travertine columns.
+   ⚠️ IT IS THE ONLY TREATMENT THAT SATISFIES BOTH STANDING REQUESTS. He asked for the pictures
+   to bleed after the headline; the founders asked for less box. The other five that read as
+   properly un-boxy — arcade, portal, inset, stagger — all get there by giving the panels
+   ground to stand on, which means giving up the full bleed he asked for two rounds earlier.
+   Only the top edge changes here; the panels still touch and still reach both edges.
+   ⚠️ 50%/20%, NOT A TRUE SEMICIRCLE. On a 92vh panel a half-round head is a dome, not an arch:
+   the radius would be half the WIDTH, which is taller than most of the picture.
+   ⚠️ overflow:hidden is load-bearing — without it the img, which is absolutely positioned to
+   inset:0 and scaled 1.02, paints straight over the corner the radius just cut. */
+html.doors-tri .door{border-radius:50% 50% 0 0 / 20% 20% 0 0;overflow:hidden}
 
 /* A · pinned — the section holds while the panels grow. --k is written per frame. */
 html.doors-pinned .svc-stage{
@@ -576,91 +591,6 @@ html.doors-static .door{min-height:var(--bleed-h)}
   html.doors-entry .doors,html.doors-entry .door{transition:none}
 }
 
-/* ⚠️ THIS BLOCK SITS AFTER THE MODE BLOCKS ON PURPOSE. The contained shapes need their
-   gutters back, and `html.doors-entry .svc-stage.on .doors{padding-inline:0}` has exactly the
-   same specificity as `html.dshape-arcade .svc-stage.on .doors`. Earlier in the file the zero
-   won and arcade, portal, inset and stagger all rendered edge-to-edge — the shapes applied,
-   the layout did not. Source order is the whole fix; do not move this back up. */
-/* ══ 04 · SHAPE TREATMENTS — ?dshape=arch | soft | arcade | portal | inset | stagger ═════════
-   Offered 2026-08-12 for the founders' note that the boxy shape is not working — the three
-   SERVICES, not 05.
-   ⚠️ THE NOTE AND FULL BLEED ARE IN DIRECT CONFLICT, and that is the real decision here, not
-   the corner radius. Full bleed means the rectangle IS the viewport: the panel has no edges of
-   its own, so there is no shape to give it. Anything genuinely un-boxy has to give the panels
-   ground to stand on, which means giving up the edge-to-edge wall that 04 currently is.
-   So these split into two families:
-     KEEPS FULL BLEED   arch, soft — the panels still touch and still reach both edges; only
-                        the top edge stops being straight, and the section ground shows
-                        through above the curve
-     GIVES IT UP        arcade, portal, inset, stagger — the panels become objects on a
-                        ground, with gaps, and the wall becomes a row of things
-   ⚠️ arcade ALSO MOVES THE COPY OFF THE PHOTOGRAPH, which deletes the scrim and with it the
-   0.49-margin contrast risk the doors currently carry. That is a real argument for it beyond
-   the shape.
-   ⚠️ The entry animation still runs in every one of these; the contained families simply do
-   not collapse gap and padding to zero when the stage turns on. */
-
-/* A · arch — an arcade. Elliptical heads, panels still touching, section ground showing in the
-   spandrels between them. The shape of a loggia, which is the room this page keeps invoking:
-   the scene opens on a Venus de Milo and the Modern Menopause plate contains actual travertine
-   columns. 50%/20% rather than a true semicircle — at 92vh a half-round head is a dome. */
-html.dshape-arch .door{border-radius:50% 50% 0 0 / 20% 20% 0 0;overflow:hidden}
-/* B · soft — the control. Still a rectangle, still full bleed, just not sharp at the top. If
-   this is enough, the objection was the corners and not the box. */
-html.dshape-soft .door{border-radius:clamp(40px,7vw,110px) clamp(40px,7vw,110px) 0 0;overflow:hidden}
-
-/* the contained family keeps its gutters when the stage turns on */
-html.dshape-arcade .svc-stage.on .doors,html.dshape-portal .svc-stage.on .doors,
-html.dshape-inset .svc-stage.on .doors,html.dshape-stagger .svc-stage.on .doors,
-html.dshape-arcade .doors,html.dshape-portal .doors,
-html.dshape-inset .doors,html.dshape-stagger .doors{
-  gap:clamp(14px,1.8vw,28px);padding-inline:var(--rail-pad);
-}
-
-/* C · arcade — three arched plates standing on the page, each with its label underneath.
-   Museum hang rather than picture wall. NO SCRIM AT ALL: the copy is ink on the section
-   ground, so nothing has to be measured against a photograph ever again. */
-html.dshape-arcade .door{
-  background:none;min-height:0;padding:0;display:grid;grid-template-rows:auto auto;gap:20px;
-}
-html.dshape-arcade .door::after{display:none}
-html.dshape-arcade .door picture{
-  display:block;position:relative;overflow:hidden;height:min(62vh,560px);
-  border-radius:50% 50% 8px 8px / 26% 26% 8px 8px;background:#4A2233;
-}
-html.dshape-arcade .door img{z-index:0}
-/* ⚠️ THE HOOK RESERVES TWO LINES. Over the photograph the copy is bottom-aligned, so a
-   one-line hook and a two-line hook both end level and nobody notices. Under the plate it is
-   top-aligned, and BHRT's single line pushed its title a line higher than the other two —
-   three captions that should read as a set, misaligned. */
-html.dshape-arcade .door .hook{color:var(--ink-soft);min-height:2.8em}
-html.dshape-arcade .door h3{color:var(--ink)}
-html.dshape-arcade .door .link-arrow{color:var(--gold-deep)}
-
-/* D · portal — rounded at both ends. Reads as an opening rather than a picture; the softest of
-   the six and the one that gives up the most photograph at top and bottom.
-   ⚠️ THE COPY HAS TO COME IN OFF THE CURVE. A pill clips its own bottom corners, and the hook
-   and title sit exactly there — at the default padding the first and last words of every line
-   were cut by the radius. The inset is a fraction of the radius, not a guess. */
-html.dshape-portal .door{border-radius:min(18vw,260px);overflow:hidden;min-height:min(78vh,760px)}
-html.dshape-portal .door>:not(picture){padding-inline:min(6vw,74px)}
-html.dshape-portal .door{padding-bottom:clamp(34px,4.4vh,58px)}
-/* E · inset — the panels pull in off the edges and take a single large radius. The mildest way
-   to stop being a wall while staying a picture. */
-html.dshape-inset .door{border-radius:clamp(18px,2.4vw,34px);overflow:hidden;min-height:min(72vh,700px)}
-/* F · stagger — not a shape change at all, an ORCHESTRATION one. Same rectangles, stepped
-   heights and offsets, so the row stops reading as one block cut into three. Worth seeing
-   before spending a radius on the problem: it may be the grid that is boxy, not the corners. */
-html.dshape-stagger .doors{align-items:flex-start}
-html.dshape-stagger .door{border-radius:clamp(14px,1.8vw,26px);overflow:hidden;min-height:min(66vh,640px)}
-html.dshape-stagger .door:nth-of-type(2){margin-top:clamp(28px,5vh,64px);min-height:min(74vh,720px)}
-html.dshape-stagger .door:nth-of-type(3){margin-top:clamp(12px,2.2vh,30px)}
-
-@media(max-width:899px){
-  /* stacked, the stagger has nothing to step against and the portal's ends eat the subject */
-  html.dshape-stagger .door:nth-of-type(2),html.dshape-stagger .door:nth-of-type(3){margin-top:0}
-  html.dshape-portal .door{border-radius:clamp(40px,12vw,90px)}
-  html.dshape-arcade .door picture{height:min(52vh,460px)}
 }
 
 .svc-note{margin-top:clamp(26px,3.4vh,36px);font-size:13px;color:var(--ink-soft);letter-spacing:.02em}
@@ -776,7 +706,7 @@ html.shape-tall .boost-one,html.shape-arch .boost-one{grid-template-columns:minm
 html.shape-tall .boost-one:last-of-type,html.shape-arch .boost-one:last-of-type{grid-template-columns:minmax(0,1fr) minmax(0,.62fr)}
 html.shape-tall .boost-one img,html.shape-arch .boost-one img{aspect-ratio:941/1300;object-fit:cover}
 html.shape-tall .boost-one:first-of-type img,html.shape-arch .boost-one:first-of-type img{content:image-set(url(../images/boost/gut-tall-941.avif) type("image/avif"),url(../images/boost/gut-tall-941.webp) type("image/webp"))}
-html.shape-tall .boost-one:last-of-type img,html.shape-arch .boost-one:last-of-type img{content:image-set(url(../images/boost/energy-tall-941.avif) type("image/avif"),url(../images/boost/energy-tall-941.webp) type("image/webp"))}
+html.shape-tall .boost-one:last-of-type img,html.shape-arch .boost-one:last-of-type img{content:image-set(url(../images/boost/energy-lab-tall-781.avif) type("image/avif"),url(../images/boost/energy-lab-tall-781.webp) type("image/webp"))}
 
 @media(max-width:700px){
   /* bleed on a phone runs to both edges rather than alternating — there is no column left to
@@ -1661,8 +1591,8 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
         </div>
         <div class="boost-one" data-reveal>
           <picture>
-            <source type="image/avif" srcset="../images/boost/energy-band-1340.avif">
-            <img src="../images/boost/energy-band-1340.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1340" height="754">
+            <source type="image/avif" srcset="../images/boost/energy-lab-1340.avif">
+            <img src="../images/boost/energy-lab-1340.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1340" height="754">
           </picture>
           <h3>Hormone Therapy<em>+ Energy</em></h3>
           <p>Mitochondrial support layered over your protocol — energy built at the cellular level.</p>
@@ -2039,16 +1969,11 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
       }
     }
 
-    /* ?shape= — 05's picture frames. ?dshape= — 04's three service panels, which is what the
-       founders' note was actually about. Separate parameters so one can be judged without the
-       other moving underneath it. */
+    /* ?shape= — 05's picture frames, still undecided ("not this one yet"). 04's shape is
+       settled and no longer behind a parameter. */
     const sh = (params.get("shape") || "").toLowerCase();
     if (["arch","capsule","oval","soft","bleed","tall"].includes(sh))
       document.documentElement.classList.add("shape-" + sh);
-
-    const dsh = (params.get("dshape") || "").toLowerCase();
-    if (["arch","soft","arcade","portal","inset","stagger"].includes(dsh))
-      document.documentElement.classList.add("dshape-" + dsh);
 
     const fq = (params.get("faq") || "").toLowerCase();
     if (["open","team","index","plain","duo","boxed"].includes(fq)) {

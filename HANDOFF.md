@@ -338,6 +338,42 @@ because there the em is 38px and therefore *large* text needing only 3. **The ph
 to 22px and moves the goalposts.** A scrim tuned on desktop will fail on a phone every time.
 Deepened ramp; the same 12 runs now clear, tightest 4.99.
 
+## 05's plates are recoloured — his upload, shipped 2026-08-12, and measured
+
+`9d9a3eb` → `images/{gut,energy}-gold.png` → `images/boost/{gut-anatomy,energy-lab}-gold-1340.{avif,webp}`.
+**Renamed on the way in**, again — they arrived as `ChatGPT Image Aug 12, 2026, 02_24_57 PM.png`
+and `…02_29_23 PM.png`. The retired `gut-anatomy-1340.*` and `energy-lab-1340.*` are deleted.
+
+Same two subjects, recoloured from the rose cast to gold. **The gold is the page's own
+`--gold` #C2A05E** — the tether colour in the scene, the ignition at the pituitary, the
+`link-arrow` on every door — so 05 stops looking like stock run through a brand filter and
+starts sitting in the same world as the door plates.
+
+⚠️ **MEASURED, AND THE MARGIN MOVED THE WAY IT WAS PREDICTED TO.** Copy sits ON these plates,
+so this was a re-measurement and not a `src` change. `node tools/qa/boost-contrast.mjs`:
+
+| | before (rose) | after (gold) |
+|---|---|---|
+| gut · rose `h3 em` @ 390 — **the binding case** | 5.48 | **5.23** (margin 0.73) |
+| gut · ivory `h3` @ 390 | 13.23 | 12.64 |
+| energy · rose `h3 em` @ 390 | 5.88 | **7.14** |
+
+**12/12 clear.** The gut plate spent 0.25 of its margin and the energy plate gained 1.26.
+The gut plate is much brighter overall, so the small loss is only small because `cover`
+crops it (below) and the copy band sits on the darker foot of the frame. **0.73 is the
+tightest thing in this section — a third plate swap is another measurement.**
+
+⚠️ **THE GUT MASTER IS 1562×1007 (1.551) AGAINST A BOX LOCKED TO 1.778** — the same trap the
+previous gut plate carried, and it only fails safe because `object-fit:cover` went onto
+`.boost-one img` when that one landed. `cover` discards ~15% of the height. Do not remove
+that guard; without it this plate is stretched, not cropped, which nobody reads as a bug.
+The energy master is 1672×940 (1.779) and drops in untouched.
+
+⚠️ **The subject is unchanged, and the objection to it is unchanged.** The gut plate is still
+an anatomical cutaway on a page whose scene argues the reader is a figure and not a set of
+organs — Venus is deliberately not a body-as-diagram. Recolouring made it a better-looking
+cutaway. Raised, and **kept as his call**, exactly like the smart ring in the door plates.
+
 ## The phone's scene chrome was invisible for most of the scene — found and fixed 2026-08-12
 
 Four changes, all in `/hormone-balancing/`. The first two are one root cause.

@@ -420,35 +420,63 @@ section{position:relative}
   scrollbar-width:none;
 }
 .doors::-webkit-scrollbar{display:none}
+/* ═══ ORB FLIP 2026-08-12 — the doors went from dark photo plates to light orb panels.
+   His call: the three services are fronted by his living orb renders (burgundy, rose,
+   gold on ivory), rebuilt procedurally in WebGL because the renders never landed as
+   files. The ground follows the renders: cream, not the plate-era dark plum, so every
+   copy colour below flips to the page's light-ground rules in the same stroke. */
 .door{
   position:relative;scroll-snap-align:start;min-height:clamp(440px,64vh,640px);
   display:flex;flex-direction:column;justify-content:flex-end;
   padding:clamp(24px,2.4vw,38px);overflow:hidden;isolation:isolate;
   transition:transform .6s var(--ease);
+  /* the renders' own studio ground: ivory warming into cream toward the foot, and the
+     hairline every light panel on the page carries against the ivory section */
+  background:linear-gradient(180deg,#FBF8F2 0%,#F2EADC 100%);
+  border:1px solid var(--line);
 }
 .door:hover,.door:focus-visible{transform:translateY(-7px)}
-.door img{
-  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;
-  transform:scale(1.02);transition:transform 1.4s var(--ease);
+/* ═══ THE ORB — the door's one picture, drawn live ═══
+   .orb is the mount: it takes all the height the copy leaves free (flex:1 against the
+   door's flex-end packing) and centres a SQUARE canvas inside itself, because the
+   shader composes in centred -1..1 coords and a square canvas is what keeps the orb
+   round in every door geometry (92vh triptych panel, 58vh rail card, phone stack).
+   The engine sizes the canvas element AND its drawing buffer to min(width,height).
+   ⚠️ ::before is the fallback orb — pure CSS radial-gradients in the door's own tint,
+   shown whenever JS or WebGL2 is missing. The engine sets .orb--live on its first
+   successfully drawn frame, never before, so a context that dies mid-setup leaves the
+   fallback standing rather than an empty cream void. */
+.orb{flex:1 1 auto;min-height:200px;position:relative;margin-bottom:10px;
+  display:flex;align-items:center;justify-content:center}
+.orb__gl{display:block;width:100%;height:100%;max-width:100%;max-height:100%}
+.orb::before{
+  content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:min(86%,52vh);aspect-ratio:1;border-radius:50%;
+  background:
+    radial-gradient(38% 38% at 46% 44%,#FFF9F0 0%,rgba(255,249,240,.85) 20%,rgba(255,249,240,0) 52%),
+    radial-gradient(closest-side at 50% 50%,rgba(255,255,255,0) 55%,var(--orb-deep) 96%),
+    radial-gradient(100% 100% at 50% 42%,var(--orb-mid) 0%,var(--orb-deep) 92%);
 }
-.door:hover img{transform:scale(1.07)}
-/* ⚠️ THIS ALPHA IS PROVISIONAL AND HAS NOT BEEN MEASURED — the plates are still
-   placeholders. The placeholder is a mid-tone plum precisely so this ramp is not
-   passing a test a bright photograph would fail, but that is a guard, not a
-   measurement. When the real plates land, run the repo's method before shipping:
-   render, hide the copy, sample the ground behind each copy rectangle, take the
-   worst 2% of pixels, and confirm ivory clears 4.5:1 small / 3:1 large. BRAND.md. */
-.door::after{
-  content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,
-  rgba(46,34,40,.16) 0%,rgba(92,31,49,.72) 58%,rgba(26,15,19,.94) 100%);
-}
+.orb--live::before{display:none}
+/* one tint per service, and every value is BRAND.md's: the wine pair for BHRT, the
+   rose (deepened for its rim the way the render deepens it), the gold pair for TRT */
+.door--bhrt{--orb-deep:#5C1F31;--orb-mid:#8E2D3A}
+.door--menopause{--orb-deep:#A5756C;--orb-mid:#C79A92}
+.door--trt{--orb-deep:#8A6A34;--orb-mid:#C2A05E}
+/* ORB FLIP: the scrim that stood here is GONE, not lightened. It existed to seat ivory
+   copy on unpredictable photographs; the copy now sits on the door's own near-uniform
+   cream, below the orb, and never over it — the flex layout keeps them apart. A wash
+   over the orb would only dull the glass. */
 .door .hook{
   font-family:var(--quote);font-size:clamp(14px,1.3vw,17px);line-height:1.4;
-  color:var(--rose);display:block;margin-bottom:12px;
+  color:var(--burgundy);display:block;margin-bottom:12px;
+  /* was rose — rose on cream is ~2:1 and fails everywhere; burgundy holds the same
+     register at 8.9:1 over the foot of the ramp (#F2EADC), harness-confirmed */
 }
-.door h3{color:var(--ivory);font-size:clamp(22px,2.2vw,31px);line-height:1.14}
-/* gold, not red, on a dark ground — the page's existing inversion rule */
-.door .link-arrow{color:var(--gold);margin-top:18px}
+.door h3{color:var(--ink);font-size:clamp(22px,2.2vw,31px);line-height:1.14}
+/* the page's inversion rule, other direction: gold on dark grounds, THE one red on
+   light ones (BRAND.md) — 6.4:1 over the cream foot, large-text floor is 3:1 */
+.door .link-arrow{color:var(--logo-red);margin-top:18px}
 /* THE WHOLE PANEL BECOMES THE LINK THE MOMENT THE LINK HAS A DESTINATION. Written
    as a[href] on purpose: while the doors are unwired (no href) nothing is
    clickable and nothing lies about being clickable, and wiring the directory later
@@ -469,27 +497,15 @@ html.doors-tri .doors{
   grid-auto-flow:unset;grid-auto-columns:unset;
 }
 html.doors-tri .door{flex:1 1 0;min-width:0;scroll-snap-align:none;min-height:58vh}
-/* Burgundy stays as the ground under the photograph: the plates are lazy-loaded, so this is
-   what a door is during the fetch and if the fetch never lands. */
-html.doors-tri .door{background:#4A2233}
-/* ⚠️ THE SCRIM IS MEASURED, AND IT IS DELIBERATELY NOT THE RAIL'S. The comment that stood
-   here said to revert to the rail's ramp once photography replaced the marble. Measured,
-   the rail's ramp FAILS: .hook is rose #C79A92, not ivory, and over the BHRT plate — cream
-   silk and pale travertine exactly where the copy sits — it lands at 4.18:1 at 1440x900 and
-   4.07:1 at 390x844, against the 4.5 a 14–17px run needs. It passes over the dark TRT plate
-   beside it, which is what makes that the dangerous failure: two thirds of the triptych look
-   fine and the third looks intentional.
-   This ramp is keyed to the worst plate, so one ramp serves all three. Measured by BRAND.md's
-   method — render, hide the copy, sample the ground behind each copy rectangle, worst 2% of
-   pixels — for all three doors x three controls x both viewports, each control against its
-   OWN colour (rose hook, ivory h3, gold link). 18 of 18 clear. The binding case is still the
-   BHRT hook, now 5.15 desktop / 5.01 phone. Full table in HANDOFF.md.
-   ⚠️ A PLATE CHANGE IS A RE-MEASUREMENT, not a swap — the margin on that hook is 0.51.
-   Run `node tools/qa/door-contrast.mjs`; `--rail` reproduces the failing alternative. */
-html.doors-tri .door::after{
-  background:linear-gradient(180deg,rgba(26,15,19,0) 0%,rgba(26,15,19,.06) 38%,
-  rgba(46,20,30,.62) 62%,rgba(26,15,19,.88) 80%,rgba(20,11,14,.96) 100%);
-}
+/* ORB FLIP: the dark plum ground and the measured 18-of-18 scrim table that stood here
+   served the PHOTO plates — ivory copy over unpredictable photographs. Both retired
+   with the plates (see the doors markup note). The door's own cream ground carries
+   every mode now, the copy sits beside the orb rather than on it, and the flip was
+   re-measured with the same harness: `node tools/qa/door-contrast.mjs`, table in
+   HANDOFF.md. A ramp here would be a wash over glass — nothing to seat.
+   In the full-bleed triptych the panels touch (gap 0), so the shared hairlines would
+   double: inline borders come off and the seam is a single line again. */
+html.doors-tri .door{border-inline:none}
 /* ⚠️ 92vh, AND THE HEADLINE IS ON TOP OF THAT, NOT INSIDE IT — his call 2026-08-12, second
    pass. The first pass kept the headline by shrinking the panels to fit beside it in one
    screen (calc(100vh - --head-block)), which made them 618px of a 900px viewport. Full bleed
@@ -523,11 +539,8 @@ html.doors-tri .door::after{
    under each door. 980px is where the page already stops being three columns. */
 @media(min-width:981px){
   html.dc-raise .door{padding-bottom:clamp(110px,30%,320px)}
-  html.dc-raise .door::after{
-    background:linear-gradient(180deg,rgba(26,15,19,0) 0%,rgba(26,15,19,.06) 20%,
-    rgba(46,20,30,.62) 42%,rgba(26,15,19,.88) 60%,rgba(20,11,14,.96) 76%,
-    rgba(20,11,14,.96) 100%);
-  }
+  /* ORB FLIP: raise kept its lift but lost its re-keyed ramp with the other scrims —
+     the copy rises over the door's own cream, and the orb simply gets less mount. */
 }
 
 /* crown — the title becomes an INSCRIPTION at the head of the arch, which is the one
@@ -535,20 +548,14 @@ html.doors-tri .door::after{
    arch shape can do that a rectangle cannot. Letterspaced Megante caps, because an
    inscription is not a headline. The hook and the link stay a cluster at the foot, so
    the panel reads top-to-bottom: what it is, then who it is for, then the way in.
-   ⚠️ NEEDS A SECOND RAMP. The crown of a door is the brightest part of two of the three
-   plates (cream silk, pale travertine), so the title gets its own ramp at the top rather
-   than borrowing the one built for the foot. */
+   ORB FLIP: the crown's own ramp went with the scrims — an inscription on cream needs
+   ink, not a shadow to hide in. */
 html.dc-crown .door{padding-top:clamp(76px,12vh,132px)}
-html.dc-crown .door::before{
-  content:"";position:absolute;inset:0 0 auto 0;height:38%;z-index:-1;
-  background:linear-gradient(180deg,rgba(20,11,14,.88) 0%,rgba(24,13,17,.58) 44%,
-  rgba(26,15,19,.18) 76%,rgba(26,15,19,0) 100%);
-}
 html.dc-crown .door h3{
   position:absolute;top:clamp(30px,5.4vh,66px);left:clamp(18px,2vw,30px);
   right:clamp(18px,2vw,30px);text-align:center;
   font-family:var(--accent);font-size:clamp(12.5px,1.12vw,16px);
-  letter-spacing:.2em;text-transform:uppercase;line-height:1.5;color:var(--ivory);
+  letter-spacing:.2em;text-transform:uppercase;line-height:1.5;color:var(--ink);
 }
 html.dc-crown .door .hook{margin-bottom:10px}
 
@@ -563,19 +570,11 @@ html.doors-pinned .doors{--bleed-h:calc(100vh - var(--head-h,8vh))}
    ⚠️ The note keeps its own margin. It belongs to the doors above it, not to the gap. */
 .services{padding-block-end:clamp(48px,6.5vh,78px)}
 .boost{padding-block-start:clamp(52px,7vh,86px)}
-/* ⚠️ cover, NOT contain — and the --plate-scale trio is gone with it. Both existed to make
-   one statue look like three: a contained figure reads as a museum plate, and scaling it per
-   door stopped the repeat being obvious. Three real photographs need neither, and contain
-   would letterbox them onto burgundy.
-   ⚠️ EACH DOOR CROPS FROM ITS OWN ANCHOR. The sources are 941x1672 (0.563) and a panel is
-   about 0.75, so cover discards roughly a quarter of the height and object-position decides
-   which quarter. It is not the same answer three times, because the subject does not sit at
-   the same height three times — see the per-door values below. */
-html.doors-tri .door img{object-fit:cover;object-position:50% var(--plate-y,50%);transform:scale(1.02)}
-html.doors-tri .door--bhrt{--plate-y:30%}
-html.doors-tri .door--menopause{--plate-y:50%}
-html.doors-tri .door--trt{--plate-y:50%}
-html.doors-tri .door:hover img{transform:scale(1.07)}
+/* ORB FLIP: the cover/--plate-y cropping trio served the photographs and left with them.
+   The orb needs no crop — the engine keeps its canvas square inside whatever mount the
+   mode hands it, so the triptych's 92vh panel simply grows the orb. What the triptych
+   keeps is its stillness: the rail's hover-lift stays off here, and the hover goes into
+   the orb itself instead (the engine eases its swirl up — see u_boost in the script). */
 html.doors-tri .door:hover,html.doors-tri .door:focus-visible{transform:none}
 /* ⚠️ THE ARCH — his pick 2026-08-12, from six treatments, for the founders' note that the boxy
    shape was not working. It is an arcade: elliptical heads with the section ground showing in
@@ -1659,49 +1658,41 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
         <h2 data-reveal>Where would you like to <em>begin</em>?</h2>
       </div>
     </div>
-    <!-- THE PLATES ARE REAL — his upload 2026-08-12, replacing the interim Venus that stood
-         in all three doors. One image per door, and the male figure the last handoff called
-         the blocking asset is here, so the door no longer shows a female nude over
-         "Concerned about male hormone health?".
-         ⚠️ AI-GENERATED, and recorded as such in LICENSES/AI-DoorPlates.txt. No identifiable
-         person appears in any of the three — every frame is cropped above the face — so no
-         model release is in play, which is the whole reason these crops work.
-         ⚠️ ONE SIZE PER DOOR, WHICH IS NOT THE PATTERN THE REST OF THE REPO USES. The other
-         plates ship a wide/phone pair because a hero is 2400px on desktop and less on a
-         phone. A door inverts that: it is a THIRD of the viewport on desktop (480 CSS px,
-         960 at 2x) and the FULL width on a phone (390 CSS px, 1170 at 3x), so the phone
-         wants the bigger asset. 941 is the source's own width and serves both; a second
-         file would only be an upscale of this one.
-         ⚠️ Masters are images/medi-gyn-*-portrait.png, unreferenced and served to nobody.
-         The landscape halves of the set are for the consultation pages that do not exist
-         yet — deliberately not encoded, since nothing points at them.
+    <!-- THE DOORS ARE ORBS NOW — his call 2026-08-12 (evening): the three services are
+         fronted by his "living cell" orb renders — burgundy, rose, gold on ivory — and he
+         asked for them MOVING: "3d exactly as it is … glowing around or swirling … and
+         it's big." The static renders never landed in the repo, so the orb is rebuilt
+         PROCEDURALLY in a WebGL2 shader (the engine sits with the other scripts at the
+         foot of the file, house-patterned on the silk hero: reduced-motion, in-view
+         gating, DPR cap, graceful fallback). One shader, three brand tints.
+         ⚠️ THE PHOTO PLATES ARE NOT DELETED — images/doors/* and their masters stay on
+         disk with their LICENSES record, unreferenced by this page. Restoring a photo
+         door is a git revert of this block plus the door CSS notes marked ORB FLIP.
+         ⚠️ THE DOORS WENT LIGHT WITH THE ORBS (cream ground, ink copy). The measured
+         dark-plate scrim system below became obsolete in the same stroke — see the ORB
+         FLIP notes at each former scrim site. Copy now sits on its own near-uniform
+         cream ground, re-measured with tools/qa/door-contrast.mjs (all clear, table in
+         HANDOFF.md).
          ⚠️ EACH DOOR IS STILL UNWIRED. Adding href to the .link-arrow inside makes
          the WHOLE PANEL clickable (see .door a[href]::after in the stylesheet), so
-         wiring the directory is three attributes and no markup change. -->
+         wiring the directory is three attributes and no markup change.
+         The canvas is decoration (aria-hidden, like the empty-alt plates before it);
+         the .orb div doubles as the no-JS / no-WebGL fallback via its ::before orb. -->
     <div class="doors">
       <article class="door door--bhrt">
-        <picture>
-          <source type="image/avif" srcset="../images/doors/bhrt-941.avif">
-          <img src="../images/doors/bhrt-941.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="941" height="1672">
-        </picture>
+        <div class="orb" aria-hidden="true"><canvas class="orb__gl"></canvas></div>
         <span class="hook">“Still cycling and noticing changes?”</span>
         <h3>Hormone Therapy &amp; BHRT</h3>
         <a class="link-arrow" data-soon>Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
       </article>
       <article class="door door--menopause">
-        <picture>
-          <source type="image/avif" srcset="../images/doors/menopause-941.avif">
-          <img src="../images/doors/menopause-941.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="941" height="1672">
-        </picture>
+        <div class="orb" aria-hidden="true"><canvas class="orb__gl"></canvas></div>
         <span class="hook">“Twelve months or more since your last period?”</span>
         <h3>Modern Menopause</h3>
         <a class="link-arrow" data-soon>Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
       </article>
       <article class="door door--trt">
-        <picture>
-          <source type="image/avif" srcset="../images/doors/trt-941.avif">
-          <img src="../images/doors/trt-941.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="941" height="1672">
-        </picture>
+        <div class="orb" aria-hidden="true"><canvas class="orb__gl"></canvas></div>
         <span class="hook">“Concerned about male hormone health?”</span>
         <h3>Testosterone Replacement</h3>
         <a class="link-arrow" data-soon>Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
@@ -3143,6 +3134,223 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
   window.__scene={ get p(){return forceP!==null?forceP:pNow;},
                    get lead(){return Math.max(0,pNow-latch);},
                    get mode(){return forceP!==null?"solo":PLAY;} };
+})();
+</script>
+
+<script>
+/* ═══════════ The living orbs — section 04's doors ═══════════
+   His renders of the service orbs (burgundy / rose / gold glass, glowing core) never
+   landed in the repo as files, and a flat export could not have moved anyway. So the
+   orb is REBUILT here as a WebGL2 fragment shader — irregular droplet silhouette,
+   translucent chord-shaded body, swirling interior, breathing core, wet rim
+   speculars — one program, three brand tints, drawn with real alpha so the door's
+   cream ground breathes through the glass ("the middle part has a transparent
+   quality" — his brief, 2026-08-12).
+   HOUSE-PATTERNED ON THE SILK HERO: reduced-motion collapses to a single considered
+   frame; per-orb IntersectionObserver stops off-screen drawing; document.hidden
+   stops the lot; DPR is capped (1.5 here, not silk's 1.75 — three large canvases,
+   and a soft-focus orb does not resolve past it); every failure path — no JS, no
+   WebGL2, a context that dies during setup — leaves the CSS fallback orb standing,
+   because .orb--live is only granted on a successfully drawn frame.
+   ⚠️ RAW GL, NOT THREE. Silk can lean on the CDN module because silk is above the
+   fold with the network warm; the doors must keep working when jsDelivr does not,
+   and a fallback story that depends on a CDN is not one. Everything is inline.
+   ⚠️ THE CANVAS IS ALWAYS SQUARE — min(mount width, mount height), centred by the
+   .orb flexbox. The shader composes in centred -1..1 coords; a square buffer is what
+   keeps the orb round in every door mode. Resize clears a GL buffer, so the resize
+   handler redraws in the same breath (silk's rule).
+   Hover: u_boost eases 0→1 and the sim-clock runs up to 45% faster — the orb stirs
+   when regarded. Eased in JS, never a jump. */
+(function(){
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const doors = document.querySelectorAll(".doors .door");
+  if (!doors.length) return;
+
+  const VS = `#version 300 es
+in vec2 a_pos; out vec2 v_uv;
+void main(){ v_uv = a_pos; gl_Position = vec4(a_pos,0.,1.); }`;
+
+  const FS = `#version 300 es
+precision highp float;
+in vec2 v_uv; out vec4 o_col;
+uniform float u_time; uniform float u_seed; uniform float u_boost;
+uniform vec3 u_deep; uniform vec3 u_mid;
+#define CORE vec3(1.0,0.976,0.941)
+float hash21(vec2 p){ p=fract(p*vec2(234.34,435.345)+u_seed*17.123); p+=dot(p,p+34.23); return fract(p.x*p.y); }
+float vnoise(vec2 p){ vec2 i=floor(p),f=fract(p); vec2 u=f*f*(3.0-2.0*f);
+  return mix(mix(hash21(i),hash21(i+vec2(1,0)),u.x),mix(hash21(i+vec2(0,1)),hash21(i+vec2(1,1)),u.x),u.y); }
+float fbm3(vec2 p){ float v=0.,a=.5; mat2 m=mat2(1.6,1.2,-1.2,1.6);
+  for(int i=0;i<3;i++){ v+=a*vnoise(p); p=m*p; a*=.5; } return v; }
+float fbm4(vec2 p){ float v=0.,a=.5; mat2 m=mat2(1.6,1.2,-1.2,1.6);
+  for(int i=0;i<4;i++){ v+=a*vnoise(p); p=m*p; a*=.5; } return v; }
+mat2 rot(float a){ float c=cos(a),s=sin(a); return mat2(c,-s,s,c); }
+void main(){
+  vec2 p = v_uv; float t = u_time;
+  /* irregular droplet silhouette, slowly morphing */
+  float ang = atan(p.y,p.x); vec2 cir = vec2(cos(ang),sin(ang));
+  float rimN = fbm3(cir*1.7 + vec2(u_seed*3.1,u_seed*5.7) + vec2(t*.05,-t*.037));
+  float R = .80*(1.0+.075*(rimN-.5));
+  float r = length(p); float d = r-R;
+  /* fake sphere + chord-length density: luminous centre, dense dark rim */
+  float rr = clamp(r/R,0.,1.); float z = sqrt(max(0.,1.-rr*rr));
+  float density = pow(1.-z,1.35);
+  vec3 lumi = mix(u_mid,CORE,.14);
+  vec3 body = mix(lumi,u_mid,smoothstep(0.,.4,density));
+  body = mix(body,u_deep,smoothstep(.22,.78,density));
+  body = mix(body,u_deep*.62,smoothstep(.74,1.,rr)*.9);
+  /* interior wisps — domain-warped fbm, differential rotation = liquid shear */
+  vec2 q = p/R;
+  vec2 wq = rot((1.-rr)*(.55+.06*t))*q;
+  vec2 warp = vec2(fbm3(wq*2.3+vec2(0.,t*.03)+u_seed), fbm3(wq*2.3+vec2(5.2,-t*.025)-u_seed));
+  float wisps = smoothstep(.30,.80, fbm4(wq*2.8+1.8*(warp-.5)+vec2(t*.02,0.)));
+  float wispMask = smoothstep(1.,.6,rr)*smoothstep(.02,.3,rr);
+  body = mix(body, mix(body,lumi,.85), wisps*wispMask*.9);
+  body = mix(body, u_deep, (1.-wisps)*wispMask*.35);
+  /* blown-out irregular core + god-rays, breathing */
+  float breathe = 1.0+.15*sin(t*.9+u_seed*6.)+.10*u_boost;
+  vec2 cc = vec2(-.11,-.08)+.03*vec2(sin(t*.11+u_seed),cos(t*.09+u_seed*2.));
+  vec2 cp = q-cc; float cr = length(cp); float ca = atan(cp.y,cp.x);
+  float edgeN = fbm3(vec2(cos(ca),sin(ca))*2.1+vec2(u_seed*7.)+vec2(t*.06,-t*.04));
+  float coreR = .30*(1.+.08*sin(t*.85))*(.72+.75*(edgeN-.2));
+  float core = pow(smoothstep(coreR,coreR*.35,cr),.8);
+  float rays = pow(smoothstep(.35,.9, fbm3(vec2((ca+t*.157)*2.2, 1.7+u_seed*3.+t*.03))),1.5);
+  float rayFall = smoothstep(.95,.15,cr)*smoothstep(.02,.25,cr);
+  float coreLum = (core + rays*rayFall*.42*(.85+.3*sin(t*.5+u_seed)) + exp(-cr*3.8)*.36)*breathe;
+  coreLum *= smoothstep(1.02,.75,rr);
+  /* filament threads — rings about drifting 3D axes, clustered, upper-left biased */
+  vec3 P = vec3(q,z); float fil = 0.;
+  for(int i=0;i<4;i++){
+    float fi = float(i);
+    float h1 = hash21(vec2(fi*3.7,u_seed*9.1)); float h2 = hash21(vec2(fi*7.9,u_seed*4.3));
+    vec3 A = normalize(vec3(sin(h1*6.28)*.8,.8+.6*h2,cos(h1*6.28)*.8));
+    A.xz = rot(t*.03*(.5+h2))*A.xz;
+    float line = smoothstep(.988,.999,abs(sin(dot(P,A)*(5.+4.*h2)+h1*20.+t*.05)));
+    float pulse = .5+.5*sin(t*.6+fi*2.1+u_seed*3.);
+    float clu = smoothstep(.42,.7, fbm3(q*1.6+vec2(fi*2.3,u_seed*5.)+vec2(t*.015)));
+    fil += line*(.25+.75*pulse)*clu;
+  }
+  float filMask = smoothstep(-.25,.5,q.y+.35*(-q.x))*smoothstep(.3,.75,rr)*smoothstep(1.,.9,rr);
+  fil = clamp(fil,0.,1.)*filMask*.30;
+  /* wet speculars hugging the rim — functions of the rim shape, so they shimmer as it morphs */
+  float rimDepth = -d/R; float spec = 0.;
+  { float aw = smoothstep(.85,.4,abs(mod(ang-2.25+3.14159,6.28318)-3.14159));
+    spec += aw*smoothstep(.012,.022,rimDepth)*smoothstep(.075,.05,rimDepth); }
+  { float aw = smoothstep(.35,.1,abs(mod(ang+2.5+3.14159,6.28318)-3.14159));
+    spec += aw*smoothstep(.02,.04,rimDepth)*smoothstep(.11,.06,rimDepth)*.85; }
+  { float aw = smoothstep(.28,.08,abs(mod(ang+.2+3.14159,6.28318)-3.14159));
+    spec += aw*smoothstep(.02,.04,rimDepth)*smoothstep(.10,.055,rimDepth)*.7; }
+  spec = clamp(spec,0.,1.);
+  float dimple = smoothstep(.055,.03,length(q-vec2(.42,.52)));
+  /* composite, premultiplied */
+  float aa = fwidth(r)*1.2; float bodyMask = smoothstep(aa,-aa,d);
+  vec3 col = body;
+  col = mix(col,u_deep*.55,dimple*.5);
+  col += CORE*coreLum + CORE*fil;
+  col = mix(col,vec3(1.),spec*.95);
+  float alpha = mix(.76,.97,smoothstep(.12,.85,density));
+  alpha = clamp(alpha+coreLum*.8+spec*.6+fil*.5,0.,1.)*bodyMask;
+  col *= bodyMask;
+  col += (hash21(floor(p*380.)+floor(t*8.)*.017)-.5)*.035*bodyMask;
+  float halo = exp(-max(d,0.)*22.)*(1.-bodyMask)*.20;
+  col += u_mid*halo; alpha = clamp(alpha+halo,0.,1.);
+  o_col = vec4(clamp(col,0.,2.)*alpha, alpha);
+}`;
+
+  /* the same trio the CSS fallback carries — BRAND.md values, one-red rule intact */
+  const TINTS = {
+    "door--bhrt":      { deep:[0x5C,0x1F,0x31], mid:[0x8E,0x2D,0x3A], seed:1.3 },
+    "door--menopause": { deep:[0xA5,0x75,0x6C], mid:[0xC7,0x9A,0x92], seed:4.7 },
+    "door--trt":       { deep:[0x8A,0x6A,0x34], mid:[0xC2,0xA0,0x5E], seed:8.1 },
+  };
+  const norm = a => a.map(v => v/255);
+  const DPR = Math.min(devicePixelRatio || 1, 1.5);
+
+  const instances = [];
+  doors.forEach(door => {
+    try {
+      const orb = door.querySelector(".orb"), canvas = door.querySelector(".orb__gl");
+      const key = [...door.classList].find(c => TINTS[c]);
+      if (!orb || !canvas || !key) return;
+      const gl = canvas.getContext("webgl2", {alpha:true, premultipliedAlpha:true, antialias:false});
+      if (!gl) return;                                   /* the CSS orb stands */
+      const sh = (type, src) => {
+        const s = gl.createShader(type);
+        gl.shaderSource(s, src); gl.compileShader(s);
+        if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s));
+        return s;
+      };
+      const prog = gl.createProgram();
+      gl.attachShader(prog, sh(gl.VERTEX_SHADER, VS));
+      gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, FS));
+      gl.linkProgram(prog);
+      if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog));
+      gl.useProgram(prog);
+      const buf = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+      const loc = gl.getAttribLocation(prog, "a_pos");
+      gl.enableVertexAttribArray(loc);
+      gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+      const t = TINTS[key];
+      gl.uniform1f(gl.getUniformLocation(prog, "u_seed"), t.seed);
+      gl.uniform3fv(gl.getUniformLocation(prog, "u_deep"), norm(t.deep));
+      gl.uniform3fv(gl.getUniformLocation(prog, "u_mid"), norm(t.mid));
+      gl.clearColor(0,0,0,0);
+      const inst = {
+        orb, canvas, gl,
+        uT: gl.getUniformLocation(prog, "u_time"),
+        uB: gl.getUniformLocation(prog, "u_boost"),
+        sim: t.seed*20,          /* each door enters mid-life, not at a shared zero */
+        vis: true, hot: false, boost: 0, live: false,
+      };
+      const draw = () => {
+        gl.viewport(0, 0, canvas.width, canvas.height);
+        gl.uniform1f(inst.uT, inst.sim);
+        gl.uniform1f(inst.uB, inst.boost);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.drawArrays(gl.TRIANGLES, 0, 3);
+        if (!inst.live){ inst.live = true; orb.classList.add("orb--live"); }
+      };
+      inst.draw = draw;
+      const size = () => {
+        const side = Math.max(1, Math.min(orb.clientWidth, orb.clientHeight));
+        canvas.style.width = canvas.style.height = side + "px";
+        const px = Math.round(side * DPR);
+        /* 4px hysteresis: the entry animation resizes the mount every frame for a
+           second, and a buffer realloc per frame is the one cost worth ducking */
+        if (Math.abs(px - canvas.width) >= 4){ canvas.width = canvas.height = px; }
+        draw();                                          /* resize clears — silk's rule */
+      };
+      new ResizeObserver(size).observe(orb);
+      size();
+      new IntersectionObserver(e => { inst.vis = e[0].isIntersecting; }).observe(canvas);
+      door.addEventListener("pointerenter", () => { inst.hot = true; });
+      door.addEventListener("pointerleave", () => { inst.hot = false; });
+      instances.push(inst);
+    } catch (e) { /* this door keeps its CSS orb; the others still get theirs */ }
+  });
+  if (!instances.length) return;
+
+  if (reduce){
+    /* one considered frame each — under reduced motion the orb is a picture, and the
+       ResizeObserver above keeps that picture sharp through any reflow */
+    instances.forEach(i => i.draw());
+    return;
+  }
+
+  let last = performance.now();
+  (function loop(now){
+    requestAnimationFrame(loop);
+    const dt = Math.min((now - last)/1000, .1);
+    last = now;
+    if (document.hidden) return;
+    for (const inst of instances){
+      if (!inst.vis) continue;
+      inst.boost += ((inst.hot ? 1 : 0) - inst.boost) * Math.min(1, dt*2.2);
+      inst.sim += dt * (1 + inst.boost*.45);
+      inst.draw();
+    }
+  })(last);
 })();
 </script>
 

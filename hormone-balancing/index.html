@@ -589,7 +589,10 @@ html.doors-static .door{min-height:var(--bleed-h)}
    and exactly one door. ⚠️ Do not re-split this into per-programme CTAs unless
    the programmes actually get separate pages. */
 .boost{background:var(--cream)}
-.boost-sub{font-size:clamp(15px,1.35vw,18px);color:var(--ink-soft);line-height:1.8;max-width:38ch;margin-top:-24px}
+/* text-wrap:balance rather than a wider max-width: at 38ch this sentence broke before its
+   last word and left "it." alone on line two. A width big enough to pull the orphan up at
+   1440 opens it up again at the next breakpoint, so let the browser even the lines instead. */
+.boost-sub{font-size:clamp(15px,1.35vw,18px);color:var(--ink-soft);line-height:1.8;max-width:38ch;margin-top:-24px;text-wrap:balance}
 .boost-pair{
   display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
   gap:clamp(20px,3vw,52px);margin-top:clamp(38px,5.5vh,68px);
@@ -605,6 +608,106 @@ html.doors-static .door{min-height:var(--bleed-h)}
    belonging to the paragraph above it rather than as the join between the two. */
 .boost-star{font-family:var(--serif);font-size:clamp(30px,3.6vw,52px);color:var(--gold);line-height:1;display:block;text-align:center}
 .boost-foot{display:flex;justify-content:center;margin-top:clamp(36px,5vh,62px)}
+/* Inert until a variant asks for them. The lede carries no meaning on its own — it is the
+   word "Hormone Therapy" lifted out of two headings that both already contain it. */
+.boost-lede{display:none}
+.boost-base{display:inline}
+
+/* ══ 05 · FOUR TREATMENTS — ?boost=ledger | cards | lockup | band ═══════════════════════
+   Offered for a decision, 2026-08-12, exactly the way the doors were: all of them behind a
+   switch, judged on the real page, and the ones he does not pick get deleted rather than
+   left lying around. The bare URL is unchanged, so nothing below is live yet.
+   THE PROBLEM THEY ARE ANSWERING. 780px of flat cream carrying two headings, six lines and a
+   button, arriving immediately after three full-bleed photographs. It is not that the section
+   is ugly; it is that it has no weight at the one moment the page has just spent everything
+   it had. Every treatment here is a different answer to "where does the weight come from".
+   ⚠️ ALL FOUR REUSE THE SAME DOM. Nothing here needs a markup change to switch between them,
+   which is what makes deleting three of them a pure subtraction. */
+
+/* A · ledger — weight from STRUCTURE. Two ruled rows the full width of the column, name left,
+   promise right. The most restrained of the four and the closest to how a doctor-led page
+   states a fact. It is also the only one that gives up the ✦: stacked rows say "and" by
+   sitting under each other, so the join has nothing left to join. */
+html.boost-ledger .boost-pair{display:block;margin-top:clamp(28px,4.2vh,52px)}
+html.boost-ledger .boost-star{display:none}
+html.boost-ledger .boost-one{
+  text-align:left;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);
+  gap:clamp(14px,3vw,54px);align-items:baseline;
+  border-top:1px solid var(--line);padding-block:clamp(24px,3.4vh,40px);
+}
+html.boost-ledger .boost-one:last-of-type{border-bottom:1px solid var(--line)}
+html.boost-ledger .boost-one h3{font-size:clamp(22px,2.6vw,37px)}
+/* ⚠️ the margin IS the word space. The heading is "Hormone Therapy" + "<em>+ Gut Health</em>"
+   with no whitespace between them, because every other treatment sets the em to display:block
+   and gets the break for free. Inline, without this, it reads "Hormone Therapy+ Gut Health". */
+html.boost-ledger .boost-one h3 em{display:inline;margin-left:.34em}
+html.boost-ledger .boost-one p{margin:0;max-width:36ch;font-size:15px;text-align:left}
+html.boost-ledger .boost-foot{justify-content:flex-start}
+
+/* B · cards — weight from CONTAINMENT. Two ivory panels lifted off the cream with a hairline
+   and a gold top rule. Keeps the centred pair and keeps the ✦ doing its job. The safest of
+   the four: it changes the section's density without changing its argument. */
+html.boost-cards .boost-pair{align-items:stretch}
+html.boost-cards .boost-one{
+  background:var(--ivory);border:1px solid var(--line);border-top:2px solid var(--gold);
+  padding:clamp(30px,3.6vw,54px) clamp(22px,2.6vw,40px);
+  display:flex;flex-direction:column;justify-content:center;
+}
+html.boost-cards .boost-one p{margin-top:16px}
+
+/* C · lockup — weight from the IDEA. Says "Hormone Therapy" once, at headline scale, and hangs
+   both amplifiers off it. This is the only treatment whose shape matches what the section is:
+   ONE offer with two halves and one door, which is the note that killed the two-CTA version on
+   2026-08-11. It also stops the page saying "Hormone Therapy" twice inside three inches. */
+/* ⚠️ CAPPED AND CENTRED, or the branches are not branches. At full column width the two
+   amplifiers sit in the outer thirds with the ✦ marooned between them, and the eye reads
+   three separate things under a headline rather than one name with two things hanging off
+   it. The cap is what makes the lockup a lockup. */
+html.boost-lockup .boost-pair{
+  grid-template-columns:auto auto auto;
+  grid-template-areas:"lede lede lede" "one star two";
+  justify-content:center;justify-items:center;
+  column-gap:clamp(18px,3vw,50px);row-gap:clamp(4px,1vh,14px);align-items:start;
+  max-width:900px;margin-inline:auto;
+}
+html.boost-lockup .boost-one{max-width:30ch}
+html.boost-lockup .boost-lede{
+  grid-area:lede;display:block;text-align:center;
+  font-family:var(--serif);font-weight:450;color:var(--ink);
+  font-size:clamp(32px,5vw,70px);line-height:1.04;
+}
+/* clipped, not removed — the programme names stay whole for a screen reader */
+html.boost-lockup .boost-base{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+html.boost-lockup .boost-one h3{font-size:clamp(21px,2.5vw,35px)}
+html.boost-lockup .boost-one h3 em{display:block}
+html.boost-lockup .boost-star{align-self:center}
+
+/* D · band — weight from GROUND, and the only one that touches a decision already taken.
+   ⚠️ HIS 2026-08-11 PICK WAS "DIRECTION A, AND THE GROUND GOES LIGHT WITH IT", on the reasoning
+   that burgundy at 08 should be the lower half's only dark moment. This variant reopens that,
+   because the thing that changed since is the doors: three full-bleed photographs now land one
+   screen above, and the cliff they drop off is the open item the handoff calls the tonal cliff.
+   Do not ship this one without saying out loud that it reverses that call. */
+html.boost-band .boost{background:var(--burgundy)}
+html.boost-band .boost .kicker{color:var(--gold)}
+html.boost-band .boost .sec-head h2{color:var(--ivory)}
+html.boost-band .boost .sec-head h2 em{color:var(--rose)}
+html.boost-band .boost-sub{color:rgba(250,247,241,.74)}
+html.boost-band .boost-one h3{color:var(--ivory)}
+html.boost-band .boost-one h3 em{color:var(--rose)}
+html.boost-band .boost-one p{color:rgba(250,247,241,.72)}
+/* the page's standing inversion: gold, never the one red, on a dark ground */
+html.boost-band .boost-star{color:var(--gold)}
+html.boost-band .boost-foot .btn{background:rgba(250,247,241,.94);color:var(--burgundy)}
+html.boost-band .boost-foot .btn:hover{background:var(--ivory)}
+
+@media(max-width:980px){
+  /* the ledger's two columns are a desktop affordance; below this the name and the promise
+     stack, and the row rule is the only thing still doing the structuring */
+  html.boost-ledger .boost-one{grid-template-columns:1fr;gap:10px}
+  html.boost-lockup .boost-pair{grid-template-areas:"lede" "one" "star" "two";grid-template-columns:1fr}
+  html.boost-lockup .boost-lede{font-size:clamp(30px,8vw,44px)}
+}
 
 /* ─────────────────────────── 06 · TESTIMONIALS ─────────────────────────── */
 .stories{background:var(--ivory)}
@@ -1346,14 +1449,22 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
         <h2 data-reveal>Two ways to go <em>further</em>.</h2>
       </div>
       <p class="boost-sub" data-reveal>Pair your hormone care with the systems that amplify it.</p>
+      <!-- ⚠️ .boost-lede AND .boost-base EXIST FOR ?boost=lockup AND ARE INERT EVERYWHERE ELSE.
+           Lockup says "Hormone Therapy" once, large, with the two amplifiers branching under
+           it, which is closer to what this section actually is — one offer with two halves,
+           one door. It gets there by hiding each .boost-base and showing the shared .boost-lede.
+           ⚠️ .boost-base is CLIPPED, never display:none. A screen reader still reads the whole
+           name of each programme; only the eye sees it once. The shared lede is aria-hidden for
+           the same reason — otherwise the words are announced three times. -->
       <div class="boost-pair">
+        <p class="boost-lede" aria-hidden="true">Hormone Therapy</p>
         <div class="boost-one" data-reveal>
-          <h3>Hormone Therapy<em>+ Gut Health</em></h3>
+          <h3><span class="boost-base">Hormone Therapy</span><em>+ Gut Health</em></h3>
           <p>Balance begins in the gut — so what we rebalance actually lands, and stays landed.</p>
         </div>
         <span class="boost-star" aria-hidden="true">✦</span>
         <div class="boost-one" data-reveal>
-          <h3>Hormone Therapy<em>+ Energy</em></h3>
+          <h3><span class="boost-base">Hormone Therapy</span><em>+ Energy</em></h3>
           <p>Mitochondrial support layered over your protocol — energy built at the cellular level.</p>
         </div>
       </div>
@@ -1700,6 +1811,17 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
         }), { threshold: .4 }).observe(stage);
       }
     }
+  }
+
+  /* ══ 05 · BOOSTER PROGRAMS — ?boost=ledger | cards | lockup | band ══
+     Four treatments offered for a decision, same shape as the doors switch above: pure
+     layout, so it runs before the probe/reduced-motion gate for the same reason that one
+     does. No value means the section is untouched, which is what the bare URL still gets
+     until he picks. Delete the three he does not choose, and this block with them. */
+  {
+    const boost = (params.get("boost") || "").toLowerCase();
+    if (["ledger","cards","lockup","band"].includes(boost))
+      document.documentElement.classList.add("boost-" + boost);
   }
 
   if (!window.gsap){ document.querySelector(".preloader").style.display = "none"; return; }

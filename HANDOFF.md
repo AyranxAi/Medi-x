@@ -257,7 +257,38 @@ rule: a control with no destination stays inert rather than pointing at a placeh
   voices on a regulated medical site are a different category of risk from an unfinished
   photo. Cut the section until three real ones exist.
 - **05 Booster programs interrupts the run** from doors → proof → book. It reads better after
-  the FAQ.
+  the FAQ. ⚠️ **This is a placement question and is still open** — the four treatments below
+  are about weight, and moving the section would still be worth doing whichever one wins.
+
+**05 has four treatments behind a switch, offered 2026-08-12 for a decision.** Same shape as
+the doors: all of them live, judged on the real page, three deleted once he picks. **The bare
+URL is unchanged**, so nothing here is live yet.
+
+| Mode | URL | Weight comes from | Notes |
+|---|---|---|---|
+| As shipped | `/hormone-balancing/#boosters` | nothing — that is the problem | 780px of flat cream, two headings and six lines, straight after three full-bleed photographs |
+| Ledger | `?boost=ledger` | **structure** | Two ruled rows, name left, promise right. The only one that gives up the ✦ — stacked rows say "and" by sitting under each other |
+| Cards | `?boost=cards` | **containment** | Ivory panels, hairline, gold top rule. Safest: changes density without changing the argument |
+| Lockup | `?boost=lockup` | **the idea** | Says "Hormone Therapy" once at headline scale with both amplifiers hanging off it. The only shape that matches what the section *is* — one offer, two halves, one door |
+| Band | `?boost=band` | **ground** | Burgundy. ⚠️ **Reverses his 2026-08-11 "the ground goes light with it".** Reopened only because the doors changed underneath that decision |
+
+⚠️ **All four run off one DOM**, so deleting three is pure subtraction. `.boost-lede` and
+`.boost-base` exist for lockup and are inert elsewhere. **`.boost-base` is clipped, never
+`display:none`** — a screen reader still hears "Hormone Therapy + Gut Health" while the eye
+sees the name once; verified by comparing `textContent` against `innerText`.
+
+**Band was measured** (rose on burgundy is the case worth checking, and it clears): kicker gold
+5.00, `h2` ivory 11.58, `h2 em` rose 4.99 against 3, sub and body 11.58, star 5.00, the on-dark
+button 10.32. Both viewports, all pass.
+⚠️ Two artefacts nearly got reported as failures here, both worth knowing for the next
+measurement: hiding `h2` does **not** hide `h2 em`, so an unhidden rose `em` inside an ivory
+heading measures rose-against-rose and reads 1.00; and a pill button's bounding rect includes
+corners outside the border-radius, so the worst 2% samples section ground the text never
+touches. **Hide the children too, and sample pill-shaped controls inset.**
+
+Also fixed while in there: `.boost-sub` broke before its last word and left "it." alone on
+line two. `text-wrap:balance` rather than a wider `max-width`, which would only move the
+problem to the next breakpoint.
 - **The tonal cliff.** The scene ends on a two-tone diptych and the page drops into flat cream
   for five sections. Carrying burgundy plates with sculpture into the doors is most of the fix.
 

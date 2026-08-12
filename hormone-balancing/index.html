@@ -3167,93 +3167,197 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
   if (!doors.length) return;
 
   const VS = `#version 300 es
-in vec2 a_pos; out vec2 v_uv;
-void main(){ v_uv = a_pos; gl_Position = vec4(a_pos,0.,1.); }`;
+layout(location=0) in vec2 a_pos;
+void main(){ gl_Position = vec4(a_pos,0.,1.); }`;
 
   const FS = `#version 300 es
 precision highp float;
-in vec2 v_uv; out vec4 o_col;
-uniform float u_time; uniform float u_seed; uniform float u_boost;
-uniform vec3 u_deep; uniform vec3 u_mid;
-#define CORE vec3(1.0,0.976,0.941)
-float hash21(vec2 p){ p=fract(p*vec2(234.34,435.345)+u_seed*17.123); p+=dot(p,p+34.23); return fract(p.x*p.y); }
-float vnoise(vec2 p){ vec2 i=floor(p),f=fract(p); vec2 u=f*f*(3.0-2.0*f);
-  return mix(mix(hash21(i),hash21(i+vec2(1,0)),u.x),mix(hash21(i+vec2(0,1)),hash21(i+vec2(1,1)),u.x),u.y); }
-float fbm3(vec2 p){ float v=0.,a=.5; mat2 m=mat2(1.6,1.2,-1.2,1.6);
-  for(int i=0;i<3;i++){ v+=a*vnoise(p); p=m*p; a*=.5; } return v; }
-float fbm4(vec2 p){ float v=0.,a=.5; mat2 m=mat2(1.6,1.2,-1.2,1.6);
-  for(int i=0;i<4;i++){ v+=a*vnoise(p); p=m*p; a*=.5; } return v; }
-mat2 rot(float a){ float c=cos(a),s=sin(a); return mat2(c,-s,s,c); }
-void main(){
-  vec2 p = v_uv; float t = u_time;
-  /* irregular droplet silhouette, slowly morphing */
-  float ang = atan(p.y,p.x); vec2 cir = vec2(cos(ang),sin(ang));
-  float rimN = fbm3(cir*1.7 + vec2(u_seed*3.1,u_seed*5.7) + vec2(t*.05,-t*.037));
-  float R = .80*(1.0+.075*(rimN-.5));
-  float r = length(p); float d = r-R;
-  /* fake sphere + chord-length density: luminous centre, dense dark rim */
-  float rr = clamp(r/R,0.,1.); float z = sqrt(max(0.,1.-rr*rr));
-  float density = pow(1.-z,1.35);
-  vec3 lumi = mix(u_mid,CORE,.14);
-  vec3 body = mix(lumi,u_mid,smoothstep(0.,.4,density));
-  body = mix(body,u_deep,smoothstep(.22,.78,density));
-  body = mix(body,u_deep*.62,smoothstep(.74,1.,rr)*.9);
-  /* interior wisps — domain-warped fbm, differential rotation = liquid shear */
-  vec2 q = p/R;
-  vec2 wq = rot((1.-rr)*(.55+.06*t))*q;
-  vec2 warp = vec2(fbm3(wq*2.3+vec2(0.,t*.03)+u_seed), fbm3(wq*2.3+vec2(5.2,-t*.025)-u_seed));
-  float wisps = smoothstep(.30,.80, fbm4(wq*2.8+1.8*(warp-.5)+vec2(t*.02,0.)));
-  float wispMask = smoothstep(1.,.6,rr)*smoothstep(.02,.3,rr);
-  body = mix(body, mix(body,lumi,.85), wisps*wispMask*.9);
-  body = mix(body, u_deep, (1.-wisps)*wispMask*.35);
-  /* blown-out irregular core + god-rays, breathing */
-  float breathe = 1.0+.15*sin(t*.9+u_seed*6.)+.10*u_boost;
-  vec2 cc = vec2(-.11,-.08)+.03*vec2(sin(t*.11+u_seed),cos(t*.09+u_seed*2.));
-  vec2 cp = q-cc; float cr = length(cp); float ca = atan(cp.y,cp.x);
-  float edgeN = fbm3(vec2(cos(ca),sin(ca))*2.1+vec2(u_seed*7.)+vec2(t*.06,-t*.04));
-  float coreR = .30*(1.+.08*sin(t*.85))*(.72+.75*(edgeN-.2));
-  float core = pow(smoothstep(coreR,coreR*.35,cr),.8);
-  float rays = pow(smoothstep(.35,.9, fbm3(vec2((ca+t*.157)*2.2, 1.7+u_seed*3.+t*.03))),1.5);
-  float rayFall = smoothstep(.95,.15,cr)*smoothstep(.02,.25,cr);
-  float coreLum = (core + rays*rayFall*.42*(.85+.3*sin(t*.5+u_seed)) + exp(-cr*3.8)*.36)*breathe;
-  coreLum *= smoothstep(1.02,.75,rr);
-  /* filament threads — rings about drifting 3D axes, clustered, upper-left biased */
-  vec3 P = vec3(q,z); float fil = 0.;
-  for(int i=0;i<4;i++){
-    float fi = float(i);
-    float h1 = hash21(vec2(fi*3.7,u_seed*9.1)); float h2 = hash21(vec2(fi*7.9,u_seed*4.3));
-    vec3 A = normalize(vec3(sin(h1*6.28)*.8,.8+.6*h2,cos(h1*6.28)*.8));
-    A.xz = rot(t*.03*(.5+h2))*A.xz;
-    float line = smoothstep(.988,.999,abs(sin(dot(P,A)*(5.+4.*h2)+h1*20.+t*.05)));
-    float pulse = .5+.5*sin(t*.6+fi*2.1+u_seed*3.);
-    float clu = smoothstep(.42,.7, fbm3(q*1.6+vec2(fi*2.3,u_seed*5.)+vec2(t*.015)));
-    fil += line*(.25+.75*pulse)*clu;
+uniform vec2  u_res;
+uniform float u_time;
+uniform vec3  u_deep;
+uniform vec3  u_mid;
+uniform float u_seed;
+uniform float u_boost;
+out vec4 outColor;
+
+float hash21(vec2 p){
+  p = fract(p*vec2(123.34, 456.21));
+  p += dot(p, p+45.32);
+  return fract(p.x*p.y);
+}
+float hash11(float n){ return fract(sin(n*127.1 + u_seed*311.7)*43758.5453); }
+float vnoise(vec2 p){
+  vec2 i = floor(p), f = fract(p);
+  f = f*f*(3.0-2.0*f);
+  float a = hash21(i);
+  float b = hash21(i+vec2(1.0,0.0));
+  float c = hash21(i+vec2(0.0,1.0));
+  float d = hash21(i+vec2(1.0,1.0));
+  return mix(mix(a,b,f.x), mix(c,d,f.x), f.y);
+}
+float fbm(vec2 p){
+  float v = 0.0, a = 0.5;
+  for(int i=0;i<3;i++){
+    v += a*vnoise(p);
+    p = p*2.03 + vec2(17.3, 9.1);
+    a *= 0.5;
   }
-  float filMask = smoothstep(-.25,.5,q.y+.35*(-q.x))*smoothstep(.3,.75,rr)*smoothstep(1.,.9,rr);
-  fil = clamp(fil,0.,1.)*filMask*.30;
-  /* wet speculars hugging the rim — functions of the rim shape, so they shimmer as it morphs */
-  float rimDepth = -d/R; float spec = 0.;
-  { float aw = smoothstep(.85,.4,abs(mod(ang-2.25+3.14159,6.28318)-3.14159));
-    spec += aw*smoothstep(.012,.022,rimDepth)*smoothstep(.075,.05,rimDepth); }
-  { float aw = smoothstep(.35,.1,abs(mod(ang+2.5+3.14159,6.28318)-3.14159));
-    spec += aw*smoothstep(.02,.04,rimDepth)*smoothstep(.11,.06,rimDepth)*.85; }
-  { float aw = smoothstep(.28,.08,abs(mod(ang+.2+3.14159,6.28318)-3.14159));
-    spec += aw*smoothstep(.02,.04,rimDepth)*smoothstep(.10,.055,rimDepth)*.7; }
-  spec = clamp(spec,0.,1.);
-  float dimple = smoothstep(.055,.03,length(q-vec2(.42,.52)));
-  /* composite, premultiplied */
-  float aa = fwidth(r)*1.2; float bodyMask = smoothstep(aa,-aa,d);
+  return v*1.142;
+}
+mat2 rot2(float a){ float c=cos(a), s=sin(a); return mat2(c,-s,s,c); }
+vec3 rotY(vec3 p,float a){ float c=cos(a),s=sin(a); return vec3(c*p.x+s*p.z, p.y, -s*p.x+c*p.z); }
+vec3 rotX(vec3 p,float a){ float c=cos(a),s=sin(a); return vec3(p.x, c*p.y-s*p.z, s*p.y+c*p.z); }
+
+void main(){
+  vec2 uv = (gl_FragCoord.xy*2.0 - u_res)/min(u_res.x,u_res.y);
+  float t = u_time;
+  float r = length(uv);
+  vec2 dir = r>1e-5 ? uv/r : vec2(1.0,0.0);
+  vec3 white = vec3(1.0, 0.976, 0.941);
+
+  /* silhouette: irregular droplet, slow morph */
+  float wob  = fbm(dir*1.25 + u_seed*13.1 + vec2(t*0.060, -t*0.045));
+  float wob2 = fbm(dir*2.60 - u_seed*7.7  + vec2(-t*0.042, t*0.065));
+  float R = 0.86*(1.0 + 0.060*(wob-0.5) + 0.028*(wob2-0.5));
+  float aa = fwidth(r)*1.5 + 1e-4;
+  float mask = 1.0 - smoothstep(R-aa, R+aa, r);
+  float rn = clamp(r/R, 0.0, 1.0);
+  float z = sqrt(max(0.0, 1.0 - rn*rn));
+  float rimDark = pow(1.0-z, 1.3);
+
+  vec2 p = uv / R;
+
+  /* translucent body: dark saturated rim -> luminous center.
+     Burgundy read dusty in round one: pre-deepen the mid tint before it meets the
+     ivory ground, and let the deep rim carry more weight. */
+  vec3 midDeep = mix(u_mid, u_deep, 0.22);
+  vec3 body = mix(u_deep*0.70, midDeep, smoothstep(0.0, 0.85, z));
+  body = mix(body, midDeep*1.20 + vec3(0.05), 0.48*smoothstep(0.60, 1.0, z));
+  body = mix(body, u_deep*0.55, rimDark*0.68);
+
+  /* liquid churn: bounded oscillating shear + slow uniform drift.
+     NOT z*t — an integrating shear winds the field into spiral striations after
+     minutes on screen. The shear ANGLE oscillates (~23s), so the liquid stirs
+     forward and relaxes back, while a slow global rotation keeps net motion. */
+  float stir = 0.85*sin(t*0.273) + 0.35*sin(t*0.117 + u_seed);
+  float swirlA = t*0.030 + z*z*stir*(0.55 + 0.30*u_boost);
+  vec2 pw = rot2(swirlA)*p;
+  vec2 warp = vec2(fbm(pw*1.7 + u_seed*5.0 + vec2(0.0, t*0.020)),
+                   fbm(pw*1.7 - u_seed*3.0 + vec2(t*0.024, 4.7)));
+  float wisp = fbm(pw*3.1 + (warp-0.5)*2.6 + vec2(t*0.014, -t*0.018));
+  float wispHi = smoothstep(0.46, 0.84, wisp);
+  float wispLo = smoothstep(0.52, 0.20, wisp);
+  body = mix(body, midDeep*1.52 + vec3(0.11), wispHi*(0.46 + 0.10*u_boost)*z);
+  body = mix(body, u_deep*0.72,               wispLo*0.30*z);
+
+  /* white-hot core: irregular blown-out flare, off-center, breathing */
+  float breathe = 1.0 + (0.08 + 0.04*u_boost)*sin(t*6.2832/7.0);
+  vec2 cc = vec2(-0.11, -0.14) + 0.025*vec2(sin(t*0.11), cos(t*0.09));
+  vec2 cd = p - cc;
+  float cr = length(cd);
+  vec2 cdir = cr>1e-4 ? cd/cr : vec2(1.0,0.0);
+  float edgeN = fbm(cdir*1.6 + u_seed*9.0 + vec2(t*0.09, -t*0.07));
+  float edgeN2 = fbm(cdir*3.4 - u_seed*4.0 + vec2(-t*0.07, t*0.08));
+  float crW = cr * (1.0 + 1.05*(edgeN-0.5) + 0.5*(edgeN2-0.5));
+  float cSize = 0.31*breathe;
+  float core = pow(clamp(1.0 - crW/cSize, 0.0, 1.0), 1.15);
+  float coreHot = smoothstep(0.16, 0.60, core);
+  float glow = exp(-crW*2.7)*(1.0 + 0.15*sin(t*6.2832/7.0));
+
+  /* god rays: slow rotation, uneven sectors */
+  vec2 rdir = rot2(t*6.2832/40.0)*cdir;
+  float rays = vnoise(rdir*1.7 + u_seed*17.0);
+  rays *= 0.55 + 0.8*vnoise(rdir*3.2 + u_seed*23.0 + vec2(0.0, t*0.06));
+  float raySector = fbm(rot2(-t*6.2832/55.0)*cdir*1.1 + u_seed*3.0);
+  rays = pow(clamp(rays,0.0,1.0), 1.8) * smoothstep(0.25, 0.70, raySector);
+  float rayI = rays * exp(-cr*2.0)
+             * smoothstep(cSize*0.25, cSize*0.95, crW)
+             * (1.0 - smoothstep(0.48, 0.82, cr));
+
+  /* filament thread-cage: 14 great-circle rings on the inner sphere */
+  vec3 Pf = rotX(rotY(vec3(p, z), t*0.048), t*0.034);
+  vec3 Pb = rotX(rotY(vec3(p,-z), t*0.048), t*0.034);
+  float fil = 0.0;
+  for(int i=0;i<14;i++){
+    float fi = float(i);
+    vec3 n = normalize(vec3(hash11(fi+1.0)-0.5, hash11(fi+11.0)-0.5, hash11(fi+23.0)-0.5));
+    n = normalize(n + 0.22*vec3(sin(t*0.085 + fi*2.4),
+                                sin(t*0.072 + fi*1.7),
+                                sin(t*0.093 + fi*3.1)));
+    float bright = 0.5 + 0.5*sin(t*6.2832/(9.0 + 4.0*hash11(fi+31.0)) + fi*2.13);
+    bright = smoothstep(0.42, 0.95, bright);
+    float df = abs(dot(Pf, n));
+    float db = abs(dot(Pb, n));
+    float w = 0.0042;
+    float lf = 1.0 - smoothstep(0.0, w + fwidth(df)*1.3, df);
+    float lb = 1.0 - smoothstep(0.0, w + fwidth(db)*1.3, db);
+    fil += bright*(lf + 0.16*lb);
+  }
+  float cluster = 0.07 + 0.93*smoothstep(-0.10, 0.80, p.y*0.85 - p.x*0.38);
+  fil *= cluster;
+  fil = min(fil, 1.3);
+
+  /* wet speculars: comet streaks, not dashed arcs. The long streak follows the
+     morphing rim (rn tracks R), its radial center eases inward toward the tail,
+     its width and its ends feather, and its brightness fades along the arc. */
+  float ang = atan(uv.y, uv.x);
+  float spec = 0.0;
+  {
+    float a0 = 1.35, a1 = 2.85;                      /* upper-left arc span */
+    float u = clamp((ang - a0)/(a1 - a0), 0.0, 1.0);
+    float along = smoothstep(0.0, 0.22, u)*(1.0 - smoothstep(0.62, 1.0, u));
+    float cen = 0.884 - 0.020*u + 0.010*(wob-0.5);   /* eases inward toward tail */
+    float hw = 0.017*(1.0 - 0.45*u);                 /* tapers */
+    float bd = 1.0 - smoothstep(hw*0.55, hw, abs(rn - cen));
+    spec += bd*along*(1.0 - 0.35*u);
+  }
+  {
+    float a0 = -2.62, a1 = -1.90;                    /* lower-left glint */
+    float u = clamp((ang - a0)/(a1 - a0), 0.0, 1.0);
+    float along = smoothstep(0.0, 0.30, u)*(1.0 - smoothstep(0.55, 1.0, u));
+    float cen = 0.885 + 0.012*(wob2-0.5);
+    float bd = 1.0 - smoothstep(0.010, 0.020, abs(rn - cen));
+    spec += bd*along*0.85;
+  }
+  {
+    float a0 = -0.45, a1 = 0.20;                     /* right glint */
+    float u = clamp((ang - a0)/(a1 - a0), 0.0, 1.0);
+    float along = smoothstep(0.0, 0.30, u)*(1.0 - smoothstep(0.60, 1.0, u));
+    float cen = 0.888 + 0.012*(wob-0.5);
+    float bd = 1.0 - smoothstep(0.010, 0.019, abs(rn - cen));
+    spec += bd*along*0.72;
+  }
+  spec *= 0.92 + 0.30*(wob-0.5);
+  spec = clamp(spec*1.55, 0.0, 1.0);
+
+  /* dimple bubble near upper-right — tinted glass, not a grey dot */
+  vec2 dp = p - vec2(0.40, 0.48);
+  float dd = length(dp);
+  float dimple  = smoothstep(0.055, 0.024, dd);
+  float dimpleH = smoothstep(0.024, 0.008, length(dp - vec2(0.013, 0.013)));
+
+  float grain = (hash21(floor(gl_FragCoord.xy*0.9) + u_seed*31.0) - 0.5)*0.045;
+  float halo = exp(-max(r-R, 0.0)*26.0)*(1.0-mask);
+
+  /* compose */
   vec3 col = body;
-  col = mix(col,u_deep*.55,dimple*.5);
-  col += CORE*coreLum + CORE*fil;
-  col = mix(col,vec3(1.),spec*.95);
-  float alpha = mix(.76,.97,smoothstep(.12,.85,density));
-  alpha = clamp(alpha+coreLum*.8+spec*.6+fil*.5,0.,1.)*bodyMask;
-  col *= bodyMask;
-  col += (hash21(floor(p*380.)+floor(t*8.)*.017)-.5)*.035*bodyMask;
-  float halo = exp(-max(d,0.)*22.)*(1.-bodyMask)*.20;
-  col += u_mid*halo; alpha = clamp(alpha+halo,0.,1.);
-  o_col = vec4(clamp(col,0.,2.)*alpha, alpha);
+  vec3 filCol = mix(white, midDeep + vec3(0.25), 0.35);
+  col += filCol * fil * 0.24 * (1.0 - coreHot);
+  col += (midDeep + vec3(0.30)) * glow * (0.20 + 0.05*u_boost);
+  col += white * rayI * 0.42;
+  col = mix(col, white, coreHot);
+  col += white * core * 0.34;
+  col = mix(col, vec3(1.0), spec*0.95);
+  col = mix(col, u_deep*0.72, dimple*0.45);
+  col = mix(col, white, dimpleH*0.40);
+  col += grain*mask;
+
+  float alphaBody = clamp(0.64 + 0.32*rimDark + core*0.38 + spec*0.35, 0.0, 0.965);
+  float alpha = clamp(mask*alphaBody + halo*0.12, 0.0, 1.0);
+  vec3 rgb = col*mask*alphaBody
+           + white*(core*0.20 + rayI*0.11)*mask
+           + mix(white, midDeep+vec3(0.3), 0.5)*halo*0.10;
+  outColor = vec4(rgb, alpha);
 }`;
 
   /* the same trio the CSS fallback carries — BRAND.md values, one-red rule intact */
@@ -3300,11 +3404,13 @@ void main(){
         orb, canvas, gl,
         uT: gl.getUniformLocation(prog, "u_time"),
         uB: gl.getUniformLocation(prog, "u_boost"),
+        uR: gl.getUniformLocation(prog, "u_res"),
         sim: t.seed*20,          /* each door enters mid-life, not at a shared zero */
         vis: true, hot: false, boost: 0, live: false,
       };
       const draw = () => {
         gl.viewport(0, 0, canvas.width, canvas.height);
+        gl.uniform2f(inst.uR, canvas.width, canvas.height);
         gl.uniform1f(inst.uT, inst.sim);
         gl.uniform1f(inst.uB, inst.boost);
         gl.clear(gl.COLOR_BUFFER_BIT);

@@ -690,21 +690,63 @@ html.doors-static .door{min-height:var(--bleed-h)}
 .boost-one{
   position:relative;isolation:isolate;min-height:min(68vh,640px);
   display:grid;grid-template-rows:auto auto;align-content:end;
-  row-gap:14px;text-align:left;padding:clamp(26px,3vw,50px);background:#4A2233;
+  row-gap:14px;text-align:left;padding:clamp(26px,3vw,50px);background:#241A1E;
 }
 .boost-one picture{position:absolute;inset:0;z-index:-2;display:block}
-.boost-one img{display:block;width:100%;height:100%;object-fit:cover;background:var(--line)}
+.boost-one img{display:block;width:100%;height:100%;object-fit:cover;background:#241A1E}
 /* ⚠️ DEEPER THAN IT LOOKS LIKE IT NEEDS TO BE, and the reason is one measurement. The first
    ramp put the rose h3 em at exactly 4.50 over the gut plate at 390x844 — against a 4.5 floor,
    so it failed by a rounding error. On desktop that same em is 38px and therefore LARGE text
    needing only 3, which is why it passed there and only there: the phone shrinks it to 22px
-   and moves the goalposts. A ramp tuned on desktop will fail on a phone every time. */
+   and moves the goalposts. A ramp tuned on desktop will fail on a phone every time.
+
+   HIS CALL 2026-08-12 — "the skim, red is not working". IT WAS THE SCRIM AND NOTHING ELSE,
+   AND THE PLATES PROVE IT: sampled straight off the webp, the bottom band both plates put
+   their copy on is (113,103,88) and (87,77,72), and its own darkest tenth is (55,52,48) and
+   (25,24,27) — neutral warm charcoal, no red anywhere in either picture. The wine came
+   entirely from this ramp, whose middle stop was rgba(42,19,28) at .70. ⚠️ OVER THE ENERGY
+   PLATE THAT STOP IS NOT A TINT, IT IS THE COLOUR: the plate under it is near-black, so at
+   .70 you are looking at #2A131C itself. That is why it read as a filter laid on the
+   photograph rather than as shadow, and why it fought the gold hardest exactly where the
+   picture was darkest.
+   ⚠️ THE NEW RAMP IS --ink's OWN HUE, SCALED, NOT A NEW COLOUR. #2E2228 is (46,34,40) —
+   ratios 1 : .739 : .870 — and every stop below holds those ratios at falling value, from
+   (26,19,23) down to (14,10,12). The old middle stop ran 1 : .452 : .667, roughly twice the
+   chroma and far redder. So the section's dark is now the page's ink at low value; there is
+   no second red on the page and BRAND.md's one-red rule stops being bent here.
+   ⚠️ TEN STOPS BECAUSE THE OLD FIVE HAD A VISIBLE KNEE. .08 at 38% to .70 at 62% is 62
+   points of alpha over 24 of height, and you could see the edge of it crossing both plates.
+   The stops below trace an S-curve instead, so the same density arrives at the same place
+   with nothing to see on the way. THE DENSITY IS NOT THE THING THAT CHANGED — the copy band
+   still lands on .85–.95, which is what keeps the twelve measurements clear.
+   ⚠️ The foot is .95, not .97. At .97 the last sixth of each plate is a flat slab and the
+   photograph simply stops; .95 leaves it just alive under the copy. ISOLATED AND MEASURED —
+   both feet run through the harness with nothing else moving — IT COSTS AT MOST .07, and only
+   on the p, the one control that reaches that far down; both titles are identical to two
+   decimals and clear by 7 points besides. That is under the ±.05 the AVIF decode moves
+   between runs anyway, so do not go hunting for it in a single run. */
 .boost-one::after{
   content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,
-  rgba(26,15,19,0) 0%,rgba(26,15,19,.08) 38%,rgba(42,19,28,.70) 62%,
-  rgba(22,12,16,.92) 82%,rgba(16,9,12,.97) 100%);
+  rgba(26,19,23,0) 0%,rgba(26,19,23,.05) 32%,rgba(26,19,23,.16) 44%,
+  rgba(24,18,21,.32) 52%,rgba(23,17,20,.48) 58%,rgba(21,16,18,.63) 63%,
+  rgba(19,14,17,.76) 69%,rgba(17,13,15,.86) 76%,rgba(15,11,13,.92) 84%,
+  rgba(14,10,12,.95) 100%);
 }
-.boost-one h3{color:var(--ivory)}
+/* ⚠️ THIS SIZE WENT MISSING FOR FOUR COMMITS AND EVERY DOCUMENT KEPT DESCRIBING IT. It was
+   `clamp(22px,2.7vw,38px)` on the bands layout, where it sat on a `grid-area:title`; 74e25fb
+   deleted the bands CSS wholesale when the diptych landed and added no replacement, so from
+   that commit to this one `.boost-one h3` had NO font-size at all and fell back to the UA
+   default — a flat 1.17em ≈ 19px, identical at 1440 and at 390. Restored at its own value.
+   ⚠️ IT IS WHY TWO WARNINGS READ AS STALE AND WERE ACTUALLY JUST UNTRUE. HANDOFF.md and
+   tools/qa/README.md both say the em is "38px on desktop, 22px at 390, so the phone moves
+   the goalposts" — correct about the design, wrong about what shipped, because at a flat
+   19px the harness classed all twelve controls as SMALL and held every one of them to 4.5.
+   Those warnings are true again now: at 1440 the em is 38px and therefore LARGE text needing
+   only 3, and at 390 it is 22px and needs 4.5. The phone is the binding viewport once more.
+   ⚠️ Restoring it MOVES THE COPY BAND UP THE PLATE, which is a re-measurement and not a type
+   change — bigger title, taller block, `align-content:end` pushes the top edge higher into a
+   thinner part of the scrim. Re-run tools/qa/boost-contrast.mjs, not just a look. */
+.boost-one h3{font-size:clamp(22px,2.7vw,38px);line-height:1.14;color:var(--ivory)}
 /* ⚠️ THE GAP IS A MARGIN, NOT A SPACE IN THE MARKUP. The title is two halves —
    "Hormone Therapy" and "+ Gut Health" — and the em carries the join, so the markup has
    no whitespace between them and rendered as "Hormone Therapy+ Gut Health". A literal

@@ -48,6 +48,14 @@ chapter-08 press (ivory outline). Do not "unify" them.
 ## Scrims and washes
 
 - Pathway scrims: `--burgundy` at the section's original alpha geometry.
+- **Scrims over photographs are `--ink`'s hue at falling value — never a saturated wine.**
+  `#2E2228` is `(46,34,40)`, ratios `1 : .739 : .870`; a scrim holds those ratios and drops
+  the value. 05's ramp ran `rgba(42,19,28,.70)` until 2026-08-12 — twice the chroma — and
+  over the near-black half of its plate that stop *was* the colour you saw, so it read as a
+  red filter on the picture rather than as shadow. **A scrim is a shadow. If you can name its
+  hue, it is a second red**, and the one-red rule above is the thing it is breaking.
+  Counterintuitive but measured: taking the chroma out **gains** contrast, because a saturated
+  plum is lighter than the ink at the same perceived density.
 - Light-key chapters: ivory washes that end before the photograph's subject.
 - **Every alpha is a measured minimum**, not taste: ivory/ink copy clears
   WCAG floors (4.5:1 small, 3:1 large) at the *worst pixel* of its own

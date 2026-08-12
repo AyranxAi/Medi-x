@@ -55,8 +55,17 @@ swap since has been a promise rather than a check. This is that script.
 ⚠️ **The phone moves the goalposts, and this section has already failed on it.** The rose
 `h3 em` is 38px on desktop — *large* text needing only 3 — and 22px at 390, where it needs
 4.5. A scrim tuned on desktop passes there and only there. Baseline as shipped: **12/12
-clear, tightest the rose em on the gut plate at 390×844 — 5.48 against 4.5, margin 0.98.**
+clear, tightest the rose em on the gut plate at 390×844 — 5.41 against 4.5, margin 0.91.**
 That margin is the budget any brighter plate spends.
+
+⚠️ **THAT WARNING WAS UNTRUE FOR FOUR COMMITS AND THE HARNESS IS HOW IT WAS CAUGHT.** `74e25fb`
+dropped `.boost-one h3`'s `font-size` when the diptych replaced the bands layout, so the title
+fell back to the UA default — a flat 19px at *both* viewports. The tell is in the output
+itself: every control printed `19px small need 4.5`, including the desktop rows the paragraph
+above promises will read `38px large need 3`. **Read the size and class columns, not just the
+pass column** — the section was passing a stricter test than the one documented, which is the
+benign direction, but the same silent drift in reverse is a failure nobody would see. Fixed
+2026-08-12; desktop rows now read `38px large` and the phone rows `22px small`, as described.
 
 ⚠️ **A near-1.0 ratio is almost never a real failure** — it means the foreground and the
 background are the same pixels: the copy did not hide, or the rect was read before the

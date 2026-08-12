@@ -276,6 +276,105 @@ rule: a control with no destination stays inert rather than pointing at a placeh
   placement, and the section that used to be 780px is now ~1340px, so it sits between the doors
   and the proof for twice as long as it did when the note was written.
 
+## 05's scrim comes off the wine — "the skim, red is not working", 2026-08-12
+
+**The plates were never the problem, and they are the proof.** Sampled straight off the webp,
+the bottom band each plate puts its copy on is `(113,103,88)` and `(87,77,72)`, and the darkest
+tenth of that band is `(55,52,48)` and `(25,24,27)` — neutral warm charcoal. **There is no red
+in either photograph.** All of it came from `.boost-one::after`, whose middle stop was
+`rgba(42,19,28,.70)` at 62%.
+
+⚠️ **Over the energy plate that stop was not a tint, it was the colour.** The plate beneath it
+is near-black, so at `.70` the reader is looking at `#2A131C` itself. That is why it read as a
+filter laid over the picture instead of as shadow, and why it fought the gold hardest exactly
+where the picture was darkest — the opposite of what a scrim is supposed to do.
+
+**The new ramp is `--ink`'s own hue at falling value, not a new colour.** `#2E2228` is
+`(46,34,40)`, ratios `1 : .739 : .870`; every stop holds those ratios from `(26,19,23)` down to
+`(14,10,12)`. The old middle stop ran `1 : .452 : .667` — roughly twice the chroma, and far
+redder. The section's dark is now the page's ink, so **BRAND.md's one-red rule stops being bent
+here**: `--logo-red` is again the only red on the page.
+
+⚠️ **Ten stops, because five had a visible knee.** `.08` at 38% to `.70` at 62% is 62 points of
+alpha across 24 of height and you could see its edge crossing both plates. The stops now trace
+an S-curve to the same density in the same place with nothing to see on the way. **The density
+is not what changed** — the copy band still lands on `.85–.95`. The foot went `.97 → .95`,
+because at `.97` the last sixth of each plate is a flat slab and the photograph simply stops.
+
+⚠️ **AND IT IS NOT A CONTRAST TRADE — IT IS A CONTRAST GAIN, WHICH IS COUNTERINTUITIVE ENOUGH
+TO WRITE DOWN.** A saturated plum at a given alpha is *lighter* than the ink at the same
+perceived density, so taking the chroma out bought margin back rather than spending it. Every
+one of the twelve controls improved:
+
+| | before (wine) | after (ink) |
+|---|---|---|
+| gut · rose `h3 em` @ 390 — **the binding case** | 5.23 | **5.48** |
+| gut · ivory `h3` @ 390 | 12.64 | 13.20 |
+| energy · rose `h3 em` @ 390 | 7.14 | 7.35 |
+| gut · rose `h3 em` @ 1440 | 6.17 | 6.19 |
+
+**That gave back the 0.25 the gold plates spent** (see the section below) and then some.
+
+### The titles had been at the browser's default size for four commits
+
+⚠️ **`.boost-one h3` had no `font-size` at all, and every document kept describing the one it
+used to have.** It was `clamp(22px,2.7vw,38px)` on the bands layout, sitting on a
+`grid-area:title`; **`74e25fb` deleted the bands CSS wholesale when the diptych landed and
+added no replacement.** From that commit until this one the panel titles fell back to the UA
+default — a flat `1.17em ≈ 19px`, *identical at 1440 and at 390* — on a 640px full-bleed
+photographic panel. Restored at its own value, with its `line-height:1.14`.
+
+⚠️ **This is why two standing warnings read as stale and were in fact simply untrue.** Both
+this file and `tools/qa/README.md` say the em is "38px on desktop, 22px at 390, so the phone
+moves the goalposts". Correct about the design, wrong about what shipped: at a flat 19px the
+harness classed **all twelve controls as SMALL and held every one to 4.5**, which is why the
+section had been quietly passing a *stricter* test than the one documented. Those warnings are
+true again now — at 1440 the em is 38px and therefore *large* text needing only 3, at 390 it is
+22px and needs 4.5, and **the phone is the binding viewport once more.**
+
+⚠️ **Restoring the size moves the copy band up the plate**, which makes it a re-measurement and
+not a type change: a taller title block against `align-content:end` pushes the top edge into a
+thinner part of the scrim. Final, both changes together — `node tools/qa/boost-contrast.mjs`:
+**12/12 clear, 0 skipped, tightest the rose em on the gut plate at 390×844 — 5.41 against 4.5,
+margin 0.91.** Still the binding case, still the plate to watch.
+
+⚠️ **`.boost-one`'s own `background` was `#4A2233`** — the reddest thing in the section, and a
+third red on a page that allows one. It only ever showed before the plate decoded, which is
+exactly why nobody caught it. It and `.boost-one img`'s `var(--line)` — a *pale cream* flash
+under a dark panel — are both `#241A1E` now, so the pre-decode state is the scrim's own dark.
+
+### The five `?style=` faces were re-swept, and one of them is thin — but it always was
+
+Restoring the title size changes the copy block's height in **every** face, and a taller block
+against `align-content:end` rides further up into thinner scrim, so all six needed re-running,
+not just the default. Both scrims × six faces × twelve controls = **144 measurements, 72 before
+and 72 after, 0 skipped, 0 failing either side.** The binding control in every face is the same
+one — the rose `h3 em` on the gut plate at 390×844:
+
+| face | before | after | |
+|---|---|---|---|
+| default | 5.23 | **5.41** | +0.18 |
+| editorial | 5.18 | **5.44** | +0.26 |
+| gallery | 5.22 | **5.46** | +0.24 |
+| salon | 5.23 | **5.41** | +0.18 |
+| clinical | 5.22 | **5.46** | +0.24 |
+| **soft** | **4.67** | **4.62** | **−0.05** |
+
+⚠️ **`?style=soft` IS THE THINNEST THING IN THIS SECTION AND IT DID NOT BECOME THAT HERE.** It
+was already at 4.67 against a 4.5 floor before anything moved; this change cost it 0.05, which
+is exactly the ±0.05 the AVIF decode moves between runs, while every other face gained four to
+five times that. **The cause is `html.st-soft .boost-one p{line-height:2}`** — soft has the
+tallest copy block of the six, so its title sits highest up the plate where the ramp is
+thinnest. Nothing to fix today: it passes, and it is an undecided exploration rather than a
+shipped face.
+
+⚠️ **But do not read "all five styles pass" as headroom, which is how it has read until now.**
+At **margin 0.12 against ±0.05 of run-to-run noise, soft clears by about two error bars.** If
+soft is ever picked, it ships at effectively zero budget and *any* brighter plate breaks it —
+so the pick is also a scrim re-tune, and the honest options at that point are to drop its
+`line-height` to ~1.8 or deepen the ramp for that face alone. Recorded here because the number
+that matters is the margin, not the pass.
+
 ## 05 is the diptych — his pick 2026-08-12, and the Gut plate was replaced the same day
 
 `images/gut.png` (his upload, `23ae7dd`) → `images/boost/gut-anatomy-1340.{avif,webp}`. An

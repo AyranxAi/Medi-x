@@ -338,6 +338,58 @@ because there the em is 38px and therefore *large* text needing only 3. **The ph
 to 22px and moves the goalposts.** A scrim tuned on desktop will fail on a phone every time.
 Deepened ramp; the same 12 runs now clear, tightest 4.99.
 
+## The phone's scene chrome was invisible for most of the scene — found and fixed 2026-08-12
+
+Four changes, all in `/hormone-balancing/`. The first two are one root cause.
+
+**`updateSide()` dressed its chrome by `seamX`, and a phone has no seam.** The `mobile`
+branch raises the ground **whole** and never reads `seamX` — but `seamX` is still computed,
+so both indicators flipped against a ground that had not moved. Measured on 390×844, worst
+ratio per beat, against the 4.5 an 9.5–11px run needs:
+
+| Element | Window | Was | Now |
+|---|---|---|---|
+| `.scene-phase` | p .38–.58 | **1.05** — ink on a still-dark stage | 4.11 at the crossover, ≥5.5 either side |
+| `.scene-ctrl` | p .57 → end | **1.10** — fixed ivory on risen blush | **6.06** worst, 13.19 at the end |
+
+⚠️ **Each half was correct for the case it was reasoned about.** The stylesheet says the
+controls "sit bottom-LEFT, on the half that is dark for the whole scene" — true of the
+desktop diptych, false below 760px where there is no diptych. This is trap 7 in the list
+above arriving from the other direction: `--scene-fg` keyed to the *seam* is wrong when the
+ground has no seam.
+
+⚠️ **The controls do not take the colour lerp, and that is deliberate.** Halfway through the
+dawn the ground is a mid grey (rgb 152,137,136 at p .60) and **no unbacked small text clears
+4.5 on it** — ivory and ink are equidistant, so a lerp tops out at ~3.9 and is worst at its
+own midpoint because the type itself goes mid grey. Measured that way: 3.59. So the controls
+**snap** (`--ctrl-fg`, never a mid value) and the pill carries a dark tint under them until
+the snap. The phase indicator keeps the lerp and the sliver — it is `aria-hidden` chrome at
+11px and it has no ground of its own to stand on.
+⚠️ The `760px` in the stylesheet must track the scene script's own `mobile` query. They are
+two places now; if one moves the other must.
+
+**The phase indicator leaves as `BHRT` arrives** (`.7 * (1 - ss(.80,.88,p))`). Both a
+collision fix and an editorial one. Measured gap between the 104px title and the 11px
+indicator, both pinned top-right, at p .90: 164px at 1920, 44px at 1440, **17px at 1280** —
+a common laptop, where the payoff word and the decoration read as one cluster. They also say
+the same thing at that moment: *04 — Support* is the small print of *BHRT*.
+
+**`.boost-one h3 em` gained `margin-left:.3em`.** 05's titles are two halves and the `em`
+carries the join, so the markup has no whitespace between them: it rendered
+*"Hormone Therapy+ Gut Health"*, both rows, since the section was built.
+⚠️ A margin, not a literal space — a trailing space collapses if the line ever wraps between
+the halves, and the phone is the viewport where it would.
+
+**Still open after this pass, and not touched** (all judgement calls, not defects):
+- **The doors' titles are below the fold**, so 04 answers *"Where would you like to begin?"*
+  with three wordless photographs until you scroll. That is the stated trade of the flat
+  `92vh` — his call, recorded above — but it is the page's biggest comprehension cost and
+  the one thing a first-time reader cannot resolve on their own.
+- **05's two plates.** Both dark, and the file already says so; the gut render is clinical
+  where the rest of the page is editorial, and the energy frame reads as stock tech.
+- **The placeholder testimonials.** Still the biggest liability, per the note above, and the
+  disclaimer that carries them is 13px italic in the bottom-left corner of the section.
+
 ## Five page-wide style directions — `?style=`, offered 2026-08-12, undecided
 
 Not section layout: the same structure wearing five faces, mostly token overrides plus a

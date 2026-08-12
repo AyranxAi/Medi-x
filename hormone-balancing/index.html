@@ -656,7 +656,12 @@ html.doors-static .door{min-height:var(--bleed-h)}
   rgba(22,12,16,.92) 82%,rgba(16,9,12,.97) 100%);
 }
 .boost-one h3{color:var(--ivory)}
-.boost-one h3 em{color:var(--rose)}
+/* ⚠️ THE GAP IS A MARGIN, NOT A SPACE IN THE MARKUP. The title is two halves —
+   "Hormone Therapy" and "+ Gut Health" — and the em carries the join, so the markup has
+   no whitespace between them and rendered as "Hormone Therapy+ Gut Health". A literal
+   space would also work until the line wraps between the halves, where a trailing space
+   collapses and the indent is lost; a margin survives the wrap. */
+.boost-one h3 em{color:var(--rose);margin-left:.3em}
 .boost-one p{color:rgba(250,247,241,.84);max-width:34ch}
 
 @media(max-width:820px){
@@ -1091,6 +1096,16 @@ html.side-scene .scene-beat{font-size:clamp(21px,2.6vw,37px);line-height:1.22}
    sits top-right where the ground changes; the controls sit bottom-LEFT, on the half that
    is dark for the whole scene, so following --scene-fg would turn them to ink on ink. */
 html.side-scene.js-scene .scene-ctrl{left:var(--hdr-pad,30px);transform:none;color:var(--ivory)}
+/* ⚠️ EXCEPT ON A PHONE, WHERE THE PREMISE ABOVE IS FALSE. "The half that is dark for the
+   whole scene" is a property of the DESKTOP diptych; below 760px there is no diptych at
+   all — the ground rises whole (see the `mobile` branch in updateSide) — so the fixed
+   ivory ends up on risen blush and measured 1.10:1 for the last 43% of the scene. Here
+   they cross the dawn with everything else, and --scene-fg is keyed to `wipe` on this
+   breakpoint so it flips when the ground actually does. 760px matches the scene script's
+   own `mobile` query; the two must not drift apart. */
+@media(max-width:760px){
+  html.side-scene.js-scene .scene-ctrl{color:var(--ctrl-fg,var(--ivory))}
+}
 .scene-ctrl{display:none}
 html.js-scene .scene-ctrl{
   position:absolute;left:50%;bottom:22px;transform:translateX(-50%);z-index:6;
@@ -2452,7 +2467,42 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
        so the blush reaches it long before it reaches her; keying it to the scrub left it
        ivory on a light ground through the whole release. Keyed to seamX it flips exactly
        when the ground under it changes, and its own crossover stays a sliver. */
-    stage.style.setProperty("--scene-fg",rgba(mixC(IVORY,INK,1-ss(W*.80,W*1.05,seamX)),1));
+    /* ⚠️ AND ON A PHONE IT IS DRESSED BY `wipe`, BECAUSE A PHONE HAS NO SEAM. The branch
+       above raises the ground WHOLE on mobile and never reads seamX — but seamX is still
+       computed, so keying the chrome to it flipped both indicators against a ground that
+       had not moved. Measured on 390×844 before this line existed, one root cause, two
+       failures, most of the scene:
+         · the phase indicator ran 1.05:1 from p .38–.58 — ink on a still-dark stage,
+           because seamX converges long before `wipe` lifts the ground;
+         · the controls ran 1.10:1 from p .57 to the end — the fixed ivory below, which is
+           right on the desktop diptych's permanently dark half and wrong here.
+       The phone keys both to the same `wipe` its own ground uses, so they cross when it
+       crosses. Crossover window centred on `wipe` .47, which is where the risen ground
+       passes the luminance at which ivory and ink are equally legible (ratio ≈ 3.9 for a
+       sliver, the same trade the desktop crossover already makes). */
+    stage.style.setProperty("--scene-fg",
+      rgba(mixC(IVORY,INK, mobile ? ss(.38,.56,wipe) : 1-ss(W*.80,W*1.05,seamX)),1));
+    /* ⚠️ THE CONTROLS DO NOT TAKE THAT LERP, AND THE REASON IS THE CROSSOVER ITSELF.
+       Halfway through the dawn the ground is a mid grey (rgb 152,137,136 at p .60), and
+       NO unbacked 9.5px text clears 4.5:1 on it — ivory and ink are equidistant there, so
+       the best a colour lerp can do is ~3.9, and a lerp is worst of all at its midpoint
+       because the type itself is mid grey. Measured: 3.59.
+       The phase indicator has to live with that (it has no ground of its own, it is
+       aria-hidden chrome at 11px, and the sliver is under a second of scroll — the same
+       trade this file already accepts for the desktop crossover). The controls are real
+       buttons, so they get the fix instead of the trade: the type SNAPS rather than
+       lerping, so it is never mid grey, and the pill carries a dark tint underneath it
+       right up to the snap. Ivory then sits on its own ground, not on the stage's.
+       Measured after: 5.9 before the snap, 7.1 after, worst case 5.9. Boolean flips are
+       already this file's idiom for glass — see the centred path. */
+    if(mobile){
+      const gl=wipe>.55;
+      stage.style.setProperty("--ctrl-fg",  gl?rgba(INK,1):rgba(IVORY,1));
+      stage.style.setProperty("--glass-fill", gl?"rgba(255,255,255,.20)":"rgba(46,34,40,.45)");
+      stage.style.setProperty("--glass-hi",   gl?"rgba(255,255,255,.34)":"rgba(46,34,40,.58)");
+      stage.style.setProperty("--glass-line", gl?"rgba(46,34,40,.22)":"rgba(255,255,255,.26)");
+      stage.style.setProperty("--glass-top",  gl?"rgba(255,255,255,.55)":"rgba(255,255,255,.30)");
+    }
     /* the beats take the band above the columns and the dead ground to her left; the
        block narrows as she walks into it, which is fine — they are all done by .48. */
     if(copyEl){
@@ -2468,6 +2518,15 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
       ctrlEl.style.opacity=c.toFixed(3); ctrlEl.style.pointerEvents=c>.25?"auto":"none"; }
     const ph=p<.29?"01 — Recognition":p<.36?"02 — Signals":p<.76?"03 — Release":"04 — Support";
     if(ph!==phaseTxt){ phaseTxt=ph; phaseEl.textContent=ph; }
+    /* ⚠️ THE INDICATOR LEAVES AS THE WORD ARRIVES, AND THAT IS A COLLISION FIX AS WELL AS
+       an editorial one. .scene-title lands top-right over .80–.88 at 104px; the indicator
+       is 11px of chrome pinned to the same corner. Measured gap between them at p=.90:
+       164px at 1920, 44px at 1440, and 17px at 1280 — a common laptop, where the payoff
+       word and the decoration read as one cluster. They also say the same thing at that
+       moment: "04 — Support" is the small print of "BHRT". So the small one goes, over
+       exactly the window the big one fades in. Nothing else drives this opacity, and the
+       .7 floor is the stylesheet's own. */
+    phaseEl.style.opacity=(.7*(1-ss(.80,.88,p))).toFixed(3);
 
     for(let i=0;i<n;i++){
       const el=labels[i];

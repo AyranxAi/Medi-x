@@ -709,6 +709,138 @@ html.doors-static .door{min-height:var(--bleed-h)}
 .faq-a p:last-child{padding-bottom:clamp(24px,3vh,32px)}
 .faq-a p strong{font-weight:500;color:var(--burgundy)}
 
+/* ══ 06 + 07 · TREATMENTS FOR A DECISION — ?stories= and ?faq= ══════════════════════════
+   Offered 2026-08-12 after "they are lacking and not supportive of the structure we built".
+   He is right, and the diagnosis is a number: 06 and 07 together are ~1590px of page and
+   ~3970 characters with ZERO images, immediately after 05, which has 349 characters and four
+   photographs. The page spends everything it has by 05 and then runs two text-only sections
+   before the burgundy close. Each treatment below is a different way of giving them back some
+   weight. All reuse the shipped DOM, so picking one is a subtraction.
+   ⚠️ CONTENT IS NOT MINE TO CHANGE HERE — the placeholder quotes stay exactly as they are.
+   These are layout only. */
+
+/* — 06 A · ruled — the boxes go and the type grows. Cheapest, and closest to the register 05
+     and 07 already use: a ruled row, the voice large, the attribution set right. */
+html.stories-ruled .story-rail{display:block}
+html.stories-ruled .story{
+  background:none;border:0;border-radius:0;border-top:1px solid var(--line);
+  padding:clamp(26px,3.6vh,44px) 0;gap:0;
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.4fr);
+  column-gap:clamp(20px,4vw,60px);align-items:start;
+}
+html.stories-ruled .story:last-of-type{border-bottom:1px solid var(--line)}
+html.stories-ruled .story:hover{transform:none;border-color:var(--line)}
+html.stories-ruled .q-mark{display:none}
+html.stories-ruled .story blockquote{font-size:clamp(19px,2.05vw,29px);line-height:1.45}
+html.stories-ruled .story .who{margin:0;text-align:right}
+
+/* — 06 B · bands — the same row, with the door photograph beside it. The quotes are ALREADY
+     tagged with the three doors (Modern Menopause / BHRT / Testosterone), so this is the only
+     treatment that makes 06 the payoff of 04 rather than an unrelated block. Costs no new
+     asset: it is the plate the reader already chose from, one screen up. */
+html.stories-bands .story-rail{display:block}
+html.stories-bands .story{
+  background:none;border:0;border-radius:0;border-top:1px solid var(--line);
+  padding:clamp(24px,3.2vh,40px) 0;gap:0;
+  display:grid;grid-template-columns:clamp(140px,15.5vw,220px) minmax(0,1fr);
+  grid-template-areas:"shot quote" "shot who";
+  column-gap:clamp(22px,3.4vw,52px);row-gap:14px;align-items:start;
+}
+html.stories-bands .story:last-of-type{border-bottom:1px solid var(--line)}
+html.stories-bands .story:hover{transform:none;border-color:var(--line)}
+html.stories-bands .q-mark{display:none}
+html.stories-bands .story blockquote{grid-area:quote;font-size:clamp(18px,1.85vw,26px);line-height:1.5}
+html.stories-bands .story .who{grid-area:who;margin:0}
+/* ⚠️ EACH PLATE KEEPS ITS OWN CROP ANCHOR, same reason the doors do. A 3/4 box against a
+   0.563 source shows 75% of the height, and the three subjects do not sit at the same height.
+   One shared value buried the menopause subject and left a plate of bare counter. */
+html.stories-bands .story::before{
+  content:"";grid-area:shot;aspect-ratio:3/4;
+  background:var(--line) center var(--shot-y,26%)/cover no-repeat;
+}
+html.stories-bands .story:nth-of-type(1){--shot-y:16%}
+html.stories-bands .story:nth-of-type(2){--shot-y:30%}
+html.stories-bands .story:nth-of-type(3){--shot-y:20%}
+html.stories-bands .story:nth-of-type(1)::before{
+  background-image:image-set(url(../images/doors/menopause-941.avif) type("image/avif"),
+                             url(../images/doors/menopause-941.webp) type("image/webp"));
+}
+html.stories-bands .story:nth-of-type(2)::before{
+  background-image:image-set(url(../images/doors/bhrt-941.avif) type("image/avif"),
+                             url(../images/doors/bhrt-941.webp) type("image/webp"));
+}
+html.stories-bands .story:nth-of-type(3)::before{
+  background-image:image-set(url(../images/doors/trt-941.avif) type("image/avif"),
+                             url(../images/doors/trt-941.webp) type("image/webp"));
+}
+
+/* — 06 C · stage — burgundy, and the voices go large and centred. The only treatment that adds
+     WEIGHT rather than rearranging what is there, and the only one that gives the lower half a
+     second dark moment. ⚠️ That is also its cost: BRAND.md has 08 as the only dark ground on
+     the way down. Picking this reopens that, deliberately. */
+html.stories-stage .stories{background:var(--burgundy)}
+html.stories-stage .stories .kicker{color:var(--gold)}
+html.stories-stage .stories .sec-head h2{color:var(--ivory)}
+html.stories-stage .stories .sec-head h2 em{color:var(--rose)}
+html.stories-stage .story-rail{display:block;max-width:880px;margin-inline:auto}
+html.stories-stage .story{
+  background:none;border:0;border-radius:0;padding:clamp(30px,5vh,56px) 0;
+  text-align:center;align-items:center;gap:18px;
+}
+html.stories-stage .story + .story{border-top:1px solid rgba(194,160,94,.30)}
+html.stories-stage .story:hover{transform:none;border-color:rgba(194,160,94,.30)}
+html.stories-stage .q-mark{color:var(--gold);height:26px;font-size:46px}
+html.stories-stage .story blockquote{color:var(--ivory);font-size:clamp(20px,2.35vw,33px);line-height:1.45}
+html.stories-stage .story .who{align-items:center;margin-top:0}
+html.stories-stage .story .who b{color:var(--rose)}
+html.stories-stage .story .who span{color:rgba(250,247,241,.72)}
+html.stories-stage .story-note{color:rgba(250,247,241,.62);text-align:center}
+
+/* — 07, ALL THREE OPEN THE FIRST ANSWER. Six closed bars present as a menu, not as content;
+     one open shows the reader what an answer even looks like. That part is not a variant, it
+     is just right, and it is shared so the three can be judged on their treatment alone. */
+
+/* — 07 A · open — nothing but the open first item and a firmer indicator. The control was a
+     34px hairline circle carrying the section's only affordance. */
+html.faq-open .faq-q .ind{width:38px;height:38px;border-color:var(--gold)}
+
+/* — 07 B · team — the left column stops being half empty. The page names Irina once and shows
+     no human being anywhere; this is the hole shaped like one. Uses the existing team plate,
+     positioned high because that frame fades to empty cream below the subjects.
+     ⚠️ INTERIM: it is a group shot doing a portrait's job. A real portrait would be better. */
+html.faq-team .faq-q .ind{width:38px;height:38px;border-color:var(--gold)}
+html.faq-team .faq-side::after{
+  content:"";display:block;margin-top:6px;aspect-ratio:5/4;border-radius:16px;
+  background:var(--line) center 16%/cover no-repeat;
+  background-image:image-set(url(../images/team-new-wide-2399.avif) type("image/avif"),
+                             url(../images/team-new-wide-2399.webp) type("image/webp"));
+}
+
+/* — 07 C · index — the rows get numbered and grow. Turns six identical bars into a sequence,
+     which is what an FAQ actually is, and gives the column a rhythm the eye can count. */
+html.faq-index .faq-list{counter-reset:faq}
+/* ⚠️ justify-content HAS TO CHANGE WITH THE NUMERAL. .faq-q is a flex row of [text][ind] under
+   space-between; adding a ::before makes it THREE children, and space-between then strands the
+   question in the middle of the row. flex-start plus margin-left:auto on the indicator keeps
+   the numeral and the text together on the left and the circle hard right. */
+html.faq-index .faq-q{counter-increment:faq;font-size:clamp(19px,1.9vw,26px);gap:18px;justify-content:flex-start}
+html.faq-index .faq-q .ind{margin-left:auto}
+html.faq-index .faq-q .ind{width:38px;height:38px;border-color:var(--gold)}
+html.faq-index .faq-q::before{
+  content:counter(faq,decimal-leading-zero);flex:none;align-self:start;
+  font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.22em;
+  color:var(--gold-deep);padding-top:.7em;min-width:2.4em;
+}
+html.faq-index .faq-a p{padding-left:calc(2.4em + 18px)}
+
+@media(max-width:820px){
+  html.stories-ruled .story,html.stories-bands .story{grid-template-columns:1fr}
+  html.stories-ruled .story .who{text-align:left;margin-top:12px}
+  html.stories-bands .story{grid-template-areas:"shot" "quote" "who"}
+  html.stories-bands .story::before{max-width:190px}
+  html.faq-index .faq-a p{padding-left:4px}
+}
+
 /* ─────────────────────────── 08 · FINAL CTA + FOOTER ─────────────────────────── */
 .final{background:var(--burgundy);color:var(--ivory);text-align:center;overflow:hidden;position:relative}
 .final .kicker{justify-content:center;color:var(--gold)}
@@ -1760,6 +1892,27 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
         new IntersectionObserver((es, o) => es.forEach(e => {
           if (e.isIntersecting) { stage.classList.add("on"); o.disconnect(); }
         }), { threshold: .4 }).observe(stage);
+      }
+    }
+  }
+
+  /* ══ 06 + 07 · ?stories=ruled|bands|stage · ?faq=open|team|index ══
+     Layout only, so this runs before the probe/reduced-motion gate for the same reason the
+     doors switch does. No value leaves both sections exactly as shipped. Any ?faq= value also
+     opens the first answer — six closed bars read as a menu rather than as content, and that
+     is not one of the things being compared. Delete the losers and this block with them. */
+  {
+    const st = (params.get("stories") || "").toLowerCase();
+    if (["ruled","bands","stage"].includes(st))
+      document.documentElement.classList.add("stories-" + st);
+
+    const fq = (params.get("faq") || "").toLowerCase();
+    if (["open","team","index"].includes(fq)) {
+      document.documentElement.classList.add("faq-" + fq);
+      const first = document.querySelector(".faq-item");
+      if (first) {
+        first.classList.add("open");
+        first.querySelector(".faq-q")?.setAttribute("aria-expanded", "true");
       }
     }
   }

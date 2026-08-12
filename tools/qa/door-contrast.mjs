@@ -110,13 +110,26 @@ for (const [width, height] of VIEWPORTS) {
         results.push({ ...t, vp: `${width}x${height}`, skipped: true });
         continue;
       }
-      const [r, g, b] = t.color.match(/\d+/g).slice(0, 3).map(Number);
-      const fg = lum(r, g, b), ratios = [];
+      /* ⚠️ THE ALPHA IS PART OF THE COLOUR. getComputedStyle gives "rgba(250, 247, 241, 0.62)"
+         for any semi-transparent copy, and taking only the first three numbers measures it as
+         if it were fully opaque — which reports a contrast the reader never gets, always in
+         the flattering direction. Semi-transparent text is composited against whatever is
+         behind it, so the effective foreground has to be blended per sampled pixel. Browsers
+         composite in sRGB, so the mix happens on the 0–255 values, before luminance. */
+      const parts = t.color.match(/[\d.]+/g).map(Number);
+      const [fr, fgc, fb] = parts, alpha = parts.length > 3 ? parts[3] : 1;
+      const ratios = [];
       for (let py = Math.floor(t.y); py < Math.ceil(t.y + t.h); py++) {
         for (let px = Math.floor(t.x); px < Math.ceil(t.x + t.w); px++) {
           if (px < 0 || py < 0 || px >= info.width || py >= info.height) continue;
           const o = (py * info.width + px) * info.channels;
-          ratios.push(contrast(fg, lum(data[o], data[o + 1], data[o + 2])));
+          const br = data[o], bg = data[o + 1], bb = data[o + 2];
+          const eff = alpha === 1
+            ? lum(fr, fgc, fb)
+            : lum(alpha * fr + (1 - alpha) * br,
+                  alpha * fgc + (1 - alpha) * bg,
+                  alpha * fb + (1 - alpha) * bb);
+          ratios.push(contrast(eff, lum(br, bg, bb)));
         }
       }
       if (!ratios.length) continue;

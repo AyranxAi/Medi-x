@@ -257,68 +257,60 @@ rule: a control with no destination stays inert rather than pointing at a placeh
   voices on a regulated medical site are a different category of risk from an unfinished
   photo. Cut the section until three real ones exist.
 - **05 Booster programs interrupts the run** from doors → proof → book. It reads better after
-  the FAQ. ⚠️ **This is a placement question and is still open** — the four treatments below
-  are about weight, and moving the section would still be worth doing whichever one wins.
+  the FAQ. ⚠️ **Still open, and now more so.** The treatment question below is closed; this is
+  placement, and the section that used to be 780px is now ~1340px, so it sits between the doors
+  and the proof for twice as long as it did when the note was written.
 
-**05 has four treatments behind a switch, offered 2026-08-12 for a decision.** Same shape as
-the doors: all of them live, judged on the real page, three deleted once he picks. **The bare
-URL is unchanged**, so nothing here is live yet.
+## 05 is decided — "bands", his pick 2026-08-12
 
-| Mode | URL | Weight comes from | Notes |
-|---|---|---|---|
-| As shipped | `/hormone-balancing/#boosters` | nothing — that is the problem | 780px of flat cream, two headings and six lines, straight after three full-bleed photographs |
-| Ledger | `?boost=ledger` | **structure** | Two ruled rows, name left, promise right. The only one that gives up the ✦ — stacked rows say "and" by sitting under each other |
-| Cards | `?boost=cards` | **containment** | Ivory panels, hairline, gold top rule. Safest: changes density without changing the argument |
-| Lockup | `?boost=lockup` | **the idea** | Says "Hormone Therapy" once at headline scale with both amplifiers hanging off it. The only shape that matches what the section *is* — one offer, two halves, one door |
-| Band | `?boost=band` | **ground** | Burgundy. ⚠️ **Reverses his 2026-08-11 "the ground goes light with it".** Reopened only because the doors changed underneath that decision |
-| **Bands** | `?boost=bands` | **the photographs** | Copy *beside* the picture, two editorial rows, image alternating side. **The recommendation** |
-| Plates | `?boost=plates` | **the photographs** | Copy *over* the picture, two short doors |
+Six treatments were built behind `?boost=` and judged on the real page. **He picked bands. The
+other five and the switch that served them are deleted** — they all ran off one DOM precisely
+so that choosing one would be a subtraction rather than a rewrite. Gone with them:
+`.boost-star`, `.boost-lede`, `.boost-base`, the `image-set()` background block, the
+`?boost=` parameter, and `images/boost/*-plate-941.*`.
 
-**Photography for both programmes landed 2026-08-12** (his upload, commit `d0ac46a`): a gold
-pendulum mid-swing for Energy, a pomegranate-and-fennel plate on red marble for Gut Health.
-AI-generated, same terms as the door plates — covered by
-[`LICENSES/AI-DoorPlates.txt`](LICENSES/AI-DoorPlates.txt). Neither contains a person.
+**Photography for both programmes** (his upload, commit `d0ac46a`): a gold pendulum mid-swing
+for Energy, a pomegranate-and-fennel plate on red marble for Gut Health. AI-generated, same
+terms as the door plates — covered by [`LICENSES/AI-DoorPlates.txt`](LICENSES/AI-DoorPlates.txt).
+Neither contains a person. Served from `images/boost/{gut,energy}-band-1340.{avif,webp}` as
+proper `<picture>`, lazy, with `width`/`height` so the row reserves its height before the image
+lands. Note the spread: the pendulum is **8.7KB** as AVIF because it is mostly a smooth
+gradient, the marble **86KB**, from identical source dimensions.
 
-⚠️ **The two photographs sit at opposite ends of the tonal range, and that is what decides the
-treatment.** The pendulum is pale cream; the food is nearly black. Any treatment that puts copy
-on top of both needs one scrim tuned to the darker and then applied to the paler.
+⚠️ **THE COPY SITS BESIDE THE PICTURE, NEVER ON IT, AND THAT IS THE WHOLE REASON THIS WON.** The
+two plates are at opposite ends of the tonal range — the pendulum pale cream, the food nearly
+black. One scrim cannot serve both: tuned to hold ivory over the marble it bands visibly across
+the pendulum's smooth gradient and takes the light out of the one photograph whose entire
+quality is its light. **`?boost=plates` measured fine** — 12.56 to 17.80, both viewports — so
+the case against it was design, not legibility, and it is recorded that way rather than the
+easier way.
 
-| | Bands | Plates |
-|---|---|---|
-| Copy | Ink on cream, beside the image | Ivory on the image |
-| Contrast | Unchanged — the existing passing combination | **Also passes**, 12.56–17.80, both viewports |
-| Cost | Taller section | Repeats 04's device one screen later; the scrim visibly bands across the smooth pale pendulum and takes the air out of it |
+⚠️ **CONSEQUENCE WORTH KEEPING: THERE IS NO SCRIM IN 05 TO RE-MEASURE.** Swapping either
+photograph is a `src` change and nothing else — unlike 04, where the rose hook has half a point
+of margin and a new plate is a new measurement.
 
-⚠️ **Plates is not an accessibility failure — it measures fine.** The case against it is design,
-and saying otherwise would be the easy wrong argument. The banding is fixable with a smoother
-ramp; what is not fixable is that the pendulum photograph's whole quality is its light, and
-40% of it has to go dark for the copy to sit there.
+⚠️ **The rows mirror**, and both halves of the mirror move together — `grid-template-areas` and
+the column ratio both swap, or the picture changes width between rows.
 
-⚠️ **Both photographic treatments paint via CSS `image-set()`, not `<img>`.** Deliberate while
-they are candidates — a background is fetched only when its rule applies, so the losing variant
-costs a visitor nothing and no per-variant markup is needed. **The winner must be converted to
-`<picture>`:** backgrounds carry no alt, no lazy-loading and no fetchpriority.
+⚠️ **05 breaks at 700px, not the 980 the rest of the page uses, and that is a measurement.**
+Stacked, each picture becomes the full column width and a 16:9 frame gains height as fast as it
+gains width. At 980 that came to 1012px of photograph alone and the section hit **1899px —
+taller than the same section on a phone**. Holding two columns to 700 brings it to 1117, and a
+`max-width:520px` cap on the stacked picture stops the same inversion reappearing just below the
+breakpoint (700px went 1560 → 1429; the phone at 390 never reaches the cap and is unchanged).
 
-Assets `images/boost/{gut,energy}-{band-1340,plate-941}.{avif,webp}`. Note the spread — the
-pendulum is 8.7KB as AVIF because it is mostly a smooth gradient; the marble is 86KB.
+Section heights now: 1343 at 1440, 1254 at 1280, 1117 at 980, 972 at 760, 1429 stacked, 1256 on
+a phone. It was 780 flat.
 
-⚠️ **All four run off one DOM**, so deleting three is pure subtraction. `.boost-lede` and
-`.boost-base` exist for lockup and are inert elsewhere. **`.boost-base` is clipped, never
-`display:none`** — a screen reader still hears "Hormone Therapy + Gut Health" while the eye
-sees the name once; verified by comparing `textContent` against `innerText`.
+Also fixed along the way: `.boost-sub` broke before its last word and left "it." alone on line
+two. `text-wrap:balance` rather than a wider `max-width`, which would only move the problem to
+the next breakpoint.
 
-**Band was measured** (rose on burgundy is the case worth checking, and it clears): kicker gold
-5.00, `h2` ivory 11.58, `h2 em` rose 4.99 against 3, sub and body 11.58, star 5.00, the on-dark
-button 10.32. Both viewports, all pass.
-⚠️ Two artefacts nearly got reported as failures here, both worth knowing for the next
-measurement: hiding `h2` does **not** hide `h2 em`, so an unhidden rose `em` inside an ivory
-heading measures rose-against-rose and reads 1.00; and a pill button's bounding rect includes
-corners outside the border-radius, so the worst 2% samples section ground the text never
+⚠️ **Two measurement artefacts nearly went into this file as real failures**, and are worth
+knowing for the next scrim: hiding `h2` does **not** hide `h2 em`, so an unhidden rose `em`
+inside an ivory heading measures rose-against-rose and reads 1.00; and a pill button's bounding
+rect includes corners outside its border-radius, so the worst 2% samples ground the text never
 touches. **Hide the children too, and sample pill-shaped controls inset.**
-
-Also fixed while in there: `.boost-sub` broke before its last word and left "it." alone on
-line two. `text-wrap:balance` rather than a wider `max-width`, which would only move the
-problem to the next breakpoint.
 - **The tonal cliff.** The scene ends on a two-tone diptych and the page drops into flat cream
   for five sections. Carrying burgundy plates with sculpture into the doors is most of the fix.
 

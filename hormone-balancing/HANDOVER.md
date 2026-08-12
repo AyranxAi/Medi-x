@@ -187,8 +187,13 @@ from that, and reverting any of it without reverting the framing will reintroduc
   dark block in the lower half, so the page lurched into ink and back out; grounds now run
   cream · ivory · cream · ivory · cream · burgundy, and 08 is the only dark moment.
   And **both links go to the same page**, so two cards with two buttons were promising two
-  destinations. It is now one offer with two halves joined by the brand ✦, and one door.
+  destinations. It is now one offer with two halves, and one door.
   ⚠️ Don't re-split into per-programme CTAs unless the programmes get separate pages.
+  **Updated 2026-08-12 — the section is now "bands", chosen from six treatments, and it has
+  photography.** Two ruled editorial rows, picture beside the copy and mirrored between rows.
+  ~~joined by the brand ✦~~ — **the ✦ is gone**: it meant "and" between two programmes sitting
+  side by side, and stacked rows say that by sitting under each other. The cream ground and the
+  single door both survive the change. Detail in HANDOFF.md.
 
 **One shared material:** `.link-arrow` is the "go and read" control, distinct from the red
 pill's "book". Used by 03 and by every door.

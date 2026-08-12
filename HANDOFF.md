@@ -235,10 +235,25 @@ stays.** Every mode used to fade `.sec-head` out as the panels grew: entry colla
 `max-height:0` and then stripped the section's top padding, pinned keyed its opacity to `--k`.
 The section ate its own headline, and *"Where would you like to begin?"* was gone by the time
 the three answers to it reached full bleed. The panels now bleed **underneath** the headline.
-Height is `calc(100vh - var(--head-block))` — the flat `92vh` this file used to name is now
-only the JS-less fallback (`8vh`). Two variables, because the geometries differ: `--head-block`
-counts `.sec-pad`'s padding for the modes that scroll in normal flow, `--head-h` is the
-headline alone for pinned, which zeroes its own padding inside a 100vh stage.
+
+⚠️ **Second pass, same day — the height is a flat `92vh` again and `--head-block` is gone.**
+The first pass kept the headline by shrinking the panels to fit beside it in one screen, which
+made them **618px of a 900px viewport**. His read: full bleed at 69vh is not full bleed, it is
+a wide band. The headline now simply sits above a 92vh rail. **The trade, stated:** 04 is taller
+than one screen, so at the moment it arrives the door titles are below the fold and a short
+scroll brings them up — normal for any full-bleed band, and worth 210px of photograph.
+`--head-h` survives for **pinned only**, which genuinely still needs it: that mode centres the
+headline and the rail together inside a 100vh sticky stage.
+
+⚠️ **A PANEL-HEIGHT CHANGE IS A CONTRAST RE-MEASUREMENT.** `cover` crops against the panel's
+aspect, so 618 → 817px moved the copy band onto a different part of every photograph. Re-run:
+still 18/18, tightest the BHRT hook at **4.99**, margin **0.49**.
+
+⚠️ **And it exposed a hole in the harness.** `door-contrast.mjs` centred the *door*, which
+worked while a panel fitted inside the viewport; at 92vh the Explore link fell below the fold
+and the script **skipped three of eighteen controls while still printing a clean pass.** It now
+centres the lowest control being measured, and treats any skip as a failure with a non-zero
+exit. **A silent skip that reads as a pass is worse than a fail.**
 
 ⚠️ **`?doors=pinned` has never actually pinned, and this is not new.** `body` carries
 `overflow-x:hidden`, which makes the body a scroll container and kills `position:sticky` on

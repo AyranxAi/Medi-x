@@ -490,25 +490,30 @@ html.doors-tri .door::after{
   background:linear-gradient(180deg,rgba(26,15,19,0) 0%,rgba(26,15,19,.06) 38%,
   rgba(46,20,30,.62) 62%,rgba(26,15,19,.88) 80%,rgba(20,11,14,.96) 100%);
 }
-/* ⚠️ NEVER A FLAT 100vh. A panel exactly one viewport tall puts its title on the panel's
-   last pixel, so outside the pinned mode — where the pin aligns it — the reader sees a
-   statue with no label until they have scrolled the whole panel past. This was a flat 92vh
-   for that reason; it is now a viewport minus whatever sits above the rail, which is the
-   same goal reached by measuring instead of guessing. The 8vh fallback IS the old 92vh.
-   ⚠️ AND THE HEADLINE IS NOT PART OF THE BLEED — his call 2026-08-12. The panels go full
-   bleed UNDERNEATH "Where would you like to begin?"; they do not replace it. Every mode
-   used to fade and collapse .sec-head as the panels grew, which read as the section eating
-   its own title. Two measurements are written by the mode block in JS, because the two
-   geometries genuinely differ:
-     --head-block  section top → rail top, so it counts .sec-pad's padding as well as the
-                   headline. Entry and static scroll inside the normal page flow, so the
-                   padding is on screen above the panels and has to come out of their height.
-     --head-h      wrap top → rail top, the headline alone. Pinned zeroes its own
-                   padding-block and centres inside a 100vh stage, so the padding is not
-                   there to subtract.
-   Both fall back to the old 92vh geometry if JS never runs, rather than to a broken one. */
-html.doors-tri .doors{--bleed-h:calc(100vh - var(--head-block,8vh))}
+/* ⚠️ 92vh, AND THE HEADLINE IS ON TOP OF THAT, NOT INSIDE IT — his call 2026-08-12, second
+   pass. The first pass kept the headline by shrinking the panels to fit beside it in one
+   screen (calc(100vh - --head-block)), which made them 618px of a 900px viewport. Full bleed
+   at 69vh is not full bleed; it reads as a wide band. He asked for the pictures to bleed AFTER
+   the headline, so the headline is simply above them now and the panels get their height back.
+   The trade, stated: the section is taller than one screen, so at the moment 04 arrives the
+   door titles sit below the fold and a short scroll brings them up. That is the normal
+   behaviour of any full-bleed band and it is worth 210px of photograph.
+   ⚠️ STILL NOT A FLAT 100vh. A panel exactly one viewport tall puts its title on its own last
+   pixel; 92 keeps the copy in frame at every scroll position once the panel is on screen.
+   ⚠️ --head-block IS GONE with the geometry that needed it. --head-h stays, because pinned
+   genuinely still needs it: that mode centres inside a 100vh sticky stage, so the headline
+   really does come out of the panels' height there. */
+html.doors-tri .doors{--bleed-h:92vh}
 html.doors-pinned .doors{--bleed-h:calc(100vh - var(--head-h,8vh))}
+/* ⚠️ 286px OF EMPTY OFF-WHITE SAT BETWEEN THE PHOTOGRAPHS AND 05's KICKER, holding one 21px
+   line of text. Measured, not felt: .sec-pad closed 04 on 117px and opened 05 on another 117,
+   with the svc-note's own 36px margin floating in the middle. Two photographic sections
+   separated by a third of a screen of nothing is exactly where the page gives back the energy
+   the doors just built, and it is the real answer to "what about the backgrounds" — the
+   grounds are fine, there was just far too much of them showing.
+   ⚠️ The note keeps its own margin. It belongs to the doors above it, not to the gap. */
+.services{padding-block-end:clamp(48px,6.5vh,78px)}
+.boost{padding-block-start:clamp(52px,7vh,86px)}
 /* ⚠️ cover, NOT contain — and the --plate-scale trio is gone with it. Both existed to make
    one statue look like three: a contained figure reads as a museum plate, and scaling it per
    door stopped the repeat being obvious. Three real photographs need neither, and contain
@@ -1717,28 +1722,20 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
       const m = ["pinned","entry","static"].includes(mode) ? mode : "entry";
       document.documentElement.classList.add("doors-tri", "doors-" + m);
 
-      /* THE HEADLINE STAYS, SO THE PANELS HAVE TO KNOW HOW TALL IT IS. Measured as the gap
-         between the section's content top and the top of the rail, not as .sec-head's own
-         box: that way its bottom margin is counted whether or not it collapses through the
-         wrapper, and the number is the thing --bleed-h actually needs to subtract.
+      /* ⚠️ PINNED ONLY. Entry and static let the panels bleed a flat 92vh underneath the
+         headline, so they need no measurement at all. Pinned is the exception: it centres the
+         headline and the rail together inside a 100vh sticky stage, so there the headline
+         genuinely does come out of the panels' height.
+         Measured as the gap between the section's content top and the top of the rail rather
+         than as .sec-head's own box, so its bottom margin is counted whether or not it
+         collapses through the wrapper.
          ⚠️ Measured AFTER the mode class is on — doors-tri restyles the rail — and again on
          fonts.ready, because the repo's standing rule is that anything derived from layout
          is wrong until the real font metrics have landed. */
-      const wrap = stage.querySelector(".wrap"), rail = stage.querySelector(".doors"),
-            sec = stage.closest(".services");
-      if (wrap && rail && sec) {
-        /* ⚠️ --head-block is the headline PLUS the section's padding, read from computed
-           style rather than from sec.getBoundingClientRect(). A rect delta is the same
-           number while the section scrolls in normal flow, but pinned makes .svc-stage
-           sticky — the rail then stops while the section keeps moving, and the delta grows
-           without bound. Computed padding is scroll-independent and right in every mode. */
-        const syncHead = () => {
-          const head = Math.max(0, Math.round(
-            rail.getBoundingClientRect().top - wrap.getBoundingClientRect().top));
-          stage.style.setProperty("--head-h", head + "px");
-          stage.style.setProperty("--head-block",
-            Math.round(head + (parseFloat(getComputedStyle(sec).paddingTop) || 0)) + "px");
-        };
+      const wrap = stage.querySelector(".wrap"), rail = stage.querySelector(".doors");
+      if (m === "pinned" && wrap && rail) {
+        const syncHead = () => stage.style.setProperty("--head-h", Math.max(0, Math.round(
+          rail.getBoundingClientRect().top - wrap.getBoundingClientRect().top)) + "px");
         syncHead();
         new ResizeObserver(syncHead).observe(wrap);
         addEventListener("resize", syncHead);

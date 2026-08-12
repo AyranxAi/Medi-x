@@ -75,8 +75,15 @@ for (const [width, height] of VIEWPORTS) {
     await page.evaluate(() => document.fonts.ready);
     if (useRail) await page.addStyleTag({
       content: `html.doors-tri .door::after{background:${RAIL_RAMP} !important}` });
-    await page.evaluate(k =>
-      document.querySelectorAll(".doors .door")[k].scrollIntoView({ block: "center" }), i);
+    /* ⚠️ CENTRE THE COPY BAND, NOT THE DOOR. Centring the panel worked while panels were 618px
+       inside a 900px viewport; at 92vh they no longer fit, and the Explore link fell below the
+       fold — where this script skips it. Three of eighteen rows silently became "skipped" and
+       the run still said everything passed. Scroll to the last control instead: it is the
+       lowest thing being measured, so bringing it into frame brings the whole band. */
+    await page.evaluate(k => {
+      const d = document.querySelectorAll(".doors .door")[k];
+      (d.querySelector(".link-arrow") || d).scrollIntoView({ block: "center" });
+    }, i);
     await page.waitForTimeout(600);
 
     const targets = await page.evaluate(([k, sels]) => {
@@ -132,7 +139,14 @@ for (const r of results) {
     `need ${String(r.need).padEnd(3)} worst2% ${r.worst.toFixed(2).padStart(6)}  ${r.pass ? "pass" : "*** FAIL ***"}`);
 }
 const measured = results.filter(r => !r.skipped);
+const skipped = results.filter(r => r.skipped);
 const fails = measured.filter(r => !r.pass);
+/* ⚠️ A SKIP IS A FAILURE OF THE HARNESS, NOT A PASS. Left silent, this script once reported
+   "15/15 clear" while three controls had scrolled out of frame unmeasured. */
+if (skipped.length) {
+  console.log(`\n${skipped.length} control(s) NOT MEASURED — fix the scroll, do not trust this run.`);
+  process.exitCode = 1;
+}
 const tightest = measured.reduce((a, b) => (a.worst - a.need) <= (b.worst - b.need) ? a : b);
 console.log(`\n${measured.length - fails.length}/${measured.length} clear.` +
   `  tightest: ${tightest.door} ${tightest.sel} @ ${tightest.vp} — ` +

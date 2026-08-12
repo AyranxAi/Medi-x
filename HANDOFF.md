@@ -150,13 +150,58 @@ measurement that made the side layout necessary rather than merely nicer.
 
 ## What is open
 
-**Two statue scans are needed**, cleared the same way Venus was:
-- **A male classical figure** for Testosterone Replacement — Doryphoros, Hermes, Apollo. This
-  is the door with no image in any form.
-- **A second female figure** for Modern Menopause — a draped mature type, so she reads as a
-  different woman rather than the same one twice.
+~~**Two statue scans are needed**~~ — **closed 2026-08-12. The doors have real photography and
+no further scans are wanted.** Venus stays where she belongs, in the scene; she is out of the
+doors. One image per door, his upload:
 
-Render both on the scene's camera, light and marble so they land as one system.
+| Door | Plate | Subject |
+|---|---|---|
+| Hormone Therapy & BHRT | `images/doors/bhrt-941.*` | A gold molecule model on cream silk over travertine |
+| Modern Menopause | `images/doors/menopause-941.*` | A woman in burgundy silk at a travertine counter |
+| Testosterone Replacement | `images/doors/trt-941.*` | A man in a dark suit at a dark stone table |
+
+**AI-generated**, recorded in [`LICENSES/AI-DoorPlates.txt`](LICENSES/AI-DoorPlates.txt).
+⚠️ No identifiable person appears — both figure plates are framed above the face, so no model
+release is in play. **That is load-bearing: do not re-crop to include a face.**
+⚠️ A smart ring on a dock is visible in two plates. Raised as a risk — a device in frame can
+read as a device the clinic supplies — and **kept as mood, his call**. Reversible by tightening
+the crop; the copy band is nowhere near it.
+
+**One size per door, which is deliberately not the repo's usual pair.** Heroes ship wide+phone
+because a hero is biggest on desktop. A door inverts that — a third of the viewport on desktop
+(480 CSS px, 960 at 2x) and the full width on a phone (390, 1170 at 3x) — so the phone wants
+the larger file. 941 is the source's own width and covers both; a second file would be an
+upscale. AVIF 39–66KB, WebP 60–98KB, all lazy.
+
+⚠️ **`cover`, and each door crops from its own anchor.** Sources are 941×1672 (0.563) against a
+panel near 0.75, so cover discards about a quarter of the height. `--plate-y` picks which
+quarter, per door: BHRT 30%, Menopause 50%, TRT 50%. `object-fit:contain` and the `--plate-scale`
+trio are gone — both existed only to make one statue look like three.
+
+⚠️ **`images/medi-gyn-*.png` are the masters and reach no visitor.** The `-landscape` halves are
+for the per-consultation pages that do not exist yet, and are deliberately not encoded, because
+nothing points at them.
+
+**The scrim was measured, and the rail's ramp — which the old comment told you to revert to —
+fails.** `.hook` is rose `#C79A92`, not ivory, and over the pale BHRT plate the rail's ramp
+lands at **4.18:1** at 1440×900 and **4.07:1** at 390×844 against the 4.5 a 14–17px run needs.
+It passes over the dark TRT plate beside it, which is what makes it dangerous: two thirds of the
+triptych look fine. The shipped ramp is keyed to the worst plate. BRAND.md's method, three doors
+× three controls × two viewports, each control against its own colour — **18 of 18 clear**:
+
+| Control | Colour | Need | Worst measured | Where |
+|---|---|---|---|---|
+| `.hook` | rose `#C79A92` | 4.5 | **5.01** | BHRT, 390×844 |
+| `h3` | ivory `#FAF7F1` | 3 / 4.5 | 13.83 | BHRT, 1440×900 |
+| `.link-arrow` | gold `#C2A05E` | 4.5 | 6.62 | BHRT, 390×844 |
+
+⚠️ **The margin on that hook is 0.51, so a plate change is a re-measurement, not a swap.**
+The harness is in the repo: `node tools/qa/door-contrast.mjs`, and `--rail` reproduces the
+failing alternative so nobody has to take the paragraph above on trust. It needs `sharp`
+alongside playwright. Expect ±0.05 between runs — AVIF decode is not bit-identical — so treat
+the harness's pass/fail as the answer and these numbers as the record of one run.
+
+`images/placeholders/` is deleted — the plates it was standing in for have landed.
 
 **The triptych is built and live; the mode is not chosen.** All three ship behind a switch and
 he is judging them on the real page:
@@ -177,13 +222,13 @@ on a page whose original complaint was pace.
 motion and `?probe=1` is the layout QA switch, so it is exactly when you want to see the
 triptych. Probe and reduced-motion skip the *animating* and land on the finished state.
 
-⚠️ **The door plates are interim** — the SMK Venus scaled differently per door, standing in for
-three figures. Better than the flat plum placeholders they replaced, but it is the same woman
-three times and it is commented as a stopgap. Two consequences of using a contained marble
-figure rather than a cropped photograph, both of which revert when photography lands:
-the rail's full-height burgundy scrim washed the subject pink, so the triptych clears its top
-half and darkens only the copy band; and panels are never a flat viewport tall, because a
-panel exactly 100vh puts its title on its own last pixel.
+~~⚠️ **The door plates are interim**~~ — **closed 2026-08-12, see the table above.** For the
+record of what changed with them: the two properties this paragraph blamed on using a
+contained marble figure did not both revert when photography landed. The panel height did not
+(it is never a flat viewport tall, and that is now about the headline, not the plate). The
+scrim did not either, but not in the direction predicted — the rail's ramp was measured and
+**fails** on the pale plate, so the triptych keeps a ramp of its own for a completely
+different reason than the one written here.
 
 ⚠️ **Superseded 2026-08-12 — the panel height is measured, not fixed, and the headline
 stays.** Every mode used to fade `.sec-head` out as the panels grew: entry collapsed it to

@@ -1,0 +1,48 @@
+Consultation door plates — AI-generated imagery
+===============================================
+
+Used for: images/doors/{bhrt,menopause,trt}-941.{avif,webp}, the three plates behind
+section 04 of /hormone-balancing/. Masters are images/medi-gyn-*-portrait.png; the
+matching images/medi-gyn-*-landscape.png are held for the per-consultation pages that
+do not exist yet and are referenced by nothing.
+
+Origin    AI-generated, supplied by the site owner on 2026-08-12 (commit a73afe2,
+          "Add files via upload"). Not photographs of real people, real places, or
+          real events, and not derived from an identified stock library.
+Rights    Owned by Medi-Gyn / Medi✦X. No third-party licence governs their use here
+          and no attribution is owed to anyone.
+
+WHY THIS FILE EXISTS
+--------------------
+Same reason as CC0-VenusDeMilo-SMK.txt: so the next session does not have to ask where
+a picture came from. This is a doctor-led medical site in a regulated market, and the
+provenance of a photograph is part of whether it may be published, not a footnote.
+
+NO IDENTIFIABLE PERSON APPEARS
+------------------------------
+Two of the three plates show a human figure. Both are framed above the face — the BHRT
+plate has no figure at all. Nobody in them is identifiable, so no model release is
+required and none exists. This is load-bearing, not a coincidence of the crop:
+
+  ⚠️ Do not re-crop these plates to include a face, and do not replace them with a
+     frame that has one, without a signed model release. A recognisable face on a
+     hormone-clinic page is an implied patient testimonial whether or not any words
+     accompany it.
+
+WHAT THE PICTURES SHOW
+----------------------
+A smart ring on a charging dock is visible in the Modern Menopause and Testosterone
+Replacement plates. Kept as set dressing by the owner's call, 2026-08-12, after being
+raised as a risk. It is worth restating the risk rather than burying it: on a
+regulated medical page, a device in frame can read as a device the clinic supplies.
+If Medi-X does not supply a wearable, the crops can be tightened to drop it — the
+copy band would be unaffected — or the plates re-generated without it.
+
+DISCLOSURE
+----------
+Nothing on the page states that the imagery is synthetic. That is normal for
+decorative photography and these are decorative — every plate ships alt="" and
+aria-hidden="true", and no plate is offered as evidence of a patient, a result, a
+member of staff, or a facility. If any of them is ever reused in a context that
+implies documentation rather than decoration, that changes and the page needs to say
+so.

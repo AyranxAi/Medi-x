@@ -469,17 +469,26 @@ html.doors-tri .doors{
   grid-auto-flow:unset;grid-auto-columns:unset;
 }
 html.doors-tri .door{flex:1 1 0;min-width:0;scroll-snap-align:none;min-height:58vh}
-/* contained on burgundy: a whole figure is a plate, a cropped one is texture */
-html.doors-tri .door{background:#4A2233;--plate-scale:1.02}
-/* ⚠️ THE RAIL'S SCRIM CANNOT BE REUSED HERE, AND THE REASON IS THE PLATE. On a cropped
-   photograph a full-height burgundy ramp is a wash over texture; on a CONTAINED marble
-   figure it is a wash over the subject, and she comes out pink instead of stone. The
-   triptych keeps the ground clear for the top half and only darkens the band the copy
-   actually sits in. Still provisional: when photography replaces these, revert to the
-   rail's ramp and run the repo's measurement rather than inheriting either. */
+/* Burgundy stays as the ground under the photograph: the plates are lazy-loaded, so this is
+   what a door is during the fetch and if the fetch never lands. */
+html.doors-tri .door{background:#4A2233}
+/* ⚠️ THE SCRIM IS MEASURED, AND IT IS DELIBERATELY NOT THE RAIL'S. The comment that stood
+   here said to revert to the rail's ramp once photography replaced the marble. Measured,
+   the rail's ramp FAILS: .hook is rose #C79A92, not ivory, and over the BHRT plate — cream
+   silk and pale travertine exactly where the copy sits — it lands at 4.18:1 at 1440x900 and
+   4.07:1 at 390x844, against the 4.5 a 14–17px run needs. It passes over the dark TRT plate
+   beside it, which is what makes that the dangerous failure: two thirds of the triptych look
+   fine and the third looks intentional.
+   This ramp is keyed to the worst plate, so one ramp serves all three. Measured by BRAND.md's
+   method — render, hide the copy, sample the ground behind each copy rectangle, worst 2% of
+   pixels — for all three doors x three controls x both viewports, each control against its
+   OWN colour (rose hook, ivory h3, gold link). 18 of 18 clear. The binding case is still the
+   BHRT hook, now 5.15 desktop / 5.01 phone. Full table in HANDOFF.md.
+   ⚠️ A PLATE CHANGE IS A RE-MEASUREMENT, not a swap — the margin on that hook is 0.51.
+   Run `node tools/qa/door-contrast.mjs`; `--rail` reproduces the failing alternative. */
 html.doors-tri .door::after{
-  background:linear-gradient(180deg,rgba(26,15,19,0) 0%,rgba(26,15,19,.04) 44%,
-  rgba(26,15,19,.52) 72%,rgba(26,15,19,.93) 100%);
+  background:linear-gradient(180deg,rgba(26,15,19,0) 0%,rgba(26,15,19,.06) 38%,
+  rgba(46,20,30,.62) 62%,rgba(26,15,19,.88) 80%,rgba(20,11,14,.96) 100%);
 }
 /* ⚠️ NEVER A FLAT 100vh. A panel exactly one viewport tall puts its title on the panel's
    last pixel, so outside the pinned mode — where the pin aligns it — the reader sees a
@@ -500,10 +509,19 @@ html.doors-tri .door::after{
    Both fall back to the old 92vh geometry if JS never runs, rather than to a broken one. */
 html.doors-tri .doors{--bleed-h:calc(100vh - var(--head-block,8vh))}
 html.doors-pinned .doors{--bleed-h:calc(100vh - var(--head-h,8vh))}
-html.doors-tri .door:nth-of-type(2){--plate-scale:.92}
-html.doors-tri .door:nth-of-type(3){--plate-scale:1.10}
-html.doors-tri .door img{object-fit:contain;object-position:50% 104%;transform:scale(var(--plate-scale))}
-html.doors-tri .door:hover img{transform:scale(calc(var(--plate-scale) + .05))}
+/* ⚠️ cover, NOT contain — and the --plate-scale trio is gone with it. Both existed to make
+   one statue look like three: a contained figure reads as a museum plate, and scaling it per
+   door stopped the repeat being obvious. Three real photographs need neither, and contain
+   would letterbox them onto burgundy.
+   ⚠️ EACH DOOR CROPS FROM ITS OWN ANCHOR. The sources are 941x1672 (0.563) and a panel is
+   about 0.75, so cover discards roughly a quarter of the height and object-position decides
+   which quarter. It is not the same answer three times, because the subject does not sit at
+   the same height three times — see the per-door values below. */
+html.doors-tri .door img{object-fit:cover;object-position:50% var(--plate-y,50%);transform:scale(1.02)}
+html.doors-tri .door--bhrt{--plate-y:30%}
+html.doors-tri .door--menopause{--plate-y:50%}
+html.doors-tri .door--trt{--plate-y:50%}
+html.doors-tri .door:hover img{transform:scale(1.07)}
 html.doors-tri .door:hover,html.doors-tri .door:focus-visible{transform:none}
 
 /* A · pinned — the section holds while the panels grow. --k is written per frame. */
@@ -1260,47 +1278,48 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
         <h2 data-reveal>Where would you like to <em>begin</em>?</h2>
       </div>
     </div>
-    <!-- ⚠️ INTERIM PLATES — THE SAME STATUE, THREE TIMES. The flat plum placeholders
-         are gone; these are the SMK Venus render already in the page above, scaled
-         differently per door so they do not read as one image repeated. That is a
-         stopgap, not a design: two more scans are needed before this is finished, and
-         the male figure for Testosterone Replacement is the blocking one. They are
-         object-fit:contain on a burgundy ground rather than cover, because a contained
-         figure reads as a museum plate and a cropped one reads as marble texture.
-         ⚠️ Swapping in photography is still one src change per door, plus reverting
-         .door img to object-fit:cover.
-         ⚠️ EACH DOOR IS ALSO UNWIRED. Adding href to the .link-arrow inside makes
+    <!-- THE PLATES ARE REAL — his upload 2026-08-12, replacing the interim Venus that stood
+         in all three doors. One image per door, and the male figure the last handoff called
+         the blocking asset is here, so the door no longer shows a female nude over
+         "Concerned about male hormone health?".
+         ⚠️ AI-GENERATED, and recorded as such in LICENSES/AI-DoorPlates.txt. No identifiable
+         person appears in any of the three — every frame is cropped above the face — so no
+         model release is in play, which is the whole reason these crops work.
+         ⚠️ ONE SIZE PER DOOR, WHICH IS NOT THE PATTERN THE REST OF THE REPO USES. The other
+         plates ship a wide/phone pair because a hero is 2400px on desktop and less on a
+         phone. A door inverts that: it is a THIRD of the viewport on desktop (480 CSS px,
+         960 at 2x) and the FULL width on a phone (390 CSS px, 1170 at 3x), so the phone
+         wants the bigger asset. 941 is the source's own width and serves both; a second
+         file would only be an upscale of this one.
+         ⚠️ Masters are images/medi-gyn-*-portrait.png, unreferenced and served to nobody.
+         The landscape halves of the set are for the consultation pages that do not exist
+         yet — deliberately not encoded, since nothing points at them.
+         ⚠️ EACH DOOR IS STILL UNWIRED. Adding href to the .link-arrow inside makes
          the WHOLE PANEL clickable (see .door a[href]::after in the stylesheet), so
          wiring the directory is three attributes and no markup change. -->
     <div class="doors">
-      <article class="door">
+      <article class="door door--bhrt">
         <picture>
-          <source media="(max-width:899px)" type="image/avif" srcset="../images/scene/venus-stone-phone-628.avif">
-          <source media="(max-width:899px)" type="image/webp" srcset="../images/scene/venus-stone-phone-628.webp">
-          <source type="image/avif" srcset="../images/scene/venus-stone-wide-1005.avif">
-          <img src="../images/scene/venus-stone-wide-1005.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1005" height="2400">
+          <source type="image/avif" srcset="../images/doors/bhrt-941.avif">
+          <img src="../images/doors/bhrt-941.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="941" height="1672">
         </picture>
         <span class="hook">“Still cycling and noticing changes?”</span>
         <h3>Hormone Therapy &amp; BHRT</h3>
         <a class="link-arrow" data-soon>Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
       </article>
-      <article class="door">
+      <article class="door door--menopause">
         <picture>
-          <source media="(max-width:899px)" type="image/avif" srcset="../images/scene/venus-stone-phone-628.avif">
-          <source media="(max-width:899px)" type="image/webp" srcset="../images/scene/venus-stone-phone-628.webp">
-          <source type="image/avif" srcset="../images/scene/venus-stone-wide-1005.avif">
-          <img src="../images/scene/venus-stone-wide-1005.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1005" height="2400">
+          <source type="image/avif" srcset="../images/doors/menopause-941.avif">
+          <img src="../images/doors/menopause-941.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="941" height="1672">
         </picture>
         <span class="hook">“Twelve months or more since your last period?”</span>
         <h3>Modern Menopause</h3>
         <a class="link-arrow" data-soon>Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
       </article>
-      <article class="door">
+      <article class="door door--trt">
         <picture>
-          <source media="(max-width:899px)" type="image/avif" srcset="../images/scene/venus-stone-phone-628.avif">
-          <source media="(max-width:899px)" type="image/webp" srcset="../images/scene/venus-stone-phone-628.webp">
-          <source type="image/avif" srcset="../images/scene/venus-stone-wide-1005.avif">
-          <img src="../images/scene/venus-stone-wide-1005.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1005" height="2400">
+          <source type="image/avif" srcset="../images/doors/trt-941.avif">
+          <img src="../images/doors/trt-941.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="941" height="1672">
         </picture>
         <span class="hook">“Concerned about male hormone health?”</span>
         <h3>Testosterone Replacement</h3>

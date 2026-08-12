@@ -199,17 +199,14 @@ pill's "book". Used by 03 and by every door.
   control with no destination stays inert rather than pointing at a placeholder URL. Wiring
   each is **one attribute**; on a door, adding `href` also makes the whole panel clickable
   via `.door a[href]::after`, with no markup change.
-- **The three door plates are placeholders** (`images/placeholders/plate-*.svg`). Swapping in
-  photography is a `src` change — crop is `object-fit`, scrim is a pseudo-element, sizing is
-  the panel's. That folder is not part of the finished site and goes when the plates land.
-  ⚠️ The testosterone plate does not exist in any form; it is a shoot, not a crop.
-  ⚠️ SVG is XML — the first placeholder shipped with a bare `&` in its label and silently
-  failed to parse (`naturalWidth` 0, no console error, panel showed only its scrim).
-- **The door scrim alpha is a guess, not a measurement.** The placeholder is mid-tone plum on
-  purpose so the ramp isn't passing a test a bright photograph would fail, but that is a
-  guard. Run the repo's method against the real plates before this goes near paid traffic:
-  render, hide the copy, sample the ground behind each copy rectangle, worst 2% of pixels,
-  ivory clears 4.5:1 small / 3:1 large.
+- ~~**The three door plates are placeholders** (`images/placeholders/plate-*.svg`).~~
+  ~~**The door scrim alpha is a guess, not a measurement.**~~
+  **Both resolved 2026-08-12 — see HANDOFF.md.** Real photography landed, one image per
+  door, `images/doors/{bhrt,menopause,trt}-941.{avif,webp}`. `images/placeholders/` is
+  deleted, as this file said it would be. The plates are AI-generated and recorded in
+  [`../LICENSES/AI-DoorPlates.txt`](../LICENSES/AI-DoorPlates.txt). The scrim is no longer a
+  guess: it was measured by the repo's method across three doors, three controls and two
+  viewports, and it is **not** the rail's ramp — the rail's ramp was measured too, and fails.
 
 ## The scene, 2026-08-11 — the release named, and the controls
 

@@ -701,10 +701,96 @@ html.boost-band .boost-star{color:var(--gold)}
 html.boost-band .boost-foot .btn{background:rgba(250,247,241,.94);color:var(--burgundy)}
 html.boost-band .boost-foot .btn:hover{background:var(--ivory)}
 
+/* ══ THE TWO PHOTOGRAPHIC TREATMENTS — his upload 2026-08-12 ════════════════════════════
+   A gold pendulum mid-swing for Energy, a pomegranate-and-fennel plate on red marble for Gut
+   Health. They sit at opposite ends of the tonal range — the pendulum is pale cream, the food
+   is nearly black — and that difference is what decides between the two treatments below.
+   ⚠️ PAINTED AS BACKGROUNDS, NOT <img>. Deliberate, and only because these are candidates: a
+   background is fetched only when its rule actually applies, so the losing variant costs a
+   visitor nothing and the DOM needs no per-variant markup. image-set() keeps the AVIF/WebP
+   negotiation that <picture> would otherwise give.
+   ⚠️ THE WINNER SHOULD BE CONVERTED TO <picture>, like every other plate in the repo. Backgrounds
+   cannot carry alt text, cannot be lazy-loaded, and cannot take a fetchpriority. Fine for a
+   decorative candidate, not what the finished section should ship. */
+html.boost-bands .boost-one::before,
+html.boost-plates .boost-one{
+  background-repeat:no-repeat;background-position:center;background-size:cover;
+}
+html.boost-bands .boost-one:first-of-type::before,html.boost-plates .boost-one:first-of-type{
+  background-image:image-set(url(../images/boost/gut-band-1340.avif) type("image/avif"),
+                             url(../images/boost/gut-band-1340.webp) type("image/webp"));
+}
+html.boost-bands .boost-one:last-of-type::before,html.boost-plates .boost-one:last-of-type{
+  background-image:image-set(url(../images/boost/energy-band-1340.avif) type("image/avif"),
+                             url(../images/boost/energy-band-1340.webp) type("image/webp"));
+}
+html.boost-plates .boost-one:first-of-type{
+  background-image:image-set(url(../images/boost/gut-plate-941.avif) type("image/avif"),
+                             url(../images/boost/gut-plate-941.webp) type("image/webp"));
+}
+html.boost-plates .boost-one:last-of-type{
+  background-image:image-set(url(../images/boost/energy-plate-941.avif) type("image/avif"),
+                             url(../images/boost/energy-plate-941.webp) type("image/webp"));
+}
+
+/* E · bands — the copy sits BESIDE the picture, never on it. Two editorial rows inside the
+   text column, the image alternating side so the pair reads as a spread rather than a repeat.
+   ⚠️ THIS IS THE TREATMENT THE TWO PHOTOGRAPHS ARGUE FOR. One is pale and one is nearly black;
+   any treatment that puts copy on top of both needs a scrim tuned to the darker and applied to
+   the paler, which is exactly what would flatten the pendulum. Beside the image, both plates
+   keep their own light and the copy stays ink-on-cream where it already passes. */
+html.boost-bands .boost-pair{display:block;margin-top:clamp(30px,4.5vh,56px)}
+html.boost-bands .boost-star{display:none}
+html.boost-bands .boost-one{
+  text-align:left;display:grid;align-content:center;
+  grid-template-columns:1.06fr .94fr;grid-template-areas:"shot title" "shot body";
+  column-gap:clamp(24px,4vw,66px);row-gap:14px;
+  padding-block:clamp(22px,3vh,38px);
+}
+html.boost-bands .boost-one + .boost-one{border-top:1px solid var(--line)}
+html.boost-bands .boost-one::before{
+  content:"";grid-area:shot;display:block;aspect-ratio:1672/941;background-color:var(--line);
+}
+/* the second row mirrors, so the eye crosses the column instead of running down one edge */
+html.boost-bands .boost-one:last-of-type{
+  grid-template-columns:.94fr 1.06fr;grid-template-areas:"title shot" "body shot";
+}
+html.boost-bands .boost-one h3{grid-area:title;align-self:end;font-size:clamp(22px,2.7vw,38px)}
+html.boost-bands .boost-one p{grid-area:body;align-self:start;margin:0;max-width:34ch;font-size:15px;text-align:left}
+html.boost-bands .boost-foot{justify-content:flex-start}
+
+/* F · plates — the copy sits ON the picture, two short doors. Shown because it is the obvious
+   thing to try once photography exists, and because seeing it is the fastest way to understand
+   why bands wins. ⚠️ Two costs, both real: it repeats 04's own device one screen later, and the
+   scrim it needs for the pale pendulum is heavy enough to take the air out of that photograph.
+   Measured all the same — see HANDOFF.md. */
+html.boost-plates .boost-pair{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:clamp(30px,4.5vh,56px)}
+html.boost-plates .boost-star{display:none}
+html.boost-plates .boost-one{
+  position:relative;isolation:isolate;min-height:min(62vh,540px);
+  display:flex;flex-direction:column;justify-content:flex-end;text-align:left;
+  padding:clamp(24px,2.6vw,44px);background-color:#4A2233;
+}
+html.boost-plates .boost-one::after{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(180deg,rgba(26,15,19,0) 0%,rgba(26,15,19,.10) 34%,
+  rgba(38,17,25,.72) 62%,rgba(20,11,14,.93) 84%,rgba(16,9,11,.97) 100%);
+}
+html.boost-plates .boost-one h3{color:var(--ivory);font-size:clamp(22px,2.5vw,34px)}
+html.boost-plates .boost-one h3 em{color:var(--rose)}
+html.boost-plates .boost-one p{color:rgba(250,247,241,.80);margin:14px 0 0;max-width:32ch;text-align:left}
+
 @media(max-width:980px){
   /* the ledger's two columns are a desktop affordance; below this the name and the promise
      stack, and the row rule is the only thing still doing the structuring */
   html.boost-ledger .boost-one{grid-template-columns:1fr;gap:10px}
+  /* bands stop alternating when there is only one column — the mirror was the whole point of
+     the second row's reversal, and without two columns it is just an inconsistent order */
+  html.boost-bands .boost-one,html.boost-bands .boost-one:last-of-type{
+    grid-template-columns:1fr;grid-template-areas:"shot" "title" "body";row-gap:16px;
+  }
+  html.boost-plates .boost-pair{grid-template-columns:1fr}
+  html.boost-plates .boost-one{min-height:52vh}
   html.boost-lockup .boost-pair{grid-template-areas:"lede" "one" "star" "two";grid-template-columns:1fr}
   html.boost-lockup .boost-lede{font-size:clamp(30px,8vw,44px)}
 }
@@ -1820,7 +1906,7 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
      until he picks. Delete the three he does not choose, and this block with them. */
   {
     const boost = (params.get("boost") || "").toLowerCase();
-    if (["ledger","cards","lockup","band"].includes(boost))
+    if (["ledger","cards","lockup","band","bands","plates"].includes(boost))
       document.documentElement.classList.add("boost-" + boost);
   }
 

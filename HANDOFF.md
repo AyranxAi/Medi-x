@@ -271,6 +271,36 @@ URL is unchanged**, so nothing here is live yet.
 | Cards | `?boost=cards` | **containment** | Ivory panels, hairline, gold top rule. Safest: changes density without changing the argument |
 | Lockup | `?boost=lockup` | **the idea** | Says "Hormone Therapy" once at headline scale with both amplifiers hanging off it. The only shape that matches what the section *is* — one offer, two halves, one door |
 | Band | `?boost=band` | **ground** | Burgundy. ⚠️ **Reverses his 2026-08-11 "the ground goes light with it".** Reopened only because the doors changed underneath that decision |
+| **Bands** | `?boost=bands` | **the photographs** | Copy *beside* the picture, two editorial rows, image alternating side. **The recommendation** |
+| Plates | `?boost=plates` | **the photographs** | Copy *over* the picture, two short doors |
+
+**Photography for both programmes landed 2026-08-12** (his upload, commit `d0ac46a`): a gold
+pendulum mid-swing for Energy, a pomegranate-and-fennel plate on red marble for Gut Health.
+AI-generated, same terms as the door plates — covered by
+[`LICENSES/AI-DoorPlates.txt`](LICENSES/AI-DoorPlates.txt). Neither contains a person.
+
+⚠️ **The two photographs sit at opposite ends of the tonal range, and that is what decides the
+treatment.** The pendulum is pale cream; the food is nearly black. Any treatment that puts copy
+on top of both needs one scrim tuned to the darker and then applied to the paler.
+
+| | Bands | Plates |
+|---|---|---|
+| Copy | Ink on cream, beside the image | Ivory on the image |
+| Contrast | Unchanged — the existing passing combination | **Also passes**, 12.56–17.80, both viewports |
+| Cost | Taller section | Repeats 04's device one screen later; the scrim visibly bands across the smooth pale pendulum and takes the air out of it |
+
+⚠️ **Plates is not an accessibility failure — it measures fine.** The case against it is design,
+and saying otherwise would be the easy wrong argument. The banding is fixable with a smoother
+ramp; what is not fixable is that the pendulum photograph's whole quality is its light, and
+40% of it has to go dark for the copy to sit there.
+
+⚠️ **Both photographic treatments paint via CSS `image-set()`, not `<img>`.** Deliberate while
+they are candidates — a background is fetched only when its rule applies, so the losing variant
+costs a visitor nothing and no per-variant markup is needed. **The winner must be converted to
+`<picture>`:** backgrounds carry no alt, no lazy-loading and no fetchpriority.
+
+Assets `images/boost/{gut,energy}-{band-1340,plate-941}.{avif,webp}`. Note the spread — the
+pendulum is 8.7KB as AVIF because it is mostly a smooth gradient; the marble is 86KB.
 
 ⚠️ **All four run off one DOM**, so deleting three is pure subtraction. `.boost-lede` and
 `.boost-base` exist for lockup and are inert elsewhere. **`.boost-base` is clipped, never

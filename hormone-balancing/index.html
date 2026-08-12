@@ -712,6 +712,16 @@ html.doors-static .door{min-height:var(--bleed-h)}
    collapses and the indent is lost; a margin survives the wrap. */
 .boost-one h3 em{color:var(--rose);margin-left:.3em}
 .boost-one p{color:rgba(250,247,241,.84);max-width:34ch}
+/* ⚠️ THE SECTION'S ONE DOOR BELONGS TO BOTH PROGRAMMES, SO IT CENTRES. It had no rule of its
+   own at all: it inherited block layout, sat hard left, and landed under whichever programme
+   happens to be first in the DOM — which reads as that programme's button rather than the
+   section's. It also had no margin, so it touched the panels; the diptych bleeds full width,
+   and a pill sitting on the seam of a photograph has nothing to stand on. Space above so it
+   clears the pictures, space below so it is not crowded by the next section's ground. */
+.boost-foot{
+  display:flex;justify-content:center;
+  margin-top:clamp(34px,5vh,58px);margin-bottom:clamp(10px,2.4vh,26px);
+}
 
 /* ══ 05 AS A DIAGRAM — ?boost=tether ═════════════════════════════════════════════════
    OFFERED FOR JUDGEMENT 2026-08-12, DEFAULT UNCHANGED. The diptych's fault is not its
@@ -760,7 +770,7 @@ html.bt-tether .tether-head{
 }
 /* the section's one action belongs to BOTH programmes, so it centres under the join
    rather than sitting under whichever column happens to be first in the DOM */
-html.bt-tether .boost-foot{display:flex;justify-content:center;margin-top:clamp(34px,5vh,58px)}
+/* the foot centres for every layout now — see .boost-foot in the base rules */
 html.bt-tether .tether-anchor{
   position:absolute;top:0;left:50%;transform:translateX(-50%);white-space:nowrap;
   font-family:var(--accent);font-size:clamp(11px,1vw,13.5px);letter-spacing:.24em;
@@ -1768,20 +1778,25 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
         <p class="kicker">06 · In their words</p>
         <h2 data-reveal>The mornings they <em>got back</em>.</h2>
       </div>
-      <div class="story-rail">
-        <article class="story" data-reveal>
+      <!-- ⚠️ THE REVEAL LIVES ON THE RAIL, NOT ON EACH STORY. Each .story is held at opacity 0
+           by the carousel and lit with .is-on, so a per-story reveal fought the component for
+           the same property and won permanently — see the guard in the reveal engine. The rail
+           has no opacity of its own, so it takes the entrance animation cleanly and the
+           carousel keeps sole ownership of which quote is on screen. -->
+      <div class="story-rail" data-reveal>
+        <article class="story">
           <span class="q-mark" aria-hidden="true">"</span>
           <blockquote>I booked my consultation crying in the car. Six months later I sleep through
           the night and my patience is back — my kids noticed before I did.</blockquote>
           <div class="who"><b>Sarah, 52</b><span>Modern Menopause</span></div>
         </article>
-        <article class="story" data-reveal>
+        <article class="story">
           <span class="q-mark" aria-hidden="true">"</span>
           <blockquote>No one had ever shown me my numbers before. Seeing "here's why you feel
           this way" on paper — I cried with relief. Then we fixed it.</blockquote>
           <div class="who"><b>Amina, 44</b><span>Hormone Therapy &amp; BHRT</span></div>
         </article>
-        <article class="story" data-reveal>
+        <article class="story">
           <span class="q-mark" aria-hidden="true">"</span>
           <blockquote>I assumed slowing down was just what 58 feels like. It wasn't. I'm lifting
           again, I'm present — my wife says she got me back.</blockquote>
@@ -2223,8 +2238,23 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
   if (reduce){ tl.progress(1); }
   if (probe) return; /* QA mode: content stays fully visible, no scroll-gated motion */
 
-  /* generic reveals */
+  /* generic reveals
+     ⚠️ AN ELEMENT THAT IS ALREADY TRANSPARENT CANNOT BE REVEALED, AND TRYING PINS IT SHUT.
+     `gsap.from` reads the element's CURRENT value as the tween's END value. On something the
+     stylesheet holds at opacity 0 — anything whose visibility belongs to a component rather
+     than to the scroll — that end value is 0, so the tween runs 0 → 0 and `autoAlpha` writes
+     inline `opacity:0; visibility:hidden` on the way. Inline beats any class, so whatever
+     owned that opacity can never turn it back on.
+     This is not hypothetical: all three testimonials shipped invisible. `.story` is held at
+     opacity 0 by the carousel and lit with `.is-on`, and every one of them also carried
+     data-reveal, so section 06 rendered its heading, its dots and its disclaimer around a
+     quote that was never once on screen.
+     ⚠️ AND `?probe=1` IS EXACTLY THE MODE THAT HIDES IT — the early return above means the
+     reveals never run, so the copy is present in every screenshot the QA switch produces.
+     The fix for THAT case is structural (the rail carries data-reveal now, not each story),
+     but the guard stays: it makes the failure a no-op rather than a permanent hide. */
   document.querySelectorAll("[data-reveal]").forEach(el => {
+    if (parseFloat(getComputedStyle(el).opacity) === 0) return;
     gsap.from(el, {
       autoAlpha:0, y:44, duration:1.15, ease:"power3.out",
       scrollTrigger:{trigger:el, start:"top 86%"}

@@ -1,23 +1,19 @@
-/* Door-plate contrast harness — BRAND.md's method, automated.
+/* Service-orb contrast harness — BRAND.md's method, automated.
  *
- *   node tools/qa/door-contrast.mjs            measure the shipped scrim
- *   node tools/qa/door-contrast.mjs --rail     measure the rail's ramp instead (it fails)
+ *   node tools/qa/door-contrast.mjs
  *
  * Needs: npm install playwright@1.49.1 sharp
  *
- * WHY THIS EXISTS. Section 04's copy sits on three photographs that do not share a tone —
- * BHRT is cream silk, TRT is near-black stone — and it sits there in THREE DIFFERENT
- * COLOURS: the hook is rose, the title ivory, the Explore link gold. "Ivory clears 4.5:1"
- * is therefore not the test; each control against its own colour, on its own plate, at each
- * viewport is the test. Eighteen measurements, and the one that binds is the rose hook over
- * the palest plate with about 0.5 of margin.
+ * WHY THIS EXISTS. Section 04's titles sit inside three glass renders with different
+ * transparency masks; the hooks and Explore rows sit on ivory below them. Each control
+ * must be checked against its own rendered ground at both production viewports.
  *
- * THE METHOD, from BRAND.md: render, hide the copy, sample the ground behind each copy
- * rectangle, take the worst 2% of pixels, require 4.5:1 for small text and 3:1 for large.
- * Worst 2% rather than the mean, because a mean passes comfortably over a photograph that
- * has a bright highlight running through one line of the title.
+ * THE METHOD, from BRAND.md: render, hide the copy, sample the ground behind each rendered
+ * line (not the heading container's empty side space), take the worst 2% of pixels, and
+ * require 4.5:1 for small text and 3:1 for large. Worst 2% rather than the mean, because a
+ * mean passes comfortably over a photograph that has a bright highlight through one line.
  *
- * ⚠️ Run this after ANY change to a plate, to --plate-y, to the scrim, or to a copy colour.
+ * ⚠️ Run this after ANY change to an orb, its glass mask, title scrim or copy colour.
  * ⚠️ deviceScaleFactor is pinned to 1 so pixel rectangles map 1:1 to CSS rectangles.
  */
 import http from "node:http";
@@ -32,11 +28,6 @@ const PORT = 8123;
 const PAGE = `http://localhost:${PORT}/hormone-balancing/index.html?probe=1`;
 const VIEWPORTS = [[1440, 900], [390, 844]];
 const CONTROLS = [".hook", "h3", ".link-arrow"];
-
-/* the ramp the rail uses; kept here so the failing alternative stays reproducible */
-const RAIL_RAMP = "linear-gradient(180deg,rgba(46,34,40,.16) 0%,rgba(92,31,49,.72) 58%," +
-                  "rgba(26,15,19,.94) 100%)";
-const useRail = process.argv.includes("--rail");
 
 const MIME = { ".html":"text/html", ".css":"text/css", ".js":"text/javascript",
   ".webp":"image/webp", ".avif":"image/avif", ".svg":"image/svg+xml", ".png":"image/png",
@@ -73,13 +64,8 @@ for (const [width, height] of VIEWPORTS) {
   for (let i = 0; i < doorCount; i++) {
     await page.goto(PAGE, { waitUntil: "load" });
     await page.evaluate(() => document.fonts.ready);
-    if (useRail) await page.addStyleTag({
-      content: `html.doors-tri .door::after{background:${RAIL_RAMP} !important}` });
-    /* ⚠️ CENTRE THE COPY BAND, NOT THE DOOR. Centring the panel worked while panels were 618px
-       inside a 900px viewport; at 92vh they no longer fit, and the Explore link fell below the
-       fold — where this script skips it. Three of eighteen rows silently became "skipped" and
-       the run still said everything passed. Scroll to the last control instead: it is the
-       lowest thing being measured, so bringing it into frame brings the whole band. */
+    /* Centre the lowest control. The complete square orb plus its supporting copy fits
+       inside both measured viewports, so this also keeps the in-orb heading visible. */
     await page.evaluate(k => {
       const d = document.querySelectorAll(".doors .door")[k];
       (d.querySelector(".link-arrow") || d).scrollIntoView({ block: "center" });
@@ -92,10 +78,18 @@ for (const [width, height] of VIEWPORTS) {
         const el = door.querySelector(sel);
         if (!el) return [];
         const r = el.getBoundingClientRect(), cs = getComputedStyle(el);
+        const sampleRects = sel === "h3"
+          ? [...el.querySelectorAll("span")].map(span => {
+              const range = document.createRange();
+              range.selectNodeContents(span);
+              const sr = range.getBoundingClientRect();
+              return { x: sr.x, y: sr.y, w: sr.width, h: sr.height };
+            })
+          : [{ x: r.x, y: r.y, w: r.width, h: r.height }];
         const px = parseFloat(cs.fontSize), bold = parseInt(cs.fontWeight, 10) >= 700;
         return [{ door: door.className.replace(/\bdoor\b\s*/, "").trim() || `#${k + 1}`,
           sel, x: r.x, y: r.y, w: r.width, h: r.height, color: cs.color, fontPx: px,
-          large: px >= 24 || (bold && px >= 18.66) }];
+          sampleRects, large: px >= 24 || (bold && px >= 18.66) }];
       });
     }, [i, CONTROLS]);
 
@@ -119,8 +113,9 @@ for (const [width, height] of VIEWPORTS) {
       const parts = t.color.match(/[\d.]+/g).map(Number);
       const [fr, fgc, fb] = parts, alpha = parts.length > 3 ? parts[3] : 1;
       const ratios = [];
-      for (let py = Math.floor(t.y); py < Math.ceil(t.y + t.h); py++) {
-        for (let px = Math.floor(t.x); px < Math.ceil(t.x + t.w); px++) {
+      for (const sample of t.sampleRects) {
+       for (let py = Math.floor(sample.y); py < Math.ceil(sample.y + sample.h); py++) {
+        for (let px = Math.floor(sample.x); px < Math.ceil(sample.x + sample.w); px++) {
           if (px < 0 || py < 0 || px >= info.width || py >= info.height) continue;
           const o = (py * info.width + px) * info.channels;
           const br = data[o], bg = data[o + 1], bb = data[o + 2];
@@ -131,6 +126,7 @@ for (const [width, height] of VIEWPORTS) {
                   alpha * fb + (1 - alpha) * bb);
           ratios.push(contrast(eff, lum(br, bg, bb)));
         }
+       }
       }
       if (!ratios.length) continue;
       ratios.sort((a, b) => a - b);
@@ -144,7 +140,7 @@ for (const [width, height] of VIEWPORTS) {
 await browser.close();
 server.close();
 
-console.log(`\nscrim: ${useRail ? "THE RAIL'S RAMP (--rail)" : "as shipped"}\n`);
+console.log("\nservice orbs: as shipped\n");
 for (const r of results) {
   if (r.skipped) { console.log(`  ${r.vp.padEnd(9)} ${r.door.padEnd(16)} ${r.sel.padEnd(12)} skipped (off screen)`); continue; }
   console.log(`  ${r.vp.padEnd(9)} ${r.door.padEnd(16)} ${r.sel.padEnd(12)} ` +

@@ -396,252 +396,83 @@ section{position:relative}
    processed. That was the deciding factor over the list-and-sticky-plate
    alternative, which is the better-looking layout on a desktop and has nothing to
    stick to at 390px — see the 980 breakpoint, where these become a swipe rail. */
-.services{background:var(--ivory)}
-/* ⚠️ .doors SITS OUTSIDE .wrap ON PURPOSE — his call 2026-08-11: "you will scroll
-   right, and when you scroll the cards are full bleed". A rail that stops at the
-   text column has a margin on the right, and a margin tells the reader the row has
-   ended. Running it off the edge of the screen is the whole affordance.
-   The rail is horizontal at EVERY width now, not only on phones.
-   --rail-pad reproduces .wrap's content edge exactly (max-width 1280, centred, plus
-   --pad), so the first card starts flush under the headline while the rail itself
-   bleeds both ways. scroll-padding matches it so a snapped card lands on that same
-   line rather than against the viewport edge. */
+.services{background:#FAF7F1;padding-block-end:clamp(48px,6.5vh,78px)}
+/* The approved service family is an open grid, not a set of panels. The square
+   masters, title settings and breakpoints reproduce the orb configurator exactly. */
 .doors{
-  --rail-pad:max(var(--pad), calc((100% - 1280px) / 2 + var(--pad)));
-  /* ⚠️ CARD WIDTH IS WHAT MAKES THIS A RAIL AT ALL. At 26vw the three cards plus
-     the rail padding came to 1456px against a 1440 viewport — 17px of scroll, which
-     is a row that happens to overflow, not a rail. At 34vw two cards sit fully in
-     frame and the third is cut by the screen edge, which is the entire affordance
-     given the scrollbar is hidden. Measured at 1440: 1804px of track, 364 to scroll. */
-  display:grid;grid-auto-flow:column;grid-auto-columns:clamp(300px,34vw,520px);
-  gap:clamp(12px,1.6vw,22px);
-  overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;
-  padding-inline:var(--rail-pad);scroll-padding-inline:var(--rail-pad);
-  scrollbar-width:none;
+  --doors-gap:clamp(12px,2.2vw,40px);
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:start;
+  gap:var(--doors-gap);max-width:88rem;margin-inline:auto;
+  padding-inline:clamp(16px,5vw,80px);
 }
-.doors::-webkit-scrollbar{display:none}
 .door{
-  position:relative;scroll-snap-align:start;min-height:clamp(440px,64vh,640px);
-  display:flex;flex-direction:column;justify-content:flex-end;
-  padding:clamp(24px,2.4vw,38px);overflow:hidden;isolation:isolate;
-  transition:transform .6s var(--ease);
+  min-width:0;display:grid;justify-items:center;align-content:start;text-align:center;
 }
-.door:hover,.door:focus-visible{transform:translateY(-7px)}
-.door img{
-  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;
-  transform:scale(1.02);transition:transform 1.4s var(--ease);
+.service-orb{
+  --orb-optical-x:52.83%;--orb-optical-y:47.54%;
+  --title-scale:1;--top-letter:-.035em;--bottom-letter:-.035em;--line-gap:0em;
+  --glass-center:.55;--glass-mid:.7075;--title-scrim:.18;--scrim-width:58%;
+  position:relative;isolation:isolate;aspect-ratio:1;width:min(100%,29rem);
 }
-.door:hover img{transform:scale(1.07)}
-/* ⚠️ THIS ALPHA IS PROVISIONAL AND HAS NOT BEEN MEASURED — the plates are still
-   placeholders. The placeholder is a mid-tone plum precisely so this ramp is not
-   passing a test a bright photograph would fail, but that is a guard, not a
-   measurement. When the real plates land, run the repo's method before shipping:
-   render, hide the copy, sample the ground behind each copy rectangle, take the
-   worst 2% of pixels, and confirm ivory clears 4.5:1 small / 3:1 large. BRAND.md. */
-.door::after{
-  content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,
-  rgba(46,34,40,.16) 0%,rgba(92,31,49,.72) 58%,rgba(26,15,19,.94) 100%);
+.service-orb__image{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:contain;
+  pointer-events:none;user-select:none;
+  -webkit-mask-image:radial-gradient(ellipse at var(--orb-optical-x) var(--orb-optical-y),
+    rgba(0,0,0,var(--glass-center)) 0%,rgba(0,0,0,var(--glass-mid)) 55%,#000 82%);
+  mask-image:radial-gradient(ellipse at var(--orb-optical-x) var(--orb-optical-y),
+    rgba(0,0,0,var(--glass-center)) 0%,rgba(0,0,0,var(--glass-mid)) 55%,#000 82%);
+}
+.service-orb::after{
+  content:"";position:absolute;z-index:1;pointer-events:none;
+  left:var(--orb-optical-x);top:var(--orb-optical-y);
+  width:var(--scrim-width);height:28%;border-radius:50%;opacity:var(--title-scrim);
+  transform:translate(-50%,-50%);
+  background:radial-gradient(ellipse at center,
+    rgba(250,247,241,.88) 0%,rgba(250,247,241,.48) 46%,rgba(250,247,241,0) 78%);
+}
+.service-orb h3{
+  position:absolute;z-index:2;left:var(--orb-optical-x);top:var(--orb-optical-y);
+  width:62%;margin:0;text-align:center;color:#2E2228;
+  font-family:var(--accent);font-size:clamp(1.35rem,2.1vw,2.1rem);
+  font-weight:400;line-height:.97;
+  transform:translate(-50%,-50%) scale(var(--title-scale));
+}
+.service-orb h3 span{display:block;white-space:nowrap}
+.service-orb h3 span:first-child{letter-spacing:var(--top-letter)}
+.service-orb h3 span:last-child{letter-spacing:var(--bottom-letter);margin-top:var(--line-gap)}
+.door--bhrt .service-orb{
+  --title-scale:.98;--top-letter:-.035em;--bottom-letter:-.035em;
+  --line-gap:.26em;--glass-center:.39;--glass-mid:.6035;
+}
+.door--menopause .service-orb{
+  --title-scale:1.02;--top-letter:-.035em;--bottom-letter:-.035em;
+  --line-gap:.06em;--glass-center:.65;--glass-mid:.7725;
+}
+.door--trt .service-orb{
+  --title-scale:1.01;--top-letter:-.025em;--bottom-letter:-.035em;
+  --line-gap:.29em;--glass-center:.40;--glass-mid:.61;
 }
 .door .hook{
+  display:block;max-width:31ch;margin:clamp(10px,1.4vw,18px) auto 0;
   font-family:var(--quote);font-size:clamp(14px,1.3vw,17px);line-height:1.4;
-  color:var(--rose);display:block;margin-bottom:12px;
+  color:var(--burgundy);
 }
-.door h3{color:var(--ivory);font-size:clamp(22px,2.2vw,31px);line-height:1.14}
-/* gold, not red, on a dark ground — the page's existing inversion rule */
-.door .link-arrow{color:var(--gold);margin-top:18px}
-/* THE WHOLE PANEL BECOMES THE LINK THE MOMENT THE LINK HAS A DESTINATION. Written
-   as a[href] on purpose: while the doors are unwired (no href) nothing is
-   clickable and nothing lies about being clickable, and wiring the directory later
-   is three href attributes with no markup change and no second hit area. */
-.door a[href]::after{content:"";position:absolute;inset:0;z-index:1}
-/* ══ THE TRIPTYCH — ?doors=entry (default) · pinned · static · rail ═══════════════
-   His call: the three doors go full bleed and all three stay on screen, so nobody has
-   to swipe to discover the third. The rail survives at ?doors=rail.
-   ⚠️ THE RAIL WAS NOT A MISTAKE, IT WAS A DIFFERENT ANSWER TO THE SAME PROBLEM — three
-   cards at 26vw came to 1456px against a 1440 viewport, so 34vw and a cut third card
-   made the overflow legible instead of accidental. A triptych solves it by not
-   overflowing at all: three equal columns of a viewport that is exactly three columns
-   wide. Keep the rail reachable until the triptych has been seen on real phones.
-   ⚠️ PHONES NEVER GET THREE COLUMNS — his call. 390px will not hold them, so every mode
-   stacks vertically at full width. The swipe is gone on phones too, which was the point. */
-html.doors-tri .doors{
-  display:flex;overflow:visible;scroll-snap-type:none;
-  grid-auto-flow:unset;grid-auto-columns:unset;
-}
-html.doors-tri .door{flex:1 1 0;min-width:0;scroll-snap-align:none;min-height:58vh}
-/* Burgundy stays as the ground under the photograph: the plates are lazy-loaded, so this is
-   what a door is during the fetch and if the fetch never lands. */
-html.doors-tri .door{background:#4A2233}
-/* ⚠️ THE SCRIM IS MEASURED, AND IT IS DELIBERATELY NOT THE RAIL'S. The comment that stood
-   here said to revert to the rail's ramp once photography replaced the marble. Measured,
-   the rail's ramp FAILS: .hook is rose #C79A92, not ivory, and over the BHRT plate — cream
-   silk and pale travertine exactly where the copy sits — it lands at 4.18:1 at 1440x900 and
-   4.07:1 at 390x844, against the 4.5 a 14–17px run needs. It passes over the dark TRT plate
-   beside it, which is what makes that the dangerous failure: two thirds of the triptych look
-   fine and the third looks intentional.
-   This ramp is keyed to the worst plate, so one ramp serves all three. Measured by BRAND.md's
-   method — render, hide the copy, sample the ground behind each copy rectangle, worst 2% of
-   pixels — for all three doors x three controls x both viewports, each control against its
-   OWN colour (rose hook, ivory h3, gold link). 18 of 18 clear. The binding case is still the
-   BHRT hook, now 5.15 desktop / 5.01 phone. Full table in HANDOFF.md.
-   ⚠️ A PLATE CHANGE IS A RE-MEASUREMENT, not a swap — the margin on that hook is 0.51.
-   Run `node tools/qa/door-contrast.mjs`; `--rail` reproduces the failing alternative. */
-html.doors-tri .door::after{
-  background:linear-gradient(180deg,rgba(26,15,19,0) 0%,rgba(26,15,19,.06) 38%,
-  rgba(46,20,30,.62) 62%,rgba(26,15,19,.88) 80%,rgba(20,11,14,.96) 100%);
-}
-/* ⚠️ 92vh, AND THE HEADLINE IS ON TOP OF THAT, NOT INSIDE IT — his call 2026-08-12, second
-   pass. The first pass kept the headline by shrinking the panels to fit beside it in one
-   screen (calc(100vh - --head-block)), which made them 618px of a 900px viewport. Full bleed
-   at 69vh is not full bleed; it reads as a wide band. He asked for the pictures to bleed AFTER
-   the headline, so the headline is simply above them now and the panels get their height back.
-   The trade, stated: the section is taller than one screen, so at the moment 04 arrives the
-   door titles sit below the fold and a short scroll brings them up. That is the normal
-   behaviour of any full-bleed band and it is worth 210px of photograph.
-   ⚠️ STILL NOT A FLAT 100vh. A panel exactly one viewport tall puts its title on its own last
-   pixel; 92 keeps the copy in frame at every scroll position once the panel is on screen.
-   ⚠️ --head-block IS GONE with the geometry that needed it. --head-h stays, because pinned
-   genuinely still needs it: that mode centres inside a 100vh sticky stage, so the headline
-   really does come out of the panels' height there. */
-/* ══ WHERE 04'S COPY SITS — ?doorcopy=raise | crown ══════════════════════════════════
-   OFFERED FOR JUDGEMENT 2026-08-12, DEFAULT UNCHANGED. Both answer one fault: at a flat
-   92vh the copy sits on the panel's bottom edge, so on arrival 04 answers "Where would
-   you like to begin?" with three wordless photographs and the hook — the best copy in
-   the section, and the thing that actually lets a reader self-select — is the least
-   visible element in it. Neither treatment touches the 92vh or the full bleed.
-   ⚠️ BOTH MOVE THE COPY ONTO A DIFFERENT PART OF EVERY PHOTOGRAPH, WHICH IS A CONTRAST
-   RE-MEASUREMENT, NOT A SWAP. `cover` crops against the panel, the ramps below are keyed
-   to the new copy positions, and the rose hook has ~0.5 of margin over the pale BHRT
-   plate. Run `node tools/qa/door-contrast.mjs` against whichever survives. */
-
-/* raise — the whole cluster lifts off the bottom edge into the lower third. The smallest
-   possible change: same order, same styles, same ramp shape, moved up.
-   ⚠️ DESKTOP ONLY, AND THAT IS THE POINT OF IT. The fault it fixes is a THREE-COLUMN fault:
-   three 92vh panels side by side put every title below the fold at once. Phones stack the
-   panels full width and meet them one at a time, so the copy at the foot is already the
-   first thing in frame — raising it there buys nothing and leaves a dead band of scrim
-   under each door. 980px is where the page already stops being three columns. */
-@media(min-width:981px){
-  html.dc-raise .door{padding-bottom:clamp(110px,30%,320px)}
-  html.dc-raise .door::after{
-    background:linear-gradient(180deg,rgba(26,15,19,0) 0%,rgba(26,15,19,.06) 20%,
-    rgba(46,20,30,.62) 42%,rgba(26,15,19,.88) 60%,rgba(20,11,14,.96) 76%,
-    rgba(20,11,14,.96) 100%);
-  }
-}
-
-/* crown — the title becomes an INSCRIPTION at the head of the arch, which is the one
-   place on a 92vh panel that is guaranteed to be above the fold, and the one thing the
-   arch shape can do that a rectangle cannot. Letterspaced Megante caps, because an
-   inscription is not a headline. The hook and the link stay a cluster at the foot, so
-   the panel reads top-to-bottom: what it is, then who it is for, then the way in.
-   ⚠️ NEEDS A SECOND RAMP. The crown of a door is the brightest part of two of the three
-   plates (cream silk, pale travertine), so the title gets its own ramp at the top rather
-   than borrowing the one built for the foot. */
-html.dc-crown .door{padding-top:clamp(76px,12vh,132px)}
-html.dc-crown .door::before{
-  content:"";position:absolute;inset:0 0 auto 0;height:38%;z-index:-1;
-  background:linear-gradient(180deg,rgba(20,11,14,.88) 0%,rgba(24,13,17,.58) 44%,
-  rgba(26,15,19,.18) 76%,rgba(26,15,19,0) 100%);
-}
-html.dc-crown .door h3{
-  position:absolute;top:clamp(30px,5.4vh,66px);left:clamp(18px,2vw,30px);
-  right:clamp(18px,2vw,30px);text-align:center;
-  font-family:var(--accent);font-size:clamp(12.5px,1.12vw,16px);
-  letter-spacing:.2em;text-transform:uppercase;line-height:1.5;color:var(--ivory);
-}
-html.dc-crown .door .hook{margin-bottom:10px}
-
-html.doors-tri .doors{--bleed-h:92vh}
-html.doors-pinned .doors{--bleed-h:calc(100vh - var(--head-h,8vh))}
-/* ⚠️ 286px OF EMPTY OFF-WHITE SAT BETWEEN THE PHOTOGRAPHS AND 05's KICKER, holding one 21px
-   line of text. Measured, not felt: .sec-pad closed 04 on 117px and opened 05 on another 117,
-   with the svc-note's own 36px margin floating in the middle. Two photographic sections
-   separated by a third of a screen of nothing is exactly where the page gives back the energy
-   the doors just built, and it is the real answer to "what about the backgrounds" — the
-   grounds are fine, there was just far too much of them showing.
-   ⚠️ The note keeps its own margin. It belongs to the doors above it, not to the gap. */
-.services{padding-block-end:clamp(48px,6.5vh,78px)}
+.door .link-arrow{color:var(--logo-red);margin-top:12px}
 .boost{padding-block-start:clamp(52px,7vh,86px)}
-/* ⚠️ cover, NOT contain — and the --plate-scale trio is gone with it. Both existed to make
-   one statue look like three: a contained figure reads as a museum plate, and scaling it per
-   door stopped the repeat being obvious. Three real photographs need neither, and contain
-   would letterbox them onto burgundy.
-   ⚠️ EACH DOOR CROPS FROM ITS OWN ANCHOR. The sources are 941x1672 (0.563) and a panel is
-   about 0.75, so cover discards roughly a quarter of the height and object-position decides
-   which quarter. It is not the same answer three times, because the subject does not sit at
-   the same height three times — see the per-door values below. */
-html.doors-tri .door img{object-fit:cover;object-position:50% var(--plate-y,50%);transform:scale(1.02)}
-html.doors-tri .door--bhrt{--plate-y:30%}
-html.doors-tri .door--menopause{--plate-y:50%}
-html.doors-tri .door--trt{--plate-y:50%}
-html.doors-tri .door:hover img{transform:scale(1.07)}
-html.doors-tri .door:hover,html.doors-tri .door:focus-visible{transform:none}
-/* ⚠️ THE ARCH — his pick 2026-08-12, from six treatments, for the founders' note that the boxy
-   shape was not working. It is an arcade: elliptical heads with the section ground showing in
-   the spandrels between them. The shape of a loggia, which is the room this page keeps
-   invoking — it opens on a Venus de Milo and the Modern Menopause plate contains actual
-   travertine columns.
-   ⚠️ IT IS THE ONLY TREATMENT THAT SATISFIES BOTH STANDING REQUESTS. He asked for the pictures
-   to bleed after the headline; the founders asked for less box. The other five that read as
-   properly un-boxy — arcade, portal, inset, stagger — all get there by giving the panels
-   ground to stand on, which means giving up the full bleed he asked for two rounds earlier.
-   Only the top edge changes here; the panels still touch and still reach both edges.
-   ⚠️ 50%/20%, NOT A TRUE SEMICIRCLE. On a 92vh panel a half-round head is a dome, not an arch:
-   the radius would be half the WIDTH, which is taller than most of the picture.
-   ⚠️ overflow:hidden is load-bearing — without it the img, which is absolutely positioned to
-   inset:0 and scaled 1.02, paints straight over the corner the radius just cut. */
-html.doors-tri .door{border-radius:50% 50% 0 0 / 20% 20% 0 0;overflow:hidden}
-
-/* A · pinned — the section holds while the panels grow. --k is written per frame. */
-html.doors-pinned .svc-stage{
-  position:sticky;top:0;height:100vh;margin-bottom:160vh;--k:0;
-  display:flex;flex-direction:column;justify-content:center;overflow:hidden;
+@media(max-width:69rem){
+  .doors{grid-template-columns:repeat(2,minmax(0,1fr));max-width:60rem}
+  .door:last-child{
+    grid-column:1/-1;justify-self:center;
+    width:calc((100% - var(--doors-gap))/2);
+  }
+  .service-orb h3{font-size:clamp(1.7rem,3.8vw,2.15rem)}
 }
-/* ⚠️ flex:none OR THE MEASUREMENT OSCILLATES. The stage is a fixed-height flex column, so
-   a default flex item is shrinkable: at k=1 the panels fill it exactly, any rounding over
-   squeezes the headline, --head-h reads smaller, --bleed-h grows, and it squeezes again. */
-html.doors-pinned .svc-stage > .wrap{flex:0 0 auto}
-/* The headline holds through the whole pin. It used to be keyed to --k and was gone by the
-   time the panels reached full bleed, so the pinned mode arrived at three untitled panels. */
-html.doors-pinned .doors{
-  gap:calc((1 - var(--k)) * clamp(12px,1.6vw,22px));
-  padding-inline:calc((1 - var(--k)) * var(--rail-pad));
+@media(max-width:45rem){
+  .doors{grid-template-columns:1fr;gap:clamp(40px,11vw,64px);padding-inline:16px}
+  .door:last-child{grid-column:auto;width:100%}
+  .service-orb{width:min(100%,31rem)}
+  .service-orb h3{font-size:clamp(1.65rem,7vw,1.9rem)}
 }
-html.doors-pinned .door{min-height:calc(58vh + var(--k) * (var(--bleed-h) - 58vh))}
-html.doors-pinned .svc-stage{padding-block:0}
-
-/* B · entry — one transition when it arrives, no pin, no scroll cost */
-html.doors-entry .doors{
-  transition:gap 1.05s var(--ease),padding-inline 1.05s var(--ease);
-}
-html.doors-entry .door{transition:min-height 1.05s var(--ease)}
-html.doors-entry .svc-stage.on .doors{gap:0;padding-inline:0}
-html.doors-entry .svc-stage.on .door{min-height:var(--bleed-h)}
-/* ⚠️ .sec-head IS NOT ANIMATED HERE ANY MORE, AND THE SECTION KEEPS ITS TOP PADDING. Both
-   went together: the headline collapsed to max-height:0 on entry and the padding was then
-   removed via :has(.svc-stage.on) because there was nothing left to separate. With the
-   headline staying, the padding is what separates it from 05 above — putting either back
-   without the other gives you a title welded to the section edge. */
-
-/* C · static — no animation at all */
-html.doors-static .doors{gap:0;padding-inline:0}
-html.doors-static .door{min-height:var(--bleed-h)}
-
-@media(max-width:899px){
-  html.doors-tri .doors{flex-direction:column;gap:0 !important;padding-inline:0 !important}
-  html.doors-tri .door{min-height:62vh !important}
-  html.doors-pinned .svc-stage{position:static;height:auto;margin-bottom:0}
-  /* Phones only ever tightened the headline's gap. The opacity/max-height/transform resets
-     that used to live here were undoing the desktop collapse, which no longer happens. */
-  html.doors-tri .sec-head{margin-bottom:clamp(26px,4vh,44px)}
-}
-@media(prefers-reduced-motion:reduce){
-  html.doors-entry .doors,html.doors-entry .door{transition:none}
-}
-
-}
-
 .svc-note{margin-top:clamp(26px,3.4vh,36px);font-size:13px;color:var(--ink-soft);letter-spacing:.02em}
 /* Same emphasis material as every other strong on the page (hero-sub, faq-a):
    weight 500 in burgundy, never the browser's 700. At 13px a default bold in
@@ -1650,64 +1481,44 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
 
   <!-- ══════════ 04 · CONSULTATIONS ══════════ -->
   <section class="services sec-pad" id="services">
-    <!-- .svc-stage exists for one mode only: ?doors=pinned needs a single element to
-         make sticky. In every other mode it is an inert block and changes nothing. -->
-    <div class="svc-stage">
     <div class="wrap">
       <div class="sec-head">
         <p class="kicker">04 · Consultations</p>
         <h2 data-reveal>Where would you like to <em>begin</em>?</h2>
       </div>
     </div>
-    <!-- THE PLATES ARE REAL — his upload 2026-08-12, replacing the interim Venus that stood
-         in all three doors. One image per door, and the male figure the last handoff called
-         the blocking asset is here, so the door no longer shows a female nude over
-         "Concerned about male hormone health?".
-         ⚠️ AI-GENERATED, and recorded as such in LICENSES/AI-DoorPlates.txt. No identifiable
-         person appears in any of the three — every frame is cropped above the face — so no
-         model release is in play, which is the whole reason these crops work.
-         ⚠️ ONE SIZE PER DOOR, WHICH IS NOT THE PATTERN THE REST OF THE REPO USES. The other
-         plates ship a wide/phone pair because a hero is 2400px on desktop and less on a
-         phone. A door inverts that: it is a THIRD of the viewport on desktop (480 CSS px,
-         960 at 2x) and the FULL width on a phone (390 CSS px, 1170 at 3x), so the phone
-         wants the bigger asset. 941 is the source's own width and serves both; a second
-         file would only be an upscale of this one.
-         ⚠️ Masters are images/medi-gyn-*-portrait.png, unreferenced and served to nobody.
-         The landscape halves of the set are for the consultation pages that do not exist
-         yet — deliberately not encoded, since nothing points at them.
-         ⚠️ EACH DOOR IS STILL UNWIRED. Adding href to the .link-arrow inside makes
-         the WHOLE PANEL clickable (see .door a[href]::after in the stylesheet), so
-         wiring the directory is three attributes and no markup change. -->
+    <!-- Approved static service family, 2026-08-12. The square renders and every title
+         value come from the Medi-X orb configurator. The images are decorative because
+         each orb contains its own real heading. Explore remains deliberately unwired. -->
     <div class="doors">
       <article class="door door--bhrt">
-        <picture>
-          <source type="image/avif" srcset="../images/doors/bhrt-941.avif">
-          <img src="../images/doors/bhrt-941.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="941" height="1672">
-        </picture>
+        <div class="service-orb">
+          <img class="service-orb__image" src="../images/service-circle-hormone-therapy-burgundy.webp"
+               alt="" loading="lazy" decoding="async" width="1100" height="1100">
+          <h3><span>Hormone Therapy</span><span>BHRT</span></h3>
+        </div>
         <span class="hook">“Still cycling and noticing changes?”</span>
-        <h3>Hormone Therapy &amp; BHRT</h3>
         <a class="link-arrow" data-soon>Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
       </article>
       <article class="door door--menopause">
-        <picture>
-          <source type="image/avif" srcset="../images/doors/menopause-941.avif">
-          <img src="../images/doors/menopause-941.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="941" height="1672">
-        </picture>
+        <div class="service-orb">
+          <img class="service-orb__image" src="../images/service-circle-modern-menopause-rose.webp"
+               alt="" loading="lazy" decoding="async" width="1100" height="1100">
+          <h3><span>Modern</span><span>Menopause</span></h3>
+        </div>
         <span class="hook">“Twelve months or more since your last period?”</span>
-        <h3>Modern Menopause</h3>
         <a class="link-arrow" data-soon>Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
       </article>
       <article class="door door--trt">
-        <picture>
-          <source type="image/avif" srcset="../images/doors/trt-941.avif">
-          <img src="../images/doors/trt-941.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="941" height="1672">
-        </picture>
+        <div class="service-orb">
+          <img class="service-orb__image" src="../images/service-circle-testosterone-replacement-gold.webp"
+               alt="" loading="lazy" decoding="async" width="1100" height="1100">
+          <h3><span>Testosterone</span><span>Replacement</span></h3>
+        </div>
         <span class="hook">“Concerned about male hormone health?”</span>
-        <h3>Testosterone Replacement</h3>
         <a class="link-arrow" data-soon>Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
       </article>
-  </div>
-    </div><!-- /.svc-stage -->
+    </div>
     <div class="wrap">
       <!-- HIS CORRECTION 2026-08-11: the entry offer is a FREE 10-MINUTE DISCOVERY
            CALL WITH IRINA, the same offer the landing page's chapter 03 sells. It
@@ -2044,37 +1855,9 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
   const probe = params.has("probe"); /* ?probe=1 = QA mode: no smoothing, no reveal gating */
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches || probe;
 
-  /* ══ THE CONSULTATION TRIPTYCH — ?doors=entry (default) | pinned | static | rail ══
-     His call: the three doors go full bleed and all three stay on screen, so nobody has
-     to swipe to find the third. The rail survives at ?doors=rail — it was not a mistake,
-     it was a different answer to the same problem, and the triptych has not been seen on
-     a real phone yet.
-     ⚠️ THIS RUNS ABOVE THE `if (probe) return` BELOW, ON PURPOSE. The mode is a LAYOUT
-     choice, not scroll-gated motion, and ?probe=1 is the layout QA switch — it is exactly
-     when you want to see the triptych. What probe and reduced-motion do skip is the
-     ANIMATING of it: both land on the finished state immediately, which is also the
-     correct reduced-motion behaviour rather than a concession. */
-  /* ══ TWO TREATMENTS UNDER JUDGEMENT — ?doorcopy= and ?boost= ═════════════════════
-     Both are layout, so they sit above `if (probe) return` with the triptych mode, for
-     the same reason: ?probe=1 is the layout QA switch and is exactly when you want to
-     see them. Neither changes the default. Detail in the stylesheet. */
+  /* 05's remaining diagram treatment. Section 04 no longer has URL-switched modes:
+     the approved static orb grid is the only consultation layout. */
   {
-    /* `both` is its own value rather than two parameters, because the two treatments
-       answer DIFFERENT halves of the same fault and are worth judging together: crown
-       says what a door is, raise says who it is for and how to go through it. Neither
-       alone puts all three above the fold. */
-    const dc = (params.get("doorcopy") || "").toLowerCase();
-    if (["raise","crown"].includes(dc)) document.documentElement.classList.add("dc-" + dc);
-    else if (dc === "both") document.documentElement.classList.add("dc-crown","dc-raise");
-
-    /* 05's diagram is the one variant that needs a node the shipped DOM does not have —
-       an anchor for the two branches to leave from. It is injected only under the
-       parameter, so the default page is byte-identical without it.
-       ⚠️ THE CURVES ARE DRAWN IN A 1000x100 BOX WITH preserveAspectRatio="none", so the
-       geometry stays right at any width while `vector-effect` keeps the stroke a true
-       hairline rather than scaling into a rule. The terminals are CSS circles, not SVG
-       ones, precisely BECAUSE the box is non-uniformly scaled — a circle in that box
-       would render as an ellipse at every width but one. */
     if ((params.get("boost") || "").toLowerCase() === "tether") {
       const pair = document.querySelector(".boost-pair");
       if (pair) {
@@ -2088,55 +1871,6 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
           '<path d="M500 0 C500 58 0 34 0 100"/>' +
           '<path d="M500 0 C500 58 1000 34 1000 100"/></svg>';
         pair.prepend(head);
-      }
-    }
-  }
-
-  {
-    const mode = (params.get("doors") || "entry").toLowerCase();
-    const stage = document.querySelector(".svc-stage");
-    if (stage && mode !== "rail") {
-      const m = ["pinned","entry","static"].includes(mode) ? mode : "entry";
-      document.documentElement.classList.add("doors-tri", "doors-" + m);
-
-      /* ⚠️ PINNED ONLY. Entry and static let the panels bleed a flat 92vh underneath the
-         headline, so they need no measurement at all. Pinned is the exception: it centres the
-         headline and the rail together inside a 100vh sticky stage, so there the headline
-         genuinely does come out of the panels' height.
-         Measured as the gap between the section's content top and the top of the rail rather
-         than as .sec-head's own box, so its bottom margin is counted whether or not it
-         collapses through the wrapper.
-         ⚠️ Measured AFTER the mode class is on — doors-tri restyles the rail — and again on
-         fonts.ready, because the repo's standing rule is that anything derived from layout
-         is wrong until the real font metrics have landed. */
-      const wrap = stage.querySelector(".wrap"), rail = stage.querySelector(".doors");
-      if (m === "pinned" && wrap && rail) {
-        const syncHead = () => stage.style.setProperty("--head-h", Math.max(0, Math.round(
-          rail.getBoundingClientRect().top - wrap.getBoundingClientRect().top)) + "px");
-        syncHead();
-        new ResizeObserver(syncHead).observe(wrap);
-        addEventListener("resize", syncHead);
-        if (document.fonts) document.fonts.ready.then(syncHead);
-      }
-
-      if (reduce) {                       /* probe or prefers-reduced-motion */
-        stage.classList.add("on");
-        stage.style.setProperty("--k", "1");
-      } else if (m === "pinned") {
-        /* --k is the section's own travel, reaching 1 at 72% so full bleed HOLDS rather
-           than arriving exactly as the section leaves. */
-        const sec = stage.closest(".services");
-        const frame = () => {
-          const travel = sec.offsetHeight - innerHeight;
-          const k = travel > 0 ? Math.min(1, Math.max(0, (-sec.getBoundingClientRect().top / travel) / 0.72)) : 0;
-          stage.style.setProperty("--k", k.toFixed(4));
-          requestAnimationFrame(frame);
-        };
-        requestAnimationFrame(frame);
-      } else if (m === "entry") {
-        new IntersectionObserver((es, o) => es.forEach(e => {
-          if (e.isIntersecting) { stage.classList.add("on"); o.disconnect(); }
-        }), { threshold: .4 }).observe(stage);
       }
     }
   }
@@ -3145,6 +2879,7 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
                    get mode(){return forceP!==null?"solo":PLAY;} };
 })();
 </script>
+
 
 <script type="module">
 /* ═══════════ Silk hero — Three.js shader ═══════════ */

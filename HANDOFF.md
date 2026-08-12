@@ -1,3 +1,86 @@
+# Handoff addendum — 2026-08-12 (approved static service orbs)
+
+Scope: `hormone-balancing/index.html` section 04 only. This supersedes the
+“living orbs” addendum immediately below.
+
+The procedural WebGL orbs and their arched triptych are retired. The approved
+1254×1254 burgundy, rose and gold masters are archived untouched; 1100×1100
+production derivatives now ship as an open ivory service grid, with the current
+question hook and unwired Explore row centred under each orb. There is no Section
+04 animation, canvas, fallback shader, or `?doors=` / `?doorcopy=` layout switch.
+
+Served assets are `images/service-circle-{hormone-therapy-burgundy,
+modern-menopause-rose,testosterone-replacement-gold}.webp` (quality 88; 85–122 KB
+each). Their outer studio ground is transparent so no square image boundary appears.
+The untouched PNG masters live under `archive/sources/` with the same semantic names.
+
+The shared title treatment is MediGyn Megante, `#2E2228`, on `#FAF7F1`, with an
+18% scrim and optical centre `52.83% 47.54%`. Per-orb values:
+
+| Orb | Scale | Top / bottom tracking | Gap | Glass |
+|---|---:|---|---:|---:|
+| Hormone Therapy / BHRT | 98% | −.035em / −.035em | +.26em | 61% |
+| Modern / Menopause | 102% | −.035em / −.035em | +.06em | 35% |
+| Testosterone / Replacement | 101% | −.025em / −.035em | +.29em | 60% |
+
+Responsive family: three columns wide, two columns with the third centred below
+69rem at exactly the same width as either upper card, and one column below 45rem.
+The three destinations remain deliberately unwired.
+
+---
+
+# Handoff addendum — 2026-08-12 (the living orbs)
+
+Scope: `hormone-balancing/index.html` section 04 only. Everything below this addendum
+still describes the rest of the page truthfully; where it describes the consultation
+doors, this supersedes it.
+
+## What changed
+
+**The three consultation doors are fronted by living orbs now, not photographs.** His
+call, with his renders as the target: three glass orbs — burgundy, rose, gold on ivory,
+glowing core, swirling interior — one per service, "3d exactly as it is and it's moving
+… the middle part has a transparent quality … and it's big."
+
+The renders never landed in the repo as files, so the orb is **rebuilt procedurally in a
+WebGL2 fragment shader** (one program, three brand tints, per-door seed). The engine is
+a plain inline script at the foot of the file, house-patterned on the silk hero:
+reduced-motion collapses each orb to a single drawn frame; IntersectionObserver stops
+off-screen drawing; DPR capped at 1.5; every failure path (no JS, no WebGL2, context
+death mid-setup) leaves a pure-CSS gradient orb standing — `.orb--live` is granted only
+on a successfully drawn frame. Raw GL, not Three: the doors must not depend on the CDN.
+Hover eases `u_boost` 0→1 and runs the sim-clock up to 45% faster — the orb stirs when
+regarded; the triptych's no-lift rule is untouched.
+
+**The doors went light in the same stroke.** The renders sit on ivory, so the panels
+follow: cream ramp ground (`#FBF8F2→#F2EADC`), hairline border (inline borders come off
+in the full-bleed triptych so touching seams stay single), arch radius kept. Copy flips
+to the light-ground rules: hook rose→burgundy, h3 ivory→ink, Explore gold→logo-red (the
+inversion rule, other direction). The measured dark-plate scrim system — all three ramps
+(shipped, raise, crown) — is retired, not lightened; each site carries an `ORB FLIP`
+note. The photo plates and their LICENSES record stay on disk, unreferenced; restoring
+them is a git revert of the marked blocks.
+
+## Contrast, re-measured (`node tools/qa/door-contrast.mjs`)
+
+All 18 rows clear (3 doors × 3 controls × 2 viewports). Worst-2% method, per BRAND.md:
+
+| Control | Colour | 1440×900 | 390×844 | Floor |
+|---|---|---|---|---|
+| .hook | burgundy | 10.54 | 10.55 | 4.5 |
+| h3 | ink | 12.88 | 12.90 | 3 / 4.5 |
+| .link-arrow | logo-red | 6.80 | 6.80 | 4.5 |
+
+Tightest margin is 2.30 (link-arrow), against the photo era's 0.51. The harness needs
+`npm install playwright gsap lenis three sharp` (no package.json — install ad hoc).
+
+## Still open
+
+- The doors stay unwired (`data-soon`) — wiring is still three `href`s, no markup change.
+- `?doors=` and `?doorcopy=` QA modes all survive with orbs; judge them when he does.
+
+---
+
 # Handoff — 2026-08-11 (evening)
 
 Everything here is **on `main` and deployed**. It replaces the earlier handoff of the same

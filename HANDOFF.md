@@ -182,8 +182,25 @@ three figures. Better than the flat plum placeholders they replaced, but it is t
 three times and it is commented as a stopgap. Two consequences of using a contained marble
 figure rather than a cropped photograph, both of which revert when photography lands:
 the rail's full-height burgundy scrim washed the subject pink, so the triptych clears its top
-half and darkens only the copy band; and panels are **92vh, not 100vh**, because a panel
-exactly one viewport tall puts its title on its own last pixel.
+half and darkens only the copy band; and panels are never a flat viewport tall, because a
+panel exactly 100vh puts its title on its own last pixel.
+
+⚠️ **Superseded 2026-08-12 — the panel height is measured, not fixed, and the headline
+stays.** Every mode used to fade `.sec-head` out as the panels grew: entry collapsed it to
+`max-height:0` and then stripped the section's top padding, pinned keyed its opacity to `--k`.
+The section ate its own headline, and *"Where would you like to begin?"* was gone by the time
+the three answers to it reached full bleed. The panels now bleed **underneath** the headline.
+Height is `calc(100vh - var(--head-block))` — the flat `92vh` this file used to name is now
+only the JS-less fallback (`8vh`). Two variables, because the geometries differ: `--head-block`
+counts `.sec-pad`'s padding for the modes that scroll in normal flow, `--head-h` is the
+headline alone for pinned, which zeroes its own padding inside a 100vh stage.
+
+⚠️ **`?doors=pinned` has never actually pinned, and this is not new.** `body` carries
+`overflow-x:hidden`, which makes the body a scroll container and kills `position:sticky` on
+`.svc-stage` — verified against the pre-change file, where the stage scrolls away exactly the
+same. `--k` still reaches 1, so the panels expand on schedule and the mode *looks* plausible in
+a screenshot; it just never holds. Worth knowing before judging pinned against entry, and it
+dies with the mode if entry is the pick.
 
 **Four controls are still inert** — the three door *Explore* links and 05's. Same standing
 rule: a control with no destination stays inert rather than pointing at a placeholder URL.

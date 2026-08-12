@@ -481,12 +481,25 @@ html.doors-tri .door::after{
   background:linear-gradient(180deg,rgba(26,15,19,0) 0%,rgba(26,15,19,.04) 44%,
   rgba(26,15,19,.52) 72%,rgba(26,15,19,.93) 100%);
 }
-/* ⚠️ 92vh, NOT 100vh. A panel exactly one viewport tall puts its title on the panel's
+/* ⚠️ NEVER A FLAT 100vh. A panel exactly one viewport tall puts its title on the panel's
    last pixel, so outside the pinned mode — where the pin aligns it — the reader sees a
-   statue with no label until they have scrolled the whole panel past. 92 leaves the
-   copy in frame at any scroll position, and still reads as full bleed. */
-html.doors-tri .doors{--bleed-h:92vh}
-html.doors-pinned .doors{--bleed-h:100vh}
+   statue with no label until they have scrolled the whole panel past. This was a flat 92vh
+   for that reason; it is now a viewport minus whatever sits above the rail, which is the
+   same goal reached by measuring instead of guessing. The 8vh fallback IS the old 92vh.
+   ⚠️ AND THE HEADLINE IS NOT PART OF THE BLEED — his call 2026-08-12. The panels go full
+   bleed UNDERNEATH "Where would you like to begin?"; they do not replace it. Every mode
+   used to fade and collapse .sec-head as the panels grew, which read as the section eating
+   its own title. Two measurements are written by the mode block in JS, because the two
+   geometries genuinely differ:
+     --head-block  section top → rail top, so it counts .sec-pad's padding as well as the
+                   headline. Entry and static scroll inside the normal page flow, so the
+                   padding is on screen above the panels and has to come out of their height.
+     --head-h      wrap top → rail top, the headline alone. Pinned zeroes its own
+                   padding-block and centres inside a 100vh stage, so the padding is not
+                   there to subtract.
+   Both fall back to the old 92vh geometry if JS never runs, rather than to a broken one. */
+html.doors-tri .doors{--bleed-h:calc(100vh - var(--head-block,8vh))}
+html.doors-pinned .doors{--bleed-h:calc(100vh - var(--head-h,8vh))}
 html.doors-tri .door:nth-of-type(2){--plate-scale:.92}
 html.doors-tri .door:nth-of-type(3){--plate-scale:1.10}
 html.doors-tri .door img{object-fit:contain;object-position:50% 104%;transform:scale(var(--plate-scale))}
@@ -498,15 +511,17 @@ html.doors-pinned .svc-stage{
   position:sticky;top:0;height:100vh;margin-bottom:160vh;--k:0;
   display:flex;flex-direction:column;justify-content:center;overflow:hidden;
 }
-html.doors-pinned .sec-head{
-  opacity:calc(1 - var(--k)*1.6);transform:translateY(calc(var(--k) * -30px));
-  max-height:calc((1 - var(--k)) * 260px);margin-bottom:calc((1 - var(--k)) * 26px);overflow:hidden;
-}
+/* ⚠️ flex:none OR THE MEASUREMENT OSCILLATES. The stage is a fixed-height flex column, so
+   a default flex item is shrinkable: at k=1 the panels fill it exactly, any rounding over
+   squeezes the headline, --head-h reads smaller, --bleed-h grows, and it squeezes again. */
+html.doors-pinned .svc-stage > .wrap{flex:0 0 auto}
+/* The headline holds through the whole pin. It used to be keyed to --k and was gone by the
+   time the panels reached full bleed, so the pinned mode arrived at three untitled panels. */
 html.doors-pinned .doors{
   gap:calc((1 - var(--k)) * clamp(12px,1.6vw,22px));
   padding-inline:calc((1 - var(--k)) * var(--rail-pad));
 }
-html.doors-pinned .door{min-height:calc(58vh + var(--k) * 42vh)}
+html.doors-pinned .door{min-height:calc(58vh + var(--k) * (var(--bleed-h) - 58vh))}
 html.doors-pinned .svc-stage{padding-block:0}
 
 /* B · entry — one transition when it arrives, no pin, no scroll cost */
@@ -514,17 +529,13 @@ html.doors-entry .doors{
   transition:gap 1.05s var(--ease),padding-inline 1.05s var(--ease);
 }
 html.doors-entry .door{transition:min-height 1.05s var(--ease)}
-html.doors-entry .sec-head{
-  transition:opacity .7s var(--ease),max-height 1.05s var(--ease),margin-bottom 1.05s var(--ease);
-  max-height:260px;overflow:hidden;
-}
 html.doors-entry .svc-stage.on .doors{gap:0;padding-inline:0}
 html.doors-entry .svc-stage.on .door{min-height:var(--bleed-h)}
-html.doors-entry .svc-stage.on .sec-head{opacity:0;max-height:0;margin-bottom:0}
-/* once the headline has collapsed there is nothing left for the section's top padding to
-   separate, and it is the only thing stopping the panels from landing on the viewport
-   edge. :has() rather than a second class because the state already exists on .svc-stage. */
-html.doors-entry .services:has(.svc-stage.on){padding-block-start:0}
+/* ⚠️ .sec-head IS NOT ANIMATED HERE ANY MORE, AND THE SECTION KEEPS ITS TOP PADDING. Both
+   went together: the headline collapsed to max-height:0 on entry and the padding was then
+   removed via :has(.svc-stage.on) because there was nothing left to separate. With the
+   headline staying, the padding is what separates it from 05 above — putting either back
+   without the other gives you a title welded to the section edge. */
 
 /* C · static — no animation at all */
 html.doors-static .doors{gap:0;padding-inline:0}
@@ -534,11 +545,12 @@ html.doors-static .door{min-height:var(--bleed-h)}
   html.doors-tri .doors{flex-direction:column;gap:0 !important;padding-inline:0 !important}
   html.doors-tri .door{min-height:62vh !important}
   html.doors-pinned .svc-stage{position:static;height:auto;margin-bottom:0}
-  html.doors-tri .sec-head{opacity:1 !important;max-height:none !important;
-    margin-bottom:clamp(26px,4vh,44px) !important;transform:none !important}
+  /* Phones only ever tightened the headline's gap. The opacity/max-height/transform resets
+     that used to live here were undoing the desktop collapse, which no longer happens. */
+  html.doors-tri .sec-head{margin-bottom:clamp(26px,4vh,44px)}
 }
 @media(prefers-reduced-motion:reduce){
-  html.doors-entry .doors,html.doors-entry .door,html.doors-entry .sec-head{transition:none}
+  html.doors-entry .doors,html.doors-entry .door{transition:none}
 }
 .svc-note{margin-top:clamp(26px,3.4vh,36px);font-size:13px;color:var(--ink-soft);letter-spacing:.02em}
 /* Same emphasis material as every other strong on the page (hero-sub, faq-a):
@@ -1620,6 +1632,35 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
     if (stage && mode !== "rail") {
       const m = ["pinned","entry","static"].includes(mode) ? mode : "entry";
       document.documentElement.classList.add("doors-tri", "doors-" + m);
+
+      /* THE HEADLINE STAYS, SO THE PANELS HAVE TO KNOW HOW TALL IT IS. Measured as the gap
+         between the section's content top and the top of the rail, not as .sec-head's own
+         box: that way its bottom margin is counted whether or not it collapses through the
+         wrapper, and the number is the thing --bleed-h actually needs to subtract.
+         ⚠️ Measured AFTER the mode class is on — doors-tri restyles the rail — and again on
+         fonts.ready, because the repo's standing rule is that anything derived from layout
+         is wrong until the real font metrics have landed. */
+      const wrap = stage.querySelector(".wrap"), rail = stage.querySelector(".doors"),
+            sec = stage.closest(".services");
+      if (wrap && rail && sec) {
+        /* ⚠️ --head-block is the headline PLUS the section's padding, read from computed
+           style rather than from sec.getBoundingClientRect(). A rect delta is the same
+           number while the section scrolls in normal flow, but pinned makes .svc-stage
+           sticky — the rail then stops while the section keeps moving, and the delta grows
+           without bound. Computed padding is scroll-independent and right in every mode. */
+        const syncHead = () => {
+          const head = Math.max(0, Math.round(
+            rail.getBoundingClientRect().top - wrap.getBoundingClientRect().top));
+          stage.style.setProperty("--head-h", head + "px");
+          stage.style.setProperty("--head-block",
+            Math.round(head + (parseFloat(getComputedStyle(sec).paddingTop) || 0)) + "px");
+        };
+        syncHead();
+        new ResizeObserver(syncHead).observe(wrap);
+        addEventListener("resize", syncHead);
+        if (document.fonts) document.fonts.ready.then(syncHead);
+      }
+
       if (reduce) {                       /* probe or prefers-reduced-motion */
         stage.classList.add("on");
         stage.style.setProperty("--k", "1");

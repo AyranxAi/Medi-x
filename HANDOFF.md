@@ -276,6 +276,45 @@ rule: a control with no destination stays inert rather than pointing at a placeh
   placement, and the section that used to be 780px is now ~1340px, so it sits between the doors
   and the proof for twice as long as it did when the note was written.
 
+## The Gut plate was replaced 2026-08-12, and 05 has six arrangements at `?pair=`
+
+`images/gut.png` (his upload, `23ae7dd`) → `images/boost/gut-anatomy-1340.{avif,webp}`. An
+anatomical GI render. **Renamed on the way in** — it arrived as
+`ChatGPT Image Aug 12, 2026, 12_32_28 PM.png`, which is not a filename a repo should carry.
+
+⚠️ **IT IS 1563×1006 (1.554) AGAINST A BOX LOCKED TO 1.778, AND `.boost-one img` HAD NO
+`object-fit`.** It only ever worked because both previous plates were exactly 1340×754. Without
+the guard this plate would have been **stretched, not cropped** — a distortion nobody reads as
+a bug, only as a slightly wrong-looking photograph. `object-fit:cover` is on that rule now.
+The retired `gut-band-1340.*` and `gut-tall-941.*` are deleted and 05's undecided frames were
+repointed.
+
+⚠️ **Both plates are now medical illustration** — an anatomical render and a lab frame. They
+read as one family, which they did not when it was a pomegranate next to a pendulum, and that
+is what makes the side-by-side arrangements viable at all.
+
+| `?pair=` | What it does |
+|---|---|
+| `duo` | Two equal columns, picture over copy. The only one where both programmes are legible in a single glance |
+| `stack` | Desktop takes the phone's layout — full-column pictures, copy beneath. Most generous, 2393px tall |
+| `offset` | The shipped rows, but the picture breaks the text column and the second row drops |
+| `frame` | Each programme becomes one ruled card. ⚠️ Also the most boxy, which has already been objected to once |
+| `feature` | One leads, one follows. Only right if one of them actually is the main road |
+| `diptych` | Two full-bleed halves, copy **on** the picture. The loudest, and the only one that gives 05 the weight 04 has |
+
+⚠️ **`?shape=` and `?pair=` are orthogonal** — the frame the picture sits in, and where the two
+things sit relative to each other. Either can be judged without the other moving.
+
+⚠️ **diptych reintroduces a scrim, which bands existed to avoid.** Measured, both halves, both
+viewports, 12 runs, 0 skipped — but it is a standing cost: every future plate swap in 05 becomes
+a re-measurement, exactly as it is in 04.
+
+⚠️ **AND IT FAILED ITS FIRST MEASUREMENT IN A WAY WORTH REMEMBERING.** The rose `h3 em` over the
+gut plate landed at **exactly 4.50** at 390×844 against a 4.5 floor. It passed on desktop —
+because there the em is 38px and therefore *large* text needing only 3. **The phone shrinks it
+to 22px and moves the goalposts.** A scrim tuned on desktop will fail on a phone every time.
+Deepened ramp; the same 12 runs now clear, tightest 4.99.
+
 ## Five page-wide style directions — `?style=`, offered 2026-08-12, undecided
 
 Not section layout: the same structure wearing five faces, mostly token overrides plus a

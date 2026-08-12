@@ -623,232 +623,44 @@ html.doors-static .door{min-height:var(--bleed-h)}
    last word and left "it." alone on line two. A width big enough to pull the orphan up at
    1440 opens it up again at the next breakpoint, so let the browser even the lines instead. */
 .boost-sub{font-size:clamp(15px,1.35vw,18px);color:var(--ink-soft);line-height:1.8;max-width:38ch;margin-top:-24px;text-wrap:balance}
-/* ⚠️ THE COPY NEVER TOUCHES A PHOTOGRAPH, AND THAT IS WHY THIS SECTION HAS NO SCRIM.
-   The two plates sit at opposite ends of the tonal range — the pendulum is pale cream, the
-   food nearly black. One scrim cannot serve both: tuned to hold ivory over the marble it
-   bands visibly across the pendulum's smooth gradient, and takes the light out of the one
-   photograph whose entire quality is its light. Beside the picture, the copy stays
-   ink-on-cream and both plates keep their own exposure.
-   ⚠️ SO SWAPPING EITHER PHOTOGRAPH IS A src CHANGE AND NOTHING ELSE — no re-measurement, unlike
-   04, where the margin on the rose hook is half a point and a new plate is a new measurement. */
-.boost-pair{margin-top:clamp(30px,4.5vh,56px)}
-.boost-one{
-  display:grid;align-content:center;text-align:left;
-  grid-template-columns:1.06fr .94fr;grid-template-areas:"shot title" "shot body";
-  column-gap:clamp(24px,4vw,66px);row-gap:14px;padding-block:clamp(22px,3vh,38px);
-}
-.boost-one + .boost-one{border-top:1px solid var(--line)}
-/* ⚠️ THE ROWS MIRROR. Two rows with the picture on the same side are a list; mirrored, the eye
-   crosses the column and the pair reads as a spread. Both halves of the mirror have to move
-   together — the columns swap ratio as well as the areas, or the picture changes width. */
-.boost-one:last-of-type{
-  grid-template-columns:.94fr 1.06fr;grid-template-areas:"title shot" "body shot";
-}
-.boost-one picture{grid-area:shot;display:block}
-/* aspect-ratio + the width/height attributes both, so the row reserves its height before the
-   lazy image arrives and the copy beside it does not jump.
-   ⚠️ object-fit:cover IS NOT DECORATION HERE. The box is locked to 1340/754 and until now both
-   plates happened to be exactly that, so nothing showed. The new gut plate is 1563x1006
-   (1.554) and without this it would be STRETCHED to 1.778 rather than cropped — a distortion
-   nobody would read as a bug, just as a slightly wrong-looking photograph. */
-.boost-one img{display:block;width:100%;height:auto;aspect-ratio:1340/754;object-fit:cover;background:var(--line)}
-
-/* ══ 05 · ARRANGEMENTS — ?pair=duo | stack | offset | frame | feature | diptych ═════════════
-   Offered 2026-08-12: different ways of showing the two programmes. ?shape= above is the
-   FRAME the picture sits in; this is where the two things SIT relative to each other and to
-   the column. They are orthogonal on purpose — either can be judged without the other moving.
-   ⚠️ Both plates are now medical illustration rather than lifestyle — an anatomical GI render
-   and a lab frame. They read as one family, which they did not before, and that makes the
-   side-by-side arrangements (duo, feature, diptych) work better than they would have with a
-   pomegranate next to a pendulum. */
-
-/* A · duo — two equal columns, picture over copy. The plainest two-up there is, and the only
-   arrangement where both programmes are legible in one glance without scrolling. */
-html.pair-duo .boost-pair{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,3.4vw,58px)}
-html.pair-duo .boost-one,html.pair-duo .boost-one:last-of-type{
-  grid-template-columns:1fr;grid-template-areas:"shot" "title" "body";
-  row-gap:16px;border-top:0;padding-block:0;
-}
-
-/* B · stack — the desktop takes the phone's layout. Each programme is a full-column picture
-   with its copy beneath. The most generous to the photographs and the most expensive in
-   height; worth seeing now that the plates are worth the room. */
-html.pair-stack .boost-pair{display:block}
-html.pair-stack .boost-one,html.pair-stack .boost-one:last-of-type{
-  grid-template-columns:1fr;grid-template-areas:"shot" "title" "body";row-gap:18px;border-top:0;
-}
-html.pair-stack .boost-one+.boost-one{margin-top:clamp(44px,6.5vh,86px);border-top:0}
-
-/* C · offset — the shipped rows, but the picture breaks the text column and the second row
-   drops. Keeps the reading rhythm and loses the grid; the cheapest way to stop the pair
-   looking like a table. */
-html.pair-offset .boost-one picture{margin-left:calc(-1 * clamp(18px,4vw,86px))}
-html.pair-offset .boost-one:last-of-type picture{margin-left:0;margin-right:calc(-1 * clamp(18px,4vw,86px))}
-html.pair-offset .boost-one:last-of-type{margin-top:clamp(16px,3vh,46px)}
-
-/* D · frame — each programme becomes one object: picture and copy inside a single ruled card.
-   The most contained, and the one that answers "which two things am I choosing between" most
-   directly. ⚠️ It is also the most boxy, which the founders have already objected to once. */
-html.pair-frame .boost-pair{display:block}
-html.pair-frame .boost-one{
-  border:1px solid var(--line);background:var(--ivory);
-  padding:clamp(18px,2vw,28px);column-gap:clamp(20px,3vw,46px);
-}
-html.pair-frame .boost-one+.boost-one{margin-top:clamp(16px,2.2vh,28px);border-top:1px solid var(--line)}
-
-/* E · feature — one leads, one follows. Not equal billing: the larger column and the drop on
-   the second say which programme is the main road. Only right if one of them actually is. */
-html.pair-feature .boost-pair{display:grid;grid-template-columns:1.35fr 1fr;gap:clamp(24px,3.4vw,58px);align-items:start}
-html.pair-feature .boost-one,html.pair-feature .boost-one:last-of-type{
-  grid-template-columns:1fr;grid-template-areas:"shot" "title" "body";
-  row-gap:16px;border-top:0;padding-block:0;
-}
-html.pair-feature .boost-one:last-of-type{margin-top:clamp(28px,6vh,86px)}
-
-/* F · diptych — two full-bleed halves with the copy ON the picture. The loudest, and the only
-   arrangement that gives 05 the weight 04 has.
-   ⚠️ IT REINTRODUCES A SCRIM, which bands existed to avoid. Measured, both halves, both
-   viewports — numbers in HANDOFF.md — but it is a standing cost: every future plate swap in
-   05 becomes a re-measurement, exactly as it is in 04. */
-html.pair-diptych .boost-pair{
+/* ⚠️ HIS PICK 2026-08-12 — the diptych, from six arrangements. Two full-bleed halves with the
+   copy ON the picture. The other five and the ?pair= switch are deleted, and the eight ?shape=
+   frames went with them: frames for a picture that no longer has one.
+   ⚠️ THIS REINTRODUCES A SCRIM, WHICH THE PREVIOUS ARRANGEMENT EXISTED TO AVOID, and the trade
+   was made knowingly. It buys weight — 05 now carries the presence 04 has instead of handing
+   it back one screen later. It costs permanently: EVERY FUTURE PLATE SWAP IN 05 IS NOW A
+   RE-MEASUREMENT, exactly as in 04. Swapping a picture here is no longer just a src change.
+   It only became viable when both plates became medical illustration. The pair used to be a
+   pale pendulum against near-black food, and one ramp cannot serve that spread — which is
+   precisely why the copy sat beside the picture until now. */
+.boost-pair{
+  margin-top:clamp(30px,4.5vh,56px);
   display:grid;grid-template-columns:1fr 1fr;gap:0;
   margin-inline:calc(-1 * max(var(--pad), (100vw - 1280px) / 2 + var(--pad)));
 }
-html.pair-diptych .boost-one{
+.boost-one{
   position:relative;isolation:isolate;min-height:min(68vh,640px);
-  grid-template-columns:1fr;grid-template-areas:"title" "body";
-  align-content:end;padding:clamp(26px,3vw,50px);border-top:0;background:#4A2233;
+  display:grid;grid-template-rows:auto auto;align-content:end;
+  row-gap:14px;text-align:left;padding:clamp(26px,3vw,50px);background:#4A2233;
 }
-html.pair-diptych .boost-one picture{position:absolute;inset:0;z-index:-2}
-html.pair-diptych .boost-one img{width:100%;height:100%;aspect-ratio:auto}
+.boost-one picture{position:absolute;inset:0;z-index:-2;display:block}
+.boost-one img{display:block;width:100%;height:100%;object-fit:cover;background:var(--line)}
 /* ⚠️ DEEPER THAN IT LOOKS LIKE IT NEEDS TO BE, and the reason is one measurement. The first
    ramp put the rose h3 em at exactly 4.50 over the gut plate at 390x844 — against a 4.5 floor,
    so it failed by a rounding error. On desktop that same em is 38px and therefore LARGE text
    needing only 3, which is why it passed there and only there: the phone shrinks it to 22px
    and moves the goalposts. A ramp tuned on desktop will fail on a phone every time. */
-html.pair-diptych .boost-one::after{
+.boost-one::after{
   content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,
   rgba(26,15,19,0) 0%,rgba(26,15,19,.08) 38%,rgba(42,19,28,.70) 62%,
   rgba(22,12,16,.92) 82%,rgba(16,9,12,.97) 100%);
 }
-html.pair-diptych .boost-one h3{color:var(--ivory)}
-html.pair-diptych .boost-one h3 em{color:var(--rose)}
-html.pair-diptych .boost-one p{color:rgba(250,247,241,.84);max-width:34ch}
+.boost-one h3{color:var(--ivory)}
+.boost-one h3 em{color:var(--rose)}
+.boost-one p{color:rgba(250,247,241,.84);max-width:34ch}
 
 @media(max-width:820px){
-  html.pair-duo .boost-pair,html.pair-feature .boost-pair,
-  html.pair-diptych .boost-pair{grid-template-columns:1fr}
-  html.pair-feature .boost-one:last-of-type{margin-top:clamp(28px,4vh,48px)}
-  html.pair-offset .boost-one picture,html.pair-offset .boost-one:last-of-type picture{margin-inline:0}
-  html.pair-diptych .boost-pair{margin-inline:calc(-1 * var(--pad))}
-}
-
-/* ══ 05 · SHAPE TREATMENTS — ?shape=arch | capsule | oval | soft | bleed | tall ═════════════
-   Offered 2026-08-12: "rectangle or boxy shape is not really working" (founders). Fair note —
-   05 is currently two hard 16:9 rectangles, and 04 above it is three more rectangles, so the
-   lower half is a stack of quadrilaterals with nothing else in it.
-   ⚠️ THREE DIFFERENT KINDS OF ANSWER ARE MIXED IN HERE ON PURPOSE, because "not boxy" can mean
-   three different things and it is worth finding out which one they meant:
-     CHANGE THE SHAPE   arch, capsule, oval — the picture keeps its place, the frame stops
-                        being a rectangle
-     REMOVE THE FRAME   bleed — no container at all; the picture runs off the page edge, so
-                        there is no shape to dislike
-     CHANGE THE PROPORTION  tall — a portrait plate instead of a landscape one, which stops it
-                        reading as a "box" mostly by not being wide
-   soft is the control: the same rectangle with a large radius, so you can see whether the
-   objection is the corners or the rectangle. */
-
-/* A · arch — a semicircular head on straight shoulders. The one I would argue for: it is the
-   shape of a niche, which is where a classical figure stands, and this page opened on a Venus
-   de Milo. The menopause plate in 04 literally contains travertine columns.
-   ⚠️ AN ARCH NEEDS THE PORTRAIT PLATE, and finding that out cost a render. On the 16:9 frame a
-   999px top radius is half the WIDTH, which on a wide picture is taller than the picture — it
-   came out as a half-disc, not a doorway. On a 0.72 portrait the same radius is 36% of the
-   height, which is an arch. So arch carries the tall plates too; the shape and the proportion
-   are one decision, not two. */
-html.shape-arch .boost-one img{border-radius:999px 999px 10px 10px}
-/* B · capsule — rounded at both ends. Softer than the arch and less loaded; reads as a lozenge
-   rather than a doorway. */
-html.shape-capsule .boost-one img{border-radius:999px}
-/* C · oval — a full ellipse. The most decorative, and the most lossy: an ellipse crops the
-   corners of the photograph away, and the food plate loses its pomegranate to it. */
-html.shape-oval .boost-one img{border-radius:50%}
-/* G · circle — a true circle, not the ellipse `oval` gives. 50% radius on a 1:1 box, so the
-   shape is independent of the plate's aspect. The anatomy render survives it because the
-   subject is centred and vertical; the lab frame loses its right third to it.
-   ⚠️ The most lossy of the eight, and the only one where the crop decides the composition
-   rather than the photographer. */
-html.shape-circle .boost-one{grid-template-columns:minmax(0,.72fr) minmax(0,1fr)}
-html.shape-circle .boost-one:last-of-type{grid-template-columns:minmax(0,1fr) minmax(0,.72fr)}
-html.shape-circle .boost-one img{aspect-ratio:1/1;border-radius:50%}
-
-/* H · leaf — two opposite corners taken right off, mirrored between the rows so the pair
-   points at each other. Organic without being a blob, and it keeps the full rectangle of
-   photograph that arch and circle give away. The cheapest way to look un-boxy. */
-html.shape-leaf .boost-one img{border-radius:0 min(13vw,180px) 0 min(13vw,180px)}
-html.shape-leaf .boost-one:last-of-type img{border-radius:min(13vw,180px) 0 min(13vw,180px) 0}
-
-/* D · soft — the control. Same rectangle, 28px radius. */
-html.shape-soft .boost-one img{border-radius:28px}
-
-/* E · bleed — the frame goes entirely. The picture leaves the text column and runs off the
-   edge of the page, alternating side with the row. Nothing is shaped because nothing is
-   contained, which is the most direct answer to "boxy" available.
-   ⚠️ It is also the only option here that changes the LAYOUT and not just the corners: the
-   picture column has to escape .wrap, which is done with a negative margin equal to the
-   gutter rather than by moving the markup. */
-html.shape-bleed .boost-one{column-gap:clamp(30px,4.5vw,72px)}
-html.shape-bleed .boost-one picture{margin-left:calc(-1 * max(var(--pad), (100vw - 1280px) / 2 + var(--pad)))}
-html.shape-bleed .boost-one:last-of-type picture{
-  margin-left:0;margin-right:calc(-1 * max(var(--pad), (100vw - 1280px) / 2 + var(--pad)));
-}
-html.shape-bleed .boost-one img{border-radius:0;aspect-ratio:16/9}
-
-/* F · tall — a portrait plate instead of a landscape one. Not a shape change so much as a
-   proportion change, and it makes the row read as a figure beside a paragraph rather than as a
-   panel above a caption. Uses the portrait masters, which were sitting unencoded. */
-html.shape-tall .boost-one img{border-radius:8px}
-
-/* shared by arch and tall — the portrait plate. content:image-set swaps the picture without
-   touching the markup, which is what keeps every one of these a pure subtraction later. */
-html.shape-tall .boost-one,html.shape-arch .boost-one{grid-template-columns:minmax(0,.62fr) minmax(0,1fr)}
-html.shape-tall .boost-one:last-of-type,html.shape-arch .boost-one:last-of-type{grid-template-columns:minmax(0,1fr) minmax(0,.62fr)}
-html.shape-tall .boost-one img,html.shape-arch .boost-one img{aspect-ratio:941/1300;object-fit:cover}
-html.shape-tall .boost-one:first-of-type img,html.shape-arch .boost-one:first-of-type img{content:image-set(url(../images/boost/gut-anatomy-tall-728.avif) type("image/avif"),url(../images/boost/gut-anatomy-tall-728.webp) type("image/webp"))}
-html.shape-tall .boost-one:last-of-type img,html.shape-arch .boost-one:last-of-type img{content:image-set(url(../images/boost/energy-lab-tall-781.avif) type("image/avif"),url(../images/boost/energy-lab-tall-781.webp) type("image/webp"))}
-
-@media(max-width:700px){
-  /* bleed on a phone runs to both edges rather than alternating — there is no column left to
-     escape from, and an alternating bleed at 390px is just an off-centre picture */
-  html.shape-bleed .boost-one picture,
-  html.shape-bleed .boost-one:last-of-type picture{
-    margin-inline:calc(-1 * var(--pad));
-  }
-  html.shape-tall .boost-one,html.shape-tall .boost-one:last-of-type,
-  html.shape-arch .boost-one,html.shape-arch .boost-one:last-of-type{grid-template-columns:1fr}
-}
-.boost-one h3{grid-area:title;align-self:end;font-size:clamp(22px,2.7vw,38px);line-height:1.14}
-.boost-one h3 em{color:var(--logo-red);display:block}
-.boost-one p{grid-area:body;align-self:start;margin:0;max-width:34ch;font-size:15px;color:var(--ink-soft);line-height:1.7}
-.boost-foot{display:flex;justify-content:flex-start;margin-top:clamp(36px,5vh,62px)}
-
-/* ⚠️ 700, NOT THE 980 THE REST OF THIS PAGE BREAKS AT, AND IT IS A MEASUREMENT. Stacking makes
-   each picture the full width of the column, so at 980 two rows of 16:9 came to 1012px of
-   photograph alone and the section went to 1899px — taller than it is on a phone, which is
-   absurd for the wider screen. The layout is horizontal, so it survives narrow: at 700 the
-   picture column is still ~358px and the copy beside it ~318px. Below that it does have to
-   stack, and a phone's full-width picture is only ~192px tall, so the blow-up never returns. */
-@media(max-width:700px){
-  /* one column, and the mirror goes with it: reversing row two was about crossing the column,
-     and with no second column it is just an inconsistent order */
-  .boost-one,.boost-one:last-of-type{
-    grid-template-columns:1fr;grid-template-areas:"shot" "title" "body";row-gap:16px;
-  }
-  /* and the picture stops growing with the column. Stacked, a 16:9 frame gains height as fast
-     as it gains width, so without this the section is TALLER at 700 than at 390 — the same
-     inversion the breakpoint move fixed, just pushed down a screen size. Below ~520 the cap is
-     never reached, so a phone is untouched. */
-  .boost-one picture{max-width:520px}
+  .boost-pair{grid-template-columns:1fr;margin-inline:calc(-1 * var(--pad))}
 }
 
 /* ══ PAGE STYLE DIRECTIONS — ?style=editorial | gallery | salon | clinical | soft ═══════════
@@ -883,7 +695,6 @@ html.st-gallery{--cream:#FAF7F1}
 html.st-gallery .sec-head h2{font-size:clamp(28px,3.4vw,46px)}
 html.st-gallery .kicker{font-size:10px;letter-spacing:.5em;color:var(--gold-deep)}
 html.st-gallery .sec-pad{padding-top:clamp(104px,16vh,190px);padding-bottom:clamp(104px,16vh,190px)}
-html.st-gallery .boost-one img{border:1px solid var(--line);border-radius:0}
 html.st-gallery .boost-one h3{font-size:clamp(20px,2.2vw,30px)}
 html.st-gallery .story blockquote{font-size:clamp(18px,2vw,28px)}
 html.st-gallery .btn{background:none;border:1px solid var(--burgundy);color:var(--burgundy)}
@@ -901,8 +712,11 @@ html.st-salon{--ivory:#F7F0E6;--cream:#EFE3D6;--line:#D9C6A6}
    variant: changing a ground silently revalues every colour standing on it. */
 html.st-salon .kicker{color:#7A5C2A}
 html.st-salon .kicker::before{background:#7A5C2A;width:44px}
-html.st-salon .sec-head h2 em,html.st-salon .boost-one h3 em{color:var(--burgundy)}
-html.st-salon .boost-one img{border-radius:4px}
+/* ⚠️ THE HEADLINE ONLY. This used to include .boost-one h3 em, which was correct while 05's
+   copy was ink on cream — and became near-invisible the moment 05 went to a diptych and that
+   copy moved onto a dark scrim. A style variant written against one layout does not survive
+   the layout changing under it. */
+html.st-salon .sec-head h2 em{color:var(--burgundy)}
 
 /* D · clinical — the doctor-led one. Playfair steps back and the functional face carries the
    headlines; nothing is rounded; the grid tightens. Reads as authority rather than spa, which
@@ -913,7 +727,7 @@ html.st-clinical .sec-head h2 em{font-style:normal;font-weight:500}
 html.st-clinical .boost-one h3{font-family:var(--sans);font-weight:400;font-size:clamp(20px,2.1vw,28px)}
 html.st-clinical .boost-one h3 em{font-style:normal;font-weight:500}
 html.st-clinical .faq-q{font-family:var(--sans);font-weight:400;font-size:clamp(16px,1.5vw,20px)}
-html.st-clinical .boost-one img,html.st-clinical .btn{border-radius:0}
+html.st-clinical .btn{border-radius:0}
 html.st-clinical .sec-pad{padding-top:clamp(62px,9vh,108px);padding-bottom:clamp(62px,9vh,108px)}
 
 /* E · soft — the gentle one. Lighter headline weight, leading opened right out, everything
@@ -922,7 +736,6 @@ html.st-clinical .sec-pad{padding-top:clamp(62px,9vh,108px);padding-bottom:clamp
    2.09:1, which fails even the large-text floor, and it was the obvious wrong move here. */
 html.st-soft .sec-head h2{font-size:clamp(32px,4.2vw,56px);line-height:1.2;font-weight:400}
 html.st-soft .boost-one p,html.st-soft .faq-a p,html.st-soft .boost-sub{line-height:2}
-html.st-soft .boost-one img{border-radius:22px}
 html.st-soft .btn{padding:20px 40px}
 html.st-soft .story blockquote{font-size:clamp(20px,2.3vw,32px);line-height:1.6}
 html.st-soft .faq-q{padding-block:clamp(26px,3.2vh,36px)}
@@ -2158,22 +1971,10 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
       }
     }
 
-    /* ?shape= — 05's picture frames, still undecided ("not this one yet"). 04's shape is
-       settled and no longer behind a parameter. */
-    const sh = (params.get("shape") || "").toLowerCase();
-    if (["arch","capsule","oval","soft","bleed","tall","circle","leaf"].includes(sh))
-      document.documentElement.classList.add("shape-" + sh);
-
     /* ?style= — page-wide directions. Same structure, five faces. */
     const stl = (params.get("style") || "").toLowerCase();
     if (["editorial","gallery","salon","clinical","soft"].includes(stl))
       document.documentElement.classList.add("st-" + stl);
-
-    /* ?pair= — how 05's two programmes sit relative to each other. Orthogonal to ?shape=,
-       which is the frame the picture sits in. */
-    const pr = (params.get("pair") || "").toLowerCase();
-    if (["duo","stack","offset","frame","feature","diptych"].includes(pr))
-      document.documentElement.classList.add("pair-" + pr);
 
     const fq = (params.get("faq") || "").toLowerCase();
     if (["open","team","index","plain","duo","boxed"].includes(fq)) {

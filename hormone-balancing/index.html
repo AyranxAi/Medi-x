@@ -773,6 +773,21 @@ html.shape-capsule .boost-one img{border-radius:999px}
 /* C · oval — a full ellipse. The most decorative, and the most lossy: an ellipse crops the
    corners of the photograph away, and the food plate loses its pomegranate to it. */
 html.shape-oval .boost-one img{border-radius:50%}
+/* G · circle — a true circle, not the ellipse `oval` gives. 50% radius on a 1:1 box, so the
+   shape is independent of the plate's aspect. The anatomy render survives it because the
+   subject is centred and vertical; the lab frame loses its right third to it.
+   ⚠️ The most lossy of the eight, and the only one where the crop decides the composition
+   rather than the photographer. */
+html.shape-circle .boost-one{grid-template-columns:minmax(0,.72fr) minmax(0,1fr)}
+html.shape-circle .boost-one:last-of-type{grid-template-columns:minmax(0,1fr) minmax(0,.72fr)}
+html.shape-circle .boost-one img{aspect-ratio:1/1;border-radius:50%}
+
+/* H · leaf — two opposite corners taken right off, mirrored between the rows so the pair
+   points at each other. Organic without being a blob, and it keeps the full rectangle of
+   photograph that arch and circle give away. The cheapest way to look un-boxy. */
+html.shape-leaf .boost-one img{border-radius:0 min(13vw,180px) 0 min(13vw,180px)}
+html.shape-leaf .boost-one:last-of-type img{border-radius:min(13vw,180px) 0 min(13vw,180px) 0}
+
 /* D · soft — the control. Same rectangle, 28px radius. */
 html.shape-soft .boost-one img{border-radius:28px}
 
@@ -2146,7 +2161,7 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
     /* ?shape= — 05's picture frames, still undecided ("not this one yet"). 04's shape is
        settled and no longer behind a parameter. */
     const sh = (params.get("shape") || "").toLowerCase();
-    if (["arch","capsule","oval","soft","bleed","tall"].includes(sh))
+    if (["arch","capsule","oval","soft","bleed","tall","circle","leaf"].includes(sh))
       document.documentElement.classList.add("shape-" + sh);
 
     /* ?style= — page-wide directions. Same structure, five faces. */

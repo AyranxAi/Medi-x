@@ -396,251 +396,83 @@ section{position:relative}
    processed. That was the deciding factor over the list-and-sticky-plate
    alternative, which is the better-looking layout on a desktop and has nothing to
    stick to at 390px — see the 980 breakpoint, where these become a swipe rail. */
-.services{background:var(--ivory)}
-/* ⚠️ .doors SITS OUTSIDE .wrap ON PURPOSE — his call 2026-08-11: "you will scroll
-   right, and when you scroll the cards are full bleed". A rail that stops at the
-   text column has a margin on the right, and a margin tells the reader the row has
-   ended. Running it off the edge of the screen is the whole affordance.
-   The rail is horizontal at EVERY width now, not only on phones.
-   --rail-pad reproduces .wrap's content edge exactly (max-width 1280, centred, plus
-   --pad), so the first card starts flush under the headline while the rail itself
-   bleeds both ways. scroll-padding matches it so a snapped card lands on that same
-   line rather than against the viewport edge. */
+.services{background:#FAF7F1;padding-block-end:clamp(48px,6.5vh,78px)}
+/* The approved service family is an open grid, not a set of panels. The square
+   masters, title settings and breakpoints reproduce the orb configurator exactly. */
 .doors{
-  --rail-pad:max(var(--pad), calc((100% - 1280px) / 2 + var(--pad)));
-  /* ⚠️ CARD WIDTH IS WHAT MAKES THIS A RAIL AT ALL. At 26vw the three cards plus
-     the rail padding came to 1456px against a 1440 viewport — 17px of scroll, which
-     is a row that happens to overflow, not a rail. At 34vw two cards sit fully in
-     frame and the third is cut by the screen edge, which is the entire affordance
-     given the scrollbar is hidden. Measured at 1440: 1804px of track, 364 to scroll. */
-  display:grid;grid-auto-flow:column;grid-auto-columns:clamp(300px,34vw,520px);
-  gap:clamp(12px,1.6vw,22px);
-  overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;
-  padding-inline:var(--rail-pad);scroll-padding-inline:var(--rail-pad);
-  scrollbar-width:none;
+  --doors-gap:clamp(12px,2.2vw,40px);
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:start;
+  gap:var(--doors-gap);max-width:88rem;margin-inline:auto;
+  padding-inline:clamp(16px,5vw,80px);
 }
-.doors::-webkit-scrollbar{display:none}
-/* ═══ ORB FLIP 2026-08-12 — the doors went from dark photo plates to light orb panels.
-   His call: the three services are fronted by his living orb renders (burgundy, rose,
-   gold on ivory), rebuilt procedurally in WebGL because the renders never landed as
-   files. The ground follows the renders: cream, not the plate-era dark plum, so every
-   copy colour below flips to the page's light-ground rules in the same stroke. */
 .door{
-  position:relative;scroll-snap-align:start;min-height:clamp(440px,64vh,640px);
-  display:flex;flex-direction:column;justify-content:flex-end;
-  padding:clamp(24px,2.4vw,38px);overflow:hidden;isolation:isolate;
-  transition:transform .6s var(--ease);
-  /* the renders' own studio ground: ivory warming into cream toward the foot, and the
-     hairline every light panel on the page carries against the ivory section */
-  background:linear-gradient(180deg,#FBF8F2 0%,#F2EADC 100%);
-  border:1px solid var(--line);
+  min-width:0;display:grid;justify-items:center;align-content:start;text-align:center;
 }
-.door:hover,.door:focus-visible{transform:translateY(-7px)}
-/* ═══ THE ORB — the door's one picture, drawn live ═══
-   .orb is the mount: it takes all the height the copy leaves free (flex:1 against the
-   door's flex-end packing) and centres a SQUARE canvas inside itself, because the
-   shader composes in centred -1..1 coords and a square canvas is what keeps the orb
-   round in every door geometry (92vh triptych panel, 58vh rail card, phone stack).
-   The engine sizes the canvas element AND its drawing buffer to min(width,height).
-   ⚠️ ::before is the fallback orb — pure CSS radial-gradients in the door's own tint,
-   shown whenever JS or WebGL2 is missing. The engine sets .orb--live on its first
-   successfully drawn frame, never before, so a context that dies mid-setup leaves the
-   fallback standing rather than an empty cream void. */
-.orb{flex:1 1 auto;min-height:200px;position:relative;margin-bottom:10px;
-  display:flex;align-items:center;justify-content:center}
-.orb__gl{display:block;width:100%;height:100%;max-width:100%;max-height:100%}
-.orb::before{
-  content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-  width:min(86%,52vh);aspect-ratio:1;border-radius:50%;
-  background:
-    radial-gradient(38% 38% at 46% 44%,#FFF9F0 0%,rgba(255,249,240,.85) 20%,rgba(255,249,240,0) 52%),
-    radial-gradient(closest-side at 50% 50%,rgba(255,255,255,0) 55%,var(--orb-deep) 96%),
-    radial-gradient(100% 100% at 50% 42%,var(--orb-mid) 0%,var(--orb-deep) 92%);
+.service-orb{
+  --orb-optical-x:52.83%;--orb-optical-y:47.54%;
+  --title-scale:1;--top-letter:-.035em;--bottom-letter:-.035em;--line-gap:0em;
+  --glass-center:.55;--glass-mid:.7075;--title-scrim:.18;--scrim-width:58%;
+  position:relative;isolation:isolate;aspect-ratio:1;width:min(100%,29rem);
 }
-.orb--live::before{display:none}
-/* one tint per service, and every value is BRAND.md's: the wine pair for BHRT, the
-   rose (deepened for its rim the way the render deepens it), the gold pair for TRT */
-.door--bhrt{--orb-deep:#5C1F31;--orb-mid:#8E2D3A}
-.door--menopause{--orb-deep:#A5756C;--orb-mid:#C79A92}
-.door--trt{--orb-deep:#8A6A34;--orb-mid:#C2A05E}
-/* ORB FLIP: the scrim that stood here is GONE, not lightened. It existed to seat ivory
-   copy on unpredictable photographs; the copy now sits on the door's own near-uniform
-   cream, below the orb, and never over it — the flex layout keeps them apart. A wash
-   over the orb would only dull the glass. */
+.service-orb__image{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:contain;
+  pointer-events:none;user-select:none;
+  -webkit-mask-image:radial-gradient(ellipse at var(--orb-optical-x) var(--orb-optical-y),
+    rgba(0,0,0,var(--glass-center)) 0%,rgba(0,0,0,var(--glass-mid)) 55%,#000 82%);
+  mask-image:radial-gradient(ellipse at var(--orb-optical-x) var(--orb-optical-y),
+    rgba(0,0,0,var(--glass-center)) 0%,rgba(0,0,0,var(--glass-mid)) 55%,#000 82%);
+}
+.service-orb::after{
+  content:"";position:absolute;z-index:1;pointer-events:none;
+  left:var(--orb-optical-x);top:var(--orb-optical-y);
+  width:var(--scrim-width);height:28%;border-radius:50%;opacity:var(--title-scrim);
+  transform:translate(-50%,-50%);
+  background:radial-gradient(ellipse at center,
+    rgba(250,247,241,.88) 0%,rgba(250,247,241,.48) 46%,rgba(250,247,241,0) 78%);
+}
+.service-orb h3{
+  position:absolute;z-index:2;left:var(--orb-optical-x);top:var(--orb-optical-y);
+  width:62%;margin:0;text-align:center;color:#2E2228;
+  font-family:var(--accent);font-size:clamp(1.35rem,2.1vw,2.1rem);
+  font-weight:400;line-height:.97;
+  transform:translate(-50%,-50%) scale(var(--title-scale));
+}
+.service-orb h3 span{display:block;white-space:nowrap}
+.service-orb h3 span:first-child{letter-spacing:var(--top-letter)}
+.service-orb h3 span:last-child{letter-spacing:var(--bottom-letter);margin-top:var(--line-gap)}
+.door--bhrt .service-orb{
+  --title-scale:.98;--top-letter:-.035em;--bottom-letter:-.035em;
+  --line-gap:.26em;--glass-center:.39;--glass-mid:.6035;
+}
+.door--menopause .service-orb{
+  --title-scale:1.02;--top-letter:-.035em;--bottom-letter:-.035em;
+  --line-gap:.06em;--glass-center:.65;--glass-mid:.7725;
+}
+.door--trt .service-orb{
+  --title-scale:1.01;--top-letter:-.025em;--bottom-letter:-.035em;
+  --line-gap:.29em;--glass-center:.40;--glass-mid:.61;
+}
 .door .hook{
+  display:block;max-width:31ch;margin:clamp(10px,1.4vw,18px) auto 0;
   font-family:var(--quote);font-size:clamp(14px,1.3vw,17px);line-height:1.4;
-  color:var(--burgundy);display:block;margin-bottom:12px;
-  /* was rose — rose on cream is ~2:1 and fails everywhere; burgundy holds the same
-     register at 8.9:1 over the foot of the ramp (#F2EADC), harness-confirmed */
+  color:var(--burgundy);
 }
-.door h3{color:var(--ink);font-size:clamp(22px,2.2vw,31px);line-height:1.14}
-/* the page's inversion rule, other direction: gold on dark grounds, THE one red on
-   light ones (BRAND.md) — 6.4:1 over the cream foot, large-text floor is 3:1 */
-.door .link-arrow{color:var(--logo-red);margin-top:18px}
-/* THE WHOLE PANEL BECOMES THE LINK THE MOMENT THE LINK HAS A DESTINATION. Written
-   as a[href] on purpose: while the doors are unwired (no href) nothing is
-   clickable and nothing lies about being clickable, and wiring the directory later
-   is three href attributes with no markup change and no second hit area. */
-.door a[href]::after{content:"";position:absolute;inset:0;z-index:1}
-/* ══ THE TRIPTYCH — ?doors=entry (default) · pinned · static · rail ═══════════════
-   His call: the three doors go full bleed and all three stay on screen, so nobody has
-   to swipe to discover the third. The rail survives at ?doors=rail.
-   ⚠️ THE RAIL WAS NOT A MISTAKE, IT WAS A DIFFERENT ANSWER TO THE SAME PROBLEM — three
-   cards at 26vw came to 1456px against a 1440 viewport, so 34vw and a cut third card
-   made the overflow legible instead of accidental. A triptych solves it by not
-   overflowing at all: three equal columns of a viewport that is exactly three columns
-   wide. Keep the rail reachable until the triptych has been seen on real phones.
-   ⚠️ PHONES NEVER GET THREE COLUMNS — his call. 390px will not hold them, so every mode
-   stacks vertically at full width. The swipe is gone on phones too, which was the point. */
-html.doors-tri .doors{
-  display:flex;overflow:visible;scroll-snap-type:none;
-  grid-auto-flow:unset;grid-auto-columns:unset;
-}
-html.doors-tri .door{flex:1 1 0;min-width:0;scroll-snap-align:none;min-height:58vh}
-/* ORB FLIP: the dark plum ground and the measured 18-of-18 scrim table that stood here
-   served the PHOTO plates — ivory copy over unpredictable photographs. Both retired
-   with the plates (see the doors markup note). The door's own cream ground carries
-   every mode now, the copy sits beside the orb rather than on it, and the flip was
-   re-measured with the same harness: `node tools/qa/door-contrast.mjs`, table in
-   HANDOFF.md. A ramp here would be a wash over glass — nothing to seat.
-   In the full-bleed triptych the panels touch (gap 0), so the shared hairlines would
-   double: inline borders come off and the seam is a single line again. */
-html.doors-tri .door{border-inline:none}
-/* ⚠️ 92vh, AND THE HEADLINE IS ON TOP OF THAT, NOT INSIDE IT — his call 2026-08-12, second
-   pass. The first pass kept the headline by shrinking the panels to fit beside it in one
-   screen (calc(100vh - --head-block)), which made them 618px of a 900px viewport. Full bleed
-   at 69vh is not full bleed; it reads as a wide band. He asked for the pictures to bleed AFTER
-   the headline, so the headline is simply above them now and the panels get their height back.
-   The trade, stated: the section is taller than one screen, so at the moment 04 arrives the
-   door titles sit below the fold and a short scroll brings them up. That is the normal
-   behaviour of any full-bleed band and it is worth 210px of photograph.
-   ⚠️ STILL NOT A FLAT 100vh. A panel exactly one viewport tall puts its title on its own last
-   pixel; 92 keeps the copy in frame at every scroll position once the panel is on screen.
-   ⚠️ --head-block IS GONE with the geometry that needed it. --head-h stays, because pinned
-   genuinely still needs it: that mode centres inside a 100vh sticky stage, so the headline
-   really does come out of the panels' height there. */
-/* ══ WHERE 04'S COPY SITS — ?doorcopy=raise | crown ══════════════════════════════════
-   OFFERED FOR JUDGEMENT 2026-08-12, DEFAULT UNCHANGED. Both answer one fault: at a flat
-   92vh the copy sits on the panel's bottom edge, so on arrival 04 answers "Where would
-   you like to begin?" with three wordless photographs and the hook — the best copy in
-   the section, and the thing that actually lets a reader self-select — is the least
-   visible element in it. Neither treatment touches the 92vh or the full bleed.
-   ⚠️ BOTH MOVE THE COPY ONTO A DIFFERENT PART OF EVERY PHOTOGRAPH, WHICH IS A CONTRAST
-   RE-MEASUREMENT, NOT A SWAP. `cover` crops against the panel, the ramps below are keyed
-   to the new copy positions, and the rose hook has ~0.5 of margin over the pale BHRT
-   plate. Run `node tools/qa/door-contrast.mjs` against whichever survives. */
-
-/* raise — the whole cluster lifts off the bottom edge into the lower third. The smallest
-   possible change: same order, same styles, same ramp shape, moved up.
-   ⚠️ DESKTOP ONLY, AND THAT IS THE POINT OF IT. The fault it fixes is a THREE-COLUMN fault:
-   three 92vh panels side by side put every title below the fold at once. Phones stack the
-   panels full width and meet them one at a time, so the copy at the foot is already the
-   first thing in frame — raising it there buys nothing and leaves a dead band of scrim
-   under each door. 980px is where the page already stops being three columns. */
-@media(min-width:981px){
-  html.dc-raise .door{padding-bottom:clamp(110px,30%,320px)}
-  /* ORB FLIP: raise kept its lift but lost its re-keyed ramp with the other scrims —
-     the copy rises over the door's own cream, and the orb simply gets less mount. */
-}
-
-/* crown — the title becomes an INSCRIPTION at the head of the arch, which is the one
-   place on a 92vh panel that is guaranteed to be above the fold, and the one thing the
-   arch shape can do that a rectangle cannot. Letterspaced Megante caps, because an
-   inscription is not a headline. The hook and the link stay a cluster at the foot, so
-   the panel reads top-to-bottom: what it is, then who it is for, then the way in.
-   ORB FLIP: the crown's own ramp went with the scrims — an inscription on cream needs
-   ink, not a shadow to hide in. */
-html.dc-crown .door{padding-top:clamp(76px,12vh,132px)}
-html.dc-crown .door h3{
-  position:absolute;top:clamp(30px,5.4vh,66px);left:clamp(18px,2vw,30px);
-  right:clamp(18px,2vw,30px);text-align:center;
-  font-family:var(--accent);font-size:clamp(12.5px,1.12vw,16px);
-  letter-spacing:.2em;text-transform:uppercase;line-height:1.5;color:var(--ink);
-}
-html.dc-crown .door .hook{margin-bottom:10px}
-
-html.doors-tri .doors{--bleed-h:92vh}
-html.doors-pinned .doors{--bleed-h:calc(100vh - var(--head-h,8vh))}
-/* ⚠️ 286px OF EMPTY OFF-WHITE SAT BETWEEN THE PHOTOGRAPHS AND 05's KICKER, holding one 21px
-   line of text. Measured, not felt: .sec-pad closed 04 on 117px and opened 05 on another 117,
-   with the svc-note's own 36px margin floating in the middle. Two photographic sections
-   separated by a third of a screen of nothing is exactly where the page gives back the energy
-   the doors just built, and it is the real answer to "what about the backgrounds" — the
-   grounds are fine, there was just far too much of them showing.
-   ⚠️ The note keeps its own margin. It belongs to the doors above it, not to the gap. */
-.services{padding-block-end:clamp(48px,6.5vh,78px)}
+.door .link-arrow{color:var(--logo-red);margin-top:12px}
 .boost{padding-block-start:clamp(52px,7vh,86px)}
-/* ORB FLIP: the cover/--plate-y cropping trio served the photographs and left with them.
-   The orb needs no crop — the engine keeps its canvas square inside whatever mount the
-   mode hands it, so the triptych's 92vh panel simply grows the orb. What the triptych
-   keeps is its stillness: the rail's hover-lift stays off here, and the hover goes into
-   the orb itself instead (the engine eases its swirl up — see u_boost in the script). */
-html.doors-tri .door:hover,html.doors-tri .door:focus-visible{transform:none}
-/* ⚠️ THE ARCH — his pick 2026-08-12, from six treatments, for the founders' note that the boxy
-   shape was not working. It is an arcade: elliptical heads with the section ground showing in
-   the spandrels between them. The shape of a loggia, which is the room this page keeps
-   invoking — it opens on a Venus de Milo and the Modern Menopause plate contains actual
-   travertine columns.
-   ⚠️ IT IS THE ONLY TREATMENT THAT SATISFIES BOTH STANDING REQUESTS. He asked for the pictures
-   to bleed after the headline; the founders asked for less box. The other five that read as
-   properly un-boxy — arcade, portal, inset, stagger — all get there by giving the panels
-   ground to stand on, which means giving up the full bleed he asked for two rounds earlier.
-   Only the top edge changes here; the panels still touch and still reach both edges.
-   ⚠️ 50%/20%, NOT A TRUE SEMICIRCLE. On a 92vh panel a half-round head is a dome, not an arch:
-   the radius would be half the WIDTH, which is taller than most of the picture.
-   ⚠️ overflow:hidden is load-bearing — without it the img, which is absolutely positioned to
-   inset:0 and scaled 1.02, paints straight over the corner the radius just cut. */
-html.doors-tri .door{border-radius:50% 50% 0 0 / 20% 20% 0 0;overflow:hidden}
-
-/* A · pinned — the section holds while the panels grow. --k is written per frame. */
-html.doors-pinned .svc-stage{
-  position:sticky;top:0;height:100vh;margin-bottom:160vh;--k:0;
-  display:flex;flex-direction:column;justify-content:center;overflow:hidden;
+@media(max-width:69rem){
+  .doors{grid-template-columns:repeat(2,minmax(0,1fr));max-width:60rem}
+  .door:last-child{
+    grid-column:1/-1;justify-self:center;
+    width:calc((100% - var(--doors-gap))/2);
+  }
+  .service-orb h3{font-size:clamp(1.7rem,3.8vw,2.15rem)}
 }
-/* ⚠️ flex:none OR THE MEASUREMENT OSCILLATES. The stage is a fixed-height flex column, so
-   a default flex item is shrinkable: at k=1 the panels fill it exactly, any rounding over
-   squeezes the headline, --head-h reads smaller, --bleed-h grows, and it squeezes again. */
-html.doors-pinned .svc-stage > .wrap{flex:0 0 auto}
-/* The headline holds through the whole pin. It used to be keyed to --k and was gone by the
-   time the panels reached full bleed, so the pinned mode arrived at three untitled panels. */
-html.doors-pinned .doors{
-  gap:calc((1 - var(--k)) * clamp(12px,1.6vw,22px));
-  padding-inline:calc((1 - var(--k)) * var(--rail-pad));
+@media(max-width:45rem){
+  .doors{grid-template-columns:1fr;gap:clamp(40px,11vw,64px);padding-inline:16px}
+  .door:last-child{grid-column:auto;width:100%}
+  .service-orb{width:min(100%,31rem)}
+  .service-orb h3{font-size:clamp(1.65rem,7vw,1.9rem)}
 }
-html.doors-pinned .door{min-height:calc(58vh + var(--k) * (var(--bleed-h) - 58vh))}
-html.doors-pinned .svc-stage{padding-block:0}
-
-/* B · entry — one transition when it arrives, no pin, no scroll cost */
-html.doors-entry .doors{
-  transition:gap 1.05s var(--ease),padding-inline 1.05s var(--ease);
-}
-html.doors-entry .door{transition:min-height 1.05s var(--ease)}
-html.doors-entry .svc-stage.on .doors{gap:0;padding-inline:0}
-html.doors-entry .svc-stage.on .door{min-height:var(--bleed-h)}
-/* ⚠️ .sec-head IS NOT ANIMATED HERE ANY MORE, AND THE SECTION KEEPS ITS TOP PADDING. Both
-   went together: the headline collapsed to max-height:0 on entry and the padding was then
-   removed via :has(.svc-stage.on) because there was nothing left to separate. With the
-   headline staying, the padding is what separates it from 05 above — putting either back
-   without the other gives you a title welded to the section edge. */
-
-/* C · static — no animation at all */
-html.doors-static .doors{gap:0;padding-inline:0}
-html.doors-static .door{min-height:var(--bleed-h)}
-
-@media(max-width:899px){
-  html.doors-tri .doors{flex-direction:column;gap:0 !important;padding-inline:0 !important}
-  html.doors-tri .door{min-height:62vh !important}
-  html.doors-pinned .svc-stage{position:static;height:auto;margin-bottom:0}
-  /* Phones only ever tightened the headline's gap. The opacity/max-height/transform resets
-     that used to live here were undoing the desktop collapse, which no longer happens. */
-  html.doors-tri .sec-head{margin-bottom:clamp(26px,4vh,44px)}
-}
-@media(prefers-reduced-motion:reduce){
-  html.doors-entry .doors,html.doors-entry .door{transition:none}
-}
-
-}
-
 .svc-note{margin-top:clamp(26px,3.4vh,36px);font-size:13px;color:var(--ink-soft);letter-spacing:.02em}
 /* Same emphasis material as every other strong on the page (hero-sub, faq-a):
    weight 500 in burgundy, never the browser's 700. At 13px a default bold in
@@ -1649,56 +1481,44 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
 
   <!-- ══════════ 04 · CONSULTATIONS ══════════ -->
   <section class="services sec-pad" id="services">
-    <!-- .svc-stage exists for one mode only: ?doors=pinned needs a single element to
-         make sticky. In every other mode it is an inert block and changes nothing. -->
-    <div class="svc-stage">
     <div class="wrap">
       <div class="sec-head">
         <p class="kicker">04 · Consultations</p>
         <h2 data-reveal>Where would you like to <em>begin</em>?</h2>
       </div>
     </div>
-    <!-- THE DOORS ARE ORBS NOW — his call 2026-08-12 (evening): the three services are
-         fronted by his "living cell" orb renders — burgundy, rose, gold on ivory — and he
-         asked for them MOVING: "3d exactly as it is … glowing around or swirling … and
-         it's big." The static renders never landed in the repo, so the orb is rebuilt
-         PROCEDURALLY in a WebGL2 shader (the engine sits with the other scripts at the
-         foot of the file, house-patterned on the silk hero: reduced-motion, in-view
-         gating, DPR cap, graceful fallback). One shader, three brand tints.
-         ⚠️ THE PHOTO PLATES ARE NOT DELETED — images/doors/* and their masters stay on
-         disk with their LICENSES record, unreferenced by this page. Restoring a photo
-         door is a git revert of this block plus the door CSS notes marked ORB FLIP.
-         ⚠️ THE DOORS WENT LIGHT WITH THE ORBS (cream ground, ink copy). The measured
-         dark-plate scrim system below became obsolete in the same stroke — see the ORB
-         FLIP notes at each former scrim site. Copy now sits on its own near-uniform
-         cream ground, re-measured with tools/qa/door-contrast.mjs (all clear, table in
-         HANDOFF.md).
-         ⚠️ EACH DOOR IS STILL UNWIRED. Adding href to the .link-arrow inside makes
-         the WHOLE PANEL clickable (see .door a[href]::after in the stylesheet), so
-         wiring the directory is three attributes and no markup change.
-         The canvas is decoration (aria-hidden, like the empty-alt plates before it);
-         the .orb div doubles as the no-JS / no-WebGL fallback via its ::before orb. -->
+    <!-- Approved static service family, 2026-08-12. The square renders and every title
+         value come from the Medi-X orb configurator. The images are decorative because
+         each orb contains its own real heading. Explore remains deliberately unwired. -->
     <div class="doors">
       <article class="door door--bhrt">
-        <div class="orb" aria-hidden="true"><canvas class="orb__gl"></canvas></div>
+        <div class="service-orb">
+          <img class="service-orb__image" src="../images/service-circle-hormone-therapy-burgundy.webp"
+               alt="" loading="lazy" decoding="async" width="1100" height="1100">
+          <h3><span>Hormone Therapy</span><span>BHRT</span></h3>
+        </div>
         <span class="hook">“Still cycling and noticing changes?”</span>
-        <h3>Hormone Therapy &amp; BHRT</h3>
         <a class="link-arrow" data-soon>Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
       </article>
       <article class="door door--menopause">
-        <div class="orb" aria-hidden="true"><canvas class="orb__gl"></canvas></div>
+        <div class="service-orb">
+          <img class="service-orb__image" src="../images/service-circle-modern-menopause-rose.webp"
+               alt="" loading="lazy" decoding="async" width="1100" height="1100">
+          <h3><span>Modern</span><span>Menopause</span></h3>
+        </div>
         <span class="hook">“Twelve months or more since your last period?”</span>
-        <h3>Modern Menopause</h3>
         <a class="link-arrow" data-soon>Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
       </article>
       <article class="door door--trt">
-        <div class="orb" aria-hidden="true"><canvas class="orb__gl"></canvas></div>
+        <div class="service-orb">
+          <img class="service-orb__image" src="../images/service-circle-testosterone-replacement-gold.webp"
+               alt="" loading="lazy" decoding="async" width="1100" height="1100">
+          <h3><span>Testosterone</span><span>Replacement</span></h3>
+        </div>
         <span class="hook">“Concerned about male hormone health?”</span>
-        <h3>Testosterone Replacement</h3>
         <a class="link-arrow" data-soon>Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
       </article>
-  </div>
-    </div><!-- /.svc-stage -->
+    </div>
     <div class="wrap">
       <!-- HIS CORRECTION 2026-08-11: the entry offer is a FREE 10-MINUTE DISCOVERY
            CALL WITH IRINA, the same offer the landing page's chapter 03 sells. It
@@ -2035,37 +1855,9 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
   const probe = params.has("probe"); /* ?probe=1 = QA mode: no smoothing, no reveal gating */
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches || probe;
 
-  /* ══ THE CONSULTATION TRIPTYCH — ?doors=entry (default) | pinned | static | rail ══
-     His call: the three doors go full bleed and all three stay on screen, so nobody has
-     to swipe to find the third. The rail survives at ?doors=rail — it was not a mistake,
-     it was a different answer to the same problem, and the triptych has not been seen on
-     a real phone yet.
-     ⚠️ THIS RUNS ABOVE THE `if (probe) return` BELOW, ON PURPOSE. The mode is a LAYOUT
-     choice, not scroll-gated motion, and ?probe=1 is the layout QA switch — it is exactly
-     when you want to see the triptych. What probe and reduced-motion do skip is the
-     ANIMATING of it: both land on the finished state immediately, which is also the
-     correct reduced-motion behaviour rather than a concession. */
-  /* ══ TWO TREATMENTS UNDER JUDGEMENT — ?doorcopy= and ?boost= ═════════════════════
-     Both are layout, so they sit above `if (probe) return` with the triptych mode, for
-     the same reason: ?probe=1 is the layout QA switch and is exactly when you want to
-     see them. Neither changes the default. Detail in the stylesheet. */
+  /* 05's remaining diagram treatment. Section 04 no longer has URL-switched modes:
+     the approved static orb grid is the only consultation layout. */
   {
-    /* `both` is its own value rather than two parameters, because the two treatments
-       answer DIFFERENT halves of the same fault and are worth judging together: crown
-       says what a door is, raise says who it is for and how to go through it. Neither
-       alone puts all three above the fold. */
-    const dc = (params.get("doorcopy") || "").toLowerCase();
-    if (["raise","crown"].includes(dc)) document.documentElement.classList.add("dc-" + dc);
-    else if (dc === "both") document.documentElement.classList.add("dc-crown","dc-raise");
-
-    /* 05's diagram is the one variant that needs a node the shipped DOM does not have —
-       an anchor for the two branches to leave from. It is injected only under the
-       parameter, so the default page is byte-identical without it.
-       ⚠️ THE CURVES ARE DRAWN IN A 1000x100 BOX WITH preserveAspectRatio="none", so the
-       geometry stays right at any width while `vector-effect` keeps the stroke a true
-       hairline rather than scaling into a rule. The terminals are CSS circles, not SVG
-       ones, precisely BECAUSE the box is non-uniformly scaled — a circle in that box
-       would render as an ellipse at every width but one. */
     if ((params.get("boost") || "").toLowerCase() === "tether") {
       const pair = document.querySelector(".boost-pair");
       if (pair) {
@@ -2079,55 +1871,6 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
           '<path d="M500 0 C500 58 0 34 0 100"/>' +
           '<path d="M500 0 C500 58 1000 34 1000 100"/></svg>';
         pair.prepend(head);
-      }
-    }
-  }
-
-  {
-    const mode = (params.get("doors") || "entry").toLowerCase();
-    const stage = document.querySelector(".svc-stage");
-    if (stage && mode !== "rail") {
-      const m = ["pinned","entry","static"].includes(mode) ? mode : "entry";
-      document.documentElement.classList.add("doors-tri", "doors-" + m);
-
-      /* ⚠️ PINNED ONLY. Entry and static let the panels bleed a flat 92vh underneath the
-         headline, so they need no measurement at all. Pinned is the exception: it centres the
-         headline and the rail together inside a 100vh sticky stage, so there the headline
-         genuinely does come out of the panels' height.
-         Measured as the gap between the section's content top and the top of the rail rather
-         than as .sec-head's own box, so its bottom margin is counted whether or not it
-         collapses through the wrapper.
-         ⚠️ Measured AFTER the mode class is on — doors-tri restyles the rail — and again on
-         fonts.ready, because the repo's standing rule is that anything derived from layout
-         is wrong until the real font metrics have landed. */
-      const wrap = stage.querySelector(".wrap"), rail = stage.querySelector(".doors");
-      if (m === "pinned" && wrap && rail) {
-        const syncHead = () => stage.style.setProperty("--head-h", Math.max(0, Math.round(
-          rail.getBoundingClientRect().top - wrap.getBoundingClientRect().top)) + "px");
-        syncHead();
-        new ResizeObserver(syncHead).observe(wrap);
-        addEventListener("resize", syncHead);
-        if (document.fonts) document.fonts.ready.then(syncHead);
-      }
-
-      if (reduce) {                       /* probe or prefers-reduced-motion */
-        stage.classList.add("on");
-        stage.style.setProperty("--k", "1");
-      } else if (m === "pinned") {
-        /* --k is the section's own travel, reaching 1 at 72% so full bleed HOLDS rather
-           than arriving exactly as the section leaves. */
-        const sec = stage.closest(".services");
-        const frame = () => {
-          const travel = sec.offsetHeight - innerHeight;
-          const k = travel > 0 ? Math.min(1, Math.max(0, (-sec.getBoundingClientRect().top / travel) / 0.72)) : 0;
-          stage.style.setProperty("--k", k.toFixed(4));
-          requestAnimationFrame(frame);
-        };
-        requestAnimationFrame(frame);
-      } else if (m === "entry") {
-        new IntersectionObserver((es, o) => es.forEach(e => {
-          if (e.isIntersecting) { stage.classList.add("on"); o.disconnect(); }
-        }), { threshold: .4 }).observe(stage);
       }
     }
   }
@@ -3137,328 +2880,6 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
 })();
 </script>
 
-<script>
-/* ═══════════ The living orbs — section 04's doors ═══════════
-   His renders of the service orbs (burgundy / rose / gold glass, glowing core) never
-   landed in the repo as files, and a flat export could not have moved anyway. So the
-   orb is REBUILT here as a WebGL2 fragment shader — irregular droplet silhouette,
-   translucent chord-shaded body, swirling interior, breathing core, wet rim
-   speculars — one program, three brand tints, drawn with real alpha so the door's
-   cream ground breathes through the glass ("the middle part has a transparent
-   quality" — his brief, 2026-08-12).
-   HOUSE-PATTERNED ON THE SILK HERO: reduced-motion collapses to a single considered
-   frame; per-orb IntersectionObserver stops off-screen drawing; document.hidden
-   stops the lot; DPR is capped (1.5 here, not silk's 1.75 — three large canvases,
-   and a soft-focus orb does not resolve past it); every failure path — no JS, no
-   WebGL2, a context that dies during setup — leaves the CSS fallback orb standing,
-   because .orb--live is only granted on a successfully drawn frame.
-   ⚠️ RAW GL, NOT THREE. Silk can lean on the CDN module because silk is above the
-   fold with the network warm; the doors must keep working when jsDelivr does not,
-   and a fallback story that depends on a CDN is not one. Everything is inline.
-   ⚠️ THE CANVAS IS ALWAYS SQUARE — min(mount width, mount height), centred by the
-   .orb flexbox. The shader composes in centred -1..1 coords; a square buffer is what
-   keeps the orb round in every door mode. Resize clears a GL buffer, so the resize
-   handler redraws in the same breath (silk's rule).
-   Hover: u_boost eases 0→1 and the sim-clock runs up to 45% faster — the orb stirs
-   when regarded. Eased in JS, never a jump. */
-(function(){
-  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const doors = document.querySelectorAll(".doors .door");
-  if (!doors.length) return;
-
-  const VS = `#version 300 es
-layout(location=0) in vec2 a_pos;
-void main(){ gl_Position = vec4(a_pos,0.,1.); }`;
-
-  const FS = `#version 300 es
-precision highp float;
-uniform vec2  u_res;
-uniform float u_time;
-uniform vec3  u_deep;
-uniform vec3  u_mid;
-uniform float u_seed;
-uniform float u_boost;
-out vec4 outColor;
-
-float hash21(vec2 p){
-  p = fract(p*vec2(123.34, 456.21));
-  p += dot(p, p+45.32);
-  return fract(p.x*p.y);
-}
-float hash11(float n){ return fract(sin(n*127.1 + u_seed*311.7)*43758.5453); }
-float vnoise(vec2 p){
-  vec2 i = floor(p), f = fract(p);
-  f = f*f*(3.0-2.0*f);
-  float a = hash21(i);
-  float b = hash21(i+vec2(1.0,0.0));
-  float c = hash21(i+vec2(0.0,1.0));
-  float d = hash21(i+vec2(1.0,1.0));
-  return mix(mix(a,b,f.x), mix(c,d,f.x), f.y);
-}
-float fbm(vec2 p){
-  float v = 0.0, a = 0.5;
-  for(int i=0;i<3;i++){
-    v += a*vnoise(p);
-    p = p*2.03 + vec2(17.3, 9.1);
-    a *= 0.5;
-  }
-  return v*1.142;
-}
-mat2 rot2(float a){ float c=cos(a), s=sin(a); return mat2(c,-s,s,c); }
-vec3 rotY(vec3 p,float a){ float c=cos(a),s=sin(a); return vec3(c*p.x+s*p.z, p.y, -s*p.x+c*p.z); }
-vec3 rotX(vec3 p,float a){ float c=cos(a),s=sin(a); return vec3(p.x, c*p.y-s*p.z, s*p.y+c*p.z); }
-
-void main(){
-  vec2 uv = (gl_FragCoord.xy*2.0 - u_res)/min(u_res.x,u_res.y);
-  float t = u_time;
-  float r = length(uv);
-  vec2 dir = r>1e-5 ? uv/r : vec2(1.0,0.0);
-  vec3 white = vec3(1.0, 0.976, 0.941);
-
-  /* silhouette: irregular droplet, slow morph */
-  float wob  = fbm(dir*1.25 + u_seed*13.1 + vec2(t*0.060, -t*0.045));
-  float wob2 = fbm(dir*2.60 - u_seed*7.7  + vec2(-t*0.042, t*0.065));
-  float R = 0.86*(1.0 + 0.060*(wob-0.5) + 0.028*(wob2-0.5));
-  float aa = fwidth(r)*1.5 + 1e-4;
-  float mask = 1.0 - smoothstep(R-aa, R+aa, r);
-  float rn = clamp(r/R, 0.0, 1.0);
-  float z = sqrt(max(0.0, 1.0 - rn*rn));
-  float rimDark = pow(1.0-z, 1.3);
-
-  vec2 p = uv / R;
-
-  /* translucent body: dark saturated rim -> luminous center.
-     Burgundy read dusty in round one: pre-deepen the mid tint before it meets the
-     ivory ground, and let the deep rim carry more weight. */
-  vec3 midDeep = mix(u_mid, u_deep, 0.22);
-  vec3 body = mix(u_deep*0.70, midDeep, smoothstep(0.0, 0.85, z));
-  body = mix(body, midDeep*1.20 + vec3(0.05), 0.48*smoothstep(0.60, 1.0, z));
-  body = mix(body, u_deep*0.55, rimDark*0.68);
-
-  /* liquid churn: bounded oscillating shear + slow uniform drift.
-     NOT z*t — an integrating shear winds the field into spiral striations after
-     minutes on screen. The shear ANGLE oscillates (~23s), so the liquid stirs
-     forward and relaxes back, while a slow global rotation keeps net motion. */
-  float stir = 0.85*sin(t*0.273) + 0.35*sin(t*0.117 + u_seed);
-  float swirlA = t*0.030 + z*z*stir*(0.55 + 0.30*u_boost);
-  vec2 pw = rot2(swirlA)*p;
-  vec2 warp = vec2(fbm(pw*1.7 + u_seed*5.0 + vec2(0.0, t*0.020)),
-                   fbm(pw*1.7 - u_seed*3.0 + vec2(t*0.024, 4.7)));
-  float wisp = fbm(pw*3.1 + (warp-0.5)*2.6 + vec2(t*0.014, -t*0.018));
-  float wispHi = smoothstep(0.46, 0.84, wisp);
-  float wispLo = smoothstep(0.52, 0.20, wisp);
-  body = mix(body, midDeep*1.52 + vec3(0.11), wispHi*(0.46 + 0.10*u_boost)*z);
-  body = mix(body, u_deep*0.72,               wispLo*0.30*z);
-
-  /* white-hot core: irregular blown-out flare, off-center, breathing */
-  float breathe = 1.0 + (0.08 + 0.04*u_boost)*sin(t*6.2832/7.0);
-  vec2 cc = vec2(-0.11, -0.14) + 0.025*vec2(sin(t*0.11), cos(t*0.09));
-  vec2 cd = p - cc;
-  float cr = length(cd);
-  vec2 cdir = cr>1e-4 ? cd/cr : vec2(1.0,0.0);
-  float edgeN = fbm(cdir*1.6 + u_seed*9.0 + vec2(t*0.09, -t*0.07));
-  float edgeN2 = fbm(cdir*3.4 - u_seed*4.0 + vec2(-t*0.07, t*0.08));
-  float crW = cr * (1.0 + 1.05*(edgeN-0.5) + 0.5*(edgeN2-0.5));
-  float cSize = 0.31*breathe;
-  float core = pow(clamp(1.0 - crW/cSize, 0.0, 1.0), 1.15);
-  float coreHot = smoothstep(0.16, 0.60, core);
-  float glow = exp(-crW*2.7)*(1.0 + 0.15*sin(t*6.2832/7.0));
-
-  /* god rays: slow rotation, uneven sectors */
-  vec2 rdir = rot2(t*6.2832/40.0)*cdir;
-  float rays = vnoise(rdir*1.7 + u_seed*17.0);
-  rays *= 0.55 + 0.8*vnoise(rdir*3.2 + u_seed*23.0 + vec2(0.0, t*0.06));
-  float raySector = fbm(rot2(-t*6.2832/55.0)*cdir*1.1 + u_seed*3.0);
-  rays = pow(clamp(rays,0.0,1.0), 1.8) * smoothstep(0.25, 0.70, raySector);
-  float rayI = rays * exp(-cr*2.0)
-             * smoothstep(cSize*0.25, cSize*0.95, crW)
-             * (1.0 - smoothstep(0.48, 0.82, cr));
-
-  /* filament thread-cage: 14 great-circle rings on the inner sphere */
-  vec3 Pf = rotX(rotY(vec3(p, z), t*0.048), t*0.034);
-  vec3 Pb = rotX(rotY(vec3(p,-z), t*0.048), t*0.034);
-  float fil = 0.0;
-  for(int i=0;i<14;i++){
-    float fi = float(i);
-    vec3 n = normalize(vec3(hash11(fi+1.0)-0.5, hash11(fi+11.0)-0.5, hash11(fi+23.0)-0.5));
-    n = normalize(n + 0.22*vec3(sin(t*0.085 + fi*2.4),
-                                sin(t*0.072 + fi*1.7),
-                                sin(t*0.093 + fi*3.1)));
-    float bright = 0.5 + 0.5*sin(t*6.2832/(9.0 + 4.0*hash11(fi+31.0)) + fi*2.13);
-    bright = smoothstep(0.42, 0.95, bright);
-    float df = abs(dot(Pf, n));
-    float db = abs(dot(Pb, n));
-    float w = 0.0042;
-    float lf = 1.0 - smoothstep(0.0, w + fwidth(df)*1.3, df);
-    float lb = 1.0 - smoothstep(0.0, w + fwidth(db)*1.3, db);
-    fil += bright*(lf + 0.16*lb);
-  }
-  float cluster = 0.07 + 0.93*smoothstep(-0.10, 0.80, p.y*0.85 - p.x*0.38);
-  fil *= cluster;
-  fil = min(fil, 1.3);
-
-  /* wet speculars: comet streaks, not dashed arcs. The long streak follows the
-     morphing rim (rn tracks R), its radial center eases inward toward the tail,
-     its width and its ends feather, and its brightness fades along the arc. */
-  float ang = atan(uv.y, uv.x);
-  float spec = 0.0;
-  {
-    float a0 = 1.35, a1 = 2.85;                      /* upper-left arc span */
-    float u = clamp((ang - a0)/(a1 - a0), 0.0, 1.0);
-    float along = smoothstep(0.0, 0.22, u)*(1.0 - smoothstep(0.62, 1.0, u));
-    float cen = 0.884 - 0.020*u + 0.010*(wob-0.5);   /* eases inward toward tail */
-    float hw = 0.017*(1.0 - 0.45*u);                 /* tapers */
-    float bd = 1.0 - smoothstep(hw*0.55, hw, abs(rn - cen));
-    spec += bd*along*(1.0 - 0.35*u);
-  }
-  {
-    float a0 = -2.62, a1 = -1.90;                    /* lower-left glint */
-    float u = clamp((ang - a0)/(a1 - a0), 0.0, 1.0);
-    float along = smoothstep(0.0, 0.30, u)*(1.0 - smoothstep(0.55, 1.0, u));
-    float cen = 0.885 + 0.012*(wob2-0.5);
-    float bd = 1.0 - smoothstep(0.010, 0.020, abs(rn - cen));
-    spec += bd*along*0.85;
-  }
-  {
-    float a0 = -0.45, a1 = 0.20;                     /* right glint */
-    float u = clamp((ang - a0)/(a1 - a0), 0.0, 1.0);
-    float along = smoothstep(0.0, 0.30, u)*(1.0 - smoothstep(0.60, 1.0, u));
-    float cen = 0.888 + 0.012*(wob-0.5);
-    float bd = 1.0 - smoothstep(0.010, 0.019, abs(rn - cen));
-    spec += bd*along*0.72;
-  }
-  spec *= 0.92 + 0.30*(wob-0.5);
-  spec = clamp(spec*1.55, 0.0, 1.0);
-
-  /* dimple bubble near upper-right — tinted glass, not a grey dot */
-  vec2 dp = p - vec2(0.40, 0.48);
-  float dd = length(dp);
-  float dimple  = smoothstep(0.055, 0.024, dd);
-  float dimpleH = smoothstep(0.024, 0.008, length(dp - vec2(0.013, 0.013)));
-
-  float grain = (hash21(floor(gl_FragCoord.xy*0.9) + u_seed*31.0) - 0.5)*0.045;
-  float halo = exp(-max(r-R, 0.0)*26.0)*(1.0-mask);
-
-  /* compose */
-  vec3 col = body;
-  vec3 filCol = mix(white, midDeep + vec3(0.25), 0.35);
-  col += filCol * fil * 0.24 * (1.0 - coreHot);
-  col += (midDeep + vec3(0.30)) * glow * (0.20 + 0.05*u_boost);
-  col += white * rayI * 0.42;
-  col = mix(col, white, coreHot);
-  col += white * core * 0.34;
-  col = mix(col, vec3(1.0), spec*0.95);
-  col = mix(col, u_deep*0.72, dimple*0.45);
-  col = mix(col, white, dimpleH*0.40);
-  col += grain*mask;
-
-  float alphaBody = clamp(0.64 + 0.32*rimDark + core*0.38 + spec*0.35, 0.0, 0.965);
-  float alpha = clamp(mask*alphaBody + halo*0.12, 0.0, 1.0);
-  vec3 rgb = col*mask*alphaBody
-           + white*(core*0.20 + rayI*0.11)*mask
-           + mix(white, midDeep+vec3(0.3), 0.5)*halo*0.10;
-  outColor = vec4(rgb, alpha);
-}`;
-
-  /* the same trio the CSS fallback carries — BRAND.md values, one-red rule intact */
-  const TINTS = {
-    "door--bhrt":      { deep:[0x5C,0x1F,0x31], mid:[0x8E,0x2D,0x3A], seed:1.3 },
-    "door--menopause": { deep:[0xA5,0x75,0x6C], mid:[0xC7,0x9A,0x92], seed:4.7 },
-    "door--trt":       { deep:[0x8A,0x6A,0x34], mid:[0xC2,0xA0,0x5E], seed:8.1 },
-  };
-  const norm = a => a.map(v => v/255);
-  const DPR = Math.min(devicePixelRatio || 1, 1.5);
-
-  const instances = [];
-  doors.forEach(door => {
-    try {
-      const orb = door.querySelector(".orb"), canvas = door.querySelector(".orb__gl");
-      const key = [...door.classList].find(c => TINTS[c]);
-      if (!orb || !canvas || !key) return;
-      const gl = canvas.getContext("webgl2", {alpha:true, premultipliedAlpha:true, antialias:false});
-      if (!gl) return;                                   /* the CSS orb stands */
-      const sh = (type, src) => {
-        const s = gl.createShader(type);
-        gl.shaderSource(s, src); gl.compileShader(s);
-        if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s));
-        return s;
-      };
-      const prog = gl.createProgram();
-      gl.attachShader(prog, sh(gl.VERTEX_SHADER, VS));
-      gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, FS));
-      gl.linkProgram(prog);
-      if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog));
-      gl.useProgram(prog);
-      const buf = gl.createBuffer();
-      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
-      const loc = gl.getAttribLocation(prog, "a_pos");
-      gl.enableVertexAttribArray(loc);
-      gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-      const t = TINTS[key];
-      gl.uniform1f(gl.getUniformLocation(prog, "u_seed"), t.seed);
-      gl.uniform3fv(gl.getUniformLocation(prog, "u_deep"), norm(t.deep));
-      gl.uniform3fv(gl.getUniformLocation(prog, "u_mid"), norm(t.mid));
-      gl.clearColor(0,0,0,0);
-      const inst = {
-        orb, canvas, gl,
-        uT: gl.getUniformLocation(prog, "u_time"),
-        uB: gl.getUniformLocation(prog, "u_boost"),
-        uR: gl.getUniformLocation(prog, "u_res"),
-        sim: t.seed*20,          /* each door enters mid-life, not at a shared zero */
-        vis: true, hot: false, boost: 0, live: false,
-      };
-      const draw = () => {
-        gl.viewport(0, 0, canvas.width, canvas.height);
-        gl.uniform2f(inst.uR, canvas.width, canvas.height);
-        gl.uniform1f(inst.uT, inst.sim);
-        gl.uniform1f(inst.uB, inst.boost);
-        gl.clear(gl.COLOR_BUFFER_BIT);
-        gl.drawArrays(gl.TRIANGLES, 0, 3);
-        if (!inst.live){ inst.live = true; orb.classList.add("orb--live"); }
-      };
-      inst.draw = draw;
-      const size = () => {
-        const side = Math.max(1, Math.min(orb.clientWidth, orb.clientHeight));
-        canvas.style.width = canvas.style.height = side + "px";
-        const px = Math.round(side * DPR);
-        /* 4px hysteresis: the entry animation resizes the mount every frame for a
-           second, and a buffer realloc per frame is the one cost worth ducking */
-        if (Math.abs(px - canvas.width) >= 4){ canvas.width = canvas.height = px; }
-        draw();                                          /* resize clears — silk's rule */
-      };
-      new ResizeObserver(size).observe(orb);
-      size();
-      new IntersectionObserver(e => { inst.vis = e[0].isIntersecting; }).observe(canvas);
-      door.addEventListener("pointerenter", () => { inst.hot = true; });
-      door.addEventListener("pointerleave", () => { inst.hot = false; });
-      instances.push(inst);
-    } catch (e) { /* this door keeps its CSS orb; the others still get theirs */ }
-  });
-  if (!instances.length) return;
-
-  if (reduce){
-    /* one considered frame each — under reduced motion the orb is a picture, and the
-       ResizeObserver above keeps that picture sharp through any reflow */
-    instances.forEach(i => i.draw());
-    return;
-  }
-
-  let last = performance.now();
-  (function loop(now){
-    requestAnimationFrame(loop);
-    const dt = Math.min((now - last)/1000, .1);
-    last = now;
-    if (document.hidden) return;
-    for (const inst of instances){
-      if (!inst.vis) continue;
-      inst.boost += ((inst.hot ? 1 : 0) - inst.boost) * Math.min(1, dt*2.2);
-      inst.sim += dt * (1 + inst.boost*.45);
-      inst.draw();
-    }
-  })(last);
-})();
-</script>
 
 <script type="module">
 /* ═══════════ Silk hero — Three.js shader ═══════════ */

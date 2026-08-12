@@ -1,5 +1,15 @@
 # Hormone Balancing & BHRT — `/hormone-balancing/` (shipped 2026-08-10, four refinement rounds same day)
 
+> ## ⚠️ SECTION 04 SUPERSEDED — 2026-08-12 (approved static orbs)
+>
+> Consultation services now use the three approved square glass renders in an open
+> responsive grid: three columns wide, two at tablet widths, one on phones. Titles are
+> centred inside the orbs in MediGyn Megante using the configurator’s per-orb scale,
+> tracking, line-gap and glass settings. The question hooks and unwired Explore rows remain
+> underneath. Production WebPs use transparent outer studio ground; the supplied PNGs
+> remain untouched in the archive. The procedural WebGL orbs, arches, triptych motion and
+> `?doors=` / `?doorcopy=` modes are gone. See `../HANDOFF.md` for exact values and names.
+
 > ## ⚠️ SUPERSEDED IN PART — 2026-08-11 (evening). READ THIS FIRST.
 >
 > The scene was rebuilt that evening. **This document still describes the centred scene,

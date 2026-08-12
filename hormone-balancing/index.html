@@ -742,6 +742,82 @@ html.shape-tall .boost-one:last-of-type img,html.shape-arch .boost-one:last-of-t
   .boost-one picture{max-width:520px}
 }
 
+/* ══ PAGE STYLE DIRECTIONS — ?style=editorial | gallery | salon | clinical | soft ═══════════
+   Offered 2026-08-12. Not section layout this time — the same structure wearing five different
+   faces. Each is mostly token overrides plus a handful of selectors, so choosing one is a
+   subtraction and rejecting all five costs nothing.
+   ⚠️ EVERY ONE OF THESE MOVES COLOUR OR TYPE SIZE, WHICH MEANS EVERY ONE IS A CONTRAST
+   QUESTION. They were measured, not eyeballed — the numbers and the two that had to be pulled
+   back are in HANDOFF.md. Do not add a sixth without measuring it.
+   ⚠️ Two of them knowingly break something BRAND.md fixes, and say so at the point of change:
+   gallery replaces the one button material, salon moves the grounds off their named tokens.
+   That is what a style exploration is for; it is not licence to ship one without deciding. */
+
+/* A · editorial — the magazine. Headlines much larger and tighter, the kicker's gold rule
+   gone, every section separated by a hairline instead of by a change of ground, square button.
+   The most confident of the five and the least decorated. */
+html.st-editorial .sec-head h2{font-size:clamp(40px,5.6vw,78px);line-height:1.02;letter-spacing:-.015em}
+html.st-editorial .kicker{font-size:10px;letter-spacing:.44em}
+html.st-editorial .kicker::before{width:0}
+html.st-editorial .boost,html.st-editorial .stories,html.st-editorial .faq{border-top:1px solid var(--line)}
+html.st-editorial .boost-one h3{font-size:clamp(24px,3vw,42px)}
+html.st-editorial .story blockquote{font-size:clamp(24px,3vw,44px)}
+html.st-editorial .faq-q{font-size:clamp(19px,2vw,27px)}
+html.st-editorial .btn{border-radius:0}
+
+/* B · gallery — the museum. Type smaller and calmer, the air doubled, images in a hairline
+   frame rather than bleeding, and ONE ground throughout: --cream becomes --ivory, which
+   retires the cream/ivory alternation BRAND.md describes. Worth seeing precisely because that
+   alternation measures 1.088:1 and is invisible as a field.
+   ⚠️ The outline button is a deliberate breach of "one primary material". */
+html.st-gallery{--cream:#FAF7F1}
+html.st-gallery .sec-head h2{font-size:clamp(28px,3.4vw,46px)}
+html.st-gallery .kicker{font-size:10px;letter-spacing:.5em;color:var(--gold-deep)}
+html.st-gallery .sec-pad{padding-top:clamp(104px,16vh,190px);padding-bottom:clamp(104px,16vh,190px)}
+html.st-gallery .boost-one img{border:1px solid var(--line);border-radius:0}
+html.st-gallery .boost-one h3{font-size:clamp(20px,2.2vw,30px)}
+html.st-gallery .story blockquote{font-size:clamp(18px,2vw,28px)}
+html.st-gallery .btn{background:none;border:1px solid var(--burgundy);color:var(--burgundy)}
+html.st-gallery .btn:hover{background:var(--burgundy);color:var(--ivory)}
+
+/* C · salon — the warm one. Grounds move off ivory/cream toward the plates' own colour, the
+   hairlines and kicker rules go gold, and the headline accent drops from the one red to
+   burgundy so the red belongs to buttons alone.
+   ⚠️ Grounds are literals here, not tokens — that is the breach, and it is why the section
+   backgrounds stop matching BRAND.md's named palette. */
+html.st-salon{--ivory:#F7F0E6;--cream:#EFE3D6;--line:#D9C6A6}
+/* ⚠️ NOT --gold-deep. Measured on salon's own warmer grounds it lands at 3.97:1 against the
+   4.5 an 11px run needs — the ground moved, so the accent that sat on it had to move too.
+   #7A5C2A clears at 4.90 on the cream and 5.47 on the ivory. This is the trap in any palette
+   variant: changing a ground silently revalues every colour standing on it. */
+html.st-salon .kicker{color:#7A5C2A}
+html.st-salon .kicker::before{background:#7A5C2A;width:44px}
+html.st-salon .sec-head h2 em,html.st-salon .boost-one h3 em{color:var(--burgundy)}
+html.st-salon .boost-one img{border-radius:4px}
+
+/* D · clinical — the doctor-led one. Playfair steps back and the functional face carries the
+   headlines; nothing is rounded; the grid tightens. Reads as authority rather than spa, which
+   is arguably what a regulated medical page should read as. */
+html.st-clinical{--line:#CFC4B4}
+html.st-clinical .sec-head h2{font-family:var(--sans);font-weight:300;font-size:clamp(28px,3.4vw,46px);letter-spacing:-.01em}
+html.st-clinical .sec-head h2 em{font-style:normal;font-weight:500}
+html.st-clinical .boost-one h3{font-family:var(--sans);font-weight:400;font-size:clamp(20px,2.1vw,28px)}
+html.st-clinical .boost-one h3 em{font-style:normal;font-weight:500}
+html.st-clinical .faq-q{font-family:var(--sans);font-weight:400;font-size:clamp(16px,1.5vw,20px)}
+html.st-clinical .boost-one img,html.st-clinical .btn{border-radius:0}
+html.st-clinical .sec-pad{padding-top:clamp(62px,9vh,108px);padding-bottom:clamp(62px,9vh,108px)}
+
+/* E · soft — the gentle one. Lighter headline weight, leading opened right out, everything
+   rounded, the quote larger and looser. The only direction that gets calmer by adding rather
+   than removing. ⚠️ The headline accent stays the one red on purpose: rose on cream measures
+   2.09:1, which fails even the large-text floor, and it was the obvious wrong move here. */
+html.st-soft .sec-head h2{font-size:clamp(32px,4.2vw,56px);line-height:1.2;font-weight:400}
+html.st-soft .boost-one p,html.st-soft .faq-a p,html.st-soft .boost-sub{line-height:2}
+html.st-soft .boost-one img{border-radius:22px}
+html.st-soft .btn{padding:20px 40px}
+html.st-soft .story blockquote{font-size:clamp(20px,2.3vw,32px);line-height:1.6}
+html.st-soft .faq-q{padding-block:clamp(26px,3.2vh,36px)}
+
 /* ─────────────────────────── 06 · TESTIMONIALS ─────────────────────────── */
 .stories{background:var(--ivory)}
 /* ⚠️ THE CARD IS GONE — cream ground, 1px border, 20px radius, hover lift, all deleted with
@@ -760,7 +836,11 @@ html.shape-tall .boost-one:last-of-type img,html.shape-arch .boost-one:last-of-t
 .faq-grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(40px,5vw,90px);align-items:start}
 .faq-side{position:sticky;top:120px;display:flex;flex-direction:column;gap:22px}
 .faq-side h2{font-size:clamp(32px,3.8vw,52px)}
-.faq-side p{color:var(--ink-soft);font-size:15.5px;line-height:1.8;max-width:24em}
+/* ⚠️ :not(.kicker) IS THE WHOLE POINT OF THIS SELECTOR. The kicker is a <p> inside .faq-side,
+   and `.faq-side p` (0,1,1) outranks `.kicker` (0,1,0) — so 07's kicker rendered at 15.5px
+   while every other kicker on the page is 11px, and had done since the section was built.
+   Found by a contrast sweep reporting a 16px kicker, not by looking at it. */
+.faq-side p:not(.kicker){color:var(--ink-soft);font-size:15.5px;line-height:1.8;max-width:24em}
 .faq-list{border-top:1px solid var(--line)}
 .faq-item{border-bottom:1px solid var(--line)}
 .faq-q{
@@ -1974,6 +2054,11 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
     const sh = (params.get("shape") || "").toLowerCase();
     if (["arch","capsule","oval","soft","bleed","tall"].includes(sh))
       document.documentElement.classList.add("shape-" + sh);
+
+    /* ?style= — page-wide directions. Same structure, five faces. */
+    const stl = (params.get("style") || "").toLowerCase();
+    if (["editorial","gallery","salon","clinical","soft"].includes(stl))
+      document.documentElement.classList.add("st-" + stl);
 
     const fq = (params.get("faq") || "").toLowerCase();
     if (["open","team","index","plain","duo","boxed"].includes(fq)) {

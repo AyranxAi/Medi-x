@@ -276,6 +276,40 @@ rule: a control with no destination stays inert rather than pointing at a placeh
   placement, and the section that used to be 780px is now ~1340px, so it sits between the doors
   and the proof for twice as long as it did when the note was written.
 
+## Five page-wide style directions — `?style=`, offered 2026-08-12, undecided
+
+Not section layout: the same structure wearing five faces, mostly token overrides plus a
+handful of selectors, so picking one is a subtraction and rejecting all five costs nothing.
+
+| Style | What it does |
+|---|---|
+| `editorial` | Headlines much larger and tighter, the kicker's gold rule gone, sections separated by a hairline instead of a change of ground, square button |
+| `gallery` | Type smaller, air doubled, images in a hairline frame, and **one ground throughout** — `--cream` becomes `--ivory`, retiring the alternation that measures 1.088:1 |
+| `salon` | Grounds move toward the plates' own warmth, hairlines and kicker rules go gold, headline accent drops from the one red to burgundy |
+| `clinical` | Playfair steps back and the functional face carries the headlines, nothing rounded, grid tightens. Authority rather than spa |
+| `soft` | Lighter headline weight, leading opened out, everything rounded, the quote larger |
+
+⚠️ **Two knowingly breach BRAND.md and say so at the point of change**: `gallery` replaces the
+one button material; `salon` moves the grounds off their named tokens.
+
+**Measured, not eyeballed: 102 runs across five styles × three sections, 0 skipped, all pass.**
+Two things fell out of that sweep:
+
+⚠️ **A palette variant silently revalues every colour standing on the ground it moved.**
+`salon`'s kicker was `--gold-deep`, which is fine on ivory and lands at **3.97:1** on salon's
+own warmer cream. It is `#7A5C2A` now — 4.90 on the cream, 5.47 on the ivory. Any sixth style
+that touches a ground has the same problem waiting.
+
+⚠️ **PRE-EXISTING BUG, FOUND BY THE SWEEP AND FIXED: 07's kicker was 15.5px.** `.faq-side p`
+(0,1,1) outranks `.kicker` (0,1,0), and the kicker is a `<p>` inside `.faq-side` — so section
+07's kicker has been rendering half again larger than every other kicker on the page since the
+section was built. `:not(.kicker)` on that rule. **Nobody saw it in six rounds of looking at
+screenshots; a harness reporting "16px kicker" caught it.**
+
+⚠️ Also worth knowing for the next harness: `.faq-side p` matches the kicker, so a naive
+selector measures the kicker twice and reports the description as failing. Two of the four
+"failures" in the first sweep were that, not the page.
+
 ## 04's shape is decided — "arch", his pick 2026-08-12
 
 The founders' note was that the boxy shape was not working — **the three services, not 05**.

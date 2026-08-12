@@ -276,7 +276,7 @@ rule: a control with no destination stays inert rather than pointing at a placeh
   placement, and the section that used to be 780px is now ~1340px, so it sits between the doors
   and the proof for twice as long as it did when the note was written.
 
-## The Gut plate was replaced 2026-08-12, and 05 has six arrangements at `?pair=`
+## 05 is the diptych — his pick 2026-08-12, and the Gut plate was replaced the same day
 
 `images/gut.png` (his upload, `23ae7dd`) → `images/boost/gut-anatomy-1340.{avif,webp}`. An
 anatomical GI render. **Renamed on the way in** — it arrived as
@@ -300,7 +300,30 @@ is what makes the side-by-side arrangements viable at all.
 | `offset` | The shipped rows, but the picture breaks the text column and the second row drops |
 | `frame` | Each programme becomes one ruled card. ⚠️ Also the most boxy, which has already been objected to once |
 | `feature` | One leads, one follows. Only right if one of them actually is the main road |
-| `diptych` | Two full-bleed halves, copy **on** the picture. The loudest, and the only one that gives 05 the weight 04 has |
+| `diptych` | Two full-bleed halves, copy **on** the picture. **← chosen** |
+⚠️ **CLOSED — he picked `diptych`.** The other five arrangements, all eight `?shape=` frames,
+both switches and the four portrait crops that only `?shape=arch`/`tall` used are deleted.
+05 is two full-bleed halves with the copy on the picture.
+
+⚠️ **THE SCRIM IS BACK, AND THAT IS THE PRICE.** Bands existed to avoid it. 05 now carries the
+presence 04 has instead of handing it back one screen later, and in exchange **every future
+plate swap in 05 is a re-measurement** — it is no longer a `src` change. Same standing cost 04
+carries.
+
+⚠️ **A STYLE VARIANT DOES NOT SURVIVE THE LAYOUT CHANGING UNDER IT.** `?style=salon` set
+`.boost-one h3 em` to burgundy — right while 05's copy was ink on cream, near-invisible the
+moment it moved onto a dark scrim. Scoped to the headline; three more style rules that framed
+the picture are gone with the frame. **Re-measured all five styles against the new layout:
+102 runs, 0 skipped, all pass.**
+
+⚠️ **Two harness lessons, both the same one in different clothes.** 05 is taller than the
+viewport now, so one scroll per *section* cannot hold the headline and the copy at once — it is
+one scroll per *target*, which only works because the copy is hidden with `color:transparent`
+and layout does not move. And the rect must be read **after** the scroll settles, not in the
+call that starts it: read too early it sampled the dark diptych behind a kicker that sits on
+cream and reported **1.19:1** for something that measures 6.84. **A near-1.0 ratio is almost
+never a real failure — it means the foreground and the background are the same pixels.**
+
 
 ⚠️ **`?shape=` and `?pair=` are orthogonal** — the frame the picture sits in, and where the two
 things sit relative to each other. Either can be judged without the other moving.

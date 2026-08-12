@@ -1,3 +1,34 @@
+# Handoff addendum — 2026-08-12 (approved static service orbs)
+
+Scope: `hormone-balancing/index.html` section 04 only. This supersedes the
+“living orbs” addendum immediately below.
+
+The procedural WebGL orbs and their arched triptych are retired. The approved
+1254×1254 burgundy, rose and gold masters are archived untouched; 1100×1100
+production derivatives now ship as an open ivory service grid, with the current
+question hook and unwired Explore row centred under each orb. There is no Section
+04 animation, canvas, fallback shader, or `?doors=` / `?doorcopy=` layout switch.
+
+Served assets are `images/service-circle-{hormone-therapy-burgundy,
+modern-menopause-rose,testosterone-replacement-gold}.webp` (quality 88; 85–122 KB
+each). Their outer studio ground is transparent so no square image boundary appears.
+The untouched PNG masters live under `archive/sources/` with the same semantic names.
+
+The shared title treatment is MediGyn Megante, `#2E2228`, on `#FAF7F1`, with an
+18% scrim and optical centre `52.83% 47.54%`. Per-orb values:
+
+| Orb | Scale | Top / bottom tracking | Gap | Glass |
+|---|---:|---|---:|---:|
+| Hormone Therapy / BHRT | 98% | −.035em / −.035em | +.26em | 61% |
+| Modern / Menopause | 102% | −.035em / −.035em | +.06em | 35% |
+| Testosterone / Replacement | 101% | −.025em / −.035em | +.29em | 60% |
+
+Responsive family: three columns wide, two columns with the third centred below
+69rem at exactly the same width as either upper card, and one column below 45rem.
+The three destinations remain deliberately unwired.
+
+---
+
 # Handoff addendum — 2026-08-12 (the living orbs)
 
 Scope: `hormone-balancing/index.html` section 04 only. Everything below this addendum

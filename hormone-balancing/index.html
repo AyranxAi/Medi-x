@@ -503,6 +503,55 @@ html.doors-tri .door::after{
    ⚠️ --head-block IS GONE with the geometry that needed it. --head-h stays, because pinned
    genuinely still needs it: that mode centres inside a 100vh sticky stage, so the headline
    really does come out of the panels' height there. */
+/* ══ WHERE 04'S COPY SITS — ?doorcopy=raise | crown ══════════════════════════════════
+   OFFERED FOR JUDGEMENT 2026-08-12, DEFAULT UNCHANGED. Both answer one fault: at a flat
+   92vh the copy sits on the panel's bottom edge, so on arrival 04 answers "Where would
+   you like to begin?" with three wordless photographs and the hook — the best copy in
+   the section, and the thing that actually lets a reader self-select — is the least
+   visible element in it. Neither treatment touches the 92vh or the full bleed.
+   ⚠️ BOTH MOVE THE COPY ONTO A DIFFERENT PART OF EVERY PHOTOGRAPH, WHICH IS A CONTRAST
+   RE-MEASUREMENT, NOT A SWAP. `cover` crops against the panel, the ramps below are keyed
+   to the new copy positions, and the rose hook has ~0.5 of margin over the pale BHRT
+   plate. Run `node tools/qa/door-contrast.mjs` against whichever survives. */
+
+/* raise — the whole cluster lifts off the bottom edge into the lower third. The smallest
+   possible change: same order, same styles, same ramp shape, moved up.
+   ⚠️ DESKTOP ONLY, AND THAT IS THE POINT OF IT. The fault it fixes is a THREE-COLUMN fault:
+   three 92vh panels side by side put every title below the fold at once. Phones stack the
+   panels full width and meet them one at a time, so the copy at the foot is already the
+   first thing in frame — raising it there buys nothing and leaves a dead band of scrim
+   under each door. 980px is where the page already stops being three columns. */
+@media(min-width:981px){
+  html.dc-raise .door{padding-bottom:clamp(110px,30%,320px)}
+  html.dc-raise .door::after{
+    background:linear-gradient(180deg,rgba(26,15,19,0) 0%,rgba(26,15,19,.06) 20%,
+    rgba(46,20,30,.62) 42%,rgba(26,15,19,.88) 60%,rgba(20,11,14,.96) 76%,
+    rgba(20,11,14,.96) 100%);
+  }
+}
+
+/* crown — the title becomes an INSCRIPTION at the head of the arch, which is the one
+   place on a 92vh panel that is guaranteed to be above the fold, and the one thing the
+   arch shape can do that a rectangle cannot. Letterspaced Megante caps, because an
+   inscription is not a headline. The hook and the link stay a cluster at the foot, so
+   the panel reads top-to-bottom: what it is, then who it is for, then the way in.
+   ⚠️ NEEDS A SECOND RAMP. The crown of a door is the brightest part of two of the three
+   plates (cream silk, pale travertine), so the title gets its own ramp at the top rather
+   than borrowing the one built for the foot. */
+html.dc-crown .door{padding-top:clamp(76px,12vh,132px)}
+html.dc-crown .door::before{
+  content:"";position:absolute;inset:0 0 auto 0;height:38%;z-index:-1;
+  background:linear-gradient(180deg,rgba(20,11,14,.88) 0%,rgba(24,13,17,.58) 44%,
+  rgba(26,15,19,.18) 76%,rgba(26,15,19,0) 100%);
+}
+html.dc-crown .door h3{
+  position:absolute;top:clamp(30px,5.4vh,66px);left:clamp(18px,2vw,30px);
+  right:clamp(18px,2vw,30px);text-align:center;
+  font-family:var(--accent);font-size:clamp(12.5px,1.12vw,16px);
+  letter-spacing:.2em;text-transform:uppercase;line-height:1.5;color:var(--ivory);
+}
+html.dc-crown .door .hook{margin-bottom:10px}
+
 html.doors-tri .doors{--bleed-h:92vh}
 html.doors-pinned .doors{--bleed-h:calc(100vh - var(--head-h,8vh))}
 /* ⚠️ 286px OF EMPTY OFF-WHITE SAT BETWEEN THE PHOTOGRAPHS AND 05's KICKER, holding one 21px
@@ -663,6 +712,93 @@ html.doors-static .door{min-height:var(--bleed-h)}
    collapses and the indent is lost; a margin survives the wrap. */
 .boost-one h3 em{color:var(--rose);margin-left:.3em}
 .boost-one p{color:rgba(250,247,241,.84);max-width:34ch}
+
+/* ══ 05 AS A DIAGRAM — ?boost=tether ═════════════════════════════════════════════════
+   OFFERED FOR JUDGEMENT 2026-08-12, DEFAULT UNCHANGED. The diptych's fault is not its
+   execution, it is that it is 04's idea again — a full-bleed photographic panel with
+   copy scrimmed onto it — one screen after 04, with the two weakest plates on the page.
+   This answers four things at once and each one is a property the diptych gave up:
+     · it is formally nothing like 04, so the repetition stops;
+     · it is the ONLY other place the scene's own language appears — hairline, ring
+       terminal, gold ignition — which is the stitch across the tonal cliff;
+     · it says "layered ON your protocol" structurally instead of asserting it in copy;
+     · THERE IS NO SCRIM. Swapping anything here stops being a re-measurement, which is
+       exactly the property `bands` had and `diptych` traded away.
+   ⚠️ IT RUNS OFF THE SHIPPED DOM. The pictures are hidden, not removed, and the anchor is
+   injected only when the parameter is set — so choosing it is a subtraction and rejecting
+   it costs nothing, the same terms the other six treatments were offered on. */
+/* ⚠️ THE GAP IS A VARIABLE BECAUSE THE DIAGRAM HAS TO SOLVE FOR IT. A branch has to land
+   on its column's CENTRE, and with `1fr 1fr` plus a gap that centre is at (100% - gap)/4
+   from the edge — not at 25%. The first pass drew the curves at a flat 25/75 and the ring
+   terminals missed them by 26–33px at 1440, which on a diagram reads as a broken join
+   rather than a near miss. The svg is inset to sit exactly between the two centres, so its
+   own x=0 and x=1000 ARE the terminals and the geometry is correct at every width. */
+html.bt-tether .boost-pair{
+  --tgap:clamp(24px,5vw,90px);
+  margin-inline:0;margin-top:clamp(30px,4.5vh,52px);
+  position:relative;padding-top:clamp(150px,20vh,230px);
+  column-gap:var(--tgap);
+}
+html.bt-tether .boost-one{
+  background:none;min-height:0;padding:0 clamp(4px,1.4vw,26px);
+  align-content:start;text-align:center;row-gap:14px;
+}
+html.bt-tether .boost-one h3{font-size:clamp(21px,2.05vw,29px);line-height:1.2}
+html.bt-tether .boost-one picture,
+html.bt-tether .boost-one::after{display:none}
+html.bt-tether .boost-one h3{color:var(--ink)}
+html.bt-tether .boost-one h3 em{color:var(--burgundy)}
+html.bt-tether .boost-one p{color:var(--muted,#6A585F);max-width:32ch;margin-inline:auto}
+/* the ring terminal — the scene's, at the scene's weight */
+html.bt-tether .boost-one::before{
+  content:"";position:absolute;top:-13px;left:50%;transform:translateX(-50%);
+  width:9px;height:9px;border-radius:50%;border:1px solid var(--gold);background:var(--cream);
+}
+html.bt-tether .tether-head{
+  position:absolute;top:0;left:0;right:0;height:clamp(150px,20vh,230px);
+  pointer-events:none;
+}
+/* the section's one action belongs to BOTH programmes, so it centres under the join
+   rather than sitting under whichever column happens to be first in the DOM */
+html.bt-tether .boost-foot{display:flex;justify-content:center;margin-top:clamp(34px,5vh,58px)}
+html.bt-tether .tether-anchor{
+  position:absolute;top:0;left:50%;transform:translateX(-50%);white-space:nowrap;
+  font-family:var(--accent);font-size:clamp(11px,1vw,13.5px);letter-spacing:.24em;
+  text-transform:uppercase;color:var(--burgundy);
+}
+/* the anchor gets the same terminal its branches end in, so the three read as one system */
+html.bt-tether .tether-anchor::after{
+  content:"";position:absolute;top:calc(100% + 11px);left:50%;transform:translateX(-50%);
+  width:9px;height:9px;border-radius:50%;border:1px solid var(--gold);background:var(--gold);
+}
+/* ⚠️ WIDTH IS SET, NOT INFERRED FROM left+right. An <svg> is a REPLACED element, so an
+   absolutely positioned one with `left` and `right` and no width is over-constrained: the
+   used width is its intrinsic width and `right` is discarded. It does not stretch the way
+   a div does. That put the join off-centre and ran the right branch off the screen edge.
+   Column centre is at (100% - gap)/4 from each side, so the box between the two centres is
+   100% - (100% - gap)/2 wide, and the svg's own x=0 / x=1000 land exactly on the terminals. */
+html.bt-tether .tether-svg{
+  position:absolute;bottom:0;height:calc(100% - 46px);display:block;
+  left:calc((100% - var(--tgap)) / 4);
+  width:calc(100% - (100% - var(--tgap)) / 2);
+}
+html.bt-tether .tether-svg path{
+  fill:none;stroke:var(--gold);stroke-width:1;vector-effect:non-scaling-stroke;opacity:.85;
+}
+@media(max-width:820px){
+  /* one column, so the two branches become one spine with two stops down it */
+  html.bt-tether .boost-pair{padding-top:clamp(104px,14vh,150px);row-gap:clamp(34px,6vh,60px)}
+  html.bt-tether .tether-svg{display:none}
+  html.bt-tether .boost-one::before{top:-22px}
+  /* ⚠️ NO `inset` SHORTHAND HERE. It expands to all four sides, so `inset:auto auto auto 50%`
+     silently reset the `top` set on the line above and dropped the connector below its own
+     ring, straight through the title. The stem is explicit top/left + a translate. */
+  html.bt-tether .boost-one::after{
+    display:block;content:"";position:absolute;top:-64px;left:50%;
+    transform:translateX(-50%);width:1px;height:42px;
+    background:var(--gold);opacity:.85;
+  }
+}
 
 @media(max-width:820px){
   .boost-pair{grid-template-columns:1fr;margin-inline:calc(-1 * var(--pad))}
@@ -1903,6 +2039,44 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
      when you want to see the triptych. What probe and reduced-motion do skip is the
      ANIMATING of it: both land on the finished state immediately, which is also the
      correct reduced-motion behaviour rather than a concession. */
+  /* ══ TWO TREATMENTS UNDER JUDGEMENT — ?doorcopy= and ?boost= ═════════════════════
+     Both are layout, so they sit above `if (probe) return` with the triptych mode, for
+     the same reason: ?probe=1 is the layout QA switch and is exactly when you want to
+     see them. Neither changes the default. Detail in the stylesheet. */
+  {
+    /* `both` is its own value rather than two parameters, because the two treatments
+       answer DIFFERENT halves of the same fault and are worth judging together: crown
+       says what a door is, raise says who it is for and how to go through it. Neither
+       alone puts all three above the fold. */
+    const dc = (params.get("doorcopy") || "").toLowerCase();
+    if (["raise","crown"].includes(dc)) document.documentElement.classList.add("dc-" + dc);
+    else if (dc === "both") document.documentElement.classList.add("dc-crown","dc-raise");
+
+    /* 05's diagram is the one variant that needs a node the shipped DOM does not have —
+       an anchor for the two branches to leave from. It is injected only under the
+       parameter, so the default page is byte-identical without it.
+       ⚠️ THE CURVES ARE DRAWN IN A 1000x100 BOX WITH preserveAspectRatio="none", so the
+       geometry stays right at any width while `vector-effect` keeps the stroke a true
+       hairline rather than scaling into a rule. The terminals are CSS circles, not SVG
+       ones, precisely BECAUSE the box is non-uniformly scaled — a circle in that box
+       would render as an ellipse at every width but one. */
+    if ((params.get("boost") || "").toLowerCase() === "tether") {
+      const pair = document.querySelector(".boost-pair");
+      if (pair) {
+        document.documentElement.classList.add("bt-tether");
+        const head = document.createElement("div");
+        head.className = "tether-head";
+        head.setAttribute("aria-hidden", "true");
+        head.innerHTML =
+          '<span class="tether-anchor">Your hormone protocol</span>' +
+          '<svg class="tether-svg" viewBox="0 0 1000 100" preserveAspectRatio="none">' +
+          '<path d="M500 0 C500 58 0 34 0 100"/>' +
+          '<path d="M500 0 C500 58 1000 34 1000 100"/></svg>';
+        pair.prepend(head);
+      }
+    }
+  }
+
   {
     const mode = (params.get("doors") || "entry").toLowerCase();
     const stage = document.querySelector(".svc-stage");

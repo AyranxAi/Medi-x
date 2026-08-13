@@ -560,6 +560,66 @@ section{position:relative}
   transform-origin:var(--orb-optical-x) var(--orb-optical-y);
   pointer-events:none;user-select:none;
 }
+/* ═══ THE MOVING LAYERS — created by the choreography script at the foot, absent without
+   it. The ask, the verdict on what a flat render can and cannot share with the living
+   orbs, and every rate are documented THERE; these rules are only the material.
+   ⚠️ The interior is a CLONE of the render (it keeps .service-orb__image, so inset,
+   object-fit, scale and the optical-centre origin all come from the rule above). The mask
+   lives in ELEMENT space so it turns and drifts with the layer: opaque to 18% of the box,
+   gone at 30%. That 30 is paired with the script's drift and breath ceilings — at the
+   founder's Mesmerise recipe (wander 1.4, breath 1.5): (30 × 1.16 × 1.0105 max swell) +
+   6.02% max drift = 41.2% against a rim at 43.4% (same swell) — so moving interior glass
+   can never poke outside the ball's own silhouette. Margin ~2.2% of box; any recipe with
+   wander above ~1.9 breaks it. Re-do this sum on every new recipe.
+   Both mask prefixes: -webkit- alone covers every engine that runs the script; the pair
+   is there so neither family of browsers ever shows the clone UNMASKED — unmasked, the
+   whole render turns continuously, baked window-lights and all, which is exactly the
+   "spinning sticker" look the living-orb notes warn about. */
+.service-orb__interior{
+  -webkit-mask-image:radial-gradient(circle at var(--orb-optical-x) var(--orb-optical-y),transparent 0 12%,#000 18% 24%,transparent 30%);
+          mask-image:radial-gradient(circle at var(--orb-optical-x) var(--orb-optical-y),transparent 0 12%,#000 18% 24%,transparent 30%);
+  will-change:transform;
+}
+/* ⚠️ THE WALL ZONE — round 5, "is the outside even moving?": the outermost and FASTEST
+   band of the shear profile, and it is LIGHT, not matter. mix-blend-mode:screen only
+   ever ADDS, so what moves out here is the caustic webbing — light refracted through
+   the moving fluid — while the base render's first-surface reflections stay anchored
+   beneath it, which is exactly how real glass behaves: reflections belong to the room
+   and hold still, caustics belong to the moving matter and sweep with it.
+   ⚠️ NO TRANSLATE ON THIS LAYER, EVER — wall-confined fluid cannot slosh into its own
+   wall, and rotation about the optical centre PRESERVES RADIUS, which is the entire
+   safety argument at the rim: the fade-out ends at 35% element-space against the ball's
+   37% alpha edge, and a rotating pixel can never leave its own circle. (And screen over
+   the cream ground is a near-no-op, so even a lumpy-silhouette graze costs nothing
+   visible.) Give this layer the drift and every one of those guarantees dies at once. */
+.service-orb__wall{
+  -webkit-mask-image:radial-gradient(circle at var(--orb-optical-x) var(--orb-optical-y),transparent 0 26%,#000 31% 33%,transparent 35%);
+          mask-image:radial-gradient(circle at var(--orb-optical-x) var(--orb-optical-y),transparent 0 26%,#000 31% 33%,transparent 35%);
+  mix-blend-mode:screen;will-change:transform;
+}
+/* ⚠️ THE INTERIOR IS TWO ZONES SINCE THE PHYSICS ROUND (2026-08-13, round 4): the outer
+   swirl above and this deep core, sheared 2:1 by the script — the fluid is stirred by
+   its wall, so the wall side leads and the core lags (spin-up). The feathered overlap
+   (this fades 12→20 across the ring's 12→18 fade-in) is where the shear lives: two
+   copies of the same matter at slowly diverging angles, crossfading — read it as the
+   fluid's own blur, not a defect. A hard edge here would read as two DISCS. */
+.service-orb__core{
+  -webkit-mask-image:radial-gradient(circle at var(--orb-optical-x) var(--orb-optical-y),#000 0 12%,transparent 20%);
+          mask-image:radial-gradient(circle at var(--orb-optical-x) var(--orb-optical-y),#000 0 12%,transparent 20%);
+  will-change:transform;
+}
+/* additive light riding the baked starburst — `screen` only ever adds, and the gradient
+   is transparent long before the rim, so over the cream ground it is a no-op. Opacity is
+   per-door, set by the script: the live family's `core` value × .4, because the render
+   already carries a full starburst and this layer only has to breathe over it — the rose
+   saturates first, same note as `neb`/`core` in the living engine. */
+.service-orb__glow{
+  position:absolute;inset:0;pointer-events:none;
+  transform-origin:var(--orb-optical-x) var(--orb-optical-y);
+  background:radial-gradient(circle at var(--orb-optical-x) var(--orb-optical-y),
+    rgba(255,255,255,.85) 0,rgba(255,247,238,.38) 6%,rgba(255,235,214,0) 15%);
+  mix-blend-mode:screen;will-change:transform,opacity;
+}
 /* ═══ THE COPY STACK — question, then answer, then the way in ═══════════════════════
    ⚠️ ALL THREE GREW 2026-08-13 (evening): "make question and the answer and the word
    explore bigger". They are sized as a SET, not individually, because the order they
@@ -3561,6 +3621,201 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
      geometry, not glass; it would still need the transmission, the IOR, an environment and
      a renderer, plus a loader and megabytes, and the BAKED alternative already exists as
      04's still renders. Baked vs live was the A/B, and baked won. -->
+
+<script type="module">
+/* ═══════════ 04 · THE STILLS MOVE — MOTION AS ATMOSPHERE, NOT EVIDENCE ═══════════
+   THE ASK, three rounds, 2026-08-13 (late evening). First: "they want this one to have
+   that movement" — built as an exact in-plane projection of the living engine's draw().
+   Then, over the proof clips, the release: "it doesn't have to be picture perfect as
+   the other circle … just for it to move" — most aesthetic, luxury, nothing that takes
+   away from the picture. So the first cut's lockstep rule is RETIRED, deliberately:
+   this engine no longer quotes inst.draw, and the two engines may drift apart in
+   numbers because their jobs finally differ.
+
+   ⚠️ THE DESIGN POSITION, so the next tuner starts here and not from taste: the LIVING
+   orb moves fast on purpose — its motion is EVIDENCE, the proof it is really 3D, and
+   its own notes say slowing it down defeats its section. The STILL family has nothing
+   to prove: the render is already approved as an object. Its motion is ATMOSPHERE, and
+   the luxury register keeps every rate below the threshold of "watching something
+   move" — the viewer should notice the picture is ALIVE, never that it is ANIMATED.
+   Three rules pay for that:
+     · NOTHING AT CONSTANT VISIBLE VELOCITY — a texture caught spinning reads as
+       machinery. The interior turns slower than the eye holds (80s–160s/turn, two
+       sheared zones — see the physics note); the picture is never the same twice.
+     · ONE SHARED CLOCK, AND IT IS A BREATH — sin(t·.9), ~7s, calm-breathing rate.
+       The ball's swell (±.7%) and the core light's lift ride it TOGETHER, because
+       light that swells as the glass does is the strongest "it is alive" cue a flat
+       render can carry, at zero cost to the approved pixels.
+     · HOVER BLOOMS INSTEAD OF HURRYING — the living orb answers a pointer with
+       speed; this family answers with warmth. The light lifts, the breath deepens,
+       the clock gains only a whisper (see the loop).
+   The periods — breath 7s, rock 30s, drift 39s/48s, turns 57s/80s/160s — are
+   mutually incommensurate but for the deliberate shear ratios, so the composite
+   never visibly loops.
+
+   ⚠️ ROUND 4 — PHYSICS ABOVE ALL, HIS CALL, AND IT OUTRANKS EVERY NOTE HERE INCLUDING
+   HIS OWN ("above md and above me"). The model this engine now answers to: A SOLID
+   GLASS SHELL ENCLOSING LUMINOUS FLUID. Four consequences, each load-bearing:
+     · THE RENDER ITSELF MUST NOT VISIBLY SPIN, and this is physics, not caution: the
+       baked window-highlights belong to the ROOM'S LIGHTS, not the ball — a real
+       smooth glass sphere spinning keeps its highlights still, so its rotation is
+       nearly invisible from outside. Spinning the photo would spin the room. The
+       shell may well be turning; we see it only through what it drags.
+     · THE INTERIOR IS THREE ZONES IN SHEAR, MONOTONIC, FASTEST AT THE WALL — his
+       "outer faster" law, honored where it is true. The fluid is stirred BY ITS
+       WALL (not orbiting a central mass, which would put the inner side faster —
+       the driver picks the profile): drag grips the outermost fluid first and the
+       deep core lags. Wall band ~57s/turn, mid swirl ~80s, core ~160s, same sense.
+       The soft shear rings where they meet are the "this is fluid" cue.
+     · THE WALL BAND MOVES AS LIGHT, NOT MATTER (round 5, "is the outside even
+       moving?") — out where the baked reflections live, the moving layer is
+       screen-blended: CAUSTICS sweep with the fluid while the first-surface
+       reflections beneath stay anchored to the room. Fastest zone, additive only,
+       no drift — the wall note in the stylesheet carries the rim-safety argument.
+     · TWO RATES ARE MORE PHYSICAL THAN ONE, never less: shell and interior are
+       different PHASES of matter, coupled only by drag — the Sun's envelope and
+       interior rotate at different rates, Earth's inner core runs at its own rate,
+       a snow globe swirls after the glass stops. One rigid rate would be the lie.
+     · THE REST WAS ALREADY PHYSICAL, NOW OFFICIALLY: the light's wander is
+       convection (hot buoyant matter circulating), its pulse is thermal flicker,
+       and the ±2° rock and ±.7% swell are the librations and shape-oscillations of
+       a levitated droplet. Quasi-periodic, dissipative systems do not loop — the
+       incommensurate periods are the realism, not a trick.
+
+   ⚠️ SIGNS: CSS +y runs DOWN and rotate()'s + is CLOCKWISE — the mirror trap round
+   two was caught on. The minuses below keep the camera-space sense the live family
+   established: its up is up, and turns run counter-clockwise.
+
+   ⚠️ THE LAYERS ARE BUILT HERE, NOT IN THE MARKUP. No JS and reduced-motion must both
+   leave the APPROVED section exactly as shipped — a still picture is its own considered
+   frame, the same rule the living orbs follow by rendering once and stopping. No CDN,
+   no canvas, no network: nothing in this block can fail into anything worse than the
+   still that is already standing, which is why there is no fallback apparatus. */
+try {
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const stills = [...document.querySelectorAll(".doors:not(.doors--live) .door")];
+  if (!reduce && stills.length) {
+    /* seed desynchronises the three exactly as TINTS does for the live family; glow is
+       the live per-orb core opacity × .4 — see the stylesheet note on why it is dim. */
+    /* `wall` is the screen-blended caustic band's opacity, per-door because the three
+       pigments carry different webbing contrast: the rose's is faintest, so it runs
+       hottest — the same equal-alpha-reads-differently note every layer here inherits. */
+    /* `flip` is alternate=on made explicit: the MIDDLE door runs mirrored, so adjacent
+       orbs counter-rotate and the row reads as three living things rather than one
+       mechanism. Only the rotations mirror — drift and breath stay unflipped (the
+       seeds already de-phase them), exactly as the Atelier's alternate behaves. */
+    const DOORS = {
+      "door--bhrt":      { seed: 1.3, glow: .38, wall: .35, flip: 1 },
+      "door--menopause": { seed: 4.7, glow: .25, wall: .38, flip: -1 },
+      "door--trt":       { seed: 8.1, glow: .34, wall: .35, flip: 1 },
+    };
+    /* ⚠️ ROUND 7 — THE FOUNDER CHOSE: MESMERISE. Word came back 2026-08-13 (night) —
+       "mesmerize is the way to go" — and this block is her preset from the Orb
+       Atelier, verbatim:
+         orb-recipe: mode=counter dir=ccw wall=42s shell=holds breath=1.50
+                     wander=1.40 glow=1.30 hover=both alternate=on
+       Two consequences worth naming:
+       · shell=holds RESTORES THE ROUND-4 REFLECTION RULE — the outside rocks its ±2°
+         and its window-lights stay anchored to the room again. The Vortex round's
+         turning shell was a taste override; it left with the recipe that owned it.
+       · alternate=on is carried by `flip` in DOORS above — new to the page.
+       Angles stay CSS-SIGNED (+ is clockwise; the recipe's ccw carries the minus;
+       counter mode flips the ring; `flip` mirrors the whole door). The next recipe:
+       retranslate THIS block, re-do the mask sum, nothing else. */
+    const R = {
+      wall:  -2 * Math.PI / 42,           /* outer band, 42s — fastest zone           */
+      ring:   2 * Math.PI / 42 * .71,     /* mid swirl opposes (counter), ~59s        */
+      core:  -2 * Math.PI / 42 * .36,     /* deep core with the band, ~117s           */
+      breath: 1.5, wander: 1.4, glow: 1.3, quicken: .6,
+    };
+    const instances = [];
+    for (const door of stills) {
+      const box = door.querySelector(".service-orb");
+      const img = door.querySelector(".service-orb__image");
+      const key = [...door.classList].find(c => DOORS[c]);
+      if (!box || !img || !key) continue;
+      const wall = img.cloneNode();
+      wall.classList.add("service-orb__wall");
+      wall.setAttribute("aria-hidden", "true");
+      wall.style.opacity = DOORS[key].wall;
+      const ring = img.cloneNode();
+      ring.classList.add("service-orb__interior");
+      ring.setAttribute("aria-hidden", "true");
+      const core = img.cloneNode();
+      core.classList.add("service-orb__core");
+      core.setAttribute("aria-hidden", "true");
+      const glow = document.createElement("div");
+      glow.className = "service-orb__glow";
+      glow.style.opacity = DOORS[key].glow;
+      box.append(wall, ring, core, glow);
+      img.style.willChange = "transform";
+      const inst = { img, wall, ring, core, glow, base: DOORS[key].glow,
+                     flip: DOORS[key].flip,
+                     sim: DOORS[key].seed * 6, vis: true, hot: false, boost: 0 };
+      /* drift amplitudes are in % of the orb box: 4.3 / 3.4 ≈ .10/.08 of a shell
+         radius (the ball renders at 43% of the box — measured alpha bounds ×
+         --circle-scale), scaled by the recipe's wander. The interior zones ride the
+         same drift and swell — the convection carries the whole fluid body, and a
+         middle that breathes against its own rim reads as a seam, not a breath.
+         (The wall band is the exception — it does NOT drift; see its own note.
+         shell=holds, so the base is back on its round-3 rock; `f` mirrors every
+         rotation on the middle door — alternate=on — while drift stays unflipped.) */
+      inst.draw = () => {
+        const t = inst.sim, breath = Math.sin(t * .9) * R.breath, f = inst.flip;
+        const swell = 1 + .007 * breath;
+        const dx = Math.sin(t * .16) * 4.3 * R.wander, dy = -Math.cos(t * .13) * 3.4 * R.wander;
+        inst.img.style.transform =
+          `scale(calc(var(--circle-scale)*${swell})) rotate(${f * -Math.sin(t * .21) * .035}rad)`;
+        inst.wall.style.transform =
+          `scale(calc(var(--circle-scale)*${swell})) rotate(${t * R.wall * f}rad)`;
+        inst.ring.style.transform =
+          `translate(${dx}%, ${dy}%) scale(calc(var(--circle-scale)*${swell})) rotate(${t * R.ring * f}rad)`;
+        inst.core.style.transform =
+          `translate(${dx}%, ${dy}%) scale(calc(var(--circle-scale)*${swell})) rotate(${t * R.core * f}rad)`;
+        inst.glow.style.transform =
+          `translate(${dx}%, ${dy}%) scale(${1 + .10 * breath + .06 * inst.boost})`;
+        inst.glow.style.opacity =
+          Math.min(1, inst.base * R.glow * (1 + .18 * breath + .5 * inst.boost)).toFixed(3);
+      };
+      new IntersectionObserver(e => { inst.vis = e[0].isIntersecting; }).observe(box);
+      door.addEventListener("pointerenter", () => { inst.hot = true; });
+      door.addEventListener("pointerleave", () => { inst.hot = false; });
+      instances.push(inst);
+    }
+    if (instances.length) {
+      const STEP = 1 / 34;   /* the living loop's throttle — far above these rates */
+      /* ⚠️ THE CLOCK ADVANCES BY THE ACCUMULATED INTERVAL, NOT THE LAST FRAME'S dt —
+         caught 2026-08-13 (night) while verifying the Mesmerise rates against the
+         recipe. The throttle pattern this loop inherited resets the accumulator and
+         then adds only ONE frame's dt to the clock, silently dropping every skipped
+         frame's time: measured, the ring turned at exactly HALF its recipe rate at
+         60Hz — and the loss scales with refresh rate (a quarter at 120Hz), so the
+         page could never match the Atelier the founder chose in, and never match
+         itself across displays. `acc` now carries the full elapsed time into the
+         clock and resets AFTER the update. The living-orb loop above keeps the old
+         pattern DELIBERATELY: its speeds were tuned by eye on the rendered page,
+         bug absorbed — retiming it would change an approved look. */
+      let last = performance.now(), acc = 0;
+      (function loop(now) {
+        requestAnimationFrame(loop);
+        const dt = Math.min((now - last) / 1000, .1); last = now;
+        if (document.hidden) return;
+        acc += dt; if (acc < STEP) return;
+        for (const inst of instances) {
+          if (!inst.vis) continue;
+          inst.boost += ((inst.hot ? 1 : 0) - inst.boost) * Math.min(1, acc * 2.2);
+          /* hover=both (the recipe): the bloom in draw() plus this quicken — the
+             round-3 whisper stood at .25 until round 6 raised it to .6, and the
+             founder's Mesmerise keeps it there */
+          inst.sim += acc * (1 + inst.boost * R.quicken);
+          inst.draw();
+        }
+        acc = 0;
+      })(last);
+    }
+  }
+} catch (e) { /* the approved stills keep standing exactly as shipped */ }
+</script>
 
 
 <script type="module">

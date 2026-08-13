@@ -1,3 +1,141 @@
+# Handoff addendum — 2026-08-13, late evening (the stills take the living orbs' movement)
+
+> ## ⚠️ ROUND 7, SAME NIGHT — THE FOUNDER CHOSE: MESMERISE. LIVE ON MAIN.
+>
+> Word came back — *"mesmerize is the way to go"* — so the interim Vortex is replaced by
+> her Atelier preset, verbatim:
+> `orb-recipe: mode=counter dir=ccw wall=42s shell=holds breath=1.50 wander=1.40 glow=1.30 hover=both alternate=on`
+> Three notes. (1) **shell=holds restores the round-4 reflection rule** — the outside is
+> back on its ±2° rock, window-lights anchored; the turning shell left with the Vortex
+> that owned it. (2) **alternate=on is new on the page**: the middle door mirrors every
+> rotation (`flip` in DOORS), so adjacent orbs counter-rotate and the row reads as three
+> living things — drift and breath stay unflipped, the seeds already de-phase them.
+> (3) The mask sum relaxes a step at wander 1.4: 41.2% vs 43.4%, ~2.2% margin (ceiling
+> unchanged: wander ~1.9 breaks it). Verified counter-rotation on the rendered page:
+> ring angles on doors 1 and 2 carry opposite signs, same magnitude.
+> (4) **A clock bug was caught and fixed while verifying the rates.** The throttle
+> pattern the stills' loop inherited from the living engine drops skipped frames' time
+> from the clock — measured, the ring ran at exactly HALF its recipe rate at 60Hz, and
+> the loss scales with refresh rate (quarter at 120Hz). The stills' accumulator now
+> carries full elapsed time, so the page runs the recipe at true rate on every display
+> — which is the rate the founder chose in the Atelier (the Atelier loop was always
+> true-rate). ⚠️ The LIVING-orb loop keeps the old pattern deliberately: its speeds
+> were tuned by eye on the rendered page with the bug absorbed — retiming it would
+> change an approved look. Noted at both loops.
+>
+> ## ⚠️ ROUND 6, SAME NIGHT — THE VORTEX RECIPE SHIPS TO MAIN, AS THE INTERIM
+>
+> The founder is choosing the motion herself in the **Orb Atelier** — a shared
+> configurator artifact that runs this same engine (all three doors, presets, sliders,
+> a copyable recipe line). His instruction until her line arrives: ship the Atelier's
+> **Vortex** preset, to **main**, not a side branch. Verbatim:
+> `orb-recipe: mode=counter dir=ccw wall=30s shell=48s breath=1.60 wander=1.50 glow=1.40 hover=both alternate=off`
+> Two rules from earlier rounds are consciously overridden BY TASTE, chosen by eye in
+> the Atelier: the shell now **turns** (48s — the round-4 reflection argument stands in
+> the code as a recorded cost, not a prohibition), and hover is **both** (bloom + a .6
+> quicken; the round-3 whisper rule stood at .25). All recipe numbers live in one `R`
+> block in the script — the founder's eventual line is a drop-in retranslation of that
+> block alone. The ring-mask safety sum is re-worked at the mask for wander 1.5: 41.6%
+> vs 43.4%, ~1.8% margin — **the thinnest it has been; wander above ~1.9 breaks it.**
+>
+> ## ⚠️ ROUND 5, SAME NIGHT — "IS THE OUTSIDE EVEN MOVING?" — THE WALL BAND
+>
+> Round 4's highlight argument was correct optics and still overshot: it left the outer
+> body of the ball visibly frozen. The completion of the law, not its retraction:
+> **surfaces hold still, light doesn't.** A third, outermost, FASTEST zone
+> (`.service-orb__wall`, ~57s/turn against the mid swirl's 80s and the core's 160s —
+> the shear profile is now monotonic outward-faster) moves as **screen-blended light
+> only**: the caustic webbing sweeps with the fluid while the base render's
+> first-surface reflections stay anchored beneath it, which is how real glass behaves.
+> Additive-only, per-door opacity (the rose runs hottest — faintest webbing), and
+> **no drift on this layer, ever**: wall-confined fluid cannot slosh into its own wall,
+> and pure rotation about the optical centre preserves radius — that plus the 35%
+> fade-out against the 37% alpha edge is the entire rim-safety argument, carried at
+> the mask. Screen over the cream ground is a near-no-op, so even a lumpy-silhouette
+> graze costs nothing visible.
+>
+> ## ⚠️ ROUND 4, SAME NIGHT — PHYSICS ABOVE ALL (his call, and it outranks these notes)
+>
+> *"shouldn't the outside move faster than the inside … I want this to be physics above
+> all … and defend that."* The engine now answers to a declared physical model — **a
+> solid glass shell enclosing luminous fluid** — and the full defense lives in the
+> script header. The four consequences: (1) the render itself must not visibly spin,
+> because baked highlights belong to the room's lights and a real glass sphere keeps
+> its highlights still while turning — the shell's rotation is seen only through what
+> it drags; (2) **the interior is now TWO zones in shear, outer leading** (~80s/turn)
+> **over a lagging deep core** (~160s/turn, 2:1) — his "outer faster" law, honored
+> where it is physically true: the fluid is stirred by its wall, so drag grips the
+> outer fluid first (were it orbiting a central mass the inner side would lead — the
+> driver picks the profile); (3) shell and interior at different rates is MORE
+> physical, not less — different phases couple only by drag (the Sun, Earth's inner
+> core, a snow globe); (4) wander = convection, pulse = thermal flicker, rock and
+> swell = a levitated droplet's librations. One new layer (`.service-orb__core`, the
+> lagging zone) with its own mask; the shear crossfade in the 12–20% feather is
+> deliberate — read it as the fluid's blur, not a defect.
+>
+> ## ⚠️ ROUND 3, SAME NIGHT — THE LOCKSTEP RULE BELOW IS RETIRED
+>
+> Over the proof clips the ask relaxed: *"it doesn't have to be picture perfect as the
+> other circle … just for it to move"* — most aesthetic, luxury, nothing that takes away
+> from the picture. So the stills **no longer quote the living engine's `draw()`**; their
+> motion is retuned as **atmosphere** where the living orb's is **evidence** — every rate
+> below the threshold of "watching something move". One shared clock is a ~7s breath
+> (the ball swells ±.7% and the core light lifts with it, together); the interior turns
+> slower than the eye holds (~2 min/turn); drift runs on 39s/48s paths; the rock drops
+> to ±2° on 30s; hover **blooms** (light up, breath deeper, clock +25%) instead of
+> hurrying. Periods are mutually incommensurate so the composite never loops. The full
+> design position and every number live in the script header; the mask sum is re-worked
+> at the mask (39.3% vs a rim at 42.9%). Paragraphs below marked ⚠️ describe round 1's
+> lockstep build and survive as history — the mechanism, the layers, the fallback rules
+> and the measured checks all still hold.
+
+Scope: `hormone-balancing/index.html` only — one ask: *"they want this one to have that
+movement"*, said of the approved section-04 renders while the 04 ALT spheres turn beside
+them. So the stills now carry the living family's choreography. The A/B still stands —
+nothing was deleted; if this settles the choice, the living section comes out by its own
+three-part removal note.
+
+**The verdict that shaped the build, on the record:** the living orb's motion is
+*choreography* (rotation rates, the core's drift and pulse, the hover lift) **plus**
+*refraction*, and a flat render can only ever share the first — one frozen viewpoint
+cannot re-derive what the glass would show from the next angle; the §9 notes below
+already establish that parallax is the thing a 2D image lacks. What shipped is therefore
+the **entire choreography and only the choreography**: every rate is the in-plane
+projection of `inst.draw` in the living engine — the shell's z-term as a rock, the
+nebula's z-term as a continuous interior turn, the core's own x/y drift path and pulse,
+the same seeds, hover boost, and ~34fps throttle. ⚠️ **The two engines quote the same
+numbers and must change together**, or the A/B compares two behaviours instead of two
+fidelities. Both motion tables live at the foot of the file, side by side, each saying so.
+⚠️ **The projections negate on the way into CSS** — his check, second round ("is the
+middle supposed to go the same way?"): the living engine composes in camera space (+y up,
++z spin counter-clockwise) while CSS runs +y down and rotate() clockwise, so the y-drift
+and both rotations carry a minus and only the x-drift crosses unchanged. The first cut
+shipped without the minuses and played vertically mirrored against the live family —
+same rates, opposite directions. Fixed and re-measured the same evening.
+
+**The mechanism** — three layers per door, all inside the existing `.service-orb` box:
+the approved render (rocks), a clone of itself masked to the middle of the glass (turns
+behind the rocking rim — the web and baked starburst sliding against the rim is what
+stands in for "the interior swims"), and an additive glow riding the core's drift
+(`mix-blend-mode:screen`, per-door opacity = the live `core` × .4 — the render already
+has a full starburst; the layer only breathes over it, and the rose saturates first).
+⚠️ The geometry that keeps moving glass inside the silhouette is a worked sum at the
+mask: (30% mask edge × 1.16 scale) + 5.59% max drift = 40.4% against a rim at 42.9%.
+Touch the mask, the drift, or `--circle-scale` and re-do it.
+
+**The layers are built by the script, not the markup.** No JS and reduced-motion both
+leave the approved section exactly as shipped — a still is its own considered frame,
+the same rule the living orbs follow by rendering once. No CDN, no canvas: there is no
+failure mode worse than the still that was already standing.
+
+**Measured** (headless Chromium, `?probe=1`): three interiors + three glows built, zero
+in the live section; two frames of the grid 2.6s apart differ (≈496k bytes — the same
+motion test §9 used); under reduced-motion zero layers are built and the two frames are
+byte-identical; `scrollWidth` at 390×844 is exactly 390, so the clipped drift never
+re-springs the 391px trap.
+
+---
+
 # Handoff addendum — 2026-08-13, late (the hero drops the city · 03 moves above the scene · the agent grows · BHRT comes down to its list · Testosterone Top Up · one size for 05's titles · the corner clears)
 
 Scope: `hormone-balancing/index.html` only, seven of his notes in one pass. Where this

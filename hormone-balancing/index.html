@@ -554,6 +554,23 @@ section{position:relative}
           mask-image:radial-gradient(circle at var(--orb-optical-x) var(--orb-optical-y),transparent 0 12%,#000 18% 24%,transparent 30%);
   will-change:transform;
 }
+/* ⚠️ THE WALL ZONE — round 5, "is the outside even moving?": the outermost and FASTEST
+   band of the shear profile, and it is LIGHT, not matter. mix-blend-mode:screen only
+   ever ADDS, so what moves out here is the caustic webbing — light refracted through
+   the moving fluid — while the base render's first-surface reflections stay anchored
+   beneath it, which is exactly how real glass behaves: reflections belong to the room
+   and hold still, caustics belong to the moving matter and sweep with it.
+   ⚠️ NO TRANSLATE ON THIS LAYER, EVER — wall-confined fluid cannot slosh into its own
+   wall, and rotation about the optical centre PRESERVES RADIUS, which is the entire
+   safety argument at the rim: the fade-out ends at 35% element-space against the ball's
+   37% alpha edge, and a rotating pixel can never leave its own circle. (And screen over
+   the cream ground is a near-no-op, so even a lumpy-silhouette graze costs nothing
+   visible.) Give this layer the drift and every one of those guarantees dies at once. */
+.service-orb__wall{
+  -webkit-mask-image:radial-gradient(circle at var(--orb-optical-x) var(--orb-optical-y),transparent 0 26%,#000 31% 33%,transparent 35%);
+          mask-image:radial-gradient(circle at var(--orb-optical-x) var(--orb-optical-y),transparent 0 26%,#000 31% 33%,transparent 35%);
+  mix-blend-mode:screen;will-change:transform;
+}
 /* ⚠️ THE INTERIOR IS TWO ZONES SINCE THE PHYSICS ROUND (2026-08-13, round 4): the outer
    swirl above and this deep core, sheared 2:1 by the script — the fluid is stirred by
    its wall, so the wall side leads and the core lags (spin-up). The feathered overlap
@@ -3712,9 +3729,9 @@ try {
      · HOVER BLOOMS INSTEAD OF HURRYING — the living orb answers a pointer with
        speed; this family answers with warmth. The light lifts, the breath deepens,
        the clock gains only a whisper (see the loop).
-   The periods — breath 7s, rock 30s, drift 39s/48s, turns 80s/160s — are mutually
-   incommensurate but for the deliberate 2:1 shear pair, so the composite never
-   visibly loops.
+   The periods — breath 7s, rock 30s, drift 39s/48s, turns 57s/80s/160s — are
+   mutually incommensurate but for the deliberate shear ratios, so the composite
+   never visibly loops.
 
    ⚠️ ROUND 4 — PHYSICS ABOVE ALL, HIS CALL, AND IT OUTRANKS EVERY NOTE HERE INCLUDING
    HIS OWN ("above md and above me"). The model this engine now answers to: A SOLID
@@ -3724,12 +3741,17 @@ try {
        smooth glass sphere spinning keeps its highlights still, so its rotation is
        nearly invisible from outside. Spinning the photo would spin the room. The
        shell may well be turning; we see it only through what it drags.
-     · THE INTERIOR IS TWO ZONES IN SHEAR, OUTER LEADING — his "outer faster" law,
-       honored where it is true. The fluid is stirred BY ITS WALL (not orbiting a
-       central mass, which would put the inner side faster — the driver picks the
-       profile): drag grips the outermost fluid first and the deep core lags. Outer
-       swirl ~80s/turn, core ~160s/turn, same sense, 2:1. The soft shear ring where
-       they meet is the "this is fluid" cue.
+     · THE INTERIOR IS THREE ZONES IN SHEAR, MONOTONIC, FASTEST AT THE WALL — his
+       "outer faster" law, honored where it is true. The fluid is stirred BY ITS
+       WALL (not orbiting a central mass, which would put the inner side faster —
+       the driver picks the profile): drag grips the outermost fluid first and the
+       deep core lags. Wall band ~57s/turn, mid swirl ~80s, core ~160s, same sense.
+       The soft shear rings where they meet are the "this is fluid" cue.
+     · THE WALL BAND MOVES AS LIGHT, NOT MATTER (round 5, "is the outside even
+       moving?") — out where the baked reflections live, the moving layer is
+       screen-blended: CAUSTICS sweep with the fluid while the first-surface
+       reflections beneath stay anchored to the room. Fastest zone, additive only,
+       no drift — the wall note in the stylesheet carries the rim-safety argument.
      · TWO RATES ARE MORE PHYSICAL THAN ONE, never less: shell and interior are
        different PHASES of matter, coupled only by drag — the Sun's envelope and
        interior rotate at different rates, Earth's inner core runs at its own rate,
@@ -3755,10 +3777,13 @@ try {
   if (!reduce && stills.length) {
     /* seed desynchronises the three exactly as TINTS does for the live family; glow is
        the live per-orb core opacity × .4 — see the stylesheet note on why it is dim. */
+    /* `wall` is the screen-blended caustic band's opacity, per-door because the three
+       pigments carry different webbing contrast: the rose's is faintest, so it runs
+       hottest — the same equal-alpha-reads-differently note every layer here inherits. */
     const DOORS = {
-      "door--bhrt":      { seed: 1.3, glow: .38 },
-      "door--menopause": { seed: 4.7, glow: .25 },
-      "door--trt":       { seed: 8.1, glow: .34 },
+      "door--bhrt":      { seed: 1.3, glow: .38, wall: .35 },
+      "door--menopause": { seed: 4.7, glow: .25, wall: .38 },
+      "door--trt":       { seed: 8.1, glow: .34, wall: .35 },
     };
     const instances = [];
     for (const door of stills) {
@@ -3766,6 +3791,10 @@ try {
       const img = door.querySelector(".service-orb__image");
       const key = [...door.classList].find(c => DOORS[c]);
       if (!box || !img || !key) continue;
+      const wall = img.cloneNode();
+      wall.classList.add("service-orb__wall");
+      wall.setAttribute("aria-hidden", "true");
+      wall.style.opacity = DOORS[key].wall;
       const ring = img.cloneNode();
       ring.classList.add("service-orb__interior");
       ring.setAttribute("aria-hidden", "true");
@@ -3775,22 +3804,28 @@ try {
       const glow = document.createElement("div");
       glow.className = "service-orb__glow";
       glow.style.opacity = DOORS[key].glow;
-      box.append(ring, core, glow);
+      box.append(wall, ring, core, glow);
       img.style.willChange = "transform";
-      const inst = { img, ring, core, glow, base: DOORS[key].glow,
+      const inst = { img, wall, ring, core, glow, base: DOORS[key].glow,
                      sim: DOORS[key].seed * 6, vis: true, hot: false, boost: 0 };
       /* drift amplitudes are in % of the orb box: 4.3 / 3.4 ≈ .10/.08 of a shell
          radius (the ball renders at 43% of the box — measured alpha bounds ×
          --circle-scale). ALL interior zones ride the same drift and swell — the
          convection carries the whole fluid body, and a middle that breathes against
-         its own rim reads as a seam, not a breath. Only the ROTATION is sheared:
-         ring −.08 rad/s, core −.04 — outer leads, 2:1, per the physics note above. */
+         its own rim reads as a seam, not a breath. (The wall band is the exception —
+         it does NOT drift; see its own note.) Only the ROTATION is sheared: wall
+         −.11 rad/s, ring −.08, core −.04 — fastest at the wall, per the physics
+         note above. */
       inst.draw = () => {
         const t = inst.sim, breath = Math.sin(t * .9);
         const swell = 1 + .007 * breath;
         const dx = Math.sin(t * .16) * 4.3, dy = -Math.cos(t * .13) * 3.4;
         inst.img.style.transform =
           `scale(calc(var(--circle-scale)*${swell})) rotate(${-Math.sin(t * .21) * .035}rad)`;
+        /* the wall band: rotation and swell ONLY — the no-translate rule is a rim-safety
+           guarantee, argued at its mask. Fastest of the three zones: stirred at the wall. */
+        inst.wall.style.transform =
+          `scale(calc(var(--circle-scale)*${swell})) rotate(${t * -.11}rad)`;
         inst.ring.style.transform =
           `translate(${dx}%, ${dy}%) scale(calc(var(--circle-scale)*${swell})) rotate(${t * -.08}rad)`;
         inst.core.style.transform =

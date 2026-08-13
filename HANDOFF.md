@@ -1,5 +1,21 @@
 # Handoff addendum — 2026-08-13, late evening (the stills take the living orbs' movement)
 
+> ## ⚠️ ROUND 5, SAME NIGHT — "IS THE OUTSIDE EVEN MOVING?" — THE WALL BAND
+>
+> Round 4's highlight argument was correct optics and still overshot: it left the outer
+> body of the ball visibly frozen. The completion of the law, not its retraction:
+> **surfaces hold still, light doesn't.** A third, outermost, FASTEST zone
+> (`.service-orb__wall`, ~57s/turn against the mid swirl's 80s and the core's 160s —
+> the shear profile is now monotonic outward-faster) moves as **screen-blended light
+> only**: the caustic webbing sweeps with the fluid while the base render's
+> first-surface reflections stay anchored beneath it, which is how real glass behaves.
+> Additive-only, per-door opacity (the rose runs hottest — faintest webbing), and
+> **no drift on this layer, ever**: wall-confined fluid cannot slosh into its own wall,
+> and pure rotation about the optical centre preserves radius — that plus the 35%
+> fade-out against the 37% alpha edge is the entire rim-safety argument, carried at
+> the mask. Screen over the cream ground is a near-no-op, so even a lumpy-silhouette
+> graze costs nothing visible.
+>
 > ## ⚠️ ROUND 4, SAME NIGHT — PHYSICS ABOVE ALL (his call, and it outranks these notes)
 >
 > *"shouldn't the outside move faster than the inside … I want this to be physics above

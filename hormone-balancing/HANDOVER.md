@@ -1,5 +1,19 @@
 # Hormone Balancing & BHRT — `/hormone-balancing/` (shipped 2026-08-10, four refinement rounds same day)
 
+> ## ⚠️ SUPERSEDED AGAIN — 2026-08-13, EVENING. READ `../HANDOFF.md` FIRST.
+>
+> Six of his notes in one pass. Against this document, these points are now wrong:
+>
+> | Says | Now |
+> |---|---|
+> | H1 is "Hormone imbalance treatment for *women*." | **"Hormone imbalance *treatment*."** — the accent moved to "treatment". The `<title>`, meta description and hero sub still say "for women", deliberately |
+> | 04's titles are centred **inside** the orbs | **The heading is out of the ball.** Order is picture → question → name → Explore, and the glass mask, the `::after` scrim and every per-orb legibility value are **deleted** — the render shows its original colour |
+> | The scene column runs `H*.20 → H*.88` | **`H*.245 → H*.88`.** `.scene-title` also rose to `H*.042`. Between them that turns an 8px gap between BHRT and "Deep sleep" into 60px at 1440×900 — his note, and a measured collision |
+> | Section 04 is the only consultations section | **There are two, both numbered 04.** `#services-live` is an A/B carrying the recovered WebGL orbs; the kicker is the only copy difference. One of them gets deleted whole when he picks |
+> | The procedural WebGL orbs are gone | **Recovered from `4d798db`**, verbatim but for its mount selector, and running in the A/B section |
+> | 06 is Megante at `clamp(21px,2.5vw,36px)` with a gold quote mark | **Cormorant Garamond italic 500 at the landing page's own clamp**, black, 26ch, one-line attribution. The ornament is gone and the marks are in the copy. `--quote` is unchanged — the scene keeps Megante |
+> | "Stories (placeholder testimonials, labelled as such)" | **The label is gone, his call. THE QUOTES ARE STILL PLACEHOLDERS** — the warning now lives only in a DOM comment above the rail |
+
 > ## ⚠️ SUPERSEDED IN PART — 2026-08-13. READ `../HANDOFF.md` FIRST.
 >
 > Three changes on his notes: (1) the H1 is now the SEO headline "Hormone imbalance

@@ -1,3 +1,214 @@
+# Handoff addendum — 2026-08-13, evening (headline · scene clearance · the title comes off the ball · an A/B on the orbs · 06 borrows the landing page's voice)
+
+Scope: `hormone-balancing/index.html`, six of his notes in one pass. Where this touches
+the orb table or the section-06 type below, **THIS supersedes**; everything else in the
+earlier 08-13 and 08-12 addenda still holds.
+
+Everything below was checked on the rendered page, not on the diff — 32 assertions across
+1440×900 / 1920×1080 / 390×844, plus a baseline sweep at twelve widths. Both harnesses are
+throwaway (they live in the session scratchpad, not the repo); what they measured is
+recorded here and inline at each site.
+
+## 1 · The H1 loses "for women"
+
+`Hormone imbalance treatment for *women*.` → `Hormone imbalance **treatment**.`
+
+⚠️ **The accent moved rather than disappearing.** It sat on the audience; with the audience
+gone it sits on "treatment", still as a rose italic at the end of line two, which is where
+every approved render has one. An H1 with no `<em>` would be the only headline on the page
+without an accent.
+
+⚠️ **The `<title>`, the meta description and the hero sub still say "for women", deliberately.**
+He asked for the H1. Those three are the SEO copy he signed off the same morning — change
+them as one decision, not as a tidy-up.
+
+## 2 · BHRT is no longer sitting on "Deep sleep"
+
+His note, and it was a measured collision rather than a preference. `.scene-title` lands at
+`colL` over `.80–.88` at up to 104px, line-height 1; the first answer hangs in slot 0 at the
+same x. **Gap was 8px at 1440×900 and ~7px at 390×844** — a 104px word and a 34px word
+effectively touching.
+
+Two numbers moved, and both were needed:
+
+| | Was | Now |
+|---|---|---|
+| `.scene-title` y | `H*.055` | `H*.042` |
+| label / answer column `top` | `H*.20` | `H*.245` |
+
+Measured after: **60px at 1440×900, 97px at 1920×1080, 111px at 390×844.**
+
+- The title could not climb much further — `.scene-copy` starts at `H*.045` and the header
+  owns everything above — so most of the clearance came from the column.
+- **`bot` is untouched.** `.88` is what leaves Replay/Skip their corner; the last slot has
+  not moved a pixel.
+- **The labels moved with the answers, on purpose.** Answer *i* lands in symptom *i*'s slot
+  and that identity is the section's argument.
+- Pitch is now 63px against 37px line boxes at 900px tall. The beat band only gained — it
+  is capped by the first slot, so it went from a 180px ceiling to 220px.
+- **BHRT's size is unchanged.** He asked for distance; shrinking the payoff to buy the gap
+  would have spent the thing the gap protects.
+
+## 3 · Section 04: the words come off the ball
+
+> "they don't like the words on the middle of the ball, just make the ball the original
+> colour and put the words under the questions" · "make question and the answer and the word
+> explore bigger"
+
+Reading order is now **picture → question → name → way in**.
+
+**The glass apparatus is deleted, not neutralised.** The mask on `.service-orb__image`
+(`--glass-center` / `--glass-mid`) and the `::after` scrim existed for exactly one job: to
+punch a pale hole in each render so a heading could be read on it. Every per-orb value in
+the old table — `.31/.5515` burgundy, `.65/.7725` rose, `.40/.61` gold — was a legibility
+number tuned per pigment. With no heading over the glass there is nothing to make legible,
+and an unmasked render **is** the original colour. **There is no longer a per-door
+`.service-orb` rule at all** — all three carried only glass and title values.
+
+The name is one line now (`Hormone Therapy & BHRT`), not two nowrap spans; the spans existed
+to stack it inside a circle. `--top-letter` / `--bottom-letter` / `--line-gap` /
+`--title-scale` went with them.
+
+⚠️ **`--circle-scale: 1.16`, the optical centre and `overflow:hidden` all survive** — they
+are size and framing, which he approved the same day. Don't take them out with the glass.
+
+⚠️ **A contrast surface retired with it.** The title's 12.88:1 over its own scrim was a
+measured row in `tools/qa/door-contrast.mjs`; the name now sits on the section's flat
+`#FAF7F1` with the hook and Explore, the ground those two were already cleared against.
+Nothing on this page reads over a picture any more.
+
+The copy stack, sized as a set:
+
+| | Was | Now |
+|---|---|---|
+| `.hook` (question) | `clamp(15px,1.45vw,19px)` | `clamp(17px,1.7vw,23px)` |
+| `.door h3` (name) | `clamp(1.6rem,2.5vw,2.5rem)`, inside the orb | `clamp(25px,2.5vw,36px)`, on the ground |
+| `.link-arrow` (Explore) | 12.5px | 15px |
+
+The name kept **Megante**, not the global h1–h3 Playfair: it is the face he approved these
+three names in, and an explicit family also makes the `"opsz" 30` pin inert on it.
+
+The two `.service-orb h3` breakpoint overrides are gone — a title centred *inside* a circle
+is sized against the circle, so it had to be re-clamped at 69rem and 45rem or it burst its
+orb. On the open ground one viewport-keyed clamp covers three columns, two, and the stack.
+
+### The one thing this round introduced and then paid off
+
+Questions wrap 1/2/2 lines and names wrap 2/1/2, so with both on the ground **the three
+Explores landed at three different heights** — a stagger the old layout could not produce,
+because only the question varied. Fixed with a two-line reserve (`min-height:2.8em` on the
+hook, `2.2em` on the name — line-count × line-height in each element's own ems, so they
+track the clamps). Verified at 1920 / 1600 / 1440 / 1280 / 1104 / 1000 / 900 / 760 / 720 /
+600 / 480 / 390: every door that shares a grid row shares an Explore baseline, and nothing
+reaches a third line.
+
+⚠️ **`min-height` is a floor, not a cap** — a third line in either string breaks this again.
+Re-measure before lengthening either. ⚠️ It is **off below 45rem**, where the doors stack in
+one column: with no neighbour to align to it would only print empty space.
+
+## 4 · Section 04 ALT — the living orbs, as an A/B
+
+> "create a whole new section under it, same thing except the orbs will use the actual 3d
+> we made"
+
+`#services-live`, directly under `#services`. Same head, same questions, same names, same
+Explore, same discovery-call note — **one variable changed**. Anything else that differs
+between the two sections is a bug in the comparison.
+
+**The shader is recovered, not rewritten.** It is the engine from `4d798db`, retired on
+2026-08-12 when the still family was approved, back verbatim except for one line: the mount
+selector is `.doors--live .door`, so it cannot reach the still doors above it. It was
+already house-patterned on the silk hero — reduced-motion collapses to one frame, per-orb
+IntersectionObserver, DPR capped at 1.5, `.orb--live` granted only on a drawn frame so every
+failure path leaves the CSS gradient orb standing.
+
+**Not renumbered, and that is deliberate.** Both sections wear "04"; the kicker
+(`04 alt · Consultations — living orbs`) is the only copy difference. A real 05 here would
+mean renumbering Booster / Stories / FAQ for something built to have one half deleted.
+
+⚠️ **When he picks, delete the losing section whole.** There is nothing to merge.
+- Losing *live*: this section + the `.orb` / `.orb__gl` / `.orb--live` / `--orb-deep` block
+  + the living-orb script at the foot. **Three pieces, all marked.**
+- Losing *still*: its twin above + the `.service-orb` block.
+
+⚠️ `id="services-live"` — the header menu and the hero's ghost button both point at
+`#services`, which stays with the still section.
+
+The mount matches `.service-orb`'s footprint at every breakpoint (square, `min(100%,29rem)`,
+`31rem` on phones) because a like-for-like judgement needs the same box — otherwise he is
+picking a size, not a technique. Measured 400px against 400px at 1440. The shader draws its
+body at R=.80 of the canvas (23.2rem at the ceiling) against the still family's 74%-of-square
+at `--circle-scale` 1.16 (24.9rem) — inside 7%, which is as close as a procedural silhouette
+and a photographed one get without faking one of them.
+
+Verified: all three orbs reach `.orb--live` with real WebGL2 buffers at 1440 **and** at
+390×844, and the engine does not touch the still doors.
+
+## 5 · Section 06 speaks in the landing page's voice
+
+> "for the testimonials make it the same size as the landing page's feedback and same font
+> and style"
+
+Every value is lifted from `.cvoice` / `.cvoice p` / `.cvoice footer` in `../index.html`
+rather than eyeballed — "same" is checkable, "similar" is not. **If chapter 08 there is ever
+retuned, this is the block that follows it.**
+
+| | Was | Now (= landing page) |
+|---|---|---|
+| face | `--quote` (Megante) | Cormorant Garamond italic 500 |
+| size | `clamp(21px,2.5vw,36px)` | `clamp(1.755rem,2.988vw,3.213rem)` — **43.0px at 1440**, 28.1px floor |
+| colour | `--ink` #2E2228 | `#000` |
+| measure | 30ch | 26ch |
+| attribution | burgundy name over uppercase caption | one black line, 1.08rem, .08em |
+
+⚠️ **This overturns the 2026-08-10 "Cormorant unreadable at size" call, knowingly.** That
+judgement was made against the *scene* — 21–34px of two-word phrases over a moving ground —
+and **it still stands there**. `--quote` is deliberately unchanged; a second token,
+`--quote-story`, carries Cormorant, so only the blockquote moved. Two names because there
+are two decisions.
+
+⚠️ **The gold `.q-mark` ornament is gone and the marks are in the copy.** The landing page
+has no ornament — its quotes wear real `“ ”` around the words. A 46px gold glyph above the
+text is a different style, not a smaller version of the same one. Nested quotes in Amina's
+are `‘ ’`: straight quotes inside an italic garamond read as feet-and-inches at 43px.
+
+⚠️ **A carousel-block size override had to be deleted, or the whole ask would have silently
+failed.** `.story blockquote{font-size:clamp(21px,2.5vw,36px)}` sat *after* the base rule and
+was more specific in cascade order; leaving it would have shipped the old size in the new
+face — the one outcome that looks like the change worked and did not.
+
+⚠️ **The fonts are linked, not base64, and that is the one place this page breaks its own
+rule.** Two subsets, 74 KB, that only section 06 needs — and they are already on disk and
+already shipping, so a reader arriving from the landing page has them cached. Embedding
+would add ~100 KB of base64 to a 663 KB file to re-supply bytes the browser already holds.
+`../images/` already resolves this way, so it is a new instance of an existing dependency,
+not a new kind. **EN only** — no cyrillic subsets, because this page has no language switcher
+(zero `data-i18n`, `lang="en"` fixed). Add them the day it is translated.
+
+## 6 · The placeholder line is gone
+
+`Placeholder stories for this mock-up — to be replaced with real patient voices.` removed on
+his instruction; the `.story-note` rule went with it.
+
+> ⚠️ **THE QUOTES ARE STILL PLACEHOLDERS.** Taking the disclaimer off a mock-up does not make
+> the copy real, and 06 now looks finished to anyone who opens it. The warning is repeated in
+> the DOM above the rail rather than quietly dropped with the line — that comment is the only
+> place this record now lives on the page. Replace with real patient voices before any real
+> marketing.
+
+## Still open
+
+- The doors stay unwired (`data-soon`) in **both** sections — wiring is three `href`s and no
+  markup change, and it would have to be done twice until he picks.
+- `?style=editorial|gallery|soft` still override `.story blockquote` font-size with their own
+  scales. They are whole-page preview treatments for a different question and are off by
+  default; they now inherit Cormorant at their own sizes, which is coherent, but they are not
+  "the landing page's size".
+- `tools/qa/door-contrast.mjs` still measures the doors against the retired dark-plate model.
+  Nothing it guards can fail now — the copy sits on flat ivory — but it is stale.
+
+---
+
 # Handoff addendum — 2026-08-13 (SEO headline · one scene for every width · bigger orbs)
 
 Scope: `hormone-balancing/index.html`. Three of his calls, same day — then a second

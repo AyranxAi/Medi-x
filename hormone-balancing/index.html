@@ -685,12 +685,21 @@ section{position:relative}
    global h3 and read large against darkness. On a light card at the same value it came
    out at ~17px and disappeared. Sized to the card, not to the page. */
 .boost-one h3{color:var(--ink);font-size:clamp(19px,1.9vw,28px);line-height:1.12}
-/* ⚠️ THE HALVES STACK NOW, so the join is a LINE BREAK and no longer a margin. The old
-   note here said the gap had to be a margin rather than markup whitespace, because a
-   trailing space collapses when the line wraps between the halves. That reasoning applied
-   to an inline em; a block em cannot wrap between the halves at all, so margin-left is
-   reset to 0 — left on, it indents the second line by .3em against the first. */
-.boost-one h3 em{color:var(--logo-red);display:block;font-size:.8em;margin-top:5px;margin-left:0}
+/* ⚠️ THE HALVES ARE BACK ON ONE LINE — his call 2026-08-13 (evening), "hormone + gut and
+   hormone + energy should be one line". `display:block` is what stacked them; inline is the
+   whole fix, and the two margins that served the stack come off with it.
+   ⚠️ THE GAP IS A MARGIN, NOT MARKUP WHITESPACE, AND THAT IS THE OLD TRAP RETURNING. The
+   markup is <h3>Hormone Therapy<em>+ Gut Health</em></h3> with no space before the <em>,
+   deliberately: a trailing space there COLLAPSES if the line ever wraps between the halves,
+   and the two words would fuse. margin-left survives the wrap. Do not "tidy" it by adding a
+   space to the HTML.
+   ⚠️ .3em IS OF THE EM'S OWN .8em, i.e. .24em of the h3 — a word space, not an indent.
+   ⚠️ IT MAY STILL WRAP, AND THAT IS CORRECT. This makes the halves one CONTINUOUS line
+   rather than a forced two; it does not nowrap them. Measured at 1920/1600/1440/1280/1104/
+   980/900/760/600/480/390 — one line at every width, with the tightest margin on the phone
+   stack. A longer programme name than "+ Gut Health" wraps rather than overflowing, which is
+   the right failure. */
+.boost-one h3 em{color:var(--logo-red);display:inline;font-size:.8em;margin-left:.3em}
 .boost-one p{color:var(--ink-soft);max-width:34ch}
 /* ⚠️ THE SECTION'S ONE DOOR BELONGS TO BOTH PROGRAMMES, SO IT CENTRES. It had no rule of its
    own at all: it inherited block layout, sat hard left, and landed under whichever programme

@@ -196,6 +196,24 @@ his instruction; the `.story-note` rule went with it.
 > place this record now lives on the page. Replace with real patient voices before any real
 > marketing.
 
+## 7 · Section 05's programme titles go back to one line
+
+> "hormone + gut and hormone + energy should be one line"
+
+`.boost-one h3 em` was `display:block`, which is what stacked `+ Gut Health` / `+ Energy`
+under `Hormone Therapy`. Inline is the whole fix; the `margin-top:5px` and `margin-left:0`
+that served the stack came off with it.
+
+⚠️ **The gap is `margin-left:.3em`, not a space in the markup, and that is an old trap
+returning.** The HTML is `<h3>Hormone Therapy<em>+ Gut Health</em></h3>` with no space before
+the `<em>` — a trailing space there collapses if the line ever wraps between the halves and
+the words fuse. A margin survives the wrap. Don't "tidy" it by adding a space.
+
+⚠️ **Inline, not `nowrap`.** This makes the halves one continuous line; it does not forbid
+wrapping. Measured at 1920 / 1600 / 1440 / 1280 / 1104 / 980 / 900 / 760 / 600 / 480 / 390 —
+**one line at every width**, tightest slack 83px on the 390 phone. A programme name longer
+than "+ Gut Health" wraps rather than overflowing, which is the right failure.
+
 ## Still open
 
 - The doors stay unwired (`data-soon`) in **both** sections — wiring is three `href`s and no

@@ -1,116 +1,67 @@
-# Handoff addendum — 2026-08-13 (SEO headline · one scene for every width · bigger orbs)
+# Handoff — 2026-08-13 (merged to main as PR #20)
 
-Scope: `hormone-balancing/index.html`. Three of his calls, same day — then a second
-round the same day after he saw the screenshots. Where this touches the orb table
-below, THIS supersedes; everything else in the 08-12 addenda still holds.
+Scope: `hormone-balancing/index.html`. Four approved rounds in one day — every choice
+made from measured screenshots, every round pushed to `claude/medi-gyn-updates-19nzyn`
+and merged in one PR. Where this touches the 08-12 orb addendum below, THIS supersedes;
+everything else below still holds. He holds the link to the **Orb Studio** configurator
+(a Claude artifact): its "Back to shipped" state equals this handoff, and values picked
+there land here as a one-block CSS change.
 
-## Round 2, same day — headline approved, and four more calls
-
-- **The hero sub is the SEO description now** ("Medi-Gyn offers expert hormone
-  imbalance treatment for women in Dubai…"). The "Deep sleep. Steady energy…" lede
-  it replaced survives in spirit as the scene's own answers; revert is one block,
-  marked inline.
-- **The scene composition pulled toward the centre on desktop** — his question,
-  answered in the build: the column starts at `W*.13` (was the 56px edge) and she
-  stands at `W*.635` (was `.70`). ⚠️ **How far in they can come is bound by the beat
-  band, not taste** — the beats live between the column and her left edge and the
-  longest needs ~520px before it runs past three lines into the first label's slot.
-  The controls follow the column in. Phone untouched.
-- **Orbs again: circle 1.10 → 1.16, titles → `clamp(1.6rem,2.5vw,2.5rem)`** (36px
-  at 1440, was 30.2 two rounds ago). Headroom to the ~1.26 clip is thin now — the
-  next step up goes through the configurator with eyes on it.
-- **The words under the orbs grew too**: hook `clamp(15px,1.45vw,19px)`, and the
-  doors' Explore runs 12.5px — scoped to `.door .link-arrow` only, because
-  `.link-arrow` is a shared material that 03 and 05 still use at 11.5px.
-- The Orb Studio artifact's shipped defaults track all of this.
-
-## Round 4, same day — the balance pass, and two deliberate "keep as is"
-
-Pre-merge review, from a measured A/B/C board (margins drawn on real screenshots):
-
-- **He was right about the imbalance**: words 187px from the left, her edge 364px
-  from the right. **His pick is "B"**: `cx = W*.695`, and the column's left margin
-  is **derived** — `colL = W − cx − stone half-width` — so left === right at every
-  desktop width by construction (277px at 1440×900, 397 at 1920×1080, measured).
-  Supersedes round 2's fixed `W*.13` column. The beat band survives at ~520px; the
-  derivation comment at the point of change carries the constraint.
-- **The question hooks stay Megante** — Playfair-italic and quiet-sans treatments
-  were built, shown, and declined.
-- **The section ground stays ivory** — cream, blush and warm-mist were shown.
-  ⚠️ Recorded so nobody retries it casually: the orbs' glass centres are
-  TRANSPARENT, so the ground behind them IS their inner glow — on blush the rose
-  Modern-Menopause orb visibly melts into the ground.
-- The temporary `?comp=` switch used for the board never shipped.
-
-## Round 3, same day — his catch: "the word treatment is escaping"
-
-**He was right, and it was a bug, not taste.** "Hormone Therapy" sat 50px off the
-left edge of its circle and 5px off the right — the only asymmetric line of the
-six. Cause: the h3 box was 62% of the orb, the spans are nowrap, and a nowrap line
-WIDER than its `text-align:center` box start-aligns and spills its whole overflow
-to the right. "Hormone Therapy" (289px ink at 1440) was the only line that
-outgrew the 243px box — the centring silently broke for exactly the longest line,
-which is the one where it matters. Fix: `.service-orb h3` is `width:100%`; the box
-must always be wider than the longest line. Measured after: 27/28px, symmetric.
-⚠️ Any future title longer than "Hormone Therapy" is safe up to the orb box width —
-past that, this bug returns wearing the new title's name. The configurator carries
-the same fix. Scene, headline and sub greenlit this round; orbs otherwise
-untouched.
-
-## 1 · The hero speaks SEO now
+## The hero speaks SEO now
 
 - **H1 is his copy verbatim:** "Hormone imbalance / treatment for *women*." — the
-  accent falls on the audience, not the treatment. "A new zest for living." is gone
-  from the H1; the zest survives in the untouched sub-paragraph.
-- `<title>` and `meta description` carry the Dubai positioning ("Medi-Gyn offers
-  expert hormone imbalance treatment for women in Dubai…").
-- ⚠️ **The hero type ramp is SOLVED for this headline, not chosen** — the new second
-  line runs ~9.6em against the old 5.2em, so the 118px ceiling had to go:
-  `clamp(42px,7vw,100px)` desktop, `clamp(28px,9.2vw,44px)` under 520. Measured: no
-  overflow at 1440 (line 940px in a 1150px wrap) or 390. Grow it only re-measured.
+  accent falls on the audience. "A new zest for living." is gone.
+- **The sub IS the meta description** — the Dubai positioning ("Medi-Gyn offers expert
+  hormone imbalance treatment for women in Dubai. Safe bio-identical hormone therapy…")
+  appears twice: `<meta name="description">` and the visible `.hero-sub`. The
+  "Deep sleep. Steady energy…" lede it replaced is marked inline for a one-block revert.
+- ⚠️ **The hero type ramp is SOLVED for this headline, not chosen** — the second line
+  runs ~9.6em against the old 5.2em: `clamp(42px,7vw,100px)` desktop,
+  `clamp(28px,9.2vw,44px)` under 520. Measured: no overflow at 1440 or 390. Any longer
+  headline is a re-measurement.
 
-## 2 · The scene: the phone's presentation is the basis at every width — his call
+## The scene — one presentation, the phone's, at every width
 
-*"The mobile experience is really good, the desktop not so — make the mobile the
-basis for the desktop."* Done literally: the desktop diptych is **deleted, not
-parked behind a flag**. At all widths the scene now does what the phone did:
+*"The mobile experience is really good, the desktop not so — make the mobile the basis
+for the desktop."* Done literally; the desktop diptych is **deleted, not parked behind
+a flag**. At every width the scene now does what the phone did:
 
-- **The ground rises WHOLE** (dark → blush, one colour), no seam, no moving boundary.
-- **The one column rewrites itself in place** — symptom out, outcome in, same slot.
-  The desktop's "spent residue" column and `.scene-label.spent` are gone with the
-  diptych they composed against.
-- **She stands still at `W*.70`** for the entire scene. The migration existed to be
-  the diptych's progress indicator; the whole-ground dawn is the indicator now.
-- **All chrome keys to `wipe`** (the ground's own value): `--scene-fg` lerps with a
-  crossover at wipe ~.47; the controls take the phone's snap-glass at every width
-  (`--ctrl-fg` snaps ivory→ink at wipe .55, dark pill tint until the snap).
-- **`BHRT` lands at the head of the column** (it used to centre on the seam's right
-  half, which no longer exists).
-- ⚠️ **The ivory text-shadow halo on `.scene-answer` is now load-bearing at ALL
-  widths** — the early reversals land while the ground is still dark, exactly as on
-  the phone. Remove the halo and "Deep sleep" arrives as ink on a dark ground.
-- **What did NOT change:** every `mobile ? small : large` SCALE fork (figure
-  657→900px on desktop, point density, edges, copy width), the track heights, the
-  beats, the latch, the controls' behaviour, and the centred legacy at
-  `?layout=centre` — verified error-free after the change.
-- Verified with the QA harness at 1440×900 and 390×844 across p = .05/.25/.45/.60/
-  .75/.92: identical label/answer opacity schedules at both widths, no page errors.
+- **The ground rises WHOLE** (dark → blush, one colour). No seam, no migration, no
+  spent-residue column; `.scene-label.spent` is gone. She stands still.
+- **Equal margins by construction — his pick from a measured A/B/C board** ("the
+  distance from words to left is smaller than lady to right"): `cx = W*.695`, and the
+  column's left margin is **derived** — `colL = W − cx − stone half-width` — so
+  left === right at every desktop width with no second constant to drift. Measured:
+  277px each side at 1440×900, 397 at 1920×1080.
+- ⚠️ **The beat band is the binding constraint on any future centring**: the storyline
+  lives between the column and her left edge (`figLeft − colL − 40` ≈ 520px at 1440)
+  and the longest beat must hold within three lines above the first label slot at
+  `H*.20` — measured two lines, bottom 131px. Pull `cx` below ~.66 and it collapses.
+- **All chrome keys to `wipe`** (the ground’s own value): `--scene-fg` lerps with its
+  crossover at wipe ~.47; the controls take the phone’s snap-glass at every width
+  (`--ctrl-fg` snaps ivory→ink at wipe .55 — mid-dawn the ground is a mid grey on
+  which no lerped small type clears 4.5:1). The controls’ pill follows the column in.
+- ⚠️ **The ivory text-shadow halo on `.scene-answer` is load-bearing at ALL widths** —
+  early reversals land while the ground is still dark. Remove it and "Deep sleep"
+  arrives as ink on a dark ground — the polarity failure this page has paid for twice.
+- **What did NOT change:** every `mobile ? small : large` SCALE fork (figure, density,
+  edges), track heights, beats, the latch, the phone layout, and `?layout=centre`
+  (verified error-free after the change).
 
-## 3 · The orbs: a tad bigger, and the BHRT glass recalibrated
+## The orbs — bigger, lighter, and a real centring bug fixed
 
-- ⚠️ **The visible circle is only 74% of the square** — measured alpha bounds
-  (174,115)–(990,931) of 1100, identical on all three masters. So the circle can
-  grow with NO layout change: new `--circle-scale:1.10` scales the render about its
-  own optical centre. Clipping starts at ~1.27; `overflow:hidden` on `.service-orb`
-  is **load-bearing** (the scaled transparent ground widened the document to 391px
-  on a 390 phone — measured, fixed).
-- **Titles +10% with the circle:** h3 clamp `1.35rem/2.1vw/2.1rem` →
-  `1.5rem/2.3vw/2.3rem`. The clamp is viewport-keyed, not orb-keyed — grow both or
-  neither.
-- **BHRT glass .39/.6035 → .31/.5515.** His read: "too dark, doesn't look like 60%."
-  The number was honest but burgundy is the darkest pigment of the three, so equal
-  alpha reads darker; .31 makes it READ like the gold orb's 60%. Family ratio kept:
-  `mid = center + (1−center)×.35`. Updated table:
+- ⚠️ **The visible circle is only 74% of its square** — measured alpha bounds
+  (174,115)–(990,931) of 1100, identical on all three masters. `--circle-scale:1.16`
+  grows the render about its own optical centre with no layout change. Clipping starts
+  at ~1.26 — headroom is thin; the next step up goes through the configurator.
+  `overflow:hidden` on `.service-orb` is **load-bearing** (the scaled transparent
+  ground widened the document to 391px on a 390 phone — measured, fixed).
+- **Titles** `clamp(1.6rem,2.5vw,2.5rem)` (36px at 1440 — began the day at 30.2);
+  **hooks** `clamp(15px,1.45vw,19px)`; **Explore** 12.5px scoped to `.door .link-arrow`
+  only — `.link-arrow` is shared material that 03 and 05 still use at 11.5px.
+- **BHRT glass `.39/.6035 → .31/.5515`** — "too dark, doesn’t look like 60%". The
+  number was honest but burgundy is the darkest pigment of the three; .31 makes it READ
+  like the gold orb’s 60%. Family ratio kept: `mid = center + (1−center)×.35`.
 
 | Orb | Scale | Top / bottom tracking | Gap | Glass (center/mid) |
 |---|---:|---|---:|---:|
@@ -118,9 +69,59 @@ parked behind a flag**. At all widths the scene now does what the phone did:
 | Modern / Menopause | 102% | −.035em / −.035em | +.06em | .65 / .7725 |
 | Testosterone / Replacement | 101% | −.025em / −.035em | +.29em | .40 / .61 |
 
-- **A live configurator artifact exists for the owner** (sliders for circle scale,
-  title size/scale, tracking, gap, glass, scrim; emits the exact CSS block to paste
-  into the per-orb rules). Values he picks there land here as a one-block change.
+- ⚠️ **THE ESCAPING-WORD BUG — his catch, real, and worth remembering.** "Hormone
+  Therapy" sat 50px off its circle’s left edge and 5px off the right — the only
+  asymmetric line of six. The h3 box was 62% of the orb, the spans are nowrap, and **a
+  nowrap line WIDER than its `text-align:center` box start-aligns and spills its whole
+  overflow to the right** — centring silently broke for exactly the longest line. The
+  box is `width:100%` now; measured 27/28px symmetric after. Any title longer than the
+  orb box brings the bug back wearing the new title’s name.
+- **Decided and recorded, no code change:** the question hooks stay **Megante**
+  (Playfair-italic and quiet-sans treatments built, shown, declined) and the section
+  ground stays **ivory** (cream/blush/mist shown). ⚠️ The orbs’ glass centres are
+  TRANSPARENT — the ground behind them IS their inner glow. On blush the rose
+  Modern-Menopause orb visibly melts into the ground. Recorded so nobody retries it
+  casually.
+
+## Decisions ledger, 2026-08-13 (who called what)
+
+- SEO headline + Dubai description, accent on *women*, description into the hero sub,
+  mobile-as-basis for the scene, orbs +10% then +16%, "bottom words" bigger, balance
+  variant **B**, hooks stay Megante, ground stays ivory: **his calls**, each from
+  screenshots or a measured variant board.
+- Equal-margin derivation, the beat-band constraint, the escaping-word diagnosis, the
+  74% circle measurement, the transparent-centre/ground observation: built and measured
+  by Claude, approved by him in rounds.
+
+## What is open after this session
+
+- **05 · Booster programs — he called it "lackluster" (2026-08-13), and the diagnosis
+  is MATERIALS, not layout.** The diptych (his pick, standing) fronts two plates from a
+  different world than the page: a clinical anatomical cutaway and a sci-fi
+  holo-tablet frame — both dark, both glossy-tech, sitting one screen after three
+  luminous glass orbs on ivory. Recommendations, in order:
+  1. **Recast both plates in the brand’s still-life world** (the door-plates recipe:
+     warm light, travertine/silk/marble, no people, no diagrams — gut as a
+     pomegranate/fig still-life, energy as a kinetic gold object). Note the retired
+     originals (pomegranate plate, gold pendulum) were already in this world — the
+     replacements drifted clinical/tech.
+  2. **Give the programme names the section’s scale** — "+ Gut Health" / "+ Energy"
+     are the smallest important words in the section while the headline shouts.
+  3. Optional: a quiet echo of the orb material (the page’s new signature object) —
+     but do not dilute 04’s signature; taste call.
+  4. The pre-existing placement note stands: 05 reads better after the FAQ.
+  ⚠️ Any plate swap in 05 is a scrim re-measurement (standing rule), and bright plates
+  would ease the very scrim the diptych pays for.
+- **The placeholder testimonials** — still the biggest liability on the page (standing).
+- **The doors and 05’s Explore stay unwired; booking CTAs are mock** (standing).
+
+## QA for the next session
+
+`tools/qa/` + the scratchpad harness pattern: serve the repo over localhost, intercept
+the three CDN scripts from npm installs (gsap@3.13.0, lenis@1.3.4, three@0.166.1),
+Chromium at `/opt/pw-browsers`. `?scene=<0..1>` freezes the stage; `?probe=1` is layout
+QA; `?layout=centre` is the legacy scene. Every claim above (margins, gaps, overflow,
+beat bottoms) is a number from that harness — re-measure, don’t eyeball.
 
 ---
 

@@ -1,14 +1,19 @@
 # Hormone Balancing & BHRT — `/hormone-balancing/` (shipped 2026-08-10, four refinement rounds same day)
 
-> ## ⚠️ SUPERSEDED IN PART — 2026-08-13. READ `../HANDOFF.md` FIRST.
+> ## ⚠️ SUPERSEDED IN PART — 2026-08-13 (four rounds, merged as PR #20). READ `../HANDOFF.md` FIRST.
 >
-> Three changes on his notes: (1) the H1 is now the SEO headline "Hormone imbalance
-> treatment for *women*." with the Dubai title/description tags; (2) **the desktop
-> diptych is deleted** — the phone's presentation (whole-ground rise, in-place
-> symptom→outcome rewrite, fixed figure) is the scene at every width, at desktop
-> scale; (3) the service orbs grew ~10% (circle and title), and the BHRT glass was
-> recalibrated lighter. Anything below describing the seam, the migration, or the
-> spent-residue column describes a layout that no longer exists.
+> Final state of that day: (1) the H1 is the SEO headline "Hormone imbalance
+> treatment for *women*." and the Dubai description is BOTH the meta description and
+> the visible hero sub; (2) **the desktop diptych is deleted** — the phone's
+> presentation (whole-ground rise, in-place symptom→outcome rewrite, fixed figure)
+> is the scene at every width, with the composition centred to **equal margins by
+> construction** (`colL = W − cx − stone half`, cx `W*.695`); (3) the service orbs
+> run `--circle-scale:1.16` with titles `clamp(1.6rem,2.5vw,2.5rem)`, the BHRT
+> glass recalibrated to read 60%, and the orb-title box is `width:100%` after a real
+> centring bug (a nowrap line wider than its centred box start-aligns and spills
+> right). Anything below describing the seam, the migration, or the spent-residue
+> column describes a layout that no longer exists. The 600vh/460vh track note below
+> is stale twice over (360/300 since 08-11).
 
 > ## ⚠️ SECTION 04 SUPERSEDED — 2026-08-12 (approved static orbs)
 >

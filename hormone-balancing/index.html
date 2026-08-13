@@ -76,6 +76,20 @@
      that Cormorant fails at those sizes over that ground is still true. Two names because
      there are two decisions; collapsing them would silently move the scene. */
   --quote-story:"Cormorant Garamond",Georgia,serif;
+  /* ⚠️ THE DAWN, AS A TOKEN — 2026-08-13 (evening). This is the exact colour the scene's
+     ground rises TO, and section 03 now stands on it so the handoff has no seam.
+     ⚠️ IT MUST STAY EQUAL TO BG_B IN THE SCENE SCRIPT (`const BG_B=[246,231,225]`). Two
+     copies of one colour in two languages; there is no way to share them in a zero-build
+     single file, so they are cross-referenced at both sites instead. Change one, change
+     the other, or 03 grows a seam that is 2 RGB values wide and impossible to spot. */
+  --dawn:#F6E7E1;
+  /* ⚠️ 8% DARKER THAN --gold-deep, AND IT IS A CONTRAST FIX, NOT A TASTE ONE. --gold-deep
+     #8A6A34 measures 4.16 on the dawn, and it was ALREADY failing on the cream 03 used to
+     stand on (4.31, against a 4.5 floor for text this size) — a fail this round inherited
+     rather than caused, and would have deepened. #7F6230 is the same hue at 92% and clears
+     everywhere it is used: 4.72 dawn / 4.89 cream / 5.32 ivory. Only .seg-gloss takes it;
+     --gold-deep keeps its own value for the scene, where it sits on different grounds. */
+  --gold-gloss:#7F6230;
   --ease:cubic-bezier(.22,.61,.36,1);
   --pad:clamp(20px,4.5vw,72px);
   /* landing-page header geometry (ported from medi-x BRAND system) */
@@ -349,7 +363,27 @@ section{position:relative}
    the only band-shaped thing left on the page, which if anything makes it stronger.
    ⚠️ NO CTA. This page IS the BHRT intro (his correction, same day), so there is no
    service page to hand off to. Section 03 explains and stops. Do not add an arrow. */
-.bhrt{background:var(--cream)}
+/* ⚠️ 03 STANDS ON THE DAWN NOW, NOT ON CREAM — his call 2026-08-13 (evening), "I feel
+   like it breaks harmony", and the measurement says exactly why.
+   The scene ends on the risen blush #F6E7E1. 03 was cream #F4EDE1. The step between them
+   is ΔRGB [-2, +6, 0] — red down, green up, blue unmoved — at a lightness difference of
+   3% and a contrast ratio of 1.04. That is the worst possible kind of edge: NO lightness
+   step, so the eye cannot read it as "a new section has started", but a real shift in
+   colour TEMPERATURE from pink to yellow, which the eye sees perfectly well. It reads as
+   two whites that were supposed to match and don't, rather than as a transition.
+   Standing 03 on the dawn removes the seam entirely, and it is the editorially right
+   answer as well as the measurable one: the scene names BHRT, this section defines it, so
+   the ground it was named on should still be underfoot while it is explained. The reader
+   leaves the dawn at 04, not one section early.
+   ⚠️ THE ALTERNATION IS NOT BROKEN BY THIS, IT IS RESTORED. Page ground now runs
+   dawn(03) → ivory(04) → cream(05) → ivory(06) → cream(07) → burgundy. The old cream at
+   03 was the value that made two near-identical creams bracket the ivory doors.
+   ⚠️ THE HAIRLINES DO THE SEPARATING AT THE BOTTOM EDGE — .seg carries border-top and
+   border-bottom in --line, so 03 is delineated as a band regardless of its fill. That is
+   why the ground was free to move at all.
+   Contrast re-measured on the dawn: h2 ink 12.68, .seg-def ink 12.68, its em (logo-red)
+   6.74. All clear. .seg-gloss needed a value of its own — see --gold-gloss. */
+.bhrt{background:var(--dawn)}
 /* No 100vw here on purpose. Sections in this page are already full-bleed — .wrap
    does the constraining — so width:100vw would buy nothing and cost a horizontal
    scrollbar on every desktop that renders a classic scrollbar, because 100vw
@@ -383,7 +417,10 @@ section{position:relative}
 .seg-gloss{
   margin-top:clamp(16px,2vh,24px);font-family:var(--quote);
   font-size:clamp(14px,1.35vw,19px);letter-spacing:.15em;text-transform:uppercase;
-  color:var(--gold-deep);
+  /* NOT --gold-deep — see the token. At 19px regular this is body text, not large text,
+     so the floor is 4.5 and --gold-deep gives 4.16 on the dawn (and gave 4.31 on the
+     cream that was here before, which already missed). */
+  color:var(--gold-gloss);
 }
 .seg-def{
   font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30;
@@ -1723,7 +1760,7 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
                alt="" loading="lazy" decoding="async" width="1100" height="1100">
         </div>
         <span class="hook">“Still cycling and noticing changes?”</span>
-        <h3>Hormone Therapy &amp; BHRT</h3>
+        <h3>Hormone Therapy BHRT</h3>
         <a class="link-arrow" data-soon>Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
       </article>
       <article class="door door--menopause">
@@ -1787,7 +1824,7 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
       <article class="door door--bhrt">
         <div class="orb" aria-hidden="true"><canvas class="orb__gl"></canvas></div>
         <span class="hook">“Still cycling and noticing changes?”</span>
-        <h3>Hormone Therapy &amp; BHRT</h3>
+        <h3>Hormone Therapy BHRT</h3>
         <a class="link-arrow" data-soon>Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
       </article>
       <article class="door door--menopause">
@@ -3211,229 +3248,314 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
 })();
 </script>
 
-<script>
-/* ═══════════ The living orbs — the 04 ALT doors ═══════════
-   ⚠️ RECOVERED 2026-08-13 (evening) FROM 4d798db, WHERE IT WAS RETIRED ON 2026-08-12 when
-   the still orb family was approved. It is back verbatim except for ONE LINE — the mount
-   selector is now ".doors--live .door", so it binds to the A/B section and can never
-   reach the still doors above it. His ask was "the actual 3d we made", and this is
-   literally that engine rather than a fresh approximation of it.
-   ⚠️ IF HE PICKS THE STILL ORBS, DELETE THIS WHOLE SCRIPT — it is one of the three pieces
-   the section is made of (markup, the .orb stylesheet block, this). If he picks these,
-   nothing here changes; only the selector would be worth simplifying.
-   His renders of the service orbs (burgundy / rose / gold glass, glowing core) never
-   landed in the repo as files, and a flat export could not have moved anyway. So the
-   orb is REBUILT here as a WebGL2 fragment shader — irregular droplet silhouette,
-   translucent chord-shaded body, swirling interior, breathing core, wet rim
-   speculars — one program, three brand tints, drawn with real alpha so the door's
-   cream ground breathes through the glass ("the middle part has a transparent
-   quality" — his brief, 2026-08-12).
-   HOUSE-PATTERNED ON THE SILK HERO: reduced-motion collapses to a single considered
-   frame; per-orb IntersectionObserver stops off-screen drawing; document.hidden
-   stops the lot; DPR is capped (1.5 here, not silk's 1.75 — three large canvases,
-   and a soft-focus orb does not resolve past it); every failure path — no JS, no
-   WebGL2, a context that dies during setup — leaves the CSS fallback orb standing,
-   because .orb--live is only granted on a successfully drawn frame.
-   ⚠️ RAW GL, NOT THREE. Silk can lean on the CDN module because silk is above the
-   fold with the network warm; the doors must keep working when jsDelivr does not,
-   and a fallback story that depends on a CDN is not one. Everything is inline.
-   ⚠️ THE CANVAS IS ALWAYS SQUARE — min(mount width, mount height), centred by the
-   .orb flexbox. The shader composes in centred -1..1 coords; a square buffer is what
-   keeps the orb round in every door mode. Resize clears a GL buffer, so the resize
-   handler redraws in the same breath (silk's rule).
-   Hover: u_boost eases 0→1 and the sim-clock runs up to 45% faster — the orb stirs
-   when regarded. Eased in JS, never a jump. */
-(function(){
-  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const doors = document.querySelectorAll(".doors--live .door");
-  if (!doors.length) return;
+<script type="module">
+/* ═══════════ The living orbs — the 04 ALT doors, rebuilt as REAL glass ═══════════
+   HIS NOTE 2026-08-13 (evening): "the 3d kinda feels wacky … it feels like its fake 3d …
+   a 3d bubble in 3js or something … or blender glb?"
 
-  const VS = `#version 300 es
-in vec2 a_pos; out vec2 v_uv;
-void main(){ v_uv = a_pos; gl_Position = vec4(a_pos,0.,1.); }`;
+   ⚠️ HE WAS DIAGNOSING SOMETHING REAL: THE OLD ORB WAS NOT 3D AT ALL. What stood here was a
+   fragment shader painting a DISC — a fake-sphere term (`z = sqrt(1-r²)`) shaded by chord
+   length, with wisps, filaments and rim speculars drawn as 2D functions of the pixel's
+   angle. Nothing was ever behind anything. That is why it read as a sticker of a ball: the
+   eye knows glass by watching it BEND what is behind it, and there was nothing to bend. No
+   amount of tuning that shader fixes it — the missing thing is not detail, it is parallax.
 
-  const FS = `#version 300 es
-precision highp float;
-in vec2 v_uv; out vec4 o_col;
-uniform float u_time; uniform float u_seed; uniform float u_boost;
-uniform vec3 u_deep; uniform vec3 u_mid;
-#define CORE vec3(1.0,0.976,0.941)
-float hash21(vec2 p){ p=fract(p*vec2(234.34,435.345)+u_seed*17.123); p+=dot(p,p+34.23); return fract(p.x*p.y); }
-float vnoise(vec2 p){ vec2 i=floor(p),f=fract(p); vec2 u=f*f*(3.0-2.0*f);
-  return mix(mix(hash21(i),hash21(i+vec2(1,0)),u.x),mix(hash21(i+vec2(0,1)),hash21(i+vec2(1,1)),u.x),u.y); }
-float fbm3(vec2 p){ float v=0.,a=.5; mat2 m=mat2(1.6,1.2,-1.2,1.6);
-  for(int i=0;i<3;i++){ v+=a*vnoise(p); p=m*p; a*=.5; } return v; }
-float fbm4(vec2 p){ float v=0.,a=.5; mat2 m=mat2(1.6,1.2,-1.2,1.6);
-  for(int i=0;i<4;i++){ v+=a*vnoise(p); p=m*p; a*=.5; } return v; }
-mat2 rot(float a){ float c=cos(a),s=sin(a); return mat2(c,-s,s,c); }
-void main(){
-  vec2 p = v_uv; float t = u_time;
-  /* irregular droplet silhouette, slowly morphing */
-  float ang = atan(p.y,p.x); vec2 cir = vec2(cos(ang),sin(ang));
-  float rimN = fbm3(cir*1.7 + vec2(u_seed*3.1,u_seed*5.7) + vec2(t*.05,-t*.037));
-  float R = .80*(1.0+.075*(rimN-.5));
-  float r = length(p); float d = r-R;
-  /* fake sphere + chord-length density: luminous centre, dense dark rim */
-  float rr = clamp(r/R,0.,1.); float z = sqrt(max(0.,1.-rr*rr));
-  float density = pow(1.-z,1.35);
-  vec3 lumi = mix(u_mid,CORE,.14);
-  vec3 body = mix(lumi,u_mid,smoothstep(0.,.4,density));
-  body = mix(body,u_deep,smoothstep(.22,.78,density));
-  body = mix(body,u_deep*.62,smoothstep(.74,1.,rr)*.9);
-  /* interior wisps — domain-warped fbm, differential rotation = liquid shear */
-  vec2 q = p/R;
-  vec2 wq = rot((1.-rr)*(.55+.06*t))*q;
-  vec2 warp = vec2(fbm3(wq*2.3+vec2(0.,t*.03)+u_seed), fbm3(wq*2.3+vec2(5.2,-t*.025)-u_seed));
-  float wisps = smoothstep(.30,.80, fbm4(wq*2.8+1.8*(warp-.5)+vec2(t*.02,0.)));
-  float wispMask = smoothstep(1.,.6,rr)*smoothstep(.02,.3,rr);
-  body = mix(body, mix(body,lumi,.85), wisps*wispMask*.9);
-  body = mix(body, u_deep, (1.-wisps)*wispMask*.35);
-  /* blown-out irregular core + god-rays, breathing */
-  float breathe = 1.0+.15*sin(t*.9+u_seed*6.)+.10*u_boost;
-  vec2 cc = vec2(-.11,-.08)+.03*vec2(sin(t*.11+u_seed),cos(t*.09+u_seed*2.));
-  vec2 cp = q-cc; float cr = length(cp); float ca = atan(cp.y,cp.x);
-  float edgeN = fbm3(vec2(cos(ca),sin(ca))*2.1+vec2(u_seed*7.)+vec2(t*.06,-t*.04));
-  float coreR = .30*(1.+.08*sin(t*.85))*(.72+.75*(edgeN-.2));
-  float core = pow(smoothstep(coreR,coreR*.35,cr),.8);
-  float rays = pow(smoothstep(.35,.9, fbm3(vec2((ca+t*.157)*2.2, 1.7+u_seed*3.+t*.03))),1.5);
-  float rayFall = smoothstep(.95,.15,cr)*smoothstep(.02,.25,cr);
-  float coreLum = (core + rays*rayFall*.42*(.85+.3*sin(t*.5+u_seed)) + exp(-cr*3.8)*.36)*breathe;
-  coreLum *= smoothstep(1.02,.75,rr);
-  /* filament threads — rings about drifting 3D axes, clustered, upper-left biased */
-  vec3 P = vec3(q,z); float fil = 0.;
-  for(int i=0;i<4;i++){
-    float fi = float(i);
-    float h1 = hash21(vec2(fi*3.7,u_seed*9.1)); float h2 = hash21(vec2(fi*7.9,u_seed*4.3));
-    vec3 A = normalize(vec3(sin(h1*6.28)*.8,.8+.6*h2,cos(h1*6.28)*.8));
-    A.xz = rot(t*.03*(.5+h2))*A.xz;
-    float line = smoothstep(.988,.999,abs(sin(dot(P,A)*(5.+4.*h2)+h1*20.+t*.05)));
-    float pulse = .5+.5*sin(t*.6+fi*2.1+u_seed*3.);
-    float clu = smoothstep(.42,.7, fbm3(q*1.6+vec2(fi*2.3,u_seed*5.)+vec2(t*.015)));
-    fil += line*(.25+.75*pulse)*clu;
-  }
-  float filMask = smoothstep(-.25,.5,q.y+.35*(-q.x))*smoothstep(.3,.75,rr)*smoothstep(1.,.9,rr);
-  fil = clamp(fil,0.,1.)*filMask*.30;
-  /* wet speculars hugging the rim — functions of the rim shape, so they shimmer as it morphs */
-  float rimDepth = -d/R; float spec = 0.;
-  { float aw = smoothstep(.85,.4,abs(mod(ang-2.25+3.14159,6.28318)-3.14159));
-    spec += aw*smoothstep(.012,.022,rimDepth)*smoothstep(.075,.05,rimDepth); }
-  { float aw = smoothstep(.35,.1,abs(mod(ang+2.5+3.14159,6.28318)-3.14159));
-    spec += aw*smoothstep(.02,.04,rimDepth)*smoothstep(.11,.06,rimDepth)*.85; }
-  { float aw = smoothstep(.28,.08,abs(mod(ang+.2+3.14159,6.28318)-3.14159));
-    spec += aw*smoothstep(.02,.04,rimDepth)*smoothstep(.10,.055,rimDepth)*.7; }
-  spec = clamp(spec,0.,1.);
-  float dimple = smoothstep(.055,.03,length(q-vec2(.42,.52)));
-  /* composite, premultiplied */
-  float aa = fwidth(r)*1.2; float bodyMask = smoothstep(aa,-aa,d);
-  vec3 col = body;
-  col = mix(col,u_deep*.55,dimple*.5);
-  col += CORE*coreLum + CORE*fil;
-  col = mix(col,vec3(1.),spec*.95);
-  float alpha = mix(.76,.97,smoothstep(.12,.85,density));
-  alpha = clamp(alpha+coreLum*.8+spec*.6+fil*.5,0.,1.)*bodyMask;
-  col *= bodyMask;
-  col += (hash21(floor(p*380.)+floor(t*8.)*.017)-.5)*.035*bodyMask;
-  float halo = exp(-max(d,0.)*22.)*(1.-bodyMask)*.20;
-  col += u_mid*halo; alpha = clamp(alpha+halo,0.,1.);
-  o_col = vec4(clamp(col,0.,2.)*alpha, alpha);
-}`;
+   ⚠️ SO THIS IS AN ACTUAL SPHERE. A displaced sphere in MeshPhysicalMaterial with
+   `transmission`, which makes Three render the rest of the scene into a buffer and REFRACT
+   it through the shell. The pigment is VOLUME ABSORPTION (`attenuationColor` /
+   `attenuationDistance`), not a painted gradient: coloured glass is dark where the light's
+   path through it is long, so the rim deepens and the centre stays pale for free, and it
+   stays correct while the silhouette wobbles — which a hand-built ramp could not.
 
-  /* the same trio the CSS fallback carries — BRAND.md values, one-red rule intact */
-  const TINTS = {
-    "door--bhrt":      { deep:[0x5C,0x1F,0x31], mid:[0x8E,0x2D,0x3A], seed:1.3 },
-    "door--menopause": { deep:[0xA5,0x75,0x6C], mid:[0xC7,0x9A,0x92], seed:4.7 },
-    "door--trt":       { deep:[0x8A,0x6A,0x34], mid:[0xC2,0xA0,0x5E], seed:8.1 },
-  };
-  const norm = a => a.map(v => v/255);
-  const DPR = Math.min(devicePixelRatio || 1, 1.5);
+   ⚠️ WHY NOT A BLENDER GLB — his other suggestion, and it is worth recording as a NO.
+   A GLB carries GEOMETRY. It does not carry the glass: on the page it would still need
+   transmission, an IOR, an environment to reflect and a renderer to refract in — exactly
+   the material below — plus a loader and megabytes. A sphere is one line of geometry; it is
+   the least valuable thing a GLB could bring. And the BAKED option, which is the real reason
+   to reach for Blender, ALREADY EXISTS: it is section 04's still renders. Baked vs live is
+   precisely the A/B he is judging, so a GLB is not a third option, it is the first one with
+   extra steps. The same reasoning is on record for the scene's Venus.
 
-  const instances = [];
-  doors.forEach(door => {
-    try {
-      const orb = door.querySelector(".orb"), canvas = door.querySelector(".orb__gl");
-      const key = [...door.classList].find(c => TINTS[c]);
-      if (!orb || !canvas || !key) return;
-      const gl = canvas.getContext("webgl2", {alpha:true, premultipliedAlpha:true, antialias:false});
-      if (!gl) return;                                   /* the CSS orb stands */
-      const sh = (type, src) => {
-        const s = gl.createShader(type);
-        gl.shaderSource(s, src); gl.compileShader(s);
-        if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s));
-        return s;
+   ═══ THE THREE THINGS THAT WERE WRONG ON THE WAY HERE, so nobody re-introduces them ═══
+
+   ⚠️ 1 · GEOMETRY MUST BE SphereGeometry, NOT IcosahedronGeometry. Icosahedron comes out of
+   PolyhedronGeometry NON-INDEXED — every triangle owns its vertices — so
+   computeVertexNormals() can only produce FLAT normals and the orb renders as a visible
+   geodesic dome at any detail level. Sphere is indexed; neighbours share vertices; the same
+   call gives smooth normals. The first render was faceted for exactly this reason.
+
+   ⚠️ 2 · thickness AND attenuationDistance ARE ONE SETTING. Beer–Lambert: what survives the
+   glass is exp(−thickness / attenuationDistance). The first pass used 2.1 over .52 — a ratio
+   of 4, i.e. 1.8% transmitted — so the orb swallowed 98% of everything including its own
+   core and read as a dark stone. TUNE THE RATIO, never one number: raising thickness for a
+   "chunkier" look without raising attenuationDistance darkens the glass exponentially.
+
+   ⚠️ 3 · THE ENVIRONMENT DOES ALMOST ALL THE WORK, AND IT MUST BE HIGH CONTRAST. This was
+   the big one. A soft, pale, low-contrast studio — which is what you reach for on an ivory
+   page — renders the orb as flat mush with no rim and no specular, because glass is only
+   visible as the CONTRAST it reflects. Rendered side by side, the same material under a soft
+   env and under a dark surround with bright strip softboxes were unrecognisable as the same
+   object. So the environment is a DARK warm room with three crisp light strips, and it never
+   appears on screen — only its reflection does. Do not "brighten it to match the page".
+   Feathered rectangles, not radial blobs: blobs read as haze, strips read as glass.
+
+   ⚠️ AND WHY THE GLOW IS A SECOND PASS. The core cannot live inside the refracted scene: the
+   transmission buffer's background is the page's ivory, so a white-hot core on near-white
+   ground is invisible — it measured as literally nothing. The interior light is therefore
+   drawn AFTER the glass, additively, with depthTest off. The nebula is still a real displaced
+   mesh turning in 3D against the shell, and the core is a sprite whose starburst matches the
+   still renders'. Anything additive in this pass needs SOFT falloff — a plain additive sphere
+   punches a hard-edged white hole and reads as a bite taken out of the orb.
+
+   HOUSE-PATTERNED ON THE SILK HERO: reduced-motion renders ONE considered frame and stops;
+   a per-orb IntersectionObserver stops off-screen work; document.hidden stops all of it; DPR
+   capped at 1.5. Transmission costs an extra pass per orb per frame, so the loop is throttled
+   to ~34fps — at this size and rotation speed the difference is invisible and it is a third
+   of the GPU.
+
+   ⚠️ THIS DEPENDS ON THE CDN, unlike the raw-GL version it replaces. The fallback story is
+   what carries that: `.orb--live` is still granted only on a successfully rendered frame, so
+   no Three, no WebGL2, or a context that dies mid-setup all leave the pure-CSS gradient orb
+   standing. What is lost is the live orb, never the door. Three is already on the page for
+   the hero silk, so this adds no new request. */
+try {
+  const doors = [...document.querySelectorAll(".doors--live .door")];
+  if (doors.length) {
+    const THREE = await import("three");
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const DPR = Math.min(devicePixelRatio || 1, 1.5);
+
+    /* BRAND.md values. `deep` is what the glass absorbs toward — the rim colour — and `mid`
+       lights the interior nebula. `dist` is per-orb because the three pigments are not
+       equally dark: one attenuation distance across all three would sink the burgundy while
+       leaving the rose watery. Same reason the still family needed per-orb glass values. */
+    /* ⚠️ `neb` AND `core` ARE PER-ORB FOR THE SAME REASON `dist` IS, and the rose is why.
+       The interior light is a FIXED amount of white added on top of whatever the glass
+       transmits, so on the darkest pigment it reads as a starburst and on the palest it
+       simply saturates — the first render blew the Modern Menopause orb into a featureless
+       white blob while the burgundy beside it was perfect. Pale glass gets a shorter
+       attenuation distance (more pigment) AND a dimmer core; the two together are what keep
+       the family looking like one set of objects lit the same way. */
+    const TINTS = {
+      "door--bhrt":      { deep: 0x5C1F31, mid: 0xC79A92, dist: 1.70, neb: .55, core: .95, seed: 1.3 },
+      "door--menopause": { deep: 0xA5756C, mid: 0xE8CFC6, dist: 1.38, neb: .34, core: .62, seed: 4.7 },
+      "door--trt":       { deep: 0x8A6A34, mid: 0xE0C68A, dist: 1.80, neb: .48, core: .86, seed: 8.1 },
+    };
+
+    /* ── the room, painted rather than downloaded ─────────────────────────────────────
+       512×256 equirect through PMREMGenerator. A studio HDR is the usual answer and it is
+       a network dependency and a licence question; this is a canvas and three rectangles. */
+    const envTexture = (() => {
+      const cv = document.createElement("canvas");
+      cv.width = 512; cv.height = 256;
+      const x = cv.getContext("2d");
+      x.fillStyle = "#2A1D20";                       /* the dark warm room — never seen directly */
+      x.fillRect(0, 0, 512, 256);
+      /* a softbox: hard in the middle, feathered at all four edges, so the orb catches a
+         crisp bright arc with a soft end rather than a smear */
+      const strip = (cx, cy, w, h, a, col) => {
+        const g = x.createLinearGradient(cx - w / 2, 0, cx + w / 2, 0);
+        g.addColorStop(0, col.replace("A", 0));   g.addColorStop(.14, col.replace("A", a));
+        g.addColorStop(.86, col.replace("A", a)); g.addColorStop(1, col.replace("A", 0));
+        const fade = x.createLinearGradient(0, cy - h / 2, 0, cy + h / 2);
+        fade.addColorStop(0, "rgba(0,0,0,.55)"); fade.addColorStop(.3, "rgba(0,0,0,0)");
+        fade.addColorStop(.7, "rgba(0,0,0,0)");  fade.addColorStop(1, "rgba(0,0,0,.55)");
+        x.save(); x.beginPath(); x.rect(cx - w / 2, cy - h / 2, w, h); x.clip();
+        x.fillStyle = g; x.fillRect(cx - w / 2, cy - h / 2, w, h);
+        x.globalCompositeOperation = "destination-out";
+        x.fillStyle = fade; x.fillRect(cx - w / 2, cy - h / 2, w, h);
+        x.globalCompositeOperation = "source-over"; x.restore();
       };
-      const prog = gl.createProgram();
-      gl.attachShader(prog, sh(gl.VERTEX_SHADER, VS));
-      gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, FS));
-      gl.linkProgram(prog);
-      if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog));
-      gl.useProgram(prog);
-      const buf = gl.createBuffer();
-      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
-      const loc = gl.getAttribLocation(prog, "a_pos");
-      gl.enableVertexAttribArray(loc);
-      gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-      const t = TINTS[key];
-      gl.uniform1f(gl.getUniformLocation(prog, "u_seed"), t.seed);
-      gl.uniform3fv(gl.getUniformLocation(prog, "u_deep"), norm(t.deep));
-      gl.uniform3fv(gl.getUniformLocation(prog, "u_mid"), norm(t.mid));
-      gl.clearColor(0,0,0,0);
-      const inst = {
-        orb, canvas, gl,
-        uT: gl.getUniformLocation(prog, "u_time"),
-        uB: gl.getUniformLocation(prog, "u_boost"),
-        sim: t.seed*20,          /* each door enters mid-life, not at a shared zero */
-        vis: true, hot: false, boost: 0, live: false,
-      };
-      const draw = () => {
-        gl.viewport(0, 0, canvas.width, canvas.height);
-        gl.uniform1f(inst.uT, inst.sim);
-        gl.uniform1f(inst.uB, inst.boost);
-        gl.clear(gl.COLOR_BUFFER_BIT);
-        gl.drawArrays(gl.TRIANGLES, 0, 3);
-        if (!inst.live){ inst.live = true; orb.classList.add("orb--live"); }
-      };
-      inst.draw = draw;
-      const size = () => {
-        const side = Math.max(1, Math.min(orb.clientWidth, orb.clientHeight));
-        canvas.style.width = canvas.style.height = side + "px";
-        const px = Math.round(side * DPR);
-        /* 4px hysteresis: the entry animation resizes the mount every frame for a
-           second, and a buffer realloc per frame is the one cost worth ducking */
-        if (Math.abs(px - canvas.width) >= 4){ canvas.width = canvas.height = px; }
-        draw();                                          /* resize clears — silk's rule */
-      };
-      new ResizeObserver(size).observe(orb);
-      size();
-      new IntersectionObserver(e => { inst.vis = e[0].isIntersecting; }).observe(canvas);
-      door.addEventListener("pointerenter", () => { inst.hot = true; });
-      door.addEventListener("pointerleave", () => { inst.hot = false; });
-      instances.push(inst);
-    } catch (e) { /* this door keeps its CSS orb; the others still get theirs */ }
-  });
-  if (!instances.length) return;
+      strip(150,  44, 220, 58, 1,   "rgba(255,255,255,A)");  /* key, high left */
+      strip(400,  70, 120, 40, .8,  "rgba(255,247,238,A)");  /* fill, right */
+      strip(256, 186, 300, 34, .95, "rgba(255,243,230,A)");  /* the bright low band */
+      const t = new THREE.CanvasTexture(cv);
+      t.mapping = THREE.EquirectangularReflectionMapping;
+      t.colorSpace = THREE.SRGBColorSpace;
+      return t;
+    })();
 
-  if (reduce){
-    /* one considered frame each — under reduced motion the orb is a picture, and the
-       ResizeObserver above keeps that picture sharp through any reflow */
-    instances.forEach(i => i.draw());
-    return;
-  }
+    /* the core's starburst — the still renders have one, so the live orb has the same one */
+    const coreTexture = (() => {
+      const S = 256, cv = document.createElement("canvas");
+      cv.width = cv.height = S;
+      const x = cv.getContext("2d"), c = S / 2;
+      x.save(); x.translate(c, c);
+      for (let i = 0; i < 12; i++) {
+        const a = i / 12 * Math.PI * 2, len = c * (i % 2 ? .62 : .95), w = i % 2 ? .05 : .085;
+        const g = x.createLinearGradient(0, 0, Math.cos(a) * len, Math.sin(a) * len);
+        g.addColorStop(0, "rgba(255,255,255,.85)"); g.addColorStop(1, "rgba(255,255,255,0)");
+        x.fillStyle = g; x.beginPath(); x.moveTo(0, 0);
+        x.lineTo(Math.cos(a - w) * len, Math.sin(a - w) * len);
+        x.lineTo(Math.cos(a + w) * len, Math.sin(a + w) * len);
+        x.closePath(); x.fill();
+      }
+      x.restore();
+      const g = x.createRadialGradient(c, c, 0, c, c, c);
+      g.addColorStop(0,   "rgba(255,255,255,1)");
+      g.addColorStop(.16, "rgba(255,255,255,.97)");
+      g.addColorStop(.34, "rgba(255,246,236,.55)");
+      g.addColorStop(.62, "rgba(255,235,214,.16)");
+      g.addColorStop(1,   "rgba(255,230,205,0)");
+      x.globalCompositeOperation = "lighter";
+      x.fillStyle = g; x.fillRect(0, 0, S, S);
+      const t = new THREE.CanvasTexture(cv);
+      t.colorSpace = THREE.SRGBColorSpace;
+      return t;
+    })();
 
-  let last = performance.now();
-  (function loop(now){
-    requestAnimationFrame(loop);
-    const dt = Math.min((now - last)/1000, .1);
-    last = now;
-    if (document.hidden) return;
-    for (const inst of instances){
-      if (!inst.vis) continue;
-      inst.boost += ((inst.hot ? 1 : 0) - inst.boost) * Math.min(1, dt*2.2);
-      inst.sim += dt * (1 + inst.boost*.45);
-      inst.draw();
+    /* ⚠️ SMOOTH AND LOW-FREQUENCY ON PURPOSE — the reference renders wobble like a droplet,
+       not like a rock. Three crossed sine products give a soft irregular bulge with no
+       facets. Anything higher frequency reads as noise once refraction magnifies it. */
+    const wob = (x, y, z, s) =>
+        Math.sin(x * 2.1 + s)       * Math.cos(y * 1.7 - s * 1.3) * .50
+      + Math.sin(y * 2.6 - s * .7)  * Math.cos(z * 2.2 + s)       * .34
+      + Math.sin(z * 1.9 + s * 1.7) * Math.cos(x * 2.4 - s)       * .28;
+
+    /* ⚠️ THE SEAM AND THE POLES ARE SAFE because displacement is a pure function of the
+       vertex's 3D POSITION: the duplicated seam vertices sit at the same point in space, so
+       they displace identically and cannot crack open. Displace by UV and it splits. */
+    const displaced = (seg, amp, seed) => {
+      const g = new THREE.SphereGeometry(1, seg, Math.round(seg * .6));
+      const p = g.attributes.position, v = new THREE.Vector3();
+      for (let i = 0; i < p.count; i++) {
+        v.fromBufferAttribute(p, i);
+        v.multiplyScalar(1 + wob(v.x, v.y, v.z, seed) * amp);
+        p.setXYZ(i, v.x, v.y, v.z);
+      }
+      g.computeVertexNormals();
+      return g;
+    };
+
+    /* the interior nebula: brightest where it faces the camera, fading to nothing at its own
+       silhouette, so it reads as a soft volume rather than a second ball inside the first */
+    const nebulaMat = (col, op) => new THREE.ShaderMaterial({
+      uniforms: { uC: { value: new THREE.Color(col) }, uO: { value: op } },
+      vertexShader: `varying vec3 vN; varying vec3 vP;
+        void main(){ vN = normalize(normalMatrix * normal);
+          vec4 mv = modelViewMatrix * vec4(position,1.); vP = mv.xyz;
+          gl_Position = projectionMatrix * mv; }`,
+      fragmentShader: `uniform vec3 uC; uniform float uO; varying vec3 vN; varying vec3 vP;
+        void main(){ float f = abs(dot(normalize(vN), normalize(-vP)));
+          gl_FragColor = vec4(uC, pow(f, 1.7) * uO); }`,
+      transparent: true, blending: THREE.AdditiveBlending,
+      depthWrite: false, depthTest: false,
+    });
+
+    const instances = [];
+    for (const door of doors) {
+      try {
+        const orb = door.querySelector(".orb"), canvas = door.querySelector(".orb__gl");
+        const key = [...door.classList].find(c => TINTS[c]);
+        if (!orb || !canvas || !key) continue;
+        const T = TINTS[key];
+
+        /* ⚠️ THE CANVAS IS OPAQUE AND ITS CLEAR COLOUR IS READ FROM THE SECTION, not typed.
+           Glass needs something behind it — with a transparent canvas the refracted ray
+           returns nothing and the orb collapses to a flat tint (measured). So the canvas
+           paints the section's own ground and the square is invisible against it. Reading it
+           from the DOM rather than hard-coding #FAF7F1 means it cannot drift if the section
+           is ever re-grounded — which is exactly what happened to 03 this same day. */
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+        const ground = getComputedStyle(door.closest("section")).backgroundColor;
+        renderer.setClearColor(new THREE.Color(ground), 1);
+        renderer.outputColorSpace = THREE.SRGBColorSpace;
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.28;
+
+        const pmrem = new THREE.PMREMGenerator(renderer);
+        const envMap = pmrem.fromEquirectangular(envTexture).texture;
+
+        /* two scenes: the glass, then the light inside it — see the note on the second pass */
+        const glass = new THREE.Scene();  glass.environment = envMap;
+        const glow  = new THREE.Scene();
+
+        /* ⚠️ fov AND z ARE A PAIR, SET TO MATCH SECTION 04's FOOTPRINT. At fov 30 the
+           half-height at the origin is tan(15°)·z; z 4.55 gives 1.22, so a ~1.05 sphere
+           fills ~86% of the canvas — the share of its box that the still render's circle
+           occupies (74% of the square at --circle-scale 1.16). Change one and the A/B stops
+           comparing like with like. */
+        const cam = new THREE.PerspectiveCamera(30, 1, .1, 100);
+        cam.position.set(0, 0, 4.55);
+
+        const shell = new THREE.Mesh(displaced(192, .045, T.seed), new THREE.MeshPhysicalMaterial({
+          transmission: 1, thickness: .95, ior: 1.46,
+          roughness: .04, metalness: 0,
+          clearcoat: 1, clearcoatRoughness: .05,
+          attenuationColor: new THREE.Color(T.deep),
+          attenuationDistance: T.dist,
+          iridescence: .2, iridescenceIOR: 1.25,
+          specularIntensity: 1, envMapIntensity: 1.8,
+        }));
+        glass.add(shell);
+
+        const nebula = new THREE.Mesh(displaced(96, .30, T.seed * 2.7), nebulaMat(T.mid, T.neb));
+        nebula.scale.setScalar(.60);
+        glow.add(nebula);
+
+        const core = new THREE.Sprite(new THREE.SpriteMaterial({
+          map: coreTexture, color: 0xFFFFFF, transparent: true, opacity: T.core,
+          blending: THREE.AdditiveBlending, depthWrite: false, depthTest: false,
+        }));
+        core.scale.setScalar(1);
+        glow.add(core);
+
+        const inst = { orb, canvas, renderer, glass, glow, cam, shell, nebula, core,
+                       sim: T.seed * 6, vis: true, hot: false, boost: 0, live: false, side: 0 };
+
+        inst.draw = () => {
+          const t = inst.sim;
+          inst.shell.rotation.set(Math.sin(t * .13) * .13, t * .09, Math.cos(t * .11) * .07);
+          inst.nebula.rotation.set(t * .07, -t * .16, t * .05);
+          inst.core.scale.setScalar(1 + .06 * Math.sin(t * .9) + .05 * inst.boost);
+          inst.renderer.render(inst.glass, inst.cam);
+          inst.renderer.autoClear = false;          /* the light inside, over the glass */
+          inst.renderer.render(inst.glow, inst.cam);
+          inst.renderer.autoClear = true;
+          if (!inst.live) { inst.live = true; orb.classList.add("orb--live"); }
+        };
+
+        const size = () => {
+          const side = Math.max(1, Math.min(orb.clientWidth, orb.clientHeight));
+          /* 2px hysteresis: the entry reveal resizes the mount every frame for about a
+             second, and a buffer realloc per frame is the one cost worth ducking */
+          if (Math.abs(side - inst.side) < 2) return;
+          inst.side = side;
+          inst.renderer.setPixelRatio(DPR);
+          inst.renderer.setSize(side, side, true);
+          inst.draw();                               /* a resize clears — silk's rule */
+        };
+        new ResizeObserver(size).observe(orb);
+        size();
+        new IntersectionObserver(e => { inst.vis = e[0].isIntersecting; }).observe(canvas);
+        door.addEventListener("pointerenter", () => { inst.hot = true; });
+        door.addEventListener("pointerleave", () => { inst.hot = false; });
+        instances.push(inst);
+      } catch (e) { /* this door keeps its CSS orb; the others still get theirs */ }
     }
-  })(last);
-})();
+
+    if (instances.length) {
+      if (reduce) {
+        instances.forEach(i => i.draw());
+      } else {
+        const STEP = 1 / 34;
+        let last = performance.now(), acc = 0;
+        (function loop(now) {
+          requestAnimationFrame(loop);
+          const dt = Math.min((now - last) / 1000, .1); last = now;
+          if (document.hidden) return;
+          acc += dt; if (acc < STEP) return; acc = 0;
+          for (const inst of instances) {
+            if (!inst.vis) continue;
+            inst.boost += ((inst.hot ? 1 : 0) - inst.boost) * Math.min(1, dt * 2.2);
+            inst.sim += dt * (1 + inst.boost * .45);
+            inst.draw();
+          }
+        })(last);
+      }
+    }
+  }
+} catch (e) { /* every orb keeps its CSS fallback — see .orb::before */ }
 </script>
 
 

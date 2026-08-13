@@ -1,6 +1,6 @@
-# Handoff addendum — 2026-08-13, evening (headline · scene clearance · the title comes off the ball · an A/B on the orbs · 06 borrows the landing page's voice · 05 takes his photographs)
+# Handoff addendum — 2026-08-13, evening (headline · scene clearance · the title comes off the ball · an A/B on the orbs · 06 borrows the landing page's voice · 03 stands on the dawn · the orbs become real 3D · 05 takes his photographs)
 
-Scope: `hormone-balancing/index.html`, seven of his notes in one pass — plus, for §8 only,
+Scope: `hormone-balancing/index.html`, ten of his notes in one pass — plus, for §10 only,
 `images/boost/`, `archive/sources/` and two files in `tools/`. Where this touches
 the orb table or the section-06 type below, **THIS supersedes**; everything else in the
 earlier 08-13 and 08-12 addenda still holds.
@@ -215,7 +215,127 @@ wrapping. Measured at 1920 / 1600 / 1440 / 1280 / 1104 / 980 / 900 / 760 / 600 /
 **one line at every width**, tightest slack 83px on the 390 phone. A programme name longer
 than "+ Gut Health" wraps rather than overflowing, which is the right failure.
 
-## 8 · Section 05 takes his photographs, and the empty half becomes something we build
+## 8 · Section 03 stands on the dawn, and the ampersand goes
+
+> "what is bhrt background should it be different color i feel like it breaks harmony"
+
+**He is right, and the measurement says exactly why.** The scene ends on the risen blush
+`#F6E7E1`; 03 stood on cream `#F4EDE1`. The step between them is **ΔRGB `[-2, +6, 0]`** —
+red down, green up, blue unmoved — at **ΔL\* 3.06%** and a contrast ratio of **1.04**.
+
+That is the worst kind of edge: *no lightness step*, so the eye cannot read it as "a new
+section began", but a real shift in colour **temperature** from pink to yellow, which the
+eye sees perfectly well. It reads as two whites that were meant to match and don't.
+
+`.bhrt` now takes `--dawn` (`#F6E7E1`). The seam disappears, and it is the editorially
+right answer as well as the measurable one: **the scene names BHRT, 03 defines it**, so the
+ground it was named on should still be underfoot while it is explained. The reader leaves
+the dawn at 04, one section later than before.
+
+⚠️ **This restores the alternation rather than breaking it.** Ground now runs
+dawn(03) → ivory(04) → cream(05) → ivory(06) → cream(07) → burgundy. The old cream at 03
+was the value that put two near-identical creams either side of the ivory doors.
+
+⚠️ **`--dawn` must stay equal to `BG_B` in the scene script** (`[246,231,225]`). One colour,
+two languages, no way to share them in a zero-build single file — cross-referenced at both
+sites instead. Change one, change the other, or 03 grows a 2-value seam nobody will spot.
+
+⚠️ **`.seg-gloss` needed its own gold, and that is a fix this round inherited rather than
+caused.** `--gold-deep` `#8A6A34` measures 4.16 on the dawn — and it was **already failing
+on the cream** (4.31, against a 4.5 floor: at 19px regular this is body text, not large).
+New `--gold-gloss` `#7F6230` is the same hue at 92% and clears everywhere: **4.72 dawn /
+4.89 cream / 5.32 ivory**. `--gold-deep` keeps its value for the scene.
+
+Re-measured on the dawn: h2 ink **12.68**, `.seg-def` ink **12.68**, its `em` logo-red
+**6.74**. All clear.
+
+### The ampersand
+
+`Hormone Therapy & BHRT` → `Hormone Therapy BHRT`, in **both** 04 and 04 alt. It wraps to
+two lines on its own — `Hormone Therapy` / `BHRT` — which is the stacked treatment the orb
+carried before the title came off the glass. The `min-height` reserve still holds all three
+Explores on one baseline.
+
+## 9 · The living orbs are actual 3D now
+
+> "the 3d kinda feels wacky … it feels like its fake 3d … a 3d bubble in 3js or something
+> … or blender glb?"
+
+**He was diagnosing something real: the old orb was not 3D at all.** It was a fragment
+shader painting a *disc* — a fake-sphere term (`z = sqrt(1-r²)`) shaded by chord length, with
+wisps, filaments and rim speculars drawn as 2D functions of the pixel's angle. Nothing was
+ever behind anything, and the eye knows glass by watching it **bend what is behind it**. No
+amount of tuning that shader fixes it; the missing thing is parallax, not detail.
+
+It is now a displaced sphere in `MeshPhysicalMaterial` with `transmission`, so Three renders
+the rest of the scene into a buffer and genuinely refracts it. Pigment is **volume
+absorption** (`attenuationColor` / `attenuationDistance`), not a painted gradient — coloured
+glass is dark where the light's path is long, so the rim deepens and the centre stays pale
+for free, and it stays correct while the silhouette wobbles.
+
+### Blender GLB — recorded as a NO
+
+A GLB carries **geometry**. It does not carry the glass: on the page it would still need
+transmission, an IOR, an environment to reflect and a renderer to refract in — exactly the
+material we now have — plus a loader and megabytes. A sphere is one line of geometry; it is
+the least valuable thing a GLB could bring. And the **baked** option, which is the real
+reason to reach for Blender, *already exists* — it is section 04's still renders. Baked vs
+live is precisely the A/B he is judging, so a GLB is not a third option, it is the first one
+with extra steps.
+
+### The three things that were wrong on the way here
+
+Recorded because each one looks like a plausible thing to "fix" back.
+
+1. **Geometry must be `SphereGeometry`, not `IcosahedronGeometry`.** Icosahedron comes out of
+   PolyhedronGeometry **non-indexed**, so `computeVertexNormals()` can only produce flat
+   normals and the orb renders as a visible geodesic dome at any detail. The first render was
+   faceted for exactly this reason. Sphere is indexed and shades smooth.
+2. **`thickness` and `attenuationDistance` are one setting.** Beer–Lambert: what survives is
+   `exp(−thickness / attenuationDistance)`. The first pass used 2.1 over .52 — a ratio of 4,
+   i.e. **1.8% transmitted** — so the orb swallowed 98% of everything including its own core
+   and read as a dark stone. **Tune the ratio, never one number.**
+3. **The environment does almost all the work, and it must be high contrast.** This was the
+   big one. A soft pale studio — what you instinctively reach for on an ivory page — renders
+   the orb as flat mush with no rim and no specular, because *glass is only visible as the
+   contrast it reflects*. Rendered side by side, the same material under a soft env and under
+   a dark surround with bright strip softboxes was unrecognisable as the same object. The
+   environment is therefore a **dark warm room with three crisp light strips**, and it never
+   appears on screen — only its reflection does. **Do not brighten it to match the page.**
+   Feathered rectangles, not radial blobs: blobs read as haze, strips read as glass.
+
+### Two more things worth knowing
+
+⚠️ **The glow is a second pass, and it has to be.** The core cannot live inside the refracted
+scene: the transmission buffer's background is the page's ivory, so a white-hot core on
+near-white ground is invisible — it measured as literally nothing. Interior light is drawn
+*after* the glass, additively, `depthTest` off. The nebula is still a real displaced mesh
+turning in 3D against the shell. Anything additive in that pass needs **soft falloff** — a
+plain additive sphere punches a hard-edged white hole and reads as a bite out of the orb.
+
+⚠️ **The canvas is opaque and its clear colour is read from the section, not typed.** Glass
+needs something behind it; with a transparent canvas the refracted ray returns nothing and
+the orb collapses to a flat tint (measured). It paints the section's own ground so the square
+is invisible. Reading it from the DOM rather than hard-coding `#FAF7F1` means it cannot drift
+if the section is ever re-grounded — which is exactly what happened to 03 the same day.
+
+⚠️ **`neb` and `core` are per-orb for the same reason `dist` is.** Interior light is a fixed
+amount of white on top of whatever the glass transmits, so on the darkest pigment it reads as
+a starburst and on the palest it just saturates — the first pass blew Modern Menopause into a
+featureless white blob while the burgundy beside it was perfect. Pale glass gets a shorter
+attenuation distance **and** a dimmer core.
+
+**Cost.** Transmission is an extra pass per orb per frame, so the loop is throttled to ~34fps
+and gated on visibility; DPR capped 1.5. Verified: three live WebGL2 contexts at 1440 **and**
+390×844, the orbs genuinely animate (two frames 2.6s apart differ), and reduced-motion stops
+on a single frame.
+
+⚠️ **It depends on the CDN**, unlike the raw-GL version it replaces. The fallback carries
+that: `.orb--live` is granted only on a rendered frame, so no Three / no WebGL2 / a dead
+context all leave the CSS gradient orb standing. What is lost is the live orb, never the
+door. Three is already on the page for the hero silk, so no new request.
+
+## 10 · Section 05 takes his photographs, and the empty half becomes something we build
 
 > "replace the images on main for gut and energy" — **boosters only**, the two of them.
 
@@ -288,6 +408,13 @@ warning means something again.
 
 ## Still open
 
+- **04 and 04 alt share one ground (`#FAF7F1`), which is the only place the page runs two
+  identical sections back to back.** That is correct *while it is an A/B* — different
+  grounds would have him comparing grounds instead of orbs — and it resolves itself the
+  moment he picks one and the other is deleted. Worth knowing it is deliberate, not missed.
+- `.turn` is a **zero-height leftover** section between the scene and 03. It contributes
+  nothing visually and is not in the ground sequence a reader sees. Harmless, but it is
+  dead markup and it confuses anything that enumerates sections.
 - The doors stay unwired (`data-soon`) in **both** sections — wiring is three `href`s and no
   markup change, and it would have to be done twice until he picks.
 - **`/programs/` still shows the porcelain pair** (`medigyn-porcelain-*`, §01 and §02). He

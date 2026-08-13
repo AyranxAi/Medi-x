@@ -1,5 +1,20 @@
 # Hormone Balancing & BHRT — `/hormone-balancing/` (shipped 2026-08-10, four refinement rounds same day)
 
+> ## ⚠️ SUPERSEDED ONCE MORE — 2026-08-13, LATE. READ `../HANDOFF.md` FIRST.
+>
+> Seven of his notes in one pass. Against this document *and* the banner below it, these
+> points are now wrong:
+>
+> | Says | Now |
+> |---|---|
+> | The hero sub says "for women in Dubai" | **Cut** — "Medi-Gyn offers expert hormone imbalance treatment." Only the `<title>` and the meta description still carry the phrase, and that is flagged to him rather than done |
+> | The order is scene → 03 (What is BHRT?) → 04 | **03 comes FIRST**, between the hero and the scene: define, then show. Skip in the scene controls moved with it — it targets `#services` now, and pointing it at `#bhrt` sends the reader backwards |
+> | `.scene-title` sits at `H*.042`, column at `H*.245`, 60px between them | **The title hangs a measured gap above the first slot** — 30px at 1440×900, 20px at 390×844. The column did not move: `H*.245` is a floor, because lowering it puts the last slot under Replay/Skip |
+> | The ✦ BHRT agent is 12.5px | **`clamp(16px,1.55vw,22px)`** — his "make it bigger". Ceiling is her own width, since it is centred on her axis |
+> | The third pathway is "Testosterone Replacement" | **"Testosterone Top Up"**, his name, in all four places the page speaks it. The `.door--trt` class and the WebP filename are unchanged on purpose |
+> | 05's titles set `+ Gut Health` / `+ Energy` at `.8em` | **One size** — the em's `font-size` is gone. The h3 floor became `min(21px,5.1vw)` in the same edit, or the longer title wraps at 360 |
+> | The scene has a phase indicator top-right | **Removed whole** — rule, phone override, `<p>` and both script ladders. Beat 5 is now the only place the release is named |
+>
 > ## ⚠️ SUPERSEDED AGAIN — 2026-08-13, EVENING. READ `../HANDOFF.md` FIRST.
 >
 > Six of his notes in one pass. Against this document, these points are now wrong:

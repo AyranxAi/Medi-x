@@ -551,10 +551,10 @@ section{position:relative}
    object-fit, scale and the optical-centre origin all come from the rule above). The mask
    lives in ELEMENT space so it turns and drifts with the layer: opaque to 18% of the box,
    gone at 30%. That 30 is paired with the script's drift and breath ceilings — at the
-   Vortex recipe (wander 1.5, breath 1.6): (30 × 1.16 × 1.0112 max swell) + 6.45% max
-   drift = 41.6% against a rim at 43.4% (same swell) — so moving interior glass can never
-   poke outside the ball's own silhouette. ⚠️ ~1.8% of box is the thinnest this margin has
-   been; any recipe with wander above ~1.9 breaks it. Re-do this sum on every new recipe.
+   founder's Mesmerise recipe (wander 1.4, breath 1.5): (30 × 1.16 × 1.0105 max swell) +
+   6.02% max drift = 41.2% against a rim at 43.4% (same swell) — so moving interior glass
+   can never poke outside the ball's own silhouette. Margin ~2.2% of box; any recipe with
+   wander above ~1.9 breaks it. Re-do this sum on every new recipe.
    Both mask prefixes: -webkit- alone covers every engine that runs the script; the pair
    is there so neither family of browsers ever shows the clone UNMASKED — unmasked, the
    whole render turns continuously, baked window-lights and all, which is exactly the
@@ -3946,30 +3946,33 @@ try {
     /* `wall` is the screen-blended caustic band's opacity, per-door because the three
        pigments carry different webbing contrast: the rose's is faintest, so it runs
        hottest — the same equal-alpha-reads-differently note every layer here inherits. */
+    /* `flip` is alternate=on made explicit: the MIDDLE door runs mirrored, so adjacent
+       orbs counter-rotate and the row reads as three living things rather than one
+       mechanism. Only the rotations mirror — drift and breath stay unflipped (the
+       seeds already de-phase them), exactly as the Atelier's alternate behaves. */
     const DOORS = {
-      "door--bhrt":      { seed: 1.3, glow: .38, wall: .35 },
-      "door--menopause": { seed: 4.7, glow: .25, wall: .38 },
-      "door--trt":       { seed: 8.1, glow: .34, wall: .35 },
+      "door--bhrt":      { seed: 1.3, glow: .38, wall: .35, flip: 1 },
+      "door--menopause": { seed: 4.7, glow: .25, wall: .38, flip: -1 },
+      "door--trt":       { seed: 8.1, glow: .34, wall: .35, flip: 1 },
     };
-    /* ⚠️ ROUND 6 — THE VORTEX RECIPE, LIVE AS THE INTERIM. His direct instruction,
-       2026-08-13 (night): the founder is choosing her own setting in the Orb Atelier
-       (the shared configurator, which runs this same engine); until her recipe line
-       arrives, the Atelier's "Vortex" preset ships. Verbatim:
-         orb-recipe: mode=counter dir=ccw wall=30s shell=48s breath=1.60 wander=1.50
-                     glow=1.40 hover=both alternate=off
-       ⚠️ THE TURNING SHELL IS A TASTE OVERRIDE OF THE ROUND-4 REFLECTION RULE — chosen
-       by eye in the Atelier, knowing the trade (the baked window-lights turn with the
-       glass). The physics note above keeps stating that trade honestly; it is now a
-       recorded cost, not a prohibition. Likewise hover=both restores the quicken
-       (at .6) alongside the bloom. Angles are stored CSS-SIGNED (+ is clockwise, so
-       the recipe's ccw terms carry a minus; counter mode flips the ring). When the
-       founder's line lands, THIS BLOCK is the only thing to retranslate. */
+    /* ⚠️ ROUND 7 — THE FOUNDER CHOSE: MESMERISE. Word came back 2026-08-13 (night) —
+       "mesmerize is the way to go" — and this block is her preset from the Orb
+       Atelier, verbatim:
+         orb-recipe: mode=counter dir=ccw wall=42s shell=holds breath=1.50
+                     wander=1.40 glow=1.30 hover=both alternate=on
+       Two consequences worth naming:
+       · shell=holds RESTORES THE ROUND-4 REFLECTION RULE — the outside rocks its ±2°
+         and its window-lights stay anchored to the room again. The Vortex round's
+         turning shell was a taste override; it left with the recipe that owned it.
+       · alternate=on is carried by `flip` in DOORS above — new to the page.
+       Angles stay CSS-SIGNED (+ is clockwise; the recipe's ccw carries the minus;
+       counter mode flips the ring; `flip` mirrors the whole door). The next recipe:
+       retranslate THIS block, re-do the mask sum, nothing else. */
     const R = {
-      shell: -2 * Math.PI / 48,           /* the outside itself, one turn every 48s   */
-      wall:  -2 * Math.PI / 30,           /* outer band, 30s — fastest zone           */
-      ring:   2 * Math.PI / 30 * .71,     /* mid swirl opposes (counter), ~42s        */
-      core:  -2 * Math.PI / 30 * .36,     /* deep core with the band, ~83s            */
-      breath: 1.6, wander: 1.5, glow: 1.4, quicken: .6,
+      wall:  -2 * Math.PI / 42,           /* outer band, 42s — fastest zone           */
+      ring:   2 * Math.PI / 42 * .71,     /* mid swirl opposes (counter), ~59s        */
+      core:  -2 * Math.PI / 42 * .36,     /* deep core with the band, ~117s           */
+      breath: 1.5, wander: 1.4, glow: 1.3, quicken: .6,
     };
     const instances = [];
     for (const door of stills) {
@@ -3993,6 +3996,7 @@ try {
       box.append(wall, ring, core, glow);
       img.style.willChange = "transform";
       const inst = { img, wall, ring, core, glow, base: DOORS[key].glow,
+                     flip: DOORS[key].flip,
                      sim: DOORS[key].seed * 6, vis: true, hot: false, boost: 0 };
       /* drift amplitudes are in % of the orb box: 4.3 / 3.4 ≈ .10/.08 of a shell
          radius (the ball renders at 43% of the box — measured alpha bounds ×
@@ -4000,19 +4004,20 @@ try {
          same drift and swell — the convection carries the whole fluid body, and a
          middle that breathes against its own rim reads as a seam, not a breath.
          (The wall band is the exception — it does NOT drift; see its own note.
-         The shell turns per the recipe instead of rocking — round 6.) */
+         shell=holds, so the base is back on its round-3 rock; `f` mirrors every
+         rotation on the middle door — alternate=on — while drift stays unflipped.) */
       inst.draw = () => {
-        const t = inst.sim, breath = Math.sin(t * .9) * R.breath;
+        const t = inst.sim, breath = Math.sin(t * .9) * R.breath, f = inst.flip;
         const swell = 1 + .007 * breath;
         const dx = Math.sin(t * .16) * 4.3 * R.wander, dy = -Math.cos(t * .13) * 3.4 * R.wander;
         inst.img.style.transform =
-          `scale(calc(var(--circle-scale)*${swell})) rotate(${t * R.shell}rad)`;
+          `scale(calc(var(--circle-scale)*${swell})) rotate(${f * -Math.sin(t * .21) * .035}rad)`;
         inst.wall.style.transform =
-          `scale(calc(var(--circle-scale)*${swell})) rotate(${t * R.wall}rad)`;
+          `scale(calc(var(--circle-scale)*${swell})) rotate(${t * R.wall * f}rad)`;
         inst.ring.style.transform =
-          `translate(${dx}%, ${dy}%) scale(calc(var(--circle-scale)*${swell})) rotate(${t * R.ring}rad)`;
+          `translate(${dx}%, ${dy}%) scale(calc(var(--circle-scale)*${swell})) rotate(${t * R.ring * f}rad)`;
         inst.core.style.transform =
-          `translate(${dx}%, ${dy}%) scale(calc(var(--circle-scale)*${swell})) rotate(${t * R.core}rad)`;
+          `translate(${dx}%, ${dy}%) scale(calc(var(--circle-scale)*${swell})) rotate(${t * R.core * f}rad)`;
         inst.glow.style.transform =
           `translate(${dx}%, ${dy}%) scale(${1 + .10 * breath + .06 * inst.boost})`;
         inst.glow.style.opacity =
@@ -4025,20 +4030,33 @@ try {
     }
     if (instances.length) {
       const STEP = 1 / 34;   /* the living loop's throttle — far above these rates */
+      /* ⚠️ THE CLOCK ADVANCES BY THE ACCUMULATED INTERVAL, NOT THE LAST FRAME'S dt —
+         caught 2026-08-13 (night) while verifying the Mesmerise rates against the
+         recipe. The throttle pattern this loop inherited resets the accumulator and
+         then adds only ONE frame's dt to the clock, silently dropping every skipped
+         frame's time: measured, the ring turned at exactly HALF its recipe rate at
+         60Hz — and the loss scales with refresh rate (a quarter at 120Hz), so the
+         page could never match the Atelier the founder chose in, and never match
+         itself across displays. `acc` now carries the full elapsed time into the
+         clock and resets AFTER the update. The living-orb loop above keeps the old
+         pattern DELIBERATELY: its speeds were tuned by eye on the rendered page,
+         bug absorbed — retiming it would change an approved look. */
       let last = performance.now(), acc = 0;
       (function loop(now) {
         requestAnimationFrame(loop);
         const dt = Math.min((now - last) / 1000, .1); last = now;
         if (document.hidden) return;
-        acc += dt; if (acc < STEP) return; acc = 0;
+        acc += dt; if (acc < STEP) return;
         for (const inst of instances) {
           if (!inst.vis) continue;
-          inst.boost += ((inst.hot ? 1 : 0) - inst.boost) * Math.min(1, dt * 2.2);
+          inst.boost += ((inst.hot ? 1 : 0) - inst.boost) * Math.min(1, acc * 2.2);
           /* hover=both (the recipe): the bloom in draw() plus this quicken — the
-             round-3 whisper rule stood at .25 until the Vortex recipe raised it */
-          inst.sim += dt * (1 + inst.boost * R.quicken);
+             round-3 whisper stood at .25 until round 6 raised it to .6, and the
+             founder's Mesmerise keeps it there */
+          inst.sim += acc * (1 + inst.boost * R.quicken);
           inst.draw();
         }
+        acc = 0;
       })(last);
     }
   }

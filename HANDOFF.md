@@ -1,5 +1,28 @@
 # Handoff addendum — 2026-08-13, late evening (the stills take the living orbs' movement)
 
+> ## ⚠️ ROUND 7, SAME NIGHT — THE FOUNDER CHOSE: MESMERISE. LIVE ON MAIN.
+>
+> Word came back — *"mesmerize is the way to go"* — so the interim Vortex is replaced by
+> her Atelier preset, verbatim:
+> `orb-recipe: mode=counter dir=ccw wall=42s shell=holds breath=1.50 wander=1.40 glow=1.30 hover=both alternate=on`
+> Three notes. (1) **shell=holds restores the round-4 reflection rule** — the outside is
+> back on its ±2° rock, window-lights anchored; the turning shell left with the Vortex
+> that owned it. (2) **alternate=on is new on the page**: the middle door mirrors every
+> rotation (`flip` in DOORS), so adjacent orbs counter-rotate and the row reads as three
+> living things — drift and breath stay unflipped, the seeds already de-phase them.
+> (3) The mask sum relaxes a step at wander 1.4: 41.2% vs 43.4%, ~2.2% margin (ceiling
+> unchanged: wander ~1.9 breaks it). Verified counter-rotation on the rendered page:
+> ring angles on doors 1 and 2 carry opposite signs, same magnitude.
+> (4) **A clock bug was caught and fixed while verifying the rates.** The throttle
+> pattern the stills' loop inherited from the living engine drops skipped frames' time
+> from the clock — measured, the ring ran at exactly HALF its recipe rate at 60Hz, and
+> the loss scales with refresh rate (quarter at 120Hz). The stills' accumulator now
+> carries full elapsed time, so the page runs the recipe at true rate on every display
+> — which is the rate the founder chose in the Atelier (the Atelier loop was always
+> true-rate). ⚠️ The LIVING-orb loop keeps the old pattern deliberately: its speeds
+> were tuned by eye on the rendered page with the bug absorbed — retiming it would
+> change an approved look. Noted at both loops.
+>
 > ## ⚠️ ROUND 6, SAME NIGHT — THE VORTEX RECIPE SHIPS TO MAIN, AS THE INTERIM
 >
 > The founder is choosing the motion herself in the **Orb Atelier** — a shared

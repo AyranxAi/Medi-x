@@ -1,6 +1,7 @@
-# Handoff addendum — 2026-08-13, evening (headline · scene clearance · the title comes off the ball · an A/B on the orbs · 06 borrows the landing page's voice)
+# Handoff addendum — 2026-08-13, evening (headline · scene clearance · the title comes off the ball · an A/B on the orbs · 06 borrows the landing page's voice · 03 stands on the dawn · the orbs become real 3D · 05 takes his photographs)
 
-Scope: `hormone-balancing/index.html`, six of his notes in one pass. Where this touches
+Scope: `hormone-balancing/index.html`, ten of his notes in one pass — plus, for §10 only,
+`images/boost/`, `archive/sources/` and two files in `tools/`. Where this touches
 the orb table or the section-06 type below, **THIS supersedes**; everything else in the
 earlier 08-13 and 08-12 addenda still holds.
 
@@ -334,6 +335,165 @@ that: `.orb--live` is granted only on a rendered frame, so no Three / no WebGL2 
 context all leave the CSS gradient orb standing. What is lost is the live orb, never the
 door. Three is already on the page for the hero silk, so no new request.
 
+## 10 · Section 05 takes his photographs, and the empty half becomes something we build
+
+> "replace the images on main for gut and energy" — **boosters only**, the two of them.
+
+He uploaded three PNGs to `main` (`a8b6974`, `e5a9afb`) and said *choose*. Two are the pair:
+a gold anatomy figure with the estradiol ball model beside it, and a clinician with ATP and
+a mitochondrion — the same two subjects the day-old porcelain objects carried, photographed
+rather than sculpted. The third is that clinician frame two stops darker.
+
+**The dark take lost on a measurement, not a preference.** Mean frame value: Gut `#CBB192`,
+pale clinician `#D9C7B9`, dark clinician `#A38F7E`. The section ground is `#F4EDE1` and the
+card fill `#FAF7F1`; the dark one sits ~0.13 in relative luminance below its own partner and
+reads as a different register beside it. It is kept at
+`archive/sources/boost-energy-atp-clinician-dark-alt.png` — nothing was thrown away.
+
+| Was (porcelain, one day old) | Now |
+|---|---|
+| `images/boost/gut-estradiol-card-1200.{avif,webp}` | `images/boost/gut-estradiol-figure-1200.{avif,webp}` |
+| `images/boost/energy-atp-card-1200.{avif,webp}` | `images/boost/energy-atp-clinician-1200.{avif,webp}` |
+
+The retired four are deleted and the masters renamed out of `images/` into
+`archive/sources/` — a plate called `ChatGPT Image Aug 13, 2026, 01_02_53 PM.png` is the
+exact failure `tools/encode-plate.mjs` was written to stop happening again.
+
+⚠️ **THE 4:5 CARD SURVIVED; WHAT CHANGED IS WHERE ITS EMPTY HALF COMES FROM.** The stylesheet
+has said since `3e4e773` that the copy zone is part of the photograph and a landscape master
+cover-cropped into 4:5 throws it away. The porcelain plates satisfied that for free — objects
+floating on ivory, lower half already blank. **His are photographs with real backgrounds and
+have no such half**, and both are landscape (1.551 and 1.779): a straight `cover` would have
+discarded 55–65% of the width and put ink back on a picture. So the half is now *built*:
+
+- **band 760 of 1500 (50.7%)** — the porcelain subjects ended at 54–55%, and it is also the
+  most a 16:9 master gives before the crop turns damaging. At 820 the clinician crop reaches
+  x=1375 and cuts the tablet in half; at 760 it costs 188px of outer coat and nothing else.
+- **feather 110px, smoothstep to `--ivory`** — the masters' bottom edges are `#BEA78E` and
+  `#DBCCC0`, so a hard cut draws a horizon across the card and 44px still showed it on the
+  darker Gut plate. 110 is also the ceiling: the mitochondrion bottoms out at 93.6% of its
+  own height, so a feather reaching above y=650 erases its lower rim rather than softening it.
+- crops: Gut **18px off the bottom** (1.8%), clinician **188px off the right** (11.2%). Never
+  centred — the estradiol model and the adenine ring both sit hard against the left edge.
+
+All three numbers are argued at length in **`tools/compose-boost-plate.mjs`**, which is new
+and is now the first step of any 05 swap.
+
+⚠️ **A PLATE SWAP IN 05 IS NO LONGER A `src` CHANGE, AND THE 08-13 NOTE SAYING IT IS HAS BEEN
+CORRECTED IN PLACE.** That property belonged to masters that arrived pre-flattened onto ivory.
+The sequence is now compose → encode → measure:
+
+```
+node tools/compose-boost-plate.mjs <master> /tmp/plate.png <right|left|bottom|top>
+node tools/encode-plate.mjs /tmp/plate.png images/boost/<new-basename>-1200 1200
+node tools/qa/boost-contrast.mjs
+```
+
+**Measured after, `tools/qa/boost-contrast.mjs` — 12/12 clear.** h3 **14.27**, rose em **7.59**,
+body **6.18**, at both 1440×900 and 390×844. ⚠️ **The tell is that all six numbers are
+identical on the two cards**: the copy is sitting on flat ivory on both, so the plate behind
+it is not in the measurement at all. Two cards disagreeing here would mean a picture had crept
+under the copy — that, not the absolute ratios, is what this harness is now checking.
+
+⚠️ **Weight: 43.6 + 45.9 KB avif** against the porcelain pair's 20.6 + 16.6. Photographs cost
+more than flat objects; still well inside the band, and both stay `loading="lazy"`.
+
+⚠️ **`tools/encode-plate.mjs` was reporting against a 16:9 target that 05 stopped having on
+08-13.** It now prints the live cover-cropped target so the crop warning means something again.
+
+### Then he saw it, and the built copy zone lasted about an hour
+
+> "make it tighter reduce all that white by reducing vertical height"
+
+**He was looking at a real defect, and the number says where it came from.** The card was
+`aspect-ratio:4/5` with the picture absolute at `inset:0` and `object-fit:cover`, so its
+height was *declared* and the copy sat at the bottom of whatever that left. Two things then
+move in opposite directions: the copy block is near-constant in CSS px — **measured 86–112
+across eleven widths** — while the card height scales with its column. Air under the copy came
+out at **82px at 390 and 214px at 1440**. No single aspect-ratio is right at both ends of that,
+and a responsive one would have needed a second plate per programme to avoid `cover` eating
+the top of the picture.
+
+**So the height is derived instead of declared.** The picture is an in-flow `1200x760` band;
+`h3` + `p` move into a new `.boost-copy` that carries the padding and the row rhythm; the card
+is a flex column with no `aspect-ratio` and no `cover`.
+
+| | Was | Now |
+|---|---|---|
+| card at 1440 | 558×697 | **558×519** (−25.5%) |
+| card at 390 | 350×438 | **350×378** (−13.7%) |
+| gap, picture → title | 214px @1440, 82px @390 | **the padding, 22–38px, at every width** |
+| plate | 1200×1500, 740px of built copy zone | **1200×760, band only** |
+
+Measured at eleven widths after: the gap equals the computed `padding-top` at every one, and
+the two cards are **the same height to within 0.5px everywhere** — they share a copy length, so
+nothing has to be forced. `boost-contrast` **12/12** (14.28 / 7.59 / 6.19, still identical
+across the two cards). `?boost=tether` re-checked: its padding and row-gap overrides moved to
+`.boost-copy` with the properties they were overriding, and the diagram draws with no stray
+frames. No page errors at 1440 or 390.
+
+⚠️ **The copy zone is no longer a thing that can be wrong.** Both earlier answers baked it into
+pixels — the porcelain objects got an empty lower half for free by floating on ivory, his
+photographs had one built at 1200×1500 — and pixels can only be right at one width. It is
+layout now, so a longer programme name or a fourth line of body copy costs nothing and needs
+no re-measure. **A replacement plate is the band, 1200×760** — one carrying its own copy zone
+would double it.
+
+⚠️ **`aspect-ratio` must not come back on its own.** A declared height over an auto-height
+picture reopens exactly the gap he asked to close; it would need the plates rebuilt with it.
+
+### And then the fade came off too
+
+> "why is the cutout ugly on the white and the end of pictures also make the words bigger
+> please appropriate for reading"
+
+**Two calls, and the first one is a design error I introduced two changes ago.** The band's
+bottom 110px dissolved into `--ivory`. That was right while the plate carried its own copy
+zone — the fade hid a horizon line *inside the picture*. Once the caption moved out into
+`.boost-copy`, the fade had nothing left to hide and only did damage.
+
+**Why it read as a cutout rather than as mist, which is the part worth keeping:** both frames
+have subjects that **run off the bottom edge** — the figure's shin and hand, the clinician's
+coat, the mitochondrion's lower rim. Fading a frame whose content stops inside it looks like
+atmosphere. Fading one through a limb looks like the limb evaporated. A hard edge cuts it,
+which is what a photograph's edge is for. The feather is deleted from
+`tools/compose-boost-plate.mjs`, not parameterised — the script is now crop → resize → encode
+and nothing else, and the paragraph explaining why is in it so this does not get "fixed" back.
+
+Removing it also returns the 110px it was dissolving, so both plates simply show more.
+
+**And the type, which was genuinely too small.** `.boost-one p` had no size or leading of its
+own: it inherited the global **16px**, the page's utility size, and was the smallest type in a
+card whose entire job is two sentences.
+
+| | Was | Now | at 1440 |
+|---|---|---|---|
+| `h3` | `clamp(19px,1.9vw,28px)` | `clamp(21px,2.1vw,31px)` | 28 → **30px** |
+| `p` | inherited 16px / 1.6 | `clamp(16px,1.3vw,19px)` / **1.7** | 16 → **19px** |
+
+The body now matches `.boost-sub` directly above it, so the section reads at one size instead
+of two. Leading 1.7 rather than the sub's 1.8: the sub is a lone line and wants air; this is a
+set paragraph and 1.8 loosens it into a list.
+
+⚠️ **The line count did not move, and `ch` is the whole reason.** `max-width:34ch` scales with
+the font, so 34 characters stay 34 characters at any size — the paragraph got bigger without
+rewrapping. Two lines everywhere, three at 390, exactly as before. Had that been a `px` width
+this would have been a re-measure of the card instead of a two-value change.
+
+⚠️ **The one-line title rule was re-measured, because a bigger title is exactly what breaks
+it.** Eleven widths, still one line at every one — but **slack at 390 is down from 83px to
+60px**. That is the budget a longer programme name spends first.
+
+**`boost-contrast` 12/12** (14.28 / 7.59 / 6.19, identical across both cards). At 1440 the
+title now clears the harness as *large* text rather than small, which is a real accessibility
+gain and not just a bigger number.
+
+⚠️ **Fourth set of basenames in one evening** — `…-card-1200` → `…-1200` → `…-band-1200` →
+**`…-1200x760`**. That is BRAND.md working as intended rather than churn: every one of those
+was a genuinely different image, and no cache can serve a stale shape. All three retired pairs
+are deleted, not left lying in `images/boost/`. The name states the shape now, which is the
+thing a replacement has to match.
+
 ## Still open
 
 - **04 and 04 alt share one ground (`#FAF7F1`), which is the only place the page runs two
@@ -345,6 +505,9 @@ door. Three is already on the page for the hero silk, so no new request.
   dead markup and it confuses anything that enumerates sections.
 - The doors stay unwired (`data-soon`) in **both** sections — wiring is three `href`s and no
   markup change, and it would have to be done twice until he picks.
+- **`/programs/` still shows the porcelain pair** (`medigyn-porcelain-*`, §01 and §02). He
+  scoped this to the boosters, so it was left alone — but 05 and the page it points at now
+  show the same two subjects in two different registers. One call, not a bug.
 - `?style=editorial|gallery|soft` still override `.story blockquote` font-size with their own
   scales. They are whole-page preview treatments for a different question and are off by
   default; they now inherit Cormorant at their own sizes, which is coherent, but they are not

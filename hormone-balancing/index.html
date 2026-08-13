@@ -76,6 +76,20 @@
      that Cormorant fails at those sizes over that ground is still true. Two names because
      there are two decisions; collapsing them would silently move the scene. */
   --quote-story:"Cormorant Garamond",Georgia,serif;
+  /* ⚠️ THE DAWN, AS A TOKEN — 2026-08-13 (evening). This is the exact colour the scene's
+     ground rises TO, and section 03 now stands on it so the handoff has no seam.
+     ⚠️ IT MUST STAY EQUAL TO BG_B IN THE SCENE SCRIPT (`const BG_B=[246,231,225]`). Two
+     copies of one colour in two languages; there is no way to share them in a zero-build
+     single file, so they are cross-referenced at both sites instead. Change one, change
+     the other, or 03 grows a seam that is 2 RGB values wide and impossible to spot. */
+  --dawn:#F6E7E1;
+  /* ⚠️ 8% DARKER THAN --gold-deep, AND IT IS A CONTRAST FIX, NOT A TASTE ONE. --gold-deep
+     #8A6A34 measures 4.16 on the dawn, and it was ALREADY failing on the cream 03 used to
+     stand on (4.31, against a 4.5 floor for text this size) — a fail this round inherited
+     rather than caused, and would have deepened. #7F6230 is the same hue at 92% and clears
+     everywhere it is used: 4.72 dawn / 4.89 cream / 5.32 ivory. Only .seg-gloss takes it;
+     --gold-deep keeps its own value for the scene, where it sits on different grounds. */
+  --gold-gloss:#7F6230;
   --ease:cubic-bezier(.22,.61,.36,1);
   --pad:clamp(20px,4.5vw,72px);
   /* landing-page header geometry (ported from medi-x BRAND system) */
@@ -349,7 +363,27 @@ section{position:relative}
    the only band-shaped thing left on the page, which if anything makes it stronger.
    ⚠️ NO CTA. This page IS the BHRT intro (his correction, same day), so there is no
    service page to hand off to. Section 03 explains and stops. Do not add an arrow. */
-.bhrt{background:var(--cream)}
+/* ⚠️ 03 STANDS ON THE DAWN NOW, NOT ON CREAM — his call 2026-08-13 (evening), "I feel
+   like it breaks harmony", and the measurement says exactly why.
+   The scene ends on the risen blush #F6E7E1. 03 was cream #F4EDE1. The step between them
+   is ΔRGB [-2, +6, 0] — red down, green up, blue unmoved — at a lightness difference of
+   3% and a contrast ratio of 1.04. That is the worst possible kind of edge: NO lightness
+   step, so the eye cannot read it as "a new section has started", but a real shift in
+   colour TEMPERATURE from pink to yellow, which the eye sees perfectly well. It reads as
+   two whites that were supposed to match and don't, rather than as a transition.
+   Standing 03 on the dawn removes the seam entirely, and it is the editorially right
+   answer as well as the measurable one: the scene names BHRT, this section defines it, so
+   the ground it was named on should still be underfoot while it is explained. The reader
+   leaves the dawn at 04, not one section early.
+   ⚠️ THE ALTERNATION IS NOT BROKEN BY THIS, IT IS RESTORED. Page ground now runs
+   dawn(03) → ivory(04) → cream(05) → ivory(06) → cream(07) → burgundy. The old cream at
+   03 was the value that made two near-identical creams bracket the ivory doors.
+   ⚠️ THE HAIRLINES DO THE SEPARATING AT THE BOTTOM EDGE — .seg carries border-top and
+   border-bottom in --line, so 03 is delineated as a band regardless of its fill. That is
+   why the ground was free to move at all.
+   Contrast re-measured on the dawn: h2 ink 12.68, .seg-def ink 12.68, its em (logo-red)
+   6.74. All clear. .seg-gloss needed a value of its own — see --gold-gloss. */
+.bhrt{background:var(--dawn)}
 /* No 100vw here on purpose. Sections in this page are already full-bleed — .wrap
    does the constraining — so width:100vw would buy nothing and cost a horizontal
    scrollbar on every desktop that renders a classic scrollbar, because 100vw
@@ -383,7 +417,10 @@ section{position:relative}
 .seg-gloss{
   margin-top:clamp(16px,2vh,24px);font-family:var(--quote);
   font-size:clamp(14px,1.35vw,19px);letter-spacing:.15em;text-transform:uppercase;
-  color:var(--gold-deep);
+  /* NOT --gold-deep — see the token. At 19px regular this is body text, not large text,
+     so the floor is 4.5 and --gold-deep gives 4.16 on the dawn (and gave 4.31 on the
+     cream that was here before, which already missed). */
+  color:var(--gold-gloss);
 }
 .seg-def{
   font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30;
@@ -1719,7 +1756,7 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
                alt="" loading="lazy" decoding="async" width="1100" height="1100">
         </div>
         <span class="hook">“Still cycling and noticing changes?”</span>
-        <h3>Hormone Therapy &amp; BHRT</h3>
+        <h3>Hormone Therapy BHRT</h3>
         <a class="link-arrow" data-soon>Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
       </article>
       <article class="door door--menopause">
@@ -1783,7 +1820,7 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
       <article class="door door--bhrt">
         <div class="orb" aria-hidden="true"><canvas class="orb__gl"></canvas></div>
         <span class="hook">“Still cycling and noticing changes?”</span>
-        <h3>Hormone Therapy &amp; BHRT</h3>
+        <h3>Hormone Therapy BHRT</h3>
         <a class="link-arrow" data-soon>Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
       </article>
       <article class="door door--menopause">

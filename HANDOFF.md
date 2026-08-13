@@ -214,8 +214,56 @@ wrapping. Measured at 1920 / 1600 / 1440 / 1280 / 1104 / 980 / 900 / 760 / 600 /
 **one line at every width**, tightest slack 83px on the 390 phone. A programme name longer
 than "+ Gut Health" wraps rather than overflowing, which is the right failure.
 
+## 8 · Section 03 stands on the dawn, and the ampersand goes
+
+> "what is bhrt background should it be different color i feel like it breaks harmony"
+
+**He is right, and the measurement says exactly why.** The scene ends on the risen blush
+`#F6E7E1`; 03 stood on cream `#F4EDE1`. The step between them is **ΔRGB `[-2, +6, 0]`** —
+red down, green up, blue unmoved — at **ΔL\* 3.06%** and a contrast ratio of **1.04**.
+
+That is the worst kind of edge: *no lightness step*, so the eye cannot read it as "a new
+section began", but a real shift in colour **temperature** from pink to yellow, which the
+eye sees perfectly well. It reads as two whites that were meant to match and don't.
+
+`.bhrt` now takes `--dawn` (`#F6E7E1`). The seam disappears, and it is the editorially
+right answer as well as the measurable one: **the scene names BHRT, 03 defines it**, so the
+ground it was named on should still be underfoot while it is explained. The reader leaves
+the dawn at 04, one section later than before.
+
+⚠️ **This restores the alternation rather than breaking it.** Ground now runs
+dawn(03) → ivory(04) → cream(05) → ivory(06) → cream(07) → burgundy. The old cream at 03
+was the value that put two near-identical creams either side of the ivory doors.
+
+⚠️ **`--dawn` must stay equal to `BG_B` in the scene script** (`[246,231,225]`). One colour,
+two languages, no way to share them in a zero-build single file — cross-referenced at both
+sites instead. Change one, change the other, or 03 grows a 2-value seam nobody will spot.
+
+⚠️ **`.seg-gloss` needed its own gold, and that is a fix this round inherited rather than
+caused.** `--gold-deep` `#8A6A34` measures 4.16 on the dawn — and it was **already failing
+on the cream** (4.31, against a 4.5 floor: at 19px regular this is body text, not large).
+New `--gold-gloss` `#7F6230` is the same hue at 92% and clears everywhere: **4.72 dawn /
+4.89 cream / 5.32 ivory**. `--gold-deep` keeps its value for the scene.
+
+Re-measured on the dawn: h2 ink **12.68**, `.seg-def` ink **12.68**, its `em` logo-red
+**6.74**. All clear.
+
+### The ampersand
+
+`Hormone Therapy & BHRT` → `Hormone Therapy BHRT`, in **both** 04 and 04 alt. It wraps to
+two lines on its own — `Hormone Therapy` / `BHRT` — which is the stacked treatment the orb
+carried before the title came off the glass. The `min-height` reserve still holds all three
+Explores on one baseline.
+
 ## Still open
 
+- **04 and 04 alt share one ground (`#FAF7F1`), which is the only place the page runs two
+  identical sections back to back.** That is correct *while it is an A/B* — different
+  grounds would have him comparing grounds instead of orbs — and it resolves itself the
+  moment he picks one and the other is deleted. Worth knowing it is deliberate, not missed.
+- `.turn` is a **zero-height leftover** section between the scene and 03. It contributes
+  nothing visually and is not in the ground sequence a reader sees. Harmless, but it is
+  dead markup and it confuses anything that enumerates sections.
 - The doors stay unwired (`data-soon`) in **both** sections — wiring is three `href`s and no
   markup change, and it would have to be done twice until he picks.
 - `?style=editorial|gallery|soft` still override `.story blockquote` font-size with their own

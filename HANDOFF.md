@@ -1,3 +1,46 @@
+# Handoff addendum — 2026-08-13, late evening (the stills take the living orbs' movement)
+
+Scope: `hormone-balancing/index.html` only — one ask: *"they want this one to have that
+movement"*, said of the approved section-04 renders while the 04 ALT spheres turn beside
+them. So the stills now carry the living family's choreography. The A/B still stands —
+nothing was deleted; if this settles the choice, the living section comes out by its own
+three-part removal note.
+
+**The verdict that shaped the build, on the record:** the living orb's motion is
+*choreography* (rotation rates, the core's drift and pulse, the hover lift) **plus**
+*refraction*, and a flat render can only ever share the first — one frozen viewpoint
+cannot re-derive what the glass would show from the next angle; the §9 notes below
+already establish that parallax is the thing a 2D image lacks. What shipped is therefore
+the **entire choreography and only the choreography**: every rate is the in-plane
+projection of `inst.draw` in the living engine — the shell's z-term as a rock, the
+nebula's z-term as a continuous interior turn, the core's own x/y drift path and pulse,
+the same seeds, hover boost, and ~34fps throttle. ⚠️ **The two engines quote the same
+numbers and must change together**, or the A/B compares two behaviours instead of two
+fidelities. Both motion tables live at the foot of the file, side by side, each saying so.
+
+**The mechanism** — three layers per door, all inside the existing `.service-orb` box:
+the approved render (rocks), a clone of itself masked to the middle of the glass (turns
+behind the rocking rim — the web and baked starburst sliding against the rim is what
+stands in for "the interior swims"), and an additive glow riding the core's drift
+(`mix-blend-mode:screen`, per-door opacity = the live `core` × .4 — the render already
+has a full starburst; the layer only breathes over it, and the rose saturates first).
+⚠️ The geometry that keeps moving glass inside the silhouette is a worked sum at the
+mask: (30% mask edge × 1.16 scale) + 5.59% max drift = 40.4% against a rim at 42.9%.
+Touch the mask, the drift, or `--circle-scale` and re-do it.
+
+**The layers are built by the script, not the markup.** No JS and reduced-motion both
+leave the approved section exactly as shipped — a still is its own considered frame,
+the same rule the living orbs follow by rendering once. No CDN, no canvas: there is no
+failure mode worse than the still that was already standing.
+
+**Measured** (headless Chromium, `?probe=1`): three interiors + three glows built, zero
+in the live section; two frames of the grid 2.6s apart differ (≈496k bytes — the same
+motion test §9 used); under reduced-motion zero layers are built and the two frames are
+byte-identical; `scrollWidth` at 390×844 is exactly 390, so the clipped drift never
+re-springs the 391px trap.
+
+---
+
 # Handoff addendum — 2026-08-13, evening (headline · scene clearance · the title comes off the ball · an A/B on the orbs · 06 borrows the landing page's voice · 03 stands on the dawn · the orbs become real 3D · 05 takes his photographs)
 
 Scope: `hormone-balancing/index.html`, ten of his notes in one pass — plus, for §10 only,

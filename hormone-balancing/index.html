@@ -535,6 +535,36 @@ section{position:relative}
   transform-origin:var(--orb-optical-x) var(--orb-optical-y);
   pointer-events:none;user-select:none;
 }
+/* ═══ THE MOVING LAYERS — created by the choreography script at the foot, absent without
+   it. The ask, the verdict on what a flat render can and cannot share with the living
+   orbs, and every rate are documented THERE; these rules are only the material.
+   ⚠️ The interior is a CLONE of the render (it keeps .service-orb__image, so inset,
+   object-fit, scale and the optical-centre origin all come from the rule above). The mask
+   lives in ELEMENT space so it turns and drifts with the layer: opaque to 18% of the box,
+   gone at 30%. That 30 is paired with the script's 5.59% drift ceiling — (30 × 1.16) +
+   5.59 = 40.4% against a rim at 42.9% — so moving interior glass can never poke outside
+   the ball's own silhouette. Widen either number and re-do that sum.
+   Both mask prefixes: -webkit- alone covers every engine that runs the script; the pair
+   is there so neither family of browsers ever shows the clone UNMASKED — unmasked, the
+   whole render turns continuously, baked window-lights and all, which is exactly the
+   "spinning sticker" look the living-orb notes warn about. */
+.service-orb__interior{
+  -webkit-mask-image:radial-gradient(circle at var(--orb-optical-x) var(--orb-optical-y),#000 0 18%,transparent 30%);
+          mask-image:radial-gradient(circle at var(--orb-optical-x) var(--orb-optical-y),#000 0 18%,transparent 30%);
+  will-change:transform;
+}
+/* additive light riding the baked starburst — `screen` only ever adds, and the gradient
+   is transparent long before the rim, so over the cream ground it is a no-op. Opacity is
+   per-door, set by the script: the live family's `core` value × .4, because the render
+   already carries a full starburst and this layer only has to breathe over it — the rose
+   saturates first, same note as `neb`/`core` in the living engine. */
+.service-orb__glow{
+  position:absolute;inset:0;pointer-events:none;
+  transform-origin:var(--orb-optical-x) var(--orb-optical-y);
+  background:radial-gradient(circle at var(--orb-optical-x) var(--orb-optical-y),
+    rgba(255,255,255,.85) 0,rgba(255,247,238,.38) 6%,rgba(255,235,214,0) 15%);
+  mix-blend-mode:screen;will-change:transform,opacity;
+}
 /* ═══ THE COPY STACK — question, then answer, then the way in ═══════════════════════
    ⚠️ ALL THREE GREW 2026-08-13 (evening): "make question and the answer and the word
    explore bigger". They are sized as a SET, not individually, because the order they
@@ -3641,6 +3671,106 @@ try {
     }
   }
 } catch (e) { /* every orb keeps its CSS fallback — see .orb::before */ }
+</script>
+
+<script type="module">
+/* ═══════════ 04 · THE STILLS TAKE THE LIVING ORBS' MOVEMENT ═══════════
+   THE ASK 2026-08-13 (late evening): "they want this one to have that movement" — the
+   approved renders themselves moving like the 04 ALT spheres. Not a third orb: the same
+   pictures, animated in place.
+
+   ⚠️ WHAT "THE SAME MOVEMENT" CAN AND CANNOT MEAN FOR A FLAT RENDER, on the record so
+   nobody chases the remainder: the living orb's motion is CHOREOGRAPHY (rotation rates,
+   the core's drift and pulse, the hover lift) plus REFRACTION — the interior bending
+   through the turning shell. A still render is one frozen viewpoint; no 2D transform of
+   it can derive what the glass would show from the next angle — the living-orb notes
+   above already record that parallax is the one thing a flat image lacks. So this engine
+   gives the stills the ENTIRE choreography, driven by the same numbers on the same
+   clock, and only the choreography. If refraction itself is ever the ask, the answer
+   already exists and is mounted one section down.
+
+   ⚠️ EVERY RATE HERE IS A PROJECTION OF inst.draw IN THE LIVING ENGINE ABOVE — the
+   in-plane (z) terms of the same rotations, the core's own x/y path, the same pulse,
+   seeds, hover boost and ~34fps throttle. CHANGE THE TWO TOGETHER or the A/B stops
+   being an A/B: a viewer flicking between the sections must see one family at two
+   fidelities, never two behaviours.
+     shell rock     = cos(t·.29)·.10 rad   — the shell's in-plane term; its y-spin has
+                                             no 2D projection, so the rim only rocks
+     interior turn  = t·.17 rad            — the nebula's in-plane term, continuous, so
+                                             the web slides against the rocking rim
+     core drift     = (sin(t·.23)·.13, cos(t·.19)·.10), in shell radii
+     core pulse     = 1 + .09·sin(1.6t) + .05·boost
+   Radii → box %: the ball renders at 37% of its square (the measured alpha bounds) ×
+   --circle-scale 1.16 ≈ 43% — so one shell radius is 43 translate-percent, and the
+   drift peaks at 5.59% / 4.3% of the box. The mask sum that keeps that inside the
+   silhouette is worked in the stylesheet, next to the mask.
+
+   ⚠️ THE LAYERS ARE BUILT HERE, NOT IN THE MARKUP. No JS and reduced-motion must both
+   leave the APPROVED section exactly as shipped — a still picture is its own considered
+   frame, the same rule the living orbs follow by rendering once and stopping. No CDN,
+   no canvas, no network: nothing in this block can fail into anything worse than the
+   still that is already standing, which is why there is no fallback apparatus. */
+try {
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const stills = [...document.querySelectorAll(".doors:not(.doors--live) .door")];
+  if (!reduce && stills.length) {
+    /* seed desynchronises the three exactly as TINTS does for the live family; glow is
+       the live per-orb core opacity × .4 — see the stylesheet note on why it is dim. */
+    const DOORS = {
+      "door--bhrt":      { seed: 1.3, glow: .38 },
+      "door--menopause": { seed: 4.7, glow: .25 },
+      "door--trt":       { seed: 8.1, glow: .34 },
+    };
+    const R = 43;              /* one shell radius, in % of the orb box — derived above */
+    const instances = [];
+    for (const door of stills) {
+      const box = door.querySelector(".service-orb");
+      const img = door.querySelector(".service-orb__image");
+      const key = [...door.classList].find(c => DOORS[c]);
+      if (!box || !img || !key) continue;
+      const interior = img.cloneNode();
+      interior.classList.add("service-orb__interior");
+      interior.setAttribute("aria-hidden", "true");
+      const glow = document.createElement("div");
+      glow.className = "service-orb__glow";
+      glow.style.opacity = DOORS[key].glow;
+      box.append(interior, glow);
+      img.style.willChange = "transform";
+      const inst = { img, interior, glow,
+                     sim: DOORS[key].seed * 6, vis: true, hot: false, boost: 0 };
+      inst.draw = () => {
+        const t = inst.sim;
+        const dx = Math.sin(t * .23) * .13 * R, dy = Math.cos(t * .19) * .10 * R;
+        inst.img.style.transform =
+          `scale(var(--circle-scale)) rotate(${Math.cos(t * .29) * .10}rad)`;
+        inst.interior.style.transform =
+          `translate(${dx}%, ${dy}%) scale(var(--circle-scale)) rotate(${t * .17}rad)`;
+        inst.glow.style.transform =
+          `translate(${dx}%, ${dy}%) scale(${1 + .09 * Math.sin(t * 1.6) + .05 * inst.boost})`;
+      };
+      new IntersectionObserver(e => { inst.vis = e[0].isIntersecting; }).observe(box);
+      door.addEventListener("pointerenter", () => { inst.hot = true; });
+      door.addEventListener("pointerleave", () => { inst.hot = false; });
+      instances.push(inst);
+    }
+    if (instances.length) {
+      const STEP = 1 / 34;   /* the living loop's own throttle — one clock, two mounts */
+      let last = performance.now(), acc = 0;
+      (function loop(now) {
+        requestAnimationFrame(loop);
+        const dt = Math.min((now - last) / 1000, .1); last = now;
+        if (document.hidden) return;
+        acc += dt; if (acc < STEP) return; acc = 0;
+        for (const inst of instances) {
+          if (!inst.vis) continue;
+          inst.boost += ((inst.hot ? 1 : 0) - inst.boost) * Math.min(1, dt * 2.2);
+          inst.sim += dt * (1 + inst.boost * .45);
+          inst.draw();
+        }
+      })(last);
+    }
+  }
+} catch (e) { /* the approved stills keep standing exactly as shipped */ }
 </script>
 
 

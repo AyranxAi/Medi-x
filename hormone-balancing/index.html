@@ -3533,7 +3533,18 @@ try {
         const cam = new THREE.PerspectiveCamera(30, 1, .1, 100);
         cam.position.set(0, 0, 4.55);
 
-        const shell = new THREE.Mesh(displaced(192, .045, T.seed), new THREE.MeshPhysicalMaterial({
+        /* ⚠️ .045 → .105, AND THIS IS THE OTHER HALF OF "where is the 3d effect".
+           A PERFECT SPHERE IS ROTATION-INVARIANT: its normals are the same whichever way you
+           turn it, so its reflections and refractions do not move AT ALL. At 4.5% the shell
+           was very nearly perfect, so even after the rotation was sped up the highlights sat
+           still and only the core drifted — measured, 6.7% of pixels changing per second.
+           The irregularity IS the landmark. At 10.5% the specular arcs sweep across the
+           surface as it turns, which is the thing that reads as dimensional. It is also
+           closer to the still renders, whose silhouettes are visibly dented rather than
+           round — so this moves the live orb toward the family, not away from it.
+           ⚠️ Do not push much past ~.13: the wobble starts reading as a deflated ball, and
+           the refraction magnifies any high-frequency component into noise. */
+        const shell = new THREE.Mesh(displaced(192, .105, T.seed), new THREE.MeshPhysicalMaterial({
           transmission: 1, thickness: .95, ior: 1.46,
           roughness: .04, metalness: 0,
           clearcoat: 1, clearcoatRoughness: .05,
@@ -3558,11 +3569,30 @@ try {
         const inst = { orb, canvas, renderer, glass, glow, cam, shell, nebula, core,
                        sim: T.seed * 6, vis: true, hot: false, boost: 0, live: false, side: 0 };
 
+        /* ⚠️ SPEED IS WHAT MAKES THE 3D VISIBLE AT ALL — HIS CATCH 2026-08-13 (evening),
+           "where is the 3d effect". It shipped at y = t·0.09 rad/s, which is ONE FULL TURN
+           EVERY 70 SECONDS: 5° per second, on a smooth ball with no landmarks. The
+           refraction was real and correct and completely invisible, because a glance lasts
+           two or three seconds and the orb moved 15° in that time — indistinguishable from
+           a still image, which is exactly what he reported.
+           ⚠️ THE MOTION IS NOT DECORATION HERE, IT IS THE EVIDENCE. A static glass render
+           and a real refracting sphere look the same in a screenshot; the only thing that
+           proves the difference to a viewer is watching the interior slide as the shell
+           turns. Slowing this back down does not make the orb calmer, it makes the entire
+           rebuild pointless — the still family in section 04 already covers "calm".
+           ⚠️ THE SHELL AND THE NEBULA MUST TURN AT DIFFERENT RATES AND ON DIFFERENT AXES.
+           Locked together they read as one solid object; counter-rotating, the core swims
+           behind the glass and the refraction shifts non-linearly, which is the cue no 2D
+           shader can fake. The nebula runs faster than the shell for that reason.
+           Now ~21s per shell turn (17°/s) and ~11s for the interior. */
         inst.draw = () => {
           const t = inst.sim;
-          inst.shell.rotation.set(Math.sin(t * .13) * .13, t * .09, Math.cos(t * .11) * .07);
-          inst.nebula.rotation.set(t * .07, -t * .16, t * .05);
-          inst.core.scale.setScalar(1 + .06 * Math.sin(t * .9) + .05 * inst.boost);
+          inst.shell.rotation.set(Math.sin(t * .34) * .16, t * .30, Math.cos(t * .29) * .10);
+          inst.nebula.rotation.set(t * .22, -t * .58, t * .17);
+          /* the core drifts inside the glass — a moving light source magnified by a moving
+             lens is the single most legible "this is dimensional" cue on the whole door */
+          inst.core.position.set(Math.sin(t * .23) * .13, Math.cos(t * .19) * .10, 0);
+          inst.core.scale.setScalar(1 + .09 * Math.sin(t * 1.6) + .05 * inst.boost);
           inst.renderer.render(inst.glass, inst.cam);
           inst.renderer.autoClear = false;          /* the light inside, over the glass */
           inst.renderer.render(inst.glow, inst.cam);

@@ -1516,20 +1516,23 @@ html.side-scene .scene-track{height:360vh}
    ⚠️ THE SCRIPT MEASURES offsetWidth EVERY BUILD (agentW) to keep it centred, so a size
    change here needs no second edit there — but it DOES need a resize to re-measure, which
    build() already handles.
-   ⚠️ SECOND STEP UP 2026-08-13 — "make it more obvious". clamp(16px,1.55vw,22px) → this.
-   The COLOUR stays gold on purpose: the mark lives across the ground's whole rise, dark
-   plum early and blush late, and gold is the only value on the sheet that survives both
-   ends (it is also the tether/gland signal colour — the mark IS that signal, walking).
-   Ivory dies on the blush, logo-red and burgundy die on the plum — a colour board was
-   rendered at p=.42/.62 before this was chosen. The floors are ratio-checked: 26px is
-   ~134px against her 324px body at 1440 (the under-half-her-width ceiling holds) and the
-   title stays 4.0× / 3.1× the mark at the two ends, which is the payoff protection. */
+   ⚠️ THIRD PASS 2026-08-13 — BIG AND IVORY, HIS CALL off the rendered colour board
+   ("Ivory seems cool on the Venus make it a big ivory BHRT"). This overrides the board's
+   own contrast reading — ivory is the strongest value on the dark plum and the weakest on
+   the pale marble — so the marble end is carried by an INVERTED halo: the old dawn glow
+   lifted a dark gold off light stone, a light mark needs dark air behind it instead (the
+   side-scene override below, plum-based). The two-gold frame writer in the script is
+   retired with the swap — a constant colour lives here in the CSS, not in draw().
+   Size clamp(17px,1.9vw,26px) → this, re-measured: ~163px against her 324px body at 1440
+   — at the half-her-width ceiling, THE END OF THIS ROAD; wider and the mark outgrows the
+   figure it annotates. Title ratio is down to 3.3× / 2.7×, spent knowingly on "big". */
 .scene-agent{position:absolute;left:0;top:0;opacity:0;white-space:nowrap;
-  font-family:var(--sans);font-size:clamp(17px,1.9vw,26px);font-weight:500;letter-spacing:.24em;
-  text-transform:uppercase;color:var(--gold);text-shadow:0 0 18px rgba(194,160,94,.5)}
+  font-family:var(--sans);font-size:clamp(19px,2.2vw,32px);font-weight:500;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--ivory);text-shadow:0 0 18px rgba(194,160,94,.5)}
 .scene-agent .star{font-size:1.15em;letter-spacing:0;padding-right:.55em;vertical-align:-.06em}
-/* once she is stone the mark is gold-deep on pale marble; the halo is what keeps it read */
-html.side-scene .scene-agent{text-shadow:0 0 14px rgba(246,231,225,.9),0 0 4px rgba(246,231,225,.8)}
+/* once she is stone the IVORY mark needs dark air, not dawn: plum halo, soft then tight.
+   (was the dawn glow that lifted gold-deep — inverted 2026-08-13 with the ivory swap) */
+html.side-scene .scene-agent{text-shadow:0 0 16px rgba(42,27,32,.55),0 0 5px rgba(42,27,32,.45)}
 /* ⚠️ MEGANTE, NOT PLAYFAIR — his call. It is also var(--quote), the face the ten symptom
    labels are set in, so the word that arrives last speaks in the same voice as the ten it
    replaced. It sidesteps the Playfair trap as a bonus: at this size an unpinned Playfair
@@ -2420,9 +2423,14 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
              loading="lazy" decoding="async" width="560" height="560">
       </picture>
       <h2 class="cta-line" data-reveal>Not sure which fits? Start with a <em>free 10-minute discovery call</em></h2>
-      <!-- "Book now", not "Book a free discovery call": the line beside it has just said
-           the offer in full, and a pill repeating it word for word reads as a stutter. -->
-      <a class="btn" href="#" data-book>Book now <span class="arr">→</span></a>
+      <!-- "Book a discovery call" — his call 2026-08-13, off a three-label board (Book now /
+           Book a discovery call / Discovery call). The page sells two different things and
+           the pills must say which: the hero's "Book a consultation" is the full visit, this
+           is the free ten minutes — "Book now" named neither, and on a phone this pill is
+           the last element on the page, read alone. The verb stays because every pill on the
+           site opens with one; the two-word echo of the line beside it is the accepted cost
+           (the line keeps "free" and "10-minute" so the pill doesn't have to). -->
+      <a class="btn" href="#" data-book>Book a discovery call <span class="arr">→</span></a>
     </div>
   </section>
 
@@ -3269,7 +3277,8 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
     }
     if(agentEl){
       agentEl.style.opacity=agK.toFixed(3);
-      agentEl.style.color=wipe>.45?"var(--gold-deep)":"var(--gold)";
+      /* the two-gold wipe swap that lived here is retired 2026-08-13 — the mark is ivory
+         at every p now (his call), so colour is CSS-owned and draw() only moves it */
       agentEl.style.transform="translate3d("+(cx-agentW/2).toFixed(1)+"px,"+ayN.toFixed(1)+"px,0) translateY(-50%)";
     }
     if(titleEl){

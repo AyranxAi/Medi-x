@@ -1,9 +1,8 @@
-# Handoff addendum — 2026-08-13, night (audit round: the dot comes off the H1 · the sub grows · the men's answer is his · the ✦ mark steps up again)
+# Handoff addendum — 2026-08-13, night (audit round: the dot comes off the H1 · the sub grows · the men's answer is his · the ✦ mark goes big and ivory · the pill says what it books)
 
-Scope: `hormone-balancing/index.html`, four of his notes in one pass, made during a
-requested audit of the live page. Verified on the rendered page at 1440×900 and 390×844
-(`?probe=1` for layout, the npm-interception harness for the live scene — both throwaway,
-in the session scratchpad).
+Scope: `hormone-balancing/index.html`, six of his notes across one audit conversation.
+Verified on the rendered page at 1440×900 and 390×844 (`?probe=1` for layout, the
+npm-interception harness for the live scene — both throwaway, in the session scratchpad).
 
 ## 1 · The H1 loses its full stop
 
@@ -28,21 +27,40 @@ spaced hyphens → em dashes, straight → curly quotes — each recorded in the
 not a programme rename regression — the old answer's routing line survives as a second
 paragraph and still says **Testosterone Top Up**.
 
-## 4 · The ✦ BHRT mark steps up again, and stays gold
+## 4 · The ✦ BHRT mark goes BIG and IVORY — his call, off the board
 
-> "give me different colors … or should i just make it bigger to be more obvious"
+> "give me different colors … or should i just make it bigger" → board rendered →
+> "Ivory seems cool on the Venus make it a big ivory BHRT"
 
-Bigger is the right lever, and a rendered colour board says why: the mark lives across the
-ground's whole rise, and the script already runs a two-gold system
-(`wipe>.45 ? --gold-deep : --gold`, written per frame at the transform site — a CSS colour
-override is repainted the next frame, found the hard way). On the board, ivory dies on the
-blush, logo-red and burgundy die on the plum; gold is the only sheet value alive at both
-ends. So: `clamp(16px,1.55vw,22px)` → **`clamp(17px,1.9vw,26px)`**. Measured: 134px wide
-against her 324px body at 1440 (the under-half-her-width ceiling holds), title ratio 4.0×
-at the ceiling and 3.1× at the floor — the payoff protection the size comment demands.
-⚠️ If he ever wants maximum punch instead, the honest alternative is a two-COLOUR scheme
-on the same threshold the script already owns (ivory early → burgundy late) — it wins each
-end of the board but surrenders the gold signal language the tethers and glands speak.
+A five-colour board (gold / ivory / logo-red / burgundy / gold-deep, at p=.42 and .62) was
+rendered on the real scene first. The board's own contrast reading — ivory is the loudest
+value on the dark plum and the quietest on the pale marble; gold the only one alive at both
+ends — was put to him, and **he chose ivory anyway, with size. Taste outranks the meter;
+recorded so it is not re-litigated.** Three things moved as one:
+
+- **Colour**: `--ivory`, set in CSS. ⚠️ **The per-frame two-gold writer in `draw()`
+  (`wipe>.45 ? --gold-deep : --gold`) is retired** — found the hard way that any CSS colour
+  was being repainted every frame; with a constant colour the script only moves the mark.
+- **The marble halo INVERTED**: the side-scene dawn glow existed to lift a *dark* gold off
+  light stone; a *light* mark needs dark air — plum-based now
+  (`0 0 16px rgba(42,27,32,.55), 0 0 5px …`). The base gold glow survives for the dark act,
+  where it reads as candlelight behind the ivory.
+- **Size**: `clamp(17px,1.9vw,26px)` → **`clamp(19px,2.2vw,32px)`**. Measured ~163px against
+  her 324px body at 1440 — **at the half-her-width ceiling, the end of this road**; wider
+  and the mark outgrows the figure it annotates. Title ratio 3.3× / 2.7×, spent knowingly.
+
+## 5 · The 08 pill says what it books
+
+> "rather than book now … Book Discovery Call … or just add Discovery call not put book?"
+> → reasoned over a three-label board → "go for bok discovery cal"
+
+`Book now` → **`Book a discovery call`** (sentence case with the article — the house button
+grammar, every pill on the site opens with a verb). The page sells two different things and
+its two red pills now name which is which: the hero books the consultation, 08 books the
+free ten minutes. The old comment's stutter argument is answered in the new one at the
+site: a two-word echo of the line beside it is the accepted cost, and on phones this pill
+is the last element on the page, read alone — bare "Discovery call" reads as a topic there,
+not an action. Fits one line at 1440 and 390, verified on the board before he picked.
 
 ---
 

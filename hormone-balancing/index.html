@@ -3693,7 +3693,12 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
    still that is already standing, which is why there is no fallback apparatus. */
 try {
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const stills = [...document.querySelectorAll(".doors:not(.doors--live) .door")];
+  /* ⚠️ WAS `.doors:not(.doors--live) .door` — the guard came off on 2026-08-13 (late) with
+     the A/B it was guarding. .doors--live was the living-orb section's hook, and that whole
+     section, its CSS and its engine are deleted; a :not() against a class no attribute can
+     ever carry reads as "there is another orb family" to the next person here. There is one
+     doors grid now, and this is it. */
+  const stills = [...document.querySelectorAll(".doors .door")];
   if (!reduce && stills.length) {
     /* seed desynchronises the three exactly as TINTS does for the live family; glow is
        the live per-orb core opacity × .4 — see the stylesheet note on why it is dim. */

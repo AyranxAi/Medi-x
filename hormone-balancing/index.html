@@ -652,18 +652,21 @@ section{position:relative}
    That note said the full-bleed diptych cost "every future plate swap in 05 is now a
    re-measurement", and that the copy sat beside the picture until then precisely because
    one ramp could not serve a pale pendulum and near-black food.
-   The porcelain cards end the problem rather than manage it. They are objects on ivory
-   with the copy zone COMPOSED INTO THE FRAME — bottom ~40% deliberately empty — so the
-   copy sits on the picture with nothing under it at all. Measured on the shipped files:
-   ink #2E2228 on the card ground runs 13.1–14.0:1, ink-soft 5.6–6.2:1. There is no ramp
-   to tune, and therefore nothing to re-tune on the next swap. 05 goes back to being a
-   src change, which is the property `bands` had and the scrimmed diptych traded away.
+   The 4:5 card ends the problem rather than manages it. The copy zone is COMPOSED INTO THE
+   FRAME — the bottom ~49% is flat --ivory — so the copy sits on the picture with nothing
+   under it at all. Measured on the shipped plates (tools/qa/boost-contrast.mjs, 12/12):
+   ink #2E2228 on the card ground runs 14.27:1, the rose em 7.59:1, ink-soft 6.18:1 — and
+   IDENTICAL ON BOTH CARDS, which is the check that the zone is really empty. Two plates
+   differing here would mean a picture had crept under the copy. There is no ramp to tune.
    ⚠️ WHAT THIS COSTS: 05 no longer carries weight through darkness. It carries it through
    scale and silence instead. Burgundy at 08 is still the only dark moment on the way down,
    so (1) in the note above holds — more cleanly than before, since 05 is now light too.
-   ⚠️ THE CARDS ARE 4:5 AND THAT IS LOAD-BEARING. The copy space is part of the photograph.
-   Cover-cropping them to a landscape band throws the copy zone away and puts ink back on
-   porcelain. Any replacement plate for 05 must be composed 4:5 with a clear lower third. */
+   ⚠️ THE CARDS ARE 4:5 AND THAT IS LOAD-BEARING. Cover-cropping a landscape master into one
+   throws the copy zone away and puts ink back on the picture. The porcelain plates got their
+   empty half for free by being objects floating on ivory; his photographs (2026-08-13
+   evening) have real backgrounds, so theirs is built — a 760px band that dissolves into
+   --ivory over 110px, cut by tools/compose-boost-plate.mjs. Either way the rule is the same:
+   NOTHING GOES IN HERE THAT IS NOT ALREADY 1200x1500 WITH A CLEAR LOWER HALF. */
 .boost-pair{
   margin-top:clamp(30px,4.5vh,56px);
   display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,2.4vw,38px);
@@ -676,10 +679,11 @@ section{position:relative}
   border:1px solid var(--line);border-radius:2px;
 }
 .boost-one picture{position:absolute;inset:0;z-index:-2;display:block}
-/* ⚠️ NO mix-blend-mode HERE. The masters are flat-fielded ONTO --ivory already; multiplying
-   them over an ivory ground multiplies ivory by ivory and the card darkens into a panel
-   (measured #F4EEE2 inside against #FAF7F1 on the page). With the blend off the card fill
-   IS the section ground and the hairline is the only thing drawing the card. */
+/* ⚠️ NO mix-blend-mode HERE. The plates already END in --ivory — the porcelain pair was
+   flat-fielded onto it, his photographs dissolve into it — so multiplying one over an ivory
+   ground multiplies ivory by ivory and the card darkens into a panel (measured #F4EEE2
+   inside against #FAF7F1 on the page). With the blend off the card fill IS the section
+   ground and the hairline is the only thing drawing the card. */
 .boost-one img{display:block;width:100%;height:100%;object-fit:cover;background:var(--ivory)}
 /* ⚠️ THE TITLE NEEDS ITS OWN SIZE NOW. It never had one: on the scrim it inherited the
    global h3 and read large against darkness. On a light card at the same value it came
@@ -1812,39 +1816,52 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
         <h2 data-reveal>Two ways to go <em>further</em>.</h2>
       </div>
       <p class="boost-sub" data-reveal>Pair your hormone care with the systems that amplify it.</p>
-      <!-- 2026-08-13 — THE PORCELAIN CARDS. The gold pair is retired: a glowing viscera
-           render and a doctor holding a DNA hologram, which is the "cutting-edge" register
-           the voice rules ban in words. These are objects on ivory with the copy zone
-           composed into the frame, so the scrim came out with them — see the CSS.
+      <!-- 2026-08-13 (evening) — HIS PLATES. The porcelain pair is retired one day old: he
+           supplied a gold anatomy figure with the estradiol ball model beside it, and a
+           clinician with ATP and a mitochondrion. Same two subjects the porcelain objects
+           carried, photographed rather than sculpted. He uploaded three and picked; the
+           third is the same clinician frame two stops darker (whole frame #A38F7E against
+           this one's #D9C7B9) and is kept at archive/sources/…-dark-alt.png. It lost on the
+           only measurement that matters here: the Gut plate is #CBB192, so the pale take is
+           the one that reads as its pair on ivory.
            HIS PICK 2026-08-12 — "bands", chosen from six treatments offered behind ?boost=.
            The other five and the switch that served them are deleted; all six ran off one DOM
            precisely so that choosing one would be a subtraction.
-           ⚠️ THE COPY SITS BESIDE THE PICTURE, NEVER ON IT, AND THAT IS THE WHOLE POINT. The two
-           photographs are at opposite ends of the tonal range — the pendulum is pale cream, the
-           food nearly black — so a treatment that put copy on top of both would need one scrim
-           tuned to the darker and then applied to the paler, which flattens the pendulum. Beside
-           the image, both keep their own light and the copy stays ink-on-cream, which already
-           passes. THERE IS NO SCRIM HERE TO RE-MEASURE, and that is a feature: swapping either
-           photograph is a src change and nothing else.
-           ⚠️ The rows MIRROR — row two puts its picture on the right (see .boost-one:last-of-type
-           in the stylesheet). Two rows with the image on the same side read as a list; mirrored,
-           the eye crosses the column and they read as a spread.
+           ⚠️ THE CARDS ARE STILL 4:5 AND THE COPY ZONE IS STILL PART OF THE PICTURE — but it
+           is now BUILT rather than born. The porcelain objects floated on ivory, so their
+           lower half was empty for free. A photograph with a background of its own has no
+           such half, and cover-cropping one into 4:5 throws 55–65% of the width away and puts
+           ink back on a picture. So each plate is composed: the photograph takes a 760px band
+           across the top of the 1200x1500 frame and dissolves into --ivory over 110px, and the
+           copy lands on 740px of flat ivory with nothing under it. Ink still runs ~13.9:1,
+           ink-soft ~6.0:1, and there is STILL no scrim to tune.
+           ⚠️ SWAPPING A PLATE IS NO LONGER A src CHANGE. It was, while the masters arrived
+           pre-flattened onto ivory. A photographic master has to be composed first:
+                node tools/compose-boost-plate.mjs <master> /tmp/plate.png <trim-edge>
+                node tools/encode-plate.mjs /tmp/plate.png images/boost/<new-name>-1200 1200
+                node tools/qa/boost-contrast.mjs
+           The band, the feather and the two crops are argued in compose-boost-plate.mjs; the
+           short version is that 760 is the most a 16:9 master gives before the crop starts
+           cutting subjects, and 110 is the least that hides the seam on the darker plate.
+           ⚠️ THE COPY CLEARS THE BAND BY 223px AT 1440 AND 72px AT 390. The phone is the tight
+           one. A longer programme name, or body copy that runs to a fourth line, spends that
+           72 before anything else does — measure, do not assume.
            ⚠️ THE ✦ IS GONE ON PURPOSE. It joined the two programmes when they sat side by side
-           and meant "and". Stacked rows say that by sitting under each other, so the join had
-           nothing left to join. -->
+           and meant "and". The cards say that by sitting beside each other in one grid, so the
+           join had nothing left to join. -->
       <div class="boost-pair">
         <div class="boost-one" data-reveal>
           <picture>
-            <source type="image/avif" srcset="../images/boost/gut-estradiol-card-1200.avif">
-            <img src="../images/boost/gut-estradiol-card-1200.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1200" height="1500">
+            <source type="image/avif" srcset="../images/boost/gut-estradiol-figure-1200.avif">
+            <img src="../images/boost/gut-estradiol-figure-1200.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1200" height="1500">
           </picture>
           <h3>Hormone Therapy<em>+ Gut Health</em></h3>
           <p>Balance begins in the gut — so what we rebalance actually lands, and stays landed.</p>
         </div>
         <div class="boost-one" data-reveal>
           <picture>
-            <source type="image/avif" srcset="../images/boost/energy-atp-card-1200.avif">
-            <img src="../images/boost/energy-atp-card-1200.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1200" height="1500">
+            <source type="image/avif" srcset="../images/boost/energy-atp-clinician-1200.avif">
+            <img src="../images/boost/energy-atp-clinician-1200.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1200" height="1500">
           </picture>
           <h3>Hormone Therapy<em>+ Energy</em></h3>
           <p>Mitochondrial support layered over your protocol — energy built at the cellular level.</p>

@@ -1,6 +1,7 @@
-# Handoff addendum — 2026-08-13, evening (headline · scene clearance · the title comes off the ball · an A/B on the orbs · 06 borrows the landing page's voice)
+# Handoff addendum — 2026-08-13, evening (headline · scene clearance · the title comes off the ball · an A/B on the orbs · 06 borrows the landing page's voice · 05 takes his photographs)
 
-Scope: `hormone-balancing/index.html`, six of his notes in one pass. Where this touches
+Scope: `hormone-balancing/index.html`, seven of his notes in one pass — plus, for §8 only,
+`images/boost/`, `archive/sources/` and two files in `tools/`. Where this touches
 the orb table or the section-06 type below, **THIS supersedes**; everything else in the
 earlier 08-13 and 08-12 addenda still holds.
 
@@ -214,10 +215,84 @@ wrapping. Measured at 1920 / 1600 / 1440 / 1280 / 1104 / 980 / 900 / 760 / 600 /
 **one line at every width**, tightest slack 83px on the 390 phone. A programme name longer
 than "+ Gut Health" wraps rather than overflowing, which is the right failure.
 
+## 8 · Section 05 takes his photographs, and the empty half becomes something we build
+
+> "replace the images on main for gut and energy" — **boosters only**, the two of them.
+
+He uploaded three PNGs to `main` (`a8b6974`, `e5a9afb`) and said *choose*. Two are the pair:
+a gold anatomy figure with the estradiol ball model beside it, and a clinician with ATP and
+a mitochondrion — the same two subjects the day-old porcelain objects carried, photographed
+rather than sculpted. The third is that clinician frame two stops darker.
+
+**The dark take lost on a measurement, not a preference.** Mean frame value: Gut `#CBB192`,
+pale clinician `#D9C7B9`, dark clinician `#A38F7E`. The section ground is `#F4EDE1` and the
+card fill `#FAF7F1`; the dark one sits ~0.13 in relative luminance below its own partner and
+reads as a different register beside it. It is kept at
+`archive/sources/boost-energy-atp-clinician-dark-alt.png` — nothing was thrown away.
+
+| Was (porcelain, one day old) | Now |
+|---|---|
+| `images/boost/gut-estradiol-card-1200.{avif,webp}` | `images/boost/gut-estradiol-figure-1200.{avif,webp}` |
+| `images/boost/energy-atp-card-1200.{avif,webp}` | `images/boost/energy-atp-clinician-1200.{avif,webp}` |
+
+The retired four are deleted and the masters renamed out of `images/` into
+`archive/sources/` — a plate called `ChatGPT Image Aug 13, 2026, 01_02_53 PM.png` is the
+exact failure `tools/encode-plate.mjs` was written to stop happening again.
+
+⚠️ **THE 4:5 CARD SURVIVED; WHAT CHANGED IS WHERE ITS EMPTY HALF COMES FROM.** The stylesheet
+has said since `3e4e773` that the copy zone is part of the photograph and a landscape master
+cover-cropped into 4:5 throws it away. The porcelain plates satisfied that for free — objects
+floating on ivory, lower half already blank. **His are photographs with real backgrounds and
+have no such half**, and both are landscape (1.551 and 1.779): a straight `cover` would have
+discarded 55–65% of the width and put ink back on a picture. So the half is now *built*:
+
+- **band 760 of 1500 (50.7%)** — the porcelain subjects ended at 54–55%, and it is also the
+  most a 16:9 master gives before the crop turns damaging. At 820 the clinician crop reaches
+  x=1375 and cuts the tablet in half; at 760 it costs 188px of outer coat and nothing else.
+- **feather 110px, smoothstep to `--ivory`** — the masters' bottom edges are `#BEA78E` and
+  `#DBCCC0`, so a hard cut draws a horizon across the card and 44px still showed it on the
+  darker Gut plate. 110 is also the ceiling: the mitochondrion bottoms out at 93.6% of its
+  own height, so a feather reaching above y=650 erases its lower rim rather than softening it.
+- crops: Gut **18px off the bottom** (1.8%), clinician **188px off the right** (11.2%). Never
+  centred — the estradiol model and the adenine ring both sit hard against the left edge.
+
+All three numbers are argued at length in **`tools/compose-boost-plate.mjs`**, which is new
+and is now the first step of any 05 swap.
+
+⚠️ **A PLATE SWAP IN 05 IS NO LONGER A `src` CHANGE, AND THE 08-13 NOTE SAYING IT IS HAS BEEN
+CORRECTED IN PLACE.** That property belonged to masters that arrived pre-flattened onto ivory.
+The sequence is now compose → encode → measure:
+
+```
+node tools/compose-boost-plate.mjs <master> /tmp/plate.png <right|left|bottom|top>
+node tools/encode-plate.mjs /tmp/plate.png images/boost/<new-basename>-1200 1200
+node tools/qa/boost-contrast.mjs
+```
+
+**Measured after, `tools/qa/boost-contrast.mjs` — 12/12 clear.** h3 **14.27**, rose em **7.59**,
+body **6.18**, at both 1440×900 and 390×844. ⚠️ **The tell is that all six numbers are
+identical on the two cards**: the copy is sitting on flat ivory on both, so the plate behind
+it is not in the measurement at all. Two cards disagreeing here would mean a picture had crept
+under the copy — that, not the absolute ratios, is what this harness is now checking.
+
+⚠️ **The copy clears the band by 223px at 1440 and 72px at 390.** The phone is the tight one,
+as it was for the title. A longer programme name, or body copy running to a fourth line,
+spends that 72 before anything else does.
+
+⚠️ **Weight: 43.6 + 45.9 KB avif** against the porcelain pair's 20.6 + 16.6. Photographs cost
+more than flat objects; still well inside the band, and both stay `loading="lazy"`.
+
+⚠️ **`tools/encode-plate.mjs` was reporting against a 16:9 target that 05 stopped having on
+08-13.** It now prints both live targets — 05 at 0.800 and 04's doors at 0.750 — so the crop
+warning means something again.
+
 ## Still open
 
 - The doors stay unwired (`data-soon`) in **both** sections — wiring is three `href`s and no
   markup change, and it would have to be done twice until he picks.
+- **`/programs/` still shows the porcelain pair** (`medigyn-porcelain-*`, §01 and §02). He
+  scoped this to the boosters, so it was left alone — but 05 and the page it points at now
+  show the same two subjects in two different registers. One call, not a bug.
 - `?style=editorial|gallery|soft` still override `.story blockquote` font-size with their own
   scales. They are whole-page preview treatments for a different question and are off by
   default; they now inherit Cormorant at their own sizes, which is coherent, but they are not

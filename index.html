@@ -1561,10 +1561,22 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
 
 /* ══ PATHWAY SCRIMS — BURGUNDY #5C1F31, ORIGINAL ALPHA GEOMETRY (2026-08-06) ═══
    The scrim ink is the brand token --burgundy at the section's original alpha
-   stops (the airy set). Measured on the real panels, ivory copy vs the
-   composited ground, worst-2% pixel per element, floor 4.5:
-     desktop worst-of-four   name 6.65   number 5.67
-     phone   worst-of-four   name 4.63   number 7.41
+   stops (the airy set) — UNCHANGED by the 2026-08-13 pass, which swapped a
+   plate and moved the copy but left the burgundy exactly as it was.
+   RE-MEASURED 2026-08-13 on the real panels, all four, both states: copy
+   hidden, the composited ground shot behind it, cropped per LINE off
+   range.getClientRects(), worst 2% of pixels, each element's own alpha
+   composited into its ink. Floor 4.5. Worst-of-four per element:
+     desktop  closed  num 5.04   name 6.31   short 6.45
+     desktop  open    num 6.58   title 7.21  desc  6.91
+     phone    closed  num 6.44   name 4.86
+     phone    open    num 6.91   title 8.19  desc  7.34
+   Worst pixel anywhere in the section: 4.86 (pathway 01's name, phone).
+   Two of those numbers moved for reasons worth knowing. The closed number was
+   FAILING at 4.07 before this pass — the "5.67" that stood here was stale —
+   and is fixed at .pw__num below, not here. And 04's new plate is the
+   brightest in the section, so it now governs; it measures 7.43/8.17 closed
+   because the deep end of the scrim lands on the shoulder, not the window.
    These alphas are MINIMUMS for this ink on these photographs. Lightening any
    stop, brightening the ink, or replacing a panel photo requires re-measuring
    (brightest plate governs). A lighter red was previously tried here and
@@ -1629,8 +1641,19 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
 }
 @media (min-width:640px){ .pw__layer--closed{padding:0 1.75rem} }
 @media (min-width:1024px){
-  /* the bottom padding is clearance for the floating controls */
-  .pw__layer--closed{flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:0;padding:0 1.25rem 104px}
+  /* The bottom padding is clearance for the floating controls, and it is also
+     the counterweight to the reserved line boxes further down: 104px -> 72px,
+     2026-08-13. Reserving a second name line and growing the subtitle to 16px
+     added 31px to the block, and because it is bottom-anchored the whole thing
+     rose by that much — straight up the scrim's gradient into thinner ink. It
+     cost real contrast, measured, not guessed: pathway 03's number fell to
+     3.43:1 against a 4.5 floor, on the bright helix plate. Giving the 32px
+     back at the bottom puts the copy within a pixel of where it has always
+     sat and the numbers back over 5. The cue it has to clear (.pw__choose) is
+     31px tall at bottom:22px, so 72px still leaves ~19px of air under the
+     dot — and the cue is centre-anchored while the dot is left-anchored, so
+     they never share an x. Trim this further only with the contrast script. */
+  .pw__layer--closed{flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:0;padding:0 1.25rem 72px}
 }
 .pw__layer--open{padding:0 1.25rem 1.75rem}
 @media (min-width:640px){ .pw__layer--open{padding:0 1.75rem 2rem} }
@@ -1648,21 +1671,84 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
 .pw__layer[data-show="true"] .pw__rise:nth-child(4){transition-delay:180ms}
 .pw__layer[data-show="true"] .pw__rise:nth-child(5){transition-delay:240ms}
 
-.pw__num{margin:0;flex:none;font-size:11px;font-weight:600;letter-spacing:.3em;color:rgba(241,231,210,.85)}
+/* The closed number runs at FULL gold-tint, not 85% (2026-08-13). It is the
+   smallest ink on the panel — 11px at .3em — and it was the only element in
+   this section failing its own floor: measured worst-of-four 4.07:1 against
+   4.5 on the helix plate, and failing there BEFORE this pass too, so the
+   "number 5.67" in the scrim note above had gone stale. 15% of transparency
+   on 11px type is the cheapest thing in the section to give up, and it costs
+   nothing visible: --gold-tint is already a muted ivory-gold, and the OPEN
+   layer has always drawn its number at full strength on the line below, so
+   this makes the two states agree rather than inventing a treatment. */
+.pw__num{margin:0;flex:none;font-size:11px;font-weight:600;letter-spacing:.3em;color:var(--gold-tint)}
 .pw__layer--open .pw__num{color:var(--gold-tint)}
-/* Service/pathway titles are NOW Medium, not Didot — they sit small over
-   photography and have to be scannable, which is exactly where a high-contrast
-   serif fails. Sizes trimmed ~14% for NOW's much larger x-height. */
-.pw__name{margin:0;font-family:var(--font-functional);font-size:21px;line-height:1.18;font-weight:500;letter-spacing:-.01em;color:var(--ivory)}
-@media (min-width:1024px){ .pw__name{margin-top:12px} }
-.pw__short{display:none;margin:10px 0 0;max-width:20ch;font-size:14px;line-height:1.625;color:rgba(250,247,241,.8)}
+
+/* ══ PATHWAY TITLES ARE MEGANTE (2026-08-13) ═══════════════════════════════
+   His call, and it reverses the note that used to stand here: these had been
+   moved ONTO NOW Medium on the argument that a display serif fails at small
+   sizes over photography. That argument was made against DIDOT, and the sizes
+   were trimmed ~14% at the same time "for NOW's much larger x-height".
+   Megante is not Didot, and the trim does not transfer — MEASURED on the real
+   faces, ink-scanned off a canvas at 200px rather than read off the metrics
+   table, which quantises here:
+     x-height    NOW 500 .500   Megante 400 .505   (+1.0%)
+     cap-height  NOW 500 .750   Megante 400 .710   (-5.3%)
+     "Hormone Therapy & BHRT" at equal px         (+1.0% wide)
+   So the two faces set at the same size and very nearly the same width: the
+   sizes below are UNCHANGED, because a compensating bump would be a real size
+   increase wearing a correction's clothing. Only the face moves.
+   Two things do not carry over from the NOW rule. Weight: only one Megante
+   face is licensed (medigyn-megante-400.woff2), so 500 would ask the browser
+   to synthesise a bold — 400, always. Tracking: -.01em is a sans tightening,
+   and Megante is the wide flared face the kickers run at .16em, so it takes
+   light positive tracking instead (.01em here against .cvoices__head's .02em,
+   which is set nearly twice this size).
+   Non-Latin is already handled: --font-brand-accent is re-pointed per language
+   at the bottom of this sheet, so ar/zh get their own faces. Russian overrides
+   only --font-functional (NOW is Latin-only), so ru falls through Megante to
+   Georgia here — the same substitution the kickers and the ch08 head already
+   make in Russian, not a new one. */
+/* 20 on the phone row, 21 in the desktop column. Megante sets 1% wider than
+   NOW, which sounds like nothing and is not: at 390px the closed row leaves
+   the name 267px, "Hormone Therapy & BHRT" measured 265.4px in NOW at 21px and
+   268.1px in Megante, so the face change alone tipped that one title onto a
+   second line while its three neighbours stayed on one. 20px puts it back at
+   259.7px including tracking. Narrower phones (360) wrapped it before this
+   change too — that is the string being long, not the face. */
+.pw__name{margin:0;font-family:var(--font-brand-accent);font-size:20px;line-height:1.18;font-weight:400;letter-spacing:.01em;color:var(--ivory)}
+.pw__short{display:none;margin:10px 0 0;max-width:20ch;font-size:16px;line-height:1.625;color:rgba(250,247,241,.82)}
 @media (min-width:1024px){ .pw__short{display:block} }
-.pw__title{margin:12px 0 0;max-width:19ch;font-family:var(--font-functional);font-size:26px;line-height:1.18;font-weight:500;color:var(--ivory);letter-spacing:-.01em}
+.pw__title{margin:12px 0 0;max-width:19ch;font-family:var(--font-brand-accent);font-size:26px;line-height:1.18;font-weight:400;color:var(--ivory);letter-spacing:.01em}
 @media (min-width:640px){ .pw__title{font-size:29px} }
 @media (min-width:1024px){ .pw__title{font-size:34px} }
 @media (min-width:1280px){ .pw__title{font-size:39px} }
-.pw__desc{margin:12px 0 0;max-width:40ch;font-size:14.5px;line-height:1.625;color:rgba(250,247,241,.9)}
-@media (min-width:1024px){ .pw__desc{font-size:15px} }
+.pw__desc{margin:12px 0 0;max-width:40ch;font-size:15.5px;line-height:1.625;color:rgba(250,247,241,.9)}
+@media (min-width:1024px){ .pw__desc{font-size:16.5px} }
+
+/* ══ ALL FOUR CLOSED PANELS READ OFF ONE LINE (2026-08-13) ═════════════════
+   The closed layer is bottom-anchored (justify-content:flex-end above), so
+   every line a panel does NOT use lifts everything sitting above it. That is
+   the whole of the misalignment he saw: at 1440 "Energy, mood, cycles, libido"
+   fits on one line where "Root causes, found and treated" takes two, and
+   pathway 01's name and number therefore sat 23px BELOW 02 and 03. Four
+   panels, four string lengths, four heights — and the Megante switch above
+   makes it worse, because a wider face wraps the names differently again.
+   So the line count stops setting the geometry: name and subtitle each reserve
+   TWO line boxes and fill them from the top. A one-line name leaves its second
+   box empty instead of dragging the number down after it, and every panel's
+   block is the same height whatever the language does to the strings.
+   Reserved in em, not px, so it tracks the font-size at every breakpoint.
+   Two lines is the ceiling, and nothing here forces it — deliberately. A
+   max-width on .pw__name would CAUSE wrapping, not cap it; the panel's own
+   18% already sets the measure. If some future language needs a third line,
+   that panel lifts again and the honest fix is a shorter string or a third
+   reserved box, not a narrower column.
+   Phone is untouched: below 1024 the closed layer is a centred ROW and
+   .pw__short is display:none, so the four names already share a baseline. */
+@media (min-width:1024px){
+  .pw__name{margin-top:12px;font-size:21px;min-height:calc(2 * 1.18em)}
+  .pw__short{min-height:calc(2 * 1.625em)}
+}
 .pw__chips{margin-top:16px;display:flex;flex-wrap:wrap;align-items:center;gap:6px}
 .pw__chip{
   display:inline-flex;align-items:center;border-radius:999px;
@@ -3582,8 +3668,8 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
                  Its destination is our own /hormone-balancing/ scroll story, not the
                  WordPress page: RELATIVE href so the Pages mirror under /Medi-x/ keeps
                  resolving, and `target`/`rel` come off because a same-site page should
-                 replace this one rather than spawn a tab. The three pathways below are
-                 still external hand-offs and keep theirs — when 02/03/04 get their own
+                 replace this one rather than spawn a tab. The two pathways below are
+                 still external hand-offs and keep theirs — when 02/03 get their own
                  pages here, they change the same way, one line each. -->
             <a class="pw__cta" href="hormone-balancing/" data-i18n="pw.cta">Explore pathway
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
@@ -3595,18 +3681,31 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
         </span>
       </div>
 
+      <!-- MENOPAUSE CARE WAS PATHWAY 02 AND IS GONE, 2026-08-13 — his call, and the
+           section stays FOUR panels: Healthy Aging takes the free number at 04.
+           Menopause was never a separate subject — perimenopause, menopause and
+           after are the condition Hormone Therapy & BHRT treats, so the panel
+           restated pathway 01 with a second photograph and split one story a
+           visitor should read whole. Everything below it shifted up a number, so
+           the i18n keys shifted with it: old pw3.* (functional) is now pw2.*, old
+           pw4.* (peptides) is now pw3.*, and pw4.* is the new Healthy Aging set.
+           What left with the panel: images/path-02-menopause.webp (still in the
+           repo, now unreferenced) and this section's only link to
+           medi-gyn.com/modern-menopause/ — that page is still reachable from the
+           WordPress site, just not from here. -->
+
       <div class="pw__panel" data-active="false">
-        <img class="pw__img" src="images/path-02-menopause.webp" loading="lazy"
-             data-i18n-alt="pw2.alt" alt="A woman in cream linen standing at a sunlit window, one hand resting at her neck, looking out past a sheer curtain."
-             style="--op-m:center 12%;--op-d:center 18%;--op-di:45% center">
+        <img class="pw__img" src="images/path-03-functional.webp" loading="lazy"
+             data-i18n-alt="pw2.alt" alt="A ceramic bowl of yoghurt topped with figs, blackberries, blueberries and granola with a gold spoon, beside lemon halves and a cup of coffee on a marble table."
+             style="--op-m:center 56%;--op-d:center 52%;--op-di:center center">
         <div class="pw__scrim pw__scrim--closed" data-show="true"></div>
         <div class="pw__scrim pw__scrim--open" data-show="false"></div>
         <span aria-hidden="true" class="pw__mark"></span>
-        <button type="button" class="pw__trigger" id="pw-t2" aria-expanded="false" aria-controls="pw-p2" aria-label="02 — Menopause Care" data-i18n-aria="pw2.aria"></button>
+        <button type="button" class="pw__trigger" id="pw-t2" aria-expanded="false" aria-controls="pw-p2" aria-label="02 — Functional Medicine" data-i18n-aria="pw2.aria"></button>
         <div class="pw__layer pw__layer--closed" data-show="true">
           <p class="pw__rise pw__num">02</p>
-          <h3 class="pw__rise pw__name" data-i18n="pw2.name">Menopause Care</h3>
-          <p class="pw__rise pw__short" data-i18n="pw2.short">Perimenopause, menopause and beyond</p>
+          <h3 class="pw__rise pw__name" data-i18n="pw2.name">Functional Medicine</h3>
+          <p class="pw__rise pw__short" data-i18n="pw2.short">Root causes, found and treated</p>
           <span aria-hidden="true" class="pw__open-dot">
             <svg class="pw__ico-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
             <svg class="pw__ico-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 9l6 6 6-6"/></svg>
@@ -3614,52 +3713,13 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
         </div>
         <div class="pw__layer pw__layer--open" id="pw-p2" role="region" aria-labelledby="pw-t2" data-show="false" inert>
           <p class="pw__rise pw__num">02</p>
-          <h3 class="pw__rise pw__title" data-i18n="pw2.title">Menopause Care</h3>
-          <p class="pw__rise pw__desc" data-i18n="pw2.desc">Personalised care through perimenopause, menopause and beyond.</p>
+          <h3 class="pw__rise pw__title" data-i18n="pw2.title">Functional Medicine</h3>
+          <p class="pw__rise pw__desc" data-i18n="pw2.desc">A deeper investigation into metabolism, digestion, thyroid health and inflammation.</p>
           <div class="pw__rise pw__chips">
-            <span class="pw__chip" data-i18n="pw2.chip1">Hot flashes</span>
-            <span class="pw__chip" data-i18n="pw2.chip2">Poor sleep</span>
-            <span class="pw__chip pw__chip--xtra" data-i18n="pw2.chip3">Brain fog</span>
-            <span class="pw__chip pw__chip--xtra" data-i18n="pw2.chip4">Anxiety</span>
-            <span class="pw__more" data-i18n="pw.more">+2 more</span>
-          </div>
-          <div class="pw__rise">
-            <a class="pw__cta" href="https://medi-gyn.com/modern-menopause/" target="_blank" rel="noopener" data-i18n="pw.cta">Explore pathway
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
-            </a>
-          </div>
-        </div>
-        <span aria-hidden="true" class="pw__open-chevron">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 15l-6-6-6 6"/></svg>
-        </span>
-      </div>
-
-      <div class="pw__panel" data-active="false">
-        <img class="pw__img" src="images/path-03-functional.webp" loading="lazy"
-             data-i18n-alt="pw3.alt" alt="A ceramic bowl of yoghurt topped with figs, blackberries, blueberries and granola with a gold spoon, beside lemon halves and a cup of coffee on a marble table."
-             style="--op-m:center 56%;--op-d:center 52%;--op-di:center center">
-        <div class="pw__scrim pw__scrim--closed" data-show="true"></div>
-        <div class="pw__scrim pw__scrim--open" data-show="false"></div>
-        <span aria-hidden="true" class="pw__mark"></span>
-        <button type="button" class="pw__trigger" id="pw-t3" aria-expanded="false" aria-controls="pw-p3" aria-label="03 — Functional Medicine" data-i18n-aria="pw3.aria"></button>
-        <div class="pw__layer pw__layer--closed" data-show="true">
-          <p class="pw__rise pw__num">03</p>
-          <h3 class="pw__rise pw__name" data-i18n="pw3.name">Functional Medicine</h3>
-          <p class="pw__rise pw__short" data-i18n="pw3.short">Root causes, found and treated</p>
-          <span aria-hidden="true" class="pw__open-dot">
-            <svg class="pw__ico-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
-            <svg class="pw__ico-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 9l6 6 6-6"/></svg>
-          </span>
-        </div>
-        <div class="pw__layer pw__layer--open" id="pw-p3" role="region" aria-labelledby="pw-t3" data-show="false" inert>
-          <p class="pw__rise pw__num">03</p>
-          <h3 class="pw__rise pw__title" data-i18n="pw3.title">Functional Medicine</h3>
-          <p class="pw__rise pw__desc" data-i18n="pw3.desc">A deeper investigation into metabolism, digestion, thyroid health and inflammation.</p>
-          <div class="pw__rise pw__chips">
-            <span class="pw__chip" data-i18n="pw3.chip1">Gut issues</span>
-            <span class="pw__chip" data-i18n="pw3.chip2">Weight changes</span>
-            <span class="pw__chip pw__chip--xtra" data-i18n="pw3.chip3">Persistent fatigue</span>
-            <span class="pw__chip pw__chip--xtra" data-i18n="pw3.chip4">Hair thinning</span>
+            <span class="pw__chip" data-i18n="pw2.chip1">Gut issues</span>
+            <span class="pw__chip" data-i18n="pw2.chip2">Weight changes</span>
+            <span class="pw__chip pw__chip--xtra" data-i18n="pw2.chip3">Persistent fatigue</span>
+            <span class="pw__chip pw__chip--xtra" data-i18n="pw2.chip4">Hair thinning</span>
             <span class="pw__more" data-i18n="pw.more">+2 more</span>
           </div>
           <div class="pw__rise">
@@ -3675,16 +3735,82 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
 
       <div class="pw__panel" data-active="false">
         <img class="pw__img" src="images/path-04-peptides.webp" loading="lazy"
-             data-i18n-alt="pw4.alt" alt="A sculptural glass double helix through a slender gold ring, with a pale pink flower and strings of crystal molecules in soft light."
+             data-i18n-alt="pw3.alt" alt="A sculptural glass double helix through a slender gold ring, with a pale pink flower and strings of crystal molecules in soft light."
              style="--op-m:center 45%;--op-d:center 45%;--op-di:center center">
         <div class="pw__scrim pw__scrim--closed" data-show="true"></div>
         <div class="pw__scrim pw__scrim--open" data-show="false"></div>
         <span aria-hidden="true" class="pw__mark"></span>
-        <button type="button" class="pw__trigger" id="pw-t4" aria-expanded="false" aria-controls="pw-p4" aria-label="04 — Peptide &amp; Regenerative Support" data-i18n-aria="pw4.aria"></button>
+        <button type="button" class="pw__trigger" id="pw-t3" aria-expanded="false" aria-controls="pw-p3" aria-label="03 — Peptide Therapy" data-i18n-aria="pw3.aria"></button>
+        <div class="pw__layer pw__layer--closed" data-show="true">
+          <p class="pw__rise pw__num">03</p>
+          <h3 class="pw__rise pw__name" data-i18n="pw3.name">Peptide Therapy</h3>
+          <p class="pw__rise pw__short" data-i18n="pw3.short">Recovery, resilience, repair</p>
+          <span aria-hidden="true" class="pw__open-dot">
+            <svg class="pw__ico-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
+            <svg class="pw__ico-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 9l6 6 6-6"/></svg>
+          </span>
+        </div>
+        <div class="pw__layer pw__layer--open" id="pw-p3" role="region" aria-labelledby="pw-t3" data-show="false" inert>
+          <p class="pw__rise pw__num">03</p>
+          <h3 class="pw__rise pw__title" data-i18n="pw3.title">Peptide Therapy</h3>
+          <p class="pw__rise pw__desc" data-i18n="pw3.desc">Medically supervised peptide protocols for recovery, resilience and repair.</p>
+          <div class="pw__rise pw__chips">
+            <span class="pw__chip" data-i18n="pw3.chip1">Slow recovery</span>
+            <span class="pw__chip" data-i18n="pw3.chip2">Low resilience</span>
+            <span class="pw__chip pw__chip--xtra" data-i18n="pw3.chip3">Tissue repair</span>
+            <span class="pw__chip pw__chip--xtra" data-i18n="pw3.chip4">Training recovery</span>
+            <span class="pw__more" data-i18n="pw.more">+2 more</span>
+          </div>
+          <div class="pw__rise">
+            <a class="pw__cta" href="https://medi-gyn.com/peptide-therapy/" target="_blank" rel="noopener" data-i18n="pw.cta">Explore pathway
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
+            </a>
+          </div>
+        </div>
+        <span aria-hidden="true" class="pw__open-chevron">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 15l-6-6-6 6"/></svg>
+        </span>
+      </div>
+
+      <!-- PATHWAY 04, NEW 2026-08-13 — Healthy Aging, the number Menopause Care
+           vacated. It takes the long-horizon half of what pathway 04 used to
+           carry: the old peptides panel promised "recovery, resilience, healthy
+           ageing and vitality" in one line, which is two different conversations.
+           03 now keeps the protocol (recovery, repair) and 04 keeps the horizon.
+           Plate: images/path-04-healthy-aging.webp, a 2:3 cut of the retired
+           archive/plates-retired/09-light.webp (3344x1882 -> 1255x1882 from x=1713,
+           WebP q90, 86 KB). New filename, never an overwrite. The face sits in the
+           upper two thirds and the bare shoulder fills the bottom left, which is
+           where the copy and the deepest part of the scrim land — it is the
+           brightest plate in the section, so it governs the contrast floor and was
+           measured with the rest (numbers on .pw__scrim--closed above).
+           ⚠️ THE CTA CARRIES NO href. medi-gyn.com has /peptide-therapy/,
+           /functional-medicine/ and /modern-menopause/, but no healthy-aging or
+           longevity page was confirmed, and a pathway button that 404s is worse
+           than one that waits. Give it the real URL and it matches 02/03 exactly:
+           href + target + rel, one line.
+           Worth knowing before that is treated as this panel's own gap: NO pathway
+           CTA in this section is reachable today, href or not. .pw__layer is
+           pointer-events:none and nothing re-enables .pw__cta, so the full-bleed
+           .pw__trigger takes every click and elementFromPoint at the button's own
+           centre returns the trigger — pressing "Explore pathway" collapses the
+           panel instead of following the link. Verified on 01, which has had a
+           real relative href since 2026-08-11. So 04 is not the odd one out; it is
+           the only one honest about it. Fixing the section means pointer-events:
+           auto on .pw__cta (and letting the click stop there), which turns three
+           external hand-offs live at once — a deliberate change, not a tidy-up. -->
+      <div class="pw__panel" data-active="false">
+        <img class="pw__img" src="images/path-04-healthy-aging.webp" loading="lazy"
+             data-i18n-alt="pw4.alt" alt="A woman with long silver hair and bare shoulders turning back towards the camera, warm sunlight falling across a sheer curtain behind her."
+             style="--op-m:center 30%;--op-d:center 34%;--op-di:center 26%">
+        <div class="pw__scrim pw__scrim--closed" data-show="true"></div>
+        <div class="pw__scrim pw__scrim--open" data-show="false"></div>
+        <span aria-hidden="true" class="pw__mark"></span>
+        <button type="button" class="pw__trigger" id="pw-t4" aria-expanded="false" aria-controls="pw-p4" aria-label="04 — Healthy Aging" data-i18n-aria="pw4.aria"></button>
         <div class="pw__layer pw__layer--closed" data-show="true">
           <p class="pw__rise pw__num">04</p>
-          <h3 class="pw__rise pw__name" data-i18n="pw4.name">Peptide &amp; Regenerative Support</h3>
-          <p class="pw__rise pw__short" data-i18n="pw4.short">Recovery, resilience, vitality</p>
+          <h3 class="pw__rise pw__name" data-i18n="pw4.name">Healthy Aging</h3>
+          <p class="pw__rise pw__short" data-i18n="pw4.short">Strength, energy, longevity</p>
           <span aria-hidden="true" class="pw__open-dot">
             <svg class="pw__ico-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
             <svg class="pw__ico-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 9l6 6 6-6"/></svg>
@@ -3692,17 +3818,17 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
         </div>
         <div class="pw__layer pw__layer--open" id="pw-p4" role="region" aria-labelledby="pw-t4" data-show="false" inert>
           <p class="pw__rise pw__num">04</p>
-          <h3 class="pw__rise pw__title" data-i18n="pw4.title">Peptide &amp; Regenerative Support</h3>
-          <p class="pw__rise pw__desc" data-i18n="pw4.desc">Medically supervised support for recovery, resilience, healthy ageing and vitality.</p>
+          <h3 class="pw__rise pw__title" data-i18n="pw4.title">Healthy Aging</h3>
+          <p class="pw__rise pw__desc" data-i18n="pw4.desc">Longevity medicine for the decades ahead — strength, energy, skin and bone, followed over time.</p>
           <div class="pw__rise pw__chips">
-            <span class="pw__chip" data-i18n="pw4.chip1">Slow recovery</span>
-            <span class="pw__chip" data-i18n="pw4.chip2">Skin ageing</span>
-            <span class="pw__chip pw__chip--xtra" data-i18n="pw4.chip3">Low resilience</span>
+            <span class="pw__chip" data-i18n="pw4.chip1">Skin aging</span>
+            <span class="pw__chip" data-i18n="pw4.chip2">Bone and joints</span>
+            <span class="pw__chip pw__chip--xtra" data-i18n="pw4.chip3">Muscle and strength</span>
             <span class="pw__chip pw__chip--xtra" data-i18n="pw4.chip4">Long-term vitality</span>
             <span class="pw__more" data-i18n="pw.more">+2 more</span>
           </div>
           <div class="pw__rise">
-            <a class="pw__cta" href="https://medi-gyn.com/peptide-therapy/" target="_blank" rel="noopener" data-i18n="pw.cta">Explore pathway
+            <a class="pw__cta" data-i18n="pw.cta">Explore pathway
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
             </a>
           </div>
@@ -4845,36 +4971,36 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
 "pw1.name": "العلاج الهرموني وBHRT",
 "pw1.short": "الطاقة، المزاج، الدورة، الرغبة",
 "pw1.title": "العلاج الهرموني وBHRT",
-"pw2.alt": "امرأة بملابس كتّانية كريمية تقف عند نافذة تغمرها الشمس، يدها على عنقها، تنظر إلى الخارج من خلف ستارة شفّافة.",
-"pw2.aria": "02 — رعاية انقطاع الطمث",
-"pw2.chip1": "الهبّات الساخنة",
-"pw2.chip2": "نوم مضطرب",
-"pw2.chip3": "تشوّش الذهن",
-"pw2.chip4": "القلق",
-"pw2.desc": "رعاية مخصّصة خلال ما قبل انقطاع الطمث وانقطاعه وما بعده.",
-"pw2.name": "رعاية انقطاع الطمث",
-"pw2.short": "ما قبل الانقطاع، والانقطاع، وما بعده",
-"pw2.title": "رعاية انقطاع الطمث",
-"pw3.alt": "وعاء خزفي من اللبن مغطّى بالتين والتوت الأسود والتوت الأزرق والغرانولا مع ملعقة ذهبية، بجانبه نصفا ليمونة وفنجان قهوة على طاولة رخامية.",
-"pw3.aria": "03 — الطب الوظيفي",
-"pw3.chip1": "اضطرابات الهضم",
-"pw3.chip2": "تغيّرات الوزن",
-"pw3.chip3": "إرهاق مستمر",
-"pw3.chip4": "تساقط الشعر",
-"pw3.desc": "فحص أعمق للأيض والهضم وصحة الغدة الدرقية والالتهاب.",
-"pw3.name": "الطب الوظيفي",
-"pw3.short": "الأسباب الجذرية: نكشفها ونعالجها",
-"pw3.title": "الطب الوظيفي",
-"pw4.alt": "حلزون مزدوج زجاجي منحوت يمرّ عبر حلقة ذهبية رفيعة، مع زهرة وردية باهتة وخيوط من جزيئات بلورية في ضوء ناعم.",
-"pw4.aria": "04 — الببتيدات والدعم التجديدي",
-"pw4.chip1": "تعافٍ بطيء",
-"pw4.chip2": "شيخوخة البشرة",
-"pw4.chip3": "مرونة منخفضة",
+"pw2.alt": "وعاء خزفي من اللبن مغطّى بالتين والتوت الأسود والتوت الأزرق والغرانولا مع ملعقة ذهبية، بجانبه نصفا ليمونة وفنجان قهوة على طاولة رخامية.",
+"pw2.aria": "03 — الطب الوظيفي",
+"pw2.chip1": "اضطرابات الهضم",
+"pw2.chip2": "تغيّرات الوزن",
+"pw2.chip3": "إرهاق مستمر",
+"pw2.chip4": "تساقط الشعر",
+"pw2.desc": "فحص أعمق للأيض والهضم وصحة الغدة الدرقية والالتهاب.",
+"pw2.name": "الطب الوظيفي",
+"pw2.short": "الأسباب الجذرية: نكشفها ونعالجها",
+"pw2.title": "الطب الوظيفي",
+"pw3.alt": "حلزون مزدوج زجاجي منحوت يمرّ عبر حلقة ذهبية رفيعة، مع زهرة وردية باهتة وخيوط من جزيئات بلورية في ضوء ناعم.",
+"pw3.aria": "03 — العلاج بالببتيدات",
+"pw3.chip1": "تعافٍ بطيء",
+"pw3.chip2": "مرونة منخفضة",
+"pw3.chip3": "إصلاح الأنسجة",
+"pw3.chip4": "التعافي بعد التمرين",
+"pw3.desc": "بروتوكولات ببتيدية تحت إشراف طبي للتعافي والمرونة وإصلاح الأنسجة.",
+"pw3.name": "العلاج بالببتيدات",
+"pw3.short": "التعافي، المرونة، الإصلاح",
+"pw3.title": "العلاج بالببتيدات",
+"pw4.alt": "امرأة بشعر فضّي طويل وكتفين عاريتين تلتفت نحو الكاميرا، وضوء شمس دافئ يتسلّل عبر ستارة شفّافة خلفها.",
+"pw4.aria": "04 — التقدّم الصحّي في العمر",
+"pw4.chip1": "شيخوخة البشرة",
+"pw4.chip2": "العظام والمفاصل",
+"pw4.chip3": "العضلات والقوة",
 "pw4.chip4": "حيوية طويلة الأمد",
-"pw4.desc": "دعم تحت إشراف طبي للتعافي والمرونة والتقدّم الصحّي في العمر والحيوية.",
-"pw4.name": "الببتيدات والدعم التجديدي",
-"pw4.short": "التعافي، المرونة، الحيوية",
-"pw4.title": "الببتيدات والدعم التجديدي"
+"pw4.desc": "طب طول العمر للعقود القادمة — القوة والطاقة والبشرة والعظام، بمتابعة عبر الزمن.",
+"pw4.name": "التقدّم الصحّي في العمر",
+"pw4.short": "القوة، الطاقة، طول العمر",
+"pw4.title": "التقدّم الصحّي في العمر"
 },
 "de": {
 "a11y.ask": "medi-gyn fragen",
@@ -4967,36 +5093,36 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
 "pw1.name": "Hormontherapie & BHRT",
 "pw1.short": "Energie, Stimmung, Zyklus, Libido",
 "pw1.title": "Hormontherapie & BHRT",
-"pw2.alt": "Eine Frau in cremefarbenem Leinen steht an einem sonnigen Fenster, eine Hand am Hals, und blickt an einem leichten Vorhang vorbei nach draußen.",
-"pw2.aria": "02 — Wechseljahres-Begleitung",
-"pw2.chip1": "Hitzewallungen",
-"pw2.chip2": "Schlechter Schlaf",
-"pw2.chip3": "Gehirnnebel",
-"pw2.chip4": "Ängste",
-"pw2.desc": "Persönliche Begleitung durch Perimenopause, Menopause und die Zeit danach.",
-"pw2.name": "Wechseljahres-Begleitung",
-"pw2.short": "Perimenopause, Menopause und danach",
-"pw2.title": "Wechseljahres-Begleitung",
-"pw3.alt": "Eine Keramikschale Joghurt mit Feigen, Brombeeren, Blaubeeren und Granola samt goldenem Löffel, daneben Zitronenhälften und eine Tasse Kaffee auf einem Marmortisch.",
-"pw3.aria": "03 — Funktionelle Medizin",
-"pw3.chip1": "Darmbeschwerden",
-"pw3.chip2": "Gewichtsveränderungen",
-"pw3.chip3": "Anhaltende Erschöpfung",
-"pw3.chip4": "Dünner werdendes Haar",
-"pw3.desc": "Eine tiefere Untersuchung von Stoffwechsel, Verdauung, Schilddrüse und Entzündungsgeschehen.",
-"pw3.name": "Funktionelle Medizin",
-"pw3.short": "Ursachen finden und behandeln",
-"pw3.title": "Funktionelle Medizin",
-"pw4.alt": "Eine skulpturale Doppelhelix aus Glas durch einen schlanken goldenen Ring, mit einer zartrosa Blüte und Ketten aus Kristallmolekülen in weichem Licht.",
-"pw4.aria": "04 — Peptide & regenerative Unterstützung",
-"pw4.chip1": "Langsame Regeneration",
-"pw4.chip2": "Hautalterung",
-"pw4.chip3": "Geringe Resilienz",
+"pw2.alt": "Eine Keramikschale Joghurt mit Feigen, Brombeeren, Blaubeeren und Granola samt goldenem Löffel, daneben Zitronenhälften und eine Tasse Kaffee auf einem Marmortisch.",
+"pw2.aria": "03 — Funktionelle Medizin",
+"pw2.chip1": "Darmbeschwerden",
+"pw2.chip2": "Gewichtsveränderungen",
+"pw2.chip3": "Anhaltende Erschöpfung",
+"pw2.chip4": "Dünner werdendes Haar",
+"pw2.desc": "Eine tiefere Untersuchung von Stoffwechsel, Verdauung, Schilddrüse und Entzündungsgeschehen.",
+"pw2.name": "Funktionelle Medizin",
+"pw2.short": "Ursachen finden und behandeln",
+"pw2.title": "Funktionelle Medizin",
+"pw3.alt": "Eine skulpturale Doppelhelix aus Glas durch einen schlanken goldenen Ring, mit einer zartrosa Blüte und Ketten aus Kristallmolekülen in weichem Licht.",
+"pw3.aria": "03 — Peptidtherapie",
+"pw3.chip1": "Langsame Regeneration",
+"pw3.chip2": "Geringe Resilienz",
+"pw3.chip3": "Gewebereparatur",
+"pw3.chip4": "Regeneration nach dem Training",
+"pw3.desc": "Medizinisch begleitete Peptidprotokolle für Regeneration, Resilienz und Reparatur.",
+"pw3.name": "Peptidtherapie",
+"pw3.short": "Regeneration, Resilienz, Reparatur",
+"pw3.title": "Peptidtherapie",
+"pw4.alt": "Eine Frau mit langem silbernem Haar und nackten Schultern wendet sich zur Kamera, warmes Sonnenlicht fällt hinter ihr durch einen leichten Vorhang.",
+"pw4.aria": "04 — Gesundes Altern",
+"pw4.chip1": "Hautalterung",
+"pw4.chip2": "Knochen und Gelenke",
+"pw4.chip3": "Muskeln und Kraft",
 "pw4.chip4": "Langfristige Vitalität",
-"pw4.desc": "Medizinisch begleitete Unterstützung für Regeneration, Resilienz, gesundes Altern und Vitalität.",
-"pw4.name": "Peptide & regenerative Unterstützung",
-"pw4.short": "Regeneration, Resilienz, Vitalität",
-"pw4.title": "Peptide & regenerative Unterstützung"
+"pw4.desc": "Longevity-Medizin für die kommenden Jahrzehnte — Kraft, Energie, Haut und Knochen, über die Zeit begleitet.",
+"pw4.name": "Gesundes Altern",
+"pw4.short": "Kraft, Energie, Langlebigkeit",
+"pw4.title": "Gesundes Altern"
 },
 "en": {
 "a11y.ask": "Ask medi-gyn",
@@ -5089,36 +5215,36 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
 "pw1.name": "Hormone Therapy & BHRT",
 "pw1.short": "Energy, mood, cycles, libido",
 "pw1.title": "Hormone Therapy & BHRT",
-"pw2.alt": "A woman in cream linen standing at a sunlit window, one hand resting at her neck, looking out past a sheer curtain.",
-"pw2.aria": "02 — Menopause Care",
-"pw2.chip1": "Hot flashes",
-"pw2.chip2": "Poor sleep",
-"pw2.chip3": "Brain fog",
-"pw2.chip4": "Anxiety",
-"pw2.desc": "Personalised care through perimenopause, menopause and beyond.",
-"pw2.name": "Menopause Care",
-"pw2.short": "Perimenopause, menopause and beyond",
-"pw2.title": "Menopause Care",
-"pw3.alt": "A ceramic bowl of yoghurt topped with figs, blackberries, blueberries and granola with a gold spoon, beside lemon halves and a cup of coffee on a marble table.",
-"pw3.aria": "03 — Functional Medicine",
-"pw3.chip1": "Gut issues",
-"pw3.chip2": "Weight changes",
-"pw3.chip3": "Persistent fatigue",
-"pw3.chip4": "Hair thinning",
-"pw3.desc": "A deeper investigation into metabolism, digestion, thyroid health and inflammation.",
-"pw3.name": "Functional Medicine",
-"pw3.short": "Root causes, found and treated",
-"pw3.title": "Functional Medicine",
-"pw4.alt": "A sculptural glass double helix through a slender gold ring, with a pale pink flower and strings of crystal molecules in soft light.",
-"pw4.aria": "04 — Peptide & Regenerative Support",
-"pw4.chip1": "Slow recovery",
-"pw4.chip2": "Skin ageing",
-"pw4.chip3": "Low resilience",
+"pw2.alt": "A ceramic bowl of yoghurt topped with figs, blackberries, blueberries and granola with a gold spoon, beside lemon halves and a cup of coffee on a marble table.",
+"pw2.aria": "03 — Functional Medicine",
+"pw2.chip1": "Gut issues",
+"pw2.chip2": "Weight changes",
+"pw2.chip3": "Persistent fatigue",
+"pw2.chip4": "Hair thinning",
+"pw2.desc": "A deeper investigation into metabolism, digestion, thyroid health and inflammation.",
+"pw2.name": "Functional Medicine",
+"pw2.short": "Root causes, found and treated",
+"pw2.title": "Functional Medicine",
+"pw3.alt": "A sculptural glass double helix through a slender gold ring, with a pale pink flower and strings of crystal molecules in soft light.",
+"pw3.aria": "03 — Peptide Therapy",
+"pw3.chip1": "Slow recovery",
+"pw3.chip2": "Low resilience",
+"pw3.chip3": "Tissue repair",
+"pw3.chip4": "Training recovery",
+"pw3.desc": "Medically supervised peptide protocols for recovery, resilience and repair.",
+"pw3.name": "Peptide Therapy",
+"pw3.short": "Recovery, resilience, repair",
+"pw3.title": "Peptide Therapy",
+"pw4.alt": "A woman with long silver hair and bare shoulders turning back towards the camera, warm sunlight falling across a sheer curtain behind her.",
+"pw4.aria": "04 — Healthy Aging",
+"pw4.chip1": "Skin aging",
+"pw4.chip2": "Bone and joints",
+"pw4.chip3": "Muscle and strength",
 "pw4.chip4": "Long-term vitality",
-"pw4.desc": "Medically supervised support for recovery, resilience, healthy ageing and vitality.",
-"pw4.name": "Peptide & Regenerative Support",
-"pw4.short": "Recovery, resilience, vitality",
-"pw4.title": "Peptide & Regenerative Support"
+"pw4.desc": "Longevity medicine for the decades ahead — strength, energy, skin and bone, followed over time.",
+"pw4.name": "Healthy Aging",
+"pw4.short": "Strength, energy, longevity",
+"pw4.title": "Healthy Aging"
 },
 "fr": {
 "a11y.ask": "Demander à medi-gyn",
@@ -5211,36 +5337,36 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
 "pw1.name": "Thérapie hormonale & BHRT",
 "pw1.short": "Énergie, humeur, cycles, libido",
 "pw1.title": "Thérapie hormonale & BHRT",
-"pw2.alt": "Une femme en lin crème se tient à une fenêtre ensoleillée, une main posée sur son cou, le regard porté au-delà d’un voilage.",
-"pw2.aria": "02 — Accompagnement de la ménopause",
-"pw2.chip1": "Bouffées de chaleur",
-"pw2.chip2": "Sommeil perturbé",
-"pw2.chip3": "Brouillard mental",
-"pw2.chip4": "Anxiété",
-"pw2.desc": "Un accompagnement personnalisé à travers la préménopause, la ménopause et au-delà.",
-"pw2.name": "Accompagnement de la ménopause",
-"pw2.short": "Préménopause, ménopause et au-delà",
-"pw2.title": "Accompagnement de la ménopause",
-"pw3.alt": "Un bol en céramique de yaourt garni de figues, de mûres, de myrtilles et de granola avec une cuillère dorée, à côté de moitiés de citron et d’une tasse de café sur une table en marbre.",
-"pw3.aria": "03 — Médecine fonctionnelle",
-"pw3.chip1": "Troubles digestifs",
-"pw3.chip2": "Variations de poids",
-"pw3.chip3": "Fatigue persistante",
-"pw3.chip4": "Cheveux clairsemés",
-"pw3.desc": "Une investigation approfondie du métabolisme, de la digestion, de la santé thyroïdienne et de l’inflammation.",
-"pw3.name": "Médecine fonctionnelle",
-"pw3.short": "Les causes profondes, trouvées et traitées",
-"pw3.title": "Médecine fonctionnelle",
-"pw4.alt": "Une double hélice de verre sculptée traversant un anneau doré effilé, avec une fleur rose pâle et des chaînes de molécules de cristal dans une lumière douce.",
-"pw4.aria": "04 — Peptides & soutien régénératif",
-"pw4.chip1": "Récupération lente",
-"pw4.chip2": "Vieillissement cutané",
-"pw4.chip3": "Résilience affaiblie",
+"pw2.alt": "Un bol en céramique de yaourt garni de figues, de mûres, de myrtilles et de granola avec une cuillère dorée, à côté de moitiés de citron et d’une tasse de café sur une table en marbre.",
+"pw2.aria": "03 — Médecine fonctionnelle",
+"pw2.chip1": "Troubles digestifs",
+"pw2.chip2": "Variations de poids",
+"pw2.chip3": "Fatigue persistante",
+"pw2.chip4": "Cheveux clairsemés",
+"pw2.desc": "Une investigation approfondie du métabolisme, de la digestion, de la santé thyroïdienne et de l’inflammation.",
+"pw2.name": "Médecine fonctionnelle",
+"pw2.short": "Les causes profondes, trouvées et traitées",
+"pw2.title": "Médecine fonctionnelle",
+"pw3.alt": "Une double hélice de verre sculptée traversant un anneau doré effilé, avec une fleur rose pâle et des chaînes de molécules de cristal dans une lumière douce.",
+"pw3.aria": "03 — Thérapie par peptides",
+"pw3.chip1": "Récupération lente",
+"pw3.chip2": "Résilience affaiblie",
+"pw3.chip3": "Réparation tissulaire",
+"pw3.chip4": "Récupération après l’effort",
+"pw3.desc": "Des protocoles de peptides médicalement supervisés pour la récupération, la résilience et la réparation.",
+"pw3.name": "Thérapie par peptides",
+"pw3.short": "Récupération, résilience, réparation",
+"pw3.title": "Thérapie par peptides",
+"pw4.alt": "Une femme aux longs cheveux argentés et aux épaules nues se retourne vers l’objectif, une lumière chaude traversant un voilage derrière elle.",
+"pw4.aria": "04 — Bien vieillir",
+"pw4.chip1": "Vieillissement cutané",
+"pw4.chip2": "Os et articulations",
+"pw4.chip3": "Muscles et force",
 "pw4.chip4": "Vitalité durable",
-"pw4.desc": "Un accompagnement médicalement supervisé pour la récupération, la résilience, le vieillissement en bonne santé et la vitalité.",
-"pw4.name": "Peptides & soutien régénératif",
-"pw4.short": "Récupération, résilience, vitalité",
-"pw4.title": "Peptides & soutien régénératif"
+"pw4.desc": "Une médecine de la longévité pour les décennies à venir — force, énergie, peau et os, suivis dans le temps.",
+"pw4.name": "Bien vieillir",
+"pw4.short": "Force, énergie, longévité",
+"pw4.title": "Bien vieillir"
 },
 "ru": {
 "a11y.ask": "Спросить medi-gyn",
@@ -5333,36 +5459,36 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
 "pw1.name": "Гормональная терапия и BHRT",
 "pw1.short": "Энергия, настроение, цикл, либидо",
 "pw1.title": "Гормональная терапия и BHRT",
-"pw2.alt": "Женщина в кремовом льне стоит у залитого солнцем окна, положив руку на шею, и смотрит за лёгкую занавеску.",
-"pw2.aria": "02 — Ведение менопаузы",
-"pw2.chip1": "Приливы",
-"pw2.chip2": "Плохой сон",
-"pw2.chip3": "Туман в голове",
-"pw2.chip4": "Тревожность",
-"pw2.desc": "Персональное сопровождение в перименопаузе, менопаузе и после неё.",
-"pw2.name": "Ведение менопаузы",
-"pw2.short": "Перименопауза, менопауза и далее",
-"pw2.title": "Ведение менопаузы",
-"pw3.alt": "Керамическая миска йогурта с инжиром, ежевикой, черникой и гранолой с золотой ложкой, рядом половинки лимона и чашка кофе на мраморном столе.",
-"pw3.aria": "03 — Функциональная медицина",
-"pw3.chip1": "Проблемы ЖКТ",
-"pw3.chip2": "Изменения веса",
-"pw3.chip3": "Хроническая усталость",
-"pw3.chip4": "Выпадение волос",
-"pw3.desc": "Углублённое исследование обмена веществ, пищеварения, щитовидной железы и воспаления.",
-"pw3.name": "Функциональная медицина",
-"pw3.short": "Найти и устранить причину",
-"pw3.title": "Функциональная медицина",
-"pw4.alt": "Скульптурная стеклянная двойная спираль, продетая сквозь тонкое золотое кольцо, с бледно-розовым цветком и нитями кристаллических молекул в мягком свете.",
-"pw4.aria": "04 — Пептиды и регенеративная поддержка",
-"pw4.chip1": "Медленное восстановление",
-"pw4.chip2": "Старение кожи",
-"pw4.chip3": "Низкая устойчивость",
-"pw4.chip4": "Долгосрочная энергия",
-"pw4.desc": "Поддержка под врачебным контролем для восстановления, устойчивости, здорового старения и жизненной энергии.",
-"pw4.name": "Пептиды и регенеративная поддержка",
-"pw4.short": "Восстановление, устойчивость, энергия",
-"pw4.title": "Пептиды и регенеративная поддержка"
+"pw2.alt": "Керамическая миска йогурта с инжиром, ежевикой, черникой и гранолой с золотой ложкой, рядом половинки лимона и чашка кофе на мраморном столе.",
+"pw2.aria": "03 — Функциональная медицина",
+"pw2.chip1": "Проблемы ЖКТ",
+"pw2.chip2": "Изменения веса",
+"pw2.chip3": "Хроническая усталость",
+"pw2.chip4": "Выпадение волос",
+"pw2.desc": "Углублённое исследование обмена веществ, пищеварения, щитовидной железы и воспаления.",
+"pw2.name": "Функциональная медицина",
+"pw2.short": "Найти и устранить причину",
+"pw2.title": "Функциональная медицина",
+"pw3.alt": "Скульптурная стеклянная двойная спираль, продетая сквозь тонкое золотое кольцо, с бледно-розовым цветком и нитями кристаллических молекул в мягком свете.",
+"pw3.aria": "03 — Пептидная терапия",
+"pw3.chip1": "Медленное восстановление",
+"pw3.chip2": "Низкая устойчивость",
+"pw3.chip3": "Репарация тканей",
+"pw3.chip4": "Восстановление после нагрузок",
+"pw3.desc": "Медицински контролируемые пептидные протоколы для восстановления, устойчивости и репарации.",
+"pw3.name": "Пептидная терапия",
+"pw3.short": "Восстановление, устойчивость",
+"pw3.title": "Пептидная терапия",
+"pw4.alt": "Женщина с длинными серебристыми волосами и обнажёнными плечами оборачивается к камере, тёплый свет проходит сквозь лёгкую занавеску позади неё.",
+"pw4.aria": "04 — Здоровое старение",
+"pw4.chip1": "Старение кожи",
+"pw4.chip2": "Кости и суставы",
+"pw4.chip3": "Мышцы и сила",
+"pw4.chip4": "Долгосрочная витальность",
+"pw4.desc": "Медицина долголетия на десятилетия вперёд — сила, энергия, кожа и кости под наблюдением.",
+"pw4.name": "Здоровое старение",
+"pw4.short": "Сила, энергия, долголетие",
+"pw4.title": "Здоровое старение"
 },
 "zh": {
 "a11y.ask": "咨询 medi-gyn",
@@ -5455,36 +5581,36 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
 "pw1.name": "激素治疗与 BHRT",
 "pw1.short": "精力、情绪、周期、性欲",
 "pw1.title": "激素治疗与 BHRT",
-"pw2.alt": "一位身着米色亚麻的女性站在洒满阳光的窗前，一只手轻放在颈间，目光越过薄纱窗帘望向窗外。",
-"pw2.aria": "02 — 更年期照护",
-"pw2.chip1": "潮热",
-"pw2.chip2": "睡眠不佳",
-"pw2.chip3": "脑雾",
-"pw2.chip4": "焦虑",
-"pw2.desc": "贯穿围绝经期、绝经期及其之后的个性化照护。",
-"pw2.name": "更年期照护",
-"pw2.short": "围绝经期、绝经期及之后",
-"pw2.title": "更年期照护",
-"pw3.alt": "一只陶瓷碗中盛着酸奶，上面铺有无花果、黑莓、蓝莓与格兰诺拉麦片，配一把金色汤匙，旁边是切半的柠檬和一杯咖啡，摆在大理石桌面上。",
-"pw3.aria": "03 — 功能医学",
-"pw3.chip1": "肠道问题",
-"pw3.chip2": "体重变化",
-"pw3.chip3": "持续疲惫",
-"pw3.chip4": "头发稀疏",
-"pw3.desc": "对代谢、消化、甲状腺健康与炎症的深入探查。",
-"pw3.name": "功能医学",
-"pw3.short": "找到并治疗根源",
-"pw3.title": "功能医学",
-"pw4.alt": "一座雕塑般的玻璃双螺旋穿过一枚纤细的金环，旁边是一朵淡粉色花朵与串串水晶分子，沐浴在柔和光线中。",
-"pw4.aria": "04 — 肽与再生支持",
-"pw4.chip1": "恢复缓慢",
-"pw4.chip2": "皮肤老化",
-"pw4.chip3": "韧性下降",
+"pw2.alt": "一只陶瓷碗中盛着酸奶，上面铺有无花果、黑莓、蓝莓与格兰诺拉麦片，配一把金色汤匙，旁边是切半的柠檬和一杯咖啡，摆在大理石桌面上。",
+"pw2.aria": "03 — 功能医学",
+"pw2.chip1": "肠道问题",
+"pw2.chip2": "体重变化",
+"pw2.chip3": "持续疲惫",
+"pw2.chip4": "头发稀疏",
+"pw2.desc": "对代谢、消化、甲状腺健康与炎症的深入探查。",
+"pw2.name": "功能医学",
+"pw2.short": "找到并治疗根源",
+"pw2.title": "功能医学",
+"pw3.alt": "一座雕塑般的玻璃双螺旋穿过一枚纤细的金环，旁边是一朵淡粉色花朵与串串水晶分子，沐浴在柔和光线中。",
+"pw3.aria": "03 — 肽疗法",
+"pw3.chip1": "恢复缓慢",
+"pw3.chip2": "韧性不足",
+"pw3.chip3": "组织修复",
+"pw3.chip4": "训练后恢复",
+"pw3.desc": "在医学监督下的肽方案，用于恢复、韧性与组织修复。",
+"pw3.name": "肽疗法",
+"pw3.short": "恢复、韧性、修复",
+"pw3.title": "肽疗法",
+"pw4.alt": "一位银发及肩、肩颈裸露的女性回头望向镜头，温暖的阳光穿过她身后的薄纱窗帘。",
+"pw4.aria": "04 — 健康抗衰",
+"pw4.chip1": "皮肤老化",
+"pw4.chip2": "骨骼与关节",
+"pw4.chip3": "肌肉与力量",
 "pw4.chip4": "长期活力",
-"pw4.desc": "在医学监督下，为恢复、韧性、健康老去与活力提供支持。",
-"pw4.name": "肽与再生支持",
-"pw4.short": "恢复、韧性、活力",
-"pw4.title": "肽与再生支持"
+"pw4.desc": "面向未来数十年的长寿医学 —— 力量、能量、皮肤与骨骼，长期追踪。",
+"pw4.name": "健康抗衰",
+"pw4.short": "力量、能量、长寿",
+"pw4.title": "健康抗衰"
 }
 };
 

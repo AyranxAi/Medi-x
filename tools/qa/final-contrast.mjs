@@ -5,12 +5,16 @@
  *
  * Needs: npm install playwright sharp
  *
- * WHY THIS EXISTS. 08 stopped being flat burgundy on 2026-08-13 (late) and became the
- * landing page's chapter-03 pattern: the consultation photograph full-bleed, a burgundy
- * scrim over it, copy anchored into the scrimmed edge. The moment copy sits ON a
- * photograph, a colour change is a re-measurement rather than a src change — the same
- * rule 04's doors and 05's plates already have harnesses for, and the same rule this
- * section had no harness for because it never needed one.
+ * WHY THIS EXISTS. It was written the afternoon 08 became a full-bleed photograph with a
+ * scrim, because the moment copy sits ON a photograph a colour change is a re-measurement
+ * rather than a src change. 08 is now a small ivory call strip and the copy sits on a FLAT
+ * ground, so the numbers below are easy ones — and the harness is kept anyway, for two
+ * reasons. It is the guard on the two values that are NOT easy: the red em, which is the
+ * page's accent on a near-white and clears 4.5 by about three; and the pill, which is the
+ * tightest control here at 5.45. And 08 has taken three shapes in one day — flat burgundy,
+ * photo-and-scrim, ivory strip — so the next change is likelier than not.
+ * ⚠️ IF 08 GOES BACK TO A PHOTOGRAPH, this file needs nothing: same selectors, same method.
+ * The one thing to re-check by hand is that .final h2 is still the headline element.
  *
  * ⚠️ THE LANDING PAGE ALREADY FAILED ON THIS EXACT FRAME, which is the reason to run it
  * rather than trust the render. Its own note reads: "this frame is bright right where the
@@ -151,7 +155,7 @@ for (const [width, height] of VIEWPORTS) {
   }
 }
 
-console.log("\nsection 08 — copy on the consultation frame, as shipped\n");
+console.log("\nsection 08 — the call strip, as shipped\n");
 let fails = 0;
 for (const r of results) {
   if (r.skipped) { console.log(`  ${r.vp.padEnd(9)} ${r.sel.padEnd(16)} skipped (off-screen)`); continue; }

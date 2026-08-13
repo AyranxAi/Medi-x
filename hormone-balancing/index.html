@@ -140,8 +140,12 @@ img{max-width:100%}
   backdrop-filter:none;-webkit-backdrop-filter:none;
 }
 .btn.ghost:hover{background:var(--cream);border-color:var(--gold)}
-.btn.on-dark{background:rgba(250,247,241,.94);color:var(--burgundy)}
-.btn.on-dark:hover{background:var(--ivory)}
+/* ⚠️ .btn.on-dark IS GONE — 2026-08-13 (late). It was the pill for a dark ground, and 08's
+   call strip was its only user on the page; when 08 went to ivory the ordinary red pill
+   became the correct one. Kept here as two lines rather than in a commit message, because
+   it is exactly what a burgundy version of that strip would need back:
+     .btn.on-dark{background:rgba(250,247,241,.94);color:var(--burgundy)}
+     .btn.on-dark:hover{background:var(--ivory)} */
 
 /* scroll progress hairline */
 .progress{position:fixed;top:0;left:0;height:2px;width:100%;transform-origin:0 50%;transform:scaleX(0);background:var(--gold);z-index:200}
@@ -1200,97 +1204,73 @@ html.faq-boxed .faq-a p{padding-right:24px}
 }
 
 /* ─────────────────────────── 08 · FINAL CTA + FOOTER ─────────────────────────── */
-/* ══ 08 · THE DISCOVERY CALL, ON THE LANDING PAGE'S OWN CHAPTER-03 PATTERN ══════════════
-   2026-08-13 (late), his call: "use the same design as landing page 1". That page's .sec
-   is a full-height frame with the photograph full-bleed behind it, a directional scrim over
-   it, and the copy anchored LOW-LEFT on the phone / centred-left on the desktop. This is
-   that, in this page's palette.
-   ⚠️ THE SCRIM IS BURGUNDY, NOT THE LANDING PAGE'S rgba(30,20,16). Same gradient structure,
-   same stops, different ink — because this section IS the page's burgundy moment and the
-   grounds either side of it (dawn above, cream footer below) are tuned to that hue. A
-   neutral brown-black here reads as a section borrowed from another site rather than the
-   same section wearing this site's colour. The background-color underneath stays --burgundy
-   so a slow image or a failed decode degrades to exactly what stood here before.
-   ⚠️ THE GRADIENT DIRECTION FLIPS AT 900px AND BOTH ARE LOAD-BEARING. The desktop frame is
-   landscape with the two women on the RIGHT, so the scrim runs left→right and the copy
-   takes the emptied left third. The phone frame is portrait with them CENTRED, so nothing
-   horizontal can clear them: it runs bottom→top instead and the copy sits in the base,
-   which is also why .final flips to align-items:flex-end there. Same two rules the landing
-   page arrived at on the same photograph.
-   ⚠️ MEASURED, NOT EYEBALLED — tools/qa/final-contrast.mjs. The landing page's own note on
-   this exact frame is the reason: "this frame is bright right where the headline sits". */
-.final{background:var(--ivory);color:var(--ink);text-align:left;overflow:hidden;
-  position:relative;isolation:isolate;
-  min-height:min(88vh,720px);display:flex;align-items:flex-end}
-@media (min-width:900px){ .final{align-items:center} }
-.final-bg{position:absolute;inset:0;z-index:-2;display:block}
-/* object-position, not a crop: the wide frame's subject sits right of centre and the phone
-   frame's sits high, so each wants a different anchor out of the same rule. */
-.final-bg img{width:100%;height:100%;object-fit:cover;object-position:72% 30%;display:block}
-@media (max-width:899px){ .final-bg img{object-position:50% 22%} }
-.final::after{
-  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
-  background:
-    linear-gradient(to top,rgba(250,247,241,.96) 0%,rgba(250,247,241,.86) 38%,rgba(250,247,241,.46) 68%,rgba(250,247,241,.12) 92%),
-    linear-gradient(to right,rgba(250,247,241,.42) 0%,rgba(250,247,241,0) 62%);
+/* ══ 08 · THE CALL STRIP — small, before the footer ═══════════════════════════════════
+   ⚠️ THIS REPLACED A FULL-BLEED BANNER, HIS CALL 2026-08-13 (late): "something quite small,
+   not really a full banner, perhaps like a call you know that you can expect… just a circle
+   cut out and it's really just small before the footer, but of course readable". So 08 is
+   174px of ivory instead of 720px of photograph: a circular cutout of Irina, the offer in
+   one line, and one pill. It is the third shape this section has taken in a day — flat
+   burgundy, then the landing page's photo-and-scrim chapter, now this — and the reason the
+   third one is right is that the ASK is small. A page that has already spent six screens on
+   a scroll story and four on the doors does not need a tenth screen to say "call us".
+   ⚠️ SHE IS ON THE LEFT, AND IT IS NOT ARBITRARY — his question, and three things decided
+   it. (1) Reading order runs face → offer → pill, so the ACTION is the last thing on the
+   page; mirrored, the pill lands mid-row and the eye exits on a portrait. (2) The footer's
+   right edge already holds six social circles and the round back-to-top — a seventh circle
+   above them makes a cluster, while the left edge holds the wordmark, which is a different
+   shape. (3) A face on the left is someone turning to speak; on the right, after the button,
+   it reads as a signature.
+   ⚠️ IVORY, HIS CALL, AND THE ARGUMENT AGAINST IT IS ON RECORD SO IT IS NOT RE-LITIGATED
+   BLIND: a burgundy bar was offered and measured better as an interruption — this strip sits
+   between 07's dawn and the footer's cream, so on ivory it is the third warm white in a row
+   and the two hairlines do all the separating. He picked ivory anyway, wanting the page to
+   end quiet rather than end loud. If it ever reads as "more footer", the fix is the ground,
+   not the size: --burgundy with ivory type, --rose on the em and .btn.on-dark for the pill.
+   ⚠️ THE HAIRLINES ARE LOAD-BEARING HERE IN A WAY THEY ARE NOT ELSEWHERE. dawn → ivory is
+   1.126:1 and ivory → cream 1.088:1; neither edge is visible as a field, so border-top on
+   this section and border-top on the footer are the only things saying "new thing". Do not
+   remove either while the ground stays light. */
+.final{background:var(--ivory);border-top:1px solid var(--line);text-align:left}
+.cta-wrap{
+  display:flex;align-items:center;justify-content:center;
+  gap:clamp(18px,2.4vw,34px);padding-block:clamp(26px,4vh,40px);
 }
-@media (min-width:900px){
-  .final::after{
-    background:
-      linear-gradient(to right,rgba(250,247,241,.94) 0%,rgba(250,247,241,.90) 40%,rgba(250,247,241,.58) 58%,rgba(250,247,241,.14) 82%,rgba(250,247,241,0) 97%),
-      linear-gradient(to top,rgba(250,247,241,.24) 0%,rgba(250,247,241,0) 55%);
-  }
+/* ⚠️ THE CIRCLE IS A CROP, NOT A MASK OVER A PORTRAIT. images/irina-circle-560 is already
+   square and already framed — eyes at 40% down and 53% across, offset right of her facial
+   midline because her hair falls left and the visual mass is not the face's centre. So
+   border-radius does the cutting and object-fit only guards against a future non-square
+   file. Re-cropping means a new basename: this one is live now. */
+.cta-face{
+  flex:none;display:block;border-radius:50%;object-fit:cover;
+  width:clamp(72px,7vw,104px);height:clamp(72px,7vw,104px);
+  box-shadow:0 10px 30px rgba(71,24,38,.14);
 }
-.final .wrap{position:relative;z-index:1}
-.final .kicker{color:var(--gold)}
-.final .kicker::before{display:none}
-/* ⚠️ 84px → 54px AND THAT IS THE SENTENCE'S DOING, NOT A TASTE CHANGE. The old headline was
-   four words ("Ready to feel like yourself again?" set as a display line); this one is a
-   question and its answer, 63 characters, and it has to fit the scrimmed column rather than
-   run across the picture. At the old 66px cap it set FOUR lines at 1440 and broke "10-minute"
-   across two of them. 54px gives three, measured at 1440/1600/1920.
-   ⚠️ The floor stays 32px — the phone sets it in the base of a portrait frame where it has
-   the full column width and reads at three lines already. Only the cap moved. */
-.final h2{color:var(--ink);font-size:clamp(32px,3.7vw,54px);margin:0;max-width:11.5em;
-  text-shadow:0 1px 26px rgba(250,247,241,.7)}
-/* ⚠️ "10-minute" MUST NOT BREAK AT ITS HYPHEN. It did, at 1440, and a duration split across
-   two lines reads as two numbers. This is the only thing this class is for; it is not a
-   general utility and there is no second use on the page. */
-.final h2 .nb{white-space:nowrap}
-/* the copy column, and it is a CONTRAST boundary as much as a measure: the scrim below holds
-   ~.93 to 40% of the frame and the em is the last thing on the line, so a wider column walks
-   the rose italic out into the bright half of the photograph. Widening this means re-running
-   tools/qa/final-contrast.mjs, every time. */
-@media (min-width:900px){ .final h2{max-width:min(46%,11em)} }
-/* ⚠️ THE ACCENT IS THE ONE RED NOW, NOT THE ROSE. Rose is the accent for DARK grounds —
-   it measures 5.93 on burgundy and 1.27 on a light one, which is invisible. On the ivory
-   the page's own --logo-red is the correct half of that pair, and it is what every other
-   headline on this page already uses; 08 was the exception only because 08 was dark. */
-.final h2 em{color:var(--logo-red)}
-/* ⚠️ NOTHING USES THIS RIGHT NOW — the paragraph came out on 2026-08-13 (late), his "we
-   don't need a subtext". Kept, unlike .svc-note which was deleted the same day, because the
-   two are not the same bet: .svc-note's markup is gone from the page for good, while this
-   section is one line away from wanting a body again (a signature under the headline, or
-   her name restored). margin-inline is `auto` from when the section was centred and is
-   harmless while nothing claims it — but if a <p> comes back here, LEFT-ALIGN IT: the
-   section anchors its copy to the scrimmed edge now, not to the middle of a photograph. */
-.final p{color:rgba(250,247,241,.72);max-width:30em;margin:26px auto 0;font-size:clamp(15px,1.3vw,18px);line-height:1.8}
-/* ⚠️ THE EMPHASIS MATERIAL, TRANSPOSED FOR A DARK GROUND — new 2026-08-13 (late), when 08
-   gained a body paragraph carrying Irina's name and the offer. Everywhere else on the page a
-   <strong> is weight 500 in burgundy against a light ground; burgundy IS this ground, so the
-   lift has to run the other way. Full ivory against the paragraph's own .72 is the same
-   gesture — a step toward the reader, not a heavier weight — and 700 is refused here for the
-   reason it is refused everywhere else on this page: it reads as a typo, not as emphasis. */
-.final p strong{font-weight:500;color:var(--ivory)}
-/* 44px → a clamp: the headline is a sentence now, and on a phone the button has to clear the
-   base of a portrait photograph rather than float in the middle of a flat field. */
-.final .btn{margin-top:clamp(30px,4.4vh,46px)}
-/* ⚠️ .final-star IS GONE FROM THE MARKUP — 2026-08-13 (late). It was a 340px ✦ at 7% ivory
-   hanging above the headline, which is a real thing on flat burgundy and a smudge over a
-   photograph. The rule is deleted rather than left orphaned; the ornament it drew was:
-     .final-star{position:absolute;left:50%;top:-90px;transform:translateX(-50%);
-       font-size:340px;color:rgba(199,154,146,.07);font-family:var(--serif);line-height:1}
-   If 08 ever goes back to a flat ground, that is the whole of it. */
+/* ⚠️ IT IS AN h2 SET SMALL, NOT A <p>. Two reasons and both matter: it is the section's only
+   statement, so the document outline should have it; and .final p — the rule this section
+   used to carry for its body copy — outranks a bare class and painted the line ivory on
+   ivory the first time it was mocked as a paragraph. The rule is deleted now, but the
+   heading is the version that cannot regress.
+   26ch is a measure, not a width: it holds the line to two lines at every desktop size, and
+   the break lands after "with a", which is where the sentence turns from question to offer. */
+.final .cta-line{
+  margin:0;max-width:26ch;line-height:1.25;
+  font-size:clamp(19px,2vw,28px);color:var(--ink);
+}
+.final .btn{margin:0;flex:none}
+@media (max-width:760px){
+  /* the row becomes a column and centres — at 390 the three parts cannot share a baseline
+     without the line dropping to five lines and the pill going full-width */
+  .cta-wrap{flex-direction:column;text-align:center;gap:16px}
+  .final .cta-line{text-align:center;max-width:22ch}
+}
+/* ⚠️ FOUR RULES WENT WITH THE BANNER and are recorded rather than left as dead weight:
+     .final-bg / .final::after   the photograph and its directional scrim
+     .final h2 (display sizes)   the 54px headline and its 46% column
+     .final p / .final p strong  the body paragraph and its dark-ground emphasis
+     .final-star                 a 340px ✦ at 7% ivory
+   .btn.on-dark went too — it was an ivory fill with a burgundy label, for a dark ground
+   this section no longer has, and 08 was its only user on the page. All of it is one
+   `git revert` away if the banner ever comes back. */
 /* footer — ported from the Medi✦X landing */
 /* ══ THE FOOTER IS A TRUE COPY OF THE LANDING PAGE'S — HIS CALL 2026-08-13 (late) ═══════
    "the footer in the hormone balancing page is not the same as the landing page in size
@@ -2335,64 +2315,26 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
     </div>
   </section>
 
-  <!-- ══════════ 08 · FINAL CTA — THE LANDING PAGE'S CHAPTER 03, ON THIS PAGE ═══════════
-       ⚠️ REBUILT 2026-08-13 (late), his call, in three parts and all three were named:
-       "use the one for the desktop on the desktop" (the photograph is a RESPONSIVE PAIR),
-       "we don't need a subtext" (the Irina paragraph is gone), and "use the same design as
-       landing page 1" (full-bleed picture, dark scrim, copy anchored low-left, one CTA).
-       ⚠️ IT IS THE SAME PHOTOGRAPH THE LANDING PAGE SELLS THIS CALL ON, and the same pair
-       of files — consult-room-wide-2399 for the desktop, consult-room-phone-1173 for the
-       phone. That is not a coincidence to tidy away: the two pages now make one offer, in
-       one voice, over one picture, and a visitor who arrives here from there sees the
-       chapter they already trust.
-       ⚠️ THE PHONE FILE IS NOT A NARROWER CROP OF THE WIDE ONE, IT IS A DIFFERENT FRAME —
-       1173x2532 portrait against 2399x1350 landscape. Serving the wide one to a phone puts
-       both women in the middle third and hands the copy their laps; serving the portrait
-       one to a desktop letterboxes it. The media switch is the whole point of the ask.
-       ⚠️ THE STAR IS GONE. .final-star was a 340px ✦ at 7% ivory, which is legible on flat
-       burgundy and reads as a smudge on a photograph.
-       ⚠️ THE WASH IS IVORY, NOT BURGUNDY — his call 2026-08-13 (late), "let's try to ship
-       ivory for Irina". It shipped burgundy for one round and he was right about it: a
-       scrim has to sit at ~.93 to make type readable, and at that strength burgundy was not
-       tinting the photograph but replacing it — her white suit, the roses and the marble all
-       went pink. Ivory lets the room keep its own light. THREE THINGS FLIP TOGETHER and the
-       section is broken if any one of them is missed: the wash, the type (ink, with the em
-       in --logo-red rather than --rose), and the button (.btn, not .btn.on-dark).
-       ⚠️ IT MEASURES BETTER, WHICH WAS NOT THE ARGUMENT BUT IS THE HAPPY PART: every control
-       clears by roughly double the burgundy's margin — the accent italic goes from 3.57 at
-       its tightest to 5.62. Re-run tools/qa/final-contrast.mjs on any change, as before.
-       ⚠️ WHAT IT COSTS: the page now has NO dark section at all. The burgundy at 08 was the
-       one dark moment on the way down, and the scroll story is the only dark left. Flagged
-       to him and accepted — six screens of ink earn the contrast on their own.
-       ⚠️ THE SUBTEXT WENT AND HER NAME WENT WITH IT — flagged, not hidden. The paragraph
-       carried "Irina Bond, the founder of Medi-Gyn and Hormone Health Educator", and it was
-       the only place this page ever named her. She is now in the picture instead of in the
-       text. If he wants the name back it is one line under the headline, not a paragraph.
-       ⚠️ CONTRAST IS MEASURED, NOT ASSUMED, because copy now sits ON a photograph — the
-       same class of risk 04's doors and 05's plates already carry a harness for:
-            node tools/qa/final-contrast.mjs
-       Re-run it after ANY change to the scrim, the crop, the type size or the frame. The
-       landing page's own note on this picture is the warning: "this frame is bright right
-       where the headline sits", measured at a median 3.86 on the phone. -->
-  <section class="final sec-pad" id="book">
-    <picture class="final-bg">
-      <source media="(max-width:899px)" type="image/avif" srcset="../images/consult-room-phone-1173.avif">
-      <source media="(max-width:899px)" type="image/webp" srcset="../images/consult-room-phone-1173.webp">
-      <source type="image/avif" srcset="../images/consult-room-wide-2399.avif">
-      <img src="../images/consult-room-wide-2399.webp" alt="" aria-hidden="true"
-           loading="lazy" decoding="async" width="2399" height="1350">
-    </picture>
-    <div class="wrap">
-      <!-- His words, verbatim, and they are the whole section now. The em lands on the offer
-           rather than on the question, because the question is the hook and the offer is the
-           thing being asked for — and because every approved headline on this page ends on a
-           rose italic. -->
-      <h2 data-reveal>Not sure which fits? Start with a <em>free <span class="nb">10-minute</span> discovery call</em>.</h2>
-      <!-- ⚠️ .btn, NOT .btn.on-dark — the ground flipped on 2026-08-13 (late) and the pill
-           had to flip with it. on-dark is an ivory fill with a burgundy label, which is an
-           invisible object on an ivory wash; the page's ordinary red pill is the one thing
-           on this screen carrying saturation now, which is exactly what a single CTA wants. -->
-      <a class="btn" href="#" data-book>Book a free discovery call <span class="arr">→</span></a>
+  <!-- ══════════ 08 · THE CALL STRIP ═══════════════════════════════════════════════════
+       Small, before the footer. See the CSS block for why it is this size, why she is on
+       the left, and what it replaced. His line, verbatim, with the offer in the accent.
+       ⚠️ id="book" MUST STAY — the hero's red pill and 07's "Ask us directly" both point
+       here, and they are the only two internal links on the page. -->
+  <section class="final" id="book">
+    <div class="wrap cta-wrap">
+      <!-- ⚠️ alt="" AND aria-hidden ARE CORRECT: the heading beside it already says what
+           this is, and "photograph of Irina Bond" read out before it would announce a
+           person the sentence never names. If her name is ever added to the line, this
+           becomes a real alt. -->
+      <picture>
+        <source type="image/avif" srcset="../images/irina-circle-560.avif">
+        <img class="cta-face" src="../images/irina-circle-560.webp" alt="" aria-hidden="true"
+             loading="lazy" decoding="async" width="560" height="560">
+      </picture>
+      <h2 class="cta-line" data-reveal>Not sure which fits? Start with a <em>free 10-minute discovery call</em></h2>
+      <!-- "Book now", not "Book a free discovery call": the line beside it has just said
+           the offer in full, and a pill repeating it word for word reads as a stutter. -->
+      <a class="btn" href="#" data-book>Book now <span class="arr">→</span></a>
     </div>
   </section>
 

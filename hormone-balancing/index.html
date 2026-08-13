@@ -1229,11 +1229,76 @@ html.faq-boxed .faq-a p{padding-right:24px}
 }
 
 /* ─────────────────────────── 08 · FINAL CTA + FOOTER ─────────────────────────── */
-.final{background:var(--burgundy);color:var(--ivory);text-align:center;overflow:hidden;position:relative}
-.final .kicker{justify-content:center;color:var(--gold)}
+/* ══ 08 · THE DISCOVERY CALL, ON THE LANDING PAGE'S OWN CHAPTER-03 PATTERN ══════════════
+   2026-08-13 (late), his call: "use the same design as landing page 1". That page's .sec
+   is a full-height frame with the photograph full-bleed behind it, a directional scrim over
+   it, and the copy anchored LOW-LEFT on the phone / centred-left on the desktop. This is
+   that, in this page's palette.
+   ⚠️ THE SCRIM IS BURGUNDY, NOT THE LANDING PAGE'S rgba(30,20,16). Same gradient structure,
+   same stops, different ink — because this section IS the page's burgundy moment and the
+   grounds either side of it (dawn above, cream footer below) are tuned to that hue. A
+   neutral brown-black here reads as a section borrowed from another site rather than the
+   same section wearing this site's colour. The background-color underneath stays --burgundy
+   so a slow image or a failed decode degrades to exactly what stood here before.
+   ⚠️ THE GRADIENT DIRECTION FLIPS AT 900px AND BOTH ARE LOAD-BEARING. The desktop frame is
+   landscape with the two women on the RIGHT, so the scrim runs left→right and the copy
+   takes the emptied left third. The phone frame is portrait with them CENTRED, so nothing
+   horizontal can clear them: it runs bottom→top instead and the copy sits in the base,
+   which is also why .final flips to align-items:flex-end there. Same two rules the landing
+   page arrived at on the same photograph.
+   ⚠️ MEASURED, NOT EYEBALLED — tools/qa/final-contrast.mjs. The landing page's own note on
+   this exact frame is the reason: "this frame is bright right where the headline sits". */
+.final{background:var(--burgundy);color:var(--ivory);text-align:left;overflow:hidden;
+  position:relative;isolation:isolate;
+  min-height:min(88vh,720px);display:flex;align-items:flex-end}
+@media (min-width:900px){ .final{align-items:center} }
+.final-bg{position:absolute;inset:0;z-index:-2;display:block}
+/* object-position, not a crop: the wide frame's subject sits right of centre and the phone
+   frame's sits high, so each wants a different anchor out of the same rule. */
+.final-bg img{width:100%;height:100%;object-fit:cover;object-position:72% 30%;display:block}
+@media (max-width:899px){ .final-bg img{object-position:50% 22%} }
+.final::after{
+  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:
+    linear-gradient(to top,rgba(71,24,38,.94) 0%,rgba(71,24,38,.80) 38%,rgba(71,24,38,.42) 68%,rgba(71,24,38,.10) 92%),
+    linear-gradient(to right,rgba(71,24,38,.44) 0%,rgba(71,24,38,0) 62%);
+}
+@media (min-width:900px){
+  .final::after{
+    background:
+      linear-gradient(to right,rgba(71,24,38,.96) 0%,rgba(71,24,38,.93) 40%,rgba(71,24,38,.60) 58%,rgba(71,24,38,.16) 82%,rgba(71,24,38,0) 97%),
+      linear-gradient(to top,rgba(71,24,38,.26) 0%,rgba(71,24,38,0) 55%);
+  }
+}
+.final .wrap{position:relative;z-index:1}
+.final .kicker{color:var(--gold)}
 .final .kicker::before{display:none}
-.final h2{color:var(--ivory);font-size:clamp(38px,6vw,84px);margin:26px auto 0;max-width:12em}
+/* ⚠️ 84px → 54px AND THAT IS THE SENTENCE'S DOING, NOT A TASTE CHANGE. The old headline was
+   four words ("Ready to feel like yourself again?" set as a display line); this one is a
+   question and its answer, 63 characters, and it has to fit the scrimmed column rather than
+   run across the picture. At the old 66px cap it set FOUR lines at 1440 and broke "10-minute"
+   across two of them. 54px gives three, measured at 1440/1600/1920.
+   ⚠️ The floor stays 32px — the phone sets it in the base of a portrait frame where it has
+   the full column width and reads at three lines already. Only the cap moved. */
+.final h2{color:var(--ivory);font-size:clamp(32px,3.7vw,54px);margin:0;max-width:11.5em;
+  text-shadow:0 1px 30px rgba(46,20,28,.45)}
+/* ⚠️ "10-minute" MUST NOT BREAK AT ITS HYPHEN. It did, at 1440, and a duration split across
+   two lines reads as two numbers. This is the only thing this class is for; it is not a
+   general utility and there is no second use on the page. */
+.final h2 .nb{white-space:nowrap}
+/* the copy column, and it is a CONTRAST boundary as much as a measure: the scrim below holds
+   ~.93 to 40% of the frame and the em is the last thing on the line, so a wider column walks
+   the rose italic out into the bright half of the photograph. Widening this means re-running
+   tools/qa/final-contrast.mjs, every time. */
+@media (min-width:900px){ .final h2{max-width:min(46%,11em)} }
 .final h2 em{color:var(--rose)}
+/* ⚠️ NOTHING USES THIS RIGHT NOW — the paragraph came out on 2026-08-13 (late), his "we
+   don't need a subtext". Kept, unlike .svc-note which was deleted the same day, because the
+   two are not the same bet: .svc-note's markup is gone from the page for good, while this
+   section is one line away from wanting a body again (a signature under the headline, or
+   her name restored). margin-inline is `auto` from when the section was centred and is
+   harmless while nothing claims it — but if a <p> comes back here, LEFT-ALIGN IT: the
+   section anchors its copy to the scrimmed edge now, not to the middle of a photograph. */
 .final p{color:rgba(250,247,241,.72);max-width:30em;margin:26px auto 0;font-size:clamp(15px,1.3vw,18px);line-height:1.8}
 /* ⚠️ THE EMPHASIS MATERIAL, TRANSPOSED FOR A DARK GROUND — new 2026-08-13 (late), when 08
    gained a body paragraph carrying Irina's name and the offer. Everywhere else on the page a
@@ -1242,8 +1307,15 @@ html.faq-boxed .faq-a p{padding-right:24px}
    gesture — a step toward the reader, not a heavier weight — and 700 is refused here for the
    reason it is refused everywhere else on this page: it reads as a typo, not as emphasis. */
 .final p strong{font-weight:500;color:var(--ivory)}
-.final .btn{margin-top:44px}
-.final-star{position:absolute;left:50%;top:-90px;transform:translateX(-50%);font-size:340px;color:rgba(199,154,146,.07);font-family:var(--serif);pointer-events:none;line-height:1}
+/* 44px → a clamp: the headline is a sentence now, and on a phone the button has to clear the
+   base of a portrait photograph rather than float in the middle of a flat field. */
+.final .btn{margin-top:clamp(30px,4.4vh,46px)}
+/* ⚠️ .final-star IS GONE FROM THE MARKUP — 2026-08-13 (late). It was a 340px ✦ at 7% ivory
+   hanging above the headline, which is a real thing on flat burgundy and a smudge over a
+   photograph. The rule is deleted rather than left orphaned; the ornament it drew was:
+     .final-star{position:absolute;left:50%;top:-90px;transform:translateX(-50%);
+       font-size:340px;color:rgba(199,154,146,.07);font-family:var(--serif);line-height:1}
+   If 08 ever goes back to a flat ground, that is the whole of it. */
 /* footer — ported from the Medi✦X landing */
 footer{
   background:var(--cream);padding:3rem clamp(1.25rem,6vw,6rem) 1.6rem;
@@ -2306,35 +2378,46 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
     </div>
   </section>
 
-  <!-- ══════════ 08 · FINAL CTA ══════════ -->
+  <!-- ══════════ 08 · FINAL CTA — THE LANDING PAGE'S CHAPTER 03, ON THIS PAGE ═══════════
+       ⚠️ REBUILT 2026-08-13 (late), his call, in three parts and all three were named:
+       "use the one for the desktop on the desktop" (the photograph is a RESPONSIVE PAIR),
+       "we don't need a subtext" (the Irina paragraph is gone), and "use the same design as
+       landing page 1" (full-bleed picture, dark scrim, copy anchored low-left, one CTA).
+       ⚠️ IT IS THE SAME PHOTOGRAPH THE LANDING PAGE SELLS THIS CALL ON, and the same pair
+       of files — consult-room-wide-2399 for the desktop, consult-room-phone-1173 for the
+       phone. That is not a coincidence to tidy away: the two pages now make one offer, in
+       one voice, over one picture, and a visitor who arrives here from there sees the
+       chapter they already trust.
+       ⚠️ THE PHONE FILE IS NOT A NARROWER CROP OF THE WIDE ONE, IT IS A DIFFERENT FRAME —
+       1173x2532 portrait against 2399x1350 landscape. Serving the wide one to a phone puts
+       both women in the middle third and hands the copy their laps; serving the portrait
+       one to a desktop letterboxes it. The media switch is the whole point of the ask.
+       ⚠️ THE STAR IS GONE. .final-star was a 340px ✦ at 7% ivory, which is legible on flat
+       burgundy and reads as a smudge on a photograph.
+       ⚠️ THE SUBTEXT WENT AND HER NAME WENT WITH IT — flagged, not hidden. The paragraph
+       carried "Irina Bond, the founder of Medi-Gyn and Hormone Health Educator", and it was
+       the only place this page ever named her. She is now in the picture instead of in the
+       text. If he wants the name back it is one line under the headline, not a paragraph.
+       ⚠️ CONTRAST IS MEASURED, NOT ASSUMED, because copy now sits ON a photograph — the
+       same class of risk 04's doors and 05's plates already carry a harness for:
+            node tools/qa/final-contrast.mjs
+       Re-run it after ANY change to the scrim, the crop, the type size or the frame. The
+       landing page's own note on this picture is the warning: "this frame is bright right
+       where the headline sits", measured at a median 3.86 on the phone. -->
   <section class="final sec-pad" id="book">
-    <span class="final-star" aria-hidden="true">✦</span>
+    <picture class="final-bg">
+      <source media="(max-width:899px)" type="image/avif" srcset="../images/consult-room-phone-1173.avif">
+      <source media="(max-width:899px)" type="image/webp" srcset="../images/consult-room-phone-1173.webp">
+      <source type="image/avif" srcset="../images/consult-room-wide-2399.avif">
+      <img src="../images/consult-room-wide-2399.webp" alt="" aria-hidden="true"
+           loading="lazy" decoding="async" width="2399" height="1350">
+    </picture>
     <div class="wrap">
-      <!-- ⚠️ 08 IS THE DISCOVERY CALL NOW, AND IRINA IS IN IT — his call 2026-08-13 (late).
-           What left: the kicker "Begin here" and the headline "Ready to feel like yourself
-           again?", both named. What arrived is not new copy so much as RELOCATED copy — the
-           offer that used to interrupt the doors at 04 ends the page instead, which is why
-           those two <p class="svc-note"> lines came out in the same edit. One ask, at the
-           end, from a named person.
-           ⚠️ THE HEADLINE AND THE BODY ARE HIS OWN APPROVED WORDS, ported from the landing
-           page's chapter 03 (ch3.h2 / ch3.body), which sells this exact call. Reproduced so
-           the two pages make the same promise in the same voice, with ONE word changed:
-           "complimentary" → "free 10-minute", because ten minutes is this page's own
-           established duration and it would otherwise have left the page with the note that
-           carried it. A "45 min" line was cut on 2026-08-10 — do not reintroduce it.
-           ⚠️ The em lands on "clarity" — end of the sentence, the one hopeful word, and the
-           rose accent every approved headline on this page ends with.
-           ⚠️ NO PORTRAIT, AND THAT IS A MISSING ASSET RATHER THAN A DESIGN CHOICE. There is
-           no photograph of her in images/ — bazaar.webp is the Harper's Bazaar cover and
-           consult-room-* is the room, which is what the landing page stands her copy on. If
-           he supplies a portrait this section is where it goes; flagged to him.
-           ⚠️ data-book STAYS INERT, like every CTA on both pages (see the click handler at
-           the foot of the file). Wiring it is a scheduler decision, not a markup one. -->
-      <h2 data-reveal>Start with a conversation, leave with <em>clarity</em>.</h2>
-      <p data-reveal>Meet <strong>Irina Bond</strong>, the founder of Medi-Gyn and Hormone
-      Health Educator. During your <strong>free 10-minute discovery call</strong>, she will
-      help you understand your concerns, answer your questions, and help you explore the next
-      step with clarity and confidence.</p>
+      <!-- His words, verbatim, and they are the whole section now. The em lands on the offer
+           rather than on the question, because the question is the hook and the offer is the
+           thing being asked for — and because every approved headline on this page ends on a
+           rose italic. -->
+      <h2 data-reveal>Not sure which fits? Start with a <em>free <span class="nb">10-minute</span> discovery call</em>.</h2>
       <a class="btn on-dark" href="#" data-book>Book a free discovery call <span class="arr">→</span></a>
     </div>
   </section>

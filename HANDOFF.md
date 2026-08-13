@@ -24,6 +24,24 @@ below, THIS supersedes; everything else in the 08-12 addenda still holds.
   `.link-arrow` is a shared material that 03 and 05 still use at 11.5px.
 - The Orb Studio artifact's shipped defaults track all of this.
 
+## Round 4, same day — the balance pass, and two deliberate "keep as is"
+
+Pre-merge review, from a measured A/B/C board (margins drawn on real screenshots):
+
+- **He was right about the imbalance**: words 187px from the left, her edge 364px
+  from the right. **His pick is "B"**: `cx = W*.695`, and the column's left margin
+  is **derived** — `colL = W − cx − stone half-width` — so left === right at every
+  desktop width by construction (277px at 1440×900, 397 at 1920×1080, measured).
+  Supersedes round 2's fixed `W*.13` column. The beat band survives at ~520px; the
+  derivation comment at the point of change carries the constraint.
+- **The question hooks stay Megante** — Playfair-italic and quiet-sans treatments
+  were built, shown, and declined.
+- **The section ground stays ivory** — cream, blush and warm-mist were shown.
+  ⚠️ Recorded so nobody retries it casually: the orbs' glass centres are
+  TRANSPARENT, so the ground behind them IS their inner glow — on blush the rose
+  Modern-Menopause orb visibly melts into the ground.
+- The temporary `?comp=` switch used for the board never shipped.
+
 ## Round 3, same day — his catch: "the word treatment is escaping"
 
 **He was right, and it was a bug, not taste.** "Hormone Therapy" sat 50px off the

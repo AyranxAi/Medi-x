@@ -2401,16 +2401,7 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
      reversals are ink-on-blush for theirs. Nothing ever crosses anything, which is the
      failure that cost a round when the copy and the ground lerped toward each other. */
   function updateSide(p,t){
-    /* ⚠️ THE COMPOSITION IS PULLED TOWARD THE CENTRE ON DESKTOP — 2026-08-13, his
-       question, this build's answer. The column used to hug the viewport edge (56px)
-       while she stood at W*.70, which left the middle empty and the right margin dead
-       on anything wide. The column now starts at W*.13 and she stands at W*.635.
-       ⚠️ HOW FAR IN THEY CAN COME IS BOUND BY THE BEAT BAND, not taste: the beats live
-       between the column and her left edge (width = figLeft − colL − 40), and the
-       longest beat needs ~520px before it runs past three lines and touches the first
-       label's slot at H*.20. Move either number and re-check that width at 1440. */
     const EDGE=mobile?16:30, PAD=mobile?4:26;
-    const colL=mobile ? EDGE+PAD : Math.max(EDGE+PAD, W*.13);
     const top=H*.20, bot=H*(mobile?.86:.88), n=labels.length;  /* .88 leaves the controls their corner */
 
     let migr=0; for(let i=0;i<n;i++) migr+=ss(rel(i),rel(i)+.030,p);
@@ -2428,7 +2419,19 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
        the phone: the ivory text-shadow halo on .scene-answer is what carries them, and
        it is now load-bearing at ALL widths — remove it and "Deep sleep" arrives as ink
        on a dark ground, the polarity failure this page has already paid for twice. */
-    cx     = W*(mobile?.70:.635);
+    cx     = W*(mobile?.70:.695);
+    /* ⚠️ EQUAL MARGINS BY CONSTRUCTION — HIS PICK 2026-08-13, from a measured A/B/C
+       board ("the distance from words to left is smaller than lady to right"). The
+       column's left margin is DERIVED from her right margin, so left === right at
+       every desktop width with no second constant to drift: 277px at 1440×900, 397 at
+       1920×1080, measured. It replaces round 2's fixed W*.13 column.
+       ⚠️ THE BEAT BAND IS STILL THE BINDING CONSTRAINT: the storyline lives between
+       the column and her left edge (figLeft − colL − 40 ≈ 520px at 1440 with cx .695)
+       and the longest beat must stay within three lines above the first label's slot
+       at H*.20 — measured: two lines, bottom 131px. Pull cx below ~.66 and the band
+       collapses; re-measure before moving either number. */
+    const colL = mobile ? EDGE+PAD
+      : Math.max(EDGE+PAD, W - cx - figH*VEN_ASPECT/2);
 
     const wipe=ss(.40,.78,p);
     stage.style.backgroundImage="none";

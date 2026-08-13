@@ -420,8 +420,10 @@ section{position:relative}
      grows the render about its own optical centre, so the circle gets bigger
      without the grid moving and the title vars stay true. Clipping starts at
      ~1.27 (the right edge reaches the box first); the soft shadow halo survives
-     to ~1.26. His ask 2026-08-13: "a tad bigger" → 1.10. */
-  --circle-scale:1.10;
+     to ~1.26. His ask 2026-08-13: "a tad bigger" → 1.10; same day, second round:
+     "slightly bigger" → 1.16. Headroom to the clip is now thin — next step up goes
+     through the configurator with eyes on it. */
+  --circle-scale:1.16;
   /* ⚠️ overflow:hidden is load-bearing: the scaled image's TRANSPARENT studio ground
      pokes past the box and, unclipped, widened the document to 391px on a 390 phone —
      measured. The visible circle never reaches the box edge below scale ~1.27, so the
@@ -449,9 +451,10 @@ section{position:relative}
 .service-orb h3{
   position:absolute;z-index:2;left:var(--orb-optical-x);top:var(--orb-optical-y);
   width:62%;margin:0;text-align:center;color:#2E2228;
-  /* +10% with the circle, 2026-08-13 — the clamp is viewport-keyed, not orb-keyed,
-     so a bigger circle does not carry its title with it; grow both or neither. */
-  font-family:var(--accent);font-size:clamp(1.5rem,2.3vw,2.3rem);
+  /* +10% with the circle, 2026-08-13, then +9% more the same day ("bigger letters").
+     The clamp is viewport-keyed, not orb-keyed, so a bigger circle does not carry its
+     title with it; grow both or neither. */
+  font-family:var(--accent);font-size:clamp(1.6rem,2.5vw,2.5rem);
   font-weight:400;line-height:.97;
   transform:translate(-50%,-50%) scale(var(--title-scale));
 }
@@ -477,10 +480,13 @@ section{position:relative}
 }
 .door .hook{
   display:block;max-width:31ch;margin:clamp(10px,1.4vw,18px) auto 0;
-  font-family:var(--quote);font-size:clamp(14px,1.3vw,17px);line-height:1.4;
+  /* "the bottom part words, bigger too a little" — his call 2026-08-13 */
+  font-family:var(--quote);font-size:clamp(15px,1.45vw,19px);line-height:1.4;
   color:var(--burgundy);
 }
-.door .link-arrow{color:var(--logo-red);margin-top:12px}
+/* 12.5px here only — .link-arrow is a shared material (03 and 05 use it at 11.5px)
+   and the doors' ask does not travel with it */
+.door .link-arrow{color:var(--logo-red);margin-top:12px;font-size:12.5px}
 .boost{padding-block-start:clamp(52px,7vh,86px)}
 @media(max-width:69rem){
   .doors{grid-template-columns:repeat(2,minmax(0,1fr));max-width:60rem}
@@ -1268,10 +1274,13 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
         <span class="line">Hormone imbalance</span>
         <span class="line">treatment for <em>women</em>.</span>
       </h1>
+      <!-- HIS CALL 2026-08-13, second round: the SEO description joins the headline it
+           belongs to. The "Deep sleep. Steady energy…" lede it replaces survives in
+           spirit as the scene's own answers; revert is this one block. -->
       <p class="hero-sub">
-        Deep sleep. Steady energy. Desire, patience, joy — the things that make you feel
-        like <strong>you</strong>. They're not gone. And getting them back starts with
-        someone finally listening.
+        Medi-Gyn offers expert hormone imbalance treatment for women in Dubai.
+        Safe <strong>bio-identical hormone therapy</strong> to restore balance
+        and well-being.
       </p>
       <div class="hero-ctas">
         <a class="btn" href="#book">Book a consultation <span class="arr">→</span></a>
@@ -2386,7 +2395,16 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
      reversals are ink-on-blush for theirs. Nothing ever crosses anything, which is the
      failure that cost a round when the copy and the ground lerped toward each other. */
   function updateSide(p,t){
-    const EDGE=mobile?16:30, PAD=mobile?4:26, colL=EDGE+PAD;
+    /* ⚠️ THE COMPOSITION IS PULLED TOWARD THE CENTRE ON DESKTOP — 2026-08-13, his
+       question, this build's answer. The column used to hug the viewport edge (56px)
+       while she stood at W*.70, which left the middle empty and the right margin dead
+       on anything wide. The column now starts at W*.13 and she stands at W*.635.
+       ⚠️ HOW FAR IN THEY CAN COME IS BOUND BY THE BEAT BAND, not taste: the beats live
+       between the column and her left edge (width = figLeft − colL − 40), and the
+       longest beat needs ~520px before it runs past three lines and touches the first
+       label's slot at H*.20. Move either number and re-check that width at 1440. */
+    const EDGE=mobile?16:30, PAD=mobile?4:26;
+    const colL=mobile ? EDGE+PAD : Math.max(EDGE+PAD, W*.13);
     const top=H*.20, bot=H*(mobile?.86:.88), n=labels.length;  /* .88 leaves the controls their corner */
 
     let migr=0; for(let i=0;i<n;i++) migr+=ss(rel(i),rel(i)+.030,p);
@@ -2404,7 +2422,7 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
        the phone: the ivory text-shadow halo on .scene-answer is what carries them, and
        it is now load-bearing at ALL widths — remove it and "Deep sleep" arrives as ink
        on a dark ground, the polarity failure this page has already paid for twice. */
-    cx     = W*.70;
+    cx     = W*(mobile?.70:.635);
 
     const wipe=ss(.40,.78,p);
     stage.style.backgroundImage="none";
@@ -2453,6 +2471,9 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
     glow.style.opacity=(1-ss(.28,.42,p)).toFixed(3);
     hint.style.opacity=(1-ss(.04,.10,p)).toFixed(3);
     if(ctrlEl){ const c=ss(.045,.105,p);
+      /* the controls follow the column in — a pill at the 30px edge beside a column
+         at W*.13 reads as two different pages */
+      if(!mobile) ctrlEl.style.left=colL+"px";
       ctrlEl.style.opacity=c.toFixed(3); ctrlEl.style.pointerEvents=c>.25?"auto":"none"; }
     const ph=p<.29?"01 — Recognition":p<.36?"02 — Signals":p<.76?"03 — Release":"04 — Support";
     if(ph!==phaseTxt){ phaseTxt=ph; phaseEl.textContent=ph; }

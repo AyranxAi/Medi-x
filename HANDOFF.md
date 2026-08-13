@@ -1,8 +1,28 @@
 # Handoff addendum — 2026-08-13 (SEO headline · one scene for every width · bigger orbs)
 
-Scope: `hormone-balancing/index.html`. Three of his calls, same day. Where this
-touches the orb table below, THIS supersedes; everything else in the 08-12 addenda
-still holds.
+Scope: `hormone-balancing/index.html`. Three of his calls, same day — then a second
+round the same day after he saw the screenshots. Where this touches the orb table
+below, THIS supersedes; everything else in the 08-12 addenda still holds.
+
+## Round 2, same day — headline approved, and four more calls
+
+- **The hero sub is the SEO description now** ("Medi-Gyn offers expert hormone
+  imbalance treatment for women in Dubai…"). The "Deep sleep. Steady energy…" lede
+  it replaced survives in spirit as the scene's own answers; revert is one block,
+  marked inline.
+- **The scene composition pulled toward the centre on desktop** — his question,
+  answered in the build: the column starts at `W*.13` (was the 56px edge) and she
+  stands at `W*.635` (was `.70`). ⚠️ **How far in they can come is bound by the beat
+  band, not taste** — the beats live between the column and her left edge and the
+  longest needs ~520px before it runs past three lines into the first label's slot.
+  The controls follow the column in. Phone untouched.
+- **Orbs again: circle 1.10 → 1.16, titles → `clamp(1.6rem,2.5vw,2.5rem)`** (36px
+  at 1440, was 30.2 two rounds ago). Headroom to the ~1.26 clip is thin now — the
+  next step up goes through the configurator with eyes on it.
+- **The words under the orbs grew too**: hook `clamp(15px,1.45vw,19px)`, and the
+  doors' Explore runs 12.5px — scoped to `.door .link-arrow` only, because
+  `.link-arrow` is a shared material that 03 and 05 still use at 11.5px.
+- The Orb Studio artifact's shipped defaults track all of this.
 
 ## 1 · The hero speaks SEO now
 

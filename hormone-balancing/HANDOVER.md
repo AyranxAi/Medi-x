@@ -1,5 +1,15 @@
 # Hormone Balancing & BHRT — `/hormone-balancing/` (shipped 2026-08-10, four refinement rounds same day)
 
+> ## ⚠️ SUPERSEDED IN PART — 2026-08-13. READ `../HANDOFF.md` FIRST.
+>
+> Three changes on his notes: (1) the H1 is now the SEO headline "Hormone imbalance
+> treatment for *women*." with the Dubai title/description tags; (2) **the desktop
+> diptych is deleted** — the phone's presentation (whole-ground rise, in-place
+> symptom→outcome rewrite, fixed figure) is the scene at every width, at desktop
+> scale; (3) the service orbs grew ~10% (circle and title), and the BHRT glass was
+> recalibrated lighter. Anything below describing the seam, the migration, or the
+> spent-residue column describes a layout that no longer exists.
+
 > ## ⚠️ SECTION 04 SUPERSEDED — 2026-08-12 (approved static orbs)
 >
 > Consultation services now use the three approved square glass renders in an open

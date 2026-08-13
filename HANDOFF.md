@@ -1,3 +1,76 @@
+# Handoff addendum — 2026-08-13 (SEO headline · one scene for every width · bigger orbs)
+
+Scope: `hormone-balancing/index.html`. Three of his calls, same day. Where this
+touches the orb table below, THIS supersedes; everything else in the 08-12 addenda
+still holds.
+
+## 1 · The hero speaks SEO now
+
+- **H1 is his copy verbatim:** "Hormone imbalance / treatment for *women*." — the
+  accent falls on the audience, not the treatment. "A new zest for living." is gone
+  from the H1; the zest survives in the untouched sub-paragraph.
+- `<title>` and `meta description` carry the Dubai positioning ("Medi-Gyn offers
+  expert hormone imbalance treatment for women in Dubai…").
+- ⚠️ **The hero type ramp is SOLVED for this headline, not chosen** — the new second
+  line runs ~9.6em against the old 5.2em, so the 118px ceiling had to go:
+  `clamp(42px,7vw,100px)` desktop, `clamp(28px,9.2vw,44px)` under 520. Measured: no
+  overflow at 1440 (line 940px in a 1150px wrap) or 390. Grow it only re-measured.
+
+## 2 · The scene: the phone's presentation is the basis at every width — his call
+
+*"The mobile experience is really good, the desktop not so — make the mobile the
+basis for the desktop."* Done literally: the desktop diptych is **deleted, not
+parked behind a flag**. At all widths the scene now does what the phone did:
+
+- **The ground rises WHOLE** (dark → blush, one colour), no seam, no moving boundary.
+- **The one column rewrites itself in place** — symptom out, outcome in, same slot.
+  The desktop's "spent residue" column and `.scene-label.spent` are gone with the
+  diptych they composed against.
+- **She stands still at `W*.70`** for the entire scene. The migration existed to be
+  the diptych's progress indicator; the whole-ground dawn is the indicator now.
+- **All chrome keys to `wipe`** (the ground's own value): `--scene-fg` lerps with a
+  crossover at wipe ~.47; the controls take the phone's snap-glass at every width
+  (`--ctrl-fg` snaps ivory→ink at wipe .55, dark pill tint until the snap).
+- **`BHRT` lands at the head of the column** (it used to centre on the seam's right
+  half, which no longer exists).
+- ⚠️ **The ivory text-shadow halo on `.scene-answer` is now load-bearing at ALL
+  widths** — the early reversals land while the ground is still dark, exactly as on
+  the phone. Remove the halo and "Deep sleep" arrives as ink on a dark ground.
+- **What did NOT change:** every `mobile ? small : large` SCALE fork (figure
+  657→900px on desktop, point density, edges, copy width), the track heights, the
+  beats, the latch, the controls' behaviour, and the centred legacy at
+  `?layout=centre` — verified error-free after the change.
+- Verified with the QA harness at 1440×900 and 390×844 across p = .05/.25/.45/.60/
+  .75/.92: identical label/answer opacity schedules at both widths, no page errors.
+
+## 3 · The orbs: a tad bigger, and the BHRT glass recalibrated
+
+- ⚠️ **The visible circle is only 74% of the square** — measured alpha bounds
+  (174,115)–(990,931) of 1100, identical on all three masters. So the circle can
+  grow with NO layout change: new `--circle-scale:1.10` scales the render about its
+  own optical centre. Clipping starts at ~1.27; `overflow:hidden` on `.service-orb`
+  is **load-bearing** (the scaled transparent ground widened the document to 391px
+  on a 390 phone — measured, fixed).
+- **Titles +10% with the circle:** h3 clamp `1.35rem/2.1vw/2.1rem` →
+  `1.5rem/2.3vw/2.3rem`. The clamp is viewport-keyed, not orb-keyed — grow both or
+  neither.
+- **BHRT glass .39/.6035 → .31/.5515.** His read: "too dark, doesn't look like 60%."
+  The number was honest but burgundy is the darkest pigment of the three, so equal
+  alpha reads darker; .31 makes it READ like the gold orb's 60%. Family ratio kept:
+  `mid = center + (1−center)×.35`. Updated table:
+
+| Orb | Scale | Top / bottom tracking | Gap | Glass (center/mid) |
+|---|---:|---|---:|---:|
+| Hormone Therapy / BHRT | 98% | −.035em / −.035em | +.26em | .31 / .5515 |
+| Modern / Menopause | 102% | −.035em / −.035em | +.06em | .65 / .7725 |
+| Testosterone / Replacement | 101% | −.025em / −.035em | +.29em | .40 / .61 |
+
+- **A live configurator artifact exists for the owner** (sliders for circle scale,
+  title size/scale, tracking, gap, glass, scrim; emits the exact CSS block to paste
+  into the per-orb rules). Values he picks there land here as a one-block change.
+
+---
+
 # Handoff addendum — 2026-08-12 (approved static service orbs)
 
 Scope: `hormone-balancing/index.html` section 04 only. This supersedes the

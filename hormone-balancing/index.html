@@ -689,39 +689,55 @@ section{position:relative}
    That note said the full-bleed diptych cost "every future plate swap in 05 is now a
    re-measurement", and that the copy sat beside the picture until then precisely because
    one ramp could not serve a pale pendulum and near-black food.
-   The 4:5 card ends the problem rather than manages it. The copy zone is COMPOSED INTO THE
-   FRAME — the bottom ~49% is flat --ivory — so the copy sits on the picture with nothing
-   under it at all. Measured on the shipped plates (tools/qa/boost-contrast.mjs, 12/12):
-   ink #2E2228 on the card ground runs 14.27:1, the rose em 7.59:1, ink-soft 6.18:1 — and
-   IDENTICAL ON BOTH CARDS, which is the check that the zone is really empty. Two plates
-   differing here would mean a picture had crept under the copy. There is no ramp to tune.
+   The card ends the problem rather than manages it: the copy is not on the picture at all.
+   The band stops, it has already dissolved into --ivory, and the copy sits on the card's own
+   fill below it. Measured (tools/qa/boost-contrast.mjs, 12/12): ink #2E2228 runs 14.28:1,
+   the rose em 7.59:1, ink-soft 6.19:1 — and IDENTICAL ON BOTH CARDS, which is the check that
+   there is nothing under the copy. Two cards differing here would mean a picture had crept
+   beneath it. There is no ramp to tune.
    ⚠️ WHAT THIS COSTS: 05 no longer carries weight through darkness. It carries it through
    scale and silence instead. Burgundy at 08 is still the only dark moment on the way down,
    so (1) in the note above holds — more cleanly than before, since 05 is now light too.
-   ⚠️ THE CARDS ARE 4:5 AND THAT IS LOAD-BEARING. Cover-cropping a landscape master into one
-   throws the copy zone away and puts ink back on the picture. The porcelain plates got their
-   empty half for free by being objects floating on ivory; his photographs (2026-08-13
-   evening) have real backgrounds, so theirs is built — a 760px band that dissolves into
-   --ivory over 110px, cut by tools/compose-boost-plate.mjs. Either way the rule is the same:
-   NOTHING GOES IN HERE THAT IS NOT ALREADY 1200x1500 WITH A CLEAR LOWER HALF. */
+   ⚠️ THE PLATE IS THE BAND ALONE — 1200x760, bottom 110px dissolved into --ivory, cut by
+   tools/compose-boost-plate.mjs. It carries NO copy zone: the card's height is derived from
+   band + copy, so the space under the picture is layout and cannot be wrong at some width.
+   The two earlier answers both baked it into pixels — the porcelain objects got an empty
+   lower half for free by floating on ivory, and his photographs had one built for them at
+   1200x1500 — and both were only right at one width. See the note on .boost-one. */
 .boost-pair{
   margin-top:clamp(30px,4.5vh,56px);
   display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,2.4vw,38px);
 }
+/* ⚠️ NO aspect-ratio, AND THE PICTURE IS IN FLOW — his "reduce all that white", 2026-08-13
+   late. The card was 4:5 with the picture absolute at inset:0 and object-fit:cover, so its
+   height was declared and the copy sat at the bottom of it. That put the gap between picture
+   and copy at the mercy of two things moving in opposite directions: the copy block is
+   near-constant in CSS px (measured 86–112 across eleven widths) while the card height
+   scales with its column. Measured air under the copy: 82px at 390, 214px at 1440. One
+   aspect-ratio cannot be right at both, and no third value would have been either.
+   The card now DERIVES its height — band + copy + padding — so the gap is layout, not
+   pixels, and it is the same at every width by construction. This also retires the built
+   copy zone: the plate is the band alone (1200x760), which is why the shipped basenames
+   carry -band-. ⚠️ Do not put aspect-ratio back without also rebuilding the plates; a fixed
+   height over an auto-height picture reopens exactly the gap he asked to close. */
 .boost-one{
-  position:relative;isolation:isolate;aspect-ratio:4/5;
-  display:grid;grid-template-rows:auto auto;align-content:end;
-  row-gap:14px;text-align:left;padding:clamp(22px,2.4vw,38px);
+  position:relative;isolation:isolate;
+  display:flex;flex-direction:column;text-align:left;
   background:var(--ivory);overflow:hidden;
   border:1px solid var(--line);border-radius:2px;
 }
-.boost-one picture{position:absolute;inset:0;z-index:-2;display:block}
+/* Full-bleed to the hairline: the padding lives on .boost-copy, not on the card, so the
+   picture reaches the border without a negative margin to keep in sync with it. */
+.boost-one picture{display:block}
+.boost-copy{display:grid;row-gap:14px;padding:clamp(22px,2.4vw,38px)}
 /* ⚠️ NO mix-blend-mode HERE. The plates already END in --ivory — the porcelain pair was
    flat-fielded onto it, his photographs dissolve into it — so multiplying one over an ivory
    ground multiplies ivory by ivory and the card darkens into a panel (measured #F4EEE2
    inside against #FAF7F1 on the page). With the blend off the card fill IS the section
    ground and the hairline is the only thing drawing the card. */
-.boost-one img{display:block;width:100%;height:100%;object-fit:cover;background:var(--ivory)}
+/* height:auto, NOT 100% — the band's own 1200x760 is what sets the card's picture height now.
+   `cover` is gone with it: there is no box to cover, and nothing left to crop. */
+.boost-one img{display:block;width:100%;height:auto;background:var(--ivory)}
 /* ⚠️ THE TITLE NEEDS ITS OWN SIZE NOW. It never had one: on the scrim it inherited the
    global h3 and read large against darkness. On a light card at the same value it came
    out at ~17px and disappeared. Sized to the card, not to the page. */
@@ -780,12 +796,13 @@ html.bt-tether .boost-pair{
   column-gap:var(--tgap);
 }
 html.bt-tether .boost-one{
-  background:none;min-height:0;padding:0 clamp(4px,1.4vw,26px);
-  align-content:start;text-align:center;row-gap:14px;
-  /* the base card is now a 4:5 framed object; the tether diagram has no picture at all,
-     so it must drop the frame too or it draws two empty boxes under the branches */
-  aspect-ratio:auto;border:0;border-radius:0;overflow:visible;
+  background:none;min-height:0;text-align:center;
+  /* the base card is a framed object; the tether diagram has no picture at all, so it must
+     drop the frame too or it draws two empty boxes under the branches */
+  border:0;border-radius:0;overflow:visible;
 }
+/* the padding and the row rhythm live on .boost-copy now, so the override follows them there */
+html.bt-tether .boost-copy{padding:0 clamp(4px,1.4vw,26px);align-content:start;row-gap:14px}
 html.bt-tether .boost-one h3{font-size:clamp(21px,2.05vw,29px);line-height:1.2}
 html.bt-tether .boost-one picture,
 html.bt-tether .boost-one::after{display:none}
@@ -1864,44 +1881,46 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
            HIS PICK 2026-08-12 — "bands", chosen from six treatments offered behind ?boost=.
            The other five and the switch that served them are deleted; all six ran off one DOM
            precisely so that choosing one would be a subtraction.
-           ⚠️ THE CARDS ARE STILL 4:5 AND THE COPY ZONE IS STILL PART OF THE PICTURE — but it
-           is now BUILT rather than born. The porcelain objects floated on ivory, so their
-           lower half was empty for free. A photograph with a background of its own has no
-           such half, and cover-cropping one into 4:5 throws 55–65% of the width away and puts
-           ink back on a picture. So each plate is composed: the photograph takes a 760px band
-           across the top of the 1200x1500 frame and dissolves into --ivory over 110px, and the
-           copy lands on 740px of flat ivory with nothing under it. Ink still runs ~13.9:1,
-           ink-soft ~6.0:1, and there is STILL no scrim to tune.
-           ⚠️ SWAPPING A PLATE IS NO LONGER A src CHANGE. It was, while the masters arrived
-           pre-flattened onto ivory. A photographic master has to be composed first:
-                node tools/compose-boost-plate.mjs <master> /tmp/plate.png <trim-edge>
-                node tools/encode-plate.mjs /tmp/plate.png images/boost/<new-name>-1200 1200
+           ⚠️ THE CARD IS PICTURE-THEN-COPY AND ITS HEIGHT IS DERIVED — his "reduce all that
+           white", same evening. The picture is an in-flow 1200x760 band whose bottom 110px
+           dissolves into --ivory; .boost-copy sits under it on the card's own fill. No
+           aspect-ratio, no object-fit:cover, so the space between them is one padding value
+           at every width rather than whatever a declared height happened to leave over. The
+           card came down 25% at 1440 and 14% at 390, and the two stay exactly equal in height
+           because their copy does. Measured on eleven widths; reasoning on .boost-one.
+           ⚠️ SWAPPING A PLATE IS NOT A src CHANGE. It was, while the masters arrived
+           pre-flattened onto ivory. A photographic master has to be cut to the band first:
+                node tools/compose-boost-plate.mjs [master] /tmp/band.png [trim-edge]
+                node tools/encode-plate.mjs /tmp/band.png images/boost/[new-name]-1200 1200
                 node tools/qa/boost-contrast.mjs
-           The band, the feather and the two crops are argued in compose-boost-plate.mjs; the
-           short version is that 760 is the most a 16:9 master gives before the crop starts
-           cutting subjects, and 110 is the least that hides the seam on the darker plate.
-           ⚠️ THE COPY CLEARS THE BAND BY 223px AT 1440 AND 72px AT 390. The phone is the tight
-           one. A longer programme name, or body copy that runs to a fourth line, spends that
-           72 before anything else does — measure, do not assume.
+           The band aspect, the feather and the two crops are argued in compose-boost-plate.mjs;
+           the short version is that 1.579 is the most a 16:9 master gives before the crop
+           starts cutting subjects, and 110 is the least that hides the seam on the darker one.
+           ⚠️ A REPLACEMENT MUST BE THE BAND — 1200x760, no copy zone built into it. The card
+           supplies that room itself now, and a plate carrying its own would double it.
            ⚠️ THE ✦ IS GONE ON PURPOSE. It joined the two programmes when they sat side by side
            and meant "and". The cards say that by sitting beside each other in one grid, so the
            join had nothing left to join. -->
       <div class="boost-pair">
         <div class="boost-one" data-reveal>
           <picture>
-            <source type="image/avif" srcset="../images/boost/gut-estradiol-figure-1200.avif">
-            <img src="../images/boost/gut-estradiol-figure-1200.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1200" height="1500">
+            <source type="image/avif" srcset="../images/boost/gut-estradiol-figure-band-1200.avif">
+            <img src="../images/boost/gut-estradiol-figure-band-1200.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1200" height="760">
           </picture>
-          <h3>Hormone Therapy<em>+ Gut Health</em></h3>
-          <p>Balance begins in the gut — so what we rebalance actually lands, and stays landed.</p>
+          <div class="boost-copy">
+            <h3>Hormone Therapy<em>+ Gut Health</em></h3>
+            <p>Balance begins in the gut — so what we rebalance actually lands, and stays landed.</p>
+          </div>
         </div>
         <div class="boost-one" data-reveal>
           <picture>
-            <source type="image/avif" srcset="../images/boost/energy-atp-clinician-1200.avif">
-            <img src="../images/boost/energy-atp-clinician-1200.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1200" height="1500">
+            <source type="image/avif" srcset="../images/boost/energy-atp-clinician-band-1200.avif">
+            <img src="../images/boost/energy-atp-clinician-band-1200.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1200" height="760">
           </picture>
-          <h3>Hormone Therapy<em>+ Energy</em></h3>
-          <p>Mitochondrial support layered over your protocol — energy built at the cellular level.</p>
+          <div class="boost-copy">
+            <h3>Hormone Therapy<em>+ Energy</em></h3>
+            <p>Mitochondrial support layered over your protocol — energy built at the cellular level.</p>
+          </div>
         </div>
       </div>
       <!-- ONE door, because both programmes live on ONE page (his note 2026-08-11).

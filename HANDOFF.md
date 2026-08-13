@@ -395,16 +395,56 @@ identical on the two cards**: the copy is sitting on flat ivory on both, so the 
 it is not in the measurement at all. Two cards disagreeing here would mean a picture had crept
 under the copy — that, not the absolute ratios, is what this harness is now checking.
 
-⚠️ **The copy clears the band by 223px at 1440 and 72px at 390.** The phone is the tight one,
-as it was for the title. A longer programme name, or body copy running to a fourth line,
-spends that 72 before anything else does.
-
 ⚠️ **Weight: 43.6 + 45.9 KB avif** against the porcelain pair's 20.6 + 16.6. Photographs cost
 more than flat objects; still well inside the band, and both stay `loading="lazy"`.
 
 ⚠️ **`tools/encode-plate.mjs` was reporting against a 16:9 target that 05 stopped having on
-08-13.** It now prints both live targets — 05 at 0.800 and 04's doors at 0.750 — so the crop
-warning means something again.
+08-13.** It now prints the live cover-cropped target so the crop warning means something again.
+
+### Then he saw it, and the built copy zone lasted about an hour
+
+> "make it tighter reduce all that white by reducing vertical height"
+
+**He was looking at a real defect, and the number says where it came from.** The card was
+`aspect-ratio:4/5` with the picture absolute at `inset:0` and `object-fit:cover`, so its
+height was *declared* and the copy sat at the bottom of whatever that left. Two things then
+move in opposite directions: the copy block is near-constant in CSS px — **measured 86–112
+across eleven widths** — while the card height scales with its column. Air under the copy came
+out at **82px at 390 and 214px at 1440**. No single aspect-ratio is right at both ends of that,
+and a responsive one would have needed a second plate per programme to avoid `cover` eating
+the top of the picture.
+
+**So the height is derived instead of declared.** The picture is an in-flow `1200x760` band;
+`h3` + `p` move into a new `.boost-copy` that carries the padding and the row rhythm; the card
+is a flex column with no `aspect-ratio` and no `cover`.
+
+| | Was | Now |
+|---|---|---|
+| card at 1440 | 558×697 | **558×519** (−25.5%) |
+| card at 390 | 350×438 | **350×378** (−13.7%) |
+| gap, picture → title | 214px @1440, 82px @390 | **the padding, 22–38px, at every width** |
+| plate | 1200×1500, 740px of built copy zone | **1200×760, band only** |
+
+Measured at eleven widths after: the gap equals the computed `padding-top` at every one, and
+the two cards are **the same height to within 0.5px everywhere** — they share a copy length, so
+nothing has to be forced. `boost-contrast` **12/12** (14.28 / 7.59 / 6.19, still identical
+across the two cards). `?boost=tether` re-checked: its padding and row-gap overrides moved to
+`.boost-copy` with the properties they were overriding, and the diagram draws with no stray
+frames. No page errors at 1440 or 390.
+
+⚠️ **The copy zone is no longer a thing that can be wrong.** Both earlier answers baked it into
+pixels — the porcelain objects got an empty lower half for free by floating on ivory, his
+photographs had one built at 1200×1500 — and pixels can only be right at one width. It is
+layout now, so a longer programme name or a fourth line of body copy costs nothing and needs
+no re-measure. **A replacement plate is the band, 1200×760** — one carrying its own copy zone
+would double it.
+
+⚠️ **Third set of basenames in one evening** (`…-card-1200` → `…-1200` → `…-band-1200`), and
+that is BRAND.md working as intended rather than churn: no cache anywhere can serve a stale
+shape. The two retired pairs are deleted, not left lying in `images/boost/`.
+
+⚠️ **`aspect-ratio` must not come back on its own.** A declared height over an auto-height
+picture reopens exactly the gap he asked to close; it would need the plates rebuilt with it.
 
 ## Still open
 

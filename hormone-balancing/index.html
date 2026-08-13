@@ -2105,9 +2105,29 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
            join had nothing left to join. -->
       <div class="boost-pair">
         <div class="boost-one" data-reveal>
+          <!-- ⚠️ HIS REPLACEMENT GUT PLATE, 2026-08-13 (late) — "I added a new gut image,
+               please use that one instead". Same subject and same composition as the frame it
+               retires (figure right, estradiol model left), photographed several stops paler
+               and cooler. It arrived as images/image.png and is filed at
+               archive/sources/boost-gut-estradiol-figure-pale-master.png.
+               Cut and encoded through the pipeline, not by hand:
+                 node tools/compose-boost-plate.mjs archive/sources/…-pale-master.png /tmp/b.png bottom
+                 node tools/encode-plate.mjs /tmp/b.png images/boost/gut-estradiol-figure-pale-1200x760 1200
+               1562x1007 → 18px off the bottom → 1200x760, the same 1.8% the first master gave
+               up, and for the same reason: the estradiol model sits hard against the left edge,
+               so the height is what can be spent. AVIF 38.1 KB / WebP 46.2 KB, both smaller
+               than the pair they replace.
+               ⚠️ NEW BASENAME, NOT AN OVERWRITE — BRAND.md's caching rule. The retired pair
+               (gut-estradiol-figure-1200x760.*) is DELETED in the same commit; do not leave
+               both, or the next swap has two candidates and no way to tell which ships.
+               ⚠️ IT IS PALER THAN ITS PAIR NOW, and that is the one thing to watch: the
+               argument for the old frame was that it read as the Energy plate's twin on
+               ivory. Re-measured through tools/qa/boost-contrast.mjs after the swap — the
+               copy sits BELOW the band on the card's own fill, so nothing on this plate
+               carries text and the pairing is a judgement rather than a threshold. His pick. -->
           <picture>
-            <source type="image/avif" srcset="../images/boost/gut-estradiol-figure-1200x760.avif">
-            <img src="../images/boost/gut-estradiol-figure-1200x760.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1200" height="760">
+            <source type="image/avif" srcset="../images/boost/gut-estradiol-figure-pale-1200x760.avif">
+            <img src="../images/boost/gut-estradiol-figure-pale-1200x760.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1200" height="760">
           </picture>
           <div class="boost-copy">
             <h3>Hormone Therapy<em>+ Gut Health</em></h3>

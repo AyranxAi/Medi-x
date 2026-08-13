@@ -383,8 +383,19 @@ section{position:relative}
    step. 04 also opens on its own kicker and headline, so the reader is told twice. If he
    ever calls this edge out, the fix is to give #services and #services-live the dawn, not
    to move this section back.
-   ⚠️ THE ALTERNATION IS NOT BROKEN BY THIS, IT IS RESTORED. Page ground now runs
-   dawn(03, above the scene) → ivory(04) → cream(05) → ivory(06) → cream(07) → burgundy.
+   ⚠️ THE ALTERNATION IS NOT BROKEN BY THIS, IT IS RESTORED — AND CREAM LEFT THE PAGE
+   ENTIRELY ON 2026-08-13 (late). Page ground now runs dawn(03, above the scene) →
+   ivory(04) → dawn(05) → ivory(06) → dawn(07) → burgundy(08) → cream(footer).
+   ⚠️ THE DAWN REPLACED CREAM AT 05 AND 07 ON HIS CALL, and the measurement is the whole
+   argument. Cream #F4EDE1 against ivory is 1.088:1 — the note on ?style=gallery already
+   called that "invisible as a field" — and worse, it is a YELLOW white standing next to
+   PINK whites, which is the same temperature-flip failure this page paid for twice. The
+   dawn is 1.126:1, ~45% more of a step, in a hue the page already owns. It also stops the
+   dawn being a two-off: it is now the page's warm note rather than the scene's souvenir.
+   Re-measured on the dawn at both sections, all clear: ink 12.67, ink-soft 5.49 (was 5.69
+   on cream, floor 4.5), logo-red 6.74. Nothing needed a new value.
+   ⚠️ THE FOOTER IS STILL CREAM AND THAT IS LEFT ALONE — it sits under 08's burgundy, so it
+   touches nothing it could clash with, and it is chrome rather than a chapter.
    The old cream at 03 was the value that made two near-identical creams bracket the doors.
    ⚠️ THE HAIRLINES DO THE SEPARATING AT BOTH EDGES — .seg carries border-top and
    border-bottom in --line, so 03 is delineated as a band regardless of its fill, and that
@@ -664,11 +675,14 @@ section{position:relative}
      to align to, it is not a baseline any more, only a gap under the shorter strings */
   .door .hook,.door h3{min-height:0}
 }
-.svc-note{margin-top:clamp(26px,3.4vh,36px);font-size:13px;color:var(--ink-soft);letter-spacing:.02em}
-/* Same emphasis material as every other strong on the page (hero-sub, faq-a):
-   weight 500 in burgundy, never the browser's 700. At 13px a default bold in
-   ink-soft reads as a typo rather than a lift. */
-.svc-note strong{font-weight:500;color:var(--burgundy)}
+/* ⚠️ .svc-note IS GONE — its two <p>s left 04 and 04 alt on 2026-08-13 (late) and the rule
+   goes with them rather than sitting here waiting for a class nothing uses. What it dressed
+   is now 08's body copy, which has its own colour because it stands on burgundy instead of
+   on a light ground. If the note ever comes back to 04, it needs this rule back too:
+     .svc-note{margin-top:clamp(26px,3.4vh,36px);font-size:13px;color:var(--ink-soft);letter-spacing:.02em}
+     .svc-note strong{font-weight:500;color:var(--burgundy)}
+   The `strong` half is the page's one emphasis material — weight 500 in burgundy, never the
+   browser's 700, because at 13px a default bold in ink-soft reads as a typo, not a lift. */
 
 /* ─────────────────────────── 05 · BOOSTER PROGRAMS ──────────────────────────
    HIS PICK 2026-08-11 — "direction A", and the ground goes light with it.
@@ -689,7 +703,9 @@ section{position:relative}
    What changed is where the weight comes from. It used to come from nowhere — 780px of flat
    cream holding two headings and six lines, arriving straight after three full-bleed
    photographs. It now comes from the programmes' own photography. */
-.boost{background:var(--cream)}
+/* the dawn, not cream — see the ground sequence on .bhrt. The ivory cards read HARDER on it
+   than they did on cream, which is the happy accident: the card fill is what makes a card. */
+.boost{background:var(--dawn)}
 /* text-wrap:balance rather than a wider max-width: at 38ch this sentence broke before its
    last word and left "it." alone on line two. A width big enough to pull the orphan up at
    1440 opens it up again at the next breakpoint, so let the browser even the lines instead. */
@@ -1074,7 +1090,9 @@ html.st-soft .faq-q{padding-block:clamp(26px,3.2vh,36px)}
 .story .who span::before{content:"— "}
 
 /* ─────────────────────────── 07 · FAQ ─────────────────────────── */
-.faq{background:var(--cream)}
+/* the dawn, not cream — see the ground sequence on .bhrt. 07 is the last light section
+   before 08's burgundy, so this is also the page's warm note handing over to its darkest. */
+.faq{background:var(--dawn)}
 .faq-grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(40px,5vw,90px);align-items:start}
 .faq-side{position:sticky;top:120px;display:flex;flex-direction:column;gap:22px}
 .faq-side h2{font-size:clamp(32px,3.8vw,52px)}
@@ -1217,6 +1235,13 @@ html.faq-boxed .faq-a p{padding-right:24px}
 .final h2{color:var(--ivory);font-size:clamp(38px,6vw,84px);margin:26px auto 0;max-width:12em}
 .final h2 em{color:var(--rose)}
 .final p{color:rgba(250,247,241,.72);max-width:30em;margin:26px auto 0;font-size:clamp(15px,1.3vw,18px);line-height:1.8}
+/* ⚠️ THE EMPHASIS MATERIAL, TRANSPOSED FOR A DARK GROUND — new 2026-08-13 (late), when 08
+   gained a body paragraph carrying Irina's name and the offer. Everywhere else on the page a
+   <strong> is weight 500 in burgundy against a light ground; burgundy IS this ground, so the
+   lift has to run the other way. Full ivory against the paragraph's own .72 is the same
+   gesture — a step toward the reader, not a heavier weight — and 700 is refused here for the
+   reason it is refused everywhere else on this page: it reads as a typo, not as emphasis. */
+.final p strong{font-weight:500;color:var(--ivory)}
 .final .btn{margin-top:44px}
 .final-star{position:absolute;left:50%;top:-90px;transform:translateX(-50%);font-size:340px;color:rgba(199,154,146,.07);font-family:var(--serif);pointer-events:none;line-height:1}
 /* footer — ported from the Medi✦X landing */
@@ -1903,7 +1928,19 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
   <section class="services sec-pad" id="services">
     <div class="wrap">
       <div class="sec-head">
-        <p class="kicker">04 · Consultations</p>
+        <!-- ⚠️ THE CHAPTER KICKERS ARE GONE FROM 04, 05, 06 AND 07 — his call 2026-08-13
+             (late), named one by one. They were the 11px red uppercase labels ("04 ·
+             Consultations" here) that opened every section, and with 03's already dropped
+             the page now numbers NOTHING a reader can see. That is the point: the headline
+             is the section, and a numbered index is a table of contents for a page that is
+             four screens long.
+             ⚠️ .sec-head IS A FLEX COLUMN WITH gap:22px, so removing the <p> costs no
+             layout — the gap simply has nothing to sit between. Same for .faq-side at 07.
+             The .kicker rule STAYS: the hero still uses it ("Hormone Balancing · BHRT"),
+             and so does the 04 alt marker below while the A/B is running.
+             ⚠️ THE FALLBACK PATH KEEPS ITS TWO — "01 · The signals" and 02's chapter-mark
+             live in .scene-fallback, which only no-JS and reduced-motion visitors see. He
+             was naming what is on his screen; those two are not. Left alone deliberately. -->
         <h2 data-reveal>Where would you like to <em>begin</em>?</h2>
       </div>
     </div>
@@ -1960,15 +1997,15 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
         <a class="link-arrow" data-soon>Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
       </article>
     </div>
-    <div class="wrap">
-      <!-- HIS CORRECTION 2026-08-11: the entry offer is a FREE 10-MINUTE DISCOVERY
-           CALL WITH IRINA, the same offer the landing page's chapter 03 sells. It
-           sits once, under the whole set — the three doors above are for reading,
-           not for booking, which is why none of them carries a red pill.
-           ⚠️ Ten minutes is the only duration on the page: a "45 min" line was
-           removed on 2026-08-10 by his call. Don't reintroduce the other. -->
-      <p class="svc-note" data-reveal>Not sure which fits? Start with a <strong>free 10-minute discovery call</strong> — Irina will listen, and point you to the right one.</p>
-    </div>
+    <!-- ⚠️ THE DISCOVERY-CALL NOTE IS GONE FROM HERE — his call 2026-08-13 (late), and it is
+         a MOVE rather than a deletion. It read "Not sure which fits? Start with a free
+         10-minute discovery call — Irina will listen, and point you to the right one."
+         The offer, Irina, and the ten minutes all survive: they are now 08, where the page
+         asks for the booking once, at the end, instead of interrupting the doors to do it.
+         ⚠️ WHAT THE OLD NOTE GOT RIGHT AND 08 INHERITS: ten minutes is still the only
+         duration on the page (a "45 min" line was cut on 2026-08-10), and the doors still
+         carry no red pill — they are for reading, and the call is the way in.
+         ⚠️ Its twin came out of #services-live in the same edit. Two sections, one change. -->
   </section>
 
   <!-- ══════════ 04 ALT · CONSULTATIONS, THE LIVING ORBS ══════════════════════════════
@@ -1988,6 +2025,11 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
   <section class="services sec-pad" id="services-live">
     <div class="wrap">
       <div class="sec-head">
+        <!-- ⚠️ THIS ONE SURVIVES THE KICKER CULL, AND ONLY UNTIL HE PICKS. He named 04, 05,
+             06 and 07; he did not name this, and it is not page copy — it is the A/B label,
+             and with both sections' kickers gone the two would be identical apart from
+             whether the orbs move. Anyone scrolling past would meet "Where would you like to
+             begin?" twice with nothing saying why. It goes with the losing section. -->
         <p class="kicker">04 alt · Consultations — living orbs</p>
         <h2 data-reveal>Where would you like to <em>begin</em>?</h2>
       </div>
@@ -2018,16 +2060,14 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
         <a class="link-arrow" data-soon>Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
       </article>
     </div>
-    <div class="wrap">
-      <p class="svc-note" data-reveal>Not sure which fits? Start with a <strong>free 10-minute discovery call</strong> — Irina will listen, and point you to the right one.</p>
-    </div>
+    <!-- the discovery-call note came out here too — see its twin in #services above -->
   </section>
 
   <!-- ══════════ 05 · BOOSTER PROGRAMS ══════════ -->
   <section class="boost sec-pad" id="boosters">
     <div class="wrap">
       <div class="sec-head">
-        <p class="kicker">05 · Booster programs</p>
+        <!-- kicker "05 · Booster programs" removed 2026-08-13 (late) — see the note in 04 -->
         <h2 data-reveal>Two ways to go <em>further</em>.</h2>
       </div>
       <p class="boost-sub" data-reveal>Pair your hormone care with the systems that amplify it.</p>
@@ -2099,7 +2139,7 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
   <section class="stories sec-pad" id="stories">
     <div class="wrap">
       <div class="sec-head">
-        <p class="kicker">06 · In their words</p>
+        <!-- kicker "06 · In their words" removed 2026-08-13 (late) — see the note in 04 -->
         <h2 data-reveal>The mornings they <em>got back</em>.</h2>
       </div>
       <!-- ⚠️ THE REVEAL LIVES ON THE RAIL, NOT ON EACH STORY. Each .story is held at opacity 0
@@ -2148,7 +2188,7 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
   <section class="faq sec-pad" id="faq">
     <div class="wrap faq-grid">
       <div class="faq-side">
-        <p class="kicker">07 · Questions</p>
+        <!-- kicker "07 · Questions" removed 2026-08-13 (late) — see the note in 04 -->
         <h2 data-reveal>Asked often, answered <em>honestly</em>.</h2>
         <p data-reveal>Everything here is also exactly what your first consultation is for —
         no question is too small, and none of them are silly.</p>
@@ -2250,9 +2290,32 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
   <section class="final sec-pad" id="book">
     <span class="final-star" aria-hidden="true">✦</span>
     <div class="wrap">
-      <p class="kicker">Begin here</p>
-      <h2 data-reveal>Ready to feel like <em>yourself</em> again?</h2>
-      <a class="btn on-dark" href="#" data-book>Book a consultation <span class="arr">→</span></a>
+      <!-- ⚠️ 08 IS THE DISCOVERY CALL NOW, AND IRINA IS IN IT — his call 2026-08-13 (late).
+           What left: the kicker "Begin here" and the headline "Ready to feel like yourself
+           again?", both named. What arrived is not new copy so much as RELOCATED copy — the
+           offer that used to interrupt the doors at 04 ends the page instead, which is why
+           those two <p class="svc-note"> lines came out in the same edit. One ask, at the
+           end, from a named person.
+           ⚠️ THE HEADLINE AND THE BODY ARE HIS OWN APPROVED WORDS, ported from the landing
+           page's chapter 03 (ch3.h2 / ch3.body), which sells this exact call. Reproduced so
+           the two pages make the same promise in the same voice, with ONE word changed:
+           "complimentary" → "free 10-minute", because ten minutes is this page's own
+           established duration and it would otherwise have left the page with the note that
+           carried it. A "45 min" line was cut on 2026-08-10 — do not reintroduce it.
+           ⚠️ The em lands on "clarity" — end of the sentence, the one hopeful word, and the
+           rose accent every approved headline on this page ends with.
+           ⚠️ NO PORTRAIT, AND THAT IS A MISSING ASSET RATHER THAN A DESIGN CHOICE. There is
+           no photograph of her in images/ — bazaar.webp is the Harper's Bazaar cover and
+           consult-room-* is the room, which is what the landing page stands her copy on. If
+           he supplies a portrait this section is where it goes; flagged to him.
+           ⚠️ data-book STAYS INERT, like every CTA on both pages (see the click handler at
+           the foot of the file). Wiring it is a scheduler decision, not a markup one. -->
+      <h2 data-reveal>Start with a conversation, leave with <em>clarity</em>.</h2>
+      <p data-reveal>Meet <strong>Irina Bond</strong>, the founder of Medi-Gyn and Hormone
+      Health Educator. During your <strong>free 10-minute discovery call</strong>, she will
+      help you understand your concerns, answer your questions, and help you explore the next
+      step with clarity and confidence.</p>
+      <a class="btn on-dark" href="#" data-book>Book a free discovery call <span class="arr">→</span></a>
     </div>
   </section>
 

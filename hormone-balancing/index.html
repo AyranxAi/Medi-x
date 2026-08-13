@@ -381,8 +381,9 @@ section{position:relative}
    ~4.5% lighter, ratio 1.09. That reads as "it got lighter", which is what a section
    change is supposed to read as; the failure above was a temperature flip at NO lightness
    step. 04 also opens on its own kicker and headline, so the reader is told twice. If he
-   ever calls this edge out, the fix is to give #services and #services-live the dawn, not
-   to move this section back.
+   ever calls this edge out, the fix is to give #services the dawn, not to move this
+   section back. (It read "#services and #services-live" until the A/B was decided on
+   2026-08-13, late — there is one consultations section now.)
    ⚠️ THE ALTERNATION IS NOT BROKEN BY THIS, IT IS RESTORED — AND CREAM LEFT THE PAGE
    ENTIRELY ON 2026-08-13 (late). Page ground now runs dawn(03, above the scene) →
    ivory(04) → dawn(05) → ivory(06) → dawn(07) → burgundy(08) → cream(footer).
@@ -604,53 +605,20 @@ section{position:relative}
    doors' ask still does not travel with it — this override is the whole point. */
 .door .link-arrow{color:var(--logo-red);margin-top:14px;font-size:15px}
 
-/* ═══ 04 ALT · THE LIVING ORBS — A/B, NOT A REPLACEMENT ═══════════════════════════════
-   His ask 2026-08-13 (evening): "create a whole new section under it, same thing except
-   the orbs will use the actual 3d we made". So this is the SAME SECTION — same head, same
-   questions, same names, same Explore, same discovery-call note — with one variable
-   changed: a WebGL2 orb drawn every frame instead of a still render. Anything else that
-   differs between the two sections is a bug in the comparison.
-   ⚠️ IT IS DELIBERATELY NOT RENUMBERED, AND THAT IS HIS CALL TOO. Both sections wear
-   "04", because two chapter fours is exactly what an A/B looks like on a page and a real
-   05 here would mean renumbering Booster / Stories / FAQ for something built to have one
-   half deleted. When he picks, the loser goes and the survivor is already numbered.
-   ⚠️ THE SHADER IS RECOVERED, NOT REWRITTEN — it is the engine from 4d798db, retired on
-   2026-08-12 when the static family was approved. It was already house-patterned on the
-   silk hero (reduced-motion, in-view gating, DPR cap, fallback-on-first-frame), so the
-   only thing this section changes is where it mounts. See the script at the foot.
-   ⚠️ THE MOUNT MATCHES .service-orb's FOOTPRINT ON PURPOSE — square, min(100%,29rem), the
-   same 31rem on phones. A like-for-like judgement needs the two orbs to occupy the same
-   box; if this one were bigger he would be picking a size, not a technique. The shader
-   draws its body at R=.80 of the canvas (23.2rem at the ceiling) against the still
-   family's 74%-of-square at --circle-scale 1.16 (24.9rem) — inside 7%, which is as close
-   as a procedural silhouette and a photographed one get without faking one of them. */
-.orb{
-  position:relative;aspect-ratio:1;width:min(100%,29rem);
-  display:flex;align-items:center;justify-content:center;
-}
-/* ⚠️ THE CANVAS IS SQUARE AND THE ENGINE SIZES IT, not this rule — the shader composes in
-   centred -1..1 coords, so a non-square buffer draws an egg. These are caps only. */
-.orb__gl{display:block;width:100%;height:100%;max-width:100%;max-height:100%}
-/* ⚠️ ::before IS THE FALLBACK ORB, IN PURE CSS, AND IT IS NOT OPTIONAL DRESSING. It is
-   what stands when there is no JS, no WebGL2, or a context that dies during setup — the
-   engine grants .orb--live only on a successfully DRAWN frame, so every failure path
-   leaves a gradient orb rather than an empty cream void where a picture should be. */
-.orb::before{
-  content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-  width:80%;aspect-ratio:1;border-radius:50%;
-  background:
-    radial-gradient(38% 38% at 46% 44%,#FFF9F0 0%,rgba(255,249,240,.85) 20%,rgba(255,249,240,0) 52%),
-    radial-gradient(closest-side at 50% 50%,rgba(255,255,255,0) 55%,var(--orb-deep) 96%),
-    radial-gradient(100% 100% at 50% 42%,var(--orb-mid) 0%,var(--orb-deep) 92%);
-}
-.orb--live::before{display:none}
-/* One tint per service, every value from BRAND.md: the wine pair for BHRT, the rose
-   (deepened for its rim the way the render deepens it), the gold pair for TRT. The
-   shader carries the same three in its TINTS table — they are one decision in two
-   places because the fallback has to be the same object as the live orb. */
-.door--bhrt{--orb-deep:#5C1F31;--orb-mid:#8E2D3A}
-.door--menopause{--orb-deep:#A5756C;--orb-mid:#C79A92}
-.door--trt{--orb-deep:#8A6A34;--orb-mid:#C2A05E}
+/* ⚠️ 04 ALT AND ITS LIVING ORBS ARE GONE — HIS CALL 2026-08-13 (late): "remove the
+   alternative orb as we have one that is vortex and is good". The A/B is decided. The
+   still renders win; the WebGL orbs, their CSS fallback and the engine that drew them
+   are deleted whole, which is what the A/B note always said would happen to the loser —
+   there was nothing to merge, because the two sections differed in exactly one thing.
+   THREE THINGS WENT, and this is the list the old note promised:
+     · <section id="services-live"> and its .doors--live grid
+     · the .orb / .orb__gl / .orb::before / .orb--live rules and the three --orb-deep /
+       --orb-mid tint pairs that stood here
+     · the <script type="module"> at the foot of the file that compiled the shader
+   Recovering them is one `git revert` of this commit, or 4d798db for the original engine.
+   ⚠️ NOTHING BELOW STILL NAMES .orb. The one selector that did — `.service-orb,.orb` in
+   the 45rem media block — was cut back to `.service-orb` in the same pass, because a
+   selector matching a class that no longer exists is how a stylesheet starts lying. */
 .boost{padding-block-start:clamp(52px,7vh,86px)}
 @media(max-width:69rem){
   .doors{grid-template-columns:repeat(2,minmax(0,1fr));max-width:60rem}
@@ -668,9 +636,12 @@ section{position:relative}
 @media(max-width:45rem){
   .doors{grid-template-columns:1fr;gap:clamp(40px,11vw,64px);padding-inline:16px}
   .door:last-child{grid-column:auto;width:100%}
-  /* both families take the same phone width — see the A/B note above: the comparison is
-     only honest while the two orbs occupy the same box at every breakpoint */
-  .service-orb,.orb{width:min(100%,31rem)}
+  /* ⚠️ WAS `.service-orb,.orb` — the .orb half went with the A/B on 2026-08-13 (late).
+     Its reason is worth one line because it is a rule that looks arbitrary alone: both orb
+     families had to take the same phone width, or the comparison would have been between
+     two SIZES rather than two techniques. There is one family now, and 31rem is simply its
+     phone ceiling. */
+  .service-orb{width:min(100%,31rem)}
   /* the two-line reserve comes OFF in the one-column stack — with nothing beside a door
      to align to, it is not a baseline any more, only a gap under the shorter strings */
   .door .hook,.door h3{min-height:0}
@@ -1248,7 +1219,7 @@ html.faq-boxed .faq-a p{padding-right:24px}
    page arrived at on the same photograph.
    ⚠️ MEASURED, NOT EYEBALLED — tools/qa/final-contrast.mjs. The landing page's own note on
    this exact frame is the reason: "this frame is bright right where the headline sits". */
-.final{background:var(--burgundy);color:var(--ivory);text-align:left;overflow:hidden;
+.final{background:var(--ivory);color:var(--ink);text-align:left;overflow:hidden;
   position:relative;isolation:isolate;
   min-height:min(88vh,720px);display:flex;align-items:flex-end}
 @media (min-width:900px){ .final{align-items:center} }
@@ -1260,14 +1231,14 @@ html.faq-boxed .faq-a p{padding-right:24px}
 .final::after{
   content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
   background:
-    linear-gradient(to top,rgba(71,24,38,.94) 0%,rgba(71,24,38,.80) 38%,rgba(71,24,38,.42) 68%,rgba(71,24,38,.10) 92%),
-    linear-gradient(to right,rgba(71,24,38,.44) 0%,rgba(71,24,38,0) 62%);
+    linear-gradient(to top,rgba(250,247,241,.96) 0%,rgba(250,247,241,.86) 38%,rgba(250,247,241,.46) 68%,rgba(250,247,241,.12) 92%),
+    linear-gradient(to right,rgba(250,247,241,.42) 0%,rgba(250,247,241,0) 62%);
 }
 @media (min-width:900px){
   .final::after{
     background:
-      linear-gradient(to right,rgba(71,24,38,.96) 0%,rgba(71,24,38,.93) 40%,rgba(71,24,38,.60) 58%,rgba(71,24,38,.16) 82%,rgba(71,24,38,0) 97%),
-      linear-gradient(to top,rgba(71,24,38,.26) 0%,rgba(71,24,38,0) 55%);
+      linear-gradient(to right,rgba(250,247,241,.94) 0%,rgba(250,247,241,.90) 40%,rgba(250,247,241,.58) 58%,rgba(250,247,241,.14) 82%,rgba(250,247,241,0) 97%),
+      linear-gradient(to top,rgba(250,247,241,.24) 0%,rgba(250,247,241,0) 55%);
   }
 }
 .final .wrap{position:relative;z-index:1}
@@ -1280,8 +1251,8 @@ html.faq-boxed .faq-a p{padding-right:24px}
    across two of them. 54px gives three, measured at 1440/1600/1920.
    ⚠️ The floor stays 32px — the phone sets it in the base of a portrait frame where it has
    the full column width and reads at three lines already. Only the cap moved. */
-.final h2{color:var(--ivory);font-size:clamp(32px,3.7vw,54px);margin:0;max-width:11.5em;
-  text-shadow:0 1px 30px rgba(46,20,28,.45)}
+.final h2{color:var(--ink);font-size:clamp(32px,3.7vw,54px);margin:0;max-width:11.5em;
+  text-shadow:0 1px 26px rgba(250,247,241,.7)}
 /* ⚠️ "10-minute" MUST NOT BREAK AT ITS HYPHEN. It did, at 1440, and a duration split across
    two lines reads as two numbers. This is the only thing this class is for; it is not a
    general utility and there is no second use on the page. */
@@ -1291,7 +1262,11 @@ html.faq-boxed .faq-a p{padding-right:24px}
    the rose italic out into the bright half of the photograph. Widening this means re-running
    tools/qa/final-contrast.mjs, every time. */
 @media (min-width:900px){ .final h2{max-width:min(46%,11em)} }
-.final h2 em{color:var(--rose)}
+/* ⚠️ THE ACCENT IS THE ONE RED NOW, NOT THE ROSE. Rose is the accent for DARK grounds —
+   it measures 5.93 on burgundy and 1.27 on a light one, which is invisible. On the ivory
+   the page's own --logo-red is the correct half of that pair, and it is what every other
+   headline on this page already uses; 08 was the exception only because 08 was dark. */
+.final h2 em{color:var(--logo-red)}
 /* ⚠️ NOTHING USES THIS RIGHT NOW — the paragraph came out on 2026-08-13 (late), his "we
    don't need a subtext". Kept, unlike .svc-note which was deleted the same day, because the
    two are not the same bet: .svc-note's markup is gone from the page for good, while this
@@ -1317,10 +1292,46 @@ html.faq-boxed .faq-a p{padding-right:24px}
        font-size:340px;color:rgba(199,154,146,.07);font-family:var(--serif);line-height:1}
    If 08 ever goes back to a flat ground, that is the whole of it. */
 /* footer — ported from the Medi✦X landing */
+/* ══ THE FOOTER IS A TRUE COPY OF THE LANDING PAGE'S — HIS CALL 2026-08-13 (late) ═══════
+   "the footer in the hormone balancing page is not the same as the landing page in size
+   and in font, please copy it and make it a true copy". Every RULE here was already a
+   character-for-character copy of the landing page's — the drift was not in the footer at
+   all, it was two things this page inherits and that page does not, plus one global that
+   reaches inside:
+     1 · font-weight. body is 300 here and 400 there, and weight inherits — so every line
+         in the footer set in NOW Light instead of NOW Regular. The landing page's own note
+         says why 400: "NOW Regular, not Light: almost all copy on this site sits over a
+         photograph, and Light goes to mush there."
+     2 · line-height. body is 1.6 here and unset there, so every footer line box was 1.6x
+         its font-size instead of the font's own — .f-mail 24.3px against 19, .f-base p
+         17.9 against 13. That is where "not the same size" came from: nothing was a
+         different size, everything had a different LEADING, and the grid measured 177px
+         against 162.
+     3 · .f-head is an <h3>, and this page has a global `h1,h2,h3{font-family:var(--serif)}`
+         that the landing page does not. So "NEWSLETTER" and "CONTACT US" were set in
+         PLAYFAIR here and in NOW there — the one difference that is a genuinely different
+         typeface rather than a different cut of the same one.
+   ⚠️ ALL THREE ARE FIXED HERE, INSIDE THE FOOTER, AND NOT AT :root. The 300 and the 1.6
+   are this page's own voice everywhere above the footer and changing them globally would
+   restyle every section to fix one. A footer that has to opt out of its host page is the
+   correct shape for a component copied between two pages that do not share a stylesheet.
+   ⚠️ THIS IS ALSO THE WHOLE LIST. Measured after: every computed value the two footers
+   report — family, size, weight, tracking, leading, colour, fill, padding and box — is
+   now identical at 1440, both landing at 1440x305 with a 1267x162 grid. Re-run that
+   comparison before believing any future "fix" here.
+   ⚠️ ONE VALUE IS DELIBERATELY NOT COPIED: the INHERITED colour. The landing page's footer
+   inherits ivory, because its body is ivory-on-ink; ours inherits our ink. Nothing in
+   either footer paints with it — every element that draws text sets its own colour, which
+   is why the two render identically anyway — but ivory inherited onto a cream ground is an
+   invisible-text bug waiting for the first element that forgets, and copying a latent fault
+   is not what "true copy" means. Ours is the safe one of the two. */
 footer{
   background:var(--cream);padding:3rem clamp(1.25rem,6vw,6rem) 1.6rem;
   border-top:1px solid rgba(71,24,38,.14);
+  font-weight:400;line-height:normal;
 }
+/* the h1,h2,h3 serif rule at the top of this file must not reach into a copied component */
+footer .f-head{font-family:var(--sans);font-weight:500;line-height:normal}
 footer .fw{max-width:1400px;margin:0 auto;position:relative}
 .f-grid{
   display:grid;grid-template-columns:auto auto auto;justify-content:start;
@@ -2077,62 +2088,8 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
          ⚠️ WHAT THE OLD NOTE GOT RIGHT AND 08 INHERITS: ten minutes is still the only
          duration on the page (a "45 min" line was cut on 2026-08-10), and the doors still
          carry no red pill — they are for reading, and the call is the way in.
-         ⚠️ Its twin came out of #services-live in the same edit. Two sections, one change. -->
-  </section>
-
-  <!-- ══════════ 04 ALT · CONSULTATIONS, THE LIVING ORBS ══════════════════════════════
-       HIS ASK 2026-08-13 (evening): the same section again, with the 3D orbs we built
-       instead of the still renders — so he can see them side by side on the live page
-       and pick one. It is an A/B, and it is meant to be short-lived: WHEN HE CHOOSES,
-       DELETE THE LOSING SECTION WHOLE. There is nothing to merge — the two are identical
-       apart from the orb, which is the entire point of the exercise.
-       ⚠️ DELETING THE LIVE ONE MEANS DELETING THREE THINGS, NOT ONE: this section, the
-       .orb / .orb__gl / .orb--live / --orb-deep block in the stylesheet, and the living-orb
-       script at the foot of the file. Deleting the still one is this section's twin above
-       plus the .service-orb block. Each is marked.
-       ⚠️ NOT RENUMBERED — see the stylesheet note. Two chapter fours is what an A/B looks
-       like; the kicker is what tells them apart, and it is the ONLY copy difference.
-       ⚠️ id="services-live" — the header menu and the hero's ghost button both point at
-       #services, which stays with the section above. Do not give this one that id. -->
-  <section class="services sec-pad" id="services-live">
-    <div class="wrap">
-      <div class="sec-head">
-        <!-- ⚠️ THIS ONE SURVIVES THE KICKER CULL, AND ONLY UNTIL HE PICKS. He named 04, 05,
-             06 and 07; he did not name this, and it is not page copy — it is the A/B label,
-             and with both sections' kickers gone the two would be identical apart from
-             whether the orbs move. Anyone scrolling past would meet "Where would you like to
-             begin?" twice with nothing saying why. It goes with the losing section. -->
-        <p class="kicker">04 alt · Consultations — living orbs</p>
-        <h2 data-reveal>Where would you like to <em>begin</em>?</h2>
-      </div>
-    </div>
-    <!-- ⚠️ .doors--live IS THE ENGINE'S HOOK, not a style class. The script binds to
-         ".doors--live .door" so it can never reach into the still section above; drop the
-         modifier and the orbs simply do not start (the engine skips any door with no
-         canvas in it, so nothing breaks — it just goes quiet, which is worse to debug).
-         The canvas is decoration, exactly like the still <img> above it: aria-hidden, and
-         the service name is real text underneath in both sections. -->
-    <div class="doors doors--live">
-      <article class="door door--bhrt">
-        <div class="orb" aria-hidden="true"><canvas class="orb__gl"></canvas></div>
-        <span class="hook">“Still cycling and noticing changes?”</span>
-        <h3>Hormone Therapy BHRT</h3>
-        <a class="link-arrow" data-soon>Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
-      </article>
-      <article class="door door--menopause">
-        <div class="orb" aria-hidden="true"><canvas class="orb__gl"></canvas></div>
-        <span class="hook">“Twelve months or more since your last period?”</span>
-        <h3>Modern Menopause</h3>
-        <a class="link-arrow" data-soon>Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
-      </article>
-      <article class="door door--trt">
-        <div class="orb" aria-hidden="true"><canvas class="orb__gl"></canvas></div>
-        <span class="hook">“Concerned about male hormone health?”</span>
-        <h3>Testosterone Top Up</h3>   <!-- his name for it — see the twin door in 04 above -->
-        <a class="link-arrow" data-soon>Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
-      </article>
-    </div>
-    <!-- the discovery-call note came out here too — see its twin in #services above -->
+         ⚠️ It had a twin in the 04 ALT section, removed in the same edit; that whole section
+         is gone now (2026-08-13, late) and this is the only consultations section left. -->
   </section>
 
   <!-- ══════════ 05 · BOOSTER PROGRAMS ══════════ -->
@@ -2394,6 +2351,19 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
        one to a desktop letterboxes it. The media switch is the whole point of the ask.
        ⚠️ THE STAR IS GONE. .final-star was a 340px ✦ at 7% ivory, which is legible on flat
        burgundy and reads as a smudge on a photograph.
+       ⚠️ THE WASH IS IVORY, NOT BURGUNDY — his call 2026-08-13 (late), "let's try to ship
+       ivory for Irina". It shipped burgundy for one round and he was right about it: a
+       scrim has to sit at ~.93 to make type readable, and at that strength burgundy was not
+       tinting the photograph but replacing it — her white suit, the roses and the marble all
+       went pink. Ivory lets the room keep its own light. THREE THINGS FLIP TOGETHER and the
+       section is broken if any one of them is missed: the wash, the type (ink, with the em
+       in --logo-red rather than --rose), and the button (.btn, not .btn.on-dark).
+       ⚠️ IT MEASURES BETTER, WHICH WAS NOT THE ARGUMENT BUT IS THE HAPPY PART: every control
+       clears by roughly double the burgundy's margin — the accent italic goes from 3.57 at
+       its tightest to 5.62. Re-run tools/qa/final-contrast.mjs on any change, as before.
+       ⚠️ WHAT IT COSTS: the page now has NO dark section at all. The burgundy at 08 was the
+       one dark moment on the way down, and the scroll story is the only dark left. Flagged
+       to him and accepted — six screens of ink earn the contrast on their own.
        ⚠️ THE SUBTEXT WENT AND HER NAME WENT WITH IT — flagged, not hidden. The paragraph
        carried "Irina Bond, the founder of Medi-Gyn and Hormone Health Educator", and it was
        the only place this page ever named her. She is now in the picture instead of in the
@@ -2418,7 +2388,11 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
            thing being asked for — and because every approved headline on this page ends on a
            rose italic. -->
       <h2 data-reveal>Not sure which fits? Start with a <em>free <span class="nb">10-minute</span> discovery call</em>.</h2>
-      <a class="btn on-dark" href="#" data-book>Book a free discovery call <span class="arr">→</span></a>
+      <!-- ⚠️ .btn, NOT .btn.on-dark — the ground flipped on 2026-08-13 (late) and the pill
+           had to flip with it. on-dark is an ivory fill with a burgundy label, which is an
+           invisible object on an ivory wash; the page's ordinary red pill is the one thing
+           on this screen carrying saturation now, which is exactly what a single CTA wants. -->
+      <a class="btn" href="#" data-book>Book a free discovery call <span class="arr">→</span></a>
     </div>
   </section>
 
@@ -3610,9 +3584,10 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
            sent anyone who asked to leave the scene four screens BACKWARDS into the segment
            they had already read. The rule is the intent, not the id: skip lands on the
            first section AFTER the stage, which is #services.
-           ⚠️ #services, NOT #services-live — the A/B twin is second and the header menu and
-           the hero's ghost button both already point at #services. When he picks one and
-           the loser is deleted whole, this id has to be the one that survives.
+           ⚠️ #services WAS CHOSEN OVER #services-live WHEN BOTH EXISTED, and that call is
+           why nothing broke when the A/B was decided: the header menu and the hero's ghost
+           button already pointed here, so the id that survived the deletion is the id this
+           already used. There is one consultations section now.
            The st.end+1 fallback stays: +1 clears the pin, so even with no target the reader
            lands past the stage rather than on the last frame of it. */
         case "skip": seek=null; {
@@ -3634,345 +3609,16 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
 })();
 </script>
 
-<script type="module">
-/* ═══════════ The living orbs — the 04 ALT doors, rebuilt as REAL glass ═══════════
-   HIS NOTE 2026-08-13 (evening): "the 3d kinda feels wacky … it feels like its fake 3d …
-   a 3d bubble in 3js or something … or blender glb?"
-
-   ⚠️ HE WAS DIAGNOSING SOMETHING REAL: THE OLD ORB WAS NOT 3D AT ALL. What stood here was a
-   fragment shader painting a DISC — a fake-sphere term (`z = sqrt(1-r²)`) shaded by chord
-   length, with wisps, filaments and rim speculars drawn as 2D functions of the pixel's
-   angle. Nothing was ever behind anything. That is why it read as a sticker of a ball: the
-   eye knows glass by watching it BEND what is behind it, and there was nothing to bend. No
-   amount of tuning that shader fixes it — the missing thing is not detail, it is parallax.
-
-   ⚠️ SO THIS IS AN ACTUAL SPHERE. A displaced sphere in MeshPhysicalMaterial with
-   `transmission`, which makes Three render the rest of the scene into a buffer and REFRACT
-   it through the shell. The pigment is VOLUME ABSORPTION (`attenuationColor` /
-   `attenuationDistance`), not a painted gradient: coloured glass is dark where the light's
-   path through it is long, so the rim deepens and the centre stays pale for free, and it
-   stays correct while the silhouette wobbles — which a hand-built ramp could not.
-
-   ⚠️ WHY NOT A BLENDER GLB — his other suggestion, and it is worth recording as a NO.
-   A GLB carries GEOMETRY. It does not carry the glass: on the page it would still need
-   transmission, an IOR, an environment to reflect and a renderer to refract in — exactly
-   the material below — plus a loader and megabytes. A sphere is one line of geometry; it is
-   the least valuable thing a GLB could bring. And the BAKED option, which is the real reason
-   to reach for Blender, ALREADY EXISTS: it is section 04's still renders. Baked vs live is
-   precisely the A/B he is judging, so a GLB is not a third option, it is the first one with
-   extra steps. The same reasoning is on record for the scene's Venus.
-
-   ═══ THE THREE THINGS THAT WERE WRONG ON THE WAY HERE, so nobody re-introduces them ═══
-
-   ⚠️ 1 · GEOMETRY MUST BE SphereGeometry, NOT IcosahedronGeometry. Icosahedron comes out of
-   PolyhedronGeometry NON-INDEXED — every triangle owns its vertices — so
-   computeVertexNormals() can only produce FLAT normals and the orb renders as a visible
-   geodesic dome at any detail level. Sphere is indexed; neighbours share vertices; the same
-   call gives smooth normals. The first render was faceted for exactly this reason.
-
-   ⚠️ 2 · thickness AND attenuationDistance ARE ONE SETTING. Beer–Lambert: what survives the
-   glass is exp(−thickness / attenuationDistance). The first pass used 2.1 over .52 — a ratio
-   of 4, i.e. 1.8% transmitted — so the orb swallowed 98% of everything including its own
-   core and read as a dark stone. TUNE THE RATIO, never one number: raising thickness for a
-   "chunkier" look without raising attenuationDistance darkens the glass exponentially.
-
-   ⚠️ 3 · THE ENVIRONMENT DOES ALMOST ALL THE WORK, AND IT MUST BE HIGH CONTRAST. This was
-   the big one. A soft, pale, low-contrast studio — which is what you reach for on an ivory
-   page — renders the orb as flat mush with no rim and no specular, because glass is only
-   visible as the CONTRAST it reflects. Rendered side by side, the same material under a soft
-   env and under a dark surround with bright strip softboxes were unrecognisable as the same
-   object. So the environment is a DARK warm room with three crisp light strips, and it never
-   appears on screen — only its reflection does. Do not "brighten it to match the page".
-   Feathered rectangles, not radial blobs: blobs read as haze, strips read as glass.
-
-   ⚠️ AND WHY THE GLOW IS A SECOND PASS. The core cannot live inside the refracted scene: the
-   transmission buffer's background is the page's ivory, so a white-hot core on near-white
-   ground is invisible — it measured as literally nothing. The interior light is therefore
-   drawn AFTER the glass, additively, with depthTest off. The nebula is still a real displaced
-   mesh turning in 3D against the shell, and the core is a sprite whose starburst matches the
-   still renders'. Anything additive in this pass needs SOFT falloff — a plain additive sphere
-   punches a hard-edged white hole and reads as a bite taken out of the orb.
-
-   HOUSE-PATTERNED ON THE SILK HERO: reduced-motion renders ONE considered frame and stops;
-   a per-orb IntersectionObserver stops off-screen work; document.hidden stops all of it; DPR
-   capped at 1.5. Transmission costs an extra pass per orb per frame, so the loop is throttled
-   to ~34fps — at this size and rotation speed the difference is invisible and it is a third
-   of the GPU.
-
-   ⚠️ THIS DEPENDS ON THE CDN, unlike the raw-GL version it replaces. The fallback story is
-   what carries that: `.orb--live` is still granted only on a successfully rendered frame, so
-   no Three, no WebGL2, or a context that dies mid-setup all leave the pure-CSS gradient orb
-   standing. What is lost is the live orb, never the door. Three is already on the page for
-   the hero silk, so this adds no new request. */
-try {
-  const doors = [...document.querySelectorAll(".doors--live .door")];
-  if (doors.length) {
-    const THREE = await import("three");
-    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const DPR = Math.min(devicePixelRatio || 1, 1.5);
-
-    /* BRAND.md values. `deep` is what the glass absorbs toward — the rim colour — and `mid`
-       lights the interior nebula. `dist` is per-orb because the three pigments are not
-       equally dark: one attenuation distance across all three would sink the burgundy while
-       leaving the rose watery. Same reason the still family needed per-orb glass values. */
-    /* ⚠️ `neb` AND `core` ARE PER-ORB FOR THE SAME REASON `dist` IS, and the rose is why.
-       The interior light is a FIXED amount of white added on top of whatever the glass
-       transmits, so on the darkest pigment it reads as a starburst and on the palest it
-       simply saturates — the first render blew the Modern Menopause orb into a featureless
-       white blob while the burgundy beside it was perfect. Pale glass gets a shorter
-       attenuation distance (more pigment) AND a dimmer core; the two together are what keep
-       the family looking like one set of objects lit the same way. */
-    const TINTS = {
-      "door--bhrt":      { deep: 0x5C1F31, mid: 0xC79A92, dist: 1.70, neb: .55, core: .95, seed: 1.3 },
-      "door--menopause": { deep: 0xA5756C, mid: 0xE8CFC6, dist: 1.38, neb: .34, core: .62, seed: 4.7 },
-      "door--trt":       { deep: 0x8A6A34, mid: 0xE0C68A, dist: 1.80, neb: .48, core: .86, seed: 8.1 },
-    };
-
-    /* ── the room, painted rather than downloaded ─────────────────────────────────────
-       512×256 equirect through PMREMGenerator. A studio HDR is the usual answer and it is
-       a network dependency and a licence question; this is a canvas and three rectangles. */
-    const envTexture = (() => {
-      const cv = document.createElement("canvas");
-      cv.width = 512; cv.height = 256;
-      const x = cv.getContext("2d");
-      x.fillStyle = "#2A1D20";                       /* the dark warm room — never seen directly */
-      x.fillRect(0, 0, 512, 256);
-      /* a softbox: hard in the middle, feathered at all four edges, so the orb catches a
-         crisp bright arc with a soft end rather than a smear */
-      const strip = (cx, cy, w, h, a, col) => {
-        const g = x.createLinearGradient(cx - w / 2, 0, cx + w / 2, 0);
-        g.addColorStop(0, col.replace("A", 0));   g.addColorStop(.14, col.replace("A", a));
-        g.addColorStop(.86, col.replace("A", a)); g.addColorStop(1, col.replace("A", 0));
-        const fade = x.createLinearGradient(0, cy - h / 2, 0, cy + h / 2);
-        fade.addColorStop(0, "rgba(0,0,0,.55)"); fade.addColorStop(.3, "rgba(0,0,0,0)");
-        fade.addColorStop(.7, "rgba(0,0,0,0)");  fade.addColorStop(1, "rgba(0,0,0,.55)");
-        x.save(); x.beginPath(); x.rect(cx - w / 2, cy - h / 2, w, h); x.clip();
-        x.fillStyle = g; x.fillRect(cx - w / 2, cy - h / 2, w, h);
-        x.globalCompositeOperation = "destination-out";
-        x.fillStyle = fade; x.fillRect(cx - w / 2, cy - h / 2, w, h);
-        x.globalCompositeOperation = "source-over"; x.restore();
-      };
-      strip(150,  44, 220, 58, 1,   "rgba(255,255,255,A)");  /* key, high left */
-      strip(400,  70, 120, 40, .8,  "rgba(255,247,238,A)");  /* fill, right */
-      strip(256, 186, 300, 34, .95, "rgba(255,243,230,A)");  /* the bright low band */
-      const t = new THREE.CanvasTexture(cv);
-      t.mapping = THREE.EquirectangularReflectionMapping;
-      t.colorSpace = THREE.SRGBColorSpace;
-      return t;
-    })();
-
-    /* the core's starburst — the still renders have one, so the live orb has the same one */
-    const coreTexture = (() => {
-      const S = 256, cv = document.createElement("canvas");
-      cv.width = cv.height = S;
-      const x = cv.getContext("2d"), c = S / 2;
-      x.save(); x.translate(c, c);
-      for (let i = 0; i < 12; i++) {
-        const a = i / 12 * Math.PI * 2, len = c * (i % 2 ? .62 : .95), w = i % 2 ? .05 : .085;
-        const g = x.createLinearGradient(0, 0, Math.cos(a) * len, Math.sin(a) * len);
-        g.addColorStop(0, "rgba(255,255,255,.85)"); g.addColorStop(1, "rgba(255,255,255,0)");
-        x.fillStyle = g; x.beginPath(); x.moveTo(0, 0);
-        x.lineTo(Math.cos(a - w) * len, Math.sin(a - w) * len);
-        x.lineTo(Math.cos(a + w) * len, Math.sin(a + w) * len);
-        x.closePath(); x.fill();
-      }
-      x.restore();
-      const g = x.createRadialGradient(c, c, 0, c, c, c);
-      g.addColorStop(0,   "rgba(255,255,255,1)");
-      g.addColorStop(.16, "rgba(255,255,255,.97)");
-      g.addColorStop(.34, "rgba(255,246,236,.55)");
-      g.addColorStop(.62, "rgba(255,235,214,.16)");
-      g.addColorStop(1,   "rgba(255,230,205,0)");
-      x.globalCompositeOperation = "lighter";
-      x.fillStyle = g; x.fillRect(0, 0, S, S);
-      const t = new THREE.CanvasTexture(cv);
-      t.colorSpace = THREE.SRGBColorSpace;
-      return t;
-    })();
-
-    /* ⚠️ SMOOTH AND LOW-FREQUENCY ON PURPOSE — the reference renders wobble like a droplet,
-       not like a rock. Three crossed sine products give a soft irregular bulge with no
-       facets. Anything higher frequency reads as noise once refraction magnifies it. */
-    const wob = (x, y, z, s) =>
-        Math.sin(x * 2.1 + s)       * Math.cos(y * 1.7 - s * 1.3) * .50
-      + Math.sin(y * 2.6 - s * .7)  * Math.cos(z * 2.2 + s)       * .34
-      + Math.sin(z * 1.9 + s * 1.7) * Math.cos(x * 2.4 - s)       * .28;
-
-    /* ⚠️ THE SEAM AND THE POLES ARE SAFE because displacement is a pure function of the
-       vertex's 3D POSITION: the duplicated seam vertices sit at the same point in space, so
-       they displace identically and cannot crack open. Displace by UV and it splits. */
-    const displaced = (seg, amp, seed) => {
-      const g = new THREE.SphereGeometry(1, seg, Math.round(seg * .6));
-      const p = g.attributes.position, v = new THREE.Vector3();
-      for (let i = 0; i < p.count; i++) {
-        v.fromBufferAttribute(p, i);
-        v.multiplyScalar(1 + wob(v.x, v.y, v.z, seed) * amp);
-        p.setXYZ(i, v.x, v.y, v.z);
-      }
-      g.computeVertexNormals();
-      return g;
-    };
-
-    /* the interior nebula: brightest where it faces the camera, fading to nothing at its own
-       silhouette, so it reads as a soft volume rather than a second ball inside the first */
-    const nebulaMat = (col, op) => new THREE.ShaderMaterial({
-      uniforms: { uC: { value: new THREE.Color(col) }, uO: { value: op } },
-      vertexShader: `varying vec3 vN; varying vec3 vP;
-        void main(){ vN = normalize(normalMatrix * normal);
-          vec4 mv = modelViewMatrix * vec4(position,1.); vP = mv.xyz;
-          gl_Position = projectionMatrix * mv; }`,
-      fragmentShader: `uniform vec3 uC; uniform float uO; varying vec3 vN; varying vec3 vP;
-        void main(){ float f = abs(dot(normalize(vN), normalize(-vP)));
-          gl_FragColor = vec4(uC, pow(f, 1.7) * uO); }`,
-      transparent: true, blending: THREE.AdditiveBlending,
-      depthWrite: false, depthTest: false,
-    });
-
-    const instances = [];
-    for (const door of doors) {
-      try {
-        const orb = door.querySelector(".orb"), canvas = door.querySelector(".orb__gl");
-        const key = [...door.classList].find(c => TINTS[c]);
-        if (!orb || !canvas || !key) continue;
-        const T = TINTS[key];
-
-        /* ⚠️ THE CANVAS IS OPAQUE AND ITS CLEAR COLOUR IS READ FROM THE SECTION, not typed.
-           Glass needs something behind it — with a transparent canvas the refracted ray
-           returns nothing and the orb collapses to a flat tint (measured). So the canvas
-           paints the section's own ground and the square is invisible against it. Reading it
-           from the DOM rather than hard-coding #FAF7F1 means it cannot drift if the section
-           is ever re-grounded — which is exactly what happened to 03 this same day. */
-        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-        const ground = getComputedStyle(door.closest("section")).backgroundColor;
-        renderer.setClearColor(new THREE.Color(ground), 1);
-        renderer.outputColorSpace = THREE.SRGBColorSpace;
-        renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.28;
-
-        const pmrem = new THREE.PMREMGenerator(renderer);
-        const envMap = pmrem.fromEquirectangular(envTexture).texture;
-
-        /* two scenes: the glass, then the light inside it — see the note on the second pass */
-        const glass = new THREE.Scene();  glass.environment = envMap;
-        const glow  = new THREE.Scene();
-
-        /* ⚠️ fov AND z ARE A PAIR, SET TO MATCH SECTION 04's FOOTPRINT. At fov 30 the
-           half-height at the origin is tan(15°)·z; z 4.55 gives 1.22, so a ~1.05 sphere
-           fills ~86% of the canvas — the share of its box that the still render's circle
-           occupies (74% of the square at --circle-scale 1.16). Change one and the A/B stops
-           comparing like with like. */
-        const cam = new THREE.PerspectiveCamera(30, 1, .1, 100);
-        cam.position.set(0, 0, 4.55);
-
-        /* ⚠️ .045 → .105, AND THIS IS THE OTHER HALF OF "where is the 3d effect".
-           A PERFECT SPHERE IS ROTATION-INVARIANT: its normals are the same whichever way you
-           turn it, so its reflections and refractions do not move AT ALL. At 4.5% the shell
-           was very nearly perfect, so even after the rotation was sped up the highlights sat
-           still and only the core drifted — measured, 6.7% of pixels changing per second.
-           The irregularity IS the landmark. At 10.5% the specular arcs sweep across the
-           surface as it turns, which is the thing that reads as dimensional. It is also
-           closer to the still renders, whose silhouettes are visibly dented rather than
-           round — so this moves the live orb toward the family, not away from it.
-           ⚠️ Do not push much past ~.13: the wobble starts reading as a deflated ball, and
-           the refraction magnifies any high-frequency component into noise. */
-        const shell = new THREE.Mesh(displaced(192, .105, T.seed), new THREE.MeshPhysicalMaterial({
-          transmission: 1, thickness: .95, ior: 1.46,
-          roughness: .04, metalness: 0,
-          clearcoat: 1, clearcoatRoughness: .05,
-          attenuationColor: new THREE.Color(T.deep),
-          attenuationDistance: T.dist,
-          iridescence: .2, iridescenceIOR: 1.25,
-          specularIntensity: 1, envMapIntensity: 1.8,
-        }));
-        glass.add(shell);
-
-        const nebula = new THREE.Mesh(displaced(96, .30, T.seed * 2.7), nebulaMat(T.mid, T.neb));
-        nebula.scale.setScalar(.60);
-        glow.add(nebula);
-
-        const core = new THREE.Sprite(new THREE.SpriteMaterial({
-          map: coreTexture, color: 0xFFFFFF, transparent: true, opacity: T.core,
-          blending: THREE.AdditiveBlending, depthWrite: false, depthTest: false,
-        }));
-        core.scale.setScalar(1);
-        glow.add(core);
-
-        const inst = { orb, canvas, renderer, glass, glow, cam, shell, nebula, core,
-                       sim: T.seed * 6, vis: true, hot: false, boost: 0, live: false, side: 0 };
-
-        /* ⚠️ SPEED IS WHAT MAKES THE 3D VISIBLE AT ALL — HIS CATCH 2026-08-13 (evening),
-           "where is the 3d effect". It shipped at y = t·0.09 rad/s, which is ONE FULL TURN
-           EVERY 70 SECONDS: 5° per second, on a smooth ball with no landmarks. The
-           refraction was real and correct and completely invisible, because a glance lasts
-           two or three seconds and the orb moved 15° in that time — indistinguishable from
-           a still image, which is exactly what he reported.
-           ⚠️ THE MOTION IS NOT DECORATION HERE, IT IS THE EVIDENCE. A static glass render
-           and a real refracting sphere look the same in a screenshot; the only thing that
-           proves the difference to a viewer is watching the interior slide as the shell
-           turns. Slowing this back down does not make the orb calmer, it makes the entire
-           rebuild pointless — the still family in section 04 already covers "calm".
-           ⚠️ THE SHELL AND THE NEBULA MUST TURN AT DIFFERENT RATES AND ON DIFFERENT AXES.
-           Locked together they read as one solid object; counter-rotating, the core swims
-           behind the glass and the refraction shifts non-linearly, which is the cue no 2D
-           shader can fake. The nebula runs faster than the shell for that reason.
-           Now ~21s per shell turn (17°/s) and ~11s for the interior. */
-        inst.draw = () => {
-          const t = inst.sim;
-          inst.shell.rotation.set(Math.sin(t * .34) * .16, t * .30, Math.cos(t * .29) * .10);
-          inst.nebula.rotation.set(t * .22, -t * .58, t * .17);
-          /* the core drifts inside the glass — a moving light source magnified by a moving
-             lens is the single most legible "this is dimensional" cue on the whole door */
-          inst.core.position.set(Math.sin(t * .23) * .13, Math.cos(t * .19) * .10, 0);
-          inst.core.scale.setScalar(1 + .09 * Math.sin(t * 1.6) + .05 * inst.boost);
-          inst.renderer.render(inst.glass, inst.cam);
-          inst.renderer.autoClear = false;          /* the light inside, over the glass */
-          inst.renderer.render(inst.glow, inst.cam);
-          inst.renderer.autoClear = true;
-          if (!inst.live) { inst.live = true; orb.classList.add("orb--live"); }
-        };
-
-        const size = () => {
-          const side = Math.max(1, Math.min(orb.clientWidth, orb.clientHeight));
-          /* 2px hysteresis: the entry reveal resizes the mount every frame for about a
-             second, and a buffer realloc per frame is the one cost worth ducking */
-          if (Math.abs(side - inst.side) < 2) return;
-          inst.side = side;
-          inst.renderer.setPixelRatio(DPR);
-          inst.renderer.setSize(side, side, true);
-          inst.draw();                               /* a resize clears — silk's rule */
-        };
-        new ResizeObserver(size).observe(orb);
-        size();
-        new IntersectionObserver(e => { inst.vis = e[0].isIntersecting; }).observe(canvas);
-        door.addEventListener("pointerenter", () => { inst.hot = true; });
-        door.addEventListener("pointerleave", () => { inst.hot = false; });
-        instances.push(inst);
-      } catch (e) { /* this door keeps its CSS orb; the others still get theirs */ }
-    }
-
-    if (instances.length) {
-      if (reduce) {
-        instances.forEach(i => i.draw());
-      } else {
-        const STEP = 1 / 34;
-        let last = performance.now(), acc = 0;
-        (function loop(now) {
-          requestAnimationFrame(loop);
-          const dt = Math.min((now - last) / 1000, .1); last = now;
-          if (document.hidden) return;
-          acc += dt; if (acc < STEP) return; acc = 0;
-          for (const inst of instances) {
-            if (!inst.vis) continue;
-            inst.boost += ((inst.hot ? 1 : 0) - inst.boost) * Math.min(1, dt * 2.2);
-            inst.sim += dt * (1 + inst.boost * .45);
-            inst.draw();
-          }
-        })(last);
-      }
-    }
-  }
-} catch (e) { /* every orb keeps its CSS fallback — see .orb::before */ }
-</script>
+<!-- ⚠️ THE LIVING-ORB ENGINE STOOD HERE AND IS GONE — his call 2026-08-13 (late), with
+     the 04 ALT section it drew for. ~340 lines: a Three.js module that built a displaced
+     sphere in MeshPhysicalMaterial with transmission and volume absorption, one instance
+     per door, drawn only while on screen. It is not recoverable from anywhere else in the
+     repo, so: `git revert` this commit for it, or 4d798db for its first version. The
+     reasoning it carried — why a real refracting sphere and NOT a Blender GLB, which is a
+     question he asked twice — went with it, so the short form is kept here: a GLB carries
+     geometry, not glass; it would still need the transmission, the IOR, an environment and
+     a renderer, plus a loader and megabytes, and the BAKED alternative already exists as
+     04's still renders. Baked vs live was the A/B, and baked won. -->
 
 
 <script type="module">

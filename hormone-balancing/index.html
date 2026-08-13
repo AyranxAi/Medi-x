@@ -3738,13 +3738,20 @@ try {
       img.style.willChange = "transform";
       const inst = { img, interior, glow,
                      sim: DOORS[key].seed * 6, vis: true, hot: false, boost: 0 };
+      /* ⚠️ THE PROJECTIONS NEGATE ON THE WAY INTO CSS — caught on his check 2026-08-13
+         (late evening, second round), "is the middle supposed to go the same way?". The
+         living engine composes in CAMERA space: +y is UP and a +z spin is COUNTER-
+         clockwise on screen. CSS translate's +y is DOWN and rotate()'s + is CLOCKWISE.
+         So the y-drift and both rotations carry a minus, and only the x-drift crosses
+         unchanged. Drop a minus and the still family plays MIRRORED against the live
+         one — same rates, opposite directions, visibly two behaviours. */
       inst.draw = () => {
         const t = inst.sim;
-        const dx = Math.sin(t * .23) * .13 * R, dy = Math.cos(t * .19) * .10 * R;
+        const dx = Math.sin(t * .23) * .13 * R, dy = -Math.cos(t * .19) * .10 * R;
         inst.img.style.transform =
-          `scale(var(--circle-scale)) rotate(${Math.cos(t * .29) * .10}rad)`;
+          `scale(var(--circle-scale)) rotate(${-Math.cos(t * .29) * .10}rad)`;
         inst.interior.style.transform =
-          `translate(${dx}%, ${dy}%) scale(var(--circle-scale)) rotate(${t * .17}rad)`;
+          `translate(${dx}%, ${dy}%) scale(var(--circle-scale)) rotate(${t * -.17}rad)`;
         inst.glow.style.transform =
           `translate(${dx}%, ${dy}%) scale(${1 + .09 * Math.sin(t * 1.6) + .05 * inst.boost})`;
       };

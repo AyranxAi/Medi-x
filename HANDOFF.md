@@ -17,6 +17,12 @@ nebula's z-term as a continuous interior turn, the core's own x/y drift path and
 the same seeds, hover boost, and ~34fps throttle. ⚠️ **The two engines quote the same
 numbers and must change together**, or the A/B compares two behaviours instead of two
 fidelities. Both motion tables live at the foot of the file, side by side, each saying so.
+⚠️ **The projections negate on the way into CSS** — his check, second round ("is the
+middle supposed to go the same way?"): the living engine composes in camera space (+y up,
++z spin counter-clockwise) while CSS runs +y down and rotate() clockwise, so the y-drift
+and both rotations carry a minus and only the x-drift crosses unchanged. The first cut
+shipped without the minuses and played vertically mirrored against the live family —
+same rates, opposite directions. Fixed and re-measured the same evening.
 
 **The mechanism** — three layers per door, all inside the existing `.service-orb` box:
 the approved render (rocks), a clone of itself masked to the middle of the glass (turns

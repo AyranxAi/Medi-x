@@ -1744,9 +1744,29 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
 /* The open panel's body moves with it: 14.5/15 -> 15.5/16.5 -> 17/18. It has
    room the closed subtitle does not (45.9% of the viewport, 40ch measure), so
    here the limit is the panel's own height — title, body, chips and the CTA
-   all have to clear the fold on the shortest supported panel. Checked. */
+   all have to clear the fold on the shortest supported panel. Checked.
+   ══ 2026-08-13 (late) — HIS CALL, "24px", AND IT IS A LADDER, NOT ONE VALUE ══
+   ⚠️ THE BODY NOW SCALES WITH THE TITLE INSTEAD OF STANDING STILL, which is the
+   actual fault he was pointing at. .pw__title steps 26 / 29 / 34 / 39 across the
+   same four breakpoints while this held 17 / 17 / 18 / 18, so the body/title
+   ratio fell from .65 on a phone to .46 at 1280 — the wide screens were where it
+   read small, and they are the only place he ever sees it. It is a constant .62
+   at every step now: 17/17 -> 18 -> 21 -> 24. He picked 24 at 1440; that is what
+   1280-up serves, and the rest of the ladder is that same ratio held down.
+   ⚠️ THE PHONE DELIBERATELY DOES NOT GET 24. Its title is 26px, so 24 there is a
+   .92 ratio — body and headline the same size, which is not emphasis, it is a
+   missing hierarchy. Rendered before it was ruled out; the phone was ALREADY the
+   proportionally biggest of the four and needed the least.
+   ⚠️ THE PANEL STILL CLEARS THE FOLD. Measured with the new title (two lines) and
+   24px body at 1440x900 and 390x844: the CTA's bottom sits 48px and 28px inside
+   the panel. The open layer is bottom-anchored, so a longer body grows UP into
+   the photograph rather than down into the CTA — that is the property that makes
+   this change cheap, and it is also why the number to re-check after any further
+   growth is the TOP of the block, not the bottom. */
 .pw__desc{margin:12px 0 0;max-width:40ch;font-size:17px;line-height:1.625;color:rgba(250,247,241,.9)}
-@media (min-width:1024px){ .pw__desc{font-size:18px} }
+@media (min-width:640px){ .pw__desc{font-size:18px} }
+@media (min-width:1024px){ .pw__desc{font-size:21px} }
+@media (min-width:1280px){ .pw__desc{font-size:24px} }
 
 /* ══ ALL FOUR CLOSED PANELS READ OFF ONE LINE (2026-08-13) ═════════════════
    The closed layer is bottom-anchored (justify-content:flex-end above), so
@@ -3657,6 +3677,32 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
   <section class="sec sec--pw" id="s4" data-nav="The Pathways" aria-label="Care pathways" data-i18n-aria="a11y.pathways">
     <div class="pw" id="pw" data-open="false">
 
+      <!-- ══ PATHWAY 01 — RENAMED AND RE-AIMED, 2026-08-13 (late), his call ═══════════════
+           "Hormone Therapy & BHRT" → "Hormone Therapy BHRT — Menopause & Andropause", and
+           the body's "For women whose…" → "For those whose…" — his words: "as it now
+           includes men". The two changes are one decision: naming andropause in the title
+           and then telling men the pathway is for women would be a contradiction on the
+           same panel.
+           ⚠️ IT IS AN EM DASH, NOT THE HYPHEN HE TYPED. A hyphen joins words, a dash
+           separates phrases, and at 39px the difference is not subtle — "BHRT - Menopause"
+           reads as a compound, "BHRT — Menopause" as a subtitle. Flagged to him rather
+           than done silently; one character to put back if he disagrees.
+           ⚠️ THE NAME LIVES IN FOUR PLACES AND ALL FOUR MOVED: the closed .pw__name, the
+           open .pw__title, the trigger's aria-label (the only one a screen reader hears),
+           and the EN i18n block. Miss the aria-label and the panel announces its old name
+           for the rest of its life.
+           ⚠️ ONLY ENGLISH CHANGED, AND THAT IS DELIBERATE — flagged to him, not overlooked.
+           pw1.name / pw1.title / pw1.aria / pw1.desc also exist in DE, FR, RU, ZH and AR,
+           and they still say "Hormone Therapy & BHRT / for women". Stale, but not WRONG —
+           whereas a machine-drafted medical service name is wrong in a way nobody on the
+           team can see. The risky half is not "Menopause & Andropause" (a cognate in four
+           of the five); it is "for those", which is genuinely gender-neutral in English and
+           forces a choice in French, Russian and Arabic. That is his translator's call, and
+           it is one message away. Until then the five other languages address women only,
+           which is the state the whole page was in yesterday.
+           ⚠️ THE CLOSED CARD WAS CHECKED, NOT ASSUMED: the longer name sets two lines at
+           1440 and two on a 390 phone, and the four-panel row still aligns because the
+           closed layer reserves that second line for every panel (see the note below). -->
       <div class="pw__panel" data-active="false">
         <img class="pw__img" src="images/path-01-bhrt.webp" loading="lazy"
              data-i18n-alt="pw1.alt" alt="A cream leather symptom journal and a personalised hormone report showing estradiol, progesterone and cortisol charts, with a gold pen and a glass of water on a sunlit table."
@@ -3664,10 +3710,10 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
         <div class="pw__scrim pw__scrim--closed" data-show="true"></div>
         <div class="pw__scrim pw__scrim--open" data-show="false"></div>
         <span aria-hidden="true" class="pw__mark"></span>
-        <button type="button" class="pw__trigger" id="pw-t1" aria-expanded="false" aria-controls="pw-p1" aria-label="01 — Hormone Therapy &amp; BHRT" data-i18n-aria="pw1.aria"></button>
+        <button type="button" class="pw__trigger" id="pw-t1" aria-expanded="false" aria-controls="pw-p1" aria-label="01 — Hormone Therapy BHRT — Menopause &amp; Andropause" data-i18n-aria="pw1.aria"></button>
         <div class="pw__layer pw__layer--closed" data-show="true">
           <p class="pw__rise pw__num">01</p>
-          <h3 class="pw__rise pw__name" data-i18n="pw1.name">Hormone Therapy &amp; BHRT</h3>
+          <h3 class="pw__rise pw__name" data-i18n="pw1.name">Hormone Therapy BHRT — Menopause &amp; Andropause</h3>
           <p class="pw__rise pw__short" data-i18n="pw1.short">Energy, mood, cycles, libido</p>
           <span aria-hidden="true" class="pw__open-dot">
             <svg class="pw__ico-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
@@ -3676,8 +3722,8 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
         </div>
         <div class="pw__layer pw__layer--open" id="pw-p1" role="region" aria-labelledby="pw-t1" data-show="false" inert>
           <p class="pw__rise pw__num">01</p>
-          <h3 class="pw__rise pw__title" data-i18n="pw1.title">Hormone Therapy &amp; BHRT</h3>
-          <p class="pw__rise pw__desc" data-i18n="pw1.desc">For women whose energy, mood, cycles or libido no longer feel like their own.</p>
+          <h3 class="pw__rise pw__title" data-i18n="pw1.title">Hormone Therapy BHRT — Menopause &amp; Andropause</h3>
+          <p class="pw__rise pw__desc" data-i18n="pw1.desc">For those whose energy, mood, cycles or libido no longer feel like their own.</p>
           <div class="pw__rise pw__chips">
             <span class="pw__chip" data-i18n="pw1.chip1">Fatigue</span>
             <span class="pw__chip" data-i18n="pw1.chip2">Mood changes</span>
@@ -5229,15 +5275,15 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
 "pw.cta": "Explore pathway",
 "pw.more": "+2 more",
 "pw1.alt": "A cream leather symptom journal and a personalised hormone report showing estradiol, progesterone and cortisol charts, with a gold pen and a glass of water on a sunlit table.",
-"pw1.aria": "01 — Hormone Therapy & BHRT",
+"pw1.aria": "01 — Hormone Therapy BHRT — Menopause & Andropause",
 "pw1.chip1": "Fatigue",
 "pw1.chip2": "Mood changes",
 "pw1.chip3": "Low libido",
 "pw1.chip4": "Cycle irregularity",
-"pw1.desc": "For women whose energy, mood, cycles or libido no longer feel like their own.",
-"pw1.name": "Hormone Therapy & BHRT",
+"pw1.desc": "For those whose energy, mood, cycles or libido no longer feel like their own.",
+"pw1.name": "Hormone Therapy BHRT — Menopause & Andropause",
 "pw1.short": "Energy, mood, cycles, libido",
-"pw1.title": "Hormone Therapy & BHRT",
+"pw1.title": "Hormone Therapy BHRT — Menopause & Andropause",
 "pw2.alt": "A ceramic bowl of yoghurt topped with figs, blackberries, blueberries and granola with a gold spoon, beside lemon halves and a cup of coffee on a marble table.",
 "pw2.aria": "03 — Functional Medicine",
 "pw2.chip1": "Gut issues",

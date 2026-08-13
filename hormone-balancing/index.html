@@ -288,7 +288,10 @@ body.nav-open .nav li{
 .hero h1 .line{display:block;overflow:hidden}
 .hero-sub{
   margin-top:clamp(24px,3.6vh,40px);max-width:34em;
-  font-size:clamp(16px,1.35vw,19px);font-weight:300;color:var(--ink-soft);line-height:1.75;
+  /* was clamp(16px,1.35vw,19px) — "make this bigger", his note 2026-08-13. 19 → 23px at
+     the ceiling, 18px floor on phones. max-width is em-keyed so the measure rides along:
+     the line count does not change, the block just grows. */
+  font-size:clamp(18px,1.6vw,23px);font-weight:300;color:var(--ink-soft);line-height:1.75;
 }
 .hero-sub strong{font-weight:500;color:var(--burgundy)}
 .hero-ctas{display:flex;gap:16px;margin-top:clamp(30px,4.4vh,48px);flex-wrap:wrap}
@@ -1512,9 +1515,17 @@ html.side-scene .scene-track{height:360vh}
    also why this is a vw clamp rather than a step — she is sized from the viewport too.
    ⚠️ THE SCRIPT MEASURES offsetWidth EVERY BUILD (agentW) to keep it centred, so a size
    change here needs no second edit there — but it DOES need a resize to re-measure, which
-   build() already handles. */
+   build() already handles.
+   ⚠️ SECOND STEP UP 2026-08-13 — "make it more obvious". clamp(16px,1.55vw,22px) → this.
+   The COLOUR stays gold on purpose: the mark lives across the ground's whole rise, dark
+   plum early and blush late, and gold is the only value on the sheet that survives both
+   ends (it is also the tether/gland signal colour — the mark IS that signal, walking).
+   Ivory dies on the blush, logo-red and burgundy die on the plum — a colour board was
+   rendered at p=.42/.62 before this was chosen. The floors are ratio-checked: 26px is
+   ~134px against her 324px body at 1440 (the under-half-her-width ceiling holds) and the
+   title stays 4.0× / 3.1× the mark at the two ends, which is the payoff protection. */
 .scene-agent{position:absolute;left:0;top:0;opacity:0;white-space:nowrap;
-  font-family:var(--sans);font-size:clamp(16px,1.55vw,22px);font-weight:500;letter-spacing:.24em;
+  font-family:var(--sans);font-size:clamp(17px,1.9vw,26px);font-weight:500;letter-spacing:.24em;
   text-transform:uppercase;color:var(--gold);text-shadow:0 0 18px rgba(194,160,94,.5)}
 .scene-agent .star{font-size:1.15em;letter-spacing:0;padding-right:.55em;vertical-align:-.06em}
 /* once she is stone the mark is gold-deep on pale marble; the halo is what keeps it read */
@@ -1780,7 +1791,9 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
            one decision about the page's search entry, not a copy edit. -->
       <h1>
         <span class="line">Hormone imbalance</span>
-        <span class="line"><em>treatment</em>.</span>
+        <!-- the full stop came off on his note 2026-08-13 ("remove the dot") — the em
+             stays, it is the accent every approved headline on this page ends with -->
+        <span class="line"><em>treatment</em></span>
       </h1>
       <!-- HIS CALL 2026-08-13, second round: the SEO description joins the headline it
            belongs to. The "Deep sleep. Steady energy…" lede it replaces survives in
@@ -2364,12 +2377,27 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
              this page and it went out with the six invented questions; the page is
              women-focused but TRT is still a service, so the route back has to exist. -->
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false">Is this for men too?<span class="ind" aria-hidden="true"></span></button>
-          <div class="faq-a"><div class="faq-a-in"><p>
-            Absolutely. Hormonal decline isn't only a women's story — our
-            <strong>Testosterone Top Up</strong> and balancing programs are built for men
-            navigating their own version of this change.
-          </p></div></div>
+          <!-- ══ HIS COPY, 2026-08-13 — the men's answer, and the question renamed to how
+               he speaks it ("the Is hormone therapy for men too? question"). Same rule as
+               the five above: reproduced as written, typographic corrections only:
+                 · "70-Year-Old men in 1970s" → "70-year-old men in the 1970s"
+                 · the spaced hyphens around "over 40" and before "this condition" → em dashes
+                 · straight quotes → the page's typographic “ ”
+               ⚠️ "Testosterone Replacement Therapy (“TRT”)" is the THERAPY's generic name in
+               his own copy — like the FAQ's "Testosterone may be prescribed…", it is the
+               treatment, not the programme, so it does not regress the "Testosterone Top Up"
+               rename. The programme keeps his name in the second paragraph, which survives
+               from the old answer so the FAQ still routes to the door. -->
+          <button class="faq-q" aria-expanded="false">Is hormone therapy for men too?<span class="ind" aria-hidden="true"></span></button>
+          <div class="faq-a"><div class="faq-a-in">
+            <p>Yes — hormone therapy is for men. Today's 20-year-old men have Testosterone
+            levels similar to 70-year-old men in the 1970s, and as such many men, at times,
+            younger and often older — over 40 — opt for Testosterone Replacement Therapy
+            (“TRT”) — this condition is called Andropause (sometimes called “male
+            menopause”).</p>
+            <p>Our <strong>Testosterone Top Up</strong> and balancing programs are built for
+            men navigating their own version of this change.</p>
+          </div></div>
         </div>
       </div>
     </div>

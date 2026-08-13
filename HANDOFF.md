@@ -1,3 +1,51 @@
+# Handoff addendum — 2026-08-13, night (audit round: the dot comes off the H1 · the sub grows · the men's answer is his · the ✦ mark steps up again)
+
+Scope: `hormone-balancing/index.html`, four of his notes in one pass, made during a
+requested audit of the live page. Verified on the rendered page at 1440×900 and 390×844
+(`?probe=1` for layout, the npm-interception harness for the live scene — both throwaway,
+in the session scratchpad).
+
+## 1 · The H1 loses its full stop
+
+`Hormone imbalance / *treatment*.` → `Hormone imbalance / *treatment*` — "remove the dot".
+The `<em>` stays; it is the accent every approved headline on this page ends with.
+
+## 2 · The hero sub grows
+
+> "Medi-Gyn offers expert hormone imbalance treatment. Safe bio-identical…" — "make this bigger"
+
+`.hero-sub` `clamp(16px,1.35vw,19px)` → `clamp(18px,1.6vw,23px)`. Measured: 23px at 1440,
+18px at 390, no overflow at either (`max-width:34em` is em-keyed, so the measure rides the
+size and the line count holds).
+
+## 3 · The men's FAQ answer is his copy
+
+Question renamed to how he speaks it — **"Is hormone therapy for men too?"** — and the
+answer is his paragraph (20-year-olds vs 70-year-olds in the 1970s, TRT, Andropause),
+reproduced with typographic corrections only (case on "70-year-old", "in the 1970s",
+spaced hyphens → em dashes, straight → curly quotes — each recorded in the DOM comment).
+⚠️ "Testosterone Replacement Therapy (“TRT”)" in his copy is the THERAPY's generic name,
+not a programme rename regression — the old answer's routing line survives as a second
+paragraph and still says **Testosterone Top Up**.
+
+## 4 · The ✦ BHRT mark steps up again, and stays gold
+
+> "give me different colors … or should i just make it bigger to be more obvious"
+
+Bigger is the right lever, and a rendered colour board says why: the mark lives across the
+ground's whole rise, and the script already runs a two-gold system
+(`wipe>.45 ? --gold-deep : --gold`, written per frame at the transform site — a CSS colour
+override is repainted the next frame, found the hard way). On the board, ivory dies on the
+blush, logo-red and burgundy die on the plum; gold is the only sheet value alive at both
+ends. So: `clamp(16px,1.55vw,22px)` → **`clamp(17px,1.9vw,26px)`**. Measured: 134px wide
+against her 324px body at 1440 (the under-half-her-width ceiling holds), title ratio 4.0×
+at the ceiling and 3.1× at the floor — the payoff protection the size comment demands.
+⚠️ If he ever wants maximum punch instead, the honest alternative is a two-COLOUR scheme
+on the same threshold the script already owns (ivory early → burgundy late) — it wins each
+end of the board but surrenders the gold signal language the tethers and glands speak.
+
+---
+
 # Handoff addendum — 2026-08-13, late evening (the stills take the living orbs' movement)
 
 > ## ⚠️ ROUND 7, SAME NIGHT — THE FOUNDER CHOSE: MESMERISE. LIVE ON MAIN.

@@ -439,12 +439,60 @@ layout now, so a longer programme name or a fourth line of body copy costs nothi
 no re-measure. **A replacement plate is the band, 1200×760** — one carrying its own copy zone
 would double it.
 
-⚠️ **Third set of basenames in one evening** (`…-card-1200` → `…-1200` → `…-band-1200`), and
-that is BRAND.md working as intended rather than churn: no cache anywhere can serve a stale
-shape. The two retired pairs are deleted, not left lying in `images/boost/`.
-
 ⚠️ **`aspect-ratio` must not come back on its own.** A declared height over an auto-height
 picture reopens exactly the gap he asked to close; it would need the plates rebuilt with it.
+
+### And then the fade came off too
+
+> "why is the cutout ugly on the white and the end of pictures also make the words bigger
+> please appropriate for reading"
+
+**Two calls, and the first one is a design error I introduced two changes ago.** The band's
+bottom 110px dissolved into `--ivory`. That was right while the plate carried its own copy
+zone — the fade hid a horizon line *inside the picture*. Once the caption moved out into
+`.boost-copy`, the fade had nothing left to hide and only did damage.
+
+**Why it read as a cutout rather than as mist, which is the part worth keeping:** both frames
+have subjects that **run off the bottom edge** — the figure's shin and hand, the clinician's
+coat, the mitochondrion's lower rim. Fading a frame whose content stops inside it looks like
+atmosphere. Fading one through a limb looks like the limb evaporated. A hard edge cuts it,
+which is what a photograph's edge is for. The feather is deleted from
+`tools/compose-boost-plate.mjs`, not parameterised — the script is now crop → resize → encode
+and nothing else, and the paragraph explaining why is in it so this does not get "fixed" back.
+
+Removing it also returns the 110px it was dissolving, so both plates simply show more.
+
+**And the type, which was genuinely too small.** `.boost-one p` had no size or leading of its
+own: it inherited the global **16px**, the page's utility size, and was the smallest type in a
+card whose entire job is two sentences.
+
+| | Was | Now | at 1440 |
+|---|---|---|---|
+| `h3` | `clamp(19px,1.9vw,28px)` | `clamp(21px,2.1vw,31px)` | 28 → **30px** |
+| `p` | inherited 16px / 1.6 | `clamp(16px,1.3vw,19px)` / **1.7** | 16 → **19px** |
+
+The body now matches `.boost-sub` directly above it, so the section reads at one size instead
+of two. Leading 1.7 rather than the sub's 1.8: the sub is a lone line and wants air; this is a
+set paragraph and 1.8 loosens it into a list.
+
+⚠️ **The line count did not move, and `ch` is the whole reason.** `max-width:34ch` scales with
+the font, so 34 characters stay 34 characters at any size — the paragraph got bigger without
+rewrapping. Two lines everywhere, three at 390, exactly as before. Had that been a `px` width
+this would have been a re-measure of the card instead of a two-value change.
+
+⚠️ **The one-line title rule was re-measured, because a bigger title is exactly what breaks
+it.** Eleven widths, still one line at every one — but **slack at 390 is down from 83px to
+60px**. That is the budget a longer programme name spends first.
+
+**`boost-contrast` 12/12** (14.28 / 7.59 / 6.19, identical across both cards). At 1440 the
+title now clears the harness as *large* text rather than small, which is a real accessibility
+gain and not just a bigger number.
+
+⚠️ **Fourth set of basenames in one evening** — `…-card-1200` → `…-1200` → `…-band-1200` →
+**`…-1200x760`**. That is BRAND.md working as intended rather than churn: every one of those
+was a genuinely different image, and no cache can serve a stale shape. All three retired pairs
+are deleted, not left lying in `images/boost/`. The name states the shape now, which is the
+thing a replacement has to match.
 
 ## Still open
 

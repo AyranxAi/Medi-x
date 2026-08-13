@@ -1,5 +1,24 @@
 # Handoff addendum — 2026-08-13, late evening (the stills take the living orbs' movement)
 
+> ## ⚠️ ROUND 4, SAME NIGHT — PHYSICS ABOVE ALL (his call, and it outranks these notes)
+>
+> *"shouldn't the outside move faster than the inside … I want this to be physics above
+> all … and defend that."* The engine now answers to a declared physical model — **a
+> solid glass shell enclosing luminous fluid** — and the full defense lives in the
+> script header. The four consequences: (1) the render itself must not visibly spin,
+> because baked highlights belong to the room's lights and a real glass sphere keeps
+> its highlights still while turning — the shell's rotation is seen only through what
+> it drags; (2) **the interior is now TWO zones in shear, outer leading** (~80s/turn)
+> **over a lagging deep core** (~160s/turn, 2:1) — his "outer faster" law, honored
+> where it is physically true: the fluid is stirred by its wall, so drag grips the
+> outer fluid first (were it orbiting a central mass the inner side would lead — the
+> driver picks the profile); (3) shell and interior at different rates is MORE
+> physical, not less — different phases couple only by drag (the Sun, Earth's inner
+> core, a snow globe); (4) wander = convection, pulse = thermal flicker, rock and
+> swell = a levitated droplet's librations. One new layer (`.service-orb__core`, the
+> lagging zone) with its own mask; the shear crossfade in the 12–20% feather is
+> deliberate — read it as the fluid's blur, not a defect.
+>
 > ## ⚠️ ROUND 3, SAME NIGHT — THE LOCKSTEP RULE BELOW IS RETIRED
 >
 > Over the proof clips the ask relaxed: *"it doesn't have to be picture perfect as the

@@ -1566,17 +1566,23 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
    RE-MEASURED 2026-08-13 on the real panels, all four, both states: copy
    hidden, the composited ground shot behind it, cropped per LINE off
    range.getClientRects(), worst 2% of pixels, each element's own alpha
-   composited into its ink. Floor 4.5. Worst-of-four per element:
-     desktop  closed  num 5.04   name 6.31   short 6.45
-     desktop  open    num 6.58   title 7.21  desc  6.91
+   composited into its ink. Floor 4.5. Worst-of-four per element, re-run after
+   the subtitle went to 18px (which lifts the closed block ~7px further):
+     desktop  closed  num 4.91   name 6.13   short 6.30
+     desktop  open    num 6.45   title 7.02  desc  6.83
      phone    closed  num 6.44   name 4.86
-     phone    open    num 6.91   title 8.19  desc  7.34
+     phone    open    num 5.80   title 7.33  desc  7.26
    Worst pixel anywhere in the section: 4.86 (pathway 01's name, phone).
-   Two of those numbers moved for reasons worth knowing. The closed number was
-   FAILING at 4.07 before this pass — the "5.67" that stood here was stale —
-   and is fixed at .pw__num below, not here. And 04's new plate is the
-   brightest in the section, so it now governs; it measures 7.43/8.17 closed
-   because the deep end of the scrim lands on the shoulder, not the window.
+   Three of those are worth knowing. The closed number was FAILING at 4.07
+   before this pass — the "5.67" that stood here was stale — and is fixed at
+   .pw__num below, not here. 04's new plate is the brightest in the section so
+   it now governs, and still measures 7.38/8.08 closed, because the deep end of
+   the scrim lands on the shoulder rather than the window. And the thinnest
+   margin in the section is pathway 03's number at 4.91 on the helix plate:
+   0.41 over the floor. THAT is the budget any further growth spends. Raising
+   the subtitle again, or reserving a third line, moves this block up the
+   gradient and 03 is what breaks first — re-run the measurement, do not
+   estimate it, and buy the room back from .pw__layer--closed's bottom padding.
    These alphas are MINIMUMS for this ink on these photographs. Lightening any
    stop, brightening the ink, or replacing a panel photo requires re-measuring
    (brightest plate governs). A lighter red was previously tried here and
@@ -1643,8 +1649,8 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
 @media (min-width:1024px){
   /* The bottom padding is clearance for the floating controls, and it is also
      the counterweight to the reserved line boxes further down: 104px -> 72px,
-     2026-08-13. Reserving a second name line and growing the subtitle to 16px
-     added 31px to the block, and because it is bottom-anchored the whole thing
+     2026-08-13. Reserving a second name line and growing the subtitle to 18px
+     added 38px to the block, and because it is bottom-anchored the whole thing
      rose by that much — straight up the scrim's gradient into thinner ink. It
      cost real contrast, measured, not guessed: pathway 03's number fell to
      3.43:1 against a 4.5 floor, on the bright helix plate. Giving the 32px
@@ -1716,14 +1722,31 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
    259.7px including tracking. Narrower phones (360) wrapped it before this
    change too — that is the string being long, not the face. */
 .pw__name{margin:0;font-family:var(--font-brand-accent);font-size:20px;line-height:1.18;font-weight:400;letter-spacing:.01em;color:var(--ivory)}
-.pw__short{display:none;margin:10px 0 0;max-width:20ch;font-size:16px;line-height:1.625;color:rgba(250,247,241,.82)}
+/* The subtitle is 18px — 14 -> 16 -> 18 across two passes on 2026-08-13, both
+   his call. 18 is the ceiling, and the wall is hierarchy, not fit: the name
+   above it is 21px, and the gap has to stay readable as a step. What keeps
+   them apart at only 3px is that they share nothing else — Megante against
+   NOW, full ivory against 82%, and the number sitting above the pair.
+   max-width:20ch STAYS. It is a measure, not a size cap, and because ch scales
+   with font-size the line holds the same ~20 characters at every size; raising
+   the type without it would just run the subtitle to the full panel and lose
+   the narrow column the section is set in. Fit was checked and is not the
+   binding constraint: at 20px the subtitle still wraps to at most two lines in
+   all six languages, in BOTH panel states — at rest (four panels, 320px of
+   text) and with a sibling open (three at 219px), which is the tighter case
+   and the one worth testing. Past 18 the hierarchy goes before the layout. */
+.pw__short{display:none;margin:10px 0 0;max-width:20ch;font-size:18px;line-height:1.625;color:rgba(250,247,241,.82)}
 @media (min-width:1024px){ .pw__short{display:block} }
 .pw__title{margin:12px 0 0;max-width:19ch;font-family:var(--font-brand-accent);font-size:26px;line-height:1.18;font-weight:400;color:var(--ivory);letter-spacing:.01em}
 @media (min-width:640px){ .pw__title{font-size:29px} }
 @media (min-width:1024px){ .pw__title{font-size:34px} }
 @media (min-width:1280px){ .pw__title{font-size:39px} }
-.pw__desc{margin:12px 0 0;max-width:40ch;font-size:15.5px;line-height:1.625;color:rgba(250,247,241,.9)}
-@media (min-width:1024px){ .pw__desc{font-size:16.5px} }
+/* The open panel's body moves with it: 14.5/15 -> 15.5/16.5 -> 17/18. It has
+   room the closed subtitle does not (45.9% of the viewport, 40ch measure), so
+   here the limit is the panel's own height — title, body, chips and the CTA
+   all have to clear the fold on the shortest supported panel. Checked. */
+.pw__desc{margin:12px 0 0;max-width:40ch;font-size:17px;line-height:1.625;color:rgba(250,247,241,.9)}
+@media (min-width:1024px){ .pw__desc{font-size:18px} }
 
 /* ══ ALL FOUR CLOSED PANELS READ OFF ONE LINE (2026-08-13) ═════════════════
    The closed layer is bottom-anchored (justify-content:flex-end above), so

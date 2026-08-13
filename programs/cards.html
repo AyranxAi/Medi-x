@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Booster Programs — the diptych</title>
+<style>
+@font-face{font-family:"Playfair";src:url(../fonts/playfair-normal-var-latin.woff2) format("woff2");font-weight:300 900;font-style:normal;font-display:swap}
+@font-face{font-family:"Playfair";src:url(../fonts/playfair-italic-var-latin.woff2) format("woff2");font-weight:300 900;font-style:italic;font-display:swap}
+@font-face{font-family:"MediGyn NOW";src:url(../fonts/medigyn-now-300.woff2) format("woff2");font-weight:300;font-display:swap}
+@font-face{font-family:"MediGyn NOW";src:url(../fonts/medigyn-now-400.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"MediGyn NOW";src:url(../fonts/medigyn-now-500.woff2) format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"MediGyn Megante";src:url(../fonts/medigyn-megante-400.woff2) format("woff2");font-weight:400;font-display:swap}
+
+:root{
+  --ivory:#FAF7F1; --cream:#F4EDE1; --line:#DED4C2;
+  --burgundy:#5C1F31; --rose:#C79A92;
+  --logo-red:#8E2D3A; --gold:#C2A05E; --gold-text:#866732;
+  --ink:#2E2228; --ink-soft:#6A585F;
+  --serif:"Playfair",Didot,Georgia,serif;
+  --sans:"MediGyn NOW",Jost,ui-sans-serif,system-ui,sans-serif;
+  --accent:"MediGyn Megante",Optima,Georgia,serif;
+  --pad:clamp(20px,4.5vw,72px);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--ivory);color:var(--ink);font-family:var(--sans);font-weight:300;
+     -webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30;
+         color:var(--ink);line-height:1.05;letter-spacing:-.01em}
+em{font-style:italic}
+.wrap{max-width:1280px;margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}
+.kicker{font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.32em;
+        text-transform:uppercase;color:var(--logo-red);display:flex;align-items:center;gap:14px}
+.kicker::after{content:"";height:1px;width:54px;background:var(--line)}
+.sec{padding:clamp(80px,12vh,150px) 0}
+.sec-head{display:flex;flex-direction:column;gap:22px;margin-bottom:clamp(40px,5.5vh,64px)}
+.sec-head h2{font-size:clamp(34px,4.6vw,64px)}
+.sec-sub{font-size:clamp(15px,1.35vw,18px);color:var(--ink-soft);line-height:1.8;
+         max-width:40ch;margin-top:-8px;text-wrap:balance}
+
+/* ── The diptych ────────────────────────────────────────────────────────────
+   Two matched specimens, side by side, read as a pair the way plates in a book
+   do. ⚠️ They deliberately do NOT mirror: both carry their molecule on the left
+   and their object on the right, and a flip would reverse the lettering (OH, P,
+   N, HN on ATP; HO, OH on the glucuronide). The mirror rule belongs to the
+   full-width alternating bands, not to a side-by-side pair — here sameness of
+   composition IS the device. */
+.diptych{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,2.4vw,38px);
+         margin-top:clamp(30px,4vh,48px)}
+.card{position:relative;aspect-ratio:4/5;background:var(--ivory);overflow:hidden;
+      border:1px solid var(--line);border-radius:2px}
+/* multiply seats the plate's paper on the ivory beneath it; the flat-fielded
+   files already sit on ivory, so this is belt-and-braces, and it is what keeps
+   the card edge invisible against the page. */
+.card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+          mix-blend-mode:multiply}
+/* ⚠️ THE COPY ZONE IS BOUNDED BY THE TALLER MOLECULE, NOT BY TASTE. The ATP
+   structure runs to y≈.66 of its frame; the glucuronide stops at y≈.52. Copy
+   starts below the LOWER of the two so both cards break at the same line —
+   that shared baseline is most of what makes them read as a pair. */
+.card .copy{position:absolute;left:0;right:0;bottom:0;z-index:2;
+            padding:clamp(20px,2.2vw,34px)}
+.card h3{font-size:clamp(19px,1.85vw,27px);margin-top:14px}
+.card h3 em{display:block;color:var(--logo-red);font-size:.8em;margin-top:4px}
+.card .line{font-size:clamp(13px,1.05vw,15px);line-height:1.7;color:var(--ink-soft);
+            margin-top:12px;max-width:30ch;text-wrap:balance}
+.link-arrow{display:inline-flex;align-items:center;gap:11px;font-family:var(--sans);
+            font-weight:500;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;
+            color:var(--logo-red);margin-top:18px;text-decoration:none}
+.foot{margin-top:clamp(34px,4.5vh,54px);font-size:13px;color:var(--ink-soft);letter-spacing:.02em}
+
+@media (max-width:760px){
+  .diptych{grid-template-columns:1fr;gap:26px}
+}
+</style>
+</head>
+<body>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="kicker">05 · Booster programs</p>
+      <h2>Two ways to go <em>further</em>.</h2>
+    </div>
+    <p class="sec-sub">Pair your hormone care with the systems that amplify it.</p>
+
+    <div class="diptych">
+      <article class="card">
+        <img id="p-gut" src="../images/medigyn-card-gut-hormone-ivory.png" alt="" aria-hidden="true">
+        <div class="copy">
+          <p class="kicker">The terrain</p>
+          <h3>Hormone Therapy<em>+ Gut Health</em></h3>
+          <p class="line">Balance begins in the gut — so what we rebalance
+             actually lands, and stays landed.</p>
+          <a class="link-arrow" href="#">Explore
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <article class="card">
+        <img id="p-energy" src="../images/medigyn-card-cellular-energy-ivory.png" alt="" aria-hidden="true">
+        <div class="copy">
+          <p class="kicker">The machinery</p>
+          <h3>Hormone Therapy<em>+ Energy</em></h3>
+          <p class="line">Mitochondrial support layered over your protocol —
+             energy built at the cellular level.</p>
+          <a class="link-arrow" href="#">Explore
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
+          </a>
+        </div>
+      </article>
+    </div>
+
+    <p class="foot">Not sure which fits? Start with a <strong>free 10-minute
+       discovery call</strong> — Irina will listen, and point you to the right one.</p>
+  </div>
+</section>
+
+<script>
+/* TEMPORARY A/B SWITCH — ?tone=raw serves the plates exactly as uploaded, so the
+   tonal drift between them can be seen on the real layout. Delete with the
+   board, the way ?comp= and ?boost= were deleted once a pick was made. */
+if (new URLSearchParams(location.search).get('tone') === 'raw') {
+  document.getElementById('p-gut').src    = '../images/medigyn-card-gut-hormone-clean-v2 (1).png';
+  document.getElementById('p-energy').src = '../images/medigyn-card-cellular-energy-clean-v4-matched.png';
+}
+</script>
+</body>
+</html>

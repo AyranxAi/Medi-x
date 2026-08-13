@@ -1,5 +1,21 @@
 # Handoff addendum — 2026-08-13, late evening (the stills take the living orbs' movement)
 
+> ## ⚠️ ROUND 3, SAME NIGHT — THE LOCKSTEP RULE BELOW IS RETIRED
+>
+> Over the proof clips the ask relaxed: *"it doesn't have to be picture perfect as the
+> other circle … just for it to move"* — most aesthetic, luxury, nothing that takes away
+> from the picture. So the stills **no longer quote the living engine's `draw()`**; their
+> motion is retuned as **atmosphere** where the living orb's is **evidence** — every rate
+> below the threshold of "watching something move". One shared clock is a ~7s breath
+> (the ball swells ±.7% and the core light lifts with it, together); the interior turns
+> slower than the eye holds (~2 min/turn); drift runs on 39s/48s paths; the rock drops
+> to ±2° on 30s; hover **blooms** (light up, breath deeper, clock +25%) instead of
+> hurrying. Periods are mutually incommensurate so the composite never loops. The full
+> design position and every number live in the script header; the mask sum is re-worked
+> at the mask (39.3% vs a rim at 42.9%). Paragraphs below marked ⚠️ describe round 1's
+> lockstep build and survive as history — the mechanism, the layers, the fallback rules
+> and the measured checks all still hold.
+
 Scope: `hormone-balancing/index.html` only — one ask: *"they want this one to have that
 movement"*, said of the approved section-04 renders while the 04 ALT spheres turn beside
 them. So the stills now carry the living family's choreography. The A/B still stands —

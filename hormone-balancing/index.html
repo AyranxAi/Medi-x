@@ -541,9 +541,10 @@ section{position:relative}
    ⚠️ The interior is a CLONE of the render (it keeps .service-orb__image, so inset,
    object-fit, scale and the optical-centre origin all come from the rule above). The mask
    lives in ELEMENT space so it turns and drifts with the layer: opaque to 18% of the box,
-   gone at 30%. That 30 is paired with the script's 5.59% drift ceiling — (30 × 1.16) +
-   5.59 = 40.4% against a rim at 42.9% — so moving interior glass can never poke outside
-   the ball's own silhouette. Widen either number and re-do that sum.
+   gone at 30%. That 30 is paired with the script's drift and breath ceilings — (30 ×
+   1.16 × 1.007 max swell) + 4.3% max drift = 39.3% against a rim at 42.9% — so moving
+   interior glass can never poke outside the ball's own silhouette. Widen any of the
+   three numbers and re-do that sum.
    Both mask prefixes: -webkit- alone covers every engine that runs the script; the pair
    is there so neither family of browsers ever shows the clone UNMASKED — unmasked, the
    whole render turns continuously, baked window-lights and all, which is exactly the
@@ -3674,36 +3675,38 @@ try {
 </script>
 
 <script type="module">
-/* ═══════════ 04 · THE STILLS TAKE THE LIVING ORBS' MOVEMENT ═══════════
-   THE ASK 2026-08-13 (late evening): "they want this one to have that movement" — the
-   approved renders themselves moving like the 04 ALT spheres. Not a third orb: the same
-   pictures, animated in place.
+/* ═══════════ 04 · THE STILLS MOVE — MOTION AS ATMOSPHERE, NOT EVIDENCE ═══════════
+   THE ASK, three rounds, 2026-08-13 (late evening). First: "they want this one to have
+   that movement" — built as an exact in-plane projection of the living engine's draw().
+   Then, over the proof clips, the release: "it doesn't have to be picture perfect as
+   the other circle … just for it to move" — most aesthetic, luxury, nothing that takes
+   away from the picture. So the first cut's lockstep rule is RETIRED, deliberately:
+   this engine no longer quotes inst.draw, and the two engines may drift apart in
+   numbers because their jobs finally differ.
 
-   ⚠️ WHAT "THE SAME MOVEMENT" CAN AND CANNOT MEAN FOR A FLAT RENDER, on the record so
-   nobody chases the remainder: the living orb's motion is CHOREOGRAPHY (rotation rates,
-   the core's drift and pulse, the hover lift) plus REFRACTION — the interior bending
-   through the turning shell. A still render is one frozen viewpoint; no 2D transform of
-   it can derive what the glass would show from the next angle — the living-orb notes
-   above already record that parallax is the one thing a flat image lacks. So this engine
-   gives the stills the ENTIRE choreography, driven by the same numbers on the same
-   clock, and only the choreography. If refraction itself is ever the ask, the answer
-   already exists and is mounted one section down.
+   ⚠️ THE DESIGN POSITION, so the next tuner starts here and not from taste: the LIVING
+   orb moves fast on purpose — its motion is EVIDENCE, the proof it is really 3D, and
+   its own notes say slowing it down defeats its section. The STILL family has nothing
+   to prove: the render is already approved as an object. Its motion is ATMOSPHERE, and
+   the luxury register keeps every rate below the threshold of "watching something
+   move" — the viewer should notice the picture is ALIVE, never that it is ANIMATED.
+   Three rules pay for that:
+     · NOTHING AT CONSTANT VISIBLE VELOCITY — a texture caught spinning reads as
+       machinery. The interior turns slower than the eye holds (~2 min/turn); the
+       picture is simply never the same twice.
+     · ONE SHARED CLOCK, AND IT IS A BREATH — sin(t·.9), ~7s, calm-breathing rate.
+       The ball's swell (±.7%) and the core light's lift ride it TOGETHER, because
+       light that swells as the glass does is the strongest "it is alive" cue a flat
+       render can carry, at zero cost to the approved pixels.
+     · HOVER BLOOMS INSTEAD OF HURRYING — the living orb answers a pointer with
+       speed; this family answers with warmth. The light lifts, the breath deepens,
+       the clock gains only a whisper (see the loop).
+   The periods — breath 7s, rock 30s, drift 39s/48s, turn 114s — are mutually
+   incommensurate, so the composite never visibly loops.
 
-   ⚠️ EVERY RATE HERE IS A PROJECTION OF inst.draw IN THE LIVING ENGINE ABOVE — the
-   in-plane (z) terms of the same rotations, the core's own x/y path, the same pulse,
-   seeds, hover boost and ~34fps throttle. CHANGE THE TWO TOGETHER or the A/B stops
-   being an A/B: a viewer flicking between the sections must see one family at two
-   fidelities, never two behaviours.
-     shell rock     = cos(t·.29)·.10 rad   — the shell's in-plane term; its y-spin has
-                                             no 2D projection, so the rim only rocks
-     interior turn  = t·.17 rad            — the nebula's in-plane term, continuous, so
-                                             the web slides against the rocking rim
-     core drift     = (sin(t·.23)·.13, cos(t·.19)·.10), in shell radii
-     core pulse     = 1 + .09·sin(1.6t) + .05·boost
-   Radii → box %: the ball renders at 37% of its square (the measured alpha bounds) ×
-   --circle-scale 1.16 ≈ 43% — so one shell radius is 43 translate-percent, and the
-   drift peaks at 5.59% / 4.3% of the box. The mask sum that keeps that inside the
-   silhouette is worked in the stylesheet, next to the mask.
+   ⚠️ SIGNS: CSS +y runs DOWN and rotate()'s + is CLOCKWISE — the mirror trap round
+   two was caught on. The minuses below keep the camera-space sense the live family
+   established: its up is up, and turns run counter-clockwise.
 
    ⚠️ THE LAYERS ARE BUILT HERE, NOT IN THE MARKUP. No JS and reduced-motion must both
    leave the APPROVED section exactly as shipped — a still picture is its own considered
@@ -3721,7 +3724,6 @@ try {
       "door--menopause": { seed: 4.7, glow: .25 },
       "door--trt":       { seed: 8.1, glow: .34 },
     };
-    const R = 43;              /* one shell radius, in % of the orb box — derived above */
     const instances = [];
     for (const door of stills) {
       const box = door.querySelector(".service-orb");
@@ -3736,24 +3738,24 @@ try {
       glow.style.opacity = DOORS[key].glow;
       box.append(interior, glow);
       img.style.willChange = "transform";
-      const inst = { img, interior, glow,
+      const inst = { img, interior, glow, base: DOORS[key].glow,
                      sim: DOORS[key].seed * 6, vis: true, hot: false, boost: 0 };
-      /* ⚠️ THE PROJECTIONS NEGATE ON THE WAY INTO CSS — caught on his check 2026-08-13
-         (late evening, second round), "is the middle supposed to go the same way?". The
-         living engine composes in CAMERA space: +y is UP and a +z spin is COUNTER-
-         clockwise on screen. CSS translate's +y is DOWN and rotate()'s + is CLOCKWISE.
-         So the y-drift and both rotations carry a minus, and only the x-drift crosses
-         unchanged. Drop a minus and the still family plays MIRRORED against the live
-         one — same rates, opposite directions, visibly two behaviours. */
+      /* drift amplitudes are in % of the orb box: 4.3 / 3.4 ≈ .10/.08 of a shell
+         radius (the ball renders at 43% of the box — measured alpha bounds ×
+         --circle-scale). The interior swells WITH the ball — it is part of the ball,
+         and a middle that breathes against its own rim reads as a seam, not a breath. */
       inst.draw = () => {
-        const t = inst.sim;
-        const dx = Math.sin(t * .23) * .13 * R, dy = -Math.cos(t * .19) * .10 * R;
+        const t = inst.sim, breath = Math.sin(t * .9);
+        const swell = 1 + .007 * breath;
+        const dx = Math.sin(t * .16) * 4.3, dy = -Math.cos(t * .13) * 3.4;
         inst.img.style.transform =
-          `scale(var(--circle-scale)) rotate(${-Math.cos(t * .29) * .10}rad)`;
+          `scale(calc(var(--circle-scale)*${swell})) rotate(${-Math.sin(t * .21) * .035}rad)`;
         inst.interior.style.transform =
-          `translate(${dx}%, ${dy}%) scale(var(--circle-scale)) rotate(${t * -.17}rad)`;
+          `translate(${dx}%, ${dy}%) scale(calc(var(--circle-scale)*${swell})) rotate(${t * -.055}rad)`;
         inst.glow.style.transform =
-          `translate(${dx}%, ${dy}%) scale(${1 + .09 * Math.sin(t * 1.6) + .05 * inst.boost})`;
+          `translate(${dx}%, ${dy}%) scale(${1 + .10 * breath + .06 * inst.boost})`;
+        inst.glow.style.opacity =
+          Math.min(1, inst.base * (1 + .18 * breath + .5 * inst.boost)).toFixed(3);
       };
       new IntersectionObserver(e => { inst.vis = e[0].isIntersecting; }).observe(box);
       door.addEventListener("pointerenter", () => { inst.hot = true; });
@@ -3761,7 +3763,7 @@ try {
       instances.push(inst);
     }
     if (instances.length) {
-      const STEP = 1 / 34;   /* the living loop's own throttle — one clock, two mounts */
+      const STEP = 1 / 34;   /* the living loop's throttle — far above these rates */
       let last = performance.now(), acc = 0;
       (function loop(now) {
         requestAnimationFrame(loop);
@@ -3771,7 +3773,9 @@ try {
         for (const inst of instances) {
           if (!inst.vis) continue;
           inst.boost += ((inst.hot ? 1 : 0) - inst.boost) * Math.min(1, dt * 2.2);
-          inst.sim += dt * (1 + inst.boost * .45);
+          /* the bloom is the hover answer; the clock lift is a whisper on purpose —
+             .45 here would make the door hurry, which is the living family's register */
+          inst.sim += dt * (1 + inst.boost * .25);
           inst.draw();
         }
       })(last);

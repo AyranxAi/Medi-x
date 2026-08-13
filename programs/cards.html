@@ -49,11 +49,16 @@ em{font-style:italic}
          margin-top:clamp(30px,4vh,48px)}
 .card{position:relative;aspect-ratio:4/5;background:var(--ivory);overflow:hidden;
       border:1px solid var(--line);border-radius:2px}
-/* multiply seats the plate's paper on the ivory beneath it; the flat-fielded
-   files already sit on ivory, so this is belt-and-braces, and it is what keeps
-   the card edge invisible against the page. */
-.card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-          mix-blend-mode:multiply}
+/* ⚠️ NO multiply on the corrected plates — it was double-applying and it is what
+   made the cards read as panels. The *-ivory.png files are already flat-fielded
+   ONTO --ivory, so multiplying them over an ivory card ground multiplies ivory
+   by ivory: measured #F4EEE2 inside the card against #FAF7F1 on the page. With
+   the blend off, card fill and page ground are the same value and the hairline
+   is the only thing drawing the card — which is the house rule anyway.
+   The RAW uploads still need it (they sit on near-white, not ivory), so the
+   ?tone=raw board turns it back on via .is-raw. */
+.card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.diptych.is-raw .card img{mix-blend-mode:multiply}
 /* ⚠️ THE COPY ZONE IS BOUNDED BY THE TALLER MOLECULE, NOT BY TASTE. The ATP
    structure runs to y≈.66 of its frame; the glucuronide stops at y≈.52. Copy
    starts below the LOWER of the two so both cards break at the same line —
@@ -120,6 +125,7 @@ em{font-style:italic}
    tonal drift between them can be seen on the real layout. Delete with the
    board, the way ?comp= and ?boost= were deleted once a pick was made. */
 if (new URLSearchParams(location.search).get('tone') === 'raw') {
+  document.querySelector('.diptych').classList.add('is-raw');
   document.getElementById('p-gut').src    = '../images/medigyn-card-gut-hormone-clean-v2 (1).png';
   document.getElementById('p-energy').src = '../images/medigyn-card-cellular-energy-clean-v4-matched.png';
 }

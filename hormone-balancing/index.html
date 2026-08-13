@@ -541,10 +541,11 @@ section{position:relative}
    ⚠️ The interior is a CLONE of the render (it keeps .service-orb__image, so inset,
    object-fit, scale and the optical-centre origin all come from the rule above). The mask
    lives in ELEMENT space so it turns and drifts with the layer: opaque to 18% of the box,
-   gone at 30%. That 30 is paired with the script's drift and breath ceilings — (30 ×
-   1.16 × 1.007 max swell) + 4.3% max drift = 39.3% against a rim at 42.9% — so moving
-   interior glass can never poke outside the ball's own silhouette. Widen any of the
-   three numbers and re-do that sum.
+   gone at 30%. That 30 is paired with the script's drift and breath ceilings — at the
+   Vortex recipe (wander 1.5, breath 1.6): (30 × 1.16 × 1.0112 max swell) + 6.45% max
+   drift = 41.6% against a rim at 43.4% (same swell) — so moving interior glass can never
+   poke outside the ball's own silhouette. ⚠️ ~1.8% of box is the thinnest this margin has
+   been; any recipe with wander above ~1.9 breaks it. Re-do this sum on every new recipe.
    Both mask prefixes: -webkit- alone covers every engine that runs the script; the pair
    is there so neither family of browsers ever shows the clone UNMASKED — unmasked, the
    whole render turns continuously, baked window-lights and all, which is exactly the
@@ -3785,6 +3786,26 @@ try {
       "door--menopause": { seed: 4.7, glow: .25, wall: .38 },
       "door--trt":       { seed: 8.1, glow: .34, wall: .35 },
     };
+    /* ⚠️ ROUND 6 — THE VORTEX RECIPE, LIVE AS THE INTERIM. His direct instruction,
+       2026-08-13 (night): the founder is choosing her own setting in the Orb Atelier
+       (the shared configurator, which runs this same engine); until her recipe line
+       arrives, the Atelier's "Vortex" preset ships. Verbatim:
+         orb-recipe: mode=counter dir=ccw wall=30s shell=48s breath=1.60 wander=1.50
+                     glow=1.40 hover=both alternate=off
+       ⚠️ THE TURNING SHELL IS A TASTE OVERRIDE OF THE ROUND-4 REFLECTION RULE — chosen
+       by eye in the Atelier, knowing the trade (the baked window-lights turn with the
+       glass). The physics note above keeps stating that trade honestly; it is now a
+       recorded cost, not a prohibition. Likewise hover=both restores the quicken
+       (at .6) alongside the bloom. Angles are stored CSS-SIGNED (+ is clockwise, so
+       the recipe's ccw terms carry a minus; counter mode flips the ring). When the
+       founder's line lands, THIS BLOCK is the only thing to retranslate. */
+    const R = {
+      shell: -2 * Math.PI / 48,           /* the outside itself, one turn every 48s   */
+      wall:  -2 * Math.PI / 30,           /* outer band, 30s — fastest zone           */
+      ring:   2 * Math.PI / 30 * .71,     /* mid swirl opposes (counter), ~42s        */
+      core:  -2 * Math.PI / 30 * .36,     /* deep core with the band, ~83s            */
+      breath: 1.6, wander: 1.5, glow: 1.4, quicken: .6,
+    };
     const instances = [];
     for (const door of stills) {
       const box = door.querySelector(".service-orb");
@@ -3810,30 +3831,27 @@ try {
                      sim: DOORS[key].seed * 6, vis: true, hot: false, boost: 0 };
       /* drift amplitudes are in % of the orb box: 4.3 / 3.4 ≈ .10/.08 of a shell
          radius (the ball renders at 43% of the box — measured alpha bounds ×
-         --circle-scale). ALL interior zones ride the same drift and swell — the
-         convection carries the whole fluid body, and a middle that breathes against
-         its own rim reads as a seam, not a breath. (The wall band is the exception —
-         it does NOT drift; see its own note.) Only the ROTATION is sheared: wall
-         −.11 rad/s, ring −.08, core −.04 — fastest at the wall, per the physics
-         note above. */
+         --circle-scale), scaled by the recipe's wander. The interior zones ride the
+         same drift and swell — the convection carries the whole fluid body, and a
+         middle that breathes against its own rim reads as a seam, not a breath.
+         (The wall band is the exception — it does NOT drift; see its own note.
+         The shell turns per the recipe instead of rocking — round 6.) */
       inst.draw = () => {
-        const t = inst.sim, breath = Math.sin(t * .9);
+        const t = inst.sim, breath = Math.sin(t * .9) * R.breath;
         const swell = 1 + .007 * breath;
-        const dx = Math.sin(t * .16) * 4.3, dy = -Math.cos(t * .13) * 3.4;
+        const dx = Math.sin(t * .16) * 4.3 * R.wander, dy = -Math.cos(t * .13) * 3.4 * R.wander;
         inst.img.style.transform =
-          `scale(calc(var(--circle-scale)*${swell})) rotate(${-Math.sin(t * .21) * .035}rad)`;
-        /* the wall band: rotation and swell ONLY — the no-translate rule is a rim-safety
-           guarantee, argued at its mask. Fastest of the three zones: stirred at the wall. */
+          `scale(calc(var(--circle-scale)*${swell})) rotate(${t * R.shell}rad)`;
         inst.wall.style.transform =
-          `scale(calc(var(--circle-scale)*${swell})) rotate(${t * -.11}rad)`;
+          `scale(calc(var(--circle-scale)*${swell})) rotate(${t * R.wall}rad)`;
         inst.ring.style.transform =
-          `translate(${dx}%, ${dy}%) scale(calc(var(--circle-scale)*${swell})) rotate(${t * -.08}rad)`;
+          `translate(${dx}%, ${dy}%) scale(calc(var(--circle-scale)*${swell})) rotate(${t * R.ring}rad)`;
         inst.core.style.transform =
-          `translate(${dx}%, ${dy}%) scale(calc(var(--circle-scale)*${swell})) rotate(${t * -.04}rad)`;
+          `translate(${dx}%, ${dy}%) scale(calc(var(--circle-scale)*${swell})) rotate(${t * R.core}rad)`;
         inst.glow.style.transform =
           `translate(${dx}%, ${dy}%) scale(${1 + .10 * breath + .06 * inst.boost})`;
         inst.glow.style.opacity =
-          Math.min(1, inst.base * (1 + .18 * breath + .5 * inst.boost)).toFixed(3);
+          Math.min(1, inst.base * R.glow * (1 + .18 * breath + .5 * inst.boost)).toFixed(3);
       };
       new IntersectionObserver(e => { inst.vis = e[0].isIntersecting; }).observe(box);
       door.addEventListener("pointerenter", () => { inst.hot = true; });
@@ -3851,9 +3869,9 @@ try {
         for (const inst of instances) {
           if (!inst.vis) continue;
           inst.boost += ((inst.hot ? 1 : 0) - inst.boost) * Math.min(1, dt * 2.2);
-          /* the bloom is the hover answer; the clock lift is a whisper on purpose —
-             .45 here would make the door hurry, which is the living family's register */
-          inst.sim += dt * (1 + inst.boost * .25);
+          /* hover=both (the recipe): the bloom in draw() plus this quicken — the
+             round-3 whisper rule stood at .25 until the Vortex recipe raised it */
+          inst.sim += dt * (1 + inst.boost * R.quicken);
           inst.draw();
         }
       })(last);

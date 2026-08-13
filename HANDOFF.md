@@ -1,5 +1,20 @@
 # Handoff addendum — 2026-08-13, late evening (the stills take the living orbs' movement)
 
+> ## ⚠️ ROUND 6, SAME NIGHT — THE VORTEX RECIPE SHIPS TO MAIN, AS THE INTERIM
+>
+> The founder is choosing the motion herself in the **Orb Atelier** — a shared
+> configurator artifact that runs this same engine (all three doors, presets, sliders,
+> a copyable recipe line). His instruction until her line arrives: ship the Atelier's
+> **Vortex** preset, to **main**, not a side branch. Verbatim:
+> `orb-recipe: mode=counter dir=ccw wall=30s shell=48s breath=1.60 wander=1.50 glow=1.40 hover=both alternate=off`
+> Two rules from earlier rounds are consciously overridden BY TASTE, chosen by eye in
+> the Atelier: the shell now **turns** (48s — the round-4 reflection argument stands in
+> the code as a recorded cost, not a prohibition), and hover is **both** (bloom + a .6
+> quicken; the round-3 whisper rule stood at .25). All recipe numbers live in one `R`
+> block in the script — the founder's eventual line is a drop-in retranslation of that
+> block alone. The ring-mask safety sum is re-worked at the mask for wander 1.5: 41.6%
+> vs 43.4%, ~1.8% margin — **the thinnest it has been; wander above ~1.9 breaks it.**
+>
 > ## ⚠️ ROUND 5, SAME NIGHT — "IS THE OUTSIDE EVEN MOVING?" — THE WALL BAND
 >
 > Round 4's highlight argument was correct optics and still overshot: it left the outer

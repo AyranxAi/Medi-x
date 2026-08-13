@@ -24,6 +24,21 @@ below, THIS supersedes; everything else in the 08-12 addenda still holds.
   `.link-arrow` is a shared material that 03 and 05 still use at 11.5px.
 - The Orb Studio artifact's shipped defaults track all of this.
 
+## Round 3, same day — his catch: "the word treatment is escaping"
+
+**He was right, and it was a bug, not taste.** "Hormone Therapy" sat 50px off the
+left edge of its circle and 5px off the right — the only asymmetric line of the
+six. Cause: the h3 box was 62% of the orb, the spans are nowrap, and a nowrap line
+WIDER than its `text-align:center` box start-aligns and spills its whole overflow
+to the right. "Hormone Therapy" (289px ink at 1440) was the only line that
+outgrew the 243px box — the centring silently broke for exactly the longest line,
+which is the one where it matters. Fix: `.service-orb h3` is `width:100%`; the box
+must always be wider than the longest line. Measured after: 27/28px, symmetric.
+⚠️ Any future title longer than "Hormone Therapy" is safe up to the orb box width —
+past that, this bug returns wearing the new title's name. The configurator carries
+the same fix. Scene, headline and sub greenlit this round; orbs otherwise
+untouched.
+
 ## 1 · The hero speaks SEO now
 
 - **H1 is his copy verbatim:** "Hormone imbalance / treatment for *women*." — the

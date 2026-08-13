@@ -450,7 +450,13 @@ section{position:relative}
 }
 .service-orb h3{
   position:absolute;z-index:2;left:var(--orb-optical-x);top:var(--orb-optical-y);
-  width:62%;margin:0;text-align:center;color:#2E2228;
+  /* ⚠️ width:100%, NOT 62% — HIS CATCH 2026-08-13 ("the word is escaping"). The spans
+     are nowrap, and a nowrap line WIDER than its text-align:center box start-aligns
+     and spills its whole overflow to the RIGHT: "Hormone Therapy" (289px ink in the
+     old 243px box at 1440) sat 50px off the left edge of the circle and 5px off the
+     right. The box must be wide enough that no line overflows it, or the centring
+     silently breaks for exactly the longest line — measured symmetric (27/28px) after. */
+  width:100%;margin:0;text-align:center;color:#2E2228;
   /* +10% with the circle, 2026-08-13, then +9% more the same day ("bigger letters").
      The clamp is viewport-keyed, not orb-keyed, so a bigger circle does not carry its
      title with it; grow both or neither. */

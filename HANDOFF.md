@@ -1,3 +1,233 @@
+# Handoff addendum — 2026-08-13, late (the hero drops the city · 03 moves above the scene · the agent grows · BHRT comes down to its list · Testosterone Top Up · one size for 05's titles · the corner clears)
+
+Scope: `hormone-balancing/index.html` only, seven of his notes in one pass. Where this
+touches the hero sub, the section order, the scene's title geometry, the agent mark, the
+programme name in 04/06/07, 05's title size or the phase indicator, **THIS supersedes**;
+everything else in the earlier 08-13 addenda still holds.
+
+Measured on the rendered page at 1440×900 and 390×844, plus a thirteen-width sweep for §6
+(360/375/390/430/480/600/760/900/980/1104/1280/1440/1600/1920) and a reduced-motion pass for
+§2. The harness is throwaway — it lives in the session scratchpad, not the repo — and what
+it measured is recorded here and inline at each site.
+
+## 1 · The hero sub drops "for women in Dubai"
+
+> "section one remove for women in dubai"
+
+`Medi-Gyn offers expert hormone imbalance treatment for women in Dubai.` →
+`Medi-Gyn offers expert hormone imbalance treatment.`
+
+The same cut the H1 took that morning, one round later. The sentence keeps its verb and its
+object and stops naming the audience and the city.
+
+⚠️ **The `<title>` and the meta description still say it, and they are now the only two
+places that do.** He named what he can see; those two are the SEO copy he signed off the
+same day, and changing them is a decision about the page's search entry rather than a copy
+edit. **Flagged to him, not tidied.** If he says yes, both lines are in `<head>`:
+
+| | Current |
+|---|---|
+| `<title>` | `Hormone Imbalance Treatment for Women — medi ✦ gyn` |
+| `<meta name="description">` | `Medi-Gyn offers expert hormone imbalance treatment for women in Dubai. Safe bio-identical…` |
+
+## 2 · "What is BHRT?" moves ABOVE the scene
+
+> "you know how its the animation thingy and under is what is bhrt? make what is bhrt first
+> then the animation thingy"
+
+DOM order is now **hero → 03 (What is BHRT?) → the scene → 04**. Verified on the rendered
+page: `["hero","bhrt","signals","services","services-live","boosters","stories","faq","book"]`,
+and the same order in the reduced-motion fallback.
+
+- **Nothing needed renumbering.** 03 lost its kicker the day it became a caption, so the
+  first number a reader meets is still 04. In the fallback path the segment now stands above
+  "01 · The signals", which is odd on paper and invisible in practice.
+- **The order is now define → show**, so the scene's closing BHRT is the payoff for a term
+  the reader already holds rather than the first place the word appears.
+- **`.seg-word` stays gone.** Its argument was proximity (the same word at 116px, twice in
+  one screen) and four screens of scene now sit between them — but the section is a caption
+  at ~200px against the old 1277px, and a 116px word is how it grew into a chapter the first
+  time.
+
+⚠️ **THE SKIP BUTTON WAS A REAL BREAK AND IS FIXED.** `case "skip"` read
+`getElementById("bhrt")`, which was correct while 03 was the section *below* the stage.
+Un-moved, Skip would have sent anyone leaving the scene **four screens backwards** into the
+segment they had just read. It targets `#services` now — the first section after the stage —
+and `#services-live` is deliberately not the target: the header menu and the hero's ghost
+button already point at `#services`, so that is the id that has to survive the A/B.
+Verified: from p=0.38, Skip lands `#services` at viewport y=70 (the header offset); Replay
+still returns to p≈0.
+
+⚠️ **The dawn came up with the section, and what the move costs is at the scene's EXIT.**
+03 stood on `--dawn` `#F6E7E1` because the scene rises to exactly that colour. Above the
+scene the rhyme inverts and survives — it is now the ground the scene is about to rise *to* —
+but the stage now hands off to 04's ivory `#FAF7F1` instead:
+
+| Edge | ΔRGB | Reads as |
+|---|---|---|
+| blush → cream (the failure this fill was chosen to fix) | `[-2, +6, 0]`, ratio 1.04 | two whites that were meant to match — a temperature flip at no lightness step |
+| blush → ivory (now) | `[+4, +16, +16]`, ratio 1.09, ~4.5% lighter | "it got lighter" — a section change |
+
+Every channel moves the same way, 04 opens on its own kicker and headline, and the render
+confirms it. **If he ever calls this edge out, the fix is to give `#services` and
+`#services-live` the dawn — not to move 03 back.**
+
+## 3 · The ✦ BHRT agent gets bigger
+
+> "on the animation thingy the star with the BHRT make it bigger"
+
+`font-size: 12.5px` → `clamp(16px, 1.55vw, 22px)`. Measured: **22px at 1440 (114px wide),
+16px at 390 (83px wide).**
+
+It was written small on a rule that was only half true — *"small while it works, so the title
+below is not spent two acts early"*. The mark **is** the release: it is the only thing acting
+on the stage across `.34–.72`, and it was carrying that at the smallest type in the scene.
+The title is still ~4× its size at both ends (104:22 and 52:16), so the payoff is protected
+by the ratio rather than by the absolute.
+
+⚠️ **The ceiling is her, and it is measured.** The mark is centred on `cx`, her own centre
+line, so it may never be wider than she is: 114px against a 324px body at 1440×900, 83px
+against 219px at 390×844. That is why it is a vw clamp — she is sized from the viewport too.
+`agentW` is re-measured in `build()`, so the centring needed no second edit.
+
+## 4 · BHRT comes down to the list it heads
+
+> "the bhrt should not be that far from the poor sleep just a little, because if you move
+> everything down it will be under replay and skip"
+
+This is the correction to last round's §2, which answered an 8px collision with `H*.042` +
+a column at `H*.245`. That overshot:
+
+| | Gap, BHRT → first slot |
+|---|---|
+| was (before the evening round) | 8px at 1440×900 |
+| after the evening round | **60px at 1440×900, 111px at 390×844** |
+| now | **30px at 1440×900, 20px at 390×844** |
+
+⚠️ **A fixed viewport fraction could not have got this right, which is why the fix is a
+measurement.** The title clamps 104→52px and the answers 34→16px across that range, so one
+fraction gives two different optical gaps. `.scene-title` now hangs `TITLE_GAP` above the
+first slot's own box: `max(H*.042, top − ansH/2 − (mobile?20:30) − titleH)`, with `titleH`
+and `ansH` measured in `build()` alongside the widths.
+
+⚠️ **The column did not move, and that is the other half of his note.** He is right about
+Replay and Skip: the last slot sits at `bot` = `H*.88` and the controls own the corner under
+it — ~27px of clearance at 1440×900 and less on a phone. So the gap closes by lowering the
+WORD, which shares the stage with nothing at that moment (beats all finish by `.48`, the
+title arrives at `.80`), rather than by raising the list, which shares it with the beat band
+above and the controls below. **`H*.245` is a floor now, not a value to tune.**
+
+⚠️ `H*.042` survives as the floor for short viewports, where the derived y would climb into
+the header. There the old geometry is still the best available.
+
+⚠️ **The inline note claiming "56px at 390×844" was wrong when it was written** — the phone
+actually landed 111px, which is the figure in the evening addendum. Corrected in place.
+
+## 5 · The programme is "Testosterone Top Up"
+
+> "testosterone replacement is not like this, it's supposed to be Testosterone Top Up"
+
+His service name, reproduced exactly — no hyphen, no "-Up" — in **all four places the page
+speaks it**: both 04 doors, the story attribution in 06, and the "Is this for men too?"
+answer in 07. It is shorter than what it replaces, so 04's titles gained slack rather than
+spending it (one line at every width, as before).
+
+⚠️ **`.door--trt` and `service-circle-testosterone-replacement-gold.webp` keep their names**
+— a style hook and a shipped asset. Renaming either buys nothing a reader can see and breaks
+the CSS or the image. **What he corrected is the name the page speaks.**
+
+⚠️ The FAQ's *"**Testosterone** may be prescribed through the skin in a cream"* is the
+hormone, not the programme, and was left alone.
+
+## 6 · 05's two halves set at one size
+
+> "Hormone Therapy + … should be the same size, not gut health or energy smaller"
+
+`.boost-one h3 em` drops `font-size:.8em`. The em's `margin-left` moves `.3em → .24em` in
+the same edit, because `.3em` of the old `.8em` *was* `.24em` of the h3 — the word space the
+eye sees is unchanged. Colour and italic stay; they are what tells the halves apart now that
+size does not.
+
+⚠️ **IT SPENT THE PHONE'S WHOLE MARGIN AND THE h3 FLOOR HAD TO MOVE WITH IT — the two
+changes are one change.** "Hormone Therapy + Gut Health" is the longest string in the section
+and it grew 25%: the single-line width is now **14.38 × the font size**, against a card that
+gives `viewport − 86px` while the pair is one column. At a flat 21px that needs 302px —
+
+| Width | Card gives | Line needs at 21px | |
+|---|---|---|---|
+| 360 | 274px | 302px | **wrapped** |
+| 390 | 304px | 302px | 2px of slack |
+
+A wrapped title is the one outcome both of his notes agree is wrong, so the floor is now
+`min(21px,5.1vw)`:
+
+```
+font-size: clamp(21px, 2.3vw, 32px)   →   clamp(min(21px,5.1vw), 2.3vw, 32px)
+```
+
+⚠️ **It is the clamp's MIN argument, not a fourth term.** `clamp(a,b,c)` is `max(a,min(b,c))`,
+so `min()` in the first slot lowers the floor without touching the slope or the ceiling.
+Written as `clamp(18px,min(21px,5.1vw),32px)` it **deletes the slope** — that was the first
+version of the line and it measured flat at 21px from 430 all the way to 1920. It is now in
+the comment as a warning.
+
+5.1vw reaches 21px at **412**, so every width from 412 up is byte-for-byte the old curve —
+including the 900 two-column flip, where the card halves to 353px and the old floor is
+exactly what saves it. Re-measured, one line at all fourteen widths:
+
+| | 360 | 390 | 430–900 | 980 | 1104 | 1280 | 1440 | 1600–1920 |
+|---|---|---|---|---|---|---|---|---|
+| size | 18.4 | 19.9 | 21 | 22.5 | 25.4 | 29.4 | 32 | 32 |
+| slack | 10px | 18px | 42–51px | 61px | 69px | 80px | 26px | **11px** |
+
+**The next thing that spends the remaining margin is a longer programme name, not a width.**
+
+⚠️ **`boost-contrast` does not need a new floor.** The copy sits on the card's own ivory —
+the plate is a band above it, not behind it — and the em only got bigger: 32px on desktop is
+large text at 3:1, 21px on the phone is still small text at 4.5:1, which is the threshold it
+already had to clear at 16.8px.
+
+## 7 · The corner clears — the phase indicator is gone
+
+> "remove recognition and everything on the right"
+
+`.scene-phase` — "01 — Recognition / 02 — Signals / 03 — Release / 04 — Support", 11px of
+Megante at .7 opacity, pinned to the stage's top-right — is **removed whole**. It was the
+only thing that ever stood in that corner at any point in the scene, so his "everything on
+the right" and this one element are the same removal; the figure is the other thing on that
+side, and she is the scene.
+
+**Four things went together** and any one left behind is a bug: the rule, its phone override
+in the 760 media query, the `<p>` in the stage, and everything in the script that drove it
+(`phaseEl`, `phaseTxt`, and **both** `ph` ladders — side mode's `.29/.36/.76` and the centred
+path's `.42/.56/.78`).
+
+⚠️ **What it cost, recorded because it was once the argument for keeping it.** The indicator
+was the only place the page named its own structure, and for one round it was also the only
+place the release was announced at all. That is no longer true — **beat 5, "One by one, we
+take them off you", says it in Playfair at headline scale** — which is exactly why the small
+print could go. That beat is now carrying the job alone; do not quietly re-time or re-word it.
+
+⚠️ **`--scene-fg` now dresses only the controls, and only on the centred path** (side mode
+snaps `--ctrl-fg` instead). The property is left set rather than deleted: a removed custom
+property is a silent inheritance bug waiting for the next element that asks for it.
+
+⚠️ If a chapter marker is ever wanted back, **it belongs bottom-left with the controls**, not
+in the corner the title now arrives in.
+
+## Still open
+
+- **The `<title>` and meta description still say "for women in Dubai"** — §1. His call, and
+  the only item in this round left deliberately undone.
+- **The scene → 04 seam** (§2). Mild and measured, but it is new, and the fix if he dislikes
+  it is one line of CSS on two sections.
+- Everything the evening addendum left open is still open: the 04 / 04 alt A/B, the
+  zero-height `.turn` leftover between the fallback sections, the unwired doors in both
+  sections, `/programs/` still showing the porcelain pair, `?style=` overriding 06's scale,
+  and `tools/qa/door-contrast.mjs` measuring a retired dark-plate model.
+
+---
+
 # Handoff addendum — 2026-08-13, evening (headline · scene clearance · the title comes off the ball · an A/B on the orbs · 06 borrows the landing page's voice · 03 stands on the dawn · the orbs become real 3D · 05 takes his photographs)
 
 Scope: `hormone-balancing/index.html`, ten of his notes in one pass — plus, for §10 only,

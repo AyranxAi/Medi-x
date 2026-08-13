@@ -371,16 +371,25 @@ section{position:relative}
    step, so the eye cannot read it as "a new section has started", but a real shift in
    colour TEMPERATURE from pink to yellow, which the eye sees perfectly well. It reads as
    two whites that were supposed to match and don't, rather than as a transition.
-   Standing 03 on the dawn removes the seam entirely, and it is the editorially right
-   answer as well as the measurable one: the scene names BHRT, this section defines it, so
-   the ground it was named on should still be underfoot while it is explained. The reader
-   leaves the dawn at 04, not one section early.
+   ⚠️ THE SECTION MOVED ABOVE THE SCENE ON 2026-08-13 (late) AND THE DAWN STAYED. His
+   call — "make what is bhrt first then the animation thingy" — so the argument for this
+   fill inverts and survives: the definition no longer stands on the ground the scene just
+   handed it, it stands on the ground the scene is about to rise TO. Same colour, same
+   rhyme, read forwards instead of backwards.
+   ⚠️ WHAT THE MOVE COSTS IS THE SEAMLESS EXIT, AND IT IS THE MILD EDGE, NOT THE BAD ONE.
+   The scene now hands off to 04's ivory #FAF7F1: ΔRGB [+4, +16, +16] — every channel UP,
+   ~4.5% lighter, ratio 1.09. That reads as "it got lighter", which is what a section
+   change is supposed to read as; the failure above was a temperature flip at NO lightness
+   step. 04 also opens on its own kicker and headline, so the reader is told twice. If he
+   ever calls this edge out, the fix is to give #services and #services-live the dawn, not
+   to move this section back.
    ⚠️ THE ALTERNATION IS NOT BROKEN BY THIS, IT IS RESTORED. Page ground now runs
-   dawn(03) → ivory(04) → cream(05) → ivory(06) → cream(07) → burgundy. The old cream at
-   03 was the value that made two near-identical creams bracket the ivory doors.
-   ⚠️ THE HAIRLINES DO THE SEPARATING AT THE BOTTOM EDGE — .seg carries border-top and
-   border-bottom in --line, so 03 is delineated as a band regardless of its fill. That is
-   why the ground was free to move at all.
+   dawn(03, above the scene) → ivory(04) → cream(05) → ivory(06) → cream(07) → burgundy.
+   The old cream at 03 was the value that made two near-identical creams bracket the doors.
+   ⚠️ THE HAIRLINES DO THE SEPARATING AT BOTH EDGES — .seg carries border-top and
+   border-bottom in --line, so 03 is delineated as a band regardless of its fill, and that
+   is what lets it sit between the hero's silk and the scene's ink without either one
+   needing to know it is there. It is also why the ground was free to move at all.
    Contrast re-measured on the dawn: h2 ink 12.68, .seg-def ink 12.68, its em (logo-red)
    6.74. All clear. .seg-gloss needed a value of its own — see --gold-gloss. */
 .bhrt{background:var(--dawn)}
@@ -756,10 +765,31 @@ section{position:relative}
    ⚠️ 390 IS WHAT CAPS THE FLOOR, so the phone keeps the 21px it already had — Megante simply
    reads wider at it. Anything above 23px there wraps, and a wrapped title is what his
    "should be one line" note ruled out. If he ever wants the phone bigger, the two-line stack
-   that .door h3 already uses in 04 is the thing to offer; it is not a size problem. */
+   that .door h3 already uses in 04 is the thing to offer; it is not a size problem.
+   ⚠️ THE FLOOR ITSELF IS CLAMPED NOW — the 21px became min(21px,5.1vw) — AND THAT IS THE
+   PRICE OF THE EM GOING FULL SIZE (2026-08-13, late; see the .boost-one h3 em note below).
+   "Hormone Therapy + Gut Health" is the longest string in the section and it grew 25% when
+   the second half stopped setting at .8em: measured single-line width is now 14.38 × the
+   font size, against a card that gives viewport − 86px while the pair is one column. At a
+   flat 21px that needs 302px and a 360 phone has 274 — it wrapped, which is the one outcome
+   both of his notes agree is wrong. 5.1vw is the largest slope that clears the narrow end
+   (18.4px → 264px in 274 at 360; 19.9 → 286 in 304 at 390) and it reaches 21px at 412, so
+   EVERY WIDTH FROM 412 UP IS BYTE-FOR-BYTE THE OLD CURVE — including the 900 two-column
+   flip, where the card halves to 353px and the old floor is exactly what saves it.
+   ⚠️ IT IS THE CLAMP'S MIN ARGUMENT, NOT A FOURTH TERM. clamp(a,b,c) is max(a,min(b,c)), so
+   putting min() in the first slot lowers the floor without touching the 2.3vw slope or the
+   32px ceiling. Writing it as clamp(18px,min(21px,5.1vw),32px) instead DELETES the slope —
+   the whole desktop range then sits at 21px. That was the first version of this line and it
+   measured flat from 430 to 1920. Do not "tidy" it back into that shape.
+   ⚠️ Do not simplify to a plain vw floor either: between 760 and 900 the layout takes the
+   width away at a breakpoint and a vw term cannot see that happen.
+   ⚠️ THE CEILING NUMBERS ABOVE WERE MEASURED WITH THE OLD .8em EM and are now optimistic by
+   about a fifth. Re-measured with the em at full size: one line at 360/375/390/430/480/600/
+   760/900/980/1104/1280/1440/1600/1920, tightest at 1600–1920 (11px of slack) and 1440
+   (26px). The next thing that spends that margin is a longer programme name, not a width. */
 .boost-one h3{
   font-family:var(--accent);font-weight:400;color:var(--ink);
-  font-size:clamp(21px,2.3vw,32px);line-height:1.1;letter-spacing:-.02em;
+  font-size:clamp(min(21px,5.1vw),2.3vw,32px);line-height:1.1;letter-spacing:-.02em;
 }
 /* ⚠️ THE HALVES ARE BACK ON ONE LINE — his call 2026-08-13 (evening), "hormone + gut and
    hormone + energy should be one line". `display:block` is what stacked them; inline is the
@@ -769,7 +799,9 @@ section{position:relative}
    deliberately: a trailing space there COLLAPSES if the line ever wraps between the halves,
    and the two words would fuse. margin-left survives the wrap. Do not "tidy" it by adding a
    space to the HTML.
-   ⚠️ .3em IS OF THE EM'S OWN .8em, i.e. .24em of the h3 — a word space, not an indent.
+   ⚠️ .24em IS A WORD SPACE, NOT AN INDENT, and the value moved with the type size below:
+   it was .3em while the em rendered at .8em (= .24em of the h3), and it is .24em now that
+   the em is full size, so the gap the eye sees is unchanged.
    ⚠️ IT MAY STILL WRAP, AND THAT IS CORRECT. This makes the halves one CONTINUOUS line
    rather than a forced two; it does not nowrap them. Re-measured after the type went up, at
    1920/1600/1440/1280/1104/980/900/760/600/480/390 — one line at every width. The tightest
@@ -782,7 +814,22 @@ section{position:relative}
    3x against an upright version before keeping it: the skew is clean on this face, and it
    keeps the rose italic that every approved render on this page ends a headline with. If a
    real Megante italic ever lands, this comment is the thing that should be deleted. */
-.boost-one h3 em{color:var(--logo-red);display:inline;font-size:.8em;margin-left:.3em}
+/* ⚠️ THE TWO HALVES ARE ONE SIZE — HIS CALL 2026-08-13 (late): "Hormone Therapy + …
+   should be the same size, not gut health or energy smaller". The em dropped its .8em, so
+   "+ Gut Health" and "+ Energy" now set at whatever the h3 itself is setting at, and the
+   title reads as one name rather than a name with a subtitle. Colour and italic stay —
+   they are what still tells the halves apart now that size doesn't.
+   ⚠️ IT SPENT THE PHONE'S WHOLE MARGIN AND THE FLOOR ABOVE HAD TO MOVE. "+ Gut Health" is
+   the longer of the two and grew 25% with this: at a flat 21px the line needs 302px, which
+   still fits a 390 phone by 2px and does NOT fit a 360 one at all. That is why the h3's
+   floor is now min(21px,5.1vw) — the two changes are one change, and reverting either
+   without the other puts the wrap back. The failure mode is a wrap, not an overflow.
+   ⚠️ CONTRAST IS UNCHANGED OR BETTER, so tools/qa/boost-contrast.mjs does not need a new
+   floor: the copy sits on the card's own ivory (the plate is a band above it, not behind
+   it), and the em only got bigger — 32px on desktop is large text at 3:1, 21px on the
+   phone is still small text at 4.5:1, which is the threshold it already had to clear at
+   16.8px. Re-run the harness on any plate or colour change, as before. */
+.boost-one h3 em{color:var(--logo-red);display:inline;margin-left:.24em}
 /* ⚠️ THE BODY COPY HAS ITS OWN SIZE AND LEADING NOW — his "appropriate for reading". It had
    neither: it took the global 16px/1.6, which is the page's utility size, not a reading size,
    and it was the smallest type in a card whose whole job is two sentences. It now lands on
@@ -1303,9 +1350,23 @@ html.side-scene .scene-track{height:360vh}
    orthographic camera framed identically to the point sampling. */
 .scene-stone{position:absolute;left:0;top:0;opacity:0;pointer-events:none;
   will-change:opacity;user-select:none}
-/* The agent, small while it works — so the title below is not spent two acts early. */
+/* The agent — the ✦ BHRT mark that ignites at the pituitary and travels down her axis.
+   ⚠️ 12.5px → clamp(16,1.55vw,22) ON HIS CALL 2026-08-13 (late), "the star with the BHRT
+   make it bigger". It was written small on a rule that is now only half true: "small while
+   it works, so the title below is not spent two acts early". The mark IS the release — it
+   is the only thing on the stage doing anything across .34–.72, and at 12.5px it was the
+   smallest type in the scene while carrying its whole argument. The title is still four
+   times its size at every width (104 against 22 at 1440; 52 against 16 at 390), so the
+   payoff is not spent — the ratio is what protects it, not the absolute.
+   ⚠️ THE CEILING IS THE FIGURE, AND IT IS MEASURED. The mark is centred on cx, which is
+   her own centre line, so it may not grow wider than she is: at 22px it renders ~114px
+   against a 324px body at 1440×900, and at 16px ~83px against 219px at 390×844. It is
+   also why this is a vw clamp rather than a step — she is sized from the viewport too.
+   ⚠️ THE SCRIPT MEASURES offsetWidth EVERY BUILD (agentW) to keep it centred, so a size
+   change here needs no second edit there — but it DOES need a resize to re-measure, which
+   build() already handles. */
 .scene-agent{position:absolute;left:0;top:0;opacity:0;white-space:nowrap;
-  font-family:var(--sans);font-size:12.5px;font-weight:500;letter-spacing:.24em;
+  font-family:var(--sans);font-size:clamp(16px,1.55vw,22px);font-weight:500;letter-spacing:.24em;
   text-transform:uppercase;color:var(--gold);text-shadow:0 0 18px rgba(194,160,94,.5)}
 .scene-agent .star{font-size:1.15em;letter-spacing:0;padding-right:.55em;vertical-align:-.06em}
 /* once she is stone the mark is gold-deep on pale marble; the halo is what keeps it read */
@@ -1352,8 +1413,21 @@ html.side-scene .scene-beat{font-size:clamp(21px,2.6vw,37px);line-height:1.22}
 .scene-beat.gold{color:var(--gold)} /* the key validating line, lit — lives entirely on the dark stage */
 .scene-beat.reveal{font-size:clamp(44px,6.5vw,90px);line-height:1.05}
 .scene-beat.reveal .star{color:var(--gold-deep);font-size:.5em;vertical-align:.35em;padding-right:.25em} /* on ivory — see .scene-answer .star */
-.scene-phase{position:absolute;top:calc(max(1rem,env(safe-area-inset-top)) + 4.2rem);right:var(--hdr-pad);
-  font-family:var(--accent);font-size:11px;letter-spacing:.3em;color:var(--scene-fg);opacity:.7;text-transform:uppercase}
+/* ⚠️ .scene-phase IS GONE — HIS CALL 2026-08-13 (late), "remove recognition and everything
+   on the right". It was the four-chapter indicator pinned top-right of the stage —
+   "01 — Recognition / 02 — Signals / 03 — Release / 04 — Support" — 11px of Megante at .7
+   opacity, and it was the only thing standing in that corner at any point in the scene, so
+   his "everything on the right" and this one element are the same removal. The figure is
+   the other thing on that side and it is the scene.
+   FOUR THINGS WENT TOGETHER and any one left behind is a bug: this rule, its phone override
+   in the 760 media query, the <p> in the stage, and everything in the script that drove it
+   — phaseEl, phaseTxt, and both `ph` ladders (side mode's and the centred path's).
+   WHAT IT COST, recorded because it was an argument for keeping it once: the indicator was
+   the only place the page named its own structure, and one round it was ALSO the only place
+   the release was announced at all. That is no longer true — beat 5, "One by one, we take
+   them off you", says it in Playfair at headline scale, which is why the small print could
+   go. If a chapter marker is ever wanted back, it belongs bottom-left with the controls,
+   not in the corner the title arrives in. */
 /* ══ THE SCENE CONTROLS — NEW 2026-08-11 ══════════════════════════════════════
    Skip, replay and step, at the foot of the pinned stage.
    ⚠️ THEY CROSS-FADE WITH "SCROLL TO LISTEN" RATHER THAN SITTING BESIDE IT. Both
@@ -1363,7 +1437,9 @@ html.side-scene .scene-beat{font-size:clamp(21px,2.6vw,37px);line-height:1.22}
    on a dark pill: correct for five sixths of the scene and invisible for the last
    sixth, because the ground has risen to blush by then and pale-on-pale swallowed
    them. --scene-fg is the ivory→ink lerp the stage already runs across .826–.850,
-   so they cross the dawn with everything else. Same rule the phase indicator follows.
+   so they cross the dawn with everything else. (The phase indicator followed the same
+   rule and was the other half of "everything"; it was removed 2026-08-13, late, so on
+   the centred path these buttons are now the only thing --scene-fg dresses.)
    Hidden entirely without the scene: no JS, or reduced-motion, means no stage to
    control, and a dead button is worse than no button. */
 /* ⚠️ THE CONTROLS SIT BOTTOM-LEFT AND SNAP WITH THE GROUND — EVERY WIDTH, 2026-08-13.
@@ -1442,10 +1518,13 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
   /* Stays at 12%. Tried 10% to buy the labels room at the top, and gave it back: the
      figure is derived now, so the copy already clears the first label by 85px at 360×640
      — its tightest case — while 10% left only 2px between the copy's first line and the
-     phase indicator, which is right-aligned across the same band. */
+     phase indicator, which was right-aligned across the same band.
+     ⚠️ THAT SECOND CONSTRAINT DIED WITH THE INDICATOR (2026-08-13, late) and the first one
+     did not. 12% still stands on the 85px clearance, which is its own measurement; there is
+     simply nothing left in the top-right band to collide with if anyone re-opens 10%.
+     Note side mode overrides this from the script anyway (copyEl top = H*.045). */
   .scene-copy{top:12%}
   .scene-answer{font-size:16px} /* they were 14px flanking nothing; they get the band below the figure now */
-  .scene-phase{top:calc(max(1rem,env(safe-area-inset-top)) + 2.2rem)}
 }
 
 /* ─────────────────────────── RESPONSIVE ─────────────────────────── */
@@ -1545,18 +1624,26 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
            an <em> at the END OF LINE TWO is not decoration, it is the composition: the
            rose italic sat there in every render he has approved, and an H1 with no
            accent at all is the only headline on the page without one.
-           ⚠️ THE <title>, THE META DESCRIPTION AND THE HERO SUB STILL SAY "for women" —
-           deliberately. He asked for the H1 only, and those three are the SEO copy he
-           signed off the same day. Change them as one decision, not as a tidy-up. -->
+           ⚠️ THE <title> AND THE META DESCRIPTION STILL SAY "for women in Dubai" —
+           deliberately, and they are now the ONLY two places that do. 2026-08-13 (late)
+           took the phrase out of the hero sub on his note ("section one remove for women
+           in dubai"); he named what he can see, and the head tags are the SEO copy he
+           signed off the same day. Flagged to him rather than tidied: changing them is
+           one decision about the page's search entry, not a copy edit. -->
       <h1>
         <span class="line">Hormone imbalance</span>
         <span class="line"><em>treatment</em>.</span>
       </h1>
       <!-- HIS CALL 2026-08-13, second round: the SEO description joins the headline it
            belongs to. The "Deep sleep. Steady energy…" lede it replaces survives in
-           spirit as the scene's own answers; revert is this one block. -->
+           spirit as the scene's own answers; revert is this one block.
+           ⚠️ "for women in Dubai" CUT 2026-08-13 (late), his call — the same cut the H1
+           took that morning, one round later. The sentence keeps its verb and its object
+           and simply stops naming the audience and the city, so the sub now says what the
+           clinic DOES; the audience is still spoken by every other word on the page. The
+           head tags keep the phrase — see the note on the H1 above. -->
       <p class="hero-sub">
-        Medi-Gyn offers expert hormone imbalance treatment for women in Dubai.
+        Medi-Gyn offers expert hormone imbalance treatment.
         Safe <strong>bio-identical hormone therapy</strong> to restore balance
         and well-being.
       </p>
@@ -1566,6 +1653,53 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
       </div>
     </div>
     <div class="hero-hint" aria-hidden="true"><span>Scroll</span><span class="tick"></span></div>
+  </section>
+
+  <!-- ══════════ 03 · WHAT IT IS — the definition, BEFORE the scene ══════════════════════
+       ⚠️ IT MOVED UP HERE ON 2026-08-13 (late), HIS CALL: "make what is bhrt first then
+       the animation thingy". It is still numbered 03 in the comments and still carries no
+       kicker, so nothing on screen has to be renumbered — the chapter number came off this
+       section the same day it became a caption, and 04 is the next number the reader sees.
+       ⚠️ THE ORDER IS NOW DEFINE → SHOW, AND THAT CHANGES WHAT THE SCENE'S LAST WORD DOES.
+       Below the scene this section was a gloss on a word the reader had just watched
+       arrive; above it, it is the setup, and the scene's closing BHRT becomes the payoff
+       for a term the reader already holds. Both readings work — this is the one he asked
+       for, and it is the one that stops the reader meeting "BHRT" for the first time as a
+       display word with no definition anywhere above it.
+       ⚠️ THE FALLBACK PATH READS IT IN THE SAME ORDER, which is worth knowing: no-JS and
+       reduced-motion visitors get this segment, then "01 · The signals", then "02 · THE
+       TURN". A definition standing above chapter 01 is odd on paper and invisible in
+       practice — those two kickers are the only numbers in that path and they still run in
+       sequence. Do not renumber them to close the gap; the scene has no number at all.
+       ⚠️ Ground: see the .bhrt / .seg block in the stylesheet. The dawn came up here with
+       it, on purpose, and what the move costs at the scene's exit is measured there. -->
+  <section class="bhrt seg" id="bhrt">
+    <div class="seg-in">
+      <!-- ⚠️ WAS <p class="kicker">03 · What it is</p> — his call: drop the chapter number
+           and promote it to a real headline at the page's own h2 scale. It is an h2 rather
+           than a styled <p> for the reason recorded below: h1–h3 are the only selectors
+           that pin "opsz" 30, and unpinned Playfair at this size loses the H's crossbar. -->
+      <h2 data-reveal>What is BHRT?</h2>
+      <!-- ⚠️ THE LEDGER IS GONE, AND SO IS THE 116px WORD ABOVE IT — his call.
+           The ledger existed for one reason: the scene showed symptoms leaving and answers
+           arriving but never named what sat between them, so six screens of the best work
+           on the site left no residue. That is no longer true. The scene now alleviates
+           each symptom VISIBLY, one at a time, with a labelled agent doing it — so a table
+           of the same ten pairs underneath is a recap of something the reader just watched.
+           ⚠️ .seg-word STAYS GONE, and the reorder does not buy it back. Its original
+           argument was proximity — the scene ended on BHRT at display size and this section
+           opened with the same word at 116px, twice within one screen — and that argument
+           is weaker now that four screens of scene sit between them. What replaces it is
+           simpler: this section is a CAPTION, roughly 200px against the old 1277px, and a
+           116px word is how it grew into a chapter the first time. The scene owns the word
+           at display size; this owns the sentence. Do not put it back.
+           No CTA here, deliberately: the doors at 04 are the call, and they are now four
+           screens away rather than one — the reader is meant to leave this segment into the
+           scene, not out of the page. -->
+      <p class="seg-gloss">Bio-identical hormone replacement therapy</p>
+      <p class="seg-def" data-reveal>Hormones structurally <em>identical</em> to the ones your
+      body already makes — replenished as your own decline, dosed from your labs.</p>
+    </div>
   </section>
 
   <!-- ══════════ 01–02 · THE SIGNALS — tethered scroll scene (fallback below) ══════════ -->
@@ -1649,10 +1783,13 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
             <p class="scene-beat gold">They're signals — your body asking, clearly, for support.</p>
             <!-- ⚠️ BEAT 5 NAMES THE RELEASE, AND THAT IS ITS WHOLE JOB — his call 2026-08-11
                  after "you can't tell the message is being removed".
-                 The page DID say it: the phase indicator reads "03 — Release" through this
-                 exact window, at 11px, top-right, in type the comment beside it calls
+                 The page DID say it, once: the phase indicator read "03 — Release" through
+                 this exact window, at 11px, top-right, in type the comment beside it called
                  decorative chrome. The one moment the page explained its own metaphor, it
                  did so in the smallest type on screen.
+                 ⚠️ THAT INDICATOR IS GONE NOW (2026-08-13, late, his call), WHICH MAKES THIS
+                 BEAT THE ONLY PLACE THE RELEASE IS NAMED. It was already carrying the job;
+                 it is now carrying it alone. Do not quietly re-time or re-word it.
                  This slot was chosen, not added: SCHED[5] already runs .585–.700, dead centre
                  of the release window (.56–.78), in the copy stream that is already clear and
                  already Playfair at headline scale. No new element, no new timing, no new CSS.
@@ -1677,7 +1814,13 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
                  Megante at display size and outlive the beat schedule. SCHED is eight
                  entries now, not nine; the title carries its own window. -->
           </div>
-          <p class="scene-phase" aria-hidden="true">01 — Recognition</p>
+          <!-- ⚠️ <p class="scene-phase">01 — Recognition</p> STOOD HERE AND IS GONE — his
+               call 2026-08-13 (late), "remove recognition and everything on the right". It
+               was the chapter indicator in the stage's top-right corner and the only thing
+               that ever stood there; the stylesheet carries the full note where its rule
+               used to be. Nothing in the script reads a phase any more — do not re-add the
+               element alone, it would render once as "01 — Recognition" and then never
+               change, which is worse than not having it. -->
           <p class="scene-hint">Scroll to listen</p>
           <!-- Real buttons, not divs: this is the only way into the scene that is not a
                scroll gesture, which means it is also the only way a keyboard reaches it. -->
@@ -1756,33 +1899,6 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
     </div>
   </div>
 
-  <!-- ══════════ 03 · WHAT IT IS — a caption between the scene and the doors ══════════ -->
-  <section class="bhrt seg" id="bhrt">
-    <div class="seg-in">
-      <!-- ⚠️ WAS <p class="kicker">03 · What it is</p> — his call: drop the chapter number
-           and promote it to a real headline at the page's own h2 scale. It is an h2 rather
-           than a styled <p> for the reason recorded below: h1–h3 are the only selectors
-           that pin "opsz" 30, and unpinned Playfair at this size loses the H's crossbar. -->
-      <h2 data-reveal>What is BHRT?</h2>
-      <!-- ⚠️ THE LEDGER IS GONE, AND SO IS THE 116px WORD ABOVE IT — his call.
-           The ledger existed for one reason: the scene showed symptoms leaving and answers
-           arriving but never named what sat between them, so six screens of the best work
-           on the site left no residue. That is no longer true. The scene now alleviates
-           each symptom VISIBLY, one at a time, with a labelled agent doing it — so a table
-           of the same ten pairs underneath is a recap of something the reader just watched.
-           ⚠️ .seg-word went for a different reason: the scene now ENDS on BHRT at display
-           size, so the section directly below it opened with the same word at 116px, twice
-           within one screen. The scene names it; this defines it. Do not put it back
-           without also removing the scene title.
-           What is left is a caption, not a chapter — roughly 200px against the old 1277px,
-           and its whole job is to hand the reader to the service doors below. No CTA here,
-           deliberately: the doors are the call. -->
-      <p class="seg-gloss">Bio-identical hormone replacement therapy</p>
-      <p class="seg-def" data-reveal>Hormones structurally <em>identical</em> to the ones your
-      body already makes — replenished as your own decline, dosed from your labs.</p>
-    </div>
-  </section>
-
   <!-- ══════════ 04 · CONSULTATIONS ══════════ -->
   <section class="services sec-pad" id="services">
     <div class="wrap">
@@ -1830,7 +1946,17 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
                alt="" loading="lazy" decoding="async" width="1100" height="1100">
         </div>
         <span class="hook">“Concerned about male hormone health?”</span>
-        <h3>Testosterone Replacement</h3>
+        <!-- ⚠️ THE PROGRAMME IS CALLED "TESTOSTERONE TOP UP" — his correction 2026-08-13
+             (late), "testosterone replacement is not like this, it's supposed to be
+             Testosterone Top Up". It is his service name, so it is reproduced exactly and
+             is not ours to tighten (no hyphen, no "-Up"). Changed in all four places the
+             page speaks it: both 04 doors, the story attribution in 06, and the "Is this
+             for men too?" answer in 07. Search before adding a fifth.
+             ⚠️ THE CLASS AND THE FILENAME STILL SAY trt / testosterone-replacement, on
+             purpose: .door--trt is a style hook and the WebP is a shipped asset, and
+             renaming either buys nothing a reader can see while breaking the CSS or the
+             image. The name the page SPEAKS is the thing he corrected. -->
+        <h3>Testosterone Top Up</h3>
         <a class="link-arrow" data-soon>Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
       </article>
     </div>
@@ -1888,7 +2014,7 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
       <article class="door door--trt">
         <div class="orb" aria-hidden="true"><canvas class="orb__gl"></canvas></div>
         <span class="hook">“Concerned about male hormone health?”</span>
-        <h3>Testosterone Replacement</h3>
+        <h3>Testosterone Top Up</h3>   <!-- his name for it — see the twin door in 04 above -->
         <a class="link-arrow" data-soon>Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
       </article>
     </div>
@@ -2005,7 +2131,7 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
         <article class="story">
           <blockquote>“I assumed slowing down was just what 58 feels like. It wasn't. I'm lifting
           again, I'm present — my wife says she got me back.”</blockquote>
-          <div class="who"><b>David, 58</b><span>Testosterone Replacement</span></div>
+          <div class="who"><b>David, 58</b><span>Testosterone Top Up</span></div>
         </article>
       </div>
       <!-- ⚠️ "Placeholder stories for this mock-up — to be replaced with real patient
@@ -2112,7 +2238,7 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
           <button class="faq-q" aria-expanded="false">Is this for men too?<span class="ind" aria-hidden="true"></span></button>
           <div class="faq-a"><div class="faq-a-in"><p>
             Absolutely. Hormonal decline isn't only a women's story — our
-            <strong>Testosterone Replacement</strong> and balancing programs are built for men
+            <strong>Testosterone Top Up</strong> and balancing programs are built for men
             navigating their own version of this change.
           </p></div></div>
         </div>
@@ -2447,7 +2573,8 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
   const labels  = [...root.querySelectorAll(".scene-label")];
   const answers = [...root.querySelectorAll(".scene-answer")];
   const beats   = [...root.querySelectorAll(".scene-beat")];
-  const phaseEl = root.querySelector(".scene-phase");
+  /* phaseEl is gone with the indicator it drove — 2026-08-13 (late), his call. See the
+     note in the stylesheet where .scene-phase used to be. */
   const ctrlEl  = root.querySelector(".scene-ctrl");
   const ctx     = canvas.getContext("2d");
 
@@ -2636,7 +2763,7 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
   if(SIDE) beats.forEach(b=>b.classList.remove("light"));
 
   let W,H,DPR,figH,figTop,cx,buckets=[],haloPts=[],halfW=[],aHalfW=[],mx=0,my=0,smx=0,smy=0;
-  let agentW=96,titleW=240;
+  let agentW=96,titleW=240,titleH=104,ansH=37;
   let segs=[],flowT=0,lastT=0;
 
   function build(){
@@ -2685,6 +2812,12 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
        screen edge minus the word's own width, same rule as the pinned phone labels. */
     if(agentEl) agentW = agentEl.offsetWidth||96;
     if(titleEl) titleW = titleEl.offsetWidth||240;   /* both modes need the title measured */
+    /* ⚠️ HEIGHTS, NEW 2026-08-13 (late) — side mode now hangs BHRT off the column instead
+       of off a viewport fraction, so it needs the two boxes it sits between. Both clamp
+       with the viewport (104↔52 and 34↔16), which is exactly why they are measured rather
+       than assumed: a fraction that gives the right gap at 1440 gave twice it at 390. */
+    if(titleEl) titleH = titleEl.offsetHeight||104;
+    if(answers[0]) ansH = answers[0].offsetHeight||37;
   }
   build();
   addEventListener("resize", build);
@@ -2717,7 +2850,7 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
   }
 
   const lpos=[];
-  let idle=false, latch=0, phaseTxt="", creep=0, lastLatch=0, stillT=0, pNow=0;
+  let idle=false, latch=0, creep=0, lastLatch=0, stillT=0, pNow=0;   /* phaseTxt went with the indicator */
   /* ═══ ?play=hybrid — the middle path between scrubbing and autoplay ═══
      Full autoplay is wrong for THIS scene and the reason is the pin: the stage is held for
      600vh, so a story that finishes on its own leaves the reader locked in a viewport with
@@ -2779,7 +2912,14 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
        (~7px at 390×844). Two numbers move together to fix it and BOTH are needed —
        the title rises to H*.042 (see the titleEl block at the foot of updateSide) and
        the column starts 45% of a screen-tenth lower. Measured after: 60px at 1440×900,
-       56px at 390×844.
+       56px at 390×844 — and that second figure was wrong when it was written: the phone
+       actually landed 111px, because the title clamps to 52px there and a fixed fraction
+       cannot see that. 2026-08-13 (late) fixed the overshoot at the TITLE end — it now
+       hangs a measured gap above this column instead of at H*.042 — and left `top` where
+       it is. Read the titleEl block before touching either number.
+       ⚠️ .245 IS ALSO A FLOOR NOW, HIS WORDS: "if you move everything down it will be
+       under replay and skip". The last slot is at `bot` and the controls own the corner
+       beneath it, so pushing this value further down closes that gap, not the one above.
        ⚠️ THE COST IS PITCH, AND IT WAS CHECKED. Ten slots now share .245–.88 rather
        than .20–.88: 63px of pitch at 900px tall against 37px line boxes, so nothing
        touches. bot is untouched — .88 is what leaves the controls their corner.
@@ -2839,10 +2979,13 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
        NO unbacked 9.5px text clears 4.5:1 on it — ivory and ink are equidistant there, so
        the best a colour lerp can do is ~3.9, and a lerp is worst of all at its midpoint
        because the type itself is mid grey. Measured: 3.59.
-       The phase indicator has to live with that (it has no ground of its own, it is
-       aria-hidden chrome at 11px, and the sliver is under a second of scroll — the same
-       trade this file already accepts for the desktop crossover). The controls are real
-       buttons, so they get the fix instead of the trade: the type SNAPS rather than
+       The phase indicator used to live with that — no ground of its own, aria-hidden
+       chrome at 11px, and a sliver under a second of scroll — and it is gone as of
+       2026-08-13 (late), so --scene-fg above now dresses nothing on this path. It is left
+       set because the stylesheet's own defaults still name it and a removed custom
+       property is a silent inheritance bug waiting for the next element that asks for it.
+       The controls are real buttons, so they get the fix instead of the trade: type SNAPS
+       rather than
        lerping, so it is never mid grey, and the pill carries a dark tint underneath it
        right up to the snap. Ivory then sits on its own ground, not on the stage's.
        Measured after: 5.9 before the snap, 7.1 after, worst case 5.9. Boolean flips are
@@ -2871,17 +3014,13 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
          at W*.13 reads as two different pages */
       if(!mobile) ctrlEl.style.left=colL+"px";
       ctrlEl.style.opacity=c.toFixed(3); ctrlEl.style.pointerEvents=c>.25?"auto":"none"; }
-    const ph=p<.29?"01 — Recognition":p<.36?"02 — Signals":p<.76?"03 — Release":"04 — Support";
-    if(ph!==phaseTxt){ phaseTxt=ph; phaseEl.textContent=ph; }
-    /* ⚠️ THE INDICATOR LEAVES AS THE WORD ARRIVES, AND THAT IS A COLLISION FIX AS WELL AS
-       an editorial one. .scene-title lands top-right over .80–.88 at 104px; the indicator
-       is 11px of chrome pinned to the same corner. Measured gap between them at p=.90:
-       164px at 1920, 44px at 1440, and 17px at 1280 — a common laptop, where the payoff
-       word and the decoration read as one cluster. They also say the same thing at that
-       moment: "04 — Support" is the small print of "BHRT". So the small one goes, over
-       exactly the window the big one fades in. Nothing else drives this opacity, and the
-       .7 floor is the stylesheet's own. */
-    phaseEl.style.opacity=(.7*(1-ss(.80,.88,p))).toFixed(3);
+    /* ⚠️ THE PHASE LADDER STOOD HERE — "01 — Recognition" at p<.29, then Signals, Release,
+       Support — with a fade that took it off the stage over .80–.88 as the title arrived.
+       Removed whole 2026-08-13 (late), his call; the fade is gone with it because there is
+       nothing left to fade. The collision it was solving cannot recur: the title is the
+       only thing in that band now, and it no longer lives in the corner either.
+       History, since it was measured and may be asked about again: the indicator and the
+       title were 17px apart at 1280×800, 44px at 1440 and 164px at 1920. */
 
     for(let i=0;i<n;i++){
       const el=labels[i];
@@ -2966,14 +3105,28 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
     if(titleEl){
       titleEl.style.opacity=ss(.80,.88,p).toFixed(3);
       const bx=colL;  /* the seam it used to centre on is gone; BHRT speaks from the column */
-      /* ⚠️ .055 → .042, the other half of the "not as close to deep sleep" fix — read the
-         note on `top` above for the measurement. It is the SMALLER half deliberately: the
-         title cannot climb much further because .scene-copy starts at H*.045 and the header
-         bar owns everything above that, so most of the clearance had to come from pushing
-         the column down rather than pulling the word up. The word's SIZE is untouched —
-         he asked for distance, not a smaller BHRT, and shrinking the payoff to buy the gap
-         would have spent the thing the gap exists to protect. */
-      titleEl.style.transform="translate3d("+bx.toFixed(1)+"px,"+(H*.042).toFixed(1)+"px,0)";
+      /* ⚠️ THE WORD HANGS OFF THE COLUMN NOW, NOT OFF THE VIEWPORT — HIS CALL 2026-08-13
+         (late): "the bhrt should not be that far from the poor sleep, just a little".
+         This is the correction to the round before it, which took an 8px collision and
+         answered it with H*.042 + a column at H*.245 — 60px of air at 1440×900 and 111px
+         at 390×844, because the title clamps 104→52 across that range and a fixed fraction
+         cannot know that. Sitting it TITLE_GAP above the first slot's box makes the gap
+         the same optical distance at every width, measured rather than declared.
+         ⚠️ THE COLUMN DOES NOT MOVE, AND THAT IS THE OTHER HALF OF HIS NOTE — "if you move
+         everything down it will be under replay and skip". He is right: the last slot is
+         at H*.88 and the controls sit at bottom 22px, which is ~27px of clearance at
+         1440×900 and less on a phone. So the gap closes by lowering the WORD, which shares
+         the stage with nothing at that moment — the beats are all finished by .48 and the
+         title does not arrive until .80 — rather than by raising the list, which shares it
+         with the beat band above and the controls below.
+         ⚠️ THE FLOOR STAYS AT H*.042 for short viewports, where `top` is small enough that
+         the derived y would climb into the header. There the old geometry is still the
+         best available and the gap simply grows again.
+         ⚠️ The word's SIZE is untouched, for the same reason as last round: he asked about
+         distance, and shrinking the payoff to buy space spends the thing the space is
+         protecting. */
+      const ty=Math.max(H*.042, top - ansH/2 - (mobile?20:30) - titleH);
+      titleEl.style.transform="translate3d("+bx.toFixed(1)+"px,"+ty.toFixed(1)+"px,0)";
     }
   }
 
@@ -3031,9 +3184,11 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
         ? `radial-gradient(circle at 50% ${(((figTop+figH*.30)/H)*100).toFixed(1)}%, ${rgba(BG_B,dw)} 0%, ${rgba(BG_B,dw*.62)} 42%, ${rgba(BG_B,0)} 100%)`
         : "none";
     }
-    /* --scene-fg now dresses ONLY the phase indicator; the copy stopped taking it (see
-       .scene-beat). It flips fast and late so its own crossover is a sliver, and it is
-       11px of decorative chrome rather than the line the page turns on. */
+    /* --scene-fg dresses ONLY the controls on this path now; the copy stopped taking it
+       (see .scene-beat) and the phase indicator it was written for is gone (2026-08-13,
+       late). It flips fast and late so its own crossover is a sliver — the same trade the
+       indicator used to make, now made for two 10.5px buttons that at least sit on their
+       own glass. Side mode does not use this at all: it snaps --ctrl-fg instead. */
     stage.style.setProperty("--scene-fg",rgba(mixC(IVORY,INK,ss(.826,.850,p)),1));
     /* ⚠️ THE DEFAULT SCENE STILL HAS TO NAME BHRT. Its ninth beat, "✦ Meet BHRT.", left the
        copy stream to become .scene-title — which side mode drives and this path did not, so
@@ -3059,8 +3214,9 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
       ctrlEl.style.opacity=cO.toFixed(3);
       ctrlEl.style.pointerEvents=cO>.25?"auto":"none";
     }
-    const ph = p<.42?"01 — Recognition":p<.56?"02 — Signals":p<.78?"03 — Release":"04 — Support";
-    if(ph!==phaseTxt){ phaseTxt=ph; phaseEl.textContent=ph; }
+    /* the centred path's own phase ladder went with side mode's — 2026-08-13 (late), his
+       call. Its thresholds ran .42 / .56 / .78 against side mode's .29 / .36 / .76, which
+       is the only trace worth keeping: the two layouts spend their scroll differently. */
 
     /* tethered labels — deterministic drift + parallax + staggered release */
     for(let i=0;i<labels.length;i++){
@@ -3282,10 +3438,19 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
       const p=pNow;
       switch(b.dataset.sc){
         case "replay": go(0); break;
-        /* +1 clears the pin so the reader lands in section 03 rather than on the
-           last frame of a stage they asked to leave */
+        /* ⚠️ SKIP TARGETS 04, NOT 03 — CHANGED 2026-08-13 (late) WITH THE REORDER, AND IT
+           WAS A REAL BREAK FOR ONE EDIT. This read getElementById("bhrt") because 03 was
+           the section BELOW the stage; "What is BHRT?" now sits ABOVE it, so the same line
+           sent anyone who asked to leave the scene four screens BACKWARDS into the segment
+           they had already read. The rule is the intent, not the id: skip lands on the
+           first section AFTER the stage, which is #services.
+           ⚠️ #services, NOT #services-live — the A/B twin is second and the header menu and
+           the hero's ghost button both already point at #services. When he picks one and
+           the loser is deleted whole, this id has to be the one that survives.
+           The st.end+1 fallback stays: +1 clears the pin, so even with no target the reader
+           lands past the stage rather than on the last frame of it. */
         case "skip": seek=null; {
-          const t=document.getElementById("bhrt");
+          const t=document.getElementById("services");
           if(window.__lenis) window.__lenis.scrollTo(t||st.end+1,{offset:-70,duration:.9});
           else (t?t.scrollIntoView({behavior:"smooth"}):scrollTo({top:st.end+1,behavior:"smooth"}));
         } break;

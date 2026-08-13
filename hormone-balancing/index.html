@@ -742,12 +742,25 @@ section{position:relative}
 /* ⚠️ THE TITLE NEEDS ITS OWN SIZE NOW. It never had one: on the scrim it inherited the
    global h3 and read large against darkness. On a light card at the same value it came
    out at ~17px and disappeared. Sized to the card, not to the page.
-   ⚠️ UP FROM clamp(19px,1.9vw,28px) — his "make the words bigger, appropriate for reading".
-   It moved with the body copy below rather than instead of it, so the card keeps its ratio
-   of title to text; the cap is what actually changed, since 1.9vw was already being clipped
-   by 28px on anything above 1475. Re-measured for the one-line rule below at all eleven
-   widths after the change — see that note. */
-.boost-one h3{color:var(--ink);font-size:clamp(21px,2.1vw,31px);line-height:1.14}
+   ⚠️ MEGANTE, NOT PLAYFAIR — his call, and it lands these two names in the same voice as
+   04's three pathway names, which are the other programme names on the page (.door h3, same
+   family, same weight, same -.02em). Setting an explicit family also makes the h1,h2,h3
+   rule's "opsz" 30 inert here, which is the outcome you want — see the same note on .svc-name.
+   ⚠️ EVERY NUMBER IN THIS CLAMP IS THE ONE-LINE RULE BELOW, NOT TASTE. Megante is a wide
+   flared face, so the swap cost width at a constant size and the ceiling came DOWN even as
+   the type went up. Measured largest size that still holds one line, per width: 23.0px at
+   390, 26.7px at 900, 32.8px at 1104, 36.9px at 1440, 35.6px at 1920 — note 1440 and up are
+   tighter than 1280, because the card stops growing while the string does not. Each value
+   here sits ~10% under its own ceiling: 21px floor against 23.0 at the phone, 32px cap
+   against 35.6 at 1920, and 2.3vw is the steepest slope that clears 1440.
+   ⚠️ 390 IS WHAT CAPS THE FLOOR, so the phone keeps the 21px it already had — Megante simply
+   reads wider at it. Anything above 23px there wraps, and a wrapped title is what his
+   "should be one line" note ruled out. If he ever wants the phone bigger, the two-line stack
+   that .door h3 already uses in 04 is the thing to offer; it is not a size problem. */
+.boost-one h3{
+  font-family:var(--accent);font-weight:400;color:var(--ink);
+  font-size:clamp(21px,2.3vw,32px);line-height:1.1;letter-spacing:-.02em;
+}
 /* ⚠️ THE HALVES ARE BACK ON ONE LINE — his call 2026-08-13 (evening), "hormone + gut and
    hormone + energy should be one line". `display:block` is what stacked them; inline is the
    whole fix, and the two margins that served the stack come off with it.
@@ -763,6 +776,12 @@ section{position:relative}
    is the 390 phone at 60px of slack, down from 83px at the old 19px title; that is the
    number a bigger title or a longer programme name than "+ Gut Health" spends first. It
    wraps rather than overflowing, which is the right failure. */
+/* ⚠️ THIS ITALIC IS SYNTHESISED, AND IT WAS CHECKED RATHER THAN ASSUMED. Megante ships one
+   cut — the @font-face at the top declares font-style:normal and nothing else — so the em's
+   inherited italic is a browser skew, not a drawn italic the way Playfair's was. Rendered at
+   3x against an upright version before keeping it: the skew is clean on this face, and it
+   keeps the rose italic that every approved render on this page ends a headline with. If a
+   real Megante italic ever lands, this comment is the thing that should be deleted. */
 .boost-one h3 em{color:var(--logo-red);display:inline;font-size:.8em;margin-left:.3em}
 /* ⚠️ THE BODY COPY HAS ITS OWN SIZE AND LEADING NOW — his "appropriate for reading". It had
    neither: it took the global 16px/1.6, which is the page's utility size, not a reading size,

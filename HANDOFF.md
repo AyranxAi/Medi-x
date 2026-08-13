@@ -494,6 +494,49 @@ was a genuinely different image, and no cache can serve a stale shape. All three
 are deleted, not left lying in `images/boost/`. The name states the shape now, which is the
 thing a replacement has to match.
 
+### The programme names go to Megante
+
+> "Hormone Therapy+ Gut Health and energy should be Megante and bigger please"
+
+The titles were Playfair by inheritance — they picked up the global `h1,h2,h3` rule and never
+had a family of their own. They are now `var(--accent)` at `font-weight:400` /
+`letter-spacing:-.02em`, which is **exactly `.door h3`** in 04: the other programme names on
+the page. Setting an explicit family also makes the `h1,h2,h3` rule's `"opsz" 30` inert here,
+the same reason `.svc-name` carries one.
+
+⚠️ **THE SWAP COST WIDTH, SO THE CEILING CAME DOWN WHILE THE TYPE WENT UP.** Megante is a wide
+flared face. My first attempt — `clamp(22px,2.45vw,36px)` — **wrapped the Gut title at 1920 and
+1600**, and left 14px of slack at 390. So the clamp was measured rather than chosen: I probed
+the largest size that still holds one line at each of eleven widths.
+
+| width | max that holds one line | shipped |
+|---|---|---|
+| 390 | **23.0px** | 21px |
+| 900 | 26.7px | 21px |
+| 1104 | 32.8px | 25px |
+| 1280 | 38.1px | 29px |
+| 1440 | 36.9px | 32px |
+| 1920 | **35.6px** | 32px |
+
+`clamp(21px,2.3vw,32px)` — every value ~10% under its own ceiling. Note **1440 and up are
+tighter than 1280**: the `.wrap` stops growing while the string does not, so the widest
+viewport is not the roomiest card. Re-measured after: one line at all eleven, tightest slack
+27px at 390.
+
+⚠️ **390 is what caps the floor, so the phone keeps the 21px it already had** — Megante just
+reads wider at it. Anything above 23px there wraps, and a wrapped title is what his earlier
+"should be one line" note ruled out. **If he wants the phone bigger, the answer is not a size
+— it is the two-line stack `.door h3` already uses in 04.** Worth offering; not worth assuming.
+
+⚠️ **The `+ Gut Health` italic is now SYNTHESISED.** Megante ships one cut — the `@font-face`
+declares `font-style:normal` and nothing else — so the em's inherited italic is a browser skew
+rather than a drawn italic the way Playfair's was. Rendered at 3× against an upright version
+before keeping it: the skew is clean on this face, and it keeps the rose italic that every
+approved headline on this page ends with. The upright read flatter and lost the device.
+
+**`boost-contrast` 12/12.** At 1440 the em now clears as *large* text too (26px), so all four
+desktop rows are on the 3:1 floor rather than 4.5:1.
+
 ## Still open
 
 - **04 and 04 alt share one ground (`#FAF7F1`), which is the only place the page runs two

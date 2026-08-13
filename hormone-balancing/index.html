@@ -538,46 +538,50 @@ section{position:relative}
    last word and left "it." alone on line two. A width big enough to pull the orphan up at
    1440 opens it up again at the next breakpoint, so let the browser even the lines instead. */
 .boost-sub{font-size:clamp(15px,1.35vw,18px);color:var(--ink-soft);line-height:1.8;max-width:38ch;margin-top:-24px;text-wrap:balance}
-/* ⚠️ HIS PICK 2026-08-12 — the diptych, from six arrangements. Two full-bleed halves with the
-   copy ON the picture. The other five and the ?pair= switch are deleted, and the eight ?shape=
-   frames went with them: frames for a picture that no longer has one.
-   ⚠️ THIS REINTRODUCES A SCRIM, WHICH THE PREVIOUS ARRANGEMENT EXISTED TO AVOID, and the trade
-   was made knowingly. It buys weight — 05 now carries the presence 04 has instead of handing
-   it back one screen later. It costs permanently: EVERY FUTURE PLATE SWAP IN 05 IS NOW A
-   RE-MEASUREMENT, exactly as in 04. Swapping a picture here is no longer just a src change.
-   It only became viable when both plates became medical illustration. The pair used to be a
-   pale pendulum against near-black food, and one ramp cannot serve that spread — which is
-   precisely why the copy sat beside the picture until now. */
+/* ⚠️ THE SCRIM IS GONE — 2026-08-13, and this REVERSES the 08-12 trade recorded below.
+   That note said the full-bleed diptych cost "every future plate swap in 05 is now a
+   re-measurement", and that the copy sat beside the picture until then precisely because
+   one ramp could not serve a pale pendulum and near-black food.
+   The porcelain cards end the problem rather than manage it. They are objects on ivory
+   with the copy zone COMPOSED INTO THE FRAME — bottom ~40% deliberately empty — so the
+   copy sits on the picture with nothing under it at all. Measured on the shipped files:
+   ink #2E2228 on the card ground runs 13.1–14.0:1, ink-soft 5.6–6.2:1. There is no ramp
+   to tune, and therefore nothing to re-tune on the next swap. 05 goes back to being a
+   src change, which is the property `bands` had and the scrimmed diptych traded away.
+   ⚠️ WHAT THIS COSTS: 05 no longer carries weight through darkness. It carries it through
+   scale and silence instead. Burgundy at 08 is still the only dark moment on the way down,
+   so (1) in the note above holds — more cleanly than before, since 05 is now light too.
+   ⚠️ THE CARDS ARE 4:5 AND THAT IS LOAD-BEARING. The copy space is part of the photograph.
+   Cover-cropping them to a landscape band throws the copy zone away and puts ink back on
+   porcelain. Any replacement plate for 05 must be composed 4:5 with a clear lower third. */
 .boost-pair{
   margin-top:clamp(30px,4.5vh,56px);
-  display:grid;grid-template-columns:1fr 1fr;gap:0;
-  margin-inline:calc(-1 * max(var(--pad), (100vw - 1280px) / 2 + var(--pad)));
+  display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,2.4vw,38px);
 }
 .boost-one{
-  position:relative;isolation:isolate;min-height:min(68vh,640px);
+  position:relative;isolation:isolate;aspect-ratio:4/5;
   display:grid;grid-template-rows:auto auto;align-content:end;
-  row-gap:14px;text-align:left;padding:clamp(26px,3vw,50px);background:#4A2233;
+  row-gap:14px;text-align:left;padding:clamp(22px,2.4vw,38px);
+  background:var(--ivory);overflow:hidden;
+  border:1px solid var(--line);border-radius:2px;
 }
 .boost-one picture{position:absolute;inset:0;z-index:-2;display:block}
-.boost-one img{display:block;width:100%;height:100%;object-fit:cover;background:var(--line)}
-/* ⚠️ DEEPER THAN IT LOOKS LIKE IT NEEDS TO BE, and the reason is one measurement. The first
-   ramp put the rose h3 em at exactly 4.50 over the gut plate at 390x844 — against a 4.5 floor,
-   so it failed by a rounding error. On desktop that same em is 38px and therefore LARGE text
-   needing only 3, which is why it passed there and only there: the phone shrinks it to 22px
-   and moves the goalposts. A ramp tuned on desktop will fail on a phone every time. */
-.boost-one::after{
-  content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,
-  rgba(26,15,19,0) 0%,rgba(26,15,19,.08) 38%,rgba(42,19,28,.70) 62%,
-  rgba(22,12,16,.92) 82%,rgba(16,9,12,.97) 100%);
-}
-.boost-one h3{color:var(--ivory)}
-/* ⚠️ THE GAP IS A MARGIN, NOT A SPACE IN THE MARKUP. The title is two halves —
-   "Hormone Therapy" and "+ Gut Health" — and the em carries the join, so the markup has
-   no whitespace between them and rendered as "Hormone Therapy+ Gut Health". A literal
-   space would also work until the line wraps between the halves, where a trailing space
-   collapses and the indent is lost; a margin survives the wrap. */
-.boost-one h3 em{color:var(--rose);margin-left:.3em}
-.boost-one p{color:rgba(250,247,241,.84);max-width:34ch}
+/* ⚠️ NO mix-blend-mode HERE. The masters are flat-fielded ONTO --ivory already; multiplying
+   them over an ivory ground multiplies ivory by ivory and the card darkens into a panel
+   (measured #F4EEE2 inside against #FAF7F1 on the page). With the blend off the card fill
+   IS the section ground and the hairline is the only thing drawing the card. */
+.boost-one img{display:block;width:100%;height:100%;object-fit:cover;background:var(--ivory)}
+/* ⚠️ THE TITLE NEEDS ITS OWN SIZE NOW. It never had one: on the scrim it inherited the
+   global h3 and read large against darkness. On a light card at the same value it came
+   out at ~17px and disappeared. Sized to the card, not to the page. */
+.boost-one h3{color:var(--ink);font-size:clamp(19px,1.9vw,28px);line-height:1.12}
+/* ⚠️ THE HALVES STACK NOW, so the join is a LINE BREAK and no longer a margin. The old
+   note here said the gap had to be a margin rather than markup whitespace, because a
+   trailing space collapses when the line wraps between the halves. That reasoning applied
+   to an inline em; a block em cannot wrap between the halves at all, so margin-left is
+   reset to 0 — left on, it indents the second line by .3em against the first. */
+.boost-one h3 em{color:var(--logo-red);display:block;font-size:.8em;margin-top:5px;margin-left:0}
+.boost-one p{color:var(--ink-soft);max-width:34ch}
 /* ⚠️ THE SECTION'S ONE DOOR BELONGS TO BOTH PROGRAMMES, SO IT CENTRES. It had no rule of its
    own at all: it inherited block layout, sat hard left, and landed under whichever programme
    happens to be first in the DOM — which reads as that programme's button rather than the
@@ -618,6 +622,9 @@ html.bt-tether .boost-pair{
 html.bt-tether .boost-one{
   background:none;min-height:0;padding:0 clamp(4px,1.4vw,26px);
   align-content:start;text-align:center;row-gap:14px;
+  /* the base card is now a 4:5 framed object; the tether diagram has no picture at all,
+     so it must drop the frame too or it draws two empty boxes under the branches */
+  aspect-ratio:auto;border:0;border-radius:0;overflow:visible;
 }
 html.bt-tether .boost-one h3{font-size:clamp(21px,2.05vw,29px);line-height:1.2}
 html.bt-tether .boost-one picture,
@@ -677,7 +684,11 @@ html.bt-tether .tether-svg path{
 }
 
 @media(max-width:820px){
-  .boost-pair{grid-template-columns:1fr;margin-inline:calc(-1 * var(--pad))}
+  /* ⚠️ NO negative margin-inline any more. It existed to bleed the scrimmed halves to the
+     screen edge; the cards are contained objects with their own hairline, and bleeding
+     them off-canvas clips the composed copy zone at exactly the width where it is
+     tightest. One column, gap kept, edges kept. */
+  .boost-pair{grid-template-columns:1fr;row-gap:clamp(22px,3.4vh,34px)}
 }
 
 /* ══ PAGE STYLE DIRECTIONS — ?style=editorial | gallery | salon | clinical | soft ═══════════
@@ -1570,7 +1581,11 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
         <h2 data-reveal>Two ways to go <em>further</em>.</h2>
       </div>
       <p class="boost-sub" data-reveal>Pair your hormone care with the systems that amplify it.</p>
-      <!-- HIS PICK 2026-08-12 — "bands", chosen from six treatments offered behind ?boost=.
+      <!-- 2026-08-13 — THE PORCELAIN CARDS. The gold pair is retired: a glowing viscera
+           render and a doctor holding a DNA hologram, which is the "cutting-edge" register
+           the voice rules ban in words. These are objects on ivory with the copy zone
+           composed into the frame, so the scrim came out with them — see the CSS.
+           HIS PICK 2026-08-12 — "bands", chosen from six treatments offered behind ?boost=.
            The other five and the switch that served them are deleted; all six ran off one DOM
            precisely so that choosing one would be a subtraction.
            ⚠️ THE COPY SITS BESIDE THE PICTURE, NEVER ON IT, AND THAT IS THE WHOLE POINT. The two
@@ -1589,16 +1604,16 @@ html.side-scene{--glass-fill:rgba(255,255,255,.13);--glass-hi:rgba(255,255,255,.
       <div class="boost-pair">
         <div class="boost-one" data-reveal>
           <picture>
-            <source type="image/avif" srcset="../images/boost/gut-anatomy-gold-1340.avif">
-            <img src="../images/boost/gut-anatomy-gold-1340.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1340" height="754">
+            <source type="image/avif" srcset="../images/boost/gut-estradiol-card-1200.avif">
+            <img src="../images/boost/gut-estradiol-card-1200.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1200" height="1500">
           </picture>
           <h3>Hormone Therapy<em>+ Gut Health</em></h3>
           <p>Balance begins in the gut — so what we rebalance actually lands, and stays landed.</p>
         </div>
         <div class="boost-one" data-reveal>
           <picture>
-            <source type="image/avif" srcset="../images/boost/energy-lab-gold-1340.avif">
-            <img src="../images/boost/energy-lab-gold-1340.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1340" height="754">
+            <source type="image/avif" srcset="../images/boost/energy-atp-card-1200.avif">
+            <img src="../images/boost/energy-atp-card-1200.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1200" height="1500">
           </picture>
           <h3>Hormone Therapy<em>+ Energy</em></h3>
           <p>Mitochondrial support layered over your protocol — energy built at the cellular level.</p>

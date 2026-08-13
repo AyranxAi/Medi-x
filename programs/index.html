@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Booster Programs — Medi✦Gyn</title>
+<style>
+/* ── Faces: same four as the rest of the site, served from /fonts ───────── */
+@font-face{font-family:"Playfair";src:url(../fonts/playfair-normal-var-latin.woff2) format("woff2");font-weight:300 900;font-style:normal;font-display:swap}
+@font-face{font-family:"Playfair";src:url(../fonts/playfair-italic-var-latin.woff2) format("woff2");font-weight:300 900;font-style:italic;font-display:swap}
+@font-face{font-family:"MediGyn NOW";src:url(../fonts/medigyn-now-300.woff2) format("woff2");font-weight:300;font-display:swap}
+@font-face{font-family:"MediGyn NOW";src:url(../fonts/medigyn-now-400.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"MediGyn NOW";src:url(../fonts/medigyn-now-500.woff2) format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"MediGyn Megante";src:url(../fonts/medigyn-megante-400.woff2) format("woff2");font-weight:400;font-display:swap}
+
+:root{
+  --ivory:#FAF7F1; --cream:#F4EDE1; --line:#DED4C2;
+  --burgundy:#5C1F31; --rose:#C79A92;
+  --logo-red:#8E2D3A; --gold:#C2A05E; --gold-deep:#8A6A34; --gold-tint:#F1E7D2;
+  /* ⚠️ --gold-deep is specced as "AA on ivory" and it is — 4.69:1 on #FAF7F1.
+     On CREAM (#F4EDE1) it measures 4.31:1 and misses the 4.5 small-text floor,
+     and every alternating section on this site is cream. 3% darker clears both
+     grounds (4.51 cream / 4.91 ivory) and is not perceptibly a different gold.
+     Used for all small gold text here. Worth promoting site-wide. */
+  --gold-text:#866732;
+  --ink:#2E2228; --ink-soft:#6A585F;
+  --serif:"Playfair",Didot,Georgia,serif;
+  --sans:"MediGyn NOW",Jost,ui-sans-serif,system-ui,sans-serif;
+  --accent:"MediGyn Megante",Optima,Georgia,serif;
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --pad:clamp(20px,4.5vw,72px);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--ivory);color:var(--ink);font-family:var(--sans);font-weight:300;
+     -webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30;
+         color:var(--ink);line-height:1.05;letter-spacing:-.01em}
+em{font-style:italic}
+.wrap{max-width:1280px;margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}
+.kicker{font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.32em;
+        text-transform:uppercase;color:var(--logo-red);display:flex;align-items:center;gap:14px}
+.kicker::after{content:"";height:1px;width:54px;background:var(--line)}
+.btn{display:inline-flex;align-items:center;gap:12px;font-family:var(--sans);font-weight:500;
+     font-size:13px;letter-spacing:.12em;text-transform:uppercase;padding:18px 34px;
+     border-radius:999px;background:rgba(142,45,58,.85);color:var(--ivory);
+     backdrop-filter:blur(12px);border:1px solid transparent;white-space:nowrap;text-decoration:none}
+
+/* ── 00 · Threshold ─────────────────────────────────────────────────────── */
+.thresh{padding:clamp(88px,13vh,150px) 0 clamp(58px,8vh,92px)}
+.thresh h1{font-size:clamp(42px,6.2vw,86px);margin-top:26px;text-wrap:balance}
+.thresh p{font-size:clamp(15px,1.35vw,18px);color:var(--ink-soft);line-height:1.8;
+          max-width:42ch;margin-top:26px;text-wrap:balance}
+.rule{height:1px;background:var(--line);margin-top:clamp(48px,7vh,86px)}
+
+/* ── The chapter plate ─────────────────────────────────────────────────── */
+.chapter{position:relative;background:var(--ivory);overflow:hidden;
+         min-height:min(94vh,880px);display:grid;align-items:center}
+/* ⚠️ .wrap MUST be width:100% here. As a grid item in an auto track it sizes to
+   max-content — 587px — and `margin:0 auto` then centres the copy over the
+   object at every width. Both chapters looked centre-aligned because of this. */
+.chapter > .wrap{width:100%}
+.plate{position:absolute;inset:0;pointer-events:none}
+/* The plate's own ground is near-neutral (#FDFCFC); the page is warm ivory
+   (#FAF7F1). Bled edge-to-edge they show a cool seam. multiply makes the
+   plate's white resolve to the ivory underneath while the object keeps its
+   shading — no seam, no card, no scrim. Only safe for an object on white. */
+.plate picture{display:contents}
+.plate img{position:absolute;top:50%;right:0;transform:translateY(-50%);
+           height:104%;width:auto;mix-blend-mode:multiply;
+           filter:saturate(1.5) sepia(.045)}
+/* Row two mirrors — the eye crosses the column and the two read as a spread,
+   not a list.
+   ⚠️ ONLY THE GUT PLATE MAY FLIP. The mitochondria plate carries a drawn ATP
+   structure with real lettering (OH, P, N, HN); scaleX(-1) mirrors those into
+   gibberish. Gut is pure form, so it flips for free. If a future plate carries
+   any lettering, it is a no-flip plate — ask for a left-subject crop instead. */
+.chapter--flip .plate img{right:auto;left:0;transform:translateY(-50%) scaleX(-1)}
+.chapter--flip .col{margin-left:auto}
+
+.col{position:relative;z-index:2;max-width:32rem;padding:clamp(56px,8vh,96px) 0}
+/* The numeral is BRAND's "decorative glint" — --gold measures 2.13:1 on this
+   ground, under even the 3:1 large-text floor, so it is marked decorative and
+   carries no information the heading does not already give. Darkening it to
+   #A7843F would clear 3:1 if you would rather it be readable text. */
+.num{font-family:var(--accent);font-size:clamp(46px,4.6vw,64px);color:var(--gold);
+     line-height:1;margin-bottom:18px;display:block}
+.chapter h2{font-size:clamp(34px,4.4vw,62px);margin-top:22px}
+.chapter h2 em{display:block;color:var(--logo-red);font-size:.72em;margin-top:6px}
+.chapter .lede{font-size:clamp(16px,1.45vw,20px);line-height:1.75;color:var(--ink-soft);
+               margin-top:28px;max-width:32ch;text-wrap:balance}
+
+/* ── The mechanism, drawn ────────────────────────────────────────────────── */
+.mech{background:var(--cream);padding:clamp(80px,11vh,140px) 0}
+.mech .head{display:flex;flex-direction:column;gap:22px;margin-bottom:clamp(44px,6vh,72px)}
+.mech h3{font-size:clamp(26px,2.6vw,38px);max-width:20ch}
+.beats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--line)}
+.beat{padding:34px 30px 0 0;border-right:1px solid var(--line);position:relative}
+.beat:last-child{border-right:0}
+.beat:not(:last-child){padding-right:34px}
+.beat .b-n{font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.28em;
+           color:var(--gold-text);text-transform:uppercase}
+.beat p{font-size:15px;line-height:1.75;color:var(--ink);margin-top:16px;max-width:26ch}
+.beat svg{margin-top:26px;display:block;color:var(--gold-text);opacity:.85}
+
+/* ── In practice ────────────────────────────────────────────────────────── */
+.practice{padding:clamp(80px,11vh,140px) 0}
+.cols{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(28px,3.4vw,56px);
+      margin-top:clamp(38px,5vh,60px)}
+.cols h4{font-family:var(--serif);font-weight:450;font-size:22px;color:var(--ink)}
+.cols .k{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-text);
+         font-weight:500;margin-bottom:14px}
+.cols p{font-size:15px;line-height:1.8;color:var(--ink-soft);margin-top:14px}
+
+/* ── Close ──────────────────────────────────────────────────────────────── */
+.final{background:var(--burgundy);color:var(--ivory);padding:clamp(84px,12vh,150px) 0;text-align:center}
+.final h2{color:var(--ivory);font-size:clamp(32px,4vw,58px)}
+.final h2 em{color:var(--rose)}
+.final p{color:#E6DAD2;font-size:15px;line-height:1.8;max-width:46ch;margin:26px auto 0}
+.final .btn{background:var(--ivory);color:var(--burgundy);margin-top:38px}
+
+/* ── Phone ──────────────────────────────────────────────────────────────── */
+@media (max-width:860px){
+  .chapter{min-height:0;display:block}
+  .plate{position:relative;inset:auto;height:56vh}
+  .plate picture{display:contents}
+.plate img{position:absolute;top:0;right:0;left:0;transform:none;height:100%;width:100%;
+             object-fit:cover;object-position:50% 22%}
+  .chapter--flip .plate img{transform:scaleX(-1)}
+  .col{max-width:none;padding:clamp(30px,5vh,44px) var(--pad) clamp(52px,8vh,70px)}
+  .chapter--flip .col{margin-left:0}
+  .beats{grid-template-columns:1fr}
+  .beat{border-right:0;border-bottom:1px solid var(--line);padding:26px 0 26px}
+  .beat:last-child{border-bottom:0}
+  .beat p{max-width:none}
+  .cols{grid-template-columns:1fr;gap:34px}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════ 00 · THRESHOLD ══════════ -->
+<section class="thresh">
+  <div class="wrap">
+    <p class="kicker">Booster programs</p>
+    <h1>Two ways to go <em>further</em>.</h1>
+    <p>Pair your hormone care with the systems that amplify it. Neither replaces
+       your protocol — each one is the reason the protocol lands.</p>
+  </div>
+  <div class="wrap"><div class="rule"></div></div>
+</section>
+
+<!-- ══════════ 01 · GUT ══════════ -->
+<!-- Gut is the flipped row: pure form, no lettering, safe to mirror. -->
+<section class="chapter chapter--flip">
+  <div class="plate">
+    <!-- Portrait crop for phones via a plain <picture> source — the browser picks
+         ONE file. Two <img> toggled with CSS would download both. -->
+    <picture>
+      <source media="(max-width:640px)" srcset="../images/exec-5ad4237a-fd88-456a-9a6e-0b452f7869d9.png">
+      <img src="../images/exec-6de342a3-ec11-49b9-96d7-b6729fe8f1ea.png" alt="" aria-hidden="true">
+    </picture>
+  </div>
+  <div class="wrap">
+    <div class="col">
+      <span class="num" aria-hidden="true">01</span>
+      <p class="kicker">The terrain</p>
+      <h2>Hormone Therapy<em>+ Gut Health</em></h2>
+      <p class="lede">Balance begins in the gut — so what we rebalance actually
+         lands, and stays landed.</p>
+    </div>
+  </div>
+</section>
+
+<section class="mech">
+  <div class="wrap">
+    <div class="head">
+      <p class="kicker">Why it belongs here</p>
+      <h3>Your gut decides how much of your dose you keep.</h3>
+    </div>
+    <div class="beats">
+      <div class="beat">
+        <p class="b-n">01</p>
+        <p>Oestrogen leaves the liver bound and inactive, and heads for the gut.</p>
+        <svg width="54" height="26" viewBox="0 0 54 26" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M1 13h40m0 0l-7-7m7 7l-7 7"/></svg>
+      </div>
+      <div class="beat">
+        <p class="b-n">02</p>
+        <p>There, certain bacteria carry β-glucuronidase — the enzyme that unbinds it again.</p>
+        <svg width="54" height="26" viewBox="0 0 54 26" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="10" cy="13" r="6"/><path d="M16 13h12"/><circle cx="34" cy="13" r="6"/></svg>
+      </div>
+      <div class="beat">
+        <p class="b-n">03</p>
+        <p>Unbound, it re-enters circulation. Too little activity and levels fall short of the dose; too much and they overshoot it.</p>
+        <svg width="54" height="26" viewBox="0 0 54 26" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M1 21c8 0 8-16 16-16s8 16 16 16 8-16 16-16"/></svg>
+      </div>
+      <div class="beat">
+        <p class="b-n">04</p>
+        <p>So we read the terrain before we adjust the dose — and the same dose starts behaving.</p>
+        <svg width="54" height="26" viewBox="0 0 54 26" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M1 13h52M14 8v10M27 4v18M40 8v10"/></svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 02 · ENERGY ══════════ -->
+<!-- Energy never flips: the ATP structure beside the object is real lettering. -->
+<section class="chapter">
+  <div class="plate">
+    <picture>
+      <source media="(max-width:640px)" srcset="../images/medigyn-porcelain-mitochondria-atp-portrait.png">
+      <img src="../images/medigyn-porcelain-mitochondria-atp-desktop.png" alt="" aria-hidden="true">
+    </picture>
+  </div>
+  <div class="wrap">
+    <div class="col">
+      <span class="num" aria-hidden="true">02</span>
+      <p class="kicker">The machinery</p>
+      <h2>Hormone Therapy<em>+ Energy</em></h2>
+      <p class="lede">Mitochondrial support layered over your protocol — energy
+         built at the cellular level.</p>
+    </div>
+  </div>
+</section>
+
+<section class="mech">
+  <div class="wrap">
+    <div class="head">
+      <p class="kicker">Why it belongs here</p>
+      <h3>Hormones give the instruction. Mitochondria carry it out.</h3>
+    </div>
+    <div class="beats">
+      <div class="beat">
+        <p class="b-n">01</p>
+        <p>Every instruction a hormone gives is paid for in ATP — made here, and nowhere else.</p>
+        <svg width="54" height="26" viewBox="0 0 54 26" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M1 13h14m0 0l5-6 6 12 6-12 5 6h14"/></svg>
+      </div>
+      <div class="beat">
+        <p class="b-n">02</p>
+        <p>Perimenopause thins that machinery — fewer mitochondria, working less cleanly.</p>
+        <svg width="54" height="26" viewBox="0 0 54 26" fill="none" stroke="currentColor" stroke-width="1.2"><ellipse cx="16" cy="13" rx="13" ry="8"/><ellipse cx="40" cy="13" rx="8" ry="5" opacity=".45"/></svg>
+      </div>
+      <div class="beat">
+        <p class="b-n">03</p>
+        <p>Which is how a protocol can be correct on paper and the afternoon still disappears.</p>
+        <svg width="54" height="26" viewBox="0 0 54 26" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M1 5h44M1 13h30M1 21h16"/></svg>
+      </div>
+      <div class="beat">
+        <p class="b-n">04</p>
+        <p>So we rebuild the machinery alongside the hormones, and the day comes back with them.</p>
+        <svg width="54" height="26" viewBox="0 0 54 26" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M1 21c10 0 14-16 26-16s16 8 26 8"/></svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 03 · IN PRACTICE ══════════ -->
+<section class="practice">
+  <div class="wrap">
+    <p class="kicker">In practice</p>
+    <div class="cols">
+      <div>
+        <p class="k">Step one</p>
+        <h4>We test before we add.</h4>
+        <p>A booster is only worth adding once we can see what it is correcting.
+           Labs first, always.</p>
+      </div>
+      <div>
+        <p class="k">Step two</p>
+        <h4>It layers over your protocol.</h4>
+        <p>Your hormone plan does not change to accommodate a booster. The booster
+           is chosen to fit the plan.</p>
+      </div>
+      <div>
+        <p class="k">Step three</p>
+        <h4>We re-read at twelve weeks.</h4>
+        <p>Long enough for the terrain to move, short enough to correct course
+           before a season is lost.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 04 · CLOSE ══════════ -->
+<section class="final">
+  <div class="wrap">
+    <h2>Not sure which one <em>fits</em>?</h2>
+    <p>Start with a free 10-minute discovery call — Irina will listen, and point
+       you to the right one.</p>
+    <a class="btn" href="#">Book the call <span>→</span></a>
+  </div>
+</section>
+
+</body>
+</html>

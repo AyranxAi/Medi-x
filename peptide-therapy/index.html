@@ -590,6 +590,43 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
 }
 .pxd-list li::before{content:"✦";position:absolute;left:0;top:.15em;color:var(--gold);font-size:.72em}
 
+/* ══ THE CHOOSER — the second view of the same panel ══════════════════════════
+   A row per doctor: portrait, name + specialization, one pill. It reuses NOTHING
+   from .doc (that is a card in a grid; this is a list row in a dialog), but it
+   keeps the same two facts in the same order so the reader recognises them.
+   ⚠️ THE PILL IS NOT full-width ON PHONES even though .hero-ctas' is — here two
+   pills stack four rows apart and a full-width red bar twice reads as two page
+   CTAs rather than two choices. It stays inline and the row wraps under 460. */
+.pxd-docs{display:flex;flex-direction:column;gap:14px;margin-top:22px}
+.pxd-doc{
+  display:flex;align-items:center;gap:clamp(12px,1.6vw,18px);
+  padding:clamp(12px,1.5vw,16px);
+  border:1px solid var(--line);border-radius:2px;background:var(--dawn);
+  transition:border-color .35s var(--ease),background .35s var(--ease);
+}
+.pxd-doc:hover{border-color:var(--gold);background:var(--gold-tint)}
+.pxd-doc img{
+  width:clamp(54px,6vw,66px);height:clamp(54px,6vw,66px);flex:none;
+  border-radius:50%;object-fit:cover;display:block;
+}
+.pxd-doc-txt{display:flex;flex-direction:column;gap:3px;min-width:0;flex:1}
+.pxd-doc-txt b{font-family:var(--accent);font-weight:400;font-size:clamp(16px,1.5vw,19px);letter-spacing:-.01em;color:var(--ink)}
+.pxd-doc-txt span{font-size:clamp(12.5px,1.1vw,14px);color:var(--ink-soft);line-height:1.45}
+.pxd-doc .btn{flex:none;padding:13px 24px;font-size:11.5px}
+/* the way back to the service the reader came from — a text control, not a pill:
+   it undoes a step, it does not ask for anything */
+.pxd-back{
+  margin-top:22px;padding:0;
+  font-family:var(--sans);font-weight:500;font-size:11.5px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--ink-soft);
+  transition:color .3s var(--ease);
+}
+.pxd-back:hover{color:var(--logo-red)}
+@media(max-width:460px){
+  .pxd-doc{flex-wrap:wrap}
+  .pxd-doc .btn{width:100%;justify-content:center}
+}
+
 /* ─────────────────────────── 06 · TESTIMONIALS ─────────────────────────── */
 /* back to IVORY (2026-08-14, round 3) — the doctors section now occupies the 05
    slot and carries the dawn, so the page runs the sister sequence exactly:
@@ -1269,7 +1306,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
               <span class="chip">Fewer bad days</span>
               <span class="chip">Long-term regulation</span>
             </div>
-            <div class="pxd-cta"><a class="btn" href="#book">Book a discovery call <span class="arr">→</span></a></div>
+            <div class="pxd-cta"><button type="button" class="btn" data-choose>Book a consultation <span class="arr">→</span></button></div>
           </template>
         </article>
         <article class="px" data-reveal>
@@ -1290,7 +1327,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
               <span class="chip">Mental stamina</span>
               <span class="chip">Calmer stress response</span>
             </div>
-            <div class="pxd-cta"><a class="btn" href="#book">Book a discovery call <span class="arr">→</span></a></div>
+            <div class="pxd-cta"><button type="button" class="btn" data-choose>Book a consultation <span class="arr">→</span></button></div>
           </template>
         </article>
         <article class="px" data-reveal>
@@ -1311,7 +1348,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
               <span class="chip">Better absorption</span>
               <span class="chip">Less bloating</span>
             </div>
-            <div class="pxd-cta"><a class="btn" href="#book">Book a discovery call <span class="arr">→</span></a></div>
+            <div class="pxd-cta"><button type="button" class="btn" data-choose>Book a consultation <span class="arr">→</span></button></div>
           </template>
         </article>
         <article class="px" data-reveal>
@@ -1332,7 +1369,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
               <span class="chip">Steady energy</span>
               <span class="chip">Medical monitoring</span>
             </div>
-            <div class="pxd-cta"><a class="btn" href="#book">Book a discovery call <span class="arr">→</span></a></div>
+            <div class="pxd-cta"><button type="button" class="btn" data-choose>Book a consultation <span class="arr">→</span></button></div>
           </template>
         </article>
         <article class="px" data-reveal>
@@ -1353,7 +1390,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
               <span class="chip">Fuller hair</span>
               <span class="chip">Elasticity back</span>
             </div>
-            <div class="pxd-cta"><a class="btn" href="#book">Book a discovery call <span class="arr">→</span></a></div>
+            <div class="pxd-cta"><button type="button" class="btn" data-choose>Book a consultation <span class="arr">→</span></button></div>
           </template>
         </article>
         <article class="px" data-reveal>
@@ -1374,7 +1411,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
               <span class="chip">Old injuries</span>
               <span class="chip">Back to training</span>
             </div>
-            <div class="pxd-cta"><a class="btn" href="#book">Book a discovery call <span class="arr">→</span></a></div>
+            <div class="pxd-cta"><button type="button" class="btn" data-choose>Book a consultation <span class="arr">→</span></button></div>
           </template>
         </article>
         <article class="px" data-reveal>
@@ -1395,7 +1432,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
               <span class="chip">Healthspan</span>
               <span class="chip">Sustained energy</span>
             </div>
-            <div class="pxd-cta"><a class="btn" href="#book">Book a discovery call <span class="arr">→</span></a></div>
+            <div class="pxd-cta"><button type="button" class="btn" data-choose>Book a consultation <span class="arr">→</span></button></div>
           </template>
         </article>
         <article class="px" data-reveal>
@@ -1416,7 +1453,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
               <span class="chip">Confidence</span>
               <span class="chip">For women and men</span>
             </div>
-            <div class="pxd-cta"><a class="btn" href="#book">Book a discovery call <span class="arr">→</span></a></div>
+            <div class="pxd-cta"><button type="button" class="btn" data-choose>Book a consultation <span class="arr">→</span></button></div>
           </template>
         </article>
       </div>
@@ -1424,6 +1461,46 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
            from that tile's own <template>, so tile and panel can never disagree.
            aria-label is set per open from the service name. Wiring is in the core
            interactions script (no library). -->
+      <!-- ══ THE DOCTOR CHOOSER — HIS CALL 2026-08-14 ═══════════════════════════════
+           "for the 8 cards its not book discovery call its book a consultation and
+           pop up to choose either of the 2 doctors". So a service popup's pill no
+           longer leaves for the discovery strip: it SWAPS THE PANEL'S CONTENT for
+           this chooser, in the same shell, and the reader picks the doctor without
+           losing the service they came from — the kicker names it, and Back returns
+           to it. That is why the pill is a <button data-choose>, not an <a href>.
+           ⚠️ THE TWO SELECT PILLS ARE MOCK (data-book), same as every booking control
+           on both pages. Each is ONE href away from the real system — his booking
+           screen already lists these two doctors at AED 1150 / 1h, so the wiring is
+           per-doctor deep links, not a form. Do not point them at a placeholder.
+           ⚠️ THE ORDER IS THE SECTION'S ORDER (Komissarov, Yakout) — it matches the
+           cards above and his own booking list. Keep the two in sync. -->
+      <template id="pxd-choose">
+        <p class="pxd-kicker" data-choose-kicker>Book a consultation</p>
+        <h3>Choose your doctor</h3>
+        <p>Both consult on peptide therapy. Pick whoever fits — the clinic will confirm
+        your time by WhatsApp.</p>
+        <div class="pxd-docs">
+          <div class="pxd-doc">
+            <img src="../images/doctors/dr-andrey-komissarov-square.webp" alt="" aria-hidden="true"
+                 loading="lazy" decoding="async" width="1024" height="1024">
+            <div class="pxd-doc-txt">
+              <b>Dr. Andrey Komissarov</b>
+              <span>MD, PhD — Internal, Integrative &amp; Functional Medicine</span>
+            </div>
+            <a class="btn" href="#" data-book>Select <span class="arr">→</span></a>
+          </div>
+          <div class="pxd-doc">
+            <img src="../images/doctors/dr-eslam-yakout-square.webp" alt="" aria-hidden="true"
+                 loading="lazy" decoding="async" width="700" height="700">
+            <div class="pxd-doc-txt">
+              <b>Dr. Eslam Yakout</b>
+              <span>Functional and Regenerative Medicine Doctor</span>
+            </div>
+            <a class="btn" href="#" data-book>Select <span class="arr">→</span></a>
+          </div>
+        </div>
+        <button type="button" class="pxd-back" data-back>← Back</button>
+      </template>
       <div class="pxd" id="pxd" role="dialog" aria-modal="true" hidden>
         <div class="pxd-scrim" data-pxd-close></div>
         <div class="pxd-panel" tabindex="-1">
@@ -1461,7 +1538,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
         <article class="doc" data-reveal>
           <div class="doc-photo">
             <img src="../images/doctors/dr-andrey-komissarov-square.webp" alt="Dr. Andrey Komissarov"
-                 loading="lazy" decoding="async">
+                 loading="lazy" decoding="async" width="1024" height="1024">
             <span class="doc-mono" aria-hidden="true">AK</span>
             <button type="button" class="doc-info" aria-haspopup="dialog"
                     aria-label="About Dr. Andrey Komissarov">i</button>
@@ -1510,7 +1587,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
         <article class="doc" data-reveal>
           <div class="doc-photo">
             <img src="../images/doctors/dr-eslam-yakout-square.webp" alt="Dr. Eslam Yakout"
-                 loading="lazy" decoding="async">
+                 loading="lazy" decoding="async" width="700" height="700">
             <span class="doc-mono" aria-hidden="true">EY</span>
             <button type="button" class="doc-info" aria-haspopup="dialog"
                     aria-label="About Dr. Eslam Yakout">i</button>
@@ -1851,6 +1928,8 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
       if (!btn || !tpl) return;
       btn.addEventListener("click", () => {
         lastBtn = btn;
+        lastTpl = tpl;
+        lastName = (tile.querySelector("h3") ? tile.querySelector("h3").textContent : "").trim();
         bodyEl.innerHTML = "";
         bodyEl.append(tpl.content.cloneNode(true));
         /* a card already showing the monogram fallback must not open onto a broken
@@ -1867,8 +1946,36 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
         panel.focus();
       });
     });
+    /* ⚠️ THE PANEL HAS TWO VIEWS AND ONE SHELL: the detail the reader opened, and
+       the doctor chooser its pill swaps in (his call — see the template). `lastTpl`
+       remembers which detail was showing so Back can restore it without re-opening
+       the dialog, which would re-run the entrance animation and lose the scroll. */
+    const chooseTpl = document.getElementById("pxd-choose");
+    let lastTpl = null, lastName = "";
+    function showTpl(tpl, name){
+      bodyEl.innerHTML = "";
+      bodyEl.append(tpl.content.cloneNode(true));
+      if (name) pxd.setAttribute("aria-label", name);
+      panel.scrollTop = 0;
+      panel.focus();
+    }
     pxd.addEventListener("click", e => {
       if (e.target.closest("[data-pxd-close]")){ pxdClose(); return; }
+      /* service pill → the chooser, in place. The kicker carries the service name
+         through so the reader never loses what they were reading. */
+      if (e.target.closest("[data-choose]") && chooseTpl){
+        showTpl(chooseTpl, "Choose your doctor");
+        const k = bodyEl.querySelector("[data-choose-kicker]");
+        if (k && lastName) k.textContent = lastName + " · Book a consultation";
+        return;
+      }
+      if (e.target.closest("[data-back]") && lastTpl){ showTpl(lastTpl, lastName); return; }
+      /* ⚠️ THE MOCK-BOOKING GUARD HAS TO LIVE HERE TOO, and this is the one thing a
+         cloned <template> breaks: the page-load loop over [data-book] cannot bind
+         controls that do not exist yet, so the chooser's two Select pills would
+         follow their href="#" and throw the reader to the top of the document with
+         the dialog still open. Delegation on the shell catches every future clone. */
+      if (e.target.closest("[data-book]")){ e.preventDefault(); return; }
       const a = e.target.closest('a[href="#book"]');
       if (a){
         e.preventDefault();

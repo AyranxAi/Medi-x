@@ -1,3 +1,18 @@
+# Handoff addendum — 2026-08-14, round 4 (the portraits land · the eight book a consultation through a doctor chooser)
+
+Scope: `peptide-therapy/index.html` plus two image moves. (1) His two uploads
+(`images/Dr-V-3-1024x1024.webp`, `images/Dr.-Eslam-Yakout-new.webp`) are `git mv`d
+into `images/doctors/dr-{andrey-komissarov,eslam-yakout}-square.webp` — the names
+round 3 already wired — so cards, bio popups and the new chooser all carry the real
+faces; the monogram fallback stays as a guard and never fires. (2) The eight service
+popups now say **Book a consultation** and open a **doctor chooser as a second view of
+the same dialog** (kicker keeps the service, ← Back restores it); the two Select pills
+are mock, and the mock-booking guard is now **delegated on the shell** because
+template-cloned controls cannot be bound at page load. Full detail and the QA walk in
+`peptide-therapy/HANDOVER.md`, Round 4 banner.
+
+---
+
 # Handoff addendum — 2026-08-14, round 3 (the doctors arrive at 05 · the DNA variant is deleted, string wins)
 
 Scope: `peptide-therapy/index.html`. (1) New **05 · The doctors** — Komissarov and

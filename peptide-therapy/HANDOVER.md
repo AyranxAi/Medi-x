@@ -1,5 +1,46 @@
 # Peptide Therapy — `/peptide-therapy/` (first ship 2026-08-14)
 
+> ## ROUND 4 — SAME DAY: the portraits land · the eight book a CONSULTATION, through a doctor chooser
+>
+> **1 · THE PORTRAITS ARE IN.** He uploaded them to `images/` as
+> `Dr-V-3-1024x1024.webp` and `Dr.-Eslam-Yakout-new.webp`; both were moved (git mv,
+> content untouched) to the names round 3 wired:
+> `images/doctors/dr-andrey-komissarov-square.webp` (1024²) and
+> `images/doctors/dr-eslam-yakout-square.webp` (700²). Both are square, so
+> `object-fit:cover` crops nothing. Verified loading in card, bio popup and chooser.
+> ⚠️ The monogram fallback stays in the code — it is the guard for a future rename,
+> not scaffolding. It simply never fires now.
+>
+> **2 · THE EIGHT NOW BOOK A CONSULTATION, VIA A DOCTOR CHOOSER — his call**
+> ("for the 8 cards its not book discovery call its book a consultation and pop up
+> to choose either of the 2 doctors"). Each service popup's pill reads **Book a
+> consultation** and is a `<button data-choose>`, not a link: it swaps the panel's
+> content for the chooser **in the same shell**, so the reader never loses the
+> service — the chooser's kicker reads e.g. "MUSCULOSKELETAL INJURY · BOOK A
+> CONSULTATION", and **← Back** restores the detail without re-running the dialog's
+> entrance. Two rows, portrait + name + specialization + one Select pill, in the
+> section's order (Komissarov, Yakout — matches his booking screen).
+> ⚠️ **THE SELECT PILLS ARE MOCK** (`data-book`), like every booking control on both
+> pages. His booking system already lists these two at AED 1150 / 1h, so wiring is
+> one per-doctor deep link each — not a form.
+> ⚠️ **THE MOCK-BOOKING GUARD IS DELEGATED ON THE SHELL, and it has to be**: the
+> page-load loop over `[data-book]` cannot bind controls cloned out of a `<template>`
+> later, so without delegation Select would follow `href="#"` and throw the reader to
+> the top of the document with the dialog still open. Verified by script.
+> ⚠️ **THE DOCTOR CARDS' OWN PILLS STILL POINT AT `#book`** — unchanged, because that
+> is the page's existing convention for "Book a consultation" (the hero's does too).
+> Flagged to him rather than changed: if a doctor's own pill should book THAT doctor
+> directly, it is one attribute per card.
+>
+> QA re-run whole after both: clean at 1440×900 and 390×844; the flow is walked by
+> script — tile → popup (CTA text asserted) → chooser (kicker, two rows, both faces
+> loaded) → Select (asserted inert, dialog still open) → Back (returns to the right
+> service) → Esc (closes).
+> ⚠️ One harness bug fixed in passing, worth knowing: lazy portraits report
+> `complete === true` a frame or two BEFORE they paint, so the doctors screenshot was
+> photographing an empty band while the page was correct. The harness now settles
+> 1.2s after scrolling the section into view. The page never had the defect.
+
 > ## ROUND 3 — SAME DAY: the doctors arrive · the DNA variant is deleted
 >
 > **1 · 05 · THE DOCTORS (`#doctors`)** — his call: Dr. Andrey Komissarov and

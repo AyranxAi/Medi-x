@@ -3334,7 +3334,10 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
          target="_blank" came off for this one item only — a same-site page should not
          spawn a tab; the five external hand-offs below keep theirs. -->
     <li style="--i:0"><a href="hormone-balancing/" data-i18n="nav.hormone">Hormone Therapy</a></li>
-    <li style="--i:1"><a href="https://medi-gyn.com/functional-medicine/" target="_blank" rel="noopener" data-i18n="nav.functional">Functional Medicine</a></li>
+    <!-- FUNCTIONAL MEDICINE POINTS HOME TOO, 2026-08-14 — same rule as Hormone Therapy
+         above: the destination is our own /functional-medicine/ scroll-story page now.
+         Relative href for the mirror; target="_blank" came off with the external URL. -->
+    <li style="--i:1"><a href="functional-medicine/" data-i18n="nav.functional">Functional Medicine</a></li>
     <!-- PEPTIDE THERAPY POINTS HOME TOO, 2026-08-14 — same rule as Hormone Therapy
          above: the destination is our own /peptide-therapy/ scroll-story page now.
          Relative href for the mirror; target="_blank" came off with the external URL. -->
@@ -3795,7 +3798,9 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
             <span class="pw__more" data-i18n="pw.more">+2 more</span>
           </div>
           <div class="pw__rise">
-            <a class="pw__cta" href="https://medi-gyn.com/functional-medicine/" target="_blank" rel="noopener" data-i18n="pw.cta">Explore pathway
+            <!-- our own /functional-medicine/ page now, 2026-08-14 — matches pathway 01's
+                 wiring exactly: relative href, no target/rel. -->
+            <a class="pw__cta" href="functional-medicine/" data-i18n="pw.cta">Explore pathway
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
             </a>
           </div>

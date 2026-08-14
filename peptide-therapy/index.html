@@ -572,12 +572,67 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
   .doc-grid{grid-template-columns:1fr;gap:48px}
 }
 
-/* the doctor popup's own furniture, on the shared shell */
-.pxd-face{
-  width:88px;height:88px;border-radius:50%;object-fit:cover;display:block;
-  margin-bottom:16px;box-shadow:0 10px 26px rgba(71,24,38,.16);
+/* ══ THE IDENTITY HEADER — HIS CALL 2026-08-14, off a rendered four-way board ═══
+   The portrait is SQUARE and the name sits BESIDE it, and both halves of that are
+   his: a circle contradicted the square card the reader just clicked (this page
+   spends squares on content and circles on chrome — the (i), the ×, the FAQ marks),
+   and a round face on its own line left the whole right of the panel empty.
+   ⚠️ THE SQUARE IS SIZED IN JS, AND THAT IS NOT A SHORTCUT — IT IS THE ONLY WAY.
+   His ask is "height of image equal to top of the text and bottom of text", i.e.
+   the picture must be exactly as tall as the kicker+name+specialization block AND
+   still be square. In CSS that is circular: the square's WIDTH comes from its
+   height, the text's height comes from how much width the square left it. Measured
+   in Chromium: `align-self:stretch` + `aspect-ratio:1` resolves the box to **1px
+   wide** by 125 tall — the browser breaks the cycle by giving up on the width. So
+   the script measures .pxd-hdr-txt and writes --face. See sizeFaces() at the foot.
+   ⚠️ WITHOUT JS THE FALLBACK IS A SANE FIXED SQUARE (the --face default below), so
+   the panel never collapses — it simply stops matching the text exactly.
+   ⚠️ THE IMAGE IS A BAKED HEAD CROP (…-head-400.webp), not the full-body master
+   scaled by CSS. The masters are standing figures with the head in the top quarter,
+   so at this size the master renders a ~20px face — the whole reason this round
+   happened. tools/crop-portrait.mjs bakes the crop; the master stays untouched for
+   the 336px card, where the whole figure is the right picture. */
+.pxd-hdr{
+  --face:104px;
+  display:flex;align-items:flex-start;gap:clamp(14px,1.8vw,20px);
+  margin-bottom:clamp(16px,2vw,22px);
 }
-.pxd-spec{margin-top:4px;color:var(--ink-soft);font-size:14px;letter-spacing:.04em}
+/* ⚠️ THE × GUTTER IS ON THE KICKER ALONE, AND THAT IS A CONVERGENCE FIX, NOT A
+   TIDY-UP. It was 52px of padding on the whole header, which is the one line that
+   actually has to clear the close button — the FIRST one. Charged to every line it
+   cost the name and the specialization 52px of measure, which wrapped the h3 at
+   1440 and fed the sizing loop: a wrapped name is a taller text block, a taller
+   block is a wider square, a wider square is a narrower column. Measured before:
+   the square hit its 148px cap against a 204px text block. After: it settles at
+   ~117 and the name holds one line. */
+.pxd-hdr .pxd-kicker{padding-right:52px}
+.pxd-face{
+  flex:none;display:block;overflow:hidden;border-radius:2px;
+  width:var(--face);height:var(--face);
+  box-shadow:0 10px 26px rgba(71,24,38,.14);
+}
+.pxd-face img{width:100%;height:100%;object-fit:cover;display:block}
+.pxd-hdr-txt{min-width:0}
+/* ⚠️ THE HEADER SETS ITS OWN NAME SIZE, AND IT IS A SOLVABILITY FIX. The panel's
+   shared h3 runs to 36px; beside a square that must be as tall as this block, that
+   is unsolvable at 1440 — the block outgrows every square narrow enough to leave it
+   room, so the sizing loop climbs to its cap and stops 25px short. Measured at the
+   panel h3: no fixed point exists. At 32/14.5 the block settles ~108px and the
+   square lands flush. The service popups keep the 36px h3 — they have no square to
+   agree with. */
+.pxd-hdr-txt h3{margin:6px 0 5px!important;font-size:clamp(24px,2.5vw,32px)}
+.pxd-hdr-txt .pxd-spec{font-size:clamp(13px,1.05vw,14.5px)}
+.pxd-spec{color:var(--ink-soft);font-size:clamp(13.5px,1.15vw,15px);line-height:1.5;letter-spacing:.02em}
+/* under ~430 the row would leave the name ~150px; the header stacks instead, and
+   the square takes a fixed size because there is no text beside it to match */
+/* ⚠️ 560, NOT 430 — RAISED ON MEASUREMENT. Below ~560 the panel gives the text
+   ~225px beside a square, which wraps the name and puts the sizing loop somewhere
+   with no solution (measured at 440: square 122 against a 169px block, 47 short).
+   Stacked, the square takes a fixed size and the name gets the full measure. */
+@media(max-width:560px){
+  .pxd-hdr{flex-direction:column}
+  .pxd-face{width:clamp(88px,26vw,110px)!important;height:clamp(88px,26vw,110px)!important}
+}
 .pxd-sub{
   margin-top:24px;font-family:var(--accent);font-size:12.5px;
   letter-spacing:.22em;text-transform:uppercase;color:var(--gold-deep);
@@ -599,16 +654,30 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
    CTAs rather than two choices. It stays inline and the row wraps under 460. */
 .pxd-docs{display:flex;flex-direction:column;gap:14px;margin-top:22px}
 .pxd-doc{
+  --face:64px;
   display:flex;align-items:center;gap:clamp(12px,1.6vw,18px);
   padding:clamp(12px,1.5vw,16px);
   border:1px solid var(--line);border-radius:2px;background:var(--dawn);
   transition:border-color .35s var(--ease),background .35s var(--ease);
 }
 .pxd-doc:hover{border-color:var(--gold);background:var(--gold-tint)}
-.pxd-doc img{
-  width:clamp(54px,6vw,66px);height:clamp(54px,6vw,66px);flex:none;
-  border-radius:50%;object-fit:cover;display:block;
+/* ⚠️ SQUARE AND **UNCROPPED** HERE — his call, and it is a deliberate split from the
+   header above, which uses the baked head crop. The row shows the whole figure; the
+   header shows the face. Same rule as the section card (whole figure at 336px), so
+   the reader meets the same two pictures they saw upstairs.
+   Sized by the same measurement as the header: --face is written per row from its
+   own text block, so picture top/bottom align with name top and specialization
+   bottom. Fallback below is the fixed square if the script never runs. */
+/* ⚠️ THE FALLBACK IS DECLARED ON .pxd-doc (the row), NOT HERE — and that placement
+   is load-bearing. sizeFaces() writes --face on the row and lets it inherit; a
+   `--face:64px` sitting on this element is a LOCAL declaration, which beats the
+   inherited one, so the script's value was silently ignored and every row rendered
+   at 64px. Measured: face 64 against a 74px text block, out by 10. */
+.pxd-doc-face{
+  flex:none;display:block;overflow:hidden;border-radius:2px;
+  width:var(--face,64px);height:var(--face,64px);
 }
+.pxd-doc-face img{width:100%;height:100%;object-fit:cover;display:block}
 .pxd-doc-txt{display:flex;flex-direction:column;gap:3px;min-width:0;flex:1}
 .pxd-doc-txt b{font-family:var(--accent);font-weight:400;font-size:clamp(16px,1.5vw,19px);letter-spacing:-.01em;color:var(--ink)}
 .pxd-doc-txt span{font-size:clamp(12.5px,1.1vw,14px);color:var(--ink-soft);line-height:1.45}
@@ -1481,8 +1550,8 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
         your time by WhatsApp.</p>
         <div class="pxd-docs">
           <div class="pxd-doc">
-            <img src="../images/doctors/dr-andrey-komissarov-square.webp" alt="" aria-hidden="true"
-                 loading="lazy" decoding="async" width="1024" height="1024">
+            <span class="pxd-doc-face"><img src="../images/doctors/dr-andrey-komissarov-square.webp" alt="" aria-hidden="true"
+                 loading="lazy" decoding="async" width="1024" height="1024"></span>
             <div class="pxd-doc-txt">
               <b>Dr. Andrey Komissarov</b>
               <span>MD, PhD — Internal, Integrative &amp; Functional Medicine</span>
@@ -1490,8 +1559,8 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
             <a class="btn" href="#" data-book>Select <span class="arr">→</span></a>
           </div>
           <div class="pxd-doc">
-            <img src="../images/doctors/dr-eslam-yakout-square.webp" alt="" aria-hidden="true"
-                 loading="lazy" decoding="async" width="700" height="700">
+            <span class="pxd-doc-face"><img src="../images/doctors/dr-eslam-yakout-square.webp" alt="" aria-hidden="true"
+                 loading="lazy" decoding="async" width="700" height="700"></span>
             <div class="pxd-doc-txt">
               <b>Dr. Eslam Yakout</b>
               <span>Functional and Regenerative Medicine Doctor</span>
@@ -1547,10 +1616,14 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
           <p class="doc-spec">MD, PhD — Internal, Integrative &amp; Functional Medicine</p>
           <a class="btn" href="#book">Book a consultation <span class="arr">→</span></a>
           <template class="doc-detail">
-            <img class="pxd-face" src="../images/doctors/dr-andrey-komissarov-square.webp" alt="" aria-hidden="true">
-            <p class="pxd-kicker">The doctor · Medi-Gyn</p>
+            <div class="pxd-hdr">
+              <span class="pxd-face"><img src="../images/doctors/dr-andrey-komissarov-head-400.webp" alt="" aria-hidden="true" width="400" height="400"></span>
+              <div class="pxd-hdr-txt">
+              <p class="pxd-kicker">The doctor · Medi-Gyn</p>
             <h3>Dr. Andrey Komissarov</h3>
             <p class="pxd-spec">MD, PhD — Internal, Integrative &amp; Functional Medicine, Dubai · Russian / English</p>
+              </div>
+            </div>
             <ul class="pxd-list">
               <li>Focus on identification and addressing the root causes of illness rather than just treating symptoms.</li>
               <li>Uncovering underlying causes of illnesses, such as genetic predisposition, environmental negative factors, inflammation, toxicity, nutrient deficiencies or individual intolerability.</li>
@@ -1596,10 +1669,14 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
           <p class="doc-spec">Functional and Regenerative Medicine Doctor</p>
           <a class="btn" href="#book">Book a consultation <span class="arr">→</span></a>
           <template class="doc-detail">
-            <img class="pxd-face" src="../images/doctors/dr-eslam-yakout-square.webp" alt="" aria-hidden="true">
-            <p class="pxd-kicker">The doctor · Medi-Gyn</p>
+            <div class="pxd-hdr">
+              <span class="pxd-face"><img src="../images/doctors/dr-eslam-yakout-head-400.webp" alt="" aria-hidden="true" width="400" height="400"></span>
+              <div class="pxd-hdr-txt">
+              <p class="pxd-kicker">The doctor · Medi-Gyn</p>
             <h3>Dr. Eslam Yakout</h3>
             <p class="pxd-spec">Functional and Regenerative Medicine Doctor · English / Arabic</p>
+              </div>
+            </div>
             <p>Dr. Eslam Yakout is a physician with over 20 years of clinical experience,
             specialized in Functional and Regenerative Medicine. His work focuses on helping
             patients restore balance and vitality through a personalized and holistic
@@ -1944,6 +2021,8 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
         if (window.__lenis) window.__lenis.stop();
         panel.scrollTop = 0;
         panel.focus();
+        sizeFaces();
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(sizeFaces);
       });
     });
     /* ⚠️ THE PANEL HAS TWO VIEWS AND ONE SHELL: the detail the reader opened, and
@@ -1952,13 +2031,100 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
        the dialog, which would re-run the entrance animation and lose the scroll. */
     const chooseTpl = document.getElementById("pxd-choose");
     let lastTpl = null, lastName = "";
+    /* ══ sizeFaces — HIS ASK 2026-08-14: "make the height of image equal to top of
+       the text and bottom of the text for symmetry".
+       ⚠️ THIS CANNOT BE CSS, AND IT WAS TESTED RATHER THAN ASSUMED. A square whose
+       HEIGHT matches a text block whose HEIGHT depends on the width that square
+       leaves it is a circular constraint; `align-self:stretch` + `aspect-ratio:1`
+       measured 1px × 125px in Chromium — the browser resolves the cycle by
+       abandoning the width. So the text block is measured and the square is written
+       from it, which is the same method the scene on this page uses for its labels.
+       ⚠️ RUN IT AFTER EVERY CONTENT SWAP AND AFTER FONTS: an unloaded Megante
+       measures a different block, and the panel is re-cloned on every open.
+       ⚠️ offsetHeight, NOT getBoundingClientRect: the panel animates on a transform
+       and the rect would carry the entrance's scale for the first frames. */
+    function sizeFaces(){
+      /* ⚠️ THE CHOOSER SIZES EVERY ROW FROM THE TALLEST TEXT, NOT EACH FROM ITS OWN.
+         Per-row sizing is the literal reading of "match the text", and it renders
+         two doctors at two different sizes whenever one title is shorter — measured
+         65px against 56px at 900. Two people offered as a choice must be presented
+         at one scale, so the tallest block sets the square and the shorter text
+         block is stretched to it: every row is then square, equal, and flush top
+         and bottom. The header keeps per-row sizing — there is only ever one.
+         ⚠️ ONE WIDTH CANNOT BE SATISFIED AND IT IS RECORDED RATHER THAN CHASED: at
+         360 the row gives the longer title ~178px, which wraps it to four lines
+         (~82px) while the .22 cap holds the square at ~62 — 10px proud top and
+         bottom, centred. Raising the cap there only feeds the wrap. Every width
+         from 390 up measures flush; 360 is the narrow tail and it reads as a
+         centred thumbnail, not as a mistake. */
+      const rows = [...bodyEl.querySelectorAll(".pxd-doc")];
+      if (rows.length){
+        rows.forEach(r => { r.style.removeProperty("--face");
+          const t = r.querySelector(".pxd-doc-txt"); if (t) t.style.minHeight = ""; });
+        let tallest = 0;
+        rows.forEach(r => { const t = r.querySelector(".pxd-doc-txt");
+          if (t) tallest = Math.max(tallest, t.offsetHeight); });
+        for (let i = 0; i < 3; i++){
+          const cap = Math.min(104, rows[0].clientWidth * .22);
+          const size = Math.max(52, Math.min(cap, Math.round(tallest)));
+          rows.forEach(r => r.style.setProperty("--face", size + "px"));
+          let next = 0;
+          rows.forEach(r => { const t = r.querySelector(".pxd-doc-txt");
+            if (t) next = Math.max(next, t.offsetHeight); });
+          if (Math.abs(next - tallest) < 1){ 
+            rows.forEach(r => { const t = r.querySelector(".pxd-doc-txt");
+              if (t) t.style.minHeight = size + "px"; });
+            break;
+          }
+          tallest = next;
+        }
+      }
+      bodyEl.querySelectorAll(".pxd-hdr").forEach(row => {
+        const txt = row.querySelector(".pxd-hdr-txt");
+        const face = row.querySelector(".pxd-face");
+        if (!txt || !face) return;
+        /* the stacked phone header has no text beside it to match — the media query
+           owns that case, so the measurement stands down rather than fighting it */
+        if (getComputedStyle(row).flexDirection === "column"){ row.style.removeProperty("--face"); return; }
+        /* ⚠️ ONE PASS IS NOT ENOUGH, AND THAT IS THE CIRCULARITY AGAIN — MEASURED.
+           Writing --face changes the width left to the text, which re-wraps it and
+           changes the very height just measured: a single pass shipped the square
+           10px short of the chooser text and 31px short of the header at 1440. So
+           this iterates to a fixed point, re-measuring after each write until the
+           number stops moving (offsetHeight forces the reflow, so each reading is
+           the real post-write layout). It settles in two passes at every width
+           tested; four is the runaway guard, not the expectation.
+           ⚠️ THE CLAMP IS WHAT MAKES THE LOOP SAFE, not a taste ceiling. The
+           feedback is POSITIVE — a taller square is a wider square, which leaves
+           the text less room, which makes it taller again — so on a narrow panel an
+           unbounded loop walks the square up until it eats the row. The cap is the
+           smaller of a px ceiling and a third of the row, and it is the reason the
+           phone stacks instead (see the 430 media query) rather than fighting this. */
+        /* 76, not 88: at 760–900 the block measures 86 and an 88 floor overshot it
+           by 2 — a floor that is never reached is the only floor worth having here.
+           It still exists so a one-line block cannot print a postage stamp. */
+        const lo = 76, hi = Math.min(148, row.clientWidth * .34);
+        let last = 0;
+        for (let i = 0; i < 4; i++){
+          const h = Math.max(lo, Math.min(hi, Math.round(txt.offsetHeight)));
+          if (Math.abs(h - last) < 1) break;
+          row.style.setProperty("--face", h + "px");
+          last = h;
+        }
+      });
+    }
     function showTpl(tpl, name){
       bodyEl.innerHTML = "";
       bodyEl.append(tpl.content.cloneNode(true));
       if (name) pxd.setAttribute("aria-label", name);
       panel.scrollTop = 0;
       panel.focus();
+      sizeFaces();
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(sizeFaces);
     }
+    /* while the dialog is open the text re-wraps with the viewport, so the square
+       has to be re-derived; harmless when it is closed (the body is empty) */
+    addEventListener("resize", () => { if (!pxd.hidden) sizeFaces(); });
     pxd.addEventListener("click", e => {
       if (e.target.closest("[data-pxd-close]")){ pxdClose(); return; }
       /* service pill → the chooser, in place. The kicker carries the service name

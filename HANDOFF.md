@@ -1,3 +1,20 @@
+# Handoff addendum — 2026-08-14, round 5 (the doctor portrait goes square, the name sits beside it, and the square is measured to the text)
+
+Scope: `peptide-therapy/index.html` + `tools/crop-portrait.mjs` (new) + two baked
+crops. Off a rendered board, his call: **square, not circle** (the section card is a
+square, and this page spends squares on content and circles on chrome), with the
+**name beside the picture**, and the square **exactly as tall as the kicker+name+
+languages block**. That last one is not CSS — it is circular, and
+`align-self:stretch`+`aspect-ratio:1` measures **1px wide** in Chromium — so
+`sizeFaces()` measures and iterates to a fixed point, clamped (the feedback is
+positive and runs away unclamped). Flush at 1920/1440/1104/900/760/620, stacked
+≤560, and 360 recorded as the one unsatisfiable width. The popup header uses a baked
+head crop (the masters are full-body, so a small avatar rendered a ~20px face); the
+chooser keeps the whole figure, uncropped, both rows sized from the taller text.
+Full reasoning and every measurement in `peptide-therapy/HANDOVER.md`, Round 5.
+
+---
+
 # Handoff addendum — 2026-08-14, round 4 (the portraits land · the eight book a consultation through a doctor chooser)
 
 Scope: `peptide-therapy/index.html` plus two image moves. (1) His two uploads

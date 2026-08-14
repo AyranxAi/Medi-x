@@ -1,5 +1,56 @@
 # Peptide Therapy — `/peptide-therapy/` (first ship 2026-08-14)
 
+> ## ROUND 5 — SAME DAY: the portrait goes SQUARE, the name sits beside it, and the
+> square is measured to the text
+>
+> Off a rendered four-way board (circle/square × whole/cropped, name below/beside).
+> **What the board settled first:** the circle was never the real fault — these
+> masters are full-body studio shots with the head in the top quarter, so at 88px
+> the face rendered ~20px. Cropping fixed the face; shape was then a free choice.
+>
+> **1 · SQUARE, HIS CALL, and the reason is consistency**: the section card he just
+> clicked is a square, and this page spends squares on content and circles on chrome
+> (the (i), the ×, the FAQ marks). **The name sits beside the picture** — the round
+> face on its own line left the whole right of the panel empty.
+>
+> **2 · THE SQUARE IS AS TALL AS THE TEXT BLOCK — "top of the text and bottom of
+> text for symmetry", his words, and it is MEASURED because it cannot be CSS.**
+> A square whose height matches a text block whose height depends on the width that
+> square leaves it is circular. Tested, not assumed: `align-self:stretch` +
+> `aspect-ratio:1` resolves to **1px × 125px** in Chromium — the browser breaks the
+> cycle by abandoning the width. `sizeFaces()` measures and iterates to a fixed
+> point. Four things had to be true before it landed flush, each found by measuring
+> a twelve-width sweep (1920 → 360) rather than by eye:
+>   · **iterate, don't set once** — writing the square re-wraps the text and changes
+>     the height just measured (one pass shipped 10px short in the chooser, 31px in
+>     the header);
+>   · **clamp, or the loop runs away** — the feedback is positive (taller square →
+>     wider square → narrower column → taller text);
+>   · **the × gutter belongs to the kicker, not the header** — 52px charged to every
+>     line wrapped the name at 1440 and fed the loop into its cap;
+>   · **the header sets its own name size** (32px, not the panel's 36) — at 36 no
+>     fixed point EXISTS at 1440, so symmetry was unreachable, not just missed.
+> Measured flush (top 0 / bottom 0, square within 1.5px) at 1920, 1440, 1104, 900,
+> 760, 620; stacked by design ≤560; ⚠️ **360 is the one width that cannot be
+> satisfied** — the longer title wraps to four lines there and the cap holds the
+> square ~10px proud top and bottom, centred. Recorded, not chased.
+>
+> **3 · THE POPUP HEADER USES A BAKED HEAD CROP; THE CHOOSER SHOWS THE WHOLE FIGURE
+> UNCROPPED** — his split. `tools/crop-portrait.mjs` (new) bakes
+> `…-head-400.webp` from each master with Chromium as the codec, no new dependency;
+> the masters are untouched and still serve the 336px cards. A runtime CSS zoom was
+> rejected: it needs per-photo tuning in the stylesheet and softens at 2x, and the
+> next doctor should be a file drop.
+>
+> **4 · THE CHOOSER SIZES BOTH ROWS FROM THE TALLER TEXT.** Per-row sizing is the
+> literal reading and it rendered the two doctors at two different sizes whenever
+> one title was shorter (65 vs 56 at 900). Two people offered as a choice are
+> presented at one scale.
+>
+> ⚠️ Still open, his call: the four alternative chooser treatments (bigger, full-row
+> height, mild crop, small) were rendered for him and the shipped default is the
+> matched-height uncropped square.
+
 > ## ROUND 4 — SAME DAY: the portraits land · the eight book a CONSULTATION, through a doctor chooser
 >
 > **1 · THE PORTRAITS ARE IN.** He uploaded them to `images/` as

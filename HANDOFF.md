@@ -1,3 +1,18 @@
+# Handoff addendum — 2026-08-14, round 3 (the doctors arrive at 05 · the DNA variant is deleted, string wins)
+
+Scope: `peptide-therapy/index.html`. (1) New **05 · The doctors** — Komissarov and
+Yakout as centred cards with a glass (i) opening the shared dialog shell on their full
+bios (CLIENT COPY, verbatim, three recorded typo fixes) and a "Book a consultation"
+pill per card (his call, overriding the one-pill rule on the record). ⚠️ **The two
+portrait files are not in the repo** — supplied in conversation, unfetchable from this
+environment; cards fall back to a deliberate monogram band until
+`images/doctors/dr-{andrey-komissarov,eslam-yakout}-square.webp` land (plain file
+drop). Grounds run the sister sequence again. (2) **?figure=dna deleted whole** — his
+call off the rendered A/B; the single chain is the figure. Details in
+`peptide-therapy/HANDOVER.md`, Round 3 banner.
+
+---
+
 # Handoff addendum — 2026-08-14, round 2 (the eight become tiles with a popup · "string or dna" becomes ?figure=dna)
 
 Scope: `peptide-therapy/index.html` only, two notes off his first look ("Honestly this

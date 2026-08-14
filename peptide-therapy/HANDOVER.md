@@ -1,5 +1,34 @@
 # Peptide Therapy — `/peptide-therapy/` (first ship 2026-08-14)
 
+> ## ROUND 3 — SAME DAY: the doctors arrive · the DNA variant is deleted
+>
+> **1 · 05 · THE DOCTORS (`#doctors`)** — his call: Dr. Andrey Komissarov and
+> Dr. Eslam Yakout, each a centred card (portrait band → Megante name → specialization
+> → red "Book a consultation" pill) with a glass (i) on the portrait corner that opens
+> the SHARED dialog shell (#pxd) carrying the full bio, ×-closed, pill at the foot.
+> Two red pills in one viewport is his call and deliberately overrides the sister
+> page's one-pill rule — recorded at `.docs` so it is not "fixed" in passing.
+> ⚠️ **THE BIOS ARE CLIENT COPY** (medi-gyn.com doctor pages), reproduced verbatim
+> with three recorded typographic corrections — unlike the tiles' draft copy.
+> ⚠️ **THE PORTRAIT FILES ARE NOT IN THE REPO.** He supplied them in conversation;
+> this environment cannot reach medi-gyn.com to fetch them. Cards are wired to
+> `images/doctors/dr-andrey-komissarov-square.webp` and
+> `images/doctors/dr-eslam-yakout-square.webp`; until those exact files exist the
+> script flips each card to a Megante monogram band (AK / EY) on the gold tint —
+> deliberate, not a bug — and strips the portrait from the popup. Landing the two
+> files is a plain file drop; no markup changes.
+> ⚠️ The ground sequence is the sister page's again: dawn(03) → ivory(04) →
+> dawn(05 doctors) → ivory(06) → dawn(07) → ivory(08) — the round-2 stories/FAQ
+> swaps are reverted with the section that made them necessary.
+>
+> **2 · `?figure=dna` IS DELETED — his call** ("remove dna figure lets stick with
+> your brilliant one"), decided on the rendered A/B. The single chain is the figure.
+> The flag, the ghost strand and the rungs went whole; `git revert` this commit to
+> resurrect them.
+>
+> QA re-run whole: clean at both widths; doctors verified — fallback engages on both
+> cards, the (i) opens the shell, the missing face is stripped from the panel, × closes.
+
 > ## ROUND 2 — SAME DAY ("Honestly this is beautiful"), two changes
 >
 > **1 · The eight services are TILES THAT OPEN A POPUP — his call** ("having the 8 as

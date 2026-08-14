@@ -351,9 +351,9 @@ section{position:relative}
    payoff for a term the reader already holds.
    ⚠️ GROUND: the dawn, and the same cross-reference applies — --dawn MUST STAY
    EQUAL to BG_B in the chain scene script at the foot of this file. The scene
-   rises to exactly this colour. The page's grounds then run dawn(03) → ivory(04)
-   → dawn(06) → ivory(07) → ivory(08, hairlined) → cream(footer): no booster
-   chapter on this page, so the warm note moved to 06 — see .stories.
+   rises to exactly this colour. The page's grounds run the sister sequence:
+   dawn(03) → ivory(04) → dawn(05 doctors) → ivory(06) → dawn(07) →
+   ivory(08, hairlined) → cream(footer).
    ⚠️ NO CTA, same rule as the sister segment: this page IS the peptide intro.
    The segment explains and stops; the scene below is where it sends you. */
 .peptides{background:var(--dawn)}
@@ -511,12 +511,90 @@ section{position:relative}
 .pxd-cta{margin-top:26px}
 body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds still under the overlay */
 
+/* ─────────────────────────── 05 · THE DOCTORS ───────────────────────────────
+   HIS CALL 2026-08-14: pictures, specialization, "book consultation under their
+   name", an (i) on the portrait corner that opens a popup with the doctor's
+   profession and history, ×-closed, with Book a consultation at its foot. The
+   popup IS the tiles' dialog shell (#pxd) — one shell, all templates.
+   ⚠️ TWO RED PILLS IN ONE VIEWPORT, HIS CALL — this deliberately overrides the
+   sister page's one-pill-per-section rule ("three primary CTAs is three times the
+   ask"): he asked for the pill under each name, so each doctor carries one.
+   Recorded so it is not "fixed" in passing.
+   ⚠️ THE (i) IS THE HEADER'S GLASS-BUTTON MATERIAL (.globe over a photograph) at
+   36px, with the serif italic i as its glyph. On the monogram fallback ground it
+   flips to the solid-header colourway, or ivory glass vanishes on cream.
+   ⚠️ THE PORTRAIT FILES ARE NOT IN THE REPO YET — he supplied them in conversation
+   and this environment cannot reach medi-gyn.com to pull them. Cards are wired to
+   images/doctors/dr-{andrey-komissarov,eslam-yakout}-square.webp; until those
+   exact files land, the script marks the card .no-photo and the band shows a
+   Megante monogram on the gold tint instead of a broken image. Adding the photos
+   is a file drop — no markup change. */
+.docs{background:var(--dawn)}
+.doc-grid{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(28px,4.5vw,72px);max-width:56rem;margin-inline:auto;
+}
+.doc{display:flex;flex-direction:column;align-items:center;text-align:center}
+.doc-photo{
+  position:relative;width:min(100%,21rem);aspect-ratio:1;
+  border-radius:2px;overflow:hidden;
+  background:linear-gradient(165deg,var(--cream),var(--gold-tint));
+  box-shadow:0 18px 44px rgba(71,24,38,.12);
+}
+.doc-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.doc.no-photo .doc-photo img{display:none}
+.doc-mono{
+  display:none;position:absolute;inset:0;place-content:center;
+  font-family:var(--accent);font-size:clamp(48px,6vw,72px);letter-spacing:.06em;
+  color:var(--gold-deep);opacity:.5;
+}
+.doc.no-photo .doc-mono{display:grid}
+.doc-info{
+  position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;
+  border:1px solid rgba(250,247,241,.65);background:rgba(46,34,40,.38);
+  color:var(--ivory);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  font-family:var(--serif);font-style:italic;font-size:18px;line-height:1;
+  display:grid;place-content:center;
+  transition:background .3s var(--ease),border-color .3s var(--ease),
+    color .3s var(--ease);
+}
+.doc-info:hover,.doc-info:focus-visible{background:rgba(46,34,40,.62);border-color:var(--ivory)}
+.doc.no-photo .doc-info{border-color:var(--logo-red);background:transparent;color:var(--logo-red);backdrop-filter:none;-webkit-backdrop-filter:none}
+.doc.no-photo .doc-info:hover,.doc.no-photo .doc-info:focus-visible{background:var(--logo-red);color:var(--ivory)}
+.doc h3{
+  margin-top:clamp(18px,2.4vh,26px);
+  font-family:var(--accent);font-weight:400;letter-spacing:-.02em;
+  font-size:clamp(23px,2.2vw,31px);line-height:1.1;
+}
+.doc-spec{margin-top:7px;color:var(--ink-soft);font-size:clamp(14px,1.2vw,16.5px);line-height:1.55;max-width:30ch}
+.doc .btn{margin-top:clamp(18px,2.4vh,26px)}
+@media(max-width:700px){
+  .doc-grid{grid-template-columns:1fr;gap:48px}
+}
+
+/* the doctor popup's own furniture, on the shared shell */
+.pxd-face{
+  width:88px;height:88px;border-radius:50%;object-fit:cover;display:block;
+  margin-bottom:16px;box-shadow:0 10px 26px rgba(71,24,38,.16);
+}
+.pxd-spec{margin-top:4px;color:var(--ink-soft);font-size:14px;letter-spacing:.04em}
+.pxd-sub{
+  margin-top:24px;font-family:var(--accent);font-size:12.5px;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--gold-deep);
+}
+.pxd-sub+p,.pxd-sub+.pxd-list{margin-top:10px}
+.pxd-list{margin:12px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px}
+.pxd-list li{
+  position:relative;padding-left:22px;color:var(--ink-soft);
+  font-size:clamp(14.5px,1.2vw,16.5px);line-height:1.65;max-width:56ch;
+}
+.pxd-list li::before{content:"✦";position:absolute;left:0;top:.15em;color:var(--gold);font-size:.72em}
+
 /* ─────────────────────────── 06 · TESTIMONIALS ─────────────────────────── */
-/* the DAWN, not ivory — this page has no booster chapter, so the warm note the
-   sister page gives 05 lands on the stories instead, and the alternation holds:
-   ivory(04) → dawn(06) → ivory(07). Quote and attribution are pure black — 16.9:1
-   here, nowhere near a floor. */
-.stories{background:var(--dawn)}
+/* back to IVORY (2026-08-14, round 3) — the doctors section now occupies the 05
+   slot and carries the dawn, so the page runs the sister sequence exactly:
+   dawn(03) → ivory(04) → dawn(05 doctors) → ivory(06) → dawn(07) → ivory(08). */
+.stories{background:var(--ivory)}
 /* ⚠️ THE CARD IS GONE — cream ground, 1px border, 20px radius, hover lift, all deleted with
    the two quotes that used to sit beside this one. Nothing here is boxed any more. */
 .story-rail{display:grid}
@@ -562,11 +640,11 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
 .story .who span::before{content:"— "}
 
 /* ─────────────────────────── 07 · FAQ ─────────────────────────── */
-/* IVORY, not the sister page's dawn — the dawn sits on 06 here (see .stories), and
-   two dawns in a row is exactly the invisible-field edge the ground sequence exists
-   to avoid. Every colour standing on this section already clears higher on ivory
-   than the dawn values it was measured at. */
-.faq{background:var(--ivory)}
+/* back to the sister page's DAWN (2026-08-14, round 3): with the doctors carrying
+   05, the alternation is the sister sequence again and 07 is once more the last
+   warm note before the hairlined ivory close. The sister page measured every
+   colour on this ground; nothing here differs. */
+.faq{background:var(--dawn)}
 .faq-grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(40px,5vw,90px);align-items:start}
 .faq-side{position:sticky;top:120px;display:flex;flex-direction:column;gap:22px}
 .faq-side h2{font-size:clamp(32px,3.8vw,52px)}
@@ -933,7 +1011,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
   font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:rgba(250,247,241,.55)}
 /* ?scene=<0..1> QA mode: only the stage, frozen at that progress */
 .scene-solo header,.scene-solo .progress,.scene-solo .hero,.scene-solo .peptides,
-.scene-solo .services,.scene-solo .stories,.scene-solo .faq,.scene-solo .final,
+.scene-solo .services,.scene-solo .docs,.scene-solo .stories,.scene-solo .faq,.scene-solo .final,
 .scene-solo footer{display:none!important}
 .scene-solo .scene-track{height:100svh}
 @media (max-width:760px){
@@ -1358,6 +1436,117 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
     </div>
   </section>
 
+  <!-- ══════════ 05 · THE DOCTORS ══════════
+       HIS CALL 2026-08-14 — picture + specialization + "book consultation under their
+       name", with an (i) on the portrait corner opening a popup of "the dr and their
+       profession and history", × top-right, Book a consultation at the popup's foot.
+       ⚠️ THE BIOS ARE CLIENT COPY from the live medi-gyn.com doctor pages, reproduced
+       with typographic corrections only, each recorded here:
+         · "revealing root course of weight gain" → "root cause" (typo)
+         · "rate of aging" → "rate of ageing" (the site's own British spelling)
+         · straight quotes → typographic, spaced hyphens → em dashes
+       Unlike the tiles' draft copy these are his words — do not tighten in passing.
+       ⚠️ PORTRAIT FILES NOT IN THE REPO YET — see the .docs note in the stylesheet.
+       Drop the two supplied photos at:
+         images/doctors/dr-andrey-komissarov-square.webp   (his 1024×1024)
+         images/doctors/dr-eslam-yakout-square.webp        (his 700×700)
+       and both card and popup pick them up with no markup change. Until then the
+       cards show a monogram band, on purpose, instead of a broken image. -->
+  <section class="docs sec-pad" id="doctors">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 data-reveal>The doctors you’ll <em>meet</em></h2>
+      </div>
+      <div class="doc-grid">
+        <article class="doc" data-reveal>
+          <div class="doc-photo">
+            <img src="../images/doctors/dr-andrey-komissarov-square.webp" alt="Dr. Andrey Komissarov"
+                 loading="lazy" decoding="async">
+            <span class="doc-mono" aria-hidden="true">AK</span>
+            <button type="button" class="doc-info" aria-haspopup="dialog"
+                    aria-label="About Dr. Andrey Komissarov">i</button>
+          </div>
+          <h3>Dr. Andrey Komissarov</h3>
+          <p class="doc-spec">MD, PhD — Internal, Integrative &amp; Functional Medicine</p>
+          <a class="btn" href="#book">Book a consultation <span class="arr">→</span></a>
+          <template class="doc-detail">
+            <img class="pxd-face" src="../images/doctors/dr-andrey-komissarov-square.webp" alt="" aria-hidden="true">
+            <p class="pxd-kicker">The doctor · Medi-Gyn</p>
+            <h3>Dr. Andrey Komissarov</h3>
+            <p class="pxd-spec">MD, PhD — Internal, Integrative &amp; Functional Medicine, Dubai · Russian / English</p>
+            <ul class="pxd-list">
+              <li>Focus on identification and addressing the root causes of illness rather than just treating symptoms.</li>
+              <li>Uncovering underlying causes of illnesses, such as genetic predisposition, environmental negative factors, inflammation, toxicity, nutrient deficiencies or individual intolerability.</li>
+              <li>Combines evidence-based conventional medicine, genetics with complementary therapies and personalised care to optimise overall well-being.</li>
+            </ul>
+            <p class="pxd-sub">Key areas of patient care</p>
+            <ul class="pxd-list">
+              <li>Prevention of any illness at its early stages with an effective healthcare protocol — BHRT, TRT, Peptides etc. — to treat illnesses before any disease develops.</li>
+              <li>Wellness and Longevity: measure and improve biological age by 5 to 15 years and slow down the rate of ageing to sustain lifelong vitality — BHRT, TRT, Peptides.</li>
+              <li>Health optimisation: check up and personalised treatment plans to achieve and maintain optimal physical and mental health.</li>
+              <li>Weight loss: revealing the root cause of weight gain in each particular individual, decrease weight and maintain it life-long.</li>
+              <li>Stress and chronic fatigue management: promote resilience, increase energy, initiative and life involvement level.</li>
+            </ul>
+            <p class="pxd-sub">Dr. Andrey’s story</p>
+            <p>Dr Andrey received his medical degree from the prestigious Moscow State Medical
+            University of Pirogov in Russia, completed advanced training, and earned a master’s
+            degree in Internal Medicine at the same university. Dr Andrey further honed his
+            skills with additional training at the State Institute for Advanced Training of
+            Doctors, where he was awarded the title of Clinical PhD.</p>
+            <p>Dr Andrey provides treatments specifically designed to meet the needs and concerns
+            of patients seeking to improve and maintain their quality of life, allowing them to
+            feel better, do more, and live longer. He offers comprehensive care and diagnostic
+            services resulting in patients’ long-term well-being.</p>
+            <p>Dr Andrey’s primary focus lies in optimizing health and wellness across all facets
+            of life. He offers a more natural and functional alternative to the limitations of
+            traditional medicine. Dr Andrey’s mission is to empower individuals to take control
+            of their health in a holistic manner.</p>
+            <p>Dr Andrey utilizes an effective combination of cutting-edge natural therapies, as
+            well as traditional treatments, underscoring his commitment to a truly integrated
+            approach to well-being.</p>
+            <div class="pxd-cta"><a class="btn" href="#book">Book a consultation <span class="arr">→</span></a></div>
+          </template>
+        </article>
+        <article class="doc" data-reveal>
+          <div class="doc-photo">
+            <img src="../images/doctors/dr-eslam-yakout-square.webp" alt="Dr. Eslam Yakout"
+                 loading="lazy" decoding="async">
+            <span class="doc-mono" aria-hidden="true">EY</span>
+            <button type="button" class="doc-info" aria-haspopup="dialog"
+                    aria-label="About Dr. Eslam Yakout">i</button>
+          </div>
+          <h3>Dr. Eslam Yakout</h3>
+          <p class="doc-spec">Functional and Regenerative Medicine Doctor</p>
+          <a class="btn" href="#book">Book a consultation <span class="arr">→</span></a>
+          <template class="doc-detail">
+            <img class="pxd-face" src="../images/doctors/dr-eslam-yakout-square.webp" alt="" aria-hidden="true">
+            <p class="pxd-kicker">The doctor · Medi-Gyn</p>
+            <h3>Dr. Eslam Yakout</h3>
+            <p class="pxd-spec">Functional and Regenerative Medicine Doctor · English / Arabic</p>
+            <p>Dr. Eslam Yakout is a physician with over 20 years of clinical experience,
+            specialized in Functional and Regenerative Medicine. His work focuses on helping
+            patients restore balance and vitality through a personalized and holistic
+            approach.</p>
+            <p class="pxd-sub">Particular expertise</p>
+            <ul class="pxd-list">
+              <li>Autoimmune diseases and fibromyalgia — reducing chronic pain, inflammation, and fatigue through functional and regenerative protocols.</li>
+              <li>Gut microbiome health — using advanced testing to address dysbiosis, leaky gut, and their link to immunity and chronic disease.</li>
+              <li>Peptide therapies — applying cutting-edge peptides for healing, tissue repair, hormonal balance, and longevity.</li>
+              <li>Nutrigenomics — integrating genetic insights with nutrition, a field he studied in South Africa in 2005, to optimize cellular and metabolic health.</li>
+              <li>Acupuncture &amp; Traditional Chinese Medicine — drawing from training in China (2000–2004), Dr. Yakout integrates Eastern practices with modern medicine, offering a truly holistic model of care that addresses both root causes and overall well-being.</li>
+            </ul>
+            <p class="pxd-sub">Dr. Eslam’s story</p>
+            <p>By combining nutrition, functional medicine, regenerative therapies, and
+            traditional healing practices, Dr. Yakout provides a comprehensive approach to
+            healthcare that empowers patients to regain energy, resilience, and long-term
+            health.</p>
+            <div class="pxd-cta"><a class="btn" href="#book">Book a consultation <span class="arr">→</span></a></div>
+          </template>
+        </article>
+      </div>
+    </div>
+  </section>
+
   <!-- ══════════ 06 · STORIES ══════════ -->
   <section class="stories sec-pad" id="stories">
     <div class="wrap">
@@ -1654,15 +1843,22 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
       if (window.__lenis) window.__lenis.start();
       if (lastBtn) lastBtn.focus();
     }
-    document.querySelectorAll(".px").forEach(tile => {
-      const btn = tile.querySelector(".px-open");
-      const tpl = tile.querySelector(".px-detail");
+    /* one shell serves both families: the eight service tiles AND the doctor
+       cards — same open grammar, same close grammar, no second dialog to drift */
+    document.querySelectorAll(".px,.doc").forEach(tile => {
+      const btn = tile.querySelector(".px-open,.doc-info");
+      const tpl = tile.querySelector(".px-detail,.doc-detail");
       if (!btn || !tpl) return;
       btn.addEventListener("click", () => {
         lastBtn = btn;
         bodyEl.innerHTML = "";
         bodyEl.append(tpl.content.cloneNode(true));
-        pxd.setAttribute("aria-label", (tile.querySelector("h3") ? tile.querySelector("h3").textContent : "Service").trim());
+        /* a card already showing the monogram fallback must not open onto a broken
+           portrait — the panel simply goes without the face until the file lands */
+        if (tile.classList.contains("no-photo")){
+          const f = bodyEl.querySelector(".pxd-face"); if (f) f.remove();
+        }
+        pxd.setAttribute("aria-label", (tile.querySelector("h3") ? tile.querySelector("h3").textContent : "Details").trim());
         pxd.hidden = false;
         requestAnimationFrame(() => requestAnimationFrame(() => pxd.classList.add("on")));
         body.classList.add("pxd-open");
@@ -1683,6 +1879,18 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
     });
     document.addEventListener("keydown", e => { if (e.key === "Escape" && !pxd.hidden) pxdClose(); });
   }
+
+  /* the portrait fallback — a card whose photo cannot load flips to the monogram
+     band instead of showing the browser's broken-image glyph. This is the shipped
+     state until the two supplied portraits land in images/doctors/ (see the DOM
+     note at the section); it then never fires again. */
+  document.querySelectorAll(".doc").forEach(d => {
+    const im = d.querySelector(".doc-photo img");
+    if (!im) return;
+    const bad = () => d.classList.add("no-photo");
+    if (im.complete && im.naturalWidth === 0) bad();
+    im.addEventListener("error", bad);
+  });
 
   /* mock booking action */
   document.querySelectorAll("[data-book]").forEach(b => b.addEventListener("click", e => e.preventDefault()));
@@ -1868,16 +2076,12 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
   if (forceP !== null) document.body.classList.add("scene-solo");
 
   const mobile = matchMedia("(max-width:760px)").matches;
-  /* ?figure=dna — HIS QUESTION 2026-08-14, "should the animation be a string or
-     dna". The shipped figure is the single chain, and the argument is on record in
-     HANDOVER.md: a peptide IS a chain, the coil IS its alpha helix, and a clinic
-     drawing DNA for a therapy that is not DNA invites the correction. But the
-     brand's approved renders lean double-helix, so the DNA reading is one query
-     away instead of one debate away: with the flag, a second ghost strand rises
-     WITH the coil (phase +π) and twenty rungs ladder the two. Assembly is
-     untouched — the story still writes ONE chain; only the payoff figure changes.
-     Judge both on the real page, then delete the loser (it is one gated block). */
-  const DNA = (params.get("figure")||"").toLowerCase()==="dna";
+  /* ⚠️ ?figure=dna IS GONE — HIS CALL 2026-08-14, "remove dna figure lets stick
+     with your brilliant one", off a rendered A/B. The single chain won on the
+     record: a peptide IS a chain, the coil IS its alpha helix, and the assembly
+     story only makes sense written one link at a time. The ghost strand + rungs
+     block that drew the DNA reading is deleted whole; `git revert` this commit
+     if it is ever wanted back. */
 
   const INK=[46,34,40], IVORY=[250,247,241];
   /* ⚠️ BG_B IS --dawn, the sister scene's pair verbatim — the stage rises to exactly
@@ -1948,12 +2152,12 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
      not two strands pretending to be DNA. The finished helix keeps turning at
      t·.10·coil — time is allowed, the same license the sister scene's drift takes;
      a scrub back unwinds it deterministically because p gates the term. */
-  function curve(s,p,t,ph2){
+  function curve(s,p,t){
     const coil=ss(.60,.78,p);
     const turns=mix(1.25,3.1,coil);
     const chTop=H*(mobile?.315:.30), chH=H*(mobile?.475:.52);
     const amp=mix(W*(mobile?.30:.17), Math.min(W*.14,120), coil);
-    const a=6.283*turns*s + t*.10*coil - coil*1.2 + (ph2||0);
+    const a=6.283*turns*s + t*.10*coil - coil*1.2;
     return [W/2+Math.sin(a)*amp, chTop+chH*s, Math.cos(a)*coil];
   }
 
@@ -2057,30 +2261,6 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
         }
       }
 
-      /* ?figure=dna — the ghost strand and its rungs, rising with the coil only:
-         while the chain is a loose wave the flag draws nothing, so the assembly
-         acts are identical either way. See the DNA note at the flag. */
-      if(DNA && coil>.01){
-        const SUBD=104;
-        let qx=0,qy=0;
-        for(let k=0;k<=SUBD;k++){
-          const c2=curve(k/SUBD,p,t,3.1416);
-          if(k){
-            const near=.5+.5*c2[2];
-            ctx.strokeStyle=rgba(beadC,(.08+.26*near)*coil*gA*dim);
-            ctx.lineWidth=1.1;
-            ctx.beginPath(); ctx.moveTo(qx,qy); ctx.lineTo(c2[0],c2[1]); ctx.stroke();
-          }
-          qx=c2[0]; qy=c2[1];
-        }
-        for(let r=0;r<=20;r++){
-          const a1=curve(r/20,p,t), b1=curve(r/20,p,t,3.1416);
-          const near=.5+.25*(a1[2]+b1[2]);
-          ctx.strokeStyle=rgba(beadC,(.05+.14*near)*coil*gA*dim);
-          ctx.lineWidth=1;
-          ctx.beginPath(); ctx.moveTo(a1[0],a1[1]); ctx.lineTo(b1[0],b1[1]); ctx.stroke();
-        }
-      }
 
       /* beads over the links */
       for(let i=0;i<N;i++){

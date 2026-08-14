@@ -1,3 +1,17 @@
+# Handoff addendum — 2026-08-14, round 2 (the eight become tiles with a popup · "string or dna" becomes ?figure=dna)
+
+Scope: `peptide-therapy/index.html` only, two notes off his first look ("Honestly this
+is beautiful"). (1) The eight service rows are now **tiles that open a popup** — one
+dialog shell fed from each tile's own `<template>`, boost-card material, FAQ-indicator
+`+`, Esc/scrim/focus-return handled, Lenis stopped while open. Popup copy is DRAFT and
+names no compounds. (2) His "should the animation be a string or dna" ships as a
+comparison rather than an argument: **`?figure=dna`** raises a ghost second strand and
+rungs with the coil; the bare URL keeps the single chain (the honest molecule — the
+full position is in `peptide-therapy/HANDOVER.md`, Round 2 banner). QA re-run whole:
+clean at both widths, popup verified by script.
+
+---
+
 # Handoff addendum — 2026-08-14 (NEW PAGE: /peptide-therapy/ — hero · What are peptides · the Chain scene · eight services · stories · FAQ · call strip)
 
 Scope: a new self-contained service page at `peptide-therapy/index.html`, built from

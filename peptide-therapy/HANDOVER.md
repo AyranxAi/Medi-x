@@ -1,5 +1,34 @@
 # Peptide Therapy — `/peptide-therapy/` (first ship 2026-08-14)
 
+> ## ROUND 2 — SAME DAY ("Honestly this is beautiful"), two changes
+>
+> **1 · The eight services are TILES THAT OPEN A POPUP — his call** ("having the 8 as
+> tiles and if they click it there will be like a pop up"). The ruled rows below are
+> replaced: cards in the boost-card material (ivory fill, hairline, 2px radius, gold
+> hover + lift), each carrying a circled + in the FAQ indicator's language. The whole
+> tile is the hit area via a stretched `<button>` (`.px-open::after` — the sister
+> doors' trick), so the h3 stays valid HTML and a keyboard still finds one real
+> button per tile. The popup is ONE dialog shell (`#pxd`) fed from each tile's own
+> `<template>` — tile and panel can never disagree. Esc/scrim close, Lenis stops
+> while open (the menu's rule), focus returns to the opening tile, and the panel's
+> red pill closes first, then scrolls to `#book`. Grid: 4 → 2 → 1 columns at
+> 1104/640. ⚠️ **The popup paragraphs and goal chips are DRAFT COPY** — no peptide
+> compounds are named on purpose; route through him before real marketing.
+>
+> **2 · `?figure=dna` — his "string or dna?" question, answered as a switch.** The
+> shipped figure stays the single chain (the argument is in *The Chain* below: a
+> peptide IS a chain, the coil IS its alpha helix, and DNA is a different molecule).
+> But the brand's approved renders lean double-helix, so the DNA reading is one
+> query away instead of one debate away: with the flag a second ghost strand rises
+> WITH the coil (phase +π) and twenty rungs ladder the two. The assembly acts are
+> identical under both — only the payoff figure changes. Compare at
+> `/peptide-therapy/?figure=dna` (or `?scene=0.97&figure=dna` for the frozen frame),
+> then delete the loser — it is one gated block in `draw()` plus one flag.
+>
+> The QA record below was re-run whole after both changes: still zero console
+> errors, still no overflow at any stop, popup verified open/Esc-close with focus
+> landing on the panel at 1440×900 and 390×844.
+
 A self-contained service page (one `index.html`, ~565 KB, zero build step), built from
 `/hormone-balancing/` as its base: same embedded fonts, same header/nav/footer ports, same
 CDN dependencies (GSAP 3.13 + ScrollTrigger + SplitText, Lenis 1.3.4, Three.js 0.166 for

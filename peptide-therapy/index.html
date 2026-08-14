@@ -530,13 +530,22 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
    Megante monogram on the gold tint instead of a broken image. Adding the photos
    is a file drop — no markup change. */
 .docs{background:var(--dawn)}
+/* ⚠️ TWO CAPS GOVERN THE PORTRAIT SIZE AND BOTH HAD TO MOVE — his "make the images
+   bigger", 2026-08-14. The grid's max-width sets the column, .doc-photo's own cap
+   sets the picture inside it, and raising either alone does nothing: at 56rem the
+   column was already 415px while the photo was capped at 21rem/336, so the picture
+   was the binding term; raise only the photo and the column becomes it. Now 62rem
+   and 27rem — 432px against a 460px column at 1440, up from 336 (+29%). The wrap
+   still gives 1150px of content there, so the pair sits in 936 with air either side.
+   ⚠️ The phone is unaffected by the cap: one column at 390 gives ~350px and the
+   photo simply takes 100% of it, as it did before. */
 .doc-grid{
   display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:clamp(28px,4.5vw,72px);max-width:56rem;margin-inline:auto;
+  gap:clamp(28px,4.5vw,72px);max-width:62rem;margin-inline:auto;
 }
 .doc{display:flex;flex-direction:column;align-items:center;text-align:center}
 .doc-photo{
-  position:relative;width:min(100%,21rem);aspect-ratio:1;
+  position:relative;width:min(100%,27rem);aspect-ratio:1;
   border-radius:2px;overflow:hidden;
   background:linear-gradient(165deg,var(--cream),var(--gold-tint));
   box-shadow:0 18px 44px rgba(71,24,38,.12);

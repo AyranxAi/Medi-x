@@ -1,5 +1,26 @@
 # Peptide Therapy — `/peptide-therapy/` (first ship 2026-08-14)
 
+> ## ROUND 6 — SAME DAY: the section portraits grow (+29%)
+>
+> His "make the images bigger". **Two caps governed the size and both had to move**:
+> `.doc-grid`'s max-width sets the column and `.doc-photo`'s own cap sets the picture
+> inside it — at 56rem the column was already 415px while the photo was capped at
+> 21rem/336, so the photo was binding; raising only the photo makes the column
+> binding instead. Now **62rem / 27rem → 432px** at 1104 and up, from 336. Measured
+> at ten widths: 432 / 432 / 432 / 432 / 389 / 329 / 432 / 432 / 350 / 320
+> (1920 → 360), no horizontal overflow introduced at any of them.
+>
+> ⚠️ **A PRE-EXISTING 360px OVERFLOW WAS FOUND WHILE MEASURING THIS, AND IT IS NOT
+> OURS — IT IS THE FOOTER, ON ALL THREE PAGES.** `.f-news{width:22rem}` is 352px
+> against ~320px of content at 360, and grid tracks take their item's `auto` minimum,
+> so the document measures **374px wide at a 360px viewport** on the landing page,
+> the hormone page and this one alike (390 and up are clean). Left alone
+> deliberately: the footer is documented as a TRUE COPY of the landing page's, so
+> the fix belongs to all three files at once, not to this page unilaterally. The
+> one-line version when he wants it: `.f-news{width:min(22rem,100%)}` plus
+> `min-width:0` on the grid items — applied to `index.html`,
+> `hormone-balancing/index.html` and here in the same commit.
+
 > ## ROUND 5 — SAME DAY: the portrait goes SQUARE, the name sits beside it, and the
 > square is measured to the text
 >

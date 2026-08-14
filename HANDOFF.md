@@ -1,3 +1,28 @@
+# Handoff addendum — 2026-08-14 (NEW PAGE: /peptide-therapy/ — hero · What are peptides · the Chain scene · eight services · stories · FAQ · call strip)
+
+Scope: a new self-contained service page at `peptide-therapy/index.html`, built from
+`/hormone-balancing/` as its base on his brief ("based on what we have with Hormone
+Therapy… Hero, What are peptides, Peptides animation… the services… testimonials FAQ and
+with Irina and footer"). Everything page-specific is documented in
+[`peptide-therapy/HANDOVER.md`](peptide-therapy/HANDOVER.md) — anatomy, the Chain scene's
+four acts and engine rules, the ground sequence, and the QA record. The short form:
+
+- **The animation is new, in the sister engine's grammar**: 26 seeded amino-acid beads
+  assemble link by link into a chain that winds into a helix; the dawn rises from the
+  chain's heart; "Peptides" lands in Megante. Pure function of pin progress, latch,
+  Replay/Skip glass controls, `?scene=`/`?probe=1` QA, static fallback.
+- **The eight services are his menu's names, verbatim** (Auto Immune Disease → Sexual
+  Health), as a ruled editorial grid — no photography exists for them, so none is faked.
+- **⚠️ ALL COPY ON THE NEW PAGE IS DRAFT** — written in his register, nothing signed
+  off: hero/SEO tags, definition, beats, service lines, FAQ answers. The testimonials
+  are placeholders. Flagged in the DOM at both clinical surfaces.
+- **Nav wiring**: the landing menu's "Peptide Therapy" and pathway 03's CTA now point at
+  `peptide-therapy/` (relative, `target` off — they pointed at the WordPress site), and
+  the hormone page's menu item likewise at `../peptide-therapy/`. Three files touched:
+  the new page, `index.html`, `hormone-balancing/index.html`.
+
+---
+
 # Handoff addendum — 2026-08-13, night (audit round: the dot comes off the H1 · the sub grows · the men's answer is his · the ✦ mark goes big and ivory · the pill says what it books)
 
 Scope: `hormone-balancing/index.html`, six of his notes across one audit conversation.

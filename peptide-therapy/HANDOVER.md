@@ -1,5 +1,49 @@
 # Peptide Therapy — `/peptide-therapy/` (first ship 2026-08-14)
 
+> ## ROUND 7 — 2026-08-15: the silk becomes glass, and the glass sets the temperature
+> for the whole site
+>
+> **1 · THE HERO GROUND IS NOW "AERO" IN THE GLACIER GRADE — his pick, off a
+> fourteen-plate audition.** The sister silk shader is replaced in place (same canvas
+> `#silk`, same uniforms, same Three.js plumbing — one fragmentShader paste): liquid-glass
+> orbs over a bright white dish, each orb truly lensing the ground behind it, frosted in
+> the far layer, crisp and rising in the near one, colour-locked to silver/white/graphite.
+> The glacier temperature is ONE multiply (`#F3F7FB`) at the foot of `main()` — exactly
+> how the audition lab's grade layer produced the look he judged, so what shipped is what
+> he saw. His decision trail, verbatim: clouds → "moving molecules, whitish" → "B and C
+> but no yellow" → "luxurious, scientific, proper lighting, 3D" → "Vista / iOS-26
+> transparency" → "the gold doesn't feel right" → **"glacier K"**.
+>
+> **2 · THE AUDITION LAB IS A KEPT ARTIFACT, NOT SCAFFOLDING.**
+> `peptide-therapy/hero-lab.html` (in this repo, fonts relative) holds all fourteen
+> plates × five grades, live and switchable; the same lab is published as a Claude
+> artifact at https://claude.ai/code/artifact/d273a6b6-be2f-44aa-a273-65a62a36d550 —
+> ⚠️ **HE MAY SHOW THIS TO THE OWNER. Do not delete, overwrite or re-purpose either
+> copy**; republishing that exact artifact keeps its URL stable. It is private until he
+> flips the share toggle on the artifact page itself.
+>
+> **3 · GLACIER IS HERO-SCOPED IN THIS SHIP, AND THAT IS THE POINT OF THE NEXT ONE —
+> "we want the same vibe on the rest of the website", his words.** The hero's own chrome
+> follows the grade (kicker rule, scroll drip, ghost border — the block above the hero
+> styles carries the argument); the hero's foot still fades to ivory so the page stitches.
+> For whoever does the site-wide pass, the mapping he judged, ivory system → glacier:
+> `--ivory #FAF7F1 → #F4F7FA` · `--cream #F4EDE1 → #EAF0F5` · `--line #DED4C2 → #D5DEE6`
+> · `--gold #C2A05E → #7C93A8` · `--gold-deep #8A6A34 → #54687C` · `--gold-tint #F1E7D2
+> → #E4EDF4` (derived, unjudged). **The one red, the burgundy, the rose and both inks do
+> not move** — the one-red rule is brand law and survived all five grades. Three cautions,
+> each already documented elsewhere: BRAND.md's alphas are MEASURED minimums (re-measure
+> on the new grounds, don't transpose); the footer is a TRUE COPY across all three pages
+> (re-grade the three files in one commit or not at all); the chain scene's ink stage and
+> gold beats are a composition of their own (judge them, don't find-and-replace them).
+> The favicon's gold spark is on the list too.
+>
+> QA: headless Chromium at 1440×900 and 390×844, CDNs served from npm via interception
+> (the egress situation the round-1 QA record documents — nothing about that shipped):
+> zero console errors, WebGL context up, copy legible over the field at both widths, the
+> shader's own left-fade + the lab's radial wash (now in `.hero::after`) doing the work.
+> Reduced-motion renders the field static at t=0, same rule as the silk. Offline fallback
+> gradient re-graded glacier to match.
+
 > ## ROUND 6 — SAME DAY: the section portraits grow (+29%)
 >
 > His "make the images bigger". **Two caps governed the size and both had to move**:

@@ -299,6 +299,23 @@ body.nav-open .nav li{
 .hero-hint .tick::after{content:"";position:absolute;top:-50%;left:0;width:100%;height:50%;background:var(--gold);animation:drip 2.1s var(--ease) infinite}
 @keyframes drip{0%{top:-50%}100%{top:110%}}
 
+/* ── GLACIER, HERO-SCOPED — round 7 ── The hero ground is now plate K ("Aero") in the
+   glacier grade, chosen off the fourteen-plate audition in hero-lab.html: liquid-glass
+   orbs on slate-cool white. The hero's own chrome follows the grade — the gold kicker
+   rule, the drip and the ghost border were the only champagne left on this frame.
+   SCOPED to the hero on purpose: the rest of the page keeps the ivory/gold system until
+   the site-wide re-grade he asked for (HANDOVER round 7 — "same vibe on the rest of the
+   website"). The one red is untouched here and everywhere. The ::after gains the lab's
+   radial wash behind the copy — the plates were judged with it, so it ships with them. */
+.hero .kicker::before{background:#7C93A8}
+.hero-hint .tick{background:#D5DEE6}
+.hero-hint .tick::after{background:#7C93A8}
+.hero .btn.ghost{border-color:#D5DEE6}
+.hero .btn.ghost:hover{background:#EAF0F5;border-color:#7C93A8}
+.hero::after{background:
+  linear-gradient(180deg,rgba(250,247,241,0) 55%,var(--ivory) 97%),
+  radial-gradient(85% 115% at 20% 44%,rgba(244,247,250,.55) 0%,rgba(244,247,250,.22) 46%,rgba(244,247,250,0) 70%)}
+
 /* ─────────────────────────── SECTION SHELL ─────────────────────────── */
 section{position:relative}
 .sec-pad{padding-top:clamp(90px,13vh,160px);padding-bottom:clamp(90px,13vh,160px)}
@@ -2640,7 +2657,12 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
 </script>
 
 <script type="module">
-/* ═══════════ Silk hero — Three.js shader ═══════════ */
+/* ═══════════ Aero hero — Three.js shader (round 7; was: the sister silk) ═══════════
+   Plate K "Aero" in the GLACIER grade, his pick from the hero-lab audition (fourteen
+   plates, five grades — peptide-therapy/hero-lab.html holds them all, live). Liquid-glass
+   orbs over a white dish: each orb truly LENSES the ground behind it, wears the glossy
+   top crescent, frosts in the far layer and rises crisper in the near one. The canvas id
+   stays #silk — the CSS and the fallback know it by name, and renaming buys nothing. */
 try{
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const canvas = document.getElementById("silk");
@@ -2659,12 +2681,9 @@ try{
     fragmentShader:`
       precision highp float;
       uniform float uTime; uniform vec2 uRes;
-      /* Medi✦X palette */
-      const vec3 IVORY = vec3(0.980,0.969,0.945);
-      const vec3 CREAM = vec3(0.957,0.929,0.882);
-      const vec3 ROSE  = vec3(0.780,0.604,0.573);
-      const vec3 GOLD  = vec3(0.761,0.627,0.369);
-      const vec3 BURG  = vec3(0.361,0.122,0.192);
+      /* No palette block: the glass is colour-locked to silver/white/graphite — his "no
+         yellow" — and the glacier temperature arrives as ONE multiply at the foot of
+         main(), exactly how the lab's grade layer produced the look he judged. */
       float hash(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453); }
       float noise(vec2 p){
         vec2 i=floor(p), f=fract(p); f=f*f*(3.-2.*f);
@@ -2676,28 +2695,79 @@ try{
         for(int i=0;i<5;i++){ v+=a*noise(p); p*=2.04; a*=.5; }
         return v;
       }
+      /* the dish: bright neutral field, static micro-specks, one breathing ring */
+      vec3 bgWhite(vec2 p, float t, vec2 rc, float rr, float ra){
+        float g = fbm(p*1.7 + vec2(t*.008,-t*.006));
+        vec3 col = mix(vec3(1.), vec3(.955,.956,.960), smoothstep(.2,.9,g));
+        col -= step(.9968, hash(floor(p*240.)))*.035;
+        float dr = length(p-rc)-rr;
+        col = mix(col, vec3(.74,.74,.75), smoothstep(.012,.002,abs(dr))*ra);
+        col += smoothstep(.0,-.25,dr)*.010*step(.001,ra);
+        return col;
+      }
+      /* liquid glass: a true lens with capped dispersion, static frost, the Aero top
+         crescent, Fresnel rim, a seated inner shadow. Dispersion is capped by world
+         radius — uncapped it sprayed rainbow through the sediment (caught on plate N). */
+      vec3 liquidBead(vec2 rel, float dc, vec2 pw, float rw, float t, vec2 rc, float rr, float ra, float frost){
+        dc = min(dc, 1.);
+        float nz = sqrt(max(1.-dc*dc, 0.));
+        vec2 jit = (vec2(noise(pw*130.), noise(pw*130.+41.)) - .5) * frost * rw;
+        vec2 base = pw - rel*rw*(1.-nz)*1.35 + jit;
+        vec2 dsp = rel*min(rw,.09)*.03*dc;
+        vec3 col;
+        col.r = bgWhite(base + dsp, t, rc, rr, ra).r;
+        col.g = bgWhite(base,       t, rc, rr, ra).g;
+        col.b = bgWhite(base - dsp, t, rc, rr, ra).b;
+        col = mix(col, vec3(1.), .05 + .09*smoothstep(.95,.15,dc));
+        float gd = length((rel - vec2(0.,.52))*vec2(1.25,1.9));
+        col += smoothstep(.72,.26,gd)*(.15 + .09*smoothstep(.2,.9,rel.y));
+        col += smoothstep(.72,.30,length((rel - vec2(0.,-.55))*vec2(1.1,1.7)))*.07;
+        float fres = pow(1.-nz, 3.);
+        col = mix(col, vec3(.985,.99,.995), fres*.45);
+        col = mix(col, vec3(.55,.56,.575), smoothstep(.955,.995,dc)*.45);
+        col += smoothstep(.995,.94,dc)*smoothstep(.88,.94,dc)*.10;
+        vec3 n = normalize(vec3(rel, nz));
+        col += vec3(pow(max(dot(n, normalize(vec3(-.38,.62,.68))), 0.), 60.))*.65;
+        col *= 1. - smoothstep(.5,1.,dc)*smoothstep(.05,-.6,rel.y)*.09;
+        return col;
+      }
+      /* one depth layer of orbs: a jittered grid, each cell's orb wandering, breathing,
+         and rising with the layer — near layers rise faster, the lab's parallax */
+      vec3 layerK(vec3 col, vec2 p, float scale, vec2 drift, float rise, float seed, float t, float soft, float strength, vec2 rc, float rr, float frost){
+        vec2 q = p*scale + vec2(drift.x*t, drift.y*t - rise*t);
+        vec2 id = floor(q), f = fract(q);
+        for(int oy=-1;oy<=1;oy++) for(int ox=-1;ox<=1;ox++){
+          vec2 nb = vec2(float(ox),float(oy));
+          float h = hash(id+nb+seed);
+          if(fract(h*9.17) < .48) continue;
+          float br = 1. + .05*sin(t*(.3+.4*fract(h*3.7)) + h*6.2832);
+          vec2 c = nb + .5 + .28*vec2(sin(t*(.05+.07*fract(h*5.1))+h*6.2832),
+                                      cos(t*(.04+.06*fract(h*2.3))+h*9.42));
+          float r = mix(.14,.40,fract(h*7.31))*br;
+          vec2 rel = (f-c)/r;
+          float d1 = length(rel);
+          float sh = smoothstep(1.45,.70,length(rel-vec2(.14,-.20)));
+          col = mix(col, col*vec3(.950,.950,.955), sh*.20*strength);
+          if(d1 < 1.+soft){
+            vec3 bead = liquidBead(rel, d1, p, r/scale, t, rc, rr, .30, frost);
+            col = mix(col, bead, smoothstep(1.+soft, 1.-soft, d1)*strength);
+          }
+        }
+        return col;
+      }
       void main(){
         vec2 uv = gl_FragCoord.xy / uRes;
         vec2 p = uv; p.x *= uRes.x/uRes.y;
-        float t = uTime*.045;
-        /* domain-warped silk folds */
-        vec2 q = vec2(fbm(p*1.35 + t), fbm(p*1.35 + vec2(2.7,7.1) - t));
-        vec2 r = vec2(fbm(p*1.9 + 3.2*q + vec2(1.3,9.2)), fbm(p*1.9 + 3.2*q + vec2(8.3,2.8)));
-        float f = fbm(p*1.55 + 2.6*r + t*.6);
-        /* ground: ivory to cream, brighter top-left */
-        vec3 col = mix(IVORY, CREAM, smoothstep(.15,.95,uv.y*.55 + f*.6));
-        /* rose sheen along mid folds */
-        float sheen = smoothstep(.42,.62,f) * smoothstep(.82,.55,f);
-        col = mix(col, ROSE, sheen*.30);
-        /* gold thread on tight highlights */
-        float thread = smoothstep(.58,.66,f) * smoothstep(.78,.66,f);
-        col = mix(col, GOLD, thread*.22);
-        /* burgundy whisper in the deepest folds, lower-right */
-        float deep = smoothstep(.30,.05,f) * smoothstep(.25,.95,uv.x*.6+ (1.-uv.y)*.6);
-        col = mix(col, BURG, deep*.13);
-        /* edge vignette back to ivory so copy sits clean */
-        float vig = smoothstep(.92,.55,distance(uv, vec2(.42,.55)));
-        col = mix(IVORY, col, clamp(vig+.25,0.,1.));
+        float t = uTime;
+        vec2 rc = vec2((uRes.x/uRes.y)*.63,.52);
+        float rr = .34+.012*sin(t*.12);
+        vec3 col = bgWhite(p, t, rc, rr, .38);
+        col -= step(.994, hash(floor(p*130.)+3.))*.04;  /* coarse sediment the lenses magnify */
+        /* the field calms toward the copy on the left — the shader's own legibility wash */
+        float fade = .30 + .70*smoothstep(.10,.52,uv.x);
+        col = layerK(col, p, 4.4, vec2(-.006,.004), .022, 31., t, .14, .65*fade, rc, rr, .55);
+        col = layerK(col, p, 2.3, vec2(.007,.005),  .042, 13., t, .03, .95*fade, rc, rr, .0);
+        col *= vec3(.9529,.9686,.9843);  /* the glacier grade — #F3F7FB, multiplied */
         gl_FragColor = vec4(col,1.0);
       }`
   });
@@ -2723,9 +2793,9 @@ try{
     renderer.render(scene, cam);
   })();
 }catch(e){
-  /* offline / WebGL unavailable: static ivory gradient keeps the hero legible */
+  /* offline / WebGL unavailable: static glacier gradient keeps the hero legible */
   const c = document.getElementById("silk");
-  if (c) c.style.background = "linear-gradient(160deg,#FAF7F1 30%,#F4EDE1 70%,#F1E7D2 100%)";
+  if (c) c.style.background = "linear-gradient(160deg,#F8FAFC 30%,#EFF4F8 70%,#E9F0F5 100%)";
 }
 </script>
 

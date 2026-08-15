@@ -132,11 +132,13 @@ h2.h1 em{font-style:italic;color:var(--logo-red);font-weight:430}
   <div class="wrap">
     <p class="chapter-mark">Medi ✦ X · Hero ground study</p>
     <h1>Peptide Hero Lab</h1>
-    <p class="lede">Five live motion grounds under the real peptide hero — same copy, same palette,
+    <p class="lede">Live motion grounds under the real peptide hero — same copy, same palette,
     same type, a different flavor each. The silk clouds you have now are a Three.js fragment shader;
-    GSAP only moves the text. So the ground swaps clean. Scroll the plates, or jump with the letters
-    on the right, and judge by feel.</p>
+    GSAP only moves the text. So the ground swaps clean. Round two opens the bill: <em>F</em> folds
+    B's chrome into A's dish composition with C's aliveness — colour-locked to silver, white and
+    graphite, no gold, no cream. Scroll the plates, or jump with the letters on the right.</p>
     <ul class="index">
+      <li><a href="#f"><span class="lt">F</span> Quicksilver <span class="tag">· the hybrid — new</span></a></li>
       <li><a href="#a"><span class="lt">A</span> Petri <span class="tag">· the clinical one</span></a></li>
       <li><a href="#b"><span class="lt">B</span> Mercury <span class="tag">· the luxe one</span></a></li>
       <li><a href="#c"><span class="lt">C</span> Molecule drift <span class="tag">· the literal one</span></a></li>
@@ -148,6 +150,7 @@ h2.h1 em{font-style:italic;color:var(--logo-red);font-weight:430}
 
 <nav class="rail" aria-label="Plates">
   <ul>
+    <li><a href="#f" data-spy="f">F</a></li>
     <li><a href="#a" data-spy="a">A</a></li>
     <li><a href="#b" data-spy="b">B</a></li>
     <li><a href="#c" data-spy="c">C</a></li>
@@ -155,6 +158,25 @@ h2.h1 em{font-style:italic;color:var(--logo-red);font-weight:430}
     <li><a href="#e" data-spy="e">E</a></li>
   </ul>
 </nav>
+
+<!-- ══════════ F · QUICKSILVER — the round-two hybrid ══════════ -->
+<section class="plate" id="f">
+  <canvas id="cv-f" aria-hidden="true"></canvas>
+  <div class="veil" aria-hidden="true"></div>
+  <div class="hero-inner wrap">
+    <p class="kicker fade">Peptide Therapy · Recovery, resilience, repair</p>
+    <h2 class="h1"><span class="line"><span>Peptide</span></span><span class="line"><span><em>therapy</em></span></span></h2>
+    <p class="hero-sub fade">Medi-Gyn offers medically supervised <strong>peptide therapy</strong> —
+    precise, personalised protocols for recovery, resilience and repair.</p>
+    <div class="hero-ctas fade"><span class="btn">Book a consultation <span class="arr">→</span></span><span class="btn ghost">How peptides work</span></div>
+  </div>
+  <aside class="spec">
+    <span class="lt">F</span><b>Quicksilver</b>
+    <span class="eng">WebGL fragment shader · drop-in swap for the silk</span>
+    <p>B's chrome beads scattered in A's dish, rising and breathing with C's life, at three
+    depths of field. Colour-locked: silver, white, graphite — no gold, no cream.</p>
+  </aside>
+</section>
 
 <!-- ══════════ A · PETRI ══════════ -->
 <section class="plate" id="a">
@@ -253,7 +275,7 @@ h2.h1 em{font-style:italic;color:var(--logo-red);font-weight:430}
 
 <footer class="foot">
   <div class="wrap">
-    <p><span class="lt">SWAP NOTES</span> — Built against <em>peptide-therapy/index.html</em>. Plates A, B and E
+    <p><span class="lt">SWAP NOTES</span> — Built against <em>peptide-therapy/index.html</em>. Plates F, A, B and E
     replace the silk fragment shader in place (same canvas, same uniforms — one paste). Plates C and D are a small
     Canvas&nbsp;2D layer driven by the GSAP ticker the page already runs, like the chain scene's engine. The GSAP text
     reveals, Lenis scroll and everything below the hero stay untouched. Type on this page is the live brand files:
@@ -324,6 +346,68 @@ function ctx2d(canvas, dprCap){
     }
   };
 }
+
+/* ════════ F · QUICKSILVER — chrome beads in the dish, alive at three depths ════════ */
+const FRAG_F = `
+vec3 beads(vec3 col, vec2 p, float scale, vec2 drift, float rise, float seed, float t, float soft, float strength){
+  vec2 q = p*scale + vec2(drift.x*t, drift.y*t - rise*t);
+  vec2 id = floor(q), f = fract(q);
+  for(int oy=-1;oy<=1;oy++) for(int ox=-1;ox<=1;ox++){
+    vec2 nb = vec2(float(ox),float(oy));
+    float h = hash(id+nb+seed);
+    if(fract(h*9.17) < .42) continue;
+    float br = 1. + .07*sin(t*(.3+.4*fract(h*3.7)) + h*6.2832);      /* breathing */
+    vec2 c = nb + .5 + .30*vec2(sin(t*(.05+.08*fract(h*5.1))+h*6.2832),
+                                cos(t*(.04+.07*fract(h*2.3))+h*9.42)); /* wander */
+    float r = mix(.10,.34,fract(h*7.31))*br;
+    vec2 rel = (f-c)/r;
+    float d1 = length(rel);
+    /* soft contact shadow, below-right — lifts the bead off the dish */
+    float sh = smoothstep(1.35,.55,length(rel - vec2(.16,-.22)));
+    col = mix(col, col*vec3(.905,.905,.912), sh*.32*strength);
+    if(d1 < 1.1){
+      float dc = min(d1,1.);
+      float nz = sqrt(max(1.-dc*dc, 0.));
+      vec3 n = normalize(vec3(rel, nz+.15));
+      float up = n.y*.5+.5;
+      /* neutral chrome — silver to white, graphite reflections, no warmth */
+      vec3 bead = mix(vec3(.52,.525,.535), vec3(.985,.99,.995), smoothstep(.03,.8,up));
+      float horizon = (fract(h*4.71)-.5)*.34;                      /* each bead reflects at its own height */
+      bead = mix(bead, vec3(.42,.425,.44), smoothstep(.20,.02,abs(n.y-horizon))*.32);
+      float st = fbm(n.xy*1.9 + h*3.1 + t*.02);
+      bead = mix(bead, vec3(.33,.335,.35), smoothstep(.55,.85,st)*.4);
+      bead = mix(bead, vec3(1.), pow(max(dot(n,normalize(vec3(-.3,.55,.78))),0.),30.));
+      bead += smoothstep(.6,.0,d1)*.04;
+      bead = mix(bead, vec3(.30,.305,.32), smoothstep(.86,.985,d1)*.6);   /* dark meniscus */
+      bead += smoothstep(.995,.93,d1)*smoothstep(.84,.90,d1)*.16;          /* inner light line */
+      float a = smoothstep(1.+soft, 1.-soft, d1)*strength;
+      col = mix(col, bead, a);
+    }
+  }
+  return col;
+}
+void main(){
+  vec2 uv = gl_FragCoord.xy/uRes;
+  vec2 p = uv; p.x *= uRes.x/uRes.y;
+  float t = uTime;
+  /* neutral white ground with the faintest cool-gray fluid shading */
+  float g = fbm(p*1.8 + vec2(t*.010,-t*.007));
+  vec3 col = mix(vec3(1.), vec3(.952,.953,.958), smoothstep(.2,.9,g));
+  col -= step(.9965, hash(floor(p*230.)))*.04;   /* static micro-specks */
+  /* the dish ring, neutral gray, breathing */
+  vec2 cc = vec2((uRes.x/uRes.y)*.63,.52);
+  float R = .34 + .012*sin(t*.12);
+  float dr = length(p-cc)-R;
+  col = mix(col, vec3(.72,.72,.73), smoothstep(.012,.002,abs(dr))*.4);
+  col += smoothstep(.0,-.25,dr)*.012;
+  /* calm toward the copy */
+  float fade = .30 + .70*smoothstep(.10,.52,uv.x);
+  /* beads far → mid → near; near rises faster and sits crisper (depth of field) */
+  col = beads(col, p, 6.2, vec2(-.006,.004), .020, 11., t, .30, .35*fade);
+  col = beads(col, p, 3.6, vec2(.008,.005),  .032, 23., t, .10, .70*fade);
+  col = beads(col, p, 2.1, vec2(-.005,.006), .050, 5.,  t, .02, .95*fade);
+  gl_FragColor = vec4(col,1.);
+}`;
 
 /* ════════ A · PETRI — white lab dish, drifting micro-droplets ════════ */
 const FRAG_A = `
@@ -600,6 +684,7 @@ function add(id, maker){
   eng.el = el; eng.visible = false;
   engines.push(eng);
 }
+add("cv-f", c => glScene(c, FRAG_F));
 add("cv-a", c => glScene(c, FRAG_A));
 add("cv-b", c => glScene(c, FRAG_B));
 add("cv-c", c => makeDrift(c));

@@ -1,5 +1,134 @@
 # Peptide Therapy — `/peptide-therapy/` (first ship 2026-08-14)
 
+> ## ROUND 11 — 2026-08-16: the client's notes land — the scene goes cool, the page grows
+> two chapters, and the band grows two doctors
+>
+> **1 · "PARTNERSHIP" IS OFF THE PAGE, AND IT IS THREE P's NOW — his call, everywhere.**
+> The hero kicker reads *Preventative · Precision · Personalised*, and the new chapter's
+> headline is the same three. ⚠️ **THE CLIENT'S OWN SOURCE DOCUMENT FOR THAT CHAPTER IS
+> HEADED "4 P's — … & Partnership"**, so the next person to read it will think the page is
+> wrong. It is not: he struck the word. Both sites carry the note. `bonds-lab.html`'s
+> thirteen kicker copies were swept too — ⚠️ **that file is BUILD OUTPUT from `.lab-dev/`
+> (gitignored, not in this clone), so the next `node .lab-dev/build.mjs` on his machine
+> puts Partnership back unless `template.html`'s kicker is fixed there as well.** Edited
+> anyway, because a lab he may show the owner should not contradict the page.
+>
+> **2 · SECTION 02'S DEFINITION LOST A SENTENCE AND GAINED A MEASURE — one decision, not
+> two.** His "this is too long for them… and make it wider so it's not that crammed". The
+> therapy clause went ("Replenished under medical supervision as your own supply slows") —
+> the only line in the caption that was not the definition, and said three more times
+> elsewhere on the page. ⚠️ **THE CRAMPED LOOK WAS LINE COUNT, NOT WORD COUNT**: at 34ch the
+> shortened string still stacked four narrow lines. Swept at seven widths — 44ch sets three
+> lines everywhere with "rebalance." orphaned on the third; **48ch is the narrowest measure
+> that reaches two**, and at 1440 its 890px box still sits inside the h2's 992px cap, which
+> is why it can be that wide without reading as a different column.
+>
+> **3 · THE SCENE IS COOL, AND IT IS ARITHMETIC RATHER THAN TASTE.** The client: *"the
+> burgundy is not approved — now that we have transitioned to blue we must find another
+> colour with the same VALUE of this burgundy."* Value is the operative word. Every warm
+> surface was converted to CIE LCh, **L\* and C\* were HELD**, and only the hue was rotated
+> into the page's glacier family (h≈256°, where --dawn 252°, --gold 257°, --gold-deep 260°
+> already live):
+> `stage #2E2228→#1D272F` · `canvas BG_A #2A1B20→#14202A` · `glow #5C1F31→#003A5F` ·
+> `beads STONE #B09A9C→#93A1AE` · `italics --rose #C79A92→#87A8C5`.
+> **THE PROOF IS THE CONTRAST TABLE — every measured pair survived to within 0.05 of its
+> warm original**, which is what "the same value" has to mean: ivory beat 15.31→15.38,
+> gold beat 6.46→6.49, italic 6.63→6.64, bead 6.23→6.26.
+> ⚠️ **`--rose`, `--burgundy` and `--ink` ARE UNTOUCHED AS TOKENS.** They are brand law and
+> they still dress the rest of the page; they simply no longer appear in this scene. `--ink`
+> especially — it is the page's TEXT ink and dresses `.scene-beat.light` and `.scene-title`,
+> type standing on the RISEN ground exactly like every other heading. Cooling it would fork
+> the page's body ink to fix a background problem.
+> ⚠️ **THE FALLBACK `.turn` BAND WENT WITH IT**, and it had to: that band is what a
+> reduced-motion or no-JS visitor sees INSTEAD of the scene, so leaving it burgundy meant
+> the unapproved colour was exactly what the accessibility path still showed. Round 9 wrote
+> *"if the band itself ever goes cool, that is a different decision"* — this is that
+> decision. Its accent **#95ABBF is SOLVED, not picked**: the champagne carried exactly
+> 5.00:1 on the burgundy, so the new accent is the glacier family's own chroma (C\*13,
+> h256) at whatever L\* returns 5.00:1 on #003A5F — L\*68.9. The raw hue rotation of
+> #C2A05E lands on #50ADE8, a sky blue this brand does not own.
+> ⚠️ **THE PRELOADER IS NOW THE PAGE'S ONE FULL BURGUNDY FIELD AND IT IS LEFT STANDING —
+> HIS CALL TO MAKE.** It is chrome shared with the hormone page, not section 3, so forking
+> it is a decision and not a side effect of this one. It is the first thing a visitor sees.
+>
+> **4 · THE SCENE'S COPY: SEVEN BEATS AND 62 WORDS BECAME SIX AND 39.** The argument is
+> untouched — recognition → the decline NAMED → the therapy → assembly → payoff. **The
+> target was LINE COUNT**: `.scene-copy` is capped at min(92vw,780px) and a beat sets at up
+> to 49px, so ~34 characters is one line, and the old beat 1 was 72. ⚠️ `SCHED` has SIX
+> windows now and `draw()` indexes it by beat position — adding a `<p>` without adding a
+> window throws. ⚠️ The gold beat still closes at .335 against assembly's A0 of .34, and
+> that gap is load-bearing: a beat reading "fewer get written" must not be lit while the
+> chain visibly starts writing.
+>
+> **5 · THE HELIX IS WIDE AGAIN — one expression.** His relay: *"the spinning peptide is
+> beautiful, it's just that we make it thin… she likes it wide, so don't compress it
+> horizontally."* `amp` was `mix(W*.17, min(W*.14,120), coil)` — the chain hung 490px wide
+> while being written and squeezed to 240 as it wound up, so **the finished helix, the one
+> frame the reader rests on, was the narrowest thing in the scene and narrower than the word
+> standing in front of it.** Now constant: `min(W*(mobile?.30:.17), mobile?150:260)`.
+> ⚠️ **THE TURN COUNT DID NOT MOVE.** 1.25→3.1 is untouched. Auditioned against 2.4 and 2.0
+> at the new width and both lost — fewer turns at full width is a lazy squiggle, and at 2.0
+> the payoff word has nothing to stand through. Width was the variable; the coil was not.
+>
+> **6 · TWO NEW CHAPTERS BEFORE THE DOCTORS, AND EVERY WORD IN THEM IS THE CLIENT'S.**
+> 05 · The programme (dawn) — the three P's as the headline, their two explainer paragraphs,
+> two audience rows, and their seven-step programme. 06 · What's included / What's excluded
+> (ivory) — a ledger, not a chapter. ⚠️ **THE GROUND SEQUENCE HAD TO BE CHECKED, NOT
+> ASSUMED**: the page ran ivory(04) → dawn(doctors) → ivory(06) → dawn(07) → ivory(08), so
+> two inserted chapters means dawn then ivory or the whole tail inverts. Nothing below moved.
+> ⚠️ **NO NEW MATERIAL WAS INVENTED**: the audience rows are `.px`'s card at row scale (the
+> eight tiles already taught the reader that this material opens), the steps are the FAQ's
+> hairline rhythm with the tile's Megante numeral, and both panels are the shell the tiles
+> open. Adding a family to that shell is **three selectors on two lines** — container,
+> button, template — and missing one fails silently, because the loop just returns early.
+> ⚠️ **ONE CLINICAL CLAIM IS REPRODUCED AND FLAGGED RATHER THAN QUIETLY EDITED**: "a more
+> effective alternative to traditional medicine" is their comparative-efficacy claim about a
+> regulated therapy. It needs sign-off alongside the FAQ and the eight tiles.
+> ⚠️ **EVERY CORRECTION TO THEIR COPY IS RECORDED AT THE SITE IT WAS MADE** — typos,
+> broken grammar, and the removal of exact repeats within a single list (the women's list
+> had "Trouble sleeping" twice; the men's had a second "Irritability", a bare "Fatigue"
+> already inside item 1, and "Low sex drive" for the "Low libido" seven lines above). ⚠️ ONE
+> CORRECTION IS AN INFERENCE AND IS FLAGGED AS SUCH: Dr. Nahla's "productive medicine" is
+> read as "reproductive medicine". If she meant something else, it is one word.
+>
+> **7 · FOUR DOCTORS NOW — Dr. Nahla Ibrahim Elawady and Dr. Khalid Shukri joined.** The
+> grid was always `repeat(2)` so it becomes 2×2 with no change, and the booking chooser
+> gained the matching rows. ⚠️ **KEEP THE BAND AND THE CHOOSER IN THE SAME ORDER** — the QA
+> harness now asserts it, because nothing else did. ⚠️ **DR. KHALID IS THE PEPTIDE DOCTOR ON
+> THIS PAGE** ("Peptide Therapy & Peptide Bioregulators" is the second line of his own list)
+> and he is appended LAST only because that is the order the names arrived in. If the page
+> should lead with him, it is two `<article>`s and two chooser rows swapped — the client's
+> call, not a tidy-up.
+> ⚠️ **THE CHOOSER NEEDED ITS OWN PORTRAIT FALLBACK AND DID NOT HAVE ONE.** The card guard
+> keys off `.doc.no-photo` and the bio panel inherits it because it is opened FROM a card —
+> but the chooser is a standalone `<template>` with no card behind it, so a missing file
+> rendered the browser's broken-image glyph inside the dialog. `guardFaces()` now runs after
+> every clone (a page-load loop finds nothing to bind — the same trap the mock-booking guard
+> fell into), and the face keeps its box so the monogram costs no layout.
+>
+> **8 · ⚠️ TWO PORTRAIT FILES ARE STILL MISSING, AND THIS TIME IT IS NOT "HE HASN'T SENT
+> THEM".** He sent both in the conversation. **Chat attachments do not reach this
+> filesystem, and egress to medi-gyn.com is refused by policy (403 on CONNECT), so they
+> cannot be fetched either.** The wiring is complete and waiting on a file drop:
+> `images/doctors/dr-nahla-ibrahim-elawady-square.webp` and `…/dr-khalid-shukri-square.webp`
+> — square crops, any size, `object-fit:cover` does the rest. **Then run
+> `node tools/crop-portrait.mjs`** to bake the two `…-head-400.webp` the bio panel's header
+> uses. Until then both cards and both chooser rows show an NE / KS monogram, deliberately.
+>
+> **9 · THE PAGE HAS A WHOLE-PAGE HARNESS NOW — `tools/qa/peptide-page.mjs`, 45/45.**
+> Eleven widths, the scene at four stops × two viewports, every dialog walked, the contrast
+> arithmetic for the re-grade, and a check that reads the stylesheet as text. ⚠️ **THAT LAST
+> ONE EXISTS BECAUSE OF A REAL BUG THIS ROUND**: writing "L\*/C\*" in a CSS comment closes
+> the comment, the prose becomes declarations, the parser eats the next rule — `.scene-stage`
+> lost `height:100svh`, the stage measured 0px, the canvas never drew, **and the console was
+> clean**. `window.__scene.p` still reported the right progress. Only a screenshot showed it,
+> and the first attempt at the warning comment quoted the offending pair and broke the rule
+> a second time. Two more harness bugs are documented in `tools/qa/README.md` and worth
+> reading before trusting a number: the scene's ground is NOT on the canvas (it is the
+> stage's background-color; sampling canvas (0,0) reports pure black at every stop), and the
+> helix width cannot be compared against the p=.66 frame (assembly is two thirds done there,
+> so the measurement returns the unwritten beads' scatter — 762px against the chain's 496).
+
 > ## ROUND 10b — 2026-08-15: the lab was six answers to a settled question, so it was rebuilt
 > along the axis that actually varies — HOW A PLATE IS MADE
 >

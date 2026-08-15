@@ -344,30 +344,47 @@ section{position:relative}
 .signals-close strong{font-weight:500;color:var(--burgundy)}
 
 /* ─────────────────────────── 02 · THE TURN (dark) ─────────────────────────── */
-.turn{background:var(--burgundy);color:var(--ivory);overflow:hidden}
-/* ⚠️ THE TURN'S GOLDS ARE PINNED WARM BY LITERAL — round 9. The burgundy and the rose
-   glow cannot move (brand law), so this band stays a complete WARM composition: swapping
-   only its gold accents to steel would have half-graded the one deliberately warm band on
-   the page. Gold-on-burgundy is the brand's own dark pairing (preloader, landing pathways);
-   contrast is as shipped. If the band itself ever goes cool, that is a different decision. */
-.turn .chapter-mark{color:#C2A05E}
+/* ══ 2026-08-16 · THE BAND ITSELF WENT COOL — round 9 said "if the band itself ever goes
+   cool, that is a different decision", and this is that decision, made by the client.
+   ⚠️ THIS BAND IS SECTION 3'S STATIC TWIN — it is what a reduced-motion or no-JS visitor
+   sees INSTEAD of the chain scene (.scene-fallback). The client's note was about section 3;
+   leaving the fallback burgundy would mean the unapproved colour is exactly what the
+   accessibility path still shows. So it moved WITH the stage, by the same arithmetic:
+     ground   --burgundy #5C1F31 → #003A5F  (L* 21.86 → 23.18, C* 29.9 → 26.7, h 6° → 267°;
+                                             R clips to 0, which is where the drift comes from)
+     accents  champagne  #C2A05E → #95ABBF  (NOT the raw rotation, which lands on #50ADE8 —
+                                             C*39 is a sky blue this brand does not own)
+     the glow --rose     #C79A92 → #87A8C5  (the same italic steel the beats now take)
+   ⚠️ #95ABBF IS SOLVED, NOT PICKED, and it is the round-9 method applied a second time:
+   the champagne carried EXACTLY 5.00:1 on the burgundy, so the accent is the glacier
+   family's own chroma (C*13, h256) at whatever L* returns 5.00:1 on #003A5F — L*68.9.
+   The token's #7C93A8 measures 3.62 here and the stage's #8FA5B8 measures 4.66; both are
+   legal for large text and both are a visibly quieter band than the one that shipped.
+   ⚠️ --burgundy THE TOKEN IS UNTOUCHED. It still dresses the preloader, ::selection, the
+   FAQ marks, the × and the story dots. THE PRELOADER IS NOW THE PAGE'S ONE FULL BURGUNDY
+   FIELD and it is left standing deliberately — it is chrome shared with the landing page,
+   not section 3, so forking it is his call and not a side effect of this one. */
+.turn{background:#003A5F;color:var(--ivory);overflow:hidden}
+.turn .chapter-mark{color:#95ABBF}
 .turn-quote{
   font-family:var(--quote);font-weight:400;
   font-size:clamp(30px,4.4vw,60px);line-height:1.22;color:var(--ivory);max-width:16em;
 }
-.turn-quote .gold{color:#C2A05E} /* pinned warm — see the .turn note */
+.turn-quote .gold{color:#95ABBF} /* the solved accent — see the .turn note */
 .turn-cols{display:grid;grid-template-columns:1fr 1fr;gap:clamp(36px,5vw,90px);margin-top:clamp(48px,7vh,84px)}
-.turn-cols p{font-size:clamp(15px,1.25vw,18px);font-weight:300;color:rgba(250,247,241,.78);line-height:1.85}
+/* the four ivory alphas below were the WARM ivory 250,247,241 — glacier now, same alphas:
+   body copy measures 7.29:1 against the 7.60 it measured on the burgundy */
+.turn-cols p{font-size:clamp(15px,1.25vw,18px);font-weight:300;color:rgba(244,247,250,.78);line-height:1.85}
 .turn-cols p strong{font-weight:500;color:var(--ivory)}
 .turn-list{list-style:none;display:flex;flex-direction:column}
 .turn-list li{
-  display:flex;align-items:baseline;gap:18px;padding:18px 0;border-bottom:1px solid rgba(250,247,241,.16);
+  display:flex;align-items:baseline;gap:18px;padding:18px 0;border-bottom:1px solid rgba(244,247,250,.16);
   font-family:var(--serif);font-size:clamp(19px,1.9vw,26px);color:var(--ivory);
 }
-.turn-list li:first-child{border-top:1px solid rgba(250,247,241,.16)}
-.turn-list .star{color:#C2A05E;font-size:.65em} /* pinned warm — see the .turn note */
+.turn-list li:first-child{border-top:1px solid rgba(244,247,250,.16)}
+.turn-list .star{color:#95ABBF;font-size:.65em} /* the solved accent — see the .turn note */
 .turn-glow{position:absolute;right:-18vw;top:-20vh;width:60vw;height:60vw;border-radius:50%;
-  background:radial-gradient(circle,rgba(199,154,146,.16) 0%,rgba(92,31,49,0) 62%);pointer-events:none}
+  background:radial-gradient(circle,rgba(135,168,197,.16) 0%,rgba(0,58,95,0) 62%);pointer-events:none}
 
 /* ⚠️ .link-arrow IS NOT ON THIS PAGE — it is the sister page's "go and read"
    material, and nothing here routes anywhere yet (see the 04 note). The day the
@@ -425,9 +442,22 @@ section{position:relative}
      cream that was here before, which already missed). */
   color:var(--gold-gloss);
 }
+/* ⚠️ 48ch, NOT 34 — his call 2026-08-16 ("make it wider by a little bit so that it's not
+   that crammed"), shipped in the same commit that cut the sentence out of the definition.
+   THE TWO MOVES ARE ONE DECISION: at 34ch the shortened string still stacked four narrow
+   lines, which is the crammed look he was pointing at — the line count, not the word count.
+   ⚠️ 48 IS MEASURED, AND 44 WAS TRIED FIRST AND REJECTED. Swept at seven widths: 44ch sets
+   THREE lines everywhere and leaves "rebalance." alone on the third, which is the same
+   crammed shape one line shorter. 48ch is the NARROWEST measure that reaches two lines —
+   two at 1920/1440/1104/900/760, three at 560 and 390 where the wrap's padding binds and
+   max-width is not the governing term at all. 50 and 54 buy nothing but width.
+   At 1440 the box is 890px against the h2's 992px cap, so the definition still sits inside
+   the headline's measure — which is why it can be this wide without looking like a
+   different column. Do not raise it past the h2; do not lower it without putting the cut
+   sentence back, or the block reads as a fragment in a column built for a paragraph. */
 .seg-def{
   font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30;
-  font-size:clamp(21px,2.45vw,34px);line-height:1.42;max-width:34ch;
+  font-size:clamp(21px,2.45vw,34px);line-height:1.42;max-width:48ch;
   margin:clamp(24px,3.2vh,38px) auto 0;
 }
 .seg-def em{color:var(--logo-red);font-style:italic}
@@ -540,6 +570,181 @@ section{position:relative}
 .pxd-goals .chip{font-size:clamp(13.5px,1.2vw,16px);padding:9px 20px}
 .pxd-cta{margin-top:26px}
 body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds still under the overlay */
+
+/* ═══════════════ 05 · THE PROGRAMME — the P's, the audiences, the seven steps ═══
+   NEW 2026-08-16, his call: "it's our job now to do a set up before the doctors, a
+   section that will feature the following" — the client's own peptide copy, their
+   two explainer paragraphs, their women's and men's symptom lists, and their
+   seven-step programme, all in one chapter that lands the reader on the doctors.
+   ⚠️ THE GROUND SEQUENCE STILL ALTERNATES, and it had to be checked rather than
+   assumed: the page ran ivory(04) → dawn(doctors) → ivory(06) → dawn(07) → ivory(08),
+   so inserting TWO chapters between 04 and the doctors means dawn then ivory, or the
+   whole tail of the page inverts and two ivory bands meet. .prog is dawn, .incl is
+   ivory, and the doctors keep their dawn. Nothing below moved.
+   ⚠️ EVERY WORD IN BOTH NEW CHAPTERS IS CLIENT COPY, not this page's draft register —
+   the same status as the doctor bios below, and the opposite of the eight tiles. The
+   corrections made are recorded at each site in the markup. Do not tighten in passing.
+   NO SECOND MATERIAL WAS INVENTED FOR ANY OF IT: the audience buttons are the tile's
+   card, the steps are the FAQ's hairline rhythm with the tile's Megante number, and
+   both popups are the shell the eight tiles already open. */
+.prog{background:var(--dawn)}
+/* the P's carry the chapter, so they are the HEADLINE — the client's own line is the
+   h2 rather than a decorative kicker above one. Three, not four: see the hero. */
+.prog h2 .p-sep{color:var(--gold);font-style:normal;padding:0 .12em}
+/* the two client paragraphs, side by side on a desktop. Not .px p's 34ch — these are
+   the chapter's lede and want the segment measure, so they take a column each and the
+   grid does the constraining. */
+.prog-lede{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(28px,4vw,64px);max-width:74rem;
+}
+.prog-lede p{
+  color:var(--ink-soft);font-size:clamp(15px,1.3vw,17.5px);line-height:1.85;
+}
+.prog-lede p strong{font-weight:500;color:var(--ink)}
+/* ── the two audiences ──────────────────────────────────────────────────────────
+   ⚠️ THESE ARE .px's MATERIAL AT ROW SCALE, DELIBERATELY — ivory fill, --line
+   hairline, 2px radius, gold edge and a 3px lift on hover, and the circled + that
+   the open dialog answers. The eight tiles taught the reader that this material
+   opens; a new material here would have to teach it again for two more controls.
+   The whole row is the hit area by the same stretched-::after trick, so the h3 stays
+   valid markup and a keyboard still finds exactly one button per row. */
+.aud-row{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(14px,1.6vw,24px);margin-top:clamp(44px,6vh,72px);
+}
+.aud{
+  position:relative;display:flex;align-items:center;gap:clamp(16px,2vw,28px);
+  padding:clamp(22px,2.4vw,32px);
+  background:var(--ivory);border:1px solid var(--line);border-radius:2px;
+  transition:border-color .35s var(--ease),transform .35s var(--ease),
+    box-shadow .35s var(--ease);
+}
+.aud:hover,.aud:focus-within{
+  border-color:var(--gold);transform:translateY(-3px);
+  box-shadow:0 14px 30px rgba(46,54,71,.08);
+}
+.aud-txt{min-width:0;flex:1}
+.aud h3{
+  font-family:var(--accent);font-weight:400;color:var(--ink);
+  font-size:clamp(21px,2vw,29px);line-height:1.15;letter-spacing:-.02em;
+  transition:color .3s var(--ease);
+}
+.aud:hover h3{color:var(--logo-red)}
+.aud p{
+  margin-top:6px;color:var(--ink-soft);
+  font-size:clamp(14px,1.1vw,16px);line-height:1.6;
+}
+.aud-open{
+  flex:none;width:38px;height:38px;padding:0;
+  border:1px solid var(--line);border-radius:50%;
+  display:grid;place-content:center;color:var(--burgundy);
+  transition:background .4s var(--ease),border-color .4s var(--ease),
+    color .3s var(--ease),transform .5s var(--ease);
+}
+.aud-open svg{width:12px;height:12px;display:block}
+.aud-open::after{content:"";position:absolute;inset:0;border-radius:2px}
+.aud:hover .aud-open,.aud-open:focus-visible{
+  background:var(--burgundy);border-color:var(--burgundy);color:var(--ivory);
+  transform:rotate(90deg);
+}
+/* ── the seven steps ────────────────────────────────────────────────────────────
+   The FAQ's rhythm — a hairline per row, nothing boxed — with .px-num's Megante
+   numeral in the margin. A card each would have made seven cards under two cards
+   under eight cards; the page has enough boxes by this point in the scroll.
+   ⚠️ THE NUMBER COLUMN IS A FIXED TRACK, not a float or a ::before counter: the
+   step bodies carry nested lists (the blood panel, the protocol contents) and a
+   counter would have re-numbered against them. Client numbering is load-bearing. */
+/* the only kicker inside a chapter body on this page. It is a label for the seven, not a
+   second chapter head — so it takes .kicker's rule and its own top margin, and the h2
+   above it keeps being the only headline in the section. */
+.step-head{margin-top:clamp(56px,8vh,92px)}
+.steps{list-style:none;margin:clamp(28px,3.5vh,44px) 0 0;padding:0;max-width:74rem}
+.step{
+  display:grid;grid-template-columns:auto minmax(0,1fr);
+  gap:clamp(18px,2.6vw,42px);
+  padding:clamp(24px,3vh,38px) 0;border-top:1px solid var(--line);
+}
+.step:last-child{border-bottom:1px solid var(--line)}
+.step-n{
+  font-family:var(--accent);font-size:clamp(22px,2.4vw,34px);line-height:1;
+  color:var(--gold);width:1.6em;
+}
+.step h3{
+  font-family:var(--accent);font-weight:400;color:var(--ink);
+  font-size:clamp(19px,1.8vw,26px);line-height:1.2;letter-spacing:-.02em;
+}
+.step > div > p{
+  margin-top:10px;color:var(--ink-soft);
+  font-size:clamp(14.5px,1.15vw,16.5px);line-height:1.75;max-width:52ch;
+}
+.step a:not(.btn){color:var(--gold-deep);border-bottom:1px solid var(--line);
+  transition:border-color .3s var(--ease),color .3s var(--ease)}
+.step a:not(.btn):hover{color:var(--logo-red);border-color:var(--logo-red)}
+/* an address and a dialling code are single tokens to a reader even though the browser
+   is happy to break them at the hyphen: step 1 wrapped as "info@medi-" / "gyn.com" at
+   1440, which reads as two broken things rather than one address */
+.step a[href^="mailto"],.step a[href^="tel"]{white-space:nowrap}
+/* the ✦ list, lifted from .pxd-list so a step's contents read the way a popup's do */
+.step-list{margin:12px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px;max-width:52ch}
+.step-list li{
+  position:relative;padding-left:22px;color:var(--ink-soft);
+  font-size:clamp(14px,1.1vw,16px);line-height:1.6;
+}
+.step-list li::before{content:"✦";position:absolute;left:0;top:.15em;color:var(--gold);font-size:.72em}
+.step-list .step-list{margin-top:9px;padding-left:0}
+.step-sub{
+  margin-top:18px;font-family:var(--accent);font-size:12px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--gold-deep);
+}
+/* the markers panel — two columns of assay names, which are labels rather than prose */
+.step-cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 clamp(20px,2.6vw,44px)}
+.step-cols .step-list{max-width:none}
+@media(max-width:900px){
+  .prog-lede{grid-template-columns:1fr;gap:clamp(20px,3vh,30px)}
+  .aud-row{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+  .step{grid-template-columns:1fr;gap:12px}
+  .step-n{width:auto}
+  .step-cols{grid-template-columns:1fr}
+}
+
+/* ═══════════════ 06 · WHAT'S INCLUDED / WHAT'S EXCLUDED ════════════════════════
+   His "maybe a different section or not?" — answered: its own, and small. It is a
+   ledger, not a chapter: two columns, hairline heads, no headline scale and no CTA,
+   sitting between the seven steps and the doctors so the reader knows exactly what
+   they are buying before they are asked to choose a doctor.
+   ⚠️ THE EXCLUDED COLUMN IS NOT DRESSED AS A FAILURE. Same type, same rhythm, one
+   token of difference (the mark is a hairline dash, not the gold ✦) — a struck-out
+   or greyed column reads as a warning, and this list is a price note. */
+.incl{background:var(--ivory)}
+.incl-grid{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(30px,5vw,84px);max-width:74rem;
+}
+.incl-col h3{
+  font-family:var(--accent);font-weight:400;color:var(--ink);
+  font-size:clamp(21px,2.1vw,30px);letter-spacing:-.02em;
+  padding-bottom:16px;border-bottom:1px solid var(--line);
+}
+.incl-list{list-style:none;margin:22px 0 0;padding:0;display:flex;flex-direction:column;gap:14px}
+.incl-list li{
+  position:relative;padding-left:30px;color:var(--ink-soft);
+  font-size:clamp(14.5px,1.15vw,16.5px);line-height:1.7;
+}
+.incl-list li::before{content:"✦";position:absolute;left:0;top:.1em;color:var(--gold);font-size:.78em}
+/* the verb the client capitalised — EVALUATE, ESTABLISH, UNDERSTAND … — is the list's
+   own emphasis, so it takes the Megante letter-spacing rather than a bold weight */
+.incl-list b{
+  font-family:var(--accent);font-weight:400;color:var(--ink);
+  letter-spacing:.1em;font-size:.96em;
+}
+.incl-col--out .incl-list li::before{
+  content:"";top:.72em;left:2px;width:16px;height:1px;background:var(--line)}
+.incl-list .incl-list{margin-top:12px;gap:10px}
+.incl-list .incl-list li{font-size:clamp(13.5px,1.05vw,15.5px)}
+@media(max-width:760px){ .incl-grid{grid-template-columns:1fr} }
 
 /* ─────────────────────────── 05 · THE DOCTORS ───────────────────────────────
    HIS CALL 2026-08-14: pictures, specialization, "book consultation under their
@@ -683,6 +888,16 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
   font-size:clamp(14.5px,1.2vw,16.5px);line-height:1.65;max-width:56ch;
 }
 .pxd-list li::before{content:"✦";position:absolute;left:0;top:.15em;color:var(--gold);font-size:.72em}
+/* ⚠️ ONE LEVEL OF NESTING, ADDED 2026-08-16 for the two audience panels. The client's
+   women's list nests twelve perimenopause symptoms under one parent item and their own
+   document nests them that way, so the structure is theirs, not a layout choice. The
+   child rows step down in size and trade the gold ✦ for a hairline dash — a second
+   identical ✦ column reads as a flat list that lost its indent. Two levels is as far as
+   this goes; a third would need a different device, not a smaller one. */
+.pxd-list .pxd-list{margin-top:9px;gap:7px}
+.pxd-list .pxd-list li{font-size:clamp(13.5px,1.1vw,15px);padding-left:20px;line-height:1.55}
+.pxd-list .pxd-list li::before{
+  content:"";top:.66em;left:1px;width:12px;height:1px;background:var(--line);font-size:1em}
 
 /* ══ THE CHOOSER — the second view of the same panel ══════════════════════════
    A row per doctor: portrait, name + specialization, one pill. It reuses NOTHING
@@ -717,6 +932,21 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
   width:var(--face,64px);height:var(--face,64px);
 }
 .pxd-doc-face img{width:100%;height:100%;object-fit:cover;display:block}
+/* ⚠️ THE CHOOSER NEEDED ITS OWN PORTRAIT FALLBACK — 2026-08-16, and it is a real gap
+   rather than belt-and-braces. The card fallback keys off `.doc.no-photo`, and the bio
+   panel inherits it because the panel is opened FROM a card; the chooser is a standalone
+   <template> with no card behind it, so a missing file rendered the browser's broken-image
+   glyph inside the dialog. Two of the four portraits are missing right now, so this fires
+   on exactly the rows whose files have not landed and the other two are unaffected.
+   The face keeps its box (sizeFaces measures the row, not the picture), so the monogram
+   swap costs no layout — four rows stay four squares of one size. */
+.pxd-doc-face.no-photo{
+  display:grid;place-content:center;background:var(--gold-tint);
+  font-family:var(--accent);letter-spacing:.06em;color:var(--gold-deep);
+  font-size:calc(var(--face,64px) * .34);line-height:1;
+}
+.pxd-doc-face.no-photo img{display:none}
+.pxd-doc-face.no-photo::after{content:attr(data-mono)}
 .pxd-doc-txt{display:flex;flex-direction:column;gap:3px;min-width:0;flex:1}
 .pxd-doc-txt b{font-family:var(--accent);font-weight:400;font-size:clamp(16px,1.5vw,19px);letter-spacing:-.01em;color:var(--ink)}
 .pxd-doc-txt span{font-size:clamp(12.5px,1.1vw,14px);color:var(--ink-soft);line-height:1.45}
@@ -1061,9 +1291,37 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
    middle, .34–.73) gets the length it is the point of. The finished frame holds from
    ~.86 to the end. */
 .scene-track{height:420vh;position:relative}
-.scene-stage{height:100svh;width:100%;position:relative;overflow:hidden;background:var(--ink);--scene-fg:var(--ivory)}
+/* ══ THE STAGE IS COOL NOW, AND IT IS A TRANSLATION, NOT A NEW COLOUR ═══════════════
+   ⚠️ 2026-08-16, the client's call relayed through him: "the burgundy is not approved
+   as now that we have transitioned to blue… we must find another colour with the same
+   VALUE of this burgundy". Value is the operative word, so the move is arithmetic, not
+   taste: every warm surface in this scene was converted to CIE LCh, its L* and C* were
+   HELD, and only the hue was rotated into the page's glacier family (h≈256°, where
+   --dawn 252°, --gold 257° and --gold-deep 260° already live).
+     stage ground  #2E2228 → #1D272F   (L* 14.83 → 15.05, C* 7.2 → 6.9)
+     canvas BG_A   #2A1B20 → #14202A   (L* 11.83 → 11.61 — in the script, cross-ref'd)
+     the glow      #5C1F31 → #003A5F   (--burgundy's own L* and C*, hue-rotated; R clips to 0)
+     ⚠️ NEVER PUT A SLASH DIRECTLY AFTER AN ASTERISK IN A CSS COMMENT. Writing the pair
+     "lightness-star slash chroma-star" as shorthand closes the comment on the spot: the
+     rest of the prose becomes declarations and the parser eats the rule that follows.
+     .scene-stage lost its height:100svh exactly that way while this block was being
+     written — a 0-pixel stage, an undrawn canvas, and NOT ONE console error to say so.
+     Write "L* and C*". (The first attempt at this very warning quoted the offending pair
+     and broke the rule a second time.)
+     beads STONE   #B09A9C → #93A1AE   (L* 65.55 held)
+     the italics   #C79A92 → #87A8C5   (L* 67.52 held)
+   THE PROOF THAT IT IS THE SAME PICTURE IS THE CONTRAST TABLE — every measured pair
+   survived the rotation to within 0.05 of its warm original, which is what "the same
+   value" has to mean if it means anything:
+     ivory beat   15.31 → 15.38 : 1      the gold beat  6.46 → 6.49 : 1
+     the italics   6.63 →  6.64 : 1      a drifting bead 6.23 → 6.26 : 1
+   ⚠️ --ink IS DELIBERATELY NOT TOUCHED, here or anywhere. It is the page's TEXT ink and
+   it dresses .scene-beat.light and .scene-title — type standing on the RISEN glacier
+   ground, exactly like every heading in every other chapter. Cooling it for this one
+   section would fork the page's body ink to fix a background problem. */
+.scene-stage{height:100svh;width:100%;position:relative;overflow:hidden;background:#1D272F;--scene-fg:var(--ivory)}
 .scene-glow{position:absolute;right:-22vw;top:-26vh;width:72vw;height:72vw;border-radius:50%;pointer-events:none;
-  background:radial-gradient(circle,rgba(92,31,49,.38) 0%,rgba(46,34,40,0) 62%)}
+  background:radial-gradient(circle,rgba(0,58,95,.38) 0%,rgba(29,39,47,0) 62%)}
 .scene-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 /* the payoff word — Megante at display size, the voice the chapter marks wear.
    ⚠️ MEGANTE, NOT PLAYFAIR, inherited from the sister scene with its reason: at
@@ -1089,11 +1347,17 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
    belt to that braces: it separates the glyph from the particle field either way. */
 .scene-beat{position:absolute;left:0;right:0;top:0;opacity:0;font-family:var(--serif);
   font-size:clamp(27px,3.5vw,49px);line-height:1.22;   /* his 1.16x, chosen in the figure room */
-  color:var(--ivory);text-shadow:0 1px 24px rgba(46,34,40,.62)}
+  color:var(--ivory);text-shadow:0 1px 24px rgba(29,39,47,.62)}
 .scene-beat.light{color:var(--ink);text-shadow:0 1px 24px rgba(244,247,250,.8)}
-.scene-beat em{font-style:italic;color:var(--rose)}
+/* ⚠️ #87A8C5 IS --rose AT ITS OWN LIGHTNESS, NOT A NEW ACCENT (2026-08-16 — see the
+   translation table at .scene-stage). --rose #C79A92 is BRAND LAW and is untouched as a
+   token; it simply no longer appears IN THIS SCENE, because the client's note took the
+   whole stage cool and a lone warm italic on a slate ground is a stain, not an accent.
+   The rose still dresses the rest of the page and the sister page entirely. Measured:
+   the italic carried 6.63:1 on the warm stage and carries 6.64:1 on the cool one. */
+.scene-beat em{font-style:italic;color:#87A8C5}
 /* the held word — blooms in a beat after its sentence lands */
-.scene-beat .w{display:inline-block;font-style:italic;color:var(--rose);opacity:0;
+.scene-beat .w{display:inline-block;font-style:italic;color:#87A8C5;opacity:0;
   transform:translateY(.35em) scale(.92);filter:blur(5px);
   transition:opacity .8s var(--ease),transform .8s var(--ease),filter .8s var(--ease)}
 .scene-beat .w.on{opacity:1;transform:none;filter:blur(0)}
@@ -1144,9 +1408,11 @@ html.js-scene .scene-ctrl{
   background:var(--glass-fill,rgba(255,255,255,.12));
   backdrop-filter:blur(22px) saturate(180%);
   -webkit-backdrop-filter:blur(22px) saturate(180%);
+  /* the two shadow blacks are the warm near-black #14090D translated at its own L* and C*
+     to #050D14 — same rule as the rest of the stage (2026-08-16) */
   box-shadow:inset 0 1px 0 var(--glass-top,rgba(255,255,255,.34)),
-             inset 0 -1px 0 rgba(20,9,13,.06),
-             0 6px 20px rgba(20,9,13,.16);
+             inset 0 -1px 0 rgba(5,13,20,.06),
+             0 6px 20px rgba(5,13,20,.16);
   transition:background .3s var(--ease),border-color .3s var(--ease),transform .2s var(--ease);
   cursor:pointer;
 }
@@ -1154,14 +1420,16 @@ html.js-scene .scene-ctrl{
   background:var(--glass-hi,rgba(255,255,255,.22));transform:translateY(-1px)}
 /* pre-first-frame defaults only (2026-08-13): the scene script now drives all four
    glass properties per frame at every width, flipping them when the whole ground does */
-html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
+html.js-scene{--glass-fill:rgba(29,39,47,.45);--glass-hi:rgba(29,39,47,.58);
               --glass-line:rgba(255,255,255,.26);--glass-top:rgba(255,255,255,.30)}
 @media(max-width:560px){
   .scene-ctrl{gap:8px;font-size:9.5px}
   .scene-ctrl button{padding:8px 10px}
 }
 .scene-hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);
-  font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:rgba(250,247,241,.55)}
+  /* the WARM ivory #FAF7F1 was still hiding here after round 9's re-grade — it is the
+     glacier ivory now, same value, and it stands on a cool ground (2026-08-16) */
+  font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:rgba(244,247,250,.55)}
 /* ?scene=<0..1> QA mode: only the stage, frozen at that progress */
 .scene-solo header,.scene-solo .progress,.scene-solo .hero,.scene-solo .peptides,
 .scene-solo .services,.scene-solo .docs,.scene-solo .stories,.scene-solo .faq,.scene-solo .final,
@@ -1253,13 +1521,20 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
   <section class="hero" id="hero">
     <canvas id="silk" aria-hidden="true"></canvas>
     <div class="hero-inner wrap">
-      <!-- The four P's — his pillars from the original site's peptide page, in here on his
+      <!-- The P's — his pillars from the original site's peptide page, in here on his
            note 2026-08-15. They replaced "Peptide Therapy · Recovery, resilience, repair",
            which by then said nothing the H1 and the sub don't say within two lines: the
            kicker speaks the philosophy, the H1 names the thing, the sub sells the outcomes.
            Middots, not his "&": the page's kicker separator (sister: "Hormone Balancing ·
-           BHRT"). -->
-      <p class="kicker">Preventative · Precision · Personalised · Partnership</p>
+           BHRT").
+           ⚠️ THREE P's, NOT FOUR — "Partnership" is REMOVED FROM THIS PAGE, his call
+           2026-08-16, relayed from the client. It is gone from BOTH sites it stood at: this
+           kicker and the pillars line in 05 · How peptide therapy runs. The client's own
+           source copy for that chapter is headed "4 P's … & Partnership"; the word is struck
+           there too, deliberately, and the chapter's comment records it. Do not restore it
+           in one place without the other, and do not "correct" the count back to four from
+           the source document. -->
+      <p class="kicker">Preventative · Precision · Personalised</p>
       <!-- The SEO headline in the sister page's composition: two deliberate lines, the
            rose italic accent at the end of line two — the shape every approved headline
            on these pages ends with. The full stop is his, 2026-08-15 ("there should be
@@ -1292,9 +1567,19 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
     <div class="seg-in">
       <h2 data-reveal>What are peptides?</h2>
       <p class="seg-gloss">The body’s own signalling molecules</p>
+      <!-- ⚠️ CUT TO ONE SENTENCE — his call 2026-08-16, relayed from the client ("this is
+           too long for them"). What went was the therapy clause ("Replenished under medical
+           supervision as your own supply slows"), and it went because it was the only line
+           here that was NOT the definition: the hero sub already says "Medically supervised
+           peptide therapy", the scene's beat 4 says "So we help your body write them again",
+           and 05 says it a third time. The segment now does exactly one job — name the
+           molecule — which is the sister page's rule for this slot ("define, then show").
+           The measure widened WITH the cut (34ch → 48ch at .seg-def, and the sweep that
+           settled 48 is recorded there): a shorter string in a narrow column is not less
+           crammed, it is the same crammed over fewer lines. It sets in two lines from 760
+           up and three on a phone. -->
       <p class="seg-def" data-reveal>Short chains of <em>amino acids</em> your body already
-      makes — each one carrying a precise instruction: repair, rebuild, rebalance.
-      Replenished under medical supervision as your own supply slows.</p>
+      makes — each carrying one precise instruction: repair, rebuild, rebalance.</p>
     </div>
   </section>
 
@@ -1318,16 +1603,34 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
           <!-- The payoff word. Megante at display size, centred by the script; it only
                ever appears on the risen ground, so it is ink with no halo needed. -->
           <p class="scene-title" aria-hidden="true">Peptides</p>
+          <!-- ⚠️ SEVEN BEATS AND 62 WORDS BECAME SIX AND 39 — his call 2026-08-16, relayed
+               from the client ("we have put too much making it too long, reduce it").
+               WHAT GOVERNED THE CUT, so the next edit does not undo it:
+                 · THE ARGUMENT IS UNTOUCHED. The beat order still runs recognition → the
+                   decline NAMED → the therapy → assembly → payoff. Nothing was reordered
+                   and no act lost its beat; the words inside them got shorter.
+                 · THE TARGET WAS LINE COUNT, NOT WORD COUNT. .scene-copy is capped at
+                   min(92vw,780px) and a beat sets at up to 49px, so ~34 characters is one
+                   line. Every beat that could reach one line now does (1, 3, 6) and none
+                   exceeds two. The old beat 1 was 72 characters — two full lines of reading
+                   before the scene had shown anything.
+                 · WHAT ACTUALLY LEFT: "repair this / rebuild here / recover now" (section 02
+                   above now carries "repair, rebuild, rebalance" three lines earlier),
+                   "Repair slows. Recovery lags." (the gold beat only has to NAME the decline
+                   — the chain going quiet shows the rest), and "the message is rebuilt"
+                   (redundant with "write them again" in the beat before it).
+               ⚠️ SCHED AT THE FOOT OF THE FILE HAS SIX WINDOWS NOW. beats.length and
+               SCHED.length are indexed against each other in draw() — adding a <p> here
+               without adding a window there throws on SCHED[b][0]. -->
           <div class="scene-copy">
-            <p class="scene-beat">Your body runs on instructions — <em>repair this</em>, <em>rebuild here</em>, <em>recover now</em>.</p>
-            <p class="scene-beat">They’re written as peptides: short chains of <span class="w">amino acids</span>.</p>
-            <p class="scene-beat gold">With age, fewer messages get written. Repair slows. Recovery lags.</p>
-            <p class="scene-beat">So we help your body write them again.</p>
-            <p class="scene-beat">Link by link, the message is <span class="w">rebuilt</span>.</p>
+            <p class="scene-beat">Your body runs on instructions.</p>
+            <p class="scene-beat">Written as peptides — short chains of <span class="w">amino acids</span>.</p>
+            <p class="scene-beat gold">With age, fewer get written.</p>
+            <p class="scene-beat">So we write them again — link by <span class="w">link</span>.</p>
             <p class="scene-beat">Precise. Measured. Dosed from <em>your</em> labs.</p>
             <!-- .light = ink on the risen ground. The one beat that lives after the dawn,
                  and it never sees the dark stage — same polarity rule as the sister scene. -->
-            <p class="scene-beat light">And your body remembers exactly what to do with it.</p>
+            <p class="scene-beat light">And your body remembers what to do.</p>
           </div>
           <p class="scene-hint">Scroll to read</p>
           <!-- Real buttons — the only way into the scene that is not a scroll gesture,
@@ -1375,7 +1678,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
           <p class="chapter-mark" data-reveal>02 · THE THERAPY</p>
           <p class="turn-quote" style="margin-top:30px" data-reveal>
             Link by link, the message is rebuilt.
-            <span class="gold">And your body remembers what to do with it.</span>
+            <span class="gold">And your body remembers what to do.</span>
           </p>
           <div class="turn-cols">
             <p data-reveal>
@@ -1594,20 +1897,26 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
            this chooser, in the same shell, and the reader picks the doctor without
            losing the service they came from — the kicker names it, and Back returns
            to it. That is why the pill is a <button data-choose>, not an <a href>.
-           ⚠️ THE TWO SELECT PILLS ARE MOCK (data-book), same as every booking control
+           ⚠️ THE SELECT PILLS ARE MOCK (data-book), same as every booking control
            on both pages. Each is ONE href away from the real system — his booking
-           screen already lists these two doctors at AED 1150 / 1h, so the wiring is
+           screen already lists Komissarov and Yakout at AED 1150 / 1h, so the wiring is
            per-doctor deep links, not a form. Do not point them at a placeholder.
-           ⚠️ THE ORDER IS THE SECTION'S ORDER (Komissarov, Yakout) — it matches the
-           cards above and his own booking list. Keep the two in sync. -->
+           ⚠️ FOUR ROWS SINCE 2026-08-16 — Dr. Nahla and Dr. Khalid were added to the
+           section and the chooser is the section's mirror. THE ORDER IS THE SECTION'S
+           ORDER (Komissarov, Yakout, Elawady, Shukri). Keep the four in sync: a chooser
+           that disagrees with the cards above it is the one bug this template exists to
+           make impossible, and nothing enforces it but this note.
+           ⚠️ THE TWO NEW ROWS HAVE NO BOOKING PRICE YET — his screen lists two doctors,
+           not four. Their Select pills are mock like the others, so nothing is claimed
+           either way, but the real wiring needs two more deep links than it did. -->
       <template id="pxd-choose">
         <p class="pxd-kicker" data-choose-kicker>Book a consultation</p>
         <h3>Choose your doctor</h3>
-        <p>Both consult on peptide therapy. Pick whoever fits — the clinic will confirm
+        <p>All four consult on peptide therapy. Pick whoever fits — the clinic will confirm
         your time by WhatsApp.</p>
         <div class="pxd-docs">
           <div class="pxd-doc">
-            <span class="pxd-doc-face"><img src="../images/doctors/dr-andrey-komissarov-square.webp" alt="" aria-hidden="true"
+            <span class="pxd-doc-face" data-mono="AK"><img src="../images/doctors/dr-andrey-komissarov-square.webp" alt="" aria-hidden="true"
                  loading="lazy" decoding="async" width="1024" height="1024"></span>
             <div class="pxd-doc-txt">
               <b>Dr. Andrey Komissarov</b>
@@ -1616,11 +1925,29 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
             <a class="btn" href="#" data-book>Select <span class="arr">→</span></a>
           </div>
           <div class="pxd-doc">
-            <span class="pxd-doc-face"><img src="../images/doctors/dr-eslam-yakout-square.webp" alt="" aria-hidden="true"
+            <span class="pxd-doc-face" data-mono="EY"><img src="../images/doctors/dr-eslam-yakout-square.webp" alt="" aria-hidden="true"
                  loading="lazy" decoding="async" width="700" height="700"></span>
             <div class="pxd-doc-txt">
               <b>Dr. Eslam Yakout</b>
               <span>Functional and Regenerative Medicine Doctor</span>
+            </div>
+            <a class="btn" href="#" data-book>Select <span class="arr">→</span></a>
+          </div>
+          <div class="pxd-doc">
+            <span class="pxd-doc-face" data-mono="NE"><img src="../images/doctors/dr-nahla-ibrahim-elawady-square.webp" alt="" aria-hidden="true"
+                 loading="lazy" decoding="async" width="1024" height="1024"></span>
+            <div class="pxd-doc-txt">
+              <b>Dr. Nahla Ibrahim Elawady</b>
+              <span>MD, DHA-Certified Gynaecologist — BHRT &amp; Sexual Health</span>
+            </div>
+            <a class="btn" href="#" data-book>Select <span class="arr">→</span></a>
+          </div>
+          <div class="pxd-doc">
+            <span class="pxd-doc-face" data-mono="KS"><img src="../images/doctors/dr-khalid-shukri-square.webp" alt="" aria-hidden="true"
+                 loading="lazy" decoding="async" width="1024" height="1024"></span>
+            <div class="pxd-doc-txt">
+              <b>Dr. Khalid Shukri</b>
+              <span>MD, FCCM — American Board Certified, Anti-Ageing &amp; Regenerative Medicine</span>
             </div>
             <a class="btn" href="#" data-book>Select <span class="arr">→</span></a>
           </div>
@@ -1639,6 +1966,343 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
     </div>
   </section>
 
+  <!-- ══════════ 05 · THE PROGRAMME — the P's, the two audiences, the seven steps ═══════
+       NEW 2026-08-16, his call: "it's our job now to do a set up before the doctors, a
+       section that will feature the following". Everything below is THE CLIENT'S OWN COPY,
+       the same status as the doctor bios — not this page's draft register. Reproduced with
+       typographic and grammatical corrections only, and every one of them is recorded at
+       the site where it was made so nothing silently drifts from what they sent.
+       ⚠️ THE HEADLINE IS THE P'S THEMSELVES, and there are THREE. Their source document is
+       headed "4 P's — Preventative, Precision, Personalised & Partnership"; Partnership is
+       struck on his instruction, here and in the hero kicker, in the same commit. Do not
+       restore it from the source document without him.
+       ⚠️ ONE CLINICAL CLAIM IN THE SECOND PARAGRAPH IS THEIRS AND IT IS A STRONG ONE —
+       "a more effective alternative to traditional medicine". It is reproduced because it
+       is their copy, but it is a comparative efficacy claim about a regulated therapy and
+       it should be signed off (or softened) before this page is real marketing, alongside
+       the FAQ and the eight tiles. Flagged, not quietly edited. -->
+  <section class="prog sec-pad" id="programme">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 data-reveal>Preventative. Precision.<br><em>Personalised.</em></h2>
+      </div>
+      <div class="prog-lede">
+        <!-- CLIENT COPY, point 1. Corrections: "ilnesses" → "illnesses"; the sentence had
+             no finite verb for its subject ("Peptides are the building blocks … provide
+             numerous reliefs"), so "and they provide" closes it; "reliefs to" → "relief
+             from". Nothing else moved — the list of benefits is theirs, in their order. -->
+        <p data-reveal>Peptides are the <strong>building blocks of proteins</strong> —
+        naturally occurring chains of amino acids — and they provide relief from many of the
+        common illnesses of ageing, including helping with muscle repair, accelerated injury
+        recovery time, promoting weight loss and lean muscle gain, increasing growth hormone
+        production, and even helping reverse signs of sexual dysfunction.</p>
+        <!-- CLIENT COPY, point 2. Corrections: "by going and giving" → "by giving";
+             "Due to the fact that they are so specific" → "Because they are so specific".
+             ⚠️ The efficacy claim in the first sentence is untouched — see the section note. -->
+        <p data-reveal>Peptides work by giving <strong>specific instructions</strong> to
+        cells and molecules, making them a more effective alternative to traditional
+        medicine. Because they are so specific, peptides are also well tolerated, with
+        minimal side effects.</p>
+      </div>
+
+      <!-- ══ THE TWO AUDIENCES ══════════════════════════════════════════════════════════
+           His call 2026-08-16: the women's and men's lists open from a button rather than
+           standing in the page. They are ~30 and ~19 items of clinical symptom, which is a
+           wall in the middle of a chapter that is otherwise about how the programme runs —
+           so they take the shell the eight tiles already opened the reader into.
+           ⚠️ BOTH LISTS ARE THE CLIENT'S, IN THE CLIENT'S ORDER. The nesting under
+           "Symptoms of perimenopause, menopause" is theirs too — it is written that way in
+           the source. What was removed, and only this: exact repeats inside one list, each
+           recorded at the list it came from. Nothing was re-grouped or re-worded for tone.
+           ⚠️ THIS IS HORMONE-SYMPTOM COPY ON A PEPTIDE PAGE, and that is deliberate — they
+           supplied it for this section. If it should instead route to the hormone page, the
+           change is two <template>s deleted and two hrefs added; the buttons stay. -->
+      <div class="aud-row">
+        <div class="aud" data-reveal>
+          <div class="aud-txt">
+            <h3>For women</h3>
+            <p>Cycles, PCOS, perimenopause, menopause, fertility — the full list of what we look for.</p>
+          </div>
+          <button type="button" class="aud-open" aria-haspopup="dialog"
+                  aria-label="For women — read the full list of symptoms">
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 1v10M1 6h10"/></svg>
+          </button>
+          <template class="aud-detail">
+            <p class="pxd-kicker">Peptide Therapy · For women</p>
+            <h3>For women</h3>
+            <p>Often, we don’t understand what is happening in our bodies at different stages
+            in our lives. At MEDI-GYN, we provide the knowledge and guidance to empower you to
+            take control of your hormonal health and your life.</p>
+            <p class="pxd-sub">Those who experience symptoms such as</p>
+            <!-- ⚠️ CLIENT ORDER, VERBATIM. Corrections: "what it is happening" → "what is
+                 happening"; "Endometrioses" → "Endometriosis"; "Disminished" → "Diminished";
+                 "Those who has an insulin resistance" → "Those with insulin resistance";
+                 "Those who has dominant Estrogen" → "Those with dominant Estrogen".
+                 ONE ITEM REMOVED: "Trouble sleeping" — an exact repeat of "Sleeping
+                 problems" three lines above it in the same nested list. -->
+            <ul class="pxd-list">
+              <li>Irregular, scanty menstrual cycles or PMS</li>
+              <li>PCOS (Polycystic ovaries)</li>
+              <li>PMDD (Premenstrual dysphoric disorder)</li>
+              <li>Depression</li>
+              <li>Repeated miscarriages</li>
+              <li>Endometriosis</li>
+              <li>Premature ovarian failure</li>
+              <li>Symptoms of perimenopause and menopause
+                <ul class="pxd-list">
+                  <li>Unexpected feelings of depression</li>
+                  <li>Constant tiredness</li>
+                  <li>Sleeping problems</li>
+                  <li>Night sweats</li>
+                  <li>Hot flashes or flushes</li>
+                  <li>Decreased sex drive</li>
+                  <li>Weight gain</li>
+                  <li>Irritability</li>
+                  <li>Anxiousness</li>
+                  <li>Mood swings</li>
+                  <li>Low moods</li>
+                  <li>Discomfort during intercourse</li>
+                </ul>
+              </li>
+              <li>Diminished Ovarian Reserve (DOR)</li>
+              <li>Trying for a baby over 6 months</li>
+              <li>Unexplained infertility</li>
+              <li>Those with insulin resistance</li>
+              <li>Those with high-androgen PCOS</li>
+              <li>Those with dominant Estrogen and Endometriosis</li>
+              <li>Those with unbalanced reproductive hormones</li>
+            </ul>
+            <div class="pxd-cta"><a class="btn" href="#book">Book a consultation <span class="arr">→</span></a></div>
+          </template>
+        </div>
+        <div class="aud" data-reveal>
+          <div class="aud-txt">
+            <h3>For men</h3>
+            <p>Testosterone, andropause, energy, body composition — the full list of what we look for.</p>
+          </div>
+          <button type="button" class="aud-open" aria-haspopup="dialog"
+                  aria-label="For men — read the full list of symptoms">
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 1v10M1 6h10"/></svg>
+          </button>
+          <template class="aud-detail">
+            <p class="pxd-kicker">Peptide Therapy · For men</p>
+            <h3>For men</h3>
+            <p>Hormones in men are just as important as they are for women — they regulate most
+            major bodily processes. In fact, both men and women produce the same hormones, only
+            in different amounts.</p>
+            <!-- correction: the source sentence carried two finite verbs with no conjunction
+                 ("Men … may experience so-called Andropause … may report a loss"); the second
+                 becomes "and report". The mismatched quotes around ‘joie de vivre’ are closed. -->
+            <p>A low level of testosterone in a man means more than just a low sex drive. Men
+            entering middle age may experience so-called Andropause — a male equivalent of
+            menopause — and report a loss of ‘joie de vivre’: many of them start to question
+            their lives, their relationships and their work.</p>
+            <p class="pxd-sub">Symptoms of male hormonal imbalance may include</p>
+            <!-- ⚠️ CLIENT ORDER, VERBATIM. Corrections: "Low sperm account" → "Low sperm
+                 count"; "burnout syndrome'" → matched quotes; "Mood changes/ low mood" →
+                 spaced. THREE ITEMS REMOVED, all repeats within this one list: a second
+                 "Irritability", a standalone "Fatigue" (already inside item 1), and "Low sex
+                 drive" (listed as "Low libido" seven lines above). "High cholesterol" was
+                 left dangling below the list in the source and is restored to it as the
+                 final item, which is plainly where it belongs. -->
+            <ul class="pxd-list">
+              <li>Tiredness, fatigue, or “burnout syndrome” (decreased drive and ambition)</li>
+              <li>Decreased strength and lean body mass</li>
+              <li>Irritability</li>
+              <li>Poor sleeping patterns</li>
+              <li>Low libido</li>
+              <li>Memory loss</li>
+              <li>Erectile dysfunction</li>
+              <li>Decreased morning erections and decreased erection strength</li>
+              <li>Depression</li>
+              <li>Low sperm count</li>
+              <li>Loss of muscle mass</li>
+              <li>Increased body fat (especially in the waist area)</li>
+              <li>Decreased bone mass</li>
+              <li>Mood changes / low mood</li>
+              <li>Brain fog</li>
+              <li>Elevated blood sugar</li>
+              <li>Stress</li>
+              <li>Anxiousness</li>
+              <li>High cholesterol</li>
+            </ul>
+            <div class="pxd-cta"><a class="btn" href="#book">Book a consultation <span class="arr">→</span></a></div>
+          </template>
+        </div>
+      </div>
+
+      <!-- ══ HOW IT WORKS — the client's seven steps, their numbering, their order ═══════
+           ⚠️ THE NUMBERS ARE THE CLIENT'S AND ARE WRITTEN OUT, not generated: several steps
+           carry nested lists and a CSS counter would have numbered against those.
+           ⚠️ THE THREE CONTACT ROUTES IN STEP 1 ARE LIVE, and they are the page's own, not
+           new ones: #book is the call strip at the foot of this page, and the mail and
+           telephone are the two the footer already publishes. The client's source said
+           "scroll down and press Book Now", which is exactly what the #book anchor does. -->
+      <p class="step-head kicker" data-reveal>How it works</p>
+      <ol class="steps">
+        <li class="step" data-reveal>
+          <span class="step-n" aria-hidden="true">1</span>
+          <div>
+            <h3>Book your programme</h3>
+            <ul class="step-list">
+              <li>Make an online booking of your programme — <a href="#book">book now</a> at the foot of this page.</li>
+              <li>If you have any questions before booking, email or call us:
+                <a href="mailto:info@medi-gyn.com">info@medi-gyn.com</a> ·
+                <a href="tel:+971555450797">+971 5 55 45 0797</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="step" data-reveal>
+          <span class="step-n" aria-hidden="true">2</span>
+          <div>
+            <h3>Symptom questionnaire</h3>
+            <p>Complete your Peptide Therapy Health Assessment.</p>
+          </div>
+        </li>
+        <li class="step" data-reveal>
+          <span class="step-n" aria-hidden="true">3</span>
+          <div>
+            <h3>Your appointment</h3>
+            <p>You have a choice of how your doctor’s visit and your “BOZAT” scans are done —
+            in the comfort of your own home or hotel room, or as an online Zoom session.</p>
+            <!-- ⚠️ THE SOURCE PUT "IGF-1 (Insulin-Like Growth Factor 1)" ON ITS OWN LINE
+                 ABOVE THE PANEL AND "Hormones" ABOVE THE LAST THREE. Read as two headed
+                 groups with IGF-1 as the panel's first assay — the only reading that makes
+                 a list of it. If they meant IGF-1 as a heading of its own, this is one <li>
+                 to move; it is flagged rather than guessed at silently. -->
+            <p class="step-sub">Blood work</p>
+            <div class="step-cols">
+              <ul class="step-list">
+                <li>IGF-1 (Insulin-Like Growth Factor 1)</li>
+                <li>Fasting blood glucose</li>
+                <li>HbA1c</li>
+                <li>Liver function panel (ALT, AST)</li>
+              </ul>
+              <ul class="step-list">
+                <li>Kidney function panel (Creatinine, eGFR)</li>
+                <li>Lipid panel (Cholesterol, LDL, HDL, Triglycerides)</li>
+                <li>TSH and Free T3 / Free T4</li>
+                <li>Vitamin D</li>
+              </ul>
+            </div>
+            <p class="step-sub">Hormones</p>
+            <ul class="step-list">
+              <li>Total Testosterone</li>
+              <li>SHBG</li>
+              <li>Free Testosterone (calculated)</li>
+            </ul>
+          </div>
+        </li>
+        <li class="step" data-reveal>
+          <span class="step-n" aria-hidden="true">4</span>
+          <div>
+            <h3>Diagnostic results review — Zoom</h3>
+            <p>Your doctor explains your scan and blood test results in detail, so you feel
+            empowered and more in control of your health as you</p>
+            <ul class="step-list">
+              <li>understand your current health condition and your lifestyle choices — diet, exercise</li>
+              <li>have a well-informed view of your health markers and what they mean</li>
+            </ul>
+          </div>
+        </li>
+        <li class="step" data-reveal>
+          <span class="step-n" aria-hidden="true">5</span>
+          <div>
+            <h3>Your 2-month personalised protocol</h3>
+            <p>Our medical and functional medicine doctor creates your two-month personalised
+            protocol, with the latest know-how in the field of wellness and well-ageing.</p>
+            <p class="step-sub">The Medi-Gyn protocol includes</p>
+            <!-- correction: "making it a natural as possible for our body" → "as natural as
+                 possible for your body" -->
+            <ul class="step-list">
+              <li>Bioidentical Hormone | Testosterone Therapy (“BHT” | “THT”)
+                <ul class="step-list">
+                  <li>bioidentical hormones carry the same hormonal molecule as your own body, making them as natural as possible for your body</li>
+                </ul>
+              </li>
+              <li>Peptide therapy</li>
+              <li>Science-driven supplements, including vital micronutrients and adaptogens
+                <ul class="step-list">
+                  <li>to boost the immune system, increase ATP energy in your cells, and support natural cell rejuvenation</li>
+                </ul>
+              </li>
+              <li>Lifestyle change recommendations that accelerate your body’s natural healing process, rejuvenating your body inside out</li>
+            </ul>
+          </div>
+        </li>
+        <li class="step" data-reveal>
+          <span class="step-n" aria-hidden="true">6</span>
+          <div>
+            <h3>Protocol explanation — Zoom or in person</h3>
+            <p>Your doctor explains and clarifies your personalised protocol in detail, via
+            Zoom or in person — BHT, THT, peptides, and any medication or supplementation.</p>
+          </div>
+        </li>
+        <li class="step" data-reveal>
+          <span class="step-n" aria-hidden="true">7</span>
+          <div>
+            <h3>4-week close mentorship</h3>
+            <ul class="step-list">
+              <li>Four weeks of close mentorship to check on your progress and ease you into your protocol.</li>
+              <li>A further four weeks of follow-up throughout your programme with us.</li>
+            </ul>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ══════════ 06 · WHAT'S INCLUDED / WHAT'S EXCLUDED ═══════════════════════════════
+       His "now for this maybe a different section or not?" — a different one, and a small
+       one. CLIENT COPY, both columns.
+       ⚠️ THE CAPITALISED VERBS ARE THEIRS (EVALUATE · ESTABLISH · UNDERSTAND · TEST ·
+       COLLATE · ANALYSE · INTERPRET · CREATE · HEAL) and they are the list's structure, not
+       shouting — they are set in Megante with letter-spacing rather than a bold weight.
+       ⚠️ ANALYSE AND INTERPRET ARE NESTED UNDER COLLATE ON PURPOSE. Their source reads
+       "COLLATE all the above information IN ORDER TO / ANALYSE findings / INTERPRET them" —
+       the two are what the collating is for, so they sit under it. Flat, "in order to"
+       dangles into white space. -->
+  <section class="incl sec-pad" id="included">
+    <div class="wrap">
+      <div class="incl-grid">
+        <div class="incl-col" data-reveal>
+          <h3>What’s included</h3>
+          <ul class="incl-list">
+            <li><b>EVALUATE</b> your health with a detailed medical and lifestyle history</li>
+            <li><b>ESTABLISH</b> a timeline of your story — the presenting symptoms, the contributory factors and your current state of health</li>
+            <li><b>UNDERSTAND</b> the root causes and drivers of your symptoms, and your own narrative</li>
+            <li><b>TEST</b> through a functional “The DUTCH Plus” test and “BOZAT” Health Assessment Technology scans, to analyse the precise reasons for illness and imbalance</li>
+            <li><b>COLLATE</b> all of the above, in order to
+              <ul class="incl-list">
+                <li><b>ANALYSE</b> the findings</li>
+                <li><b>INTERPRET</b> them for each and every patient</li>
+              </ul>
+            </li>
+            <li><b>CREATE</b> your own personalised protocol to restore your health</li>
+            <li><b>HEAL</b> the root cause of your symptoms, and not just the symptom</li>
+          </ul>
+        </div>
+        <div class="incl-col incl-col--out" data-reveal>
+          <h3>What’s excluded</h3>
+          <ul class="incl-list">
+            <li>Diagnostics — blood tests and functional tests
+              <ul class="incl-list">
+                <li>home blood sample collection, if you are based in Dubai, or</li>
+                <li>at any lab at your destination</li>
+              </ul>
+            </li>
+            <li>Peptide therapy
+              <ul class="incl-list">
+                <li>all prescriptions are personalised, so pricing may vary</li>
+                <li>the price of any prescription is shared with you before any payment is collected</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ══════════ 05 · THE DOCTORS ══════════
        HIS CALL 2026-08-14 — picture + specialization + "book consultation under their
        name", with an (i) on the portrait corner opening a popup of "the dr and their
@@ -1649,12 +2313,24 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
          · "rate of aging" → "rate of ageing" (the site's own British spelling)
          · straight quotes → typographic, spaced hyphens → em dashes
        Unlike the tiles' draft copy these are his words — do not tighten in passing.
-       ⚠️ PORTRAIT FILES NOT IN THE REPO YET — see the .docs note in the stylesheet.
-       Drop the two supplied photos at:
-         images/doctors/dr-andrey-komissarov-square.webp   (his 1024×1024)
-         images/doctors/dr-eslam-yakout-square.webp        (his 700×700)
-       and both card and popup pick them up with no markup change. Until then the
-       cards show a monogram band, on purpose, instead of a broken image. -->
+       ⚠️ FOUR DOCTORS SINCE 2026-08-16 — Dr. Nahla Ibrahim Elawady and Dr. Khalid
+       Shukri joined on his instruction. The grid is 2×2 at desktop with no change (it
+       was always repeat(2)), and the booking chooser gained the matching two rows —
+       KEEP THE FOUR AND THE CHOOSER'S FOUR IN THE SAME ORDER.
+       ⚠️ TWO OF THE FOUR PORTRAIT FILES ARE STILL MISSING, and unlike round 3's case
+       this is not "he has not sent them" — HE SENT BOTH IN THE CONVERSATION AND THIS
+       ENVIRONMENT CANNOT LAND THEM: chat attachments do not reach the filesystem, and
+       egress to medi-gyn.com is refused by policy (403 on CONNECT), so they cannot be
+       fetched either. The wiring is complete and waiting; the two files are a drop:
+         images/doctors/dr-andrey-komissarov-square.webp        ✓ present (1024²)
+         images/doctors/dr-eslam-yakout-square.webp             ✓ present (700²)
+         images/doctors/dr-nahla-ibrahim-elawady-square.webp    ⚠ MISSING
+         images/doctors/dr-khalid-shukri-square.webp            ⚠ MISSING
+       Square crops, any size — object-fit:cover does the rest. THEN RUN
+       `node tools/crop-portrait.mjs` to bake the two matching …-head-400.webp files
+       the bio panel's header uses; without them the panel simply goes without a face.
+       Until all of that, the two new cards show an NE / KS monogram and their chooser
+       rows show the same, deliberately, rather than a broken-image glyph. -->
   <section class="docs sec-pad" id="doctors">
     <div class="wrap">
       <div class="sec-head">
@@ -1751,6 +2427,146 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
             traditional healing practices, Dr. Yakout provides a comprehensive approach to
             healthcare that empowers patients to regain energy, resilience, and long-term
             health.</p>
+            <div class="pxd-cta"><a class="btn" href="#book">Book a consultation <span class="arr">→</span></a></div>
+          </template>
+        </article>
+        <!-- ══ DR. NAHLA IBRAHIM ELAWADY — added 2026-08-16, his call, with Dr. Khalid ═══
+             ⚠️ CLIENT COPY from her medi-gyn.com page, the same standing as the two doctors
+             above. Corrections, all recorded and all grammatical rather than editorial:
+               · "Dr. Nahla prime focus" → "Dr. Nahla’s prime focus"
+               · "support women physical" → "support women’s physical"
+               · "years of clinical practices" → "clinical practice"
+               · "challenges that affects" → "that affect"
+               · "trust, educating, and individualized" → "trust, education, and
+                 individualised" (the site's own British spelling, as with "ageing")
+               · "Fellowship of AestheticGynaecology" → the missing space restored
+             ⚠️ ONE CORRECTION IS AN INFERENCE, NOT A TYPO FIX, and it is flagged for him
+             rather than made silently: her source reads "hormone optimization, PRODUCTIVE
+             medicine, and psychosexual health". Read as "reproductive medicine" — it is the
+             field, it is one letter-cluster away, and she holds a Diploma in Assisted
+             Reproduction two lines later. If she meant something else, this is one word. -->
+        <article class="doc" data-reveal>
+          <div class="doc-photo">
+            <img src="../images/doctors/dr-nahla-ibrahim-elawady-square.webp" alt="Dr. Nahla Ibrahim Elawady"
+                 loading="lazy" decoding="async" width="1024" height="1024">
+            <span class="doc-mono" aria-hidden="true">NE</span>
+            <button type="button" class="doc-info" aria-haspopup="dialog"
+                    aria-label="About Dr. Nahla Ibrahim Elawady">i</button>
+          </div>
+          <h3>Dr. Nahla Ibrahim Elawady</h3>
+          <p class="doc-spec">MD, DHA-Certified Gynaecologist — BHRT &amp; Sexual Health</p>
+          <a class="btn" href="#book">Book a consultation <span class="arr">→</span></a>
+          <template class="doc-detail">
+            <div class="pxd-hdr">
+              <span class="pxd-face"><img src="../images/doctors/dr-nahla-ibrahim-elawady-head-400.webp" alt="" aria-hidden="true" width="400" height="400"></span>
+              <div class="pxd-hdr-txt">
+              <p class="pxd-kicker">The doctor · Medi-Gyn</p>
+            <h3>Dr. Nahla Ibrahim Elawady</h3>
+            <p class="pxd-spec">MD, DHA-Certified Gynaecologist | BHRT | Sexual Health Specialist · English / Arabic</p>
+              </div>
+            </div>
+            <p>With over 15 years of clinical experience, Dr. Nahla is a dedicated and skilled
+            Gynaecologist specialising in hormonal health, Bioidentical Hormone Therapy
+            (“BHRT”), sexual health and aesthetic gynaecology. Dr. Nahla’s prime focus is to
+            support women’s physical, hormonal and psycho-sexual well-being across all life
+            stages, including perimenopause and menopause.</p>
+            <p class="pxd-sub">Dr. Nahla’s story</p>
+            <p>Dr. Nahla began her medical career at Teaching Hospital and Maadi Military
+            Hospital in Egypt, where she developed a strong foundation in comprehensive
+            women’s healthcare. Through years of clinical practice, she gets to the root cause
+            of the hormonal imbalance, intimate health concerns and psychosexual challenges
+            that affect women’s quality of life.</p>
+            <p>Her experience shaped an integrative approach that combines clinical
+            gynaecology, hormone optimisation, reproductive medicine and psychosexual health.
+            Her care philosophy is based on trust, education and individualised treatment,
+            allowing women to feel comfortable when addressing sensitive yet essential aspects
+            of their health.</p>
+            <p class="pxd-sub">Her expertise</p>
+            <ul class="pxd-list">
+              <li>Bioidentical Hormone Therapy (“BHRT”)</li>
+              <li>Hormonal imbalances across all menopausal stages</li>
+              <li>Sexual and psychosexual health and awareness</li>
+              <li>Aesthetic and functional gynaecology</li>
+              <li>Reproduction and fertility support</li>
+              <li>Comprehensive intimate wellness and support</li>
+            </ul>
+            <p class="pxd-sub">Education &amp; professional accreditation</p>
+            <ul class="pxd-list">
+              <li>Master’s Degree in Obstetrics and Gynaecology, Cairo University (Kasr Al Ainy)</li>
+              <li>Fellowship in Psychosexual Health, JSS University</li>
+              <li>Fellowship of Aesthetic Gynaecology, Sharada University</li>
+              <li>Professional Diploma in Assisted Reproduction</li>
+              <li>IVF, General Authority of Medical Specialties</li>
+            </ul>
+            <div class="pxd-cta"><a class="btn" href="#book">Book a consultation <span class="arr">→</span></a></div>
+          </template>
+        </article>
+        <!-- ══ DR. KHALID SHUKRI — added 2026-08-16, his call ════════════════════════════
+             ⚠️ CLIENT COPY from his medi-gyn.com page. Corrections, all recorded:
+               · "Having had a 40 years of experience" → "Having had 40 years"
+               · "the root cause of the diseases" → "the root cause of disease"
+               · "Double fellowship Critical Care Medicine, Fellowship Functional and
+                 Metabolic medicine" → connective words restored; the qualifications
+                 themselves are unchanged
+               · "a vibrant, energetic, and productive, healthy, and happy lifespan" → the
+                 comma run cleaned; every adjective kept
+             ⚠️ "ANTI-AGEING" IS BRITISH HERE AND "ANTI-AGING" IS AMERICAN, AND BOTH ARE
+             CORRECT ON PURPOSE — the site's own spelling is "ageing" (see "Anti Ageing" in
+             the eight tiles), but the AMERICAN ACADEMY OF ANTI-AGING is a proper noun and
+             keeps its own spelling. Do not make these agree.
+             ⚠️ HE IS THE PEPTIDE DOCTOR ON THIS PAGE — "Peptide Therapy & Peptide
+             Bioregulators" is the second line of his own list. He is appended LAST only
+             because that is the order the two new names arrived in; if the peptide page
+             should lead with him, it is two <article> blocks and two chooser rows swapped,
+             and it is the client's call, not a tidy-up. -->
+        <article class="doc" data-reveal>
+          <div class="doc-photo">
+            <img src="../images/doctors/dr-khalid-shukri-square.webp" alt="Dr. Khalid Shukri"
+                 loading="lazy" decoding="async" width="1024" height="1024">
+            <span class="doc-mono" aria-hidden="true">KS</span>
+            <button type="button" class="doc-info" aria-haspopup="dialog"
+                    aria-label="About Dr. Khalid Shukri">i</button>
+          </div>
+          <h3>Dr. Khalid Shukri</h3>
+          <p class="doc-spec">MD, FCCM — American Board Certified, Anti-Ageing &amp; Regenerative Medicine</p>
+          <a class="btn" href="#book">Book a consultation <span class="arr">→</span></a>
+          <template class="doc-detail">
+            <div class="pxd-hdr">
+              <span class="pxd-face"><img src="../images/doctors/dr-khalid-shukri-head-400.webp" alt="" aria-hidden="true" width="400" height="400"></span>
+              <div class="pxd-hdr-txt">
+              <p class="pxd-kicker">The doctor · Medi-Gyn</p>
+            <h3>Dr. Khalid Shukri</h3>
+            <p class="pxd-spec">MD, FCCM — American Board Certified Physician in Anti-Ageing &amp; Regenerative Medicine · English / Arabic</p>
+              </div>
+            </div>
+            <p>Having had 40 years of experience in the medical field, from internal medicine
+            through to:</p>
+            <ul class="pxd-list">
+              <li>Bioidentical Hormone Therapy</li>
+              <li>Peptide Therapy &amp; Peptide Bioregulators</li>
+              <li>Healthspan &amp; Lifespan treatments</li>
+              <li>Science-driven Longevity Supplements</li>
+              <li>Preventive medicine protocols</li>
+              <li>Cancer prevention treatments</li>
+              <li>Quantum therapy treatments</li>
+            </ul>
+            <p class="pxd-sub">Dr. Khalid’s approach</p>
+            <p>With his extensive years of experience and vast up-to-date knowledge, Dr. Shukri
+            presents a unique Functional Medicine approach, combined with epigenetic and
+            wellness technology, in identifying the root cause of disease.</p>
+            <p>His treatments include detection, prevention and reversal, and setting up
+            bespoke lifestyle protocols through advanced wellness technology — designed to
+            empower patients to optimise and restore their health, and to live a vibrant,
+            energetic, productive, healthy and happy lifespan.</p>
+            <p class="pxd-sub">Accreditation</p>
+            <ul class="pxd-list">
+              <li>American Board Certified in Anti-Ageing, Regenerative Medicine &amp; Reproductive Medicine</li>
+              <li>Physician in Dignitary and Protective Medicine</li>
+              <li>Double fellowship in Critical Care Medicine</li>
+              <li>Fellowship in Functional and Metabolic Medicine</li>
+              <li>Certified Practitioner, Bioresonance / Zyto / Oligo Scans</li>
+              <li>Fellow of Functional and Metabolic Medicine, American Academy of Anti-Aging</li>
+            </ul>
             <div class="pxd-cta"><a class="btn" href="#book">Book a consultation <span class="arr">→</span></a></div>
           </template>
         </article>
@@ -2056,11 +2872,19 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
       if (window.__lenis) window.__lenis.start();
       if (lastBtn) lastBtn.focus();
     }
-    /* one shell serves both families: the eight service tiles AND the doctor
-       cards — same open grammar, same close grammar, no second dialog to drift */
-    document.querySelectorAll(".px,.doc").forEach(tile => {
-      const btn = tile.querySelector(".px-open,.doc-info");
-      const tpl = tile.querySelector(".px-detail,.doc-detail");
+    /* one shell serves THREE families now: the eight service tiles, the doctor cards,
+       and (2026-08-16) the two audience rows in 05 — same open grammar, same close
+       grammar, no second dialog to drift.
+       ⚠️ ADDING A FAMILY IS THREE SELECTORS, ALL ON THESE TWO LINES: the container, its
+       button, its <template>. Miss one and the family silently never opens — there is no
+       error, because the loop simply returns early on the missing half.
+       ⚠️ A <template>'S CONTENT IS NOT IN THE DOCUMENT TREE, which is what makes
+       `tile.querySelector("h3")` below safe: it finds the row's own visible heading and
+       never the h3 inside the panel markup. That is load-bearing for the aria-label and
+       for the chooser's kicker. */
+    document.querySelectorAll(".px,.doc,.aud").forEach(tile => {
+      const btn = tile.querySelector(".px-open,.doc-info,.aud-open");
+      const tpl = tile.querySelector(".px-detail,.doc-detail,.aud-detail");
       if (!btn || !tpl) return;
       btn.addEventListener("click", () => {
         lastBtn = btn;
@@ -2080,6 +2904,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
         if (window.__lenis) window.__lenis.stop();
         panel.scrollTop = 0;
         panel.focus();
+        guardFaces();
         sizeFaces();
         if (document.fonts && document.fonts.ready) document.fonts.ready.then(sizeFaces);
       });
@@ -2172,12 +2997,28 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
         }
       });
     }
+    /* ⚠️ RUN AFTER EVERY CLONE, NOT ONCE AT LOAD. The chooser lives in a <template>, so
+       its <img>s do not exist — and cannot fail — until the moment it is cloned into the
+       panel. A page-load loop finds nothing to bind, which is the same trap the mock-booking
+       guard fell into and why that one is delegated on the shell. */
+    function guardFaces(){
+      bodyEl.querySelectorAll(".pxd-doc-face").forEach(f => {
+        const im = f.querySelector("img");
+        if (!im) return;
+        const bad = () => f.classList.add("no-photo");
+        /* a cached 404 is already `complete` with zero width by the time we look, so the
+           error event has been and gone — both paths are needed, same as the card guard */
+        if (im.complete && im.naturalWidth === 0) bad();
+        im.addEventListener("error", bad);
+      });
+    }
     function showTpl(tpl, name){
       bodyEl.innerHTML = "";
       bodyEl.append(tpl.content.cloneNode(true));
       if (name) pxd.setAttribute("aria-label", name);
       panel.scrollTop = 0;
       panel.focus();
+      guardFaces();
       sizeFaces();
       if (document.fonts && document.fonts.ready) document.fonts.ready.then(sizeFaces);
     }
@@ -2419,8 +3260,17 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
   /* ⚠️ BG_B IS --dawn — the stage rises to exactly the colour section 03 above it stands
      on. Two copies of one colour in two languages; change one, change the other (the
      token carries the same warning). GLACIER DAWN since round 9 — B2, his letter. */
-  const BG_A=[42,27,32], BG_B=[232,239,245];
-  const STONE=[176,154,156];                       /* an unwritten bead — dim rose-stone (brand rose; does not move) */
+  /* ⚠️ BG_A IS THE COOL GROUND SINCE 2026-08-16 — the client's "the burgundy is not
+     approved… same value, in the blue". [42,27,32] #2A1B20 → [20,32,42] #14202A: L* 11.83
+     → 11.61, chroma held, hue rotated into the glacier family. The full translation table
+     and the contrast proof live at .scene-stage in the stylesheet; the CSS pre-frame
+     ground (#1D272F) is BG_A's sibling and moved with it. */
+  const BG_A=[20,32,42], BG_B=[232,239,245];
+  /* an unwritten bead. ⚠️ WAS DIM ROSE-STONE [176,154,156] — the same 2026-08-16
+     translation, L* 65.55 held exactly, so a drifting bead still measures 6.26:1 on the
+     stage against the 6.23 it measured warm. --rose the TOKEN is untouched brand law; it
+     just no longer appears in this scene. */
+  const STONE=[147,161,174];
   /* ⚠️ THE CHAIN SPEAKS STEEL — C2, his letter (round 9). Was GOLD [201,164,106] /
      GOLD_DEEP [138,106,52]: the hero's metal writes the message now, judged in the grade
      lab as a composition (chain + key line together), not find-and-replaced. */
@@ -2431,14 +3281,22 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
   const rgba=(C,a)=>`rgba(${C[0]},${C[1]},${C[2]},${Math.max(0,Math.min(1,a)).toFixed(3)})`;
 
   /* ═══ SCHEDULE ═════════════════════════════════════════════════════════════════
-     Seven beats. The dawn runs .790–.835 — inside the copy-free window between beat 5
-     (out by .75) and beat 6 (in at .86): the sister scene's rule, inherited whole —
-     nothing is ever on screen while the ground is mid-flight, because no fixed
-     polarity survives the crossing. Beat 6 is .light (ink on the risen ground) and
-     closes at .955 so the title has the last word. Assembly runs .34→.68 under beats
-     3–5; the coil .60–.78; the pulse rides the finished chain from .70. */
+     ⚠️ SIX WINDOWS SINCE 2026-08-16 (was seven) — the copy cut; see the note over
+     .scene-copy in the markup. SCHED.length MUST equal the number of .scene-beat
+     elements: draw() indexes SCHED[b] by the beat's position.
+     The dawn runs .790–.835 — inside the copy-free window between beat 4 (out by .75)
+     and beat 5 (in at .86): the sister scene's rule, inherited whole — nothing is ever
+     on screen while the ground is mid-flight, because no fixed polarity survives the
+     crossing. Beat 5 is .light (ink on the risen ground) and closes at .955 so the
+     title has the last word.
+     ⚠️ THE GOLD BEAT STILL CLOSES BEFORE A0. It names the decline, and assembly starts
+     at .34 — so its window ends .335 and the gap is deliberate: a beat reading "fewer
+     get written" must not still be lit while the chain visibly starts writing. Any
+     re-timing has to keep that ordering; it is the causality the scene exists to show.
+     Assembly runs .34→.68 under beats 4–5; the coil .60–.78; the pulse rides the
+     finished chain from .70. */
   const FADE=.03;
-  const SCHED=[[.035,.115],[.13,.215],[.235,.325],[.345,.43],[.46,.59],[.62,.75],[.86,.955]];
+  const SCHED=[[.035,.125],[.145,.24],[.255,.335],[.36,.50],[.53,.75],[.86,.955]];
 
   /* ═══ THE BEADS ════════════════════════════════════════════════════════════════
      26 amino acids. Each carries: its home fraction s along the chain, a seeded
@@ -2480,8 +3338,8 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
 
   /* ═══ THE CURVE — wave → helix ═════════════════════════════════════════════════
      One parametric spine for the whole act. While the chain is being written it
-     hangs as a loose wave (1.25 turns, wide amplitude); across .60–.78 it winds into
-     the helix (3.1 turns, narrow amplitude). z = cos(angle) is depth — in front of
+     hangs as a loose wave (1.25 turns); across .60–.78 it winds into the helix
+     (3.1 turns) AT THE SAME WIDTH. z = cos(angle) is depth — in front of
      the axis or behind it — and it does nothing until the coil arrives, then sizes
      and lights the strand so near passes read near: ONE strand seen in the round,
      not two strands pretending to be DNA. The finished helix keeps turning at
@@ -2491,7 +3349,22 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
     const coil=ss(.60,.78,p);
     const turns=mix(1.25,3.1,coil);
     const chTop=H*(mobile?.315:.30), chH=H*(mobile?.475:.52);
-    const amp=mix(W*(mobile?.30:.17), Math.min(W*.14,120), coil);
+    /* ⚠️ THE AMPLITUDE IS CONSTANT — DO NOT MAKE IT A FUNCTION OF `coil` AGAIN.
+       It was `mix(W*.17, min(W*.14,120), coil)`: the chain hung 490px wide while it was
+       being written and then squeezed to 240 as it wound up, so the finished helix — the
+       one frame the reader actually rests on — was the narrowest thing in the scene, and
+       narrower than the word standing in front of it. His call 2026-08-16, relayed from
+       the client: "the spinning peptide is beautiful, it's just that we make it thin for
+       some reason… she likes it wide, so don't compress it horizontally."
+       ⚠️ THE TURN COUNT DID NOT MOVE. 1.25 → 3.1 is untouched, and that matters: the
+       winding is what makes it read as a helix rather than a wave, and it was never the
+       thing that made it thin. Auditioned against 2.4 and 2.0 turns at the new width and
+       both LOST — fewer turns at full width is a lazy squiggle, and at 2.0 the payoff word
+       has nothing to stand through. Width is the variable; the coil is not.
+       The cap is a cap, not a target: below ~1530px it never binds and the helix is a flat
+       17% of the viewport, so it grows with the page down to a phone. Above it the figure
+       stops widening rather than sprawling across a 2560 desktop. */
+    const amp=Math.min(W*(mobile?.30:.17), mobile?150:260);
     const a=6.283*turns*s + t*.10*coil - coil*1.2;
     return [W/2+Math.sin(a)*amp, chTop+chH*s, Math.cos(a)*coil];
   }
@@ -2514,9 +3387,11 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
     stage.style.setProperty("--scene-fg", rgba(mixC(IVORY,INK,ss(.798,.824,p)),1));
     const gl=dw>.55;
     stage.style.setProperty("--ctrl-fg",  gl?rgba(INK,1):rgba(IVORY,1));
-    stage.style.setProperty("--glass-fill", gl?"rgba(255,255,255,.20)":"rgba(46,34,40,.45)");
-    stage.style.setProperty("--glass-hi",   gl?"rgba(255,255,255,.34)":"rgba(46,34,40,.58)");
-    stage.style.setProperty("--glass-line", gl?"rgba(46,34,40,.22)":"rgba(255,255,255,.26)");
+    /* the three dark glass values are the warm #2E2228 translated to #1D272F, same
+       alphas — 2026-08-16, with the rest of the stage */
+    stage.style.setProperty("--glass-fill", gl?"rgba(255,255,255,.20)":"rgba(29,39,47,.45)");
+    stage.style.setProperty("--glass-hi",   gl?"rgba(255,255,255,.34)":"rgba(29,39,47,.58)");
+    stage.style.setProperty("--glass-line", gl?"rgba(29,39,47,.22)":"rgba(255,255,255,.26)");
     stage.style.setProperty("--glass-top",  gl?"rgba(255,255,255,.55)":"rgba(255,255,255,.30)");
     glow.style.opacity=(1-ss(.70,.80,p)).toFixed(3);
     /* SEQUENTIAL, not the sister page's cross-fade: both want bottom-centre, and a

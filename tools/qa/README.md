@@ -1,5 +1,52 @@
 # Scene QA harness
 
+## The whole peptide page — `peptide-page.mjs`
+
+```bash
+npm install playwright@1.49.1 gsap@3.13.0 lenis@1.3.4
+node tools/qa/peptide-page.mjs [--shots]
+```
+
+The page had three harnesses that each watched one thing — the hero ground, the bonds lab,
+the scene stills — and nothing that watched the **page**. This is that one: 45 checks over
+eleven viewport widths, the chain scene at four progress stops on desktop and phone, every
+dialog the page owns, and the contrast arithmetic for the 2026-08-16 cool re-grade. It
+exits non-zero on any failure.
+
+⚠️ **Check 1 reads the stylesheet as text, and it is the most important check here.**
+Writing the pair *lightness-star slash chroma-star* inside a CSS comment **closes the
+comment on the spot**. The prose after it is parsed as declarations, the parser swallows
+the rule that follows, and **nothing reports it**: `.scene-stage` lost its `height:100svh`,
+the stage measured 0px, the canvas never drew — and the console was clean, with
+`window.__scene.p` still reporting the right progress because the script was fine. Only a
+screenshot showed it. Write `L* and C*`.
+
+⚠️ **The helix width is asserted against `curve()`'s geometry, not against an earlier
+frame.** The obvious test — compare the loose wave at p=.66 with the finished helix at
+p=.78 — is wrong, and failed loudly before it was replaced: at .66 assembly is only two
+thirds done, so the frame still holds unwritten beads scattered across ±.46W and the
+measurement returns the *scatter's* 762px, not the chain's 496. There is no frame in which
+the whole chain is a wave. The assertion is `2 × min(W×.17, 260)` on desktop and
+`2 × min(W×.30, 150)` on a phone, ±14% for the bead radius at either end.
+
+⚠️ **The scene's ground is not on the canvas.** The chain is painted onto a *transparent*
+canvas and the ground is the stage element's own `background-color`, written per frame.
+Sampling pixel (0,0) of the canvas returns `rgba(0,0,0,0)` and reports the stage as pure
+black at every stop. Read the element; measure drawn extent by **alpha**, which also
+survives the ground changing colour across the dawn.
+
+⚠️ **360px fails on purpose and is asserted as a known failure, not skipped.**
+`.f-news{width:22rem}` is 352px against ~320 of content, so the *footer* makes the document
+374px wide at a 360 viewport — on all three pages of this site. Round 6 recorded it and left
+it deliberately, because the footer is a documented true copy of the landing page's and the
+one-line fix belongs to all three files in one commit. If 360 ever passes, that fix landed
+and the exemption should come out.
+
+⚠️ **Two portrait 404s are expected and named in `EXPECTED_MISSING`** (Dr. Nahla and
+Dr. Khalid). Any *other* 404 fails the run. When their files land, those lines vanish on
+their own.
+
+
 The previous handover recorded this as "not in the repo", and that cost a day of
 rendering static fallbacks instead of the real scroll story. It is here now.
 

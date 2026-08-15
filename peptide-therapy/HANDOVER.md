@@ -1,5 +1,78 @@
 # Peptide Therapy — `/peptide-therapy/` (first ship 2026-08-14)
 
+> ## ROUND 10b — 2026-08-15: the lab was six answers to a settled question, so it was rebuilt
+> along the axis that actually varies — HOW A PLATE IS MADE
+>
+> **1 · WHAT WAS WRONG WITH 10a.** The first Bond Lab offered six successors to D that were
+> all flat Canvas 2D line-and-bead at one scale. His note: *"im not talking only of 2d… im
+> referring to a lot of diverse types… including 3js sizes and different ways… you can even
+> make it 3d"*. He was right, and the diagnosis is worth keeping: round 7 auditioned MATERIALS
+> and D settled that the hero is made of peptides, so six more variations on arrangement were
+> six answers to a question already closed. The axis that still varies is **technique**,
+> because technique is what changes what a plate can say.
+>
+> **2 · THE LAB IS NOW THIRTEEN GROUNDS IN THREE CHAPTERS**, D above them as the reference:
+>   · **I · Drawn** — flat, line and bead, Canvas 2D. O Coil · P Affinity · Q Sequence ·
+>     R Shoal · S Lattice · T Relay. No dependency, no WebGL, cheapest on a phone.
+>   · **II · Built** — real geometry in a real camera, three.js. **U Helix** (instanced
+>     residues on a tube backbone, studio-lit, cropped top and bottom so it reads as a
+>     fragment), **V Ribbon** (the structural-biology cartoon as a twisting band of pressed
+>     silk), **W Vitrine** (a chain in a refracting glass capsule on an ivory sweep),
+>     **X Deep** (a volume with hundreds of chains, seen through a faked wide aperture).
+>   · **III · Rendered** — solved pixel by pixel. **Y Bloom** (residues fused by a smooth
+>     minimum into one alabaster surface, raymarched) and **Z Aperture** (one bond filling the
+>     frame at macro range; only the bond is sharp).
+> Scale is now a variable in its own right, from a single bond to a volume of hundreds.
+>
+> **3 · THE LAB IS GENERATED, NOT HAND-WRITTEN.** `peptide-therapy/bonds-lab.html` is BUILD
+> OUTPUT — editing it is thrown away by the next build. Source is `.lab-dev/`:
+> `template.html` (shell), `manifest.js` (contents), `kit.js` (the shared plate contract and
+> the palette), `plates/plate-<letter>.js` (one engine each). `node .lab-dev/build.mjs` emits
+> both copies of the two-copies rule. `.lab-dev/` is gitignored dev rig; the two built copies
+> are the deliverable.
+>
+> **4 · three.js IS VENDORED AT `vendor/three.module.min.js`** (r166, MIT, provenance in
+> `LICENSES/MIT-threejs.txt`) rather than loaded from a CDN. The repo copy imports it
+> relatively; the artifact copy carries the SAME bundle converted to a classic inline global
+> by `.lab-dev/pack/three-to-global.py`, because artifacts run under a CSP that blocks every
+> external host and may refuse blob:/data: script urls too. ⚠️ **The shipped page still does
+> not use three.js** — round 10 removed it with the silk. Promoting a chapter-II plate means
+> pointing at `vendor/`, NOT restoring the CDN importmap.
+>
+> **5 · FOUR BUGS WORTH NOT REPEATING**, all found by measuring rather than looking:
+>   · **`String.replace` ate the three.js bundle.** A STRING replacement treats `$&`, `` $` ``,
+>     `$'` and `$$` as substitution patterns, and minified three is full of them — the inlined
+>     copy was silently corrupted and the artifact died on `Unexpected token 'return'`. Every
+>     replacement in `build.mjs` now goes through a function replacer.
+>   · **A `type="module"` three boot loads too late.** Module scripts are deferred, so they run
+>     AFTER the classic runner and every chapter-II plate initialised with `window.THREE`
+>     undefined and fell back to a static wash. Both copies now publish `window.__THREE_READY`
+>     from a CLASSIC script and the runner awaits it.
+>   · **A WebGL canvas reads back BLACK.** Without `preserveDrawingBuffer` the drawing buffer is
+>     gone once composited, so canvas-readback QA reported every 3D plate as not drawing. The
+>     harness measures the SCREENSHOT now — which is also more honest, since it carries the
+>     glacier tint and the legibility veil.
+>   · **Smooth scrolling fooled the harness.** `scrollIntoView()` returns immediately, so
+>     screenshots landed mid-flight and two plates were reported FLAT with 89% "motion" — the
+>     frame was a blank gap between plates. QA forces `scroll-behavior:auto` and waits for the
+>     plate to settle before believing any number.
+>
+> **6 · TWO LAYOUT DEFECTS THE GEOMETRY CHECK CAUGHT** that eyeballing 1440 never would: the
+> fixed accent bar covered the spec chip on phones, and at 768 the bar WRAPS to two rows and
+> clipped a chip that had been lifted for the one-row height. The chip now lifts 112px between
+> 761 and 1180, and `tools/qa/bonds-lab.mjs` asserts the two boxes are disjoint at nine widths
+> — only where the chip is pinned, since below 761 it joins the flow and scrolls clear.
+>
+> QA (`node tools/qa/bonds-lab.mjs`, and `--artifact` for the published copy): all thirteen
+> plates draw and animate at 1440×900 and 390×844, three.js r166 present, nothing falls back,
+> zero console and page errors, no horizontal scroll, the accent bar re-colours both a
+> chapter-I and a chapter-II plate, and bar/chip disjoint at all nine pinned widths. Every
+> plate reviewed by eye at both widths — U's crop, W's spin axis, X's copy-band fade and Z's
+> residue weight all changed because of that pass, not because of a number.
+>
+> **D IS STILL THE LIVE HERO.** Nothing on `index.html` moved this round; the lab is the
+> succession, and one of these thirteen is meant to replace it.
+
 > ## ROUND 10 — 2026-08-15: the relay is corrected — the hero is plate D ("PEPTIDE
 > BONDS"), not the bleached silk — SHIPPED TO MAIN AT HIS INSTRUCTION
 >

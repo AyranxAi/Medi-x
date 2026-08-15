@@ -4,3 +4,6 @@ node_modules/
 
 # QA output — screenshots from tools/qa/*.mjs, regenerated on every run
 .qa-out/
+
+# lab dev rig — scratch harness for building plates, not shipped
+.lab-dev/

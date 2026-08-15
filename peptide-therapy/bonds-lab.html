@@ -2,36 +2,35 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>The Bond Lab</title>
 <!-- ═══════════════════════════════════════════════════════════════════════════════════
-     THE BOND LAB — peptide-therapy round 10: six successors to plate D.
-     Sister to hero-lab.html (round 7, fourteen plates) and grade-lab.html (round 8).
-     D · Peptide bonds is LIVE on the page as of round 10 — the correction to round 9's
-     mis-relayed plate E — and it is here as the reference plate at the top, so every
-     candidate is judged against what is actually on the page rather than from memory.
+     THE BOND LAB — peptide-therapy round 10. Thirteen hero grounds, in three chapters.
 
-     The question this lab asks is narrower than the hero lab's. That one asked "what
-     material should the hero be made of?" and answered chrome, glass, silk, foam. D
-     settled the material: the hero is made of PEPTIDES. So these six all ask the same
-     next question — WHAT IS A PEPTIDE? — and each answers it differently:
-       O · Coil      a shape        the chain winds into the helix
-       P · Affinity  an action      one chain, one site, one docking event, macro
-       Q · Sequence  a code         real sequences, one letter per residue
-       R · Shoal     an atmosphere  hundreds of chains, docking as distant light
-       S · Lattice   a builder      chains link into a mesh — collagen forming
-       T · Relay     a message      a pulse travels the chain and leaps to the next
-     Each is a drop-in for #silk on index.html: Canvas 2D, no WebGL, no CDN.
+     ⚠️ THIS FILE IS GENERATED. Do not hand-edit it — the next build overwrites you.
+     Source lives in .lab-dev/ : template.html (this shell), manifest.js (the contents),
+     kit.js (the shared contract), plates/plate-<letter>.js (one engine each).
+     Rebuild with:  node .lab-dev/build.mjs
 
-     ⚠️ TWO COPIES RULE (the hero lab's): this file lives here with relative fonts, and
-     the same lab is published as a Claude artifact with the fonts embedded. Keep both.
-     ⚠️ THE GRADE IS LOCKED TO GLACIER and there is no grade bar — round 9 took the whole
-     page glacier, so the temperature is no longer a question. The bar at the foot asks
-     the one that IS open: the chains are literally GOLD while this page's --gold token
-     was remapped to STEEL #7C93A8. It re-colours all seven plates at once, and it is the
-     same question the grade lab's chapter C left open for the chain scene.
-     ⚠️ SINGLE-THEME BY DESIGN: no dark variant. The lab exists to predict a light page,
-     and a re-themed lab would falsify the judgement. Every colour is painted explicitly.
+     WHY THREE CHAPTERS. Round 7 auditioned fourteen MATERIALS and D answered the question
+     it was really asking: the hero is made of peptides. Round 10's first pass then made
+     six variations that were all the same TECHNIQUE — flat 2D line-and-bead — which is six
+     answers to a question already settled. So the axis here is how a plate is MADE, because
+     that is what actually changes what it can say:
+       I · Drawn     flat, line and bead, Canvas 2D
+       II · Built    real geometry in a real camera, three.js
+       III · Rendered solved pixel by pixel — a raymarched surface and a macro lens
+     D sits above all three as the reference, because it is live on the page.
+
+     ⚠️ TWO COPIES RULE (the hero lab's): this copy carries RELATIVE urls — fonts from
+     ../fonts/, three.js from ../vendor/. The published Claude artifact carries the same lab
+     with the fonts base64'd and three.js converted to an inline global, because artifacts run
+     under a CSP that blocks every external host. Both are generated from .lab-dev/. Keep both.
+     ⚠️ THE GRADE IS LOCKED TO GLACIER and there is no grade bar — round 9 took the page
+     glacier, so temperature is settled. The bar at the foot asks the one that is still open:
+     the chains are literally GOLD while this page's --gold token was remapped to STEEL.
+     ⚠️ SINGLE-THEME BY DESIGN: no dark variant. The lab exists to predict a light page, and a
+     re-themed lab would falsify the judgement. Every colour is painted explicitly.
      ═══════════════════════════════════════════════════════════════════════════════════ -->
 <style>
-/* ─── Medi✦X brand faces — the live files, not stand-ins ─── */
+/* ─── Medi✦X brand faces ─── */
 @font-face{font-family:"Playfair";src:url(../fonts/playfair-normal-var-latin.woff2) format("woff2-variations");font-weight:300 900;font-style:normal;font-display:swap}
 @font-face{font-family:"Playfair";src:url(../fonts/playfair-italic-var-latin.woff2) format("woff2-variations");font-weight:300 900;font-style:italic;font-display:swap}
 @font-face{font-family:"MediGyn NOW";src:url(../fonts/medigyn-now-300.woff2) format("woff2");font-weight:300;font-display:swap}
@@ -49,36 +48,43 @@
   color-scheme:light;
   --ground:#F4F7FA; --cream:#EAF0F5; --line:#D5DEE6;
   --tint:#F3F7FB; --uiacc:#7C93A8; --uiacc-deep:#54687C;
-  --ivory:#F4F7FA;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{
-  font-family:var(--sans);font-weight:300;background:var(--ground);color:var(--ink);
-  -webkit-font-smoothing:antialiased;line-height:1.6;
-}
-h1,h2{font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30;color:var(--ink);line-height:1.05;letter-spacing:-.01em;text-wrap:balance}
+body{font-family:var(--sans);font-weight:300;background:var(--ground);color:var(--ink);
+  -webkit-font-smoothing:antialiased;line-height:1.6}
+h1,h2,h3{font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30;color:var(--ink);
+  line-height:1.05;letter-spacing:-.01em;text-wrap:balance}
 h1 em{font-style:italic;color:var(--logo-red);font-weight:430}
 a{color:inherit}
+.wrap{width:min(1180px,calc(100% - clamp(40px,8vw,120px)));margin-inline:auto}
 
 /* ─── masthead ─── */
-.mast{padding:clamp(64px,9vh,104px) 0 clamp(40px,6vh,60px);border-bottom:1px solid var(--line);background:var(--ground)}
-.wrap{width:min(1180px,calc(100% - clamp(40px,8vw,120px)));margin-inline:auto}
+.mast{padding:clamp(72px,11vh,132px) 0 clamp(44px,6vh,64px);border-bottom:1px solid var(--line);background:var(--ground)}
 .chapter-mark{font-family:var(--accent-face);font-size:13px;letter-spacing:.24em;color:var(--uiacc-deep);text-transform:uppercase}
-.mast h1{font-size:clamp(36px,4.6vw,60px);margin-top:18px}
-.mast .lede{margin-top:18px;max-width:44em;font-size:clamp(15px,1.25vw,17px);color:var(--ink-soft);line-height:1.75}
+.mast h1{font-size:clamp(40px,6vw,84px);margin-top:20px;max-width:14em}
+.mast .lede{margin-top:22px;max-width:42em;font-size:clamp(15px,1.25vw,17.5px);color:var(--ink-soft);line-height:1.75}
 .mast .lede + .lede{margin-top:14px}
-.index{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px;list-style:none}
-.index a{
-  display:inline-flex;align-items:baseline;gap:9px;text-decoration:none;
-  border:1px solid var(--line);border-radius:999px;padding:9px 18px;
-  font-size:12.5px;letter-spacing:.06em;color:var(--ink);
-  transition:border-color .3s var(--ease),background .3s var(--ease);
-}
-.index a:hover,.index a:focus-visible{border-color:var(--uiacc);background:var(--cream);outline:none}
-.index .lt{font-family:var(--accent-face);font-size:12px;letter-spacing:.2em;color:var(--uiacc-deep)}
-.index .tag{color:var(--ink-soft)}
-.index a.ref{border-style:dashed}
+.mast .lede strong{font-weight:500;color:var(--ink)}
+
+/* index, grouped by chapter — the diversity has to be legible before you scroll */
+.toc{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:clamp(20px,3vw,44px);margin-top:clamp(34px,5vh,54px)}
+.toc h4{font-weight:500;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--uiacc-deep);
+  padding-bottom:9px;border-bottom:1px solid var(--line);margin-bottom:12px;font-family:var(--sans)}
+.toc ul{list-style:none;display:flex;flex-direction:column;gap:1px}
+.toc a{display:flex;align-items:baseline;gap:10px;text-decoration:none;padding:7px 9px;border-radius:9px;
+  font-size:13.5px;transition:background .3s var(--ease),color .3s var(--ease)}
+.toc a:hover,.toc a:focus-visible{background:var(--cream);outline:none}
+.toc .lt{font-family:var(--accent-face);font-size:11.5px;letter-spacing:.18em;color:var(--uiacc-deep);min-width:1.5em}
+.toc .tag{color:var(--ink-soft);font-size:12px}
+.toc a.ref .lt{color:var(--logo-red)}
+
+/* ─── chapter band ─── */
+.band{background:var(--cream);border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding:clamp(56px,9vh,104px) 0}
+.band .num{font-family:var(--accent-face);font-size:clamp(30px,4vw,46px);color:var(--uiacc);line-height:1}
+.band h3{font-size:clamp(28px,3.6vw,46px);margin-top:12px}
+.band p{margin-top:16px;max-width:40em;font-size:clamp(14px,1.15vw,16px);color:var(--ink-soft);line-height:1.75}
 
 /* ─── plates ─── */
 .plate{position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden;background:var(--ground)}
@@ -87,14 +93,11 @@ a{color:inherit}
 .veil{position:absolute;inset:0;pointer-events:none;z-index:1;background:
   linear-gradient(180deg,rgba(244,247,250,0) 55%,var(--ground) 97%),
   radial-gradient(85% 115% at 20% 44%,rgba(244,247,250,.55) 0%,rgba(244,247,250,.22) 46%,rgba(244,247,250,0) 70%)}
-/* the grade: the glacier whisper multiplied over every plate, exactly as index.html bakes it */
+/* the grade: the glacier whisper multiplied over every plate, as index.html bakes it */
 .tint{position:absolute;inset:0;pointer-events:none;z-index:1;background:var(--tint);mix-blend-mode:multiply}
 .hero-inner{position:relative;z-index:2;width:100%;padding-top:12vh;padding-bottom:12vh}
-.kicker{
-  display:flex;align-items:center;gap:14px;
-  font-weight:500;font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--ink-soft);
-  margin-bottom:clamp(22px,3.4vh,38px);
-}
+.kicker{display:flex;align-items:center;gap:14px;font-weight:500;font-size:11px;letter-spacing:.32em;
+  text-transform:uppercase;color:var(--ink-soft);margin-bottom:clamp(22px,3.4vh,38px)}
 .kicker::before{content:"";width:34px;height:1px;background:var(--uiacc)}
 .plate h2.h1{font-size:clamp(42px,7vw,100px);max-width:11em}
 .plate h2.h1 .line{display:block;overflow:hidden}
@@ -102,71 +105,57 @@ a{color:inherit}
 .plate.in h2.h1 .line>span{transform:translateY(0);transition:transform 1.05s var(--ease)}
 .plate.in h2.h1 .line:nth-child(2)>span{transition-delay:.08s}
 h2.h1 em{font-style:italic;color:var(--logo-red);font-weight:430}
-.hero-sub{
-  margin-top:clamp(24px,3.6vh,40px);max-width:34em;
-  font-size:clamp(18px,1.6vw,23px);font-weight:300;color:var(--ink-soft);line-height:1.75;
-}
+.hero-sub{margin-top:clamp(24px,3.6vh,40px);max-width:34em;font-size:clamp(18px,1.6vw,23px);
+  font-weight:300;color:var(--ink-soft);line-height:1.75}
 .hero-sub strong{font-weight:500;color:var(--burgundy)}
 .fade{opacity:0;transform:translateY(22px)}
 .plate.in .fade{opacity:1;transform:none;transition:opacity .9s var(--ease) .3s,transform .9s var(--ease) .3s}
 .hero-ctas{display:flex;gap:16px;margin-top:clamp(30px,4.4vh,48px);flex-wrap:wrap}
-.btn{
-  display:inline-flex;align-items:center;gap:12px;
-  font-weight:500;font-size:13px;letter-spacing:.12em;text-transform:uppercase;
-  padding:18px 34px;border-radius:999px;cursor:default;user-select:none;
-  background:rgba(142,45,58,.85);color:#F4F7FA;
-  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-  border:1px solid transparent;white-space:nowrap;
-}
+.btn{display:inline-flex;align-items:center;gap:12px;font-weight:500;font-size:13px;letter-spacing:.12em;
+  text-transform:uppercase;padding:18px 34px;border-radius:999px;cursor:default;user-select:none;
+  background:rgba(142,45,58,.85);color:#F4F7FA;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:1px solid transparent;white-space:nowrap}
 .btn.ghost{background:transparent;color:var(--burgundy);border:1px solid var(--line);backdrop-filter:none;-webkit-backdrop-filter:none}
 
 /* ─── spec chip ─── */
-.spec{
-  position:absolute;z-index:3;right:clamp(18px,3vw,44px);bottom:clamp(18px,4vh,40px);
-  max-width:352px;padding:16px 20px 17px;border:1px solid var(--line);border-radius:16px;
-  background:rgba(244,247,250,.78);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-}
+.spec{position:absolute;z-index:3;right:clamp(18px,3vw,44px);bottom:clamp(18px,4vh,40px);
+  max-width:356px;padding:16px 20px 17px;border:1px solid var(--line);border-radius:16px;
+  background:rgba(244,247,250,.78);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
 .spec .lt{font-family:var(--accent-face);font-size:12px;letter-spacing:.24em;color:var(--uiacc-deep)}
-.spec b{display:block;font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30;font-size:21px;margin-top:6px;letter-spacing:-.01em}
-.spec .eng{display:block;margin-top:8px;font-weight:500;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft)}
-.spec .ask{display:block;margin-top:8px;font-family:var(--serif);font-style:italic;font-size:14px;color:var(--uiacc-deep)}
+.spec b{display:block;font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30;
+  font-size:21px;margin-top:6px;letter-spacing:-.01em}
+.spec .eng{display:block;margin-top:8px;font-weight:500;font-size:10px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--ink-soft)}
+.spec .ask{display:block;margin-top:8px;font-family:var(--serif);font-style:italic;font-size:14.5px;color:var(--uiacc-deep)}
 .spec p{margin-top:8px;font-size:13px;line-height:1.6;color:var(--ink-soft)}
 .spec.live{border-color:var(--uiacc)}
-.spec .now{
-  display:inline-block;margin-top:10px;padding:4px 11px;border-radius:999px;
+.spec .now{display:inline-block;margin-top:10px;padding:4px 11px;border-radius:999px;
   background:rgba(124,147,168,.16);color:var(--uiacc-deep);
-  font-weight:500;font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;
-}
+  font-weight:500;font-size:9.5px;letter-spacing:.2em;text-transform:uppercase}
+.spec .nogl{display:none;margin-top:10px;font-size:12px;color:var(--logo-red)}
+.plate.nogl .spec .nogl{display:block}
 
 /* ─── letter rail ─── */
 .rail{position:fixed;right:clamp(10px,1.6vw,26px);top:50%;transform:translateY(-50%);z-index:20}
-.rail ul{display:flex;flex-direction:column;gap:6px;list-style:none}
-.rail a{
-  display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;
-  font-family:var(--accent-face);font-size:12px;letter-spacing:.08em;text-decoration:none;color:var(--ink-soft);
-  border:1px solid transparent;transition:border-color .3s var(--ease),color .3s var(--ease),background .3s var(--ease);
-}
+.rail ul{display:flex;flex-direction:column;gap:5px;list-style:none}
+.rail li.gap{height:12px}
+.rail a{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;
+  font-family:var(--accent-face);font-size:11.5px;letter-spacing:.08em;text-decoration:none;color:var(--ink-soft);
+  border:1px solid transparent;transition:border-color .3s var(--ease),color .3s var(--ease),background .3s var(--ease)}
 .rail a:hover,.rail a:focus-visible{border-color:var(--line);outline:none}
 .rail a.on{border-color:var(--uiacc);color:var(--uiacc-deep);background:rgba(244,247,250,.7)}
 
-/* ─── accent bar (where the hero lab kept its grade bar) ─── */
-.accents{
-  position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:30;
+/* ─── accent bar ─── */
+.accents{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:30;
   display:flex;gap:2px;padding:5px;border:1px solid var(--line);border-radius:999px;
-  background:rgba(244,247,250,.82);
-  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-  max-width:calc(100% - 24px);flex-wrap:wrap;justify-content:center;align-items:center;
-}
-.accents .lbl{
-  padding:8px 6px 8px 12px;font-weight:500;font-size:9.5px;letter-spacing:.18em;
-  text-transform:uppercase;color:var(--ink-soft);
-}
-.accents button{
-  display:inline-flex;align-items:center;gap:8px;border:0;cursor:pointer;
+  background:rgba(244,247,250,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  max-width:calc(100% - 24px);flex-wrap:wrap;justify-content:center;align-items:center}
+.accents .lbl{padding:8px 6px 8px 12px;font-weight:500;font-size:9.5px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--ink-soft)}
+.accents button{display:inline-flex;align-items:center;gap:8px;border:0;cursor:pointer;
   font-family:var(--sans);font-weight:500;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
   padding:8px 14px;border-radius:999px;color:var(--ink-soft);background:transparent;
-  transition:background .3s var(--ease),color .3s var(--ease);
-}
+  transition:background .3s var(--ease),color .3s var(--ease)}
 .accents button:hover,.accents button:focus-visible{color:var(--ink);outline:none}
 .accents button:focus-visible{box-shadow:0 0 0 2px var(--uiacc)}
 .accents button.on{background:rgba(124,147,168,.16);color:var(--ink)}
@@ -175,17 +164,29 @@ h2.h1 em{font-style:italic;color:var(--logo-red);font-weight:430}
 .accents [data-accent="steel"] i{background:#7C93A8}
 
 /* ─── footnote ─── */
-.foot{border-top:1px solid var(--line);padding:34px 0 108px;background:var(--ground)}
+.foot{border-top:1px solid var(--line);padding:44px 0 116px;background:var(--ground)}
+.foot h4{font-family:var(--sans);font-weight:500;font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--uiacc-deep);margin-bottom:10px}
 .foot p{font-size:12.5px;line-height:1.8;color:var(--ink-soft);max-width:56em}
-.foot p + p{margin-top:12px}
+.foot p + h4{margin-top:26px}
 .foot .lt{font-family:var(--accent-face);letter-spacing:.2em;color:var(--uiacc-deep)}
 
+/* Between ~760 and ~1180 the centred accent bar and the right-hand spec chip claim the same
+   pixels — measured, not guessed: at 1024 the bar runs to ~712 and the chip starts at ~638.
+   Lift the chip above the bar for that band only; at 1440 they never meet. */
+@media (min-width:761px) and (max-width:1180px){
+  /* 112px, not 86: at 768 the bar WRAPS to two rows and grows to ~73px tall, so a lift sized
+     for the one-row bar still clipped the chip by 3px. Measured with .lab-dev/check-collide.mjs. */
+  .spec{bottom:112px}
+}
 @media (max-width:760px){
   .plate h2.h1{font-size:clamp(30px,9.2vw,44px)}
   .hero-sub{font-size:16px}
   .hero-ctas .btn{width:100%;justify-content:center}
   .spec{position:static;max-width:none;margin:26px auto 0;width:min(560px,calc(100% - 40px))}
-  .plate{flex-direction:column;justify-content:center;padding-bottom:26px}
+  /* clear the fixed accent bar: on a phone the spec chip joins the flow at the foot of the
+     plate, and 26px of padding put it directly under the bar */
+  .plate{flex-direction:column;justify-content:center;padding-bottom:104px}
   .rail{display:none}
 }
 @media (prefers-reduced-motion:reduce){
@@ -198,43 +199,23 @@ h2.h1 em{font-style:italic;color:var(--logo-red);font-weight:430}
   <div class="wrap">
     <p class="chapter-mark">Medi ✦ X · Hero ground study · round 10</p>
     <h1>The Bond Lab</h1>
-    <p class="lede">Round seven asked what the hero should be <em>made of</em> and auditioned
-    fourteen materials. <strong>D · Peptide bonds</strong> answered it: the hero is made of
-    peptides. So this round asks the next question instead — <em>what is a peptide?</em> — and
-    the six plates below each answer it differently: a shape, an action, a code, an
-    atmosphere, a builder, a message.</p>
-    <p class="lede">D itself sits at the top as the reference, because it is live on the page
-    right now and every candidate should be judged against what is actually there. All seven
-    are Canvas 2D — no WebGL, no CDN, drop-in replacements for <span class="lt">#silk</span>.
-    The bar at the foot re-colours every plate between the chains' <strong>gold</strong> and
-    this page's <strong>steel</strong>: the one open question the grade left behind.</p>
-    <ul class="index">
-      <li><a class="ref" href="#d"><span class="lt">D</span> Peptide bonds <span class="tag">· live now</span></a></li>
-      <li><a href="#o"><span class="lt">O</span> Coil <span class="tag">· a shape</span></a></li>
-      <li><a href="#p"><span class="lt">P</span> Affinity <span class="tag">· an action</span></a></li>
-      <li><a href="#q"><span class="lt">Q</span> Sequence <span class="tag">· a code</span></a></li>
-      <li><a href="#r"><span class="lt">R</span> Shoal <span class="tag">· an atmosphere</span></a></li>
-      <li><a href="#s"><span class="lt">S</span> Lattice <span class="tag">· a builder</span></a></li>
-      <li><a href="#t"><span class="lt">T</span> Relay <span class="tag">· a message</span></a></li>
-    </ul>
+    <p class="lede">Round seven auditioned fourteen <em>materials</em> — chrome, glass, silk, foam —
+    and <strong>D · Peptide bonds</strong> answered the question it was really asking: the hero is
+    made of peptides. Round ten's first pass then offered six variations that were all the same
+    <em>technique</em>, which is six answers to a question already settled.</p>
+    <p class="lede">So the axis here is how a plate is <strong>made</strong>, because that is what
+    changes what it can say. Thirteen grounds in three chapters — flat drawings, real geometry in a
+    real camera, and surfaces solved pixel by pixel — running from a single bond at macro range to a
+    volume with hundreds of chains in it. D sits at the top as the reference, because it is on the
+    page right now.</p>
+    <div class="toc"><div><h4>The reference</h4><ul><li><a class="ref" href="#d"><span class="lt">D</span><span>Peptide bonds</span><span class="tag">· live</span></a></li></ul></div><div><h4>I · Drawn</h4><ul><li><a class="" href="#o"><span class="lt">O</span><span>Coil</span></a></li><li><a class="" href="#p"><span class="lt">P</span><span>Affinity</span></a></li><li><a class="" href="#q"><span class="lt">Q</span><span>Sequence</span></a></li><li><a class="" href="#r"><span class="lt">R</span><span>Shoal</span></a></li><li><a class="" href="#s"><span class="lt">S</span><span>Lattice</span></a></li><li><a class="" href="#t"><span class="lt">T</span><span>Relay</span></a></li></ul></div><div><h4>II · Built</h4><ul><li><a class="" href="#u"><span class="lt">U</span><span>Helix</span></a></li><li><a class="" href="#v"><span class="lt">V</span><span>Ribbon</span></a></li><li><a class="" href="#w"><span class="lt">W</span><span>Vitrine</span></a></li><li><a class="" href="#x"><span class="lt">X</span><span>Deep</span></a></li></ul></div><div><h4>III · Rendered</h4><ul><li><a class="" href="#y"><span class="lt">Y</span><span>Bloom</span></a></li><li><a class="" href="#z"><span class="lt">Z</span><span>Aperture</span></a></li></ul></div></div>
   </div>
 </header>
 
-<nav class="rail" aria-label="Plates">
-  <ul>
-    <li><a href="#d" data-spy="d">D</a></li>
-    <li><a href="#o" data-spy="o">O</a></li>
-    <li><a href="#p" data-spy="p">P</a></li>
-    <li><a href="#q" data-spy="q">Q</a></li>
-    <li><a href="#r" data-spy="r">R</a></li>
-    <li><a href="#s" data-spy="s">S</a></li>
-    <li><a href="#t" data-spy="t">T</a></li>
-  </ul>
-</nav>
+<nav class="rail" aria-label="Plates"><ul><li><a href="#d" data-spy="d">D</a></li><li class="gap"></li><li><a href="#o" data-spy="o">O</a></li><li><a href="#p" data-spy="p">P</a></li><li><a href="#q" data-spy="q">Q</a></li><li><a href="#r" data-spy="r">R</a></li><li><a href="#s" data-spy="s">S</a></li><li><a href="#t" data-spy="t">T</a></li><li class="gap"></li><li><a href="#u" data-spy="u">U</a></li><li><a href="#v" data-spy="v">V</a></li><li><a href="#w" data-spy="w">W</a></li><li><a href="#x" data-spy="x">X</a></li><li class="gap"></li><li><a href="#y" data-spy="y">Y</a></li><li><a href="#z" data-spy="z">Z</a></li></ul></nav>
 
 <main>
-
-<!-- ══════════ D · PEPTIDE BONDS — the reference, live on the page ══════════ -->
+<!-- ══════════ D · PEPTIDE BONDS ══════════ -->
 <section class="plate" id="d">
   <canvas id="cv-d" aria-hidden="true"></canvas>
   <div class="tint" aria-hidden="true"></div>
@@ -249,13 +230,21 @@ h2.h1 em{font-style:italic;color:var(--logo-red);font-weight:430}
   <aside class="spec live">
     <span class="lt">D</span><b>Peptide bonds</b>
     <span class="eng">Canvas 2D · the reference plate</span>
-    <p>Amino chains adrift, free molecules docking on at the ends. The plate that tells the
-    page's own story — the chain scene below the fold, rehearsed in miniature.</p>
+    
+    <p>Amino chains adrift, free molecules docking on at the ends. The plate that tells the page’s own story — the chain scene below the fold, rehearsed in miniature.</p>
     <span class="now">Live on the page</span>
+    <span class="nogl">This plate needs WebGL, which this browser did not provide. Showing a static wash.</span>
   </aside>
 </section>
-
-<!-- ══════════ O · COIL — a shape ══════════ -->
+<!-- ══════════ CHAPTER I · DRAWN ══════════ -->
+<section class="band" id="ch-i">
+  <div class="wrap">
+    <p class="num">I</p>
+    <h3>Drawn</h3>
+    <p>Flat, and made of line and bead. Everything here is a drawing that moves: no depth, no lens, no material. The cheapest to run and the easiest to keep quiet behind copy.</p>
+  </div>
+</section>
+<!-- ══════════ O · COIL ══════════ -->
 <section class="plate" id="o">
   <canvas id="cv-o" aria-hidden="true"></canvas>
   <div class="tint" aria-hidden="true"></div>
@@ -271,13 +260,12 @@ h2.h1 em{font-style:italic;color:var(--logo-red);font-weight:430}
     <span class="lt">O</span><b>Coil</b>
     <span class="eng">Canvas 2D · drop-in swap for #silk</span>
     <span class="ask">A peptide is a shape.</span>
-    <p>D's chains learn to wind. Each one breathes between a slack strand and a tight helix,
-    beads swelling as they turn toward you. It is the chain scene's closing act, running
-    quietly in the hero an entire page early.</p>
+    <p>D’s chains learn to wind. Each one breathes between a slack strand and a tight helix, beads swelling as they turn toward you.</p>
+    
+    <span class="nogl">This plate needs WebGL, which this browser did not provide. Showing a static wash.</span>
   </aside>
 </section>
-
-<!-- ══════════ P · AFFINITY — an action ══════════ -->
+<!-- ══════════ P · AFFINITY ══════════ -->
 <section class="plate" id="p">
   <canvas id="cv-p" aria-hidden="true"></canvas>
   <div class="tint" aria-hidden="true"></div>
@@ -293,13 +281,12 @@ h2.h1 em{font-style:italic;color:var(--logo-red);font-weight:430}
     <span class="lt">P</span><b>Affinity</b>
     <span class="eng">Canvas 2D · drop-in swap for #silk</span>
     <span class="ask">A peptide is an action.</span>
-    <p>Pull all the way in. One chain, one binding site, one molecule arriving — it settles,
-    the site lights, it leaves. Every eleven seconds the page says <em>this is what a peptide
-    does</em>, without a diagram and without a word.</p>
+    <p>One chain, one binding site, one molecule arriving — it settles, the site lights, it leaves. Every eleven seconds the page says what a peptide does, without a word.</p>
+    
+    <span class="nogl">This plate needs WebGL, which this browser did not provide. Showing a static wash.</span>
   </aside>
 </section>
-
-<!-- ══════════ Q · SEQUENCE — a code ══════════ -->
+<!-- ══════════ Q · SEQUENCE ══════════ -->
 <section class="plate" id="q">
   <canvas id="cv-q" aria-hidden="true"></canvas>
   <div class="tint" aria-hidden="true"></div>
@@ -315,13 +302,12 @@ h2.h1 em{font-style:italic;color:var(--logo-red);font-weight:430}
     <span class="lt">Q</span><b>Sequence</b>
     <span class="eng">Canvas 2D · drop-in swap for #silk</span>
     <span class="ask">A peptide is a code.</span>
-    <p>Every bead carries its amino acid's letter, and the chains spell real sequences —
-    GHK, KTTKS, GEKG. A reader who knows will recognise them; a reader who doesn't still
-    reads <em>precision</em>. The only plate that is literally true.</p>
+    <p>Every bead carries its amino acid’s letter, and the chains spell real sequences — GHK, KTTKS, GEKG. The only plate that is literally true.</p>
+    
+    <span class="nogl">This plate needs WebGL, which this browser did not provide. Showing a static wash.</span>
   </aside>
 </section>
-
-<!-- ══════════ R · SHOAL — an atmosphere ══════════ -->
+<!-- ══════════ R · SHOAL ══════════ -->
 <section class="plate" id="r">
   <canvas id="cv-r" aria-hidden="true"></canvas>
   <div class="tint" aria-hidden="true"></div>
@@ -337,13 +323,12 @@ h2.h1 em{font-style:italic;color:var(--logo-red);font-weight:430}
     <span class="lt">R</span><b>Shoal</b>
     <span class="eng">Canvas 2D · drop-in swap for #silk</span>
     <span class="ask">A peptide is an atmosphere.</span>
-    <p>Stand back until the chains are a drift of particles moving on one current, and a
-    docking is a small light somewhere out in it. The quietest of the six — closest to the
-    calm the silk had, but made of the right material.</p>
+    <p>Stand back until the chains are a drift of particles on one current, and a docking is a small light somewhere out in it. The quietest of them all.</p>
+    
+    <span class="nogl">This plate needs WebGL, which this browser did not provide. Showing a static wash.</span>
   </aside>
 </section>
-
-<!-- ══════════ S · LATTICE — a builder ══════════ -->
+<!-- ══════════ S · LATTICE ══════════ -->
 <section class="plate" id="s">
   <canvas id="cv-s" aria-hidden="true"></canvas>
   <div class="tint" aria-hidden="true"></div>
@@ -359,13 +344,12 @@ h2.h1 em{font-style:italic;color:var(--logo-red);font-weight:430}
     <span class="lt">S</span><b>Lattice</b>
     <span class="eng">Canvas 2D · drop-in swap for #silk</span>
     <span class="ask">A peptide is a builder.</span>
-    <p>The chains find each other and link, and a mesh assembles across the frame — collagen,
-    which is the thing the skin protocols are actually about. Each junction lights as it
-    closes. It builds, holds, releases, and builds again.</p>
+    <p>The chains find each other and link, and a mesh assembles across the frame — collagen, which is what the skin protocols are actually about.</p>
+    
+    <span class="nogl">This plate needs WebGL, which this browser did not provide. Showing a static wash.</span>
   </aside>
 </section>
-
-<!-- ══════════ T · RELAY — a message ══════════ -->
+<!-- ══════════ T · RELAY ══════════ -->
 <section class="plate" id="t">
   <canvas id="cv-t" aria-hidden="true"></canvas>
   <div class="tint" aria-hidden="true"></div>
@@ -381,13 +365,153 @@ h2.h1 em{font-style:italic;color:var(--logo-red);font-weight:430}
     <span class="lt">T</span><b>Relay</b>
     <span class="eng">Canvas 2D · drop-in swap for #silk</span>
     <span class="ask">A peptide is a message.</span>
-    <p>The chains hold almost still. What moves is a signal running bead to bead and then
-    leaping the gap to the next chain. Peptides are signalling molecules, and this is the
-    only plate that shows the signal rather than the molecule.</p>
+    <p>The chains hold almost still. What moves is a signal running bead to bead and then leaping the gap to the next chain.</p>
+    
+    <span class="nogl">This plate needs WebGL, which this browser did not provide. Showing a static wash.</span>
   </aside>
 </section>
-
-</main>
+<!-- ══════════ CHAPTER II · BUILT ══════════ -->
+<section class="band" id="ch-ii">
+  <div class="wrap">
+    <p class="num">II</p>
+    <h3>Built</h3>
+    <p>Real geometry in a real camera. These are objects with volume, lit by lamps and dissolved into the page by fog — a still-life on an ivory sweep rather than a diagram. They cost a WebGL context and the three.js library.</p>
+  </div>
+</section>
+<!-- ══════════ U · HELIX ══════════ -->
+<section class="plate" id="u">
+  <canvas id="cv-u" aria-hidden="true"></canvas>
+  <div class="tint" aria-hidden="true"></div>
+  <div class="veil" aria-hidden="true"></div>
+  <div class="hero-inner wrap">
+    <p class="kicker fade">Preventative · Precision · Personalised · Partnership</p>
+    <h2 class="h1"><span class="line"><span>Peptide</span></span><span class="line"><span><em>therapy.</em></span></span></h2>
+    <p class="hero-sub fade">Medically supervised <strong>peptide therapy</strong> —
+    precise, personalised protocols for recovery, resilience, repair and healthy ageing.</p>
+    <div class="hero-ctas fade"><span class="btn">Book a consultation <span class="arr">→</span></span><span class="btn ghost">How peptides work</span></div>
+  </div>
+  <aside class="spec">
+    <span class="lt">U</span><b>Helix</b>
+    <span class="eng">three.js · instanced geometry · drop-in swap for #silk</span>
+    <span class="ask">A peptide is a shape — in the round.</span>
+    <p>The helix every diagram draws, built as real geometry and lit like a still-life. Cropped top and bottom, so it reads as a fragment of something longer.</p>
+    
+    <span class="nogl">This plate needs WebGL, which this browser did not provide. Showing a static wash.</span>
+  </aside>
+</section>
+<!-- ══════════ V · RIBBON ══════════ -->
+<section class="plate" id="v">
+  <canvas id="cv-v" aria-hidden="true"></canvas>
+  <div class="tint" aria-hidden="true"></div>
+  <div class="veil" aria-hidden="true"></div>
+  <div class="hero-inner wrap">
+    <p class="kicker fade">Preventative · Precision · Personalised · Partnership</p>
+    <h2 class="h1"><span class="line"><span>Peptide</span></span><span class="line"><span><em>therapy.</em></span></span></h2>
+    <p class="hero-sub fade">Medically supervised <strong>peptide therapy</strong> —
+    precise, personalised protocols for recovery, resilience, repair and healthy ageing.</p>
+    <div class="hero-ctas fade"><span class="btn">Book a consultation <span class="arr">→</span></span><span class="btn ghost">How peptides work</span></div>
+  </div>
+  <aside class="spec">
+    <span class="lt">V</span><b>Ribbon</b>
+    <span class="eng">three.js · swept spline · drop-in swap for #silk</span>
+    <span class="ask">A peptide is a structure.</span>
+    <p>The cartoon ribbon of structural biology, as a twisting band of pressed silk. The visual language a clinician already recognises.</p>
+    
+    <span class="nogl">This plate needs WebGL, which this browser did not provide. Showing a static wash.</span>
+  </aside>
+</section>
+<!-- ══════════ W · VITRINE ══════════ -->
+<section class="plate" id="w">
+  <canvas id="cv-w" aria-hidden="true"></canvas>
+  <div class="tint" aria-hidden="true"></div>
+  <div class="veil" aria-hidden="true"></div>
+  <div class="hero-inner wrap">
+    <p class="kicker fade">Preventative · Precision · Personalised · Partnership</p>
+    <h2 class="h1"><span class="line"><span>Peptide</span></span><span class="line"><span><em>therapy.</em></span></span></h2>
+    <p class="hero-sub fade">Medically supervised <strong>peptide therapy</strong> —
+    precise, personalised protocols for recovery, resilience, repair and healthy ageing.</p>
+    <div class="hero-ctas fade"><span class="btn">Book a consultation <span class="arr">→</span></span><span class="btn ghost">How peptides work</span></div>
+  </div>
+  <aside class="spec">
+    <span class="lt">W</span><b>Vitrine</b>
+    <span class="eng">three.js · refractive glass · drop-in swap for #silk</span>
+    <span class="ask">A peptide is an object.</span>
+    <p>One chain suspended in glass, refracting the ground behind it as it turns. The museum specimen — and the plate that has to look expensive.</p>
+    
+    <span class="nogl">This plate needs WebGL, which this browser did not provide. Showing a static wash.</span>
+  </aside>
+</section>
+<!-- ══════════ X · DEEP ══════════ -->
+<section class="plate" id="x">
+  <canvas id="cv-x" aria-hidden="true"></canvas>
+  <div class="tint" aria-hidden="true"></div>
+  <div class="veil" aria-hidden="true"></div>
+  <div class="hero-inner wrap">
+    <p class="kicker fade">Preventative · Precision · Personalised · Partnership</p>
+    <h2 class="h1"><span class="line"><span>Peptide</span></span><span class="line"><span><em>therapy.</em></span></span></h2>
+    <p class="hero-sub fade">Medically supervised <strong>peptide therapy</strong> —
+    precise, personalised protocols for recovery, resilience, repair and healthy ageing.</p>
+    <div class="hero-ctas fade"><span class="btn">Book a consultation <span class="arr">→</span></span><span class="btn ghost">How peptides work</span></div>
+  </div>
+  <aside class="spec">
+    <span class="lt">X</span><b>Deep</b>
+    <span class="eng">three.js · instanced volume · drop-in swap for #silk</span>
+    <span class="ask">A peptide is one of billions.</span>
+    <p>A vast volume seen through a real lens: near chains huge and soft, far ones small and crisp, everything dissolving into fog. Scale as the whole subject.</p>
+    
+    <span class="nogl">This plate needs WebGL, which this browser did not provide. Showing a static wash.</span>
+  </aside>
+</section>
+<!-- ══════════ CHAPTER III · RENDERED ══════════ -->
+<section class="band" id="ch-iii">
+  <div class="wrap">
+    <p class="num">III</p>
+    <h3>Rendered</h3>
+    <p>Neither drawn nor built — solved, pixel by pixel. A raymarched surface and a macro lens: the two plates that are about MATERIAL rather than arrangement.</p>
+  </div>
+</section>
+<!-- ══════════ Y · BLOOM ══════════ -->
+<section class="plate" id="y">
+  <canvas id="cv-y" aria-hidden="true"></canvas>
+  <div class="tint" aria-hidden="true"></div>
+  <div class="veil" aria-hidden="true"></div>
+  <div class="hero-inner wrap">
+    <p class="kicker fade">Preventative · Precision · Personalised · Partnership</p>
+    <h2 class="h1"><span class="line"><span>Peptide</span></span><span class="line"><span><em>therapy.</em></span></span></h2>
+    <p class="hero-sub fade">Medically supervised <strong>peptide therapy</strong> —
+    precise, personalised protocols for recovery, resilience, repair and healthy ageing.</p>
+    <div class="hero-ctas fade"><span class="btn">Book a consultation <span class="arr">→</span></span><span class="btn ghost">How peptides work</span></div>
+  </div>
+  <aside class="spec">
+    <span class="lt">Y</span><b>Bloom</b>
+    <span class="eng">WebGL · raymarched SDF · drop-in swap for #silk</span>
+    <span class="ask">A peptide is a surface.</span>
+    <p>The space-filling model: residues merged by a smooth minimum into one continuous alabaster surface. No edges, no beads — a solid thing with a skin.</p>
+    
+    <span class="nogl">This plate needs WebGL, which this browser did not provide. Showing a static wash.</span>
+  </aside>
+</section>
+<!-- ══════════ Z · APERTURE ══════════ -->
+<section class="plate" id="z">
+  <canvas id="cv-z" aria-hidden="true"></canvas>
+  <div class="tint" aria-hidden="true"></div>
+  <div class="veil" aria-hidden="true"></div>
+  <div class="hero-inner wrap">
+    <p class="kicker fade">Preventative · Precision · Personalised · Partnership</p>
+    <h2 class="h1"><span class="line"><span>Peptide</span></span><span class="line"><span><em>therapy.</em></span></span></h2>
+    <p class="hero-sub fade">Medically supervised <strong>peptide therapy</strong> —
+    precise, personalised protocols for recovery, resilience, repair and healthy ageing.</p>
+    <div class="hero-ctas fade"><span class="btn">Book a consultation <span class="arr">→</span></span><span class="btn ghost">How peptides work</span></div>
+  </div>
+  <aside class="spec">
+    <span class="lt">Z</span><b>Aperture</b>
+    <span class="eng">Macro optics · drop-in swap for #silk</span>
+    <span class="ask">A peptide, too close to read.</span>
+    <p>One bond, filling the frame, at a wide aperture. Only the bond is sharp. At this range it stops being a diagram and becomes a photograph.</p>
+    
+    <span class="nogl">This plate needs WebGL, which this browser did not provide. Showing a static wash.</span>
+  </aside>
+</section></main>
 
 <nav class="accents" aria-label="Accent colour">
   <span class="lbl">Accent</span>
@@ -397,74 +521,246 @@ h2.h1 em{font-style:italic;color:var(--logo-red);font-weight:430}
 
 <footer class="foot">
   <div class="wrap">
-    <p><span class="lt">The accent question.</span> Plate D's chains are literally gold —
-    <span class="lt">rgba(194,160,94)</span> — and that is how it was picked and how it
-    shipped. But round 9 remapped this page's <span class="lt">--gold</span> token to steel
-    <span class="lt">#7C93A8</span>, so those chains are now the only true gold on the page.
-    The bar above shows both readings across all seven plates. Gold is the brand's voice and
-    the warmest thing left on a cold page; steel is consistent and disappears into the grade.
-    Neither is obviously right, which is why it is a bar and not a decision.</p>
-    <p><span class="lt">How to read the plates.</span> Every one carries the real hero copy at
-    the real sizes over the real glacier grade — the multiply is a layer here exactly as it is
-    baked into the shipped <span class="lt">draw()</span> — so what you judge is what the page
-    would be. Scroll a plate fully into view before judging it: the canvases only run while
-    they are on screen, and the copy plays its entrance once.</p>
-    <p><span class="lt">If one of these wins</span> it replaces D in
-    <span class="lt">peptide-therapy/index.html</span>, one engine for another, and D joins E
-    and Aero in the lab. Chain counts fall on narrow viewports on every plate here, the same
-    way they do on the shipped page — a fixed-length rod covers about four times the share of
-    a phone screen that it covers at 1440.</p>
+    <h4>The accent question</h4>
+    <p>Plate D's chains are literally gold — <span class="lt">rgba(194,160,94)</span> — and that is
+    how it was picked and how it shipped. But round 9 remapped this page's <span class="lt">--gold</span>
+    token to steel <span class="lt">#7C93A8</span>, so those chains are now the only true gold on the
+    page. The bar above shows both readings across all thirteen plates. Gold is the brand's voice and
+    the warmest thing left on a cold page; steel is consistent and disappears into the grade. Neither
+    is obviously right, which is why it is a bar and not a decision — and it is the same question the
+    grade lab's chapter C left open for the chain scene.</p>
+
+    <h4>What each chapter costs</h4>
+    <p><span class="lt">I · Drawn</span> is Canvas 2D: no dependency, no WebGL, works everywhere,
+    and cheapest on a phone. <span class="lt">II · Built</span> needs a WebGL context and the
+    three.js library — the hero carried three.js until round 10 removed it, so promoting one of
+    these means bringing it back, from <span class="lt">vendor/</span> rather than a CDN.
+    <span class="lt">III · Rendered</span> needs WebGL but no library: the raymarched plate is one
+    fragment shader. Every plate falls back to a static glacier wash if its context cannot be created.</p>
+
+    <h4>How to read the plates</h4>
+    <p>Every one carries the real hero copy at the real sizes over the real glacier grade — the
+    multiply is a layer here exactly as it is baked into the shipped <span class="lt">draw()</span> —
+    so what you judge is what the page would be. Scroll a plate fully into view before judging it:
+    the canvases only run while they are on screen, and the copy plays its entrance once. Chain and
+    element counts fall on narrow viewports on every plate, the same way they do on the shipped
+    page.</p>
+
+    <h4>If one of these wins</h4>
+    <p>It replaces D in <span class="lt">peptide-therapy/index.html</span>, one engine for another,
+    and D joins E and Aero in the lab. Nothing else about the page moves.</p>
   </div>
 </footer>
 
 <script>
+/* three.js for the chapter II plates, from vendor/ rather than a CDN — see LICENSES/MIT-threejs.txt.
+   The plates read window.THREE, so this boot block is the ONLY thing that differs between this
+   copy and the published artifact (which inlines the same bundle as a classic script). */
+window.__THREE_READY = import("../vendor/three.module.min.js").then(m => (window.THREE = m));
+</script>
+
+<script>
 /* ═══════════════════════════════════════════════════════════════════════════════════
-   Seven engines, one contract: {resize(), draw(t)} over a 2D context, deterministic from
-   a fixed seed, and never reading anything the accent bar can change except through acc().
-   All seven paint the same warm ivory ground D paints, because the glacier arrives as the
-   .tint layer above — the same division the shipped page keeps.
+   THE PLATE KIT — generated from .lab-dev/kit.js
    ═══════════════════════════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════════════════════════
+   THE PLATE KIT — shared by every plate in The Bond Lab, and inlined verbatim into the
+   finished lab. A plate is a factory:
 
-const REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
-const STILL = 21.7;   /* the lab's still — the frame the plates are screenshotted at */
+       window.PLATES.<letter> = function (canvas, kit) { ... return { resize(), draw(t) } }
 
-/* The accent, read fresh every frame so the bar re-colours without a rebuild. */
-const ACCENTS = { gold:[194,160,94], steel:[124,147,168] };
-function acc(a){
-  const c = ACCENTS[document.documentElement.dataset.accent] || ACCENTS.gold;
-  return "rgba(" + c[0] + "," + c[1] + "," + c[2] + "," + a + ")";
-}
-/* The neutral residues and the strand — unchanged by the bar. */
-const NODE = a => "rgba(106,88,95," + a + ")";
-const BOND = a => "rgba(122,106,84," + a + ")";
+   It gets a bare <canvas> filling a 100svh section and must paint every pixel of it.
+   Nothing else on the page belongs to it.
+   ═══════════════════════════════════════════════════════════════════════════════════ */
+window.PLATES = window.PLATES || {};
+window.KIT = (function () {
 
-function ctx2d(canvas, dprCap){
-  const d = Math.min(devicePixelRatio || 1, dprCap || 1.5);
-  const c = canvas.getContext("2d");
-  return {
-    ctx:c, get w(){ return canvas.clientWidth; }, get h(){ return canvas.clientHeight; },
-    resize(){
-      const w=Math.round(canvas.clientWidth*d), h=Math.round(canvas.clientHeight*d);
-      if(canvas.width!==w||canvas.height!==h){ canvas.width=w; canvas.height=h; }
-      c.setTransform(d,0,0,d,0,0);
+  /* ── the palette, which no plate may invent ──
+     The residues and the strand are fixed. The ACCENT is live: the bar at the foot of the
+     lab flips it between the chains' gold and this page's steel token, and every plate is
+     required to read it EVERY FRAME rather than caching it at build time. */
+  const ACCENTS = { gold: [194, 160, 94], steel: [124, 147, 168] };
+  const accent = () => ACCENTS[document.documentElement.dataset.accent] || ACCENTS.gold;
+
+  const acc  = a => { const c = accent(); return `rgba(${c[0]},${c[1]},${c[2]},${a})`; };
+  const ACC  = () => { const c = accent(); return [c[0] / 255, c[1] / 255, c[2] / 255]; };
+  const NODE = a => `rgba(106,88,95,${a})`;
+  const BOND = a => `rgba(122,106,84,${a})`;
+
+  /* The ground every plate stands on. WARM ivory on purpose: the glacier temperature is a
+     single #F3F7FB multiply laid over the canvas by the .tint layer, exactly as the shipped
+     hero bakes it at the foot of draw(). A plate that paints itself cool would be graded
+     twice and land visibly colder than the page. */
+  const GROUND_TOP = [251, 248, 242];   /* #FBF8F2 */
+  const GROUND_BOT = [246, 241, 232];   /* #F6F1E8 */
+
+  function ground(c, W, H) {
+    const g = c.createLinearGradient(0, 0, 0, H);
+    g.addColorStop(0, '#FBF8F2');
+    g.addColorStop(1, '#F6F1E8');
+    c.fillStyle = g;
+    c.fillRect(0, 0, W, H);
+  }
+
+  /* ── 2D context with a DPR cap and a correct transform ── */
+  function ctx2d(canvas, dprCap) {
+    const d = Math.min(devicePixelRatio || 1, dprCap || 1.5);
+    const c = canvas.getContext('2d');
+    return {
+      ctx: c,
+      get w() { return canvas.clientWidth; },
+      get h() { return canvas.clientHeight; },
+      get dpr() { return d; },
+      resize() {
+        const w = Math.round(canvas.clientWidth * d), h = Math.round(canvas.clientHeight * d);
+        if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; }
+        c.setTransform(d, 0, 0, d, 0, 0);
+      }
+    };
+  }
+
+  /* ── determinism ──
+     Every plate seeds from a constant. Two loads of the lab must be pixel-identical at the
+     same t, or a screenshot proves nothing and "did this change?" has no answer. */
+  function seeder(s) { let x = s; return () => (x = (x * 16807) % 2147483647) / 2147483647; }
+
+  const wrap = (v, m) => ((v % m) + m) % m;
+  const ease = x => x < .5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2;
+  const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const smoothstep = (e0, e1, x) => { const t = clamp((x - e0) / (e1 - e0), 0, 1); return t * t * (3 - 2 * t); };
+
+  /* ── composition law ──
+     The copy — kicker, a 100px headline, a 34em sub, two buttons — occupies the left of the
+     frame. Above 760px it lives inside roughly the left 48%; below that it is the whole
+     screen and the plate is behind all of it. A plate is not required to be empty there,
+     but it IS required to be QUIET there: no dense mass, no hard edge, no accent cluster.
+     quietX() is that rule as a number, for plates that want to weight their composition. */
+  const copyBand = W => W < 760 ? 1.0 : 0.48;
+  const quietX = (x, W) => smoothstep(copyBand(W) * W * 0.55, copyBand(W) * W * 1.25, x);
+
+  /* ── density ──
+     Fixed-size elements cover roughly four times the share of a 390px screen that they cover
+     at 1440. Every plate scales its population by this, or it will crowd the headline on a
+     phone. This is the lesson the shipped hero learned the hard way. */
+  const dens = W => W < 640 ? .55 : W < 1024 ? .74 : 1;
+
+  /* ── WebGL: a full-screen fragment-shader scene ──
+     For raymarched plates. Handles context, quad, resize, uniforms, and context loss. The
+     shader gets: uTime, uRes, uAcc (the live accent, 0..1), uDens.
+     Returns null if WebGL is unavailable so the caller can fall back rather than throw. */
+  function glScene(canvas, frag, dprCap) {
+    const d = Math.min(devicePixelRatio || 1, dprCap || 1.5);
+    const gl = canvas.getContext('webgl', { antialias: false, alpha: false, depth: false,
+                                            powerPreference: 'low-power' })
+            || canvas.getContext('experimental-webgl');
+    if (!gl) return null;
+
+    const VERT = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
+    function sh(type, src) {
+      const s = gl.createShader(type);
+      gl.shaderSource(s, src); gl.compileShader(s);
+      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+        console.error('shader:', gl.getShaderInfoLog(s));
+        return null;
+      }
+      return s;
     }
-  };
-}
-function seeder(s){ let x=s; return () => (x = (x*16807)%2147483647)/2147483647; }
-const wrap = (v,m) => ((v%m)+m)%m;
-const ease = x => x<.5 ? 2*x*x : 1-Math.pow(-2*x+2,2)/2;
+    const vs = sh(gl.VERTEX_SHADER, VERT), fs = sh(gl.FRAGMENT_SHADER, frag);
+    if (!vs || !fs) return null;
+    const pr = gl.createProgram();
+    gl.attachShader(pr, vs); gl.attachShader(pr, fs); gl.linkProgram(pr);
+    if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) {
+      console.error('link:', gl.getProgramInfoLog(pr));
+      return null;
+    }
+    gl.useProgram(pr);
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+    const loc = gl.getAttribLocation(pr, 'p');
+    gl.enableVertexAttribArray(loc);
+    gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
 
-/* The ground every plate stands on — D's warm ivory, cooled by .tint above. */
-function ground(c,W,H){
-  const bg=c.createLinearGradient(0,0,0,H);
-  bg.addColorStop(0,"#FBF8F2"); bg.addColorStop(1,"#F6F1E8");
-  c.fillStyle=bg; c.fillRect(0,0,W,H);
-}
-/* Density falls with the viewport on every plate, for the reason in the footnote. */
-const dens = W => W<640 ? .55 : W<1024 ? .74 : 1;
+    const uTime = gl.getUniformLocation(pr, 'uTime');
+    const uRes  = gl.getUniformLocation(pr, 'uRes');
+    const uAcc  = gl.getUniformLocation(pr, 'uAcc');
+    const uDens = gl.getUniformLocation(pr, 'uDens');
 
-/* ════════ D · PEPTIDE BONDS — the reference, verbatim from the shipped page ════════ */
-function makeBonds(canvas){
+    return {
+      gl,
+      resize() {
+        const w = Math.round(canvas.clientWidth * d), h = Math.round(canvas.clientHeight * d);
+        if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; }
+        gl.viewport(0, 0, w, h);
+      },
+      draw(t) {
+        if (gl.isContextLost && gl.isContextLost()) return;
+        gl.uniform1f(uTime, t);
+        gl.uniform2f(uRes, canvas.width, canvas.height);
+        const a = ACC(); gl.uniform3f(uAcc, a[0], a[1], a[2]);
+        gl.uniform1f(uDens, dens(canvas.clientWidth));
+        gl.drawArrays(gl.TRIANGLES, 0, 3);
+      }
+    };
+  }
+
+  /* A GLSL preamble every raymarched plate shares: the ground, the accent, the residue
+     colours, and the composition law — so the palette exists once in each language. */
+  const GLSL_KIT = `
+precision highp float;
+uniform float uTime; uniform vec2 uRes; uniform vec3 uAcc; uniform float uDens;
+const vec3 GTOP = vec3(0.9843,0.9725,0.9490);   /* #FBF8F2 */
+const vec3 GBOT = vec3(0.9647,0.9451,0.9098);   /* #F6F1E8 */
+const vec3 RESIDUE = vec3(0.4157,0.3451,0.3725);/* rgba(106,88,95) */
+const vec3 STRAND  = vec3(0.4784,0.4157,0.3294);/* rgba(122,106,84) */
+vec3 groundAt(vec2 uv){ return mix(GTOP, GBOT, clamp(1.0-uv.y,0.0,1.0)); }
+float sstep(float a,float b,float x){ return smoothstep(a,b,x); }
+float hash21(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453); }
+`;
+
+  /* ── three.js renderer bootstrap ──
+     One shared WebGLRenderer per plate. Caps DPR, keeps the clear colour on the warm ivory
+     so the .tint multiply lands the same as it does on the 2D plates, and returns null if
+     the context cannot be created — the lab falls back rather than throwing. */
+  function threeScene(canvas, THREE, dprCap) {
+    let renderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false,
+                                           powerPreference: 'low-power' });
+    } catch (e) { return null; }
+    if (!renderer || !renderer.getContext()) return null;
+    const d = Math.min(devicePixelRatio || 1, dprCap || 1.6);
+    renderer.setPixelRatio(d);
+    renderer.setClearColor(0xFBF8F2, 1);
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 400);
+    return {
+      renderer, scene, camera,
+      resize() {
+        const w = canvas.clientWidth, h = canvas.clientHeight;
+        renderer.setSize(w, h, false);
+        camera.aspect = w / Math.max(1, h);
+        camera.updateProjectionMatrix();
+      },
+      render() { renderer.render(scene, camera); }
+    };
+  }
+
+  return { acc, ACC, NODE, BOND, ground, GROUND_TOP, GROUND_BOT, ctx2d, seeder, wrap, ease,
+           clamp, lerp, smoothstep, copyBand, quietX, dens, glScene, GLSL_KIT, threeScene };
+})();
+
+/* ═══════════════════════════════════════════════════════════════════════════════════
+   THE PLATES — generated from .lab-dev/plates/*.js, in manifest order
+   ═══════════════════════════════════════════════════════════════════════════════════ */
+window.__PLATE_ORDER = ["d","o","p","q","r","s","t","u","v","w","x","y","z"];
+/* ── D · Peptide bonds ── */
+/* D — extracted from the round-10 lab into the shared plate contract.
+   The engine is unchanged; only the helper names now arrive via `kit`. */
+window.PLATES.d = function (canvas, kit) {
+  const { ctx2d, seeder, wrap, ease, ground, dens, acc, NODE, BOND } = kit;
+
   const s = ctx2d(canvas, 1.5);
   const rnd = seeder(424242);
   const chains = [];
@@ -525,14 +821,15 @@ function makeBonds(canvas){
       }
     }
   }};
-}
 
-/* ════════ O · COIL — the chain winds into the helix ════════
-   Each bead is placed twice — once on a slack straight rod, once on a helix — and lerped
-   between them by `coil`, which breathes 0→1→0 on its own slow period. The helix's depth
-   term (cos of the same angle) scales the bead radius and its alpha, which is the entire
-   trick: without it a helix in 2D reads as a flat zigzag. */
-function makeCoil(canvas){
+};
+
+/* ── O · Coil ── */
+/* O — extracted from the round-10 lab into the shared plate contract.
+   The engine is unchanged; only the helper names now arrive via `kit`. */
+window.PLATES.o = function (canvas, kit) {
+  const { ctx2d, seeder, wrap, ease, ground, dens, acc, NODE, BOND } = kit;
+
   const s = ctx2d(canvas, 1.5);
   const rnd = seeder(90210);
   const chains = [];
@@ -584,13 +881,15 @@ function makeCoil(canvas){
       }
     }
   }};
-}
 
-/* ════════ P · AFFINITY — one chain, one site, one docking ════════
-   The only plate with a plot. CYCLE seconds, four acts: the ligand crosses on a quadratic
-   bezier, settles into the site, the site lights and holds, then it leaves the other way.
-   Everything is a pure function of `phase`, so ?t= anywhere reproduces exactly. */
-function makeAffinity(canvas){
+};
+
+/* ── P · Affinity ── */
+/* P — extracted from the round-10 lab into the shared plate contract.
+   The engine is unchanged; only the helper names now arrive via `kit`. */
+window.PLATES.p = function (canvas, kit) {
+  const { ctx2d, seeder, wrap, ease, ground, dens, acc, NODE, BOND } = kit;
+
   const s = ctx2d(canvas, 1.5);
   const rnd = seeder(1337);
   const N = 7;
@@ -666,13 +965,15 @@ function makeAffinity(canvas){
       }
     }
   }};
-}
 
-/* ════════ Q · SEQUENCE — real sequences, one letter per residue ════════
-   The letters are the plate, so they are drawn UPRIGHT rather than rotated onto the chain:
-   a rotated 11px glyph at this density is unreadable, and unreadable letters would make
-   the one literally-true plate read as decoration. */
-function makeSequence(canvas){
+};
+
+/* ── Q · Sequence ── */
+/* Q — extracted from the round-10 lab into the shared plate contract.
+   The engine is unchanged; only the helper names now arrive via `kit`. */
+window.PLATES.q = function (canvas, kit) {
+  const { ctx2d, seeder, wrap, ease, ground, dens, acc, NODE, BOND } = kit;
+
   const s = ctx2d(canvas, 1.6);
   const rnd = seeder(55501);
   /* Real short sequences, in one-letter amino acid code. GHK is the copper peptide, KTTKS
@@ -719,13 +1020,15 @@ function makeSequence(canvas){
       }
     }
   }};
-}
 
-/* ════════ R · SHOAL — the field, seen from far away ════════
-   Ninety-odd three-bead chains on one shared current (a cheap two-term flow field, not per
-   chain velocities — a shoal moves together or it is just noise). A docking is a slow bloom
-   on a long per-chain period, so at any moment two or three are lit somewhere. */
-function makeShoal(canvas){
+};
+
+/* ── R · Shoal ── */
+/* R — extracted from the round-10 lab into the shared plate contract.
+   The engine is unchanged; only the helper names now arrive via `kit`. */
+window.PLATES.r = function (canvas, kit) {
+  const { ctx2d, seeder, wrap, ease, ground, dens, acc, NODE, BOND } = kit;
+
   const s = ctx2d(canvas, 1.4);
   const rnd = seeder(778899);
   const N = 96;
@@ -763,13 +1066,15 @@ function makeShoal(canvas){
       }
     }
   }};
-}
 
-/* ════════ S · LATTICE — chains link into a mesh, then let go ════════
-   Anchors orbit gently; the candidate edges between near anchors are sorted ONCE into a
-   fixed build order, so the mesh always assembles in the same sequence. The cycle builds
-   for 62% of its length, holds, then releases from the newest edge backwards. */
-function makeLattice(canvas){
+};
+
+/* ── S · Lattice ── */
+/* S — extracted from the round-10 lab into the shared plate contract.
+   The engine is unchanged; only the helper names now arrive via `kit`. */
+window.PLATES.s = function (canvas, kit) {
+  const { ctx2d, seeder, wrap, ease, ground, dens, acc, NODE, BOND } = kit;
+
   const s = ctx2d(canvas, 1.5);
   const rnd = seeder(31415);
   const N = 26;
@@ -820,14 +1125,15 @@ function makeLattice(canvas){
       c.beginPath(); c.arc(pos[i].x,pos[i].y,2.9,0,6.2832); c.fillStyle=NODE(.46); c.fill();
     }
   }};
-}
 
-/* ════════ T · RELAY — the signal, not the molecule ════════
-   Three signals run concurrently on their own periods. Each cycle picks its chain from the
-   cycle index (deterministic, no state), walks bead to bead, and spends the last stretch
-   leaping to the next chain as an arc. The chains barely move: the plate is about what
-   travels along them. */
-function makeRelay(canvas){
+};
+
+/* ── T · Relay ── */
+/* T — extracted from the round-10 lab into the shared plate contract.
+   The engine is unchanged; only the helper names now arrive via `kit`. */
+window.PLATES.t = function (canvas, kit) {
+  const { ctx2d, seeder, wrap, ease, ground, dens, acc, NODE, BOND } = kit;
+
   const s = ctx2d(canvas, 1.5);
   const rnd = seeder(20260815);
   const NC = 10;
@@ -903,73 +1209,1584 @@ function makeRelay(canvas){
       }
     }
   }};
-}
 
-/* ─────────────────────────── build & run ─────────────────────────── */
-const engines=[];
-function add(id, maker){
-  const el=document.getElementById(id);
-  if(!el) return;
-  let eng=null;
-  try{ eng = maker(el); }catch(e){ eng = null; }
-  if(!eng || !el.getContext){ el.style.background="linear-gradient(160deg,#F8FAFC 30%,#EFF4F8 100%)"; return; }
-  eng.el=el; eng.visible=false; engines.push(eng);
-}
-add("cv-d", makeBonds);
-add("cv-o", makeCoil);
-add("cv-p", makeAffinity);
-add("cv-q", makeSequence);
-add("cv-r", makeShoal);
-add("cv-s", makeLattice);
-add("cv-t", makeRelay);
+};
 
-const t0=performance.now();
-const tNow=()=>(performance.now()-t0)/1000;
-function sizeAll(){ for(const e of engines){ e.resize(); e.draw(REDUCE ? STILL : tNow()); } }
-addEventListener("resize", sizeAll);
+/* ── U · Helix ── */
+/* ═══════════════════════════════════════════════════════════════════════════════════════
+   PLATE U — HELIX
+   "A peptide is a shape." The alpha-helix every peptide diagram in the world draws, built
+   as real geometry and photographed like a still-life: a porcelain fragment on a seamless
+   ivory sweep, one soft warm key from the upper right, the far end dissolving into the page.
+   Exactly one residue wears the accent — the active site.
+   ═══════════════════════════════════════════════════════════════════════════════════════ */
+window.PLATES.u = function (canvas, kit) {
+  const THREE = window.THREE;
+  if (!THREE || !THREE.WebGLRenderer) return null;
 
-const io=new IntersectionObserver(es=>{
-  for(const en of es){
-    const eng=engines.find(e=>e.el===en.target);
-    if(eng) eng.visible=en.isIntersecting;
+  let S = null;
+  try { S = kit.threeScene(canvas, THREE, 1.6); } catch (e) { return null; }
+  if (!S) return null;
+
+  const { scene, camera } = S;
+  const TAU = Math.PI * 2;
+  const rnd = kit.seeder(910317);
+
+  /* ── the object ──────────────────────────────────────────────────────────────────────
+     Honest alpha-helix proportions: 3.6 residues per turn, pitch ≈ 2.35 × radius.        */
+  const PER_TURN = 3.6;
+  const HR    = 1.50;                 /* helix radius            */
+  const PITCH = 2.35 * HR;            /* rise per full turn      */
+  const RISE  = PITCH / PER_TURN;     /* rise per residue        */
+  const N     = 44;                   /* long enough to run off frame at every size       */
+  const LEN   = (N - 1) * RISE;
+  const SPH   = 0.47;                 /* residue radius          */
+  const TUBE  = 0.095;                /* backbone radius — a thread, not a pipe           */
+  const ROUT  = HR + SPH;             /* outer radius of the whole strand                 */
+
+  const GR = kit.GROUND_TOP;                       /* [251,248,242] */
+  const RESIDUE = [106, 88, 95];
+  const STRAND  = [122, 106, 84];
+
+  /* helix path, exact — used by both the backbone tube and the residue placement */
+  class Helix extends THREE.Curve {
+    getPoint(t, target) {
+      const v = target || new THREE.Vector3();
+      const y = (t - 0.5) * LEN;
+      const a = (y / PITCH) * TAU;
+      return v.set(Math.cos(a) * HR, y, Math.sin(a) * HR);
+    }
   }
-},{threshold:.02});
-for(const e of engines) io.observe(e.el);
+  const curve = new Helix();
 
-sizeAll();
-/* Fonts land after first paint, and plate Q is made of glyphs — redraw when they arrive. */
-if(document.fonts && document.fonts.ready) document.fonts.ready.then(sizeAll);
+  /* ── scene graph ─────────────────────────────────────────────────────────────────────
+     pivot : where the strand sits in frame, and how big
+       tilt : the lean — top away from camera (so it fogs out) and a few degrees right
+         spin : one slow rotation about the helix's own axis + a bob along it            */
+  const pivot = new THREE.Group();
+  const tilt  = new THREE.Group();
+  const spin  = new THREE.Group();
+  pivot.add(tilt); tilt.add(spin); scene.add(pivot);
 
-if(!REDUCE){
-  (function loop(){
-    requestAnimationFrame(loop);
-    if(document.hidden) return;
-    const t=tNow();
-    for(const e of engines) if(e.visible) e.draw(t);
+  const LEAN_X = -0.400;   /* ≈ 23° : top recedes into the fog   */
+  const LEAN_Z = -0.125;   /* ≈  7° : top leans right            */
+
+  /* ── materials: matte porcelain, palette only ───────────────────────────────────────
+     Every colour is a palette hue laid over the warm ivory ground — the 3D equivalent of
+     the 2D plates' NODE(a) / BOND(a). `presence` (set in layout) is how strongly the
+     strand is allowed to contrast with the page at this width.                          */
+  function tinted(target, base, k) {
+    target.setRGB((GR[0] + (base[0] - GR[0]) * k) / 255,
+                  (GR[1] + (base[1] - GR[1]) * k) / 255,
+                  (GR[2] + (base[2] - GR[2]) * k) / 255, THREE.SRGBColorSpace);
+    return target;
+  }
+
+  const resMat = new THREE.MeshStandardMaterial({ roughness: 0.56, metalness: 0.0 });
+  const tubMat = new THREE.MeshStandardMaterial({ roughness: 0.60, metalness: 0.0 });
+  const accMat = new THREE.MeshStandardMaterial({ roughness: 0.50, metalness: 0.0,
+                                                  emissive: 0x000000, emissiveIntensity: 1 });
+  tinted(resMat.color, RESIDUE, 0.44);
+  tinted(tubMat.color, STRAND,  0.40);
+
+  /* ── residues ────────────────────────────────────────────────────────────────────────
+     One InstancedMesh, matrices written once. Tiny deterministic jitter in radius and
+     size so it reads as grown rather than generated.                                    */
+  const sphGeo = new THREE.SphereGeometry(1, 26, 18);
+  const beads  = new THREE.InstancedMesh(sphGeo, resMat, N - 1);
+  beads.frustumCulled = false;
+  spin.add(beads);
+
+  /* fixed deterministic jitter per residue, so the strand reads as grown, not generated */
+  const JIT = new Float32Array(N * 2);
+  for (let i = 0; i < N; i++) {
+    JIT[i * 2]     = 1 + (rnd() - 0.5) * 0.035;   /* radius  */
+    JIT[i * 2 + 1] = 1 + (rnd() - 0.5) * 0.11;    /* size    */
+  }
+
+  const M = new THREE.Matrix4();
+  const accPos = new THREE.Vector3();
+  let accAngle = 0, accIdx = -1;
+
+  function setAccentResidue(k) {
+    if (k === accIdx) return;
+    accIdx = k;
+    let bi = 0;
+    for (let i = 0; i < N; i++) {
+      const y  = (i - (N - 1) / 2) * RISE;
+      const a  = (y / PITCH) * TAU;
+      const px = Math.cos(a) * HR * JIT[i * 2], pz = Math.sin(a) * HR * JIT[i * 2];
+      if (i === accIdx) { accPos.set(px, y, pz); accAngle = a; continue; }
+      const sc = SPH * JIT[i * 2 + 1];
+      M.makeScale(sc, sc, sc); M.setPosition(px, y, pz);
+      beads.setMatrixAt(bi++, M);
+    }
+    beads.instanceMatrix.needsUpdate = true;
+    accBead.position.copy(accPos);
+    haloSpr.position.copy(accPos);
+  }
+
+  /* ── the backbone ───────────────────────────────────────────────────────────────────*/
+  const tube = new THREE.Mesh(new THREE.TubeGeometry(curve, N * 8, TUBE, 9, false), tubMat);
+  tube.frustumCulled = false;
+  spin.add(tube);
+
+  /* ── the active site: one residue, plus a soft halo ─────────────────────────────────*/
+  const accBead = new THREE.Mesh(sphGeo, accMat);
+  accBead.scale.setScalar(SPH * 1.22);
+  accBead.frustumCulled = false;
+  spin.add(accBead);
+
+  const halo = (function () {
+    const c = document.createElement('canvas'); c.width = c.height = 128;
+    const x = c.getContext('2d');
+    if (!x) return null;
+    const im = x.createImageData(128, 128);
+    for (let j = 0; j < 128; j++) for (let i = 0; i < 128; i++) {
+      const dx = (i + 0.5) / 64 - 1, dy = (j + 0.5) / 64 - 1;
+      const r = Math.sqrt(dx * dx + dy * dy);
+      let a = 0;
+      if (r < 1) {
+        const bloom = 0.40 * Math.exp(-Math.pow(r / 0.34, 2));
+        const ring  = 0.62 * Math.exp(-Math.pow((r - 0.46) / 0.22, 2));
+        a = (bloom + ring) * (1 - kit.smoothstep(0.68, 1.0, r));
+      }
+      const o = (j * 128 + i) * 4;
+      im.data[o] = im.data[o + 1] = im.data[o + 2] = 255;
+      im.data[o + 3] = Math.round(255 * Math.min(1, a));
+    }
+    x.putImageData(im, 0, 0);
+    const t = new THREE.CanvasTexture(c);
+    t.colorSpace = THREE.SRGBColorSpace;
+    t.minFilter = THREE.LinearFilter; t.magFilter = THREE.LinearFilter;
+    t.generateMipmaps = false;
+    return t;
   })();
+
+  const haloMat = new THREE.SpriteMaterial({ map: halo, transparent: true, opacity: 0.4,
+                                             depthTest: false, depthWrite: false, fog: false });
+  const haloSpr = new THREE.Sprite(haloMat);
+  haloSpr.renderOrder = 3;
+  haloSpr.frustumCulled = false;
+  spin.add(haloSpr);
+
+  /* ── light: three-point, high key, nothing near black ───────────────────────────────*/
+  const hemi = new THREE.HemisphereLight(0xFFFCF6, 0xF3EDE4, 1.78);
+  scene.add(hemi);
+  const key = new THREE.DirectionalLight(0xFFF7EA, 2.35); key.position.set(7.5, 8.5, 6.0);
+  const fil = new THREE.DirectionalLight(0xF4F2EF, 0.78); fil.position.set(-8.0, 1.5, 5.0);
+  const rim = new THREE.DirectionalLight(0xFFF9F0, 0.95); rim.position.set(-3.5, 5.0, -8.5);
+  scene.add(key, fil, rim);
+
+  /* ── the sweep behind it ────────────────────────────────────────────────────────────
+     Painted procedurally: the kit's warm ivory gradient, a soft lift where the key hits,
+     a long falloff away from it, the strand's own soft occlusion on the paper, and a
+     whisper of grain so a 5-level gradient does not band.                               */
+  const bgc = document.createElement('canvas');
+  const b2  = bgc.getContext('2d');
+  const bgTex = new THREE.CanvasTexture(bgc);
+  bgTex.colorSpace = THREE.SRGBColorSpace;
+  bgTex.minFilter = THREE.LinearFilter; bgTex.magFilter = THREE.LinearFilter;
+  bgTex.generateMipmaps = false;
+  bgTex.wrapS = bgTex.wrapT = THREE.ClampToEdgeWrapping;
+  scene.background = bgTex;
+
+  function paintSweep(W, H, fx) {
+    if (!b2) return;
+    const bw = Math.max(240, Math.min(940, Math.round(W)));
+    const bh = Math.max(240, Math.min(1180, Math.round(bw * H / Math.max(1, W))));
+    bgc.width = bw; bgc.height = bh;
+
+    const g = b2.createLinearGradient(0, 0, 0, bh);
+    g.addColorStop(0, '#FBF8F2'); g.addColorStop(1, '#F6F1E8');
+    b2.fillStyle = g; b2.fillRect(0, 0, bw, bh);
+
+    /* the key, spilling onto the paper */
+    let r = b2.createRadialGradient(bw * 0.80, bh * 0.13, 0, bw * 0.80, bh * 0.13, bw * 1.0);
+    r.addColorStop(0, 'rgba(255,252,246,0.60)'); r.addColorStop(1, 'rgba(255,252,246,0)');
+    b2.fillStyle = r; b2.fillRect(0, 0, bw, bh);
+
+    /* falloff away from the key — a neutral multiply, so the hue never shifts */
+    b2.globalCompositeOperation = 'multiply';
+    r = b2.createRadialGradient(bw * 0.80, bh * 0.12, bw * 0.12, bw * 0.80, bh * 0.12, bw * 1.55);
+    r.addColorStop(0, '#FFFFFF'); r.addColorStop(0.55, '#FBFBFB'); r.addColorStop(1, '#F3F3F3');
+    b2.fillStyle = r; b2.fillRect(0, 0, bw, bh);
+
+    /* the strand's own soft occlusion, down and left of it */
+    b2.save();
+    b2.translate(bw * (fx - 0.075), bh * 0.64);
+    b2.scale(0.52, 1.75);
+    r = b2.createRadialGradient(0, 0, 0, 0, 0, bw * 0.34);
+    r.addColorStop(0, '#F1EFEB'); r.addColorStop(0.40, '#F7F6F3');
+    r.addColorStop(0.72, '#FCFBFA'); r.addColorStop(1, '#FFFFFF');
+    b2.fillStyle = r; b2.fillRect(-bw * 2, -bh * 2, bw * 4, bh * 4);
+    b2.restore();
+    b2.globalCompositeOperation = 'source-over';
+
+    /* paper grain */
+    try {
+      const im = b2.getImageData(0, 0, bw, bh), d = im.data;
+      const gr = kit.seeder(20260815);
+      for (let i = 0; i < d.length; i += 4) {
+        const n = (gr() - 0.5) * 3.4;
+        d[i] += n; d[i + 1] += n; d[i + 2] += n;
+      }
+      b2.putImageData(im, 0, 0);
+    } catch (e) { /* tainted canvas is impossible here, but never throw */ }
+
+    bgTex.needsUpdate = true;
+  }
+
+  scene.fog = new THREE.Fog(0xFAF7F0, 10.6, 15.6);
+
+  /* ── the scrim ──────────────────────────────────────────────────────────────────────
+     A sheet of the ground's own colour held between camera and strand, transparent low
+     in the frame and opaque high in it. Over the ivory sweep it is invisible; over the
+     strand it is the last few metres of air. This is what lets the fragment melt into
+     the page instead of being cropped by it — and on a phone it is what keeps the whole
+     upper screen, where the copy lives, empty.                                          */
+  const scrimC = document.createElement('canvas');
+  const s2 = scrimC.getContext('2d');
+  const scrimTex = new THREE.CanvasTexture(scrimC);
+  scrimTex.colorSpace = THREE.SRGBColorSpace;
+  scrimTex.minFilter = THREE.LinearFilter; scrimTex.magFilter = THREE.LinearFilter;
+  scrimTex.generateMipmaps = false;
+  scrimTex.wrapS = scrimTex.wrapT = THREE.ClampToEdgeWrapping;
+
+  const scrim = new THREE.Mesh(new THREE.PlaneGeometry(1, 1),
+    new THREE.MeshBasicMaterial({ map: scrimTex, transparent: true, depthTest: false,
+                                  depthWrite: false, fog: false }));
+  scrim.renderOrder = 9;
+  scrim.frustumCulled = false;
+  scrim.position.set(0, 0, -2);
+  camera.add(scrim);
+  scene.add(camera);
+
+  function paintScrim(a0, yTop, yBot) {
+    if (!s2) return;
+    const w = 4, h = 256;
+    scrimC.width = w; scrimC.height = h;
+    const im = s2.createImageData(w, h);
+    const GB = kit.GROUND_BOT;
+    for (let j = 0; j < h; j++) {
+      const f = (j + 0.5) / h;                              /* 0 = top of frame */
+      const cr = kit.lerp(GR[0], GB[0], f), cg = kit.lerp(GR[1], GB[1], f),
+            cb = kit.lerp(GR[2], GB[2], f);
+      const a = a0 * (1 - kit.smoothstep(yTop, yBot, f));
+      for (let i = 0; i < w; i++) {
+        const o = (j * w + i) * 4;
+        im.data[o] = cr; im.data[o + 1] = cg; im.data[o + 2] = cb;
+        im.data[o + 3] = Math.round(255 * a);
+      }
+    }
+    s2.putImageData(im, 0, 0);
+    scrimTex.needsUpdate = true;
+  }
+
+  /* ── layout ─────────────────────────────────────────────────────────────────────────*/
+  const D = 12.5;
+  camera.position.set(0, 0, D);
+  camera.lookAt(0, 0, 0);
+
+  let lastW = -1, lastH = -1, presence = 1, accPresence = 1;
+
+  function layout() {
+    const W = canvas.clientWidth || 1, H = canvas.clientHeight || 1;
+    const aspect = W / Math.max(1, H);
+    const halfH = Math.tan(camera.fov * Math.PI / 360) * D;
+    const halfW = halfH * aspect;
+    const phone = W < 760;
+    const dn = kit.dens(W);                       /* LAW 5 */
+
+    /* Size on TURNS-PER-SCREEN, capped by width. A helix has a fixed pitch-to-diameter
+       ratio, so scaling it off the width alone turns it into a dense zipper the moment
+       the viewport gets tall and narrow. Sizing off the height keeps the number of turns
+       you read constant; the width cap stops it spilling over the copy on a narrow one.  */
+    const TURN = 3.6 * RISE * Math.cos(LEAN_X);   /* world height of one visible turn @ s=1 */
+    const sH = (2 * halfH / (phone ? 5.0 : 4.6)) / TURN;
+    const sW = ((phone ? 0.420 : 0.245) * halfW) / ROUT;
+    const s  = Math.min(sH, sW) * (0.84 + 0.16 * dn);     /* LAW 5 */
+
+    /* right ~45% at desktop, drifting further right as the frame narrows and the copy
+       claims more of it; on a phone a low-right fragment below the last button          */
+    const fx = phone ? 0.800
+                     : 0.775 + 0.070 * (1 - kit.smoothstep(760, 1400, W));
+
+    pivot.scale.setScalar(s);
+    pivot.position.set((fx - 0.5) * 2 * halfW, phone ? -1.55 : 0.30, 0);
+
+    setAccentResidue(phone ? 19 : 22);
+
+    /* LAW 4 as a number: how loud this plate is allowed to be at its own left edge.
+       On a phone the copy is the full width, so quietX can never be satisfied sideways —
+       the scrim buys the same silence vertically instead, holding the strand entirely
+       below the last button, so a little of that clearance is credited back. */
+    const leftPx = ((pivot.position.x - ROUT * s) / halfW * 0.5 + 0.5) * W;
+    presence = kit.lerp(0.56, 1.0, Math.max(kit.quietX(leftPx, W), phone ? 0.42 : 0));
+    accPresence = 0.90 * (0.62 + 0.38 * presence);
+
+    tinted(resMat.color, RESIDUE, 0.44 * presence);
+    tinted(tubMat.color, STRAND,  0.46 * presence);
+
+    scene.fog.near = 10.6;
+    scene.fog.far  = phone ? 15.2 : 15.6;
+
+    /* scrim geometry: fill the frustum two units in front of the lens */
+    const sh = 2 * Math.tan(camera.fov * Math.PI / 360) * 2;
+    scrim.scale.set(sh * aspect, sh, 1);
+    if (phone) paintScrim(0.95, 0.44, 0.72);
+    else       paintScrim(0.46, 0.00, 0.32);
+
+    paintSweep(W, H, fx);
+  }
+
+  /* ── frame ──────────────────────────────────────────────────────────────────────────*/
+  return {
+    resize() {
+      S.resize();
+      const W = canvas.clientWidth, H = canvas.clientHeight;
+      if (W === lastW && H === lastH) return;
+      lastW = W; lastH = H;
+      layout();
+    },
+    draw(t) {
+      /* LAW 2 — the accent is read every frame, never cached */
+      const A = kit.ACC();
+      accMat.color.setRGB(kit.lerp(GR[0] / 255, A[0], accPresence),
+                          kit.lerp(GR[1] / 255, A[1], accPresence),
+                          kit.lerp(GR[2] / 255, A[2], accPresence), THREE.SRGBColorSpace);
+      accMat.emissive.setRGB(A[0], A[1], A[2], THREE.SRGBColorSpace);
+      accMat.emissiveIntensity = 0.10 * accPresence;
+      haloMat.color.setRGB(A[0], A[1], A[2], THREE.SRGBColorSpace);
+
+      /* one turn every 40s, plus a lean and a bob on periods that never line up */
+      const th = t * TAU / 40;
+      spin.rotation.y = th;
+      spin.position.y = 0.34 * Math.sin(t * TAU / 43);
+      tilt.rotation.z = LEAN_Z + 0.020 * Math.sin(t * TAU / 31 + 0.7);
+      tilt.rotation.x = LEAN_X + 0.016 * Math.sin(t * TAU / 37 + 1.9);
+
+      /* When the active site swings behind the strand the halo does not go with it: it
+         opens out into a soft bloom, so the accent is never a hard crescent and never
+         disappears. In front it tightens to a glint. */
+      const face = kit.smoothstep(-0.75, 0.75, Math.sin(accAngle + th));
+      haloMat.opacity = accPresence * (0.50 - 0.08 * face);
+      haloSpr.scale.setScalar(SPH * (7.6 - 2.0 * face));
+
+      S.render();
+    }
+  };
+};
+
+/* ── V · Ribbon ── */
+/* ═══════════════════════════════════════════════════════════════════════════════════
+   PLATE V · RIBBON
+   "A peptide is a structure" — drawn the way structural biology draws it.
+
+   A single protein-cartoon ribbon: a flat, cambered band swept along a helical spline
+   with a twist along its length, so the band turns face-on → edge-on → face-on as it
+   wraps. Built by hand as an indexed BufferGeometry: a rounded, slightly crowned
+   cross-section swept along the curve on a rotating frame, with analytic normals and
+   a vertex-colour split so the band's inner face reads darker than its outer face —
+   that value split is what makes the twist legible.
+
+   The whole thing is a still life on a seamless ivory sweep: one soft key from upper
+   left, a procedural studio environment for the satin, linear fog dissolving the far
+   side of the cylinder into the ground, and a soft cast shadow painted into the sweep
+   so the object sits in the space instead of floating on it.
+
+   Composition: the object lives in the right ~40% at desktop, cropped top and bottom
+   by the frame. On a phone it becomes a short two-turn fragment, low and right, both
+   ends tapering away into fog and into the page's own bottom veil.
+
+   Motion: one screw revolution every 38 s, plus a 44 s breath on the tilt. Nothing else.
+   ═══════════════════════════════════════════════════════════════════════════════════ */
+window.PLATES.v = function (canvas, kit) {
+
+  const THREE = window.THREE;
+  if (!THREE || !THREE.WebGLRenderer) return null;
+
+  let S = null;
+  try { S = kit.threeScene(canvas, THREE, 1.6); } catch (e) { return null; }
+  if (!S) return null;
+
+  const renderer = S.renderer, scene = S.scene, camera = S.camera;
+  const TAU = Math.PI * 2;
+  const sgn = v => (v < 0 ? -1 : 1);
+
+  try {
+
+    renderer.toneMapping = THREE.NoToneMapping;
+
+    /* ── the ground, in three's working colour space ── */
+    const C_TOP = new THREE.Color(0xFBF8F2);      /* kit.GROUND_TOP */
+    const C_BOT = new THREE.Color(0xF6F1E8);      /* kit.GROUND_BOT */
+    const C_FOG = new THREE.Color(0xFAF7F0);      /* between the two — the far wall */
+
+    scene.fog = new THREE.Fog(C_FOG.getHex(), 8.6, 19.0);
+
+    /* ── deterministic wobble coefficients: the helix is hand-drawn, not machined ── */
+    const rnd = kit.seeder(40719);
+    const WA = new Float32Array(12), WF = new Float32Array(12), WP = new Float32Array(12);
+    for (let i = 0; i < 12; i++) {
+      WA[i] = rnd() * 2 - 1;
+      WF[i] = 0.55 + rnd() * 1.9;
+      WP[i] = rnd() * TAU;
+    }
+    function wob(u, k) {
+      let s = 0;
+      for (let i = 0; i < 3; i++) { const j = k * 3 + i; s += WA[j] * Math.sin(u * TAU * WF[j] + WP[j]); }
+      return s / 3;
+    }
+
+    /* ═══ 1 · THE SWEEP BEHIND EVERYTHING ═══════════════════════════════════════
+       A full-screen quad painted before the subject: the kit's warm vertical ground,
+       one broad key wash, a very soft cast shadow low-right of the object, a whisper
+       of corner falloff, and per-pixel grain so the huge soft gradients cannot band. */
+    const bgMat = new THREE.ShaderMaterial({
+      depthTest: false, depthWrite: false, fog: false,
+      uniforms: {
+        uRes:     { value: new THREE.Vector2(1, 1) },
+        uTop:     { value: C_TOP.clone() },
+        uBot:     { value: C_BOT.clone() },
+        uWash:    { value: new THREE.Vector3(0.030, 0.028, 0.024) },
+        uKeyC:    { value: new THREE.Vector2(0.72, 0.88) },
+        uShadow:  { value: new THREE.Vector4(0.80, 0.30, 0.40, 0.46) },
+        uShadowA: { value: 0.024 },
+        uGrain:   { value: 0.011 }
+      },
+      vertexShader: `
+        void main(){ gl_Position = vec4(position.xy, 1.0, 1.0); }`,
+      fragmentShader: `
+        uniform vec2  uRes;
+        uniform vec3  uTop, uBot, uWash;
+        uniform vec2  uKeyC;
+        uniform vec4  uShadow;
+        uniform float uShadowA, uGrain;
+        float h21(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123); }
+        void main(){
+          vec2  uv = gl_FragCoord.xy / uRes;          /* y up */
+          float ar = uRes.x / max(uRes.y, 1.0);
+          vec3  col = mix(uBot, uTop, pow(clamp(uv.y, 0.0, 1.0), 0.82));
+
+          /* one soft key wash on the sweep, upper right */
+          vec2 kd = (uv - uKeyC) * vec2(ar, 1.0);
+          col += uWash * exp(-dot(kd, kd) * 1.55);
+
+          /* the subject's shadow, falling away from the key */
+          vec2 sd = (uv - uShadow.xy) / max(uShadow.zw, vec2(1e-3));
+          col -= uShadowA * exp(-dot(sd, sd));
+
+          /* the sweep turns under, and darkens a touch at the far right */
+          col -= 0.017 * smoothstep(0.32, 0.0, uv.y) * smoothstep(0.16, 0.60, uv.x);
+          col -= 0.013 * smoothstep(0.84, 1.0, uv.x);
+
+          col += (h21(gl_FragCoord.xy) - 0.5) * uGrain;
+          gl_FragColor = vec4(col, 1.0);
+          #include <tonemapping_fragment>
+          #include <colorspace_fragment>
+        }`
+    });
+    const bg = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), bgMat);
+    bg.frustumCulled = false;
+    bg.renderOrder = -100;
+    scene.add(bg);
+
+    /* ═══ 2 · A PROCEDURAL STUDIO, PREFILTERED ══════════════════════════════════
+       No HDRI: a box with a warm vertical gradient, one bright softbox up and to the
+       left, a weak fill on the right, and a dark card low-left to give the band a
+       shadow side. PMREM turns it into the roughness-aware environment that makes the
+       satin read as silk rather than plastic. Built once, then thrown away. */
+    function buildEnvironment() {
+      const es = new THREE.Scene();
+
+      const box = new THREE.BoxGeometry(34, 34, 34, 2, 8, 2);
+      const bp = box.attributes.position;
+      const bc = new Float32Array(bp.count * 3);
+      const lo = new THREE.Color(0xEAE6E0), hi = new THREE.Color(0xFFFEFC), tmp = new THREE.Color();
+      for (let i = 0; i < bp.count; i++) {
+        const y = kit.clamp(bp.getY(i) / 34 + 0.5, 0, 1);
+        tmp.copy(lo).lerp(hi, y);
+        const k = 0.62 + 1.15 * Math.pow(y, 1.35);
+        bc[i * 3] = tmp.r * k; bc[i * 3 + 1] = tmp.g * k; bc[i * 3 + 2] = tmp.b * k;
+      }
+      box.setAttribute('color', new THREE.BufferAttribute(bc, 3));
+      es.add(new THREE.Mesh(box, new THREE.MeshBasicMaterial({ side: THREE.BackSide, vertexColors: true })));
+
+      const card = (w, h, x, y, z, r, g, b) => {
+        const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h),
+          new THREE.MeshBasicMaterial({ color: new THREE.Color(r, g, b), side: THREE.DoubleSide }));
+        m.position.set(x, y, z); m.lookAt(0, 0, 0); es.add(m);
+      };
+      card(13, 13, -8.5,  10.0,  8.5, 4.52, 4.46, 4.34);   /* key softbox  */
+      card(15, 15,  11.0,  1.5, -5.0, 1.03, 1.01, 0.98);   /* far fill     */
+      card(12, 16, -11.0, -3.0,  3.0, 0.34, 0.335, 0.325); /* negative fill */
+
+      const pm = new THREE.PMREMGenerator(renderer);
+      const rt = pm.fromScene(es, 0.035, 0.5, 60);
+      pm.dispose();
+      es.traverse(o => { if (o.isMesh) { o.geometry.dispose(); o.material.dispose(); } });
+      return rt.texture;
+    }
+    scene.environment = buildEnvironment();
+
+    /* ═══ 3 · LIGHT ═════════════════════════════════════════════════════════════ */
+    const key = new THREE.DirectionalLight(0xFFFDFA, 1.55);
+    key.position.set(-5.0, 6.4, 6.2);
+    scene.add(key);
+
+    const rim = new THREE.DirectionalLight(0xFFFCF6, 0.70);
+    rim.position.set(6.2, -1.2, -4.6);
+    scene.add(rim);
+
+    scene.add(new THREE.AmbientLight(0xFFFDFA, 0.34));
+
+    const keyDir = key.position.clone().normalize();
+
+    /* ═══ 4 · THE RIBBON ════════════════════════════════════════════════════════ */
+
+    /* The cross-section: a rounded flat bar (superellipse) that is then bent onto a
+       shallow arc, so the band is CAMBERED — its face normal swings ~7° across the
+       width. A dead-flat band shades as one value; a cambered one carries a soft
+       gradient the whole way along, which is the difference between paper and silk.
+       Returns [x, y, nx, ny, faceSign] per ring point; x runs across the width, y
+       along the face normal. */
+    const CSN = 6;   /* floats per cross-section point */
+    function crossSection(hw, ht, K, camber, p, cluster) {
+      const cs = new Float32Array(K * CSN);
+      const Ra = hw / (2 * Math.max(1e-4, camber));
+      for (let k = 0; k < K; k++) {
+        const t0 = TAU * k / K;
+        const th = t0 - cluster * Math.sin(2 * t0);        /* crowd samples onto the edges */
+        const c = Math.cos(th), s = Math.sin(th);
+        const ac = Math.abs(c), as = Math.abs(s);
+        const x = hw * sgn(c) * Math.pow(ac, 2 / p);
+        const y = ht * sgn(s) * Math.pow(as, 2 / p);
+        let nx = sgn(c) * Math.pow(ac, 2 - 2 / p) / hw;
+        let ny = sgn(s) * Math.pow(as, 2 - 2 / p) / ht;
+        const l = Math.hypot(nx, ny) || 1; nx /= l; ny /= l;
+        const face = ny;                                    /* +1 outer face, -1 inner */
+        const phi = x / Ra, cp = Math.cos(phi), sp = Math.sin(phi);
+        cs[k * CSN]     = (Ra + y) * sp;
+        cs[k * CSN + 1] = (Ra + y) * cp - Ra;
+        cs[k * CSN + 2] = nx * cp + ny * sp;
+        cs[k * CSN + 3] = -nx * sp + ny * cp;
+        cs[k * CSN + 4] = face;
+        /* how close this point is to ONE border of the band — the gilded edge */
+        cs[k * CSN + 5] = kit.smoothstep(0.735, 0.925, x / hw);
+      }
+      return cs;
+    }
+
+    const taperAt = (P, u) =>
+      kit.smoothstep(0, P.taper, u) * kit.smoothstep(0, P.taper, 1 - u);
+
+    /* The helix leans AWAY from the camera as it rises — a pure z-shear, not a rotation,
+       so the turns keep their shape on screen while the top recedes far enough for the
+       fog to take it. That is the plate's main dissolve: the coil goes from crisp at the
+       bottom to nothing at the top, and never presents a hard cut edge up there. */
+    const leanAt = (P, u) => -P.lean * (u - 0.5) * P.height;
+
+    function curveAt(P, u, out) {
+      const tp = taperAt(P, u);
+      const a  = (u - 0.5) * P.turns * TAU;
+      const r  = P.radius
+               * (1 + P.bulge * Math.sin(u * Math.PI) + 0.040 * wob(u, 0))
+               * (P.endPull + (1 - P.endPull) * tp);
+      const y  = (u - 0.5) * P.height + P.height * 0.010 * wob(u, 1);
+      out.set(r * Math.cos(a), y, r * Math.sin(a) + leanAt(P, u));
+    }
+
+    /* scratch — nothing here is allocated per frame */
+    const _p0 = new THREE.Vector3(), _p1 = new THREE.Vector3(), _p2 = new THREE.Vector3();
+    const _T = new THREE.Vector3(), _N = new THREE.Vector3(), _B = new THREE.Vector3();
+    const _n = new THREE.Vector3(), _b = new THREE.Vector3(), _tmp = new THREE.Vector3();
+
+    function build(P) {
+      const N = P.steps, K = P.ring;
+      const cs = crossSection(P.halfW, P.halfT, K, P.camber, P.pw, P.cluster);
+      const du = 1 / (N - 1), eps = du * 0.5;
+
+      /* which ring quads carry any of the gilded edge — those get drawn a second time,
+         with the accent material, in perfect register with the surface underneath. */
+      const edgeK = [];
+      for (let k = 0; k < K; k++) {
+        if (Math.max(cs[k * CSN + 5], cs[((k + 1) % K) * CSN + 5]) > 1e-3) edgeK.push(k);
+      }
+
+      const pos = new Float32Array(N * K * 3);
+      const nor = new Float32Array(N * K * 3);
+      const col = new Float32Array(N * K * 3);
+      const aU  = new Float32Array(N * K);
+      const aE  = new Float32Array(N * K);
+      const mainCount = (N - 1) * K * 6;
+      const edgeCount = (N - 1) * edgeK.length * 6;
+      const idx = new Uint32Array(mainCount + edgeCount);
+
+      const IN = P.innerVal;
+      let ii = 0, ai = mainCount;
+
+      for (let i = 0; i < N; i++) {
+        const u = i * du;
+        curveAt(P, u, _p0);
+        curveAt(P, Math.min(1, u + eps), _p1);
+        curveAt(P, Math.max(0, u - eps), _p2);
+
+        _T.subVectors(_p1, _p2).normalize();
+
+        /* the band's face points radially out from the helix axis — the protein-cartoon
+           convention — then a slow twist rotates the frame around the tangent on top. */
+        _N.set(_p0.x, 0, _p0.z - leanAt(P, u));
+        if (_N.lengthSq() < 1e-8) _N.set(1, 0, 0);
+        _N.normalize();
+        _tmp.copy(_T).multiplyScalar(_N.dot(_T));
+        _N.sub(_tmp).normalize();
+        _B.crossVectors(_T, _N).normalize();
+
+        const phi = P.twist * TAU * u + P.wobA * Math.sin(u * TAU * P.wobF + P.wobP)
+                                      + 0.30 * wob(u, 2);
+        const cf = Math.cos(phi), sf = Math.sin(phi);
+        _n.copy(_N).multiplyScalar(cf).addScaledVector(_B, sf);
+        _b.copy(_B).multiplyScalar(cf).addScaledVector(_N, -sf);
+
+        const ts = taperAt(P, u);
+        const sc = 0.03 + 0.97 * ts;
+
+        const base = i * K;
+        for (let k = 0; k < K; k++) {
+          const o = k * CSN, v = (base + k) * 3;
+          const x = cs[o] * sc, y = cs[o + 1] * sc;
+          pos[v]     = _p0.x + _b.x * x + _n.x * y;
+          pos[v + 1] = _p0.y + _b.y * x + _n.y * y;
+          pos[v + 2] = _p0.z + _b.z * x + _n.z * y;
+          const nx = cs[o + 2], ny = cs[o + 3];
+          nor[v]     = _b.x * nx + _n.x * ny;
+          nor[v + 1] = _b.y * nx + _n.y * ny;
+          nor[v + 2] = _b.z * nx + _n.z * ny;
+          /* the value split that makes the twist legible: outer face light, inner dark.
+             As the band tapers away at its ends it also loses that split, so the last
+             sub-pixel-wide hairline is already the value of the ground and fades out
+             instead of stippling against it. */
+          const f0 = IN + (1 - IN) * kit.smoothstep(-0.62, 0.34, cs[o + 4]);
+          const f  = f0 + (1 - f0) * (1 - ts);
+          col[v] = f; col[v + 1] = f; col[v + 2] = f;
+          aU[base + k] = u;
+          aE[base + k] = cs[o + 5] * ts;
+        }
+
+        if (i < N - 1) {
+          for (let k = 0; k < K; k++) {
+            const k2 = (k + 1) % K;
+            const a = base + k, b2 = base + K + k, c2 = base + k2, d2 = base + K + k2;
+            idx[ii++] = a; idx[ii++] = b2; idx[ii++] = c2;
+            idx[ii++] = b2; idx[ii++] = d2; idx[ii++] = c2;
+          }
+          for (let e = 0; e < edgeK.length; e++) {
+            const k = edgeK[e], k2 = (k + 1) % K;
+            const a = base + k, b2 = base + K + k, c2 = base + k2, d2 = base + K + k2;
+            idx[ai++] = a; idx[ai++] = b2; idx[ai++] = c2;
+            idx[ai++] = b2; idx[ai++] = d2; idx[ai++] = c2;
+          }
+        }
+      }
+
+      const g = new THREE.BufferGeometry();
+      g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+      g.setAttribute('normal',   new THREE.BufferAttribute(nor, 3));
+      g.setAttribute('color',    new THREE.BufferAttribute(col, 3));
+      g.setAttribute('aU',       new THREE.BufferAttribute(aU, 1));
+      g.setAttribute('aE',       new THREE.BufferAttribute(aE, 1));
+      g.setIndex(new THREE.BufferAttribute(idx, 1));
+      g.addGroup(0, mainCount, 0);          /* the satin band  */
+      g.addGroup(mainCount, edgeCount, 1);  /* the gilded edge */
+      g.computeBoundingSphere();
+      return g;
+    }
+
+    /* ── materials ── */
+    const ribbonMat = new THREE.MeshPhysicalMaterial({
+      color: 0xF3EFE8,
+      roughness: 0.33,
+      metalness: 0.0,
+      sheen: 0.60,
+      sheenColor: new THREE.Color(0xFFFEFC),
+      sheenRoughness: 0.40,
+      clearcoat: 0.16,
+      clearcoatRoughness: 0.50,
+      vertexColors: true,
+      envMapIntensity: 1.0,
+      side: THREE.FrontSide,
+      fog: true
+    });
+
+    /* The accent, live every frame. It is not a coat of paint — it is the light catching
+       ONE border of the band. It rides the ribbon's own triangles (a second material
+       group over the same vertices, so it can never drift or z-fight), is gated by the
+       key direction and by a slow window travelling the length, and is extinguished as
+       the band recedes into the fog. */
+    const accMat = new THREE.ShaderMaterial({
+      transparent: true, depthWrite: false, depthTest: true, fog: false,
+      side: THREE.FrontSide,
+      polygonOffset: true, polygonOffsetFactor: -4, polygonOffsetUnits: -4,
+      uniforms: {
+        uAcc:  { value: new THREE.Color(0xC2A05E) },
+        uKey:  { value: keyDir.clone() },
+        uTime: { value: 0 },
+        uAmp:  { value: 0.62 },
+        uFogN: { value: 8.6 },
+        uFogF: { value: 16.0 }
+      },
+      vertexShader: `
+        attribute float aU;
+        attribute float aE;
+        varying vec3  vN, vV;
+        varying float vU, vD, vE;
+        void main(){
+          vN = normalize(mat3(modelMatrix) * normal);
+          vU = aU; vE = aE;
+          vec4 wp = modelMatrix * vec4(position, 1.0);
+          vec4 mv = modelViewMatrix * vec4(position, 1.0);
+          vD = -mv.z;
+          vV = normalize(cameraPosition - wp.xyz);
+          gl_Position = projectionMatrix * mv;
+        }`,
+      fragmentShader: `
+        uniform vec3  uAcc, uKey;
+        uniform float uTime, uAmp, uFogN, uFogF;
+        varying vec3  vN, vV;
+        varying float vU, vD, vE;
+        void main(){
+          vec3  N = normalize(vN);
+          float lam = max(dot(N, normalize(uKey)), 0.0);
+          float fre = pow(1.0 - abs(dot(N, normalize(vV))), 2.0);
+          float g = vE * pow(lam, 0.90) * (0.66 + 0.34 * fre);
+          /* one slow window travelling the length: the glint is somewhere, not everywhere */
+          float band = 0.5 + 0.5 * sin(vU * 6.28318 * 2.05 - uTime * 0.175 + 1.1);
+          /* a floor, so the gilding is always faintly there and the travelling window
+             only decides where it BRIGHTENS — the accent never blinks out entirely. */
+          g *= 0.20 + 0.80 * smoothstep(0.28, 0.70, band);
+          g *= 1.0 - smoothstep(uFogN, uFogF, vD);
+          gl_FragColor = vec4(uAcc, clamp(g * uAmp, 0.0, 1.0));
+          #include <colorspace_fragment>
+        }`
+    });
+
+    /* ── composition ──
+       outer holds the placement and the tilt; inner does the one slow screw turn. */
+    const outer = new THREE.Group();
+    const inner = new THREE.Group();
+    outer.add(inner);
+    scene.add(outer);
+
+    let ribbon = null, geo = null;
+
+    /* Two shapes, three profiles.
+       COIL is the desktop subject: tall enough that the frame crops it top and bottom.
+       FRAGMENT is the phone subject — NOT the coil scaled down, because a scaled-down
+       helix packs MORE turns into the frame, which is the opposite of what a phone
+       wants. It is a shorter, looser, two-turn piece with both ends tapering away.
+       Placement is stated in SCREEN fractions, not world units, so the composition
+       holds at every aspect instead of sliding off the right edge on a tall tablet. */
+    const COIL = {
+      pw: 4.0, camber: 0.140, cluster: 0.26,
+      radius: 2.30, turns: 6.0, height: 13.2, bulge: 0.030, lean: 0.150,
+      halfW: 0.400, halfT: 0.026, innerVal: 0.665,
+      twist: 1.20, wobA: 0.45, wobF: 1.30, wobP: 0.70,
+      taper: 0.13, endPull: 0.50,
+      wFrac: 0.366, sx: 0.805, sy: 0.494, hMax: 1.45,
+      tiltZ: -0.075, tiltX: -0.085,
+      shOff: [0.010, -0.261], shR: [0.38, 0.42], shadowA: 0.030,
+      accAmp: 2.20, fogN: 17.9, fogF: 23.4, accFogF: 23.0,
+      keyC: [0.74, 0.90], fov: 26, camZ: 20.0
+    };
+    const PROFILES = {
+      wide:   Object.assign({}, COIL, { steps: 820, ring: 18 }),
+      mid:    Object.assign({}, COIL, { steps: 620, ring: 16 }),
+      narrow: {
+        steps: 380, ring: 14, pw: 4.0, camber: 0.140, cluster: 0.26,
+        radius: 2.30, turns: 2.10, height: 7.0, bulge: 0.045, lean: 0.115,
+        halfW: 0.620, halfT: 0.040, innerVal: 0.620,
+        twist: 0.38, wobA: 0.22, wobF: 1.05, wobP: 0.70,
+        taper: 0.24, endPull: 0.50,
+        wFrac: 0.470, sx: 0.800, sy: 0.735, hMax: 0.60,
+        tiltZ: -0.10, tiltX: -0.095,
+        shOff: [-0.015, -0.111], shR: [0.25, 0.18], shadowA: 0.020,
+        accAmp: 3.20, fogN: 19.2, fogF: 22.4, accFogF: 22.2,
+        keyC: [0.72, 0.66], fov: 26, camZ: 20.0
+      }
+    };
+
+    let current = null;
+
+    function applyProfile(P) {
+      if (ribbon) inner.remove(ribbon);
+      if (geo) geo.dispose();
+
+      geo = build(P);
+      ribbon = new THREE.Mesh(geo, [ribbonMat, accMat]);
+      ribbon.frustumCulled = false;
+      inner.add(ribbon);
+
+      outer.rotation.set(P.tiltX, 0, P.tiltZ);
+
+      scene.fog.near = P.fogN; scene.fog.far = P.fogF;
+      accMat.uniforms.uFogN.value = P.fogN;
+      accMat.uniforms.uFogF.value = P.accFogF;
+
+      /* a long lens: less perspective distortion, more still-life. */
+      camera.fov = P.fov;
+      camera.position.set(0, 0, P.camZ);
+      camera.lookAt(0, 0, 0);
+      camera.updateProjectionMatrix();
+
+      bgMat.uniforms.uShadowA.value = P.shadowA;
+      bgMat.uniforms.uKeyC.value.set(P.keyC[0], P.keyC[1]);
+    }
+
+    function pick(w) { return w < 760 ? 'narrow' : w < 1180 ? 'mid' : 'wide'; }
+
+    const _acc = [0, 0, 0];
+
+    return {
+      resize() {
+        S.resize();
+        const w = canvas.clientWidth || 1, h = canvas.clientHeight || 1;
+        const name = pick(w);
+        if (name !== current) { current = name; applyProfile(PROFILES[name]); }
+        bgMat.uniforms.uRes.value.set(canvas.width, canvas.height);
+
+        const P = PROFILES[current];
+
+        /* Frame the subject in SCREEN fractions: it keeps the same share of the width
+           and the same place in the frame whatever the viewport does, and the height
+           cap stops a short wide window from blowing the band up out of all scale. */
+        const halfH = P.camZ * Math.tan(THREE.MathUtils.degToRad(P.fov * 0.5));
+        const halfW = halfH * (w / Math.max(h, 1));
+        const envR  = P.radius + P.halfW;
+        const sc    = Math.min((P.wFrac * halfW) / envR, (P.hMax * 2 * halfH) / P.height);
+        outer.scale.setScalar(sc);
+        outer.position.set((P.sx * 2 - 1) * halfW, (1 - P.sy * 2) * halfH, 0);
+
+        bgMat.uniforms.uShadow.value.set(P.sx + P.shOff[0], (1 - P.sy) + P.shOff[1],
+                                         P.shR[0], P.shR[1]);
+
+        /* the composition law, as a number: the accent is dimmed by however much of the
+           subject strays toward the copy, and by the density fall on small screens. */
+        accMat.uniforms.uAmp.value =
+          P.accAmp * kit.dens(w) * (0.42 + 0.58 * kit.quietX(P.sx * w, w));
+      },
+
+      draw(t) {
+        const a = kit.ACC();
+        _acc[0] = a[0]; _acc[1] = a[1]; _acc[2] = a[2];
+        accMat.uniforms.uAcc.value.setRGB(_acc[0], _acc[1], _acc[2], THREE.SRGBColorSpace);
+        accMat.uniforms.uTime.value = t;
+
+        /* one screw revolution every 38 s — the band appears to flow gently upward */
+        inner.rotation.y = -t * TAU / 38;
+        /* and a 44 s breath on the tilt, small enough to be felt rather than seen */
+        const P = PROFILES[current];
+        outer.rotation.z = P.tiltZ + 0.016 * Math.sin(t * TAU / 44);
+        outer.rotation.x = P.tiltX + 0.012 * Math.sin(t * TAU / 44 + 1.9);
+
+        S.render();
+      }
+    };
+
+  } catch (e) {
+    return null;
+  }
+};
+
+/* ── W · Vitrine ── */
+/* ══════════ W · VITRINE — "a peptide is an object" ══════════
+   A short chain suspended in a glass capsule, turning slowly on an ivory sweep.
+
+   The whole plate rests on one thing: the ground must be visible THROUGH the glass and it
+   must move as the glass turns. That sliding refraction is what reads as "glass" rather than
+   "grey plastic", and it needs three things that are easy to leave out —
+     1 · something BEHIND the object to refract (a backdrop plane, not an empty clear colour),
+     2 · an ENVIRONMENT for the surface to reflect (built here procedurally from a canvas:
+         a softbox on a pale field, through PMREMGenerator — no HDRI file, LAW 9),
+     3 · a CONTACT SHADOW, or the object floats and instantly looks like a stock render.
+   ══════════════════════════════════════════════════════════════════════════════════════ */
+window.PLATES.w = function (canvas, kit) {
+  const THREE = window.THREE;
+  if (!THREE) return null;
+  const S = kit.threeScene(canvas, THREE, 1.5);
+  if (!S) return null;
+  const { renderer, scene, camera } = S;
+  const rnd = kit.seeder(770077);
+
+  const GROUND_TOP = 0xFBF8F2, GROUND_BOT = 0xF6F1E8;
+
+  /* ── the environment: a softbox above, a warm bounce below, on a pale field ──
+     Painted to a canvas, wrapped as an equirect texture, prefiltered by PMREM. This is what
+     gives the glass its highlights; without it the capsule is a flat grey lozenge. */
+  function envTexture() {
+    const c = document.createElement('canvas');
+    c.width = 256; c.height = 128;
+    const x = c.getContext('2d');
+    const g = x.createLinearGradient(0, 0, 0, 128);
+    g.addColorStop(0.00, '#FFFFFF');
+    g.addColorStop(0.42, '#F6F2EA');
+    g.addColorStop(1.00, '#E6DFD4');
+    x.fillStyle = g; x.fillRect(0, 0, 256, 128);
+    /* the key: a broad soft rectangle high and to the right, the studio's one lamp */
+    const k = x.createRadialGradient(176, 26, 4, 176, 26, 76);
+    k.addColorStop(0, 'rgba(255,255,255,1)');
+    k.addColorStop(1, 'rgba(255,255,255,0)');
+    x.fillStyle = k; x.fillRect(0, 0, 256, 128);
+    /* a dim fill on the left so the far edge is not dead */
+    const f = x.createRadialGradient(52, 60, 4, 52, 60, 66);
+    f.addColorStop(0, 'rgba(255,253,250,.62)');
+    f.addColorStop(1, 'rgba(255,253,250,0)');
+    x.fillStyle = f; x.fillRect(0, 0, 256, 128);
+    const t = new THREE.CanvasTexture(c);
+    t.mapping = THREE.EquirectangularReflectionMapping;
+    t.colorSpace = THREE.SRGBColorSpace;
+    return t;
+  }
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  const envRT = pmrem.fromEquirectangular(envTexture());
+  scene.environment = envRT.texture;
+
+  /* ── the backdrop: the ivory sweep the object sits on, and what the glass refracts ── */
+  const bgCanvas = document.createElement('canvas');
+  bgCanvas.width = 4; bgCanvas.height = 256;
+  {
+    const x = bgCanvas.getContext('2d');
+    const g = x.createLinearGradient(0, 0, 0, 256);
+    g.addColorStop(0, '#FBF8F2'); g.addColorStop(1, '#F4EFE5');
+    x.fillStyle = g; x.fillRect(0, 0, 4, 256);
+  }
+  const bgTex = new THREE.CanvasTexture(bgCanvas);
+  bgTex.colorSpace = THREE.SRGBColorSpace;
+  const backdrop = new THREE.Mesh(
+    new THREE.PlaneGeometry(90, 60),
+    new THREE.MeshBasicMaterial({ map: bgTex })
+  );
+  backdrop.position.set(0, 0, -14);
+  scene.add(backdrop);
+
+  /* ── light ── */
+  scene.add(new THREE.AmbientLight(0xffffff, 0.55));
+  const key = new THREE.DirectionalLight(0xfff6ea, 2.1); key.position.set(5, 7, 6); scene.add(key);
+  const fill = new THREE.DirectionalLight(0xf2f4f8, 0.5); fill.position.set(-6, 1, 4); scene.add(fill);
+
+  /* ── the specimen: six residues on a gentle arc, one of them the active site ──
+     The chain runs along the capsule's OWN axis (Y here), and the whole assembly is laid
+     horizontal by an outer holder. That separation matters: spinning the object about the
+     world Y swung the capsule end-on for half of every cycle and it read as a flat disc.
+     Spinning about its own long axis instead keeps the silhouette constant and lets the
+     refracted backdrop slide across it, which is the only thing this plate is actually about. */
+  const N = 6;
+  const holder = new THREE.Group();          /* lays the object horizontal, and wobbles */
+  const spinner = new THREE.Group();         /* turns about the capsule's long axis */
+  holder.rotation.z = Math.PI / 2;
+  holder.add(spinner);
+  scene.add(holder);
+
+  const group = new THREE.Group();
+  const resMat = new THREE.MeshStandardMaterial({ color: 0x8C7B80, roughness: .48, metalness: 0 });
+  const accMat = new THREE.MeshStandardMaterial({ color: 0xC2A05E, roughness: .34, metalness: 0 });
+  const ACCENT_I = 3;
+  const beadGeo = new THREE.SphereGeometry(0.20, 28, 20);
+  const pts = [];
+  for (let i = 0; i < N; i++) {
+    const t = (i - (N - 1) / 2) * 0.50;
+    /* offset OFF the axis, or the beads would sit dead-centre and the spin would hide them */
+    const p = new THREE.Vector3(Math.sin(i * 0.9 + 0.4) * 0.26, t, Math.cos(i * 0.75) * 0.24);
+    pts.push(p);
+    const m = new THREE.Mesh(beadGeo, i === ACCENT_I ? accMat : resMat);
+    m.position.copy(p);
+    m.scale.setScalar(0.86 + rnd() * 0.3);
+    group.add(m);
+  }
+  const curve = new THREE.CatmullRomCurve3(pts);
+  group.add(new THREE.Mesh(
+    new THREE.TubeGeometry(curve, 60, 0.042, 8, false),
+    new THREE.MeshStandardMaterial({ color: 0x7A6A54, roughness: .55, metalness: 0 })
+  ));
+  spinner.add(group);
+
+  /* ── the glass: a capsule you could pick up ── */
+  const glass = new THREE.Mesh(
+    new THREE.CapsuleGeometry(0.86, 2.3, 24, 48),
+    new THREE.MeshPhysicalMaterial({
+      transmission: 1, thickness: 1.15, ior: 1.45,
+      roughness: 0.04, metalness: 0,
+      clearcoat: 1, clearcoatRoughness: 0.07,
+      attenuationColor: new THREE.Color(0xF6F2EA), attenuationDistance: 14,
+      transparent: true, depthWrite: false,
+      color: 0xffffff
+    })
+  );
+  spinner.add(glass);
+
+  /* ── the contact shadow: a soft ellipse under the object, on its own plane ──
+     Without it the capsule floats in a void. It is a canvas radial gradient, not a shadow
+     map — cheaper, softer, and it never bands on a pale ground. */
+  const shTex = (() => {
+    const c = document.createElement('canvas'); c.width = c.height = 128;
+    const x = c.getContext('2d');
+    const g = x.createRadialGradient(64, 64, 2, 64, 64, 62);
+    g.addColorStop(0, 'rgba(106,88,95,.30)');
+    g.addColorStop(.45, 'rgba(106,88,95,.13)');
+    g.addColorStop(1, 'rgba(106,88,95,0)');
+    x.fillStyle = g; x.fillRect(0, 0, 128, 128);
+    return new THREE.CanvasTexture(c);
+  })();
+  const shadow = new THREE.Mesh(
+    new THREE.PlaneGeometry(4.0, 1.7),
+    new THREE.MeshBasicMaterial({ map: shTex, transparent: true, depthWrite: false })
+  );
+  shadow.rotation.x = -Math.PI / 2;
+  shadow.position.y = -1.02;
+  scene.add(shadow);
+
+  /* Fog dissolves the backdrop's edges into the page so nothing reads as a pasted cutout. */
+  scene.fog = new THREE.Fog(GROUND_TOP, 9, 30);
+
+  const accCol = new THREE.Color();
+  let W = 0, H = 0;
+
+  return {
+    resize() {
+      S.resize();
+      W = canvas.clientWidth; H = canvas.clientHeight;
+      /* Composition. The OBJECT moves, not the camera — sliding the camera would swing the
+         key light across the capsule and change the material at every breakpoint. Desktop:
+         parked at x=+3.15, which lands its left edge clear of
+         the sub-paragraph's last line — measured, not guessed. Phone: dropped
+         low and centred, small, under the buttons, because there the copy owns everything. */
+      const phone = W < 760;
+      camera.fov = phone ? 34 : 24;
+      camera.position.set(0, phone ? -0.35 : 0.18, 18);
+      camera.lookAt(0, phone ? -0.35 : 0, 0);
+      const k = phone ? 0.72 : 1;
+      const ox = phone ? 0.1 : 3.15;
+      const oy = phone ? -2.35 : 0;
+      holder.scale.setScalar(k); holder.position.set(ox, oy, 0);
+      shadow.scale.setScalar(k * 1.35); shadow.position.x = ox; shadow.position.y = -1.30 * k + oy;
+      /* fov is changed AFTER S.resize() set the aspect, so the projection matrix has to be
+         rebuilt here or the new field of view never reaches the renderer. */
+      camera.updateProjectionMatrix();
+    },
+    draw(t) {
+      /* One turn about its own axis every 46 seconds — the slowest motion in the lab, and
+         still the most alive, because what moves is the refracted backdrop rather than a
+         silhouette. The holder adds a shallow wobble so it never reads as a turntable. */
+      spinner.rotation.y = t * (6.2832 / 46);
+      holder.rotation.x = Math.sin(t * 0.052) * 0.14;
+      holder.rotation.z = Math.PI / 2 + Math.sin(t * 0.041 + 1.1) * 0.07;
+
+      const c = kit.ACC();
+      accCol.setRGB(c[0], c[1], c[2], THREE.SRGBColorSpace);
+      accMat.color.copy(accCol);
+
+      S.render();
+    }
+  };
+};
+
+/* ── X · Deep ── */
+/* ══════════ X · DEEP — "a peptide is one of billions" ══════════
+   Hundreds of short chains through a deep volume, the camera drifting forward forever.
+
+   THE THREE THINGS THAT MAKE THIS READ AS A LENS RATHER THAN A PARTICLE SYSTEM:
+     1 · DEPTH OF FIELD, faked per sprite. Near residues are LARGE, SOFT and nearly
+         transparent; far ones are small and crisp. A field where everything is equally sharp
+         reads as a screensaver — this inversion is the whole illusion.
+     2 · FOG that eats the far field completely, so the volume has no back wall and the page
+         and the scene share one colour at the horizon.
+     3 · A SEAMLESS LOOP. The field scrolls toward the camera and each chain RECYCLES to the
+         back when it passes — the camera itself never moves, so there is no path to loop and
+         nothing can ever pop.
+
+   Built from one soft procedural sprite (a radial gradient painted to a canvas) drawn as
+   instanced billboards, so several hundred residues cost one draw call.
+   ══════════════════════════════════════════════════════════════════════════════════════ */
+window.PLATES.x = function (canvas, kit) {
+  const THREE = window.THREE;
+  if (!THREE) return null;
+  const S = kit.threeScene(canvas, THREE, 1.4);
+  if (!S) return null;
+  const { scene, camera } = S;
+  const rnd = kit.seeder(19831983);
+
+  const GROUND = 0xFBF8F2;
+  const DEPTH = 62;            /* how far back the volume runs */
+  const NEAR_PLANE = 2.5;      /* residues nearer than this have recycled */
+
+  /* ── the sprite: one soft disc, painted once ── */
+  function discTexture() {
+    const c = document.createElement('canvas');
+    c.width = c.height = 64;
+    const x = c.getContext('2d');
+    const g = x.createRadialGradient(32, 32, 0, 32, 32, 32);
+    g.addColorStop(0.00, 'rgba(255,255,255,1)');
+    g.addColorStop(0.42, 'rgba(255,255,255,.92)');
+    g.addColorStop(1.00, 'rgba(255,255,255,0)');
+    x.fillStyle = g; x.beginPath(); x.arc(32, 32, 32, 0, 6.2832); x.fill();
+    const t = new THREE.CanvasTexture(c);
+    t.colorSpace = THREE.SRGBColorSpace;
+    return t;
+  }
+
+  /* ── the field ──
+     Chains of 3–5 residues. Each chain has a position, a direction and a z-speed; residues
+     are laid along the direction. Everything is stored flat so draw() only writes matrices. */
+  const CHAINS = 140;
+  const MAXR = 5;
+  const chains = [];
+  let residueCount = 0;
+  for (let i = 0; i < CHAINS; i++) {
+    const n = 3 + Math.floor(rnd() * (MAXR - 2));
+    /* Spread wide in x, and BIAS the population to the right: the left of the frame carries
+       the headline, and LAW 4 is about weight, not just clearance. */
+    const bias = rnd();
+    const x0 = (bias * bias * 2 - 0.55) * 26;
+    chains.push({
+      n,
+      x: x0,
+      y: (rnd() * 2 - 1) * 15,
+      z: -rnd() * DEPTH,
+      dx: (rnd() - .5), dy: (rnd() - .5) * .5, dz: (rnd() - .5) * .7,
+      seg: .62 + rnd() * .5,
+      spd: .55 + rnd() * .95,
+      sway: rnd() * 6.28,
+      accent: rnd() < .07,             /* a scatter of glints, deep in the field */
+      r: [...Array(MAXR)].map(() => .11 + rnd() * .09),
+    });
+    residueCount += n;
+  }
+
+  const mat = new THREE.SpriteMaterial({
+    map: discTexture(), transparent: true, depthWrite: false,
+    fog: true, color: 0xffffff, opacity: 1,
+  });
+  /* InstancedMesh of camera-facing planes rather than Sprites: one draw call, and the
+     per-instance colour channel is what carries both the depth fade and the accent. */
+  const planeGeo = new THREE.PlaneGeometry(1, 1);
+  const field = new THREE.InstancedMesh(
+    planeGeo,
+    new THREE.MeshBasicMaterial({ map: mat.map, transparent: true, depthWrite: false,
+                                  depthTest: true, fog: true, toneMapped: false }),
+    residueCount
+  );
+  field.instanceColor = new THREE.InstancedBufferAttribute(new Float32Array(residueCount * 3), 3);
+  field.frustumCulled = false;
+  scene.add(field);
+
+  scene.fog = new THREE.Fog(GROUND, 14, DEPTH * 0.92);
+
+  const m = new THREE.Matrix4();
+  const q = new THREE.Quaternion();
+  const pos = new THREE.Vector3();
+  const scl = new THREE.Vector3();
+  const col = new THREE.Color();
+  const RES = new THREE.Color(0x6A585F);
+  const acc = new THREE.Color();
+  let W = 0;
+
+  return {
+    resize() {
+      S.resize();
+      W = canvas.clientWidth;
+      const phone = W < 760;
+      camera.fov = phone ? 62 : 46;
+      camera.position.set(0, 0, 0);
+      camera.lookAt(0, 0, -1);
+      camera.updateProjectionMatrix();
+    },
+    draw(t) {
+      const a = kit.ACC();
+      acc.setRGB(a[0], a[1], a[2], THREE.SRGBColorSpace);
+      /* Density law: fewer chains on a phone, taken as a PREFIX so the composition thins
+         rather than reshuffling into a different field. */
+      const live = Math.max(52, Math.round(CHAINS * kit.dens(W)));
+
+      const tanHalf = Math.tan((camera.fov * Math.PI / 180) / 2);
+      const aspect = camera.aspect;
+
+      let k = 0;
+      for (let i = 0; i < CHAINS; i++) {
+        const ch = chains[i];
+        const drawThis = i < live;
+        /* march toward the camera and wrap — the camera never moves, so nothing can pop */
+        const z0 = ch.z + t * ch.spd;
+        const zz = ((z0 % DEPTH) + DEPTH) % DEPTH - DEPTH + NEAR_PLANE;
+        const sx = Math.sin(t * .07 + ch.sway) * .5;
+
+        for (let j = 0; j < ch.n; j++) {
+          if (k >= residueCount) break;
+          if (!drawThis) { scl.set(0, 0, 0); pos.set(0, 0, 1); col.setRGB(0, 0, 0); }
+          else {
+            const px = ch.x + ch.dx * j * ch.seg + sx;
+            const py = ch.y + ch.dy * j * ch.seg;
+            const pz = zz + ch.dz * j * ch.seg;
+            pos.set(px, py, pz);
+
+            /* THE LENS. depth 0 at the camera → 1 at the back of the volume.
+               Near: big, soft, faint. Far: small, tight, present. */
+            const depth = Math.min(1, Math.max(0, -pz / DEPTH));
+            const nearness = 1 - depth;
+            const bokeh = 1 + nearness * nearness * 11;          /* huge when very close */
+            const size = ch.r[j] * bokeh * (1 + depth * 0.5);
+            scl.set(size, size, 1);
+
+            /* LAW 4, applied where it actually bites: in SCREEN space, not world space.
+               Project this residue's x to a screen fraction at its own depth — a near
+               residue at x=-4 lands far left, the same x at the back of the volume lands
+               almost centred — and fade whatever falls in the copy band. Biasing the
+               population in world x alone was not enough: the big near-field bokeh is
+               exactly the stuff that drifts across the headline. */
+            const halfW = Math.max(0.001, Math.abs(pz) * tanHalf * aspect);
+            const screenX = 0.5 + px / (2 * halfW);
+            const clear = 0.22 + 0.78 * kit.quietX(screenX * W, W);
+
+            const alpha = (0.10 + depth * 0.55 - nearness * nearness * 0.12) * clear;
+
+            /* colour carries the fade: multiply the sprite by a value that walks from the
+               ground colour (invisible) up to the residue colour (present) */
+            const base = ch.accent && j === 1 ? acc : RES;
+            col.copy(base).lerp(new THREE.Color(GROUND), 1 - Math.min(1, alpha * 2.2));
+          }
+          m.compose(pos, q, scl);
+          field.setMatrixAt(k, m);
+          field.setColorAt(k, col);
+          k++;
+        }
+      }
+      field.count = residueCount;
+      field.instanceMatrix.needsUpdate = true;
+      if (field.instanceColor) field.instanceColor.needsUpdate = true;
+      S.render();
+    }
+  };
+};
+
+/* ── Y · Bloom ── */
+/* ══════════ Y · BLOOM — "a peptide is a surface" ══════════
+   The space-filling model: residues fused by a smooth minimum into one continuous alabaster
+   surface, raymarched. Not a mesh, not a drawing — a solved surface.
+
+   THE BLEND FACTOR IS THE WHOLE AESTHETIC. Too small and it is a string of beads with dents
+   between them; too large and it is an amoeba with no residues left in it. K = 0.42 keeps the
+   lobes readable while the necks stay liquid.
+
+   THE SILHOUETTE DISSOLVES BY FRESNEL, not by coverage antialiasing. At grazing angles the
+   surface goes translucent and lets the ground through, so the object melts into the page
+   instead of presenting the hard cut-out edge that makes raymarched blobs look cheap. It also
+   happens to be what a real translucent material does, so it costs nothing in honesty.
+
+   WebGL1 / GLSL ES 1.00: constant loop bounds and NO `break` — the march is guarded by a
+   flag instead, because break-in-loop is the classic thing that compiles on a desktop driver
+   and silently fails somewhere else.
+   ══════════════════════════════════════════════════════════════════════════════════════ */
+window.PLATES.y = function (canvas, kit) {
+  const FRAG = kit.GLSL_KIT + `
+float smin(float a, float b, float k){
+  float h = clamp(0.5 + 0.5*(b-a)/k, 0.0, 1.0);
+  return mix(b, a, h) - k*h*(1.0-h);
 }
 
-/* copy entrance per plate, once — the same feel as the live GSAP intro */
-const pio=new IntersectionObserver(es=>{
-  for(const en of es) if(en.isIntersecting){ en.target.classList.add("in"); pio.unobserve(en.target); }
-},{threshold:.2});
-for(const p of document.querySelectorAll(".plate")) pio.observe(p);
+/* Seven residues on a chain that writhes slowly about its own length. */
+vec3 residue(float i, float tt){
+  return vec3(
+    sin(i*1.15 + tt*0.115) * 0.62,
+    (i - 3.0) * 0.50 + sin(tt*0.085 + i*0.6) * 0.10,
+    cos(i*0.93 + tt*0.099) * 0.55
+  );
+}
 
-/* rail spy */
-const railLinks=[...document.querySelectorAll(".rail a")];
-const rio=new IntersectionObserver(es=>{
-  for(const en of es) if(en.isIntersecting){
-    for(const a of railLinks) a.classList.toggle("on", a.dataset.spy===en.target.id);
+float map(vec3 p){
+  float d = 1e5;
+  for (int i = 0; i < 7; i++){
+    float fi = float(i);
+    float r = 0.40 + 0.075*sin(fi*2.1 + 1.0);
+    d = smin(d, length(p - residue(fi, uTime)) - r, 0.42);
   }
-},{threshold:.5});
-for(const p of document.querySelectorAll(".plate")) rio.observe(p);
+  return d;
+}
 
-/* accent bar — one dataset flip; every engine reads it through acc() on the next frame */
-const ab=[...document.querySelectorAll(".accents button")];
-for(const b of ab) b.addEventListener("click", ()=>{
-  document.documentElement.dataset.accent=b.dataset.accent;
-  for(const x of ab) x.classList.toggle("on", x===b);
-  if(REDUCE) for(const e of engines){ e.draw(STILL); }   /* no loop to pick it up */
-});
-document.documentElement.dataset.accent="gold";
+vec3 nrm(vec3 p){
+  vec2 e = vec2(0.0022, 0.0);
+  return normalize(vec3(
+    map(p+e.xyy) - map(p-e.xyy),
+    map(p+e.yxy) - map(p-e.yxy),
+    map(p+e.yyx) - map(p-e.yyx)));
+}
+
+void main(){
+  vec2 uv = gl_FragCoord.xy / uRes;
+  vec3 ground = groundAt(uv);
+
+  /* centred coords, then shifted so the object sits in the right of the frame */
+  float aspect = uRes.x / uRes.y;
+  vec2 q = (gl_FragCoord.xy - 0.5*uRes) / uRes.y;
+  float phone = step(aspect, 0.85);
+  q.x -= mix(0.52, 0.02, phone);
+  q.y -= mix(0.00, 0.46, phone);
+  float zoom = mix(1.0, 1.5, phone);
+
+  vec3 ro = vec3(0.0, 0.0, 5.35*zoom);
+  vec3 rd = normalize(vec3(q, -1.55));
+
+  float t = 0.0;
+  float d = 1.0;
+  float hit = 0.0;
+  for (int i = 0; i < 78; i++){
+    if (hit < 0.5 && t < 9.0){
+      vec3 p = ro + rd*t;
+      d = map(p);
+      if (d < 0.0016) hit = 1.0;
+      t += d*0.88;
+    }
+  }
+
+  vec3 col = ground;
+  if (hit > 0.5){
+    vec3 p = ro + rd*t;
+    vec3 n = nrm(p);
+
+    vec3 kdir = normalize(vec3(0.55, 0.85, 0.60));   /* one soft key, high and right */
+    vec3 fdir = normalize(vec3(-0.75, 0.05, 0.45));  /* a broad fill, low and left */
+    float key  = clamp(dot(n, kdir), 0.0, 1.0);
+    float fill = clamp(dot(n, fdir), 0.0, 1.0);
+    float fres = pow(1.0 - clamp(dot(n, -rd), 0.0, 1.0), 3.0);
+
+    /* alabaster: high key, almost no dark values — the darkest part of this surface is
+       still lighter than the body copy sitting next to it */
+    vec3 base = vec3(0.965, 0.950, 0.930);
+    vec3 sh = base * (0.70 + 0.34*key + 0.13*fill);
+
+    /* thin edges warm slightly, the way a translucent stone does */
+    sh += vec3(0.34, 0.24, 0.14) * fres * 0.30;
+    /* and the accent catches only where the key grazes — a glint, never a fill */
+    sh = mix(sh, uAcc, pow(key, 7.0) * 0.44 + fres*fres * 0.12);
+
+    /* THE DISSOLVE: translucent at grazing angles, so the silhouette bleeds into the page */
+    float alpha = 1.0 - fres*0.62;
+    col = mix(ground, sh, alpha);
+  }
+
+  gl_FragColor = vec4(col, 1.0);
+}
+`;
+  const S = kit.glScene(canvas, FRAG, 1.5);
+  if (!S) return null;
+  return { resize(){ S.resize(); }, draw(t){ S.draw(t); } };
+};
+
+/* ── Z · Aperture ── */
+/* ══════════ Z · APERTURE — "a peptide, too close to read" ══════════
+   One peptide bond, filling the frame, at a wide aperture.
+
+   This is the SCALE play in the lab: every other plate shows many small things, this shows one
+   enormous thing. Two residues bleed off the edges and only the narrow bridge between them is
+   sharp. If the whole frame is in focus the plate does not exist.
+
+   WHY CANVAS 2D AND NOT THREE.JS. A convincing wide-aperture look needs a focus falloff of
+   thirty-odd pixels of blur, and doing that in WebGL means rendering to a target and running a
+   separate blur pass — expensive, and on a pale near-white field the banding shows. Layered
+   radial gradients ARE soft by construction: there is no edge to blur because none was ever
+   drawn. The one thing that must stay crisp is the bond, and that is drawn last and small.
+
+   Everything is painted at DPR-scaled size into an offscreen buffer once per frame; the shapes
+   are so few that this is cheaper than any of the geometry plates.
+   ══════════════════════════════════════════════════════════════════════════════════════ */
+window.PLATES.z = function (canvas, kit) {
+  const s = kit.ctx2d(canvas, 1.5);
+  const rnd = kit.seeder(9090909);
+
+  /* a few enormous, near-invisible foreground specks — they sell the lens by being the only
+     thing MORE out of focus than the residues */
+  const motes = [...Array(5)].map(() => ({
+    x: rnd(), y: rnd(), r: 0.10 + rnd() * 0.16,
+    dx: (rnd() - .5) * 0.010, dy: (rnd() - .5) * 0.008, ph: rnd() * 6.28,
+  }));
+
+  /* A residue is drawn as a stack of concentric radial gradients rather than a disc: a bright
+     core, a broad body, and a very wide halo that never quite reaches zero. Stacked, they give
+     the smooth shoulder a defocused sphere has, with no edge anywhere. */
+  function residue(c, x, y, R, warm) {
+    const g1 = c.createRadialGradient(x - R * .28, y - R * .34, R * .04, x, y, R);
+    g1.addColorStop(0.00, `rgba(255,254,251,${.98 * warm})`);
+    g1.addColorStop(0.42, `rgba(240,234,228,${.88 * warm})`);
+    g1.addColorStop(0.78, `rgba(202,191,192,${.66 * warm})`);
+    g1.addColorStop(1.00, 'rgba(198,188,190,0)');
+    c.fillStyle = g1;
+    c.beginPath(); c.arc(x, y, R, 0, 6.2832); c.fill();
+
+    /* the shadowed underside, offset from the key — this is what makes it read as a sphere
+       rather than a glow */
+    const g2 = c.createRadialGradient(x + R * .30, y + R * .40, R * .05, x + R * .18, y + R * .26, R * .92);
+    g2.addColorStop(0.00, `rgba(120,102,108,${.30 * warm})`);
+    g2.addColorStop(0.62, `rgba(120,102,108,${.11 * warm})`);
+    g2.addColorStop(1.00, 'rgba(120,102,108,0)');
+    c.fillStyle = g2;
+    c.beginPath(); c.arc(x, y, R, 0, 6.2832); c.fill();
+  }
+
+  return {
+    resize() { s.resize(); },
+    draw(t) {
+      const c = s.ctx, W = s.w, H = s.h;
+      kit.ground(c, W, H);
+
+      const phone = W < 760;
+      /* THE FOCAL POINT — the one sharp thing in the frame. Right third on desktop, and
+         dropped low and right on a phone where the copy owns the upper two thirds. */
+      const fx = W * (phone ? 0.66 : 0.685);
+      const fy = H * (phone ? 0.80 : 0.505);
+
+      /* a slow breath, so nothing is ever quite still */
+      const br = Math.sin(t * (6.2832 / 26)) * 0.5 + 0.5;
+      const drift = Math.sin(t * (6.2832 / 38)) * (phone ? 9 : 19);
+      const R = Math.min(W, H) * (phone ? 0.52 : 0.62) * (0.975 + br * 0.05);
+
+      /* the two residues, both cropped by the frame: one off the right edge, one below.
+         The gap between them is where the bond lives. */
+      const ax = fx + R * 0.86 + drift, ay = fy - R * 0.36 - drift * .4;
+      const bx = fx - R * 0.80 - drift, by = fy + R * 0.74 + drift * .5;
+
+      residue(c, ax, ay, R, 1);
+      residue(c, bx, by, R * 0.94, 0.94);
+
+      /* THE BOND — the only crisp thing in the frame, and small.
+         A short bar between the two residue centres, sharp-edged and thin. */
+      const dx = bx - ax, dy = by - ay, len = Math.hypot(dx, dy);
+      const ux = dx / len, uy = dy / len;
+      const mx = (ax + bx) / 2, my = (ay + by) / 2;
+      const half = Math.min(W, H) * 0.052;
+
+      c.save();
+      /* a faint clearing behind the bond, so the sharp mark is not lost in the soft mass */
+      const clear = c.createRadialGradient(mx, my, 0, mx, my, half * 5.4);
+      clear.addColorStop(0, 'rgba(252,250,246,.50)');
+      clear.addColorStop(1, 'rgba(252,250,246,0)');
+      c.fillStyle = clear;
+      c.beginPath(); c.arc(mx, my, half * 5.4, 0, 6.2832); c.fill();
+
+      c.lineCap = 'round';
+      c.strokeStyle = kit.BOND(.55);
+      c.lineWidth = Math.max(1.4, Math.min(W, H) * 0.0034);
+      c.beginPath();
+      c.moveTo(mx - ux * half, my - uy * half);
+      c.lineTo(mx + ux * half, my + uy * half);
+      c.stroke();
+
+      /* the accent: one precise glint at the sharp point, the only saturated pixel here */
+      const gl = Math.min(W, H) * 0.0165;
+      const halo = c.createRadialGradient(mx, my, 0, mx, my, gl * 4.6);
+      halo.addColorStop(0, kit.acc(.26));
+      halo.addColorStop(1, kit.acc(0));
+      c.fillStyle = halo;
+      c.beginPath(); c.arc(mx, my, gl * 4.6, 0, 6.2832); c.fill();
+
+      c.fillStyle = kit.acc(.90);
+      c.beginPath(); c.arc(mx, my, gl * 0.42, 0, 6.2832); c.fill();
+      c.strokeStyle = kit.acc(.34);
+      c.lineWidth = 1;
+      c.beginPath(); c.arc(mx, my, gl * 1.5 + br * 1.6, 0, 6.2832); c.stroke();
+      c.restore();
+
+      /* foreground motes — enormous, almost invisible, and MORE defocused than anything else */
+      for (const mo of motes) {
+        const x = kit.wrap(mo.x + mo.dx * t + Math.sin(t * .05 + mo.ph) * .012, 1.25) * W - W * .12;
+        const y = kit.wrap(mo.y + mo.dy * t, 1.25) * H - H * .12;
+        const r = mo.r * Math.min(W, H);
+        const g = c.createRadialGradient(x, y, 0, x, y, r);
+        g.addColorStop(0.00, 'rgba(214,205,205,.085)');
+        g.addColorStop(0.70, 'rgba(214,205,205,.045)');
+        g.addColorStop(1.00, 'rgba(214,205,205,0)');
+        c.fillStyle = g;
+        c.beginPath(); c.arc(x, y, r, 0, 6.2832); c.fill();
+      }
+    }
+  };
+};
+
+/* ═══════════════════════════════════════════════════════════════════════════════════
+   RUN
+   ═══════════════════════════════════════════════════════════════════════════════════ */
+(function(){
+  const REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const STILL = 21.7;   /* the lab's still — the frame the plates are screenshotted at */
+  const engines = [];
+
+  function add(letter){
+    const el = document.getElementById("cv-" + letter);
+    if(!el) return;
+    let eng = null;
+    /* A plate that throws — a shader that will not compile, a context that will not open —
+       must cost only itself. The lab still scrolls and the other twelve still run. */
+    try { eng = window.PLATES[letter] && window.PLATES[letter](el, window.KIT); }
+    catch(e){ console.warn("plate " + letter + " failed:", e && e.message); eng = null; }
+    if(!eng){
+      el.style.background = "linear-gradient(160deg,#F8FAFC 30%,#EFF4F8 100%)";
+      const sec = el.closest(".plate"); if(sec) sec.classList.add("nogl");
+      return;
+    }
+    eng.el = el; eng.visible = false; engines.push(eng);
+  }
+
+  const t0 = performance.now();
+  const tNow = () => (performance.now() - t0) / 1000;
+  function sizeAll(){ for(const e of engines){ try{ e.resize(); e.draw(REDUCE ? STILL : tNow()); }catch(err){} } }
+  addEventListener("resize", sizeAll);
+
+  const io = new IntersectionObserver(es => {
+    for(const en of es){
+      const eng = engines.find(e => e.el === en.target);
+      if(eng) eng.visible = en.isIntersecting;
+    }
+  }, { threshold:.02 });
+
+  /* Chapter II needs window.THREE, so nothing is built until the boot block's promise settles.
+     It settles either way — a three.js that fails to load must cost only chapters II, and the
+     eight plates that never needed it still run. */
+  function start(){
+    for(const l of window.__PLATE_ORDER) add(l);
+    for(const e of engines) io.observe(e.el);
+    sizeAll();
+    /* Fonts land after first paint and plate Q is made of glyphs — redraw when they arrive. */
+    if(document.fonts && document.fonts.ready) document.fonts.ready.then(sizeAll);
+    if(!REDUCE){
+      (function loop(){
+        requestAnimationFrame(loop);
+        if(document.hidden) return;
+        const t = tNow();
+        for(const e of engines) if(e.visible){ try{ e.draw(t); }catch(err){} }
+      })();
+    }
+  }
+  (window.__THREE_READY || Promise.resolve()).then(start, start);
+
+  /* copy entrance per plate, once — the same feel as the live GSAP intro */
+  const pio = new IntersectionObserver(es => {
+    for(const en of es) if(en.isIntersecting){ en.target.classList.add("in"); pio.unobserve(en.target); }
+  }, { threshold:.2 });
+  for(const p of document.querySelectorAll(".plate")) pio.observe(p);
+
+  /* rail spy */
+  const railLinks = [...document.querySelectorAll(".rail a")];
+  const rio = new IntersectionObserver(es => {
+    for(const en of es) if(en.isIntersecting){
+      for(const a of railLinks) a.classList.toggle("on", a.dataset.spy === en.target.id);
+    }
+  }, { threshold:.5 });
+  for(const p of document.querySelectorAll(".plate")) rio.observe(p);
+
+  /* accent bar — one dataset flip; every engine reads it through kit.acc()/ACC() next frame */
+  const ab = [...document.querySelectorAll(".accents button")];
+  for(const b of ab) b.addEventListener("click", () => {
+    document.documentElement.dataset.accent = b.dataset.accent;
+    for(const x of ab) x.classList.toggle("on", x === b);
+    if(REDUCE) sizeAll();          /* no loop to pick it up */
+  });
+  document.documentElement.dataset.accent = "gold";
+})();
 </script>

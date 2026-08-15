@@ -1,3 +1,33 @@
+# Handoff addendum — 2026-08-15, round 10b (the lab gets real geometry: thirteen grounds in three chapters)
+
+Scope: `peptide-therapy/bonds-lab.html` (regenerated), a new `.lab-dev/` build rig, `vendor/`,
+`LICENSES/MIT-threejs.txt`, `tools/qa/bonds-lab.mjs`. **The live page did not change** — D is
+still the hero.
+
+Round 10a's six successors to D were all flat Canvas 2D at one scale. His correction: *"im not
+talking only of 2d… including 3js sizes and different ways… you can even make it 3d"*. Fair —
+round 7 auditioned materials and D settled that the hero is made of peptides, so six more
+variations on arrangement answered a closed question. The lab is rebuilt along the axis that
+still varies, **how a plate is made**: thirteen grounds in three chapters — **I · Drawn** (the
+six flat ones), **II · Built** (U Helix, V Ribbon, W Vitrine, X Deep — real geometry, real
+camera, three.js), **III · Rendered** (Y Bloom, a raymarched fused surface; Z Aperture, one bond
+at macro range with only the bond in focus). Scale is a variable now, from a single bond to a
+volume of hundreds of chains.
+
+⚠️ **`bonds-lab.html` is BUILD OUTPUT.** Edit `.lab-dev/` and run `node .lab-dev/build.mjs`,
+which emits both copies of the two-copies rule. three.js is vendored (r166, MIT) rather than
+CDN-loaded; the artifact copy carries it converted to an inline global because artifacts run
+under a CSP that blocks external hosts. **The shipped page still has no three.js** — promoting a
+chapter-II plate means pointing at `vendor/`, not restoring the importmap.
+
+Four bugs worth not repeating — a string `String.replace` corrupting the inlined bundle via
+`$&`/`` $` `` patterns, a deferred `type="module"` boot arriving after the runner, WebGL canvases
+reading back black without `preserveDrawingBuffer`, and smooth scrolling handing the harness
+mid-flight screenshots — plus two bar/chip collisions the geometry check caught. All recorded in
+[`peptide-therapy/HANDOVER.md`](peptide-therapy/HANDOVER.md), Round 10b.
+
+---
+
 # Handoff addendum — 2026-08-15, round 10 (the relay is corrected: the hero is plate D, and three.js leaves the page)
 
 Scope: `peptide-therapy/index.html` + `tools/qa/hero-ground.mjs` (new) + a six-plate lab.

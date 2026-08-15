@@ -1,0 +1,60 @@
+three.js — 3D library
+=====================
+
+Used for: the real-geometry plates (U · Helix, V · Ribbon, W · Vitrine, X · Deep) in
+`peptide-therapy/bonds-lab.html`. Vendored at `vendor/three.module.min.js`.
+
+Version   r166 (three@0.166.1), the `build/three.module.min.js` bundle, unmodified.
+Origin    npm, https://www.npmjs.com/package/three
+Licence   MIT — full text below. Attribution is owed and is satisfied by this file.
+
+WHY IT IS VENDORED RATHER THAN LOADED FROM A CDN
+------------------------------------------------
+The lab exists in two copies (the hero lab's rule): this one with relative URLs, and a
+published Claude artifact with everything embedded. The artifact runs under a strict CSP
+that blocks every external host, so three.js has to travel INSIDE that file.
+
+How each copy gets it differs, and only the boot block differs — the plate code reads
+`window.THREE` either way:
+  · this copy   `<script type="module">import * as THREE from "../vendor/…"` — the
+                pristine upstream bundle, unmodified, loaded relatively.
+  · the artifact  the same bundle CONVERTED to a classic inline script by
+                `.lab-dev/pack/three-to-global.py`. r166 has exactly one `export{…}` and
+                zero imports, so its body is already a self-contained lexical scope; the
+                converter wraps it in a strict-mode IIFE and returns the export list as an
+                object. "use strict" is not optional there — ES modules are strict by
+                default and a plain function is not. Blob- and data-URL imports were
+                rejected as the route because a strict CSP may refuse both; an inline
+                script is what the artifact format actually guarantees.
+
+Vendoring keeps the two copies honest about each other: both run the same bytes of the
+same version, neither depends on a third-party host being up, and both work offline.
+
+The shipped page `peptide-therapy/index.html` does NOT use three.js. Its hero shader was
+the page's only `import("three")` and it left with the round-10 hero swap; the importmap
+was removed at the same time. If a WebGL plate from this lab is ever promoted to the
+hero, point it at this vendored file rather than restoring the CDN importmap.
+
+MIT LICENCE, VERBATIM
+---------------------
+The MIT License
+
+Copyright © 2010-2024 three.js authors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.

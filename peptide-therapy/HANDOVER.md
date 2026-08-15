@@ -1,5 +1,56 @@
 # Peptide Therapy — `/peptide-therapy/` (first ship 2026-08-14)
 
+> ## ROUND 9 — 2026-08-15: the page goes glacier whole (A2 · B2 · C2), and the hero
+> trades its orbs for the bleached silk — SHIPPED TO MAIN AT HIS INSTRUCTION
+>
+> **1 · THE RE-GRADE IS LIVE — his "push your recommendation to main", the letters
+> A2 · B2 · C2 from the grade lab.** Six token VALUES moved by the round-7 judged mapping
+> (ivory→#F4F7FA · cream→#EAF0F5 · line→#D5DEE6 · gold→#7C93A8 · gold-deep→#54687C ·
+> gold-tint→#E4EDF4), --dawn→#E8EFF5 (B2), and the token names keep their BRAND.md roles —
+> the hormone page keeps the warm originals untouched. The one red, the burgundy, the rose
+> and both inks did not move. With them travelled, each with its comment at the site:
+>   · **A2, the chrome fork**: the solid bar is rgba(244,247,250,.94), the footer follows
+>     the tokens, and the plum hairlines/shadows moved hue wine→slate at the SAME alpha
+>     geometry (rgba(71,24,38,α)→rgba(46,54,71,α); the input glass likewise). The header
+>     and footer are now DELIBERATELY FORKED from the landing TRUE COPY — recorded at
+>     .hdr--solid and at the footer comment, alongside the round-8 mark→home divergence.
+>   · **B2 everywhere the dawn stands** (03, doctors, FAQ), and ⚠️ BG_B=[232,239,245] in
+>     the scene script — the token and the constant moved together, cross-refs updated.
+>   · **C2, the scene's voice**: GOLD→[124,147,168], GOLD_DEEP→[84,104,124], the
+>     travelling light [236,214,178]→[214,232,246], the scene's IVORY→[244,247,250], and
+>     ⚠️ `.scene-beat.gold` is PINNED #8FA5B8, NOT var(--gold) — measured: the champagne
+>     carried 6.65:1 on the stage, the token's #7C93A8 only 5.17, #8FA5B8 restores the
+>     weight at 6.46. STONE stays rose (brand law).
+>   · **THREE WARM SURVIVORS, PINNED AS LITERALS, EACH ARGUED AT ITS SITE**: the
+>     preloader's ✦ (the favicon's shared gold spark), and the turn band's three golds —
+>     burgundy + rose cannot move, so 02 stays a COMPLETE warm composition rather than a
+>     half-graded one. If the band itself ever goes cool, that is a new decision.
+>   · --gold-gloss and --gold-deep now SHARE #54687C (the steel deep passes the gloss's
+>     4.5 floor on every ground: 4.96 dawn / 5.01 cream / 5.35 ivory) — the token is kept
+>     split anyway; the divergence was a decision and the next grade may need it.
+>
+> **2 · THE HERO IS PLATE E ("BLEACHED SILK") NOW, NOT AERO — the OWNER's call, relayed:
+> the liquid-glass orbs did not land ("they dont like it… they like a version of the
+> peptides E in there").** One fragmentShader paste, same canvas/uniforms as rounds 7 and
+> 0: the sister silk's domain-warped fbm bleached toward white, motes adrift on top, the
+> round-7 glacier multiply (#F3F7FB) KEPT at the foot of main() — E ships in the same
+> grade layer the lab judged it under. Aero lives on in hero-lab.html (plate K) and the
+> grade lab's reference plate; `git revert` the round-9 hero commit to resurrect it. The
+> round-7 hero-scoped CSS block is COLLAPSED (its overrides became the global tokens);
+> the ::after fade + radial wash merged into the base rule, transparent stops re-keyed to
+> the glacier ivory.
+>
+> QA re-run whole: headless Chromium 1440×900 + 390×844, CDNs served from npm via
+> interception (round 1's egress situation, unchanged — nothing about that shipped):
+> zero console errors, zero page errors, scrollWidth exact at both widths, `?probe=1`
+> clean, `?scene=` .28/.55/.76/.97 rendered and inspected — the chain writes steel on the
+> ink stage, the payoff coils behind "Peptides" on the risen glacier dawn. Printed ratios
+> are WCAG arithmetic on flat grounds (exact); the doctors' PHOTO-backed surfaces keep
+> their glass materials unchanged from the shipped rounds.
+>
+> ⚠️ PUSHED TO MAIN AT HIS EXPLICIT INSTRUCTION (this round's request), branch merged
+> fast-forward; the feature branch continues to carry development.
+
 > ## ROUND 8 — 2026-08-15: the mark learns the way home, and the re-grade gets its lab
 >
 > **1 · BOTH MARKS NOW LINK HOME (`../`), NOT `#top` — his call** ("if someone will click

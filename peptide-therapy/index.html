@@ -51,18 +51,28 @@
   font-display:swap;src:url(../fonts/cormorant-garamond-italic-latin.woff2) format("woff2");
   unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
 
-/* ─────────────────────────── TOKENS — Medi✦X BRAND.md, verbatim ─────────────────────────── */
+/* ──────────────── TOKENS — Medi✦X BRAND.md constants + THIS PAGE'S GLACIER GRADE ────────────────
+   ⚠️ ROUND 9 (2026-08-15): the surfaces are RE-GRADED to glacier — his letters A2·B2·C2 off
+   peptide-therapy/grade-lab.html (kept, with its artifact twin — see HANDOVER round 8). The
+   token NAMES keep their BRAND.md roles; six VALUES move by the judged round-7 mapping
+   (ivory→#F4F7FA · cream→#EAF0F5 · line→#D5DEE6 · gold→#7C93A8 · gold-deep→#54687C ·
+   gold-tint→#E4EDF4). The one red, the burgundy, the rose and both inks are BRAND LAW and
+   do not move — on any grade, ever. The hormone page keeps the warm originals: each service
+   page owns its temperature over the same bones. Three warm survivors on THIS page are
+   pinned as literals where they live, each with its argument: the preloader's ✦ (the
+   favicon's shared gold spark), and the turn band's golds (a complete burgundy composition
+   — re-grading only its accents would half-grade the one deliberately warm band). */
 :root{
-  --ivory:#FAF7F1;
-  --cream:#F4EDE1;
-  --line:#DED4C2;
+  --ivory:#F4F7FA;         /* glacier white — the page ground */
+  --cream:#EAF0F5;
+  --line:#D5DEE6;
   --burgundy:#5C1F31;
   --rose:#C79A92;
   --logo-red:#8E2D3A;      /* the one red */
   --red-hover:#A33648;
-  --gold:#C2A05E;
-  --gold-deep:#8A6A34;
-  --gold-tint:#F1E7D2;
+  --gold:#7C93A8;          /* the accent role — steel on this grade */
+  --gold-deep:#54687C;
+  --gold-tint:#E4EDF4;
   --ink:#2E2228;
   --ink-soft:#6A585F;
   --serif:"Playfair","Playfair Display",Didot,"Times New Roman",Georgia,serif;
@@ -78,18 +88,18 @@
   --quote-story:"Cormorant Garamond",Georgia,serif;
   /* ⚠️ THE DAWN, AS A TOKEN — 2026-08-13 (evening). This is the exact colour the scene's
      ground rises TO, and section 03 now stands on it so the handoff has no seam.
-     ⚠️ IT MUST STAY EQUAL TO BG_B IN THE SCENE SCRIPT (`const BG_B=[246,231,225]`). Two
+     ⚠️ IT MUST STAY EQUAL TO BG_B IN THE SCENE SCRIPT (`const BG_B=[232,239,245]`). Two
      copies of one colour in two languages; there is no way to share them in a zero-build
      single file, so they are cross-referenced at both sites instead. Change one, change
      the other, or 03 grows a seam that is 2 RGB values wide and impossible to spot. */
-  --dawn:#F6E7E1;
-  /* ⚠️ 8% DARKER THAN --gold-deep, AND IT IS A CONTRAST FIX, NOT A TASTE ONE. --gold-deep
-     #8A6A34 measures 4.16 on the dawn, and it was ALREADY failing on the cream 03 used to
-     stand on (4.31, against a 4.5 floor for text this size) — a fail this round inherited
-     rather than caused, and would have deepened. #7F6230 is the same hue at 92% and clears
-     everywhere it is used: 4.72 dawn / 4.89 cream / 5.32 ivory. Only .seg-gloss takes it;
-     --gold-deep keeps its own value for the scene, where it sits on different grounds. */
-  --gold-gloss:#7F6230;
+  --dawn:#E8EFF5;          /* glacier dawn — B2, his letter. The rose #F6E7E1 lives on in the sister page */
+  /* ⚠️ TWO TOKENS THAT NOW SHARE A VALUE, AND THE SPLIT STAYS. The warm system needed a
+     darker gloss (#7F6230) because --gold-deep #8A6A34 measured 4.16 on the rose dawn,
+     under the 4.5 floor for .seg-gloss's size. The steel deep #54687C passes EVERYWHERE
+     the gloss appears on this grade — measured: 4.96 dawn / 5.01 cream / 5.35 ivory — so
+     gloss and deep converge. The token is kept, not collapsed, because the divergence was
+     a decision and the next grade may need it again (same rule as --quote/--quote-story). */
+  --gold-gloss:#54687C;
   --ease:cubic-bezier(.22,.61,.36,1);
   --pad:clamp(20px,4.5vw,72px);
   /* landing-page header geometry (ported from medi-x BRAND system) */
@@ -153,7 +163,9 @@ img{max-width:100%}
 /* ─────────────────────────── PRELOADER ─────────────────────────── */
 .preloader{position:fixed;inset:0;background:var(--burgundy);z-index:300;display:flex;align-items:center;justify-content:center}
 .preloader .mark{font-family:var(--serif);font-size:clamp(28px,4vw,46px);color:var(--ivory);letter-spacing:.02em}
-.preloader .mark .star{color:var(--gold);font-size:.6em;vertical-align:.25em;padding:0 .18em}
+/* ⚠️ THE ✦ STAYS GOLD BY LITERAL — it is the favicon's shared spark on the same burgundy,
+   and the one mark that must match across every page (HANDOVER round 7: "it stays"). */
+.preloader .mark .star{color:#C2A05E;font-size:.6em;vertical-align:.25em;padding:0 .18em}
 
 /* ─────────────────────────── HEADER — ported from the Medi✦X landing bar ─────────────────────────── */
 .hdr{
@@ -177,7 +189,11 @@ img{max-width:100%}
 .hdr--hidden > *{pointer-events:none}
 .hdr--solid{
   padding-top:.7rem;padding-bottom:.7rem;
-  background:rgba(250,247,241,.95);
+  /* ⚠️ THE CHROME FORK — A2, his letter (round 9). The landing bar is ivory glass
+     rgba(250,247,241,.95); this page's bar follows its own grade at the same alpha
+     geometry. Same bar otherwise: geometry, blur, red mark. The TRUE-COPY status of
+     the header is deliberately forked here — recorded, not drifted. */
+  background:rgba(244,247,250,.94);
   border-bottom-color:var(--line);
   backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
 }
@@ -278,7 +294,11 @@ body.nav-open .nav li{
 /* ─────────────────────────── HERO ─────────────────────────── */
 .hero{position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden}
 #silk{position:absolute;inset:0;width:100%;height:100%;display:block}
-.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(250,247,241,0) 55%,var(--ivory) 97%);pointer-events:none}
+/* the foot fade + the lab's radial wash behind the copy (round 7) — one rule since round 9,
+   the transparent stop matching the glacier ivory it fades to */
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;background:
+  linear-gradient(180deg,rgba(244,247,250,0) 55%,var(--ivory) 97%),
+  radial-gradient(85% 115% at 20% 44%,rgba(244,247,250,.55) 0%,rgba(244,247,250,.22) 46%,rgba(244,247,250,0) 70%)}
 .hero-inner{position:relative;z-index:2;width:100%;padding-top:14vh;padding-bottom:12vh}
 .hero .kicker{margin-bottom:clamp(22px,3.4vh,38px)}
 /* The sister page's ramp, inherited. "Peptide" / "therapy" are short lines (≈4.3em),
@@ -299,22 +319,10 @@ body.nav-open .nav li{
 .hero-hint .tick::after{content:"";position:absolute;top:-50%;left:0;width:100%;height:50%;background:var(--gold);animation:drip 2.1s var(--ease) infinite}
 @keyframes drip{0%{top:-50%}100%{top:110%}}
 
-/* ── GLACIER, HERO-SCOPED — round 7 ── The hero ground is now plate K ("Aero") in the
-   glacier grade, chosen off the fourteen-plate audition in hero-lab.html: liquid-glass
-   orbs on slate-cool white. The hero's own chrome follows the grade — the gold kicker
-   rule, the drip and the ghost border were the only champagne left on this frame.
-   SCOPED to the hero on purpose: the rest of the page keeps the ivory/gold system until
-   the site-wide re-grade he asked for (HANDOVER round 7 — "same vibe on the rest of the
-   website"). The one red is untouched here and everywhere. The ::after gains the lab's
-   radial wash behind the copy — the plates were judged with it, so it ships with them. */
-.hero .kicker::before{background:#7C93A8}
-.hero-hint .tick{background:#D5DEE6}
-.hero-hint .tick::after{background:#7C93A8}
-.hero .btn.ghost{border-color:#D5DEE6}
-.hero .btn.ghost:hover{background:#EAF0F5;border-color:#7C93A8}
-.hero::after{background:
-  linear-gradient(180deg,rgba(250,247,241,0) 55%,var(--ivory) 97%),
-  radial-gradient(85% 115% at 20% 44%,rgba(244,247,250,.55) 0%,rgba(244,247,250,.22) 46%,rgba(244,247,250,0) 70%)}
+/* ── The round-7 GLACIER, HERO-SCOPED block stood here and is COLLAPSED — round 9. Its
+   overrides (steel kicker rule, glacier tick + drip, glacier ghost border, the ::after
+   wash) are now exactly what the global tokens and the base ::after rule produce, because
+   the whole page wears the grade the hero introduced. Deleted as redundant, not reverted. */
 
 /* ─────────────────────────── SECTION SHELL ─────────────────────────── */
 section{position:relative}
@@ -337,12 +345,17 @@ section{position:relative}
 
 /* ─────────────────────────── 02 · THE TURN (dark) ─────────────────────────── */
 .turn{background:var(--burgundy);color:var(--ivory);overflow:hidden}
-.turn .chapter-mark{color:var(--gold)}
+/* ⚠️ THE TURN'S GOLDS ARE PINNED WARM BY LITERAL — round 9. The burgundy and the rose
+   glow cannot move (brand law), so this band stays a complete WARM composition: swapping
+   only its gold accents to steel would have half-graded the one deliberately warm band on
+   the page. Gold-on-burgundy is the brand's own dark pairing (preloader, landing pathways);
+   contrast is as shipped. If the band itself ever goes cool, that is a different decision. */
+.turn .chapter-mark{color:#C2A05E}
 .turn-quote{
   font-family:var(--quote);font-weight:400;
   font-size:clamp(30px,4.4vw,60px);line-height:1.22;color:var(--ivory);max-width:16em;
 }
-.turn-quote .gold{color:var(--gold)}
+.turn-quote .gold{color:#C2A05E} /* pinned warm — see the .turn note */
 .turn-cols{display:grid;grid-template-columns:1fr 1fr;gap:clamp(36px,5vw,90px);margin-top:clamp(48px,7vh,84px)}
 .turn-cols p{font-size:clamp(15px,1.25vw,18px);font-weight:300;color:rgba(250,247,241,.78);line-height:1.85}
 .turn-cols p strong{font-weight:500;color:var(--ivory)}
@@ -352,7 +365,7 @@ section{position:relative}
   font-family:var(--serif);font-size:clamp(19px,1.9vw,26px);color:var(--ivory);
 }
 .turn-list li:first-child{border-top:1px solid rgba(250,247,241,.16)}
-.turn-list .star{color:var(--gold);font-size:.65em}
+.turn-list .star{color:#C2A05E;font-size:.65em} /* pinned warm — see the .turn note */
 .turn-glow{position:absolute;right:-18vw;top:-20vh;width:60vw;height:60vw;border-radius:50%;
   background:radial-gradient(circle,rgba(199,154,146,.16) 0%,rgba(92,31,49,0) 62%);pointer-events:none}
 
@@ -453,7 +466,7 @@ section{position:relative}
 }
 .px:hover,.px:focus-within{
   border-color:var(--gold);transform:translateY(-3px);
-  box-shadow:0 14px 30px rgba(71,24,38,.08);
+  box-shadow:0 14px 30px rgba(46,54,71,.08);
 }
 .px-num{font-family:var(--accent);font-size:12px;letter-spacing:.26em;color:var(--gold-deep)}
 /* Megante — an explicit family also keeps the global h1–h3 "opsz" 30 rule inert
@@ -565,7 +578,7 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
   position:relative;width:min(100%,27rem);aspect-ratio:1;
   border-radius:2px;overflow:hidden;
   background:linear-gradient(165deg,var(--cream),var(--gold-tint));
-  box-shadow:0 18px 44px rgba(71,24,38,.12);
+  box-shadow:0 18px 44px rgba(46,54,71,.12);
 }
 .doc-photo img{width:100%;height:100%;object-fit:cover;display:block}
 .doc.no-photo .doc-photo img{display:none}
@@ -635,7 +648,7 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
 .pxd-face{
   flex:none;display:block;overflow:hidden;border-radius:2px;
   width:var(--face);height:var(--face);
-  box-shadow:0 10px 26px rgba(71,24,38,.14);
+  box-shadow:0 10px 26px rgba(46,54,71,.14);
 }
 .pxd-face img{width:100%;height:100%;object-fit:cover;display:block}
 .pxd-hdr-txt{min-width:0}
@@ -899,7 +912,7 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
 .cta-face{
   flex:none;display:block;border-radius:50%;object-fit:cover;
   width:clamp(72px,7vw,104px);height:clamp(72px,7vw,104px);
-  box-shadow:0 10px 30px rgba(71,24,38,.14);
+  box-shadow:0 10px 30px rgba(46,54,71,.14);
 }
 /* ⚠️ IT IS AN h2 SET SMALL, NOT A <p>. Two reasons and both matter: it is the section's only
    statement, so the document outline should have it; and .final p — the rule this section
@@ -927,7 +940,11 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
    .btn.on-dark went too — it was an ivory fill with a burgundy label, for a dark ground
    this section no longer has, and 08 was its only user on the page. All of it is one
    `git revert` away if the banner ever comes back. */
-/* footer — ported from the Medi✦X landing */
+/* footer — ported from the Medi✦X landing
+   ⚠️ FORKED FROM THE TRUE COPY — A2, his letter (round 9): the cream ground, the ivory
+   input glass and the plum hairlines/shadows follow this page's grade via the tokens and
+   the slate literals (same alpha geometry, hue moved wine→slate). Structure, type and
+   every red are still the landing footer's, character for character. */
 /* ══ THE FOOTER IS A TRUE COPY OF THE LANDING PAGE'S — HIS CALL 2026-08-13 (late) ═══════
    "the footer in the hormone balancing page is not the same as the landing page in size
    and in font, please copy it and make it a true copy". Every RULE here was already a
@@ -963,7 +980,7 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
    is not what "true copy" means. Ours is the safe one of the two. */
 footer{
   background:var(--cream);padding:3rem clamp(1.25rem,6vw,6rem) 1.6rem;
-  border-top:1px solid rgba(71,24,38,.14);
+  border-top:1px solid rgba(46,54,71,.14);
   font-weight:400;line-height:normal;
 }
 /* the h1,h2,h3 serif rule at the top of this file must not reach into a copied component */
@@ -986,8 +1003,8 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
 .f-news form{display:flex;gap:.5rem;max-width:24rem}
 .f-news input{
   flex:1;min-width:0;height:2.75rem;padding:0 1.1rem;
-  border-radius:var(--btn-radius);border:1px solid rgba(71,24,38,.28);
-  background:rgba(250,247,241,.6);color:var(--ink);
+  border-radius:var(--btn-radius);border:1px solid rgba(46,54,71,.28);
+  background:rgba(244,247,250,.6);color:var(--ink);
   font-family:var(--sans);font-size:.95rem;font-weight:400;
 }
 .f-news input::placeholder{color:rgba(106,88,95,.7)}
@@ -1017,7 +1034,7 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
 .f-social svg{width:17px;height:17px}
 .f-base{
   margin-top:2rem;padding-top:1.4rem;
-  border-top:1px solid rgba(71,24,38,.14);
+  border-top:1px solid rgba(46,54,71,.14);
   display:flex;flex-wrap:wrap;align-items:center;gap:.8rem 1.5rem;justify-content:center;
 }
 .f-base p{margin:0;font-size:.7rem;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-soft);text-align:center}
@@ -1073,14 +1090,18 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
 .scene-beat{position:absolute;left:0;right:0;top:0;opacity:0;font-family:var(--serif);
   font-size:clamp(27px,3.5vw,49px);line-height:1.22;   /* his 1.16x, chosen in the figure room */
   color:var(--ivory);text-shadow:0 1px 24px rgba(46,34,40,.62)}
-.scene-beat.light{color:var(--ink);text-shadow:0 1px 24px rgba(250,247,241,.8)}
+.scene-beat.light{color:var(--ink);text-shadow:0 1px 24px rgba(244,247,250,.8)}
 .scene-beat em{font-style:italic;color:var(--rose)}
 /* the held word — blooms in a beat after its sentence lands */
 .scene-beat .w{display:inline-block;font-style:italic;color:var(--rose);opacity:0;
   transform:translateY(.35em) scale(.92);filter:blur(5px);
   transition:opacity .8s var(--ease),transform .8s var(--ease),filter .8s var(--ease)}
 .scene-beat .w.on{opacity:1;transform:none;filter:blur(0)}
-.scene-beat.gold{color:var(--gold)} /* the key validating line, lit — lives entirely on the dark stage */
+/* the key validating line, lit — lives entirely on the dark stage. ⚠️ A STEP LIGHTER THAN
+   THE TOKEN, AND IT IS MEASURED (C2, round 9): the champagne #C2A05E carried 6.65:1 on the
+   stage; the token's steel #7C93A8 carries 5.17 — legal (3.0 floor, large text) but a
+   visibly quieter voice. #8FA5B8 is the same steel at the champagne's weight: 6.46:1. */
+.scene-beat.gold{color:#8FA5B8}
 /* ══ THE SCENE CONTROLS — NEW 2026-08-11 ══════════════════════════════════════
    Skip, replay and step, at the foot of the pinned stage.
    ⚠️ THEY CROSS-FADE WITH "SCROLL TO LISTEN" RATHER THAN SITTING BESIDE IT. Both
@@ -2386,13 +2407,16 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
      block that drew the DNA reading is deleted whole; `git revert` this commit
      if it is ever wanted back. */
 
-  const INK=[46,34,40], IVORY=[250,247,241];
-  /* ⚠️ BG_B IS --dawn, the sister scene's pair verbatim — the stage rises to exactly
-     the colour section 03 above it stands on. Two copies of one colour in two
-     languages; change one, change the other (the token carries the same warning). */
-  const BG_A=[42,27,32], BG_B=[246,231,225];
-  const STONE=[176,154,156];                       /* an unwritten bead — dim rose-stone */
-  const GOLD=[201,164,106], GOLD_DEEP=[138,106,52];
+  const INK=[46,34,40], IVORY=[244,247,250];       /* the page's white moved cool (round 9); the scene's follows */
+  /* ⚠️ BG_B IS --dawn — the stage rises to exactly the colour section 03 above it stands
+     on. Two copies of one colour in two languages; change one, change the other (the
+     token carries the same warning). GLACIER DAWN since round 9 — B2, his letter. */
+  const BG_A=[42,27,32], BG_B=[232,239,245];
+  const STONE=[176,154,156];                       /* an unwritten bead — dim rose-stone (brand rose; does not move) */
+  /* ⚠️ THE CHAIN SPEAKS STEEL — C2, his letter (round 9). Was GOLD [201,164,106] /
+     GOLD_DEEP [138,106,52]: the hero's metal writes the message now, judged in the grade
+     lab as a composition (chain + key line together), not find-and-replaced. */
+  const GOLD=[124,147,168], GOLD_DEEP=[84,104,124];
   const ss=(a,b,x)=>{x=Math.max(0,Math.min(1,(x-a)/(b-a)));return x*x*(3-2*x)};
   const mix=(a,b,k)=>a+(b-a)*k;
   const mixC=(A,B,k)=>[Math.round(mix(A[0],B[0],k)),Math.round(mix(A[1],B[1],k)),Math.round(mix(A[2],B[2],k))];
@@ -2510,7 +2534,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
     const gA=ss(.005,.05,p);                       /* the whole act fades in once */
     const coil=ss(.60,.78,p);
     const dim=1-.62*ss(.845,.92,p);                /* the helix steps back as the word arrives */
-    const beadC=mixC(GOLD,GOLD_DEEP,ss(.30,.90,dw)); /* gold deepens on the risen ground —
+    const beadC=mixC(GOLD,GOLD_DEEP,ss(.30,.90,dw)); /* the steel deepens on the risen ground —
                                                         the sister page's contrast rule */
 
     /* positions first — links draw under beads and both need them */
@@ -2589,7 +2613,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
         for(let k=0;k<2;k++){
           const q=(((p-.70)*3.2 + t*.05 + k*.5)%1+1)%1;
           const [x,y]=curve(q,p,t);
-          const C=dw>.5?GOLD_DEEP:[236,214,178];
+          const C=dw>.5?GOLD_DEEP:[214,232,246];   /* the travelling light, champagne → glacier (round 9) */
           const grd=ctx.createRadialGradient(x,y,0,x,y,13);
           grd.addColorStop(0,rgba(C,.8*pk*dim));
           grd.addColorStop(1,rgba(C,0));
@@ -2661,12 +2685,17 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
 </script>
 
 <script type="module">
-/* ═══════════ Aero hero — Three.js shader (round 7; was: the sister silk) ═══════════
-   Plate K "Aero" in the GLACIER grade, his pick from the hero-lab audition (fourteen
-   plates, five grades — peptide-therapy/hero-lab.html holds them all, live). Liquid-glass
-   orbs over a white dish: each orb truly LENSES the ground behind it, wears the glossy
-   top crescent, frosts in the far layer and rises crisper in the near one. The canvas id
-   stays #silk — the CSS and the fallback know it by name, and renaming buys nothing. */
+/* ═══════════ Bleached-silk hero — Three.js shader (round 9; was: Aero, round 7) ═══════════
+   Plate E "Bleached silk" from the hero-lab audition, in the GLACIER grade — the owner's
+   call, relayed 2026-08-15: the liquid-glass orbs did not land ("they dont like it"), the
+   silk did. E is the sister page's own cloud shader bleached toward white — same fbm
+   motion the silk always had, whiter flavour, faint motes adrift on top — so the hero
+   returns to the site's founding material wearing this page's temperature. The round-7
+   glacier multiply (#F3F7FB) stays at the foot of main(): the lab's plates were judged
+   under exactly that grade layer, so what ships is what was seen. Aero lives on in
+   hero-lab.html (plate K) and in the grade lab's reference plate; `git revert` the
+   round-7→9 pair to resurrect it. The canvas id stays #silk — the CSS and the fallback
+   know it by name, and this round the name is true again. */
 try{
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const canvas = document.getElementById("silk");
@@ -2685,9 +2714,10 @@ try{
     fragmentShader:`
       precision highp float;
       uniform float uTime; uniform vec2 uRes;
-      /* No palette block: the glass is colour-locked to silver/white/graphite — his "no
-         yellow" — and the glacier temperature arrives as ONE multiply at the foot of
-         main(), exactly how the lab's grade layer produced the look he judged. */
+      /* No palette block: the silk is bleached — white ground, gray folds, the faintest
+         rose and gold whispers baked into the plate — and the glacier temperature arrives
+         as ONE multiply at the foot of main(), exactly how the lab's grade layer produced
+         the look that was judged. */
       float hash(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453); }
       float noise(vec2 p){
         vec2 i=floor(p), f=fract(p); f=f*f*(3.-2.*f);
@@ -2699,79 +2729,36 @@ try{
         for(int i=0;i<5;i++){ v+=a*noise(p); p*=2.04; a*=.5; }
         return v;
       }
-      /* the dish: bright neutral field, static micro-specks, one breathing ring */
-      vec3 bgWhite(vec2 p, float t, vec2 rc, float rr, float ra){
-        float g = fbm(p*1.7 + vec2(t*.008,-t*.006));
-        vec3 col = mix(vec3(1.), vec3(.955,.956,.960), smoothstep(.2,.9,g));
-        col -= step(.9968, hash(floor(p*240.)))*.035;
-        float dr = length(p-rc)-rr;
-        col = mix(col, vec3(.74,.74,.75), smoothstep(.012,.002,abs(dr))*ra);
-        col += smoothstep(.0,-.25,dr)*.010*step(.001,ra);
-        return col;
-      }
-      /* liquid glass: a true lens with capped dispersion, static frost, the Aero top
-         crescent, Fresnel rim, a seated inner shadow. Dispersion is capped by world
-         radius — uncapped it sprayed rainbow through the sediment (caught on plate N). */
-      vec3 liquidBead(vec2 rel, float dc, vec2 pw, float rw, float t, vec2 rc, float rr, float ra, float frost){
-        dc = min(dc, 1.);
-        float nz = sqrt(max(1.-dc*dc, 0.));
-        vec2 jit = (vec2(noise(pw*130.), noise(pw*130.+41.)) - .5) * frost * rw;
-        vec2 base = pw - rel*rw*(1.-nz)*1.35 + jit;
-        vec2 dsp = rel*min(rw,.09)*.03*dc;
-        vec3 col;
-        col.r = bgWhite(base + dsp, t, rc, rr, ra).r;
-        col.g = bgWhite(base,       t, rc, rr, ra).g;
-        col.b = bgWhite(base - dsp, t, rc, rr, ra).b;
-        col = mix(col, vec3(1.), .05 + .09*smoothstep(.95,.15,dc));
-        float gd = length((rel - vec2(0.,.52))*vec2(1.25,1.9));
-        col += smoothstep(.72,.26,gd)*(.15 + .09*smoothstep(.2,.9,rel.y));
-        col += smoothstep(.72,.30,length((rel - vec2(0.,-.55))*vec2(1.1,1.7)))*.07;
-        float fres = pow(1.-nz, 3.);
-        col = mix(col, vec3(.985,.99,.995), fres*.45);
-        col = mix(col, vec3(.55,.56,.575), smoothstep(.955,.995,dc)*.45);
-        col += smoothstep(.995,.94,dc)*smoothstep(.88,.94,dc)*.10;
-        vec3 n = normalize(vec3(rel, nz));
-        col += vec3(pow(max(dot(n, normalize(vec3(-.38,.62,.68))), 0.), 60.))*.65;
-        col *= 1. - smoothstep(.5,1.,dc)*smoothstep(.05,-.6,rel.y)*.09;
-        return col;
-      }
-      /* one depth layer of orbs: a jittered grid, each cell's orb wandering, breathing,
-         and rising with the layer — near layers rise faster, the lab's parallax */
-      vec3 layerK(vec3 col, vec2 p, float scale, vec2 drift, float rise, float seed, float t, float soft, float strength, vec2 rc, float rr, float frost){
-        vec2 q = p*scale + vec2(drift.x*t, drift.y*t - rise*t);
-        vec2 id = floor(q), f = fract(q);
-        for(int oy=-1;oy<=1;oy++) for(int ox=-1;ox<=1;ox++){
-          vec2 nb = vec2(float(ox),float(oy));
-          float h = hash(id+nb+seed);
-          if(fract(h*9.17) < .48) continue;
-          float br = 1. + .05*sin(t*(.3+.4*fract(h*3.7)) + h*6.2832);
-          vec2 c = nb + .5 + .28*vec2(sin(t*(.05+.07*fract(h*5.1))+h*6.2832),
-                                      cos(t*(.04+.06*fract(h*2.3))+h*9.42));
-          float r = mix(.14,.40,fract(h*7.31))*br;
-          vec2 rel = (f-c)/r;
-          float d1 = length(rel);
-          float sh = smoothstep(1.45,.70,length(rel-vec2(.14,-.20)));
-          col = mix(col, col*vec3(.950,.950,.955), sh*.20*strength);
-          if(d1 < 1.+soft){
-            vec3 bead = liquidBead(rel, d1, p, r/scale, t, rc, rr, .30, frost);
-            col = mix(col, bead, smoothstep(1.+soft, 1.-soft, d1)*strength);
-          }
-        }
-        return col;
-      }
+      /* plate E, verbatim from hero-lab.html: the sister silk's domain-warped fbm,
+         re-graded — white ground, gray folds, a vignette that keeps the copy's corner
+         calm, and motes adrift on top (the molecule whisper over the silk) */
       void main(){
         vec2 uv = gl_FragCoord.xy / uRes;
         vec2 p = uv; p.x *= uRes.x/uRes.y;
-        float t = uTime;
-        vec2 rc = vec2((uRes.x/uRes.y)*.63,.52);
-        float rr = .34+.012*sin(t*.12);
-        vec3 col = bgWhite(p, t, rc, rr, .38);
-        col -= step(.994, hash(floor(p*130.)+3.))*.04;  /* coarse sediment the lenses magnify */
-        /* the field calms toward the copy on the left — the shader's own legibility wash */
-        float fade = .30 + .70*smoothstep(.10,.52,uv.x);
-        col = layerK(col, p, 4.4, vec2(-.006,.004), .022, 31., t, .14, .65*fade, rc, rr, .55);
-        col = layerK(col, p, 2.3, vec2(.007,.005),  .042, 13., t, .03, .95*fade, rc, rr, .0);
-        col *= vec3(.9529,.9686,.9843);  /* the glacier grade — #F3F7FB, multiplied */
+        float t = uTime*.045;
+        vec2 q = vec2(fbm(p*1.35 + t), fbm(p*1.35 + vec2(2.7,7.1) - t));
+        vec2 r = vec2(fbm(p*1.9 + 3.2*q + vec2(1.3,9.2)), fbm(p*1.9 + 3.2*q + vec2(8.3,2.8)));
+        float f = fbm(p*1.55 + 2.6*r + t*.6);
+        vec3 col = mix(vec3(1.,.998,.994), vec3(.938,.933,.923), smoothstep(.2,.98,uv.y*.45 + f*.6));
+        float sheen = smoothstep(.42,.62,f)*smoothstep(.82,.55,f);
+        col = mix(col, vec3(.780,.604,.573), sheen*.06);
+        float thread = smoothstep(.58,.66,f)*smoothstep(.78,.66,f);
+        col = mix(col, vec3(.761,.627,.369), thread*.05);
+        float vig = smoothstep(.92,.55,distance(uv, vec2(.42,.55)));
+        col = mix(vec3(.985,.976,.960), col, clamp(vig+.25,0.,1.));
+        vec2 mq = p*3.4 + vec2(uTime*.008, -uTime*.02);
+        vec2 id = floor(mq), fr = fract(mq);
+        for(int oy=-1;oy<=1;oy++) for(int ox=-1;ox<=1;ox++){
+          vec2 nb = vec2(float(ox),float(oy));
+          float h = hash(id+nb+7.);
+          if(fract(h*9.7) < .45) continue;
+          vec2 c = nb + .5 + .3*vec2(sin(uTime*.06+h*6.28), cos(uTime*.05+h*4.));
+          float rr = mix(.02,.06,fract(h*5.3));
+          float d = length(fr-c);
+          col += smoothstep(rr, rr*.15, d)*.05;
+          col = mix(col, vec3(.75,.73,.71), smoothstep(.008,.002,abs(d-rr))*.22);
+        }
+        col *= vec3(.9529,.9686,.9843);  /* the glacier grade — #F3F7FB, multiplied (round 7, kept) */
         gl_FragColor = vec4(col,1.0);
       }`
   });

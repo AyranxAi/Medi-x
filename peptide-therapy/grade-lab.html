@@ -1,0 +1,1089 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Glacier Lab</title>
+<!-- ═══════════════════════════════════════════════════════════════════════════════════
+     THE GLACIER LAB — peptide-therapy round 8: the rest of the page auditions its grade.
+     Sister to hero-lab.html (round 7, where Aero was chosen) and built in its grammar:
+     full-bleed plates, spec chips, live switching, the brand's own type files.
+     Three questions only he can answer, each a chapter:
+       A · the chrome — does the shared ivory header/footer fork to glacier here?
+       B · the dawn  — what do the three dawn sections (03 · doctors · FAQ) stand on?
+       C · the voice — what colour speaks the chain scene's key line?
+     The composer at the foot re-grades a miniature of the whole page from his picks.
+     ⚠️ TWO COPIES RULE (the hero lab's): this file lives here with relative fonts, and
+     the same lab is published as a Claude artifact with the fonts embedded. Keep both.
+     ⚠️ EVERY RATIO PRINTED IN A SPEC CHIP IS COMPUTED, NOT GUESSED — WCAG 2.x relative
+     luminance on the flat candidate grounds (flat, so arithmetic IS the measurement;
+     the live page's photo-backed alphas still need the render-and-sample method).
+     ═══════════════════════════════════════════════════════════════════════════════════ -->
+<style>
+/* ─── Medi✦X brand faces — the live files, not stand-ins ─── */
+@font-face{font-family:"Playfair";src:url(../fonts/playfair-normal-var-latin.woff2) format("woff2-variations");font-weight:300 900;font-style:normal;font-display:swap}
+@font-face{font-family:"Playfair";src:url(../fonts/playfair-italic-var-latin.woff2) format("woff2-variations");font-weight:300 900;font-style:italic;font-display:swap}
+@font-face{font-family:"MediGyn NOW";src:url(../fonts/medigyn-now-300.woff2) format("woff2");font-weight:300;font-display:swap}
+@font-face{font-family:"MediGyn NOW";src:url(../fonts/medigyn-now-500.woff2) format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"MediGyn Megante";src:url(../fonts/medigyn-megante-400.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Cormorant Garamond";src:url(../fonts/cormorant-garamond-italic-latin.woff2) format("woff2");font-style:italic;font-weight:300 500;font-display:swap}
+
+:root{
+  /* the warm system — kept, because two of the auditions below wear it */
+  --ivory:#FAF7F1; --cream:#F4EDE1; --wline:#DED4C2; --w-dawn:#F6E7E1; --gold:#C2A05E; --gold-deep:#8A6A34; --gold-gloss:#7F6230;
+  /* brand law — the constants no grade may move */
+  --burgundy:#5C1F31; --rose:#C79A92; --logo-red:#8E2D3A; --red-hover:#A33648;
+  --ink:#2E2228; --ink-soft:#6A585F;
+  /* glacier — the judged mapping, hero-lab round 7 */
+  --g-ivory:#F4F7FA; --g-cream:#EAF0F5; --g-line:#D5DEE6; --g-tint:#E4EDF4;
+  --steel:#7C93A8; --steel-deep:#54687C;
+  /* the four dawn candidates */
+  --g-dawn:#E8EFF5; --bhrt-white:#FAF7F1; --lift-white:#FBFDFF;
+  --stage:#2A1B20;
+  --serif:"Playfair","Playfair Display",Didot,"Times New Roman",Georgia,serif;
+  --sans:"MediGyn NOW",Jost,ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --accent-face:"MediGyn Megante",Optima,Georgia,serif;
+  --quote-face:"Cormorant Garamond",Georgia,serif;
+  --ease:cubic-bezier(.22,.61,.36,1);
+  color-scheme:light;
+  /* ── the composer's live selection — chapter pickers rewrite these four groups ── */
+  --dHdr:rgba(244,247,250,.94); --dHline:var(--g-line); --dFoot:var(--g-cream);
+  --dDawn:var(--g-dawn); --dSegLine:var(--g-line); --dGloss:var(--steel-deep);
+  --dCardA:var(--g-cream); --dCardB:var(--g-tint); --dMono:var(--steel-deep);
+  --dBeat:#8FA5B8; --dBeatGlow:0 1px 24px rgba(46,34,40,.62);
+}
+:root[data-chrome="a1"]{--dHdr:rgba(250,247,241,.95); --dHline:var(--wline); --dFoot:var(--cream)}
+:root[data-chrome="a3"]{--dHdr:rgba(252,253,255,.92)}
+:root[data-dawn="b1"]{--dDawn:var(--w-dawn); --dSegLine:var(--wline); --dGloss:var(--gold-gloss); --dCardA:var(--cream); --dCardB:#F1E7D2; --dMono:var(--gold-deep)}
+:root[data-dawn="b3"]{--dDawn:var(--bhrt-white)}
+:root[data-dawn="b4"]{--dDawn:var(--lift-white)}
+:root[data-voice="c1"]{--dBeat:var(--gold)}
+:root[data-voice="c3"]{--dBeat:var(--ivory); --dBeatGlow:0 0 18px rgba(210,230,246,.55),0 1px 24px rgba(46,34,40,.62)}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);font-weight:300;background:var(--g-ivory);color:var(--ink);
+  -webkit-font-smoothing:antialiased;line-height:1.6;
+}
+h1,h2,h3{font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30;color:var(--ink);line-height:1.08;letter-spacing:-.01em;text-wrap:balance}
+h1 em,h2 em{font-style:italic;color:var(--logo-red);font-weight:430}
+button{font:inherit;background:none;border:0;cursor:pointer;color:inherit}
+.wrap{width:min(1180px,calc(100% - clamp(40px,8vw,120px)));margin-inline:auto}
+.chapter-mark{font-family:var(--accent-face);font-size:13px;letter-spacing:.24em;color:var(--steel-deep);text-transform:uppercase}
+.lede{max-width:46em;font-size:clamp(15px,1.25vw,17px);color:var(--ink-soft);line-height:1.8}
+.lede strong{font-weight:500;color:var(--burgundy)}
+
+/* ─── masthead ─── */
+.mast{padding:clamp(64px,9vh,104px) 0 clamp(40px,6vh,60px);border-bottom:1px solid var(--g-line)}
+.mast h1{font-size:clamp(36px,4.6vw,60px);margin-top:18px}
+.mast .lede{margin-top:18px}
+.index{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px;list-style:none}
+.index a{
+  display:inline-flex;align-items:baseline;gap:9px;text-decoration:none;
+  border:1px solid var(--g-line);border-radius:999px;padding:9px 18px;
+  font-size:12.5px;letter-spacing:.06em;color:var(--ink);
+  transition:border-color .3s var(--ease),background .3s var(--ease);
+}
+.index a:hover,.index a:focus-visible{border-color:var(--steel);background:var(--g-cream);outline:none}
+.index .lt{font-family:var(--accent-face);font-size:12px;letter-spacing:.2em;color:var(--steel-deep)}
+.index .tag{color:var(--ink-soft)}
+
+/* ─── plate 0 — the Aero reference ─── */
+.plate{position:relative;min-height:92svh;display:flex;align-items:center;overflow:hidden;background:var(--g-ivory)}
+.plate canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.tint{position:absolute;inset:0;pointer-events:none;z-index:1;background:#F3F7FB;mix-blend-mode:multiply}
+.veil{position:absolute;inset:0;pointer-events:none;z-index:1;background:
+  linear-gradient(180deg,rgba(244,247,250,0) 55%,var(--g-ivory) 97%),
+  radial-gradient(85% 115% at 20% 44%,rgba(244,247,250,.55) 0%,rgba(244,247,250,.22) 46%,rgba(244,247,250,0) 70%)}
+.hero-inner{position:relative;z-index:2;width:100%;padding-top:12vh;padding-bottom:12vh}
+.kicker{
+  display:flex;align-items:center;gap:14px;
+  font-weight:500;font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--ink-soft);
+}
+.kicker::before{content:"";width:34px;height:1px;background:var(--steel)}
+.plate .kicker{margin-bottom:clamp(22px,3.4vh,38px)}
+.plate h2.h1{font-size:clamp(42px,7vw,100px);max-width:11em}
+.hero-sub{margin-top:clamp(24px,3.6vh,40px);max-width:34em;font-size:clamp(17px,1.5vw,21px);color:var(--ink-soft);line-height:1.75}
+.hero-sub strong{font-weight:500;color:var(--burgundy)}
+.hero-ctas{display:flex;gap:16px;margin-top:clamp(30px,4.4vh,48px);flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;gap:12px;
+  font-weight:500;font-size:13px;letter-spacing:.12em;text-transform:uppercase;
+  padding:17px 32px;border-radius:999px;cursor:default;user-select:none;
+  background:rgba(142,45,58,.85);color:var(--ivory);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:1px solid transparent;white-space:nowrap;transition:background .35s var(--ease);
+}
+.btn:hover{background:rgba(163,54,72,.94)}
+.btn.ghost{background:transparent;color:var(--burgundy);border:1px solid var(--g-line);backdrop-filter:none;-webkit-backdrop-filter:none}
+.btn.ghost:hover{background:var(--g-cream);border-color:var(--steel)}
+
+/* ─── spec chip — the plate's own caption ─── */
+.spec{
+  position:absolute;z-index:3;right:clamp(18px,3vw,44px);bottom:clamp(18px,4vh,40px);
+  max-width:360px;padding:16px 20px 17px;border:1px solid var(--g-line);border-radius:16px;
+  background:rgba(244,247,250,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+}
+.spec .lt{font-family:var(--accent-face);font-size:12px;letter-spacing:.24em;color:var(--steel-deep)}
+.spec b{display:block;font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30;font-size:21px;margin-top:6px;letter-spacing:-.01em}
+.spec .eng{display:block;margin-top:8px;font-weight:500;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft)}
+.spec p{margin-top:8px;font-size:13px;line-height:1.6;color:var(--ink-soft)}
+.spec p strong{font-weight:500;color:var(--burgundy)}
+
+/* ─── chapters ─── */
+.chapter{padding:clamp(70px,10vh,120px) 0}
+.chapter>.wrap>h2{font-size:clamp(30px,3.8vw,52px);margin-top:16px;max-width:18em}
+.chapter>.wrap>.lede{margin-top:18px}
+.strips{margin-top:clamp(36px,5vh,56px);display:flex;flex-direction:column;gap:clamp(28px,4vh,44px)}
+
+/* ── a strip: one candidate, framed like a specimen ── */
+.strip{border:1px solid var(--g-line);border-radius:3px;overflow:hidden;background:var(--g-ivory)}
+.strip-head{
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 18px;
+  padding:14px clamp(16px,2.4vw,26px);border-bottom:1px solid var(--g-line);background:var(--g-ivory);
+}
+.strip-head .lt{font-family:var(--accent-face);font-size:13px;letter-spacing:.24em;color:var(--steel-deep)}
+.strip-head b{font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30;font-size:19px;letter-spacing:-.01em}
+.strip-head .hx{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;letter-spacing:.06em;color:var(--ink-soft)}
+.strip-note{padding:13px clamp(16px,2.4vw,26px) 15px;border-top:1px solid var(--g-line);font-size:13px;line-height:1.65;color:var(--ink-soft);background:var(--g-ivory)}
+.strip-note strong{font-weight:500;color:var(--burgundy)}
+.strip-note .m{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.02em}
+
+/* ── chapter A — the chrome mocks. Each strip sets its own three chrome variables. ── */
+.cs-a1{--sHdr:rgba(250,247,241,.95); --sLine:var(--wline); --sFoot:var(--cream)}
+.cs-a2{--sHdr:rgba(244,247,250,.94); --sLine:var(--g-line); --sFoot:var(--g-cream)}
+.cs-a3{--sHdr:rgba(252,253,255,.92); --sLine:var(--g-line); --sFoot:var(--g-cream)}
+.m-hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.75rem clamp(16px,2.4vw,26px);
+  background:var(--sHdr);border-bottom:1px solid var(--sLine);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+}
+.wordmark{font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30;font-size:clamp(21px,2vw,26px);color:var(--logo-red);letter-spacing:.02em;line-height:1}
+.wordmark .star{color:var(--gold);font-size:.62em;vertical-align:.22em;padding:0 .16em}
+.hdr-pills{display:flex;gap:9px;align-items:center}
+.hdr-pill{
+  width:34px;height:34px;border-radius:50%;display:grid;place-content:center;
+  border:1px solid var(--logo-red);color:var(--logo-red);font-size:13px;line-height:1;
+}
+.hdr-pill svg{width:15px;height:15px;display:block}
+.hdr-burger{display:grid;gap:4px;place-content:center}
+.hdr-burger span{display:block;width:18px;height:1px;background:var(--logo-red)}
+/* the body run under the bar — a breath of the glacier page, identical in every A strip */
+.chrome-body{padding:clamp(26px,3.6vh,40px) clamp(16px,2.4vw,26px);background:var(--g-ivory)}
+.chrome-body .kicker{margin-bottom:14px}
+.chrome-body h3{font-size:clamp(22px,2.4vw,32px)}
+.chrome-body p{margin-top:10px;max-width:44em;font-size:14.5px;color:var(--ink-soft)}
+/* the footer band — the strip's other end */
+.m-foot{padding:clamp(24px,3.4vh,36px) clamp(16px,2.4vw,26px);background:var(--sFoot);border-top:1px solid var(--sLine)}
+.m-foot-grid{display:flex;flex-wrap:wrap;gap:22px 48px;align-items:flex-start}
+.f-head{font-weight:500;font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--logo-red)}
+.f-input{
+  margin-top:12px;display:flex;align-items:center;gap:10px;width:min(20rem,100%);
+  border:1px solid var(--sLine);border-radius:999px;padding:9px 9px 9px 18px;background:rgba(255,255,255,.45);
+  font-size:12.5px;color:var(--ink-soft);
+}
+.f-input i{font-style:normal;flex:1}
+.f-input .go{flex:none;background:var(--logo-red);color:var(--ivory);border-radius:999px;padding:7px 16px;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:500}
+.f-social{display:flex;gap:9px;margin-top:12px}
+.f-social i{width:30px;height:30px;border-radius:50%;border:1px solid rgba(142,45,58,.30);display:grid;place-content:center;color:var(--logo-red);font-size:10px;font-style:normal;font-weight:500;letter-spacing:.04em}
+.f-legal{margin-top:16px;font-size:11px;letter-spacing:.04em;color:var(--ink-soft)}
+
+/* ── chapter B — the dawn specimens. Each sets its ground, hairline and gloss ink. ── */
+.ds-b1{--sDawn:var(--w-dawn); --sLine:var(--wline); --sGloss:var(--gold-gloss)}
+.ds-b2{--sDawn:var(--g-dawn); --sLine:var(--g-line); --sGloss:var(--steel-deep)}
+.ds-b3{--sDawn:var(--bhrt-white); --sLine:var(--g-line); --sGloss:var(--steel-deep)}
+.ds-b4{--sDawn:var(--lift-white); --sLine:var(--g-line); --sGloss:var(--steel-deep)}
+/* the specimen sits between two slices of the glacier page, so each candidate is judged
+   against the neighbours it will actually have — not against the lab's own chrome */
+.g-shim{height:clamp(26px,3.4vh,38px);background:var(--g-ivory)}
+.m-seg{
+  padding:clamp(40px,6vh,64px) clamp(16px,2.4vw,26px);text-align:center;
+  background:var(--sDawn);border-top:1px solid var(--sLine);border-bottom:1px solid var(--sLine);
+}
+.m-seg .kicker{justify-content:center}
+.m-seg .kicker::after{content:"";width:34px;height:1px;background:var(--steel)}
+.ds-b1 .m-seg .kicker::before,.ds-b1 .m-seg .kicker::after{background:var(--gold)}
+.m-seg h3{font-size:clamp(28px,3.6vw,48px);margin-top:16px}
+.m-seg .gloss{margin-top:12px;font-family:var(--accent-face);font-size:clamp(13px,1.2vw,16px);letter-spacing:.15em;text-transform:uppercase;color:var(--sGloss)}
+.m-seg .def{
+  font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30;
+  font-size:clamp(17px,1.9vw,26px);line-height:1.45;max-width:36ch;margin:clamp(18px,2.6vh,28px) auto 0;
+}
+.m-seg .def em{color:var(--logo-red);font-style:italic}
+/* the rise bar — the scene's last act ends on exactly this colour, so it ships with the pick */
+.rise{position:relative;height:56px;background:linear-gradient(90deg,#2A1B20 0%,#2A1B20 34%,var(--sDawn) 78%)}
+.rise i{
+  position:absolute;left:12px;top:50%;transform:translateY(-50%);
+  font-style:normal;font-size:10px;letter-spacing:.24em;text-transform:uppercase;font-weight:500;color:rgba(250,247,241,.72);
+}
+.rise b{
+  position:absolute;right:12px;top:50%;transform:translateY(-50%);
+  font-family:var(--accent-face);font-weight:400;font-size:13px;letter-spacing:.1em;color:var(--ink);
+}
+
+/* ── chapter C — the stage ── */
+.stage-ch{background:var(--stage);color:var(--ivory);padding:clamp(70px,10vh,120px) 0}
+.stage-ch .chapter-mark{color:var(--rose)}
+.stage-ch h2{color:var(--ivory);font-size:clamp(30px,3.8vw,52px);margin-top:16px}
+.stage-ch .lede{color:rgba(250,247,241,.72);margin-top:18px}
+.stage-ch .lede strong{color:var(--rose)}
+.voices{display:flex;flex-wrap:wrap;gap:10px;margin-top:clamp(28px,4vh,40px)}
+.voices button{
+  display:inline-flex;align-items:baseline;gap:9px;
+  border:1px solid rgba(250,247,241,.28);border-radius:999px;padding:10px 20px;
+  font-size:12.5px;letter-spacing:.08em;color:var(--ivory);
+  background:rgba(250,247,241,.06);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  transition:border-color .3s var(--ease),background .3s var(--ease);
+}
+.voices button .lt{font-family:var(--accent-face);font-size:12px;letter-spacing:.2em;color:var(--rose)}
+.voices button:hover{border-color:rgba(250,247,241,.55)}
+.voices button.on{border-color:var(--ivory);background:rgba(250,247,241,.14)}
+.voices button:focus-visible{outline:2px solid var(--ivory);outline-offset:2px}
+.stage-box{position:relative;margin-top:clamp(24px,3.4vh,36px);border:1px solid rgba(250,247,241,.16);border-radius:3px;overflow:hidden}
+#scene{display:block;width:100%;height:clamp(360px,52vh,520px)}
+.stage-beat{
+  position:absolute;left:50%;top:12%;transform:translateX(-50%);width:min(92%,640px);
+  text-align:center;pointer-events:none;font-family:var(--serif);
+  font-size:clamp(19px,2.5vw,31px);line-height:1.25;color:var(--dBeat);text-shadow:var(--dBeatGlow);
+  opacity:0;transition:opacity .5s var(--ease);
+}
+.stage-beat.lit{opacity:1}
+.stage-beat.late{color:var(--ink);text-shadow:0 1px 24px rgba(250,247,241,.8)}
+.stage-title{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:none;
+  font-family:var(--accent-face);font-weight:400;font-size:clamp(38px,6vw,74px);letter-spacing:.04em;color:var(--ink);
+  opacity:0;transition:opacity .4s var(--ease);
+}
+.stage-title.lit{opacity:1}
+.scrub{display:flex;align-items:center;gap:16px;margin-top:18px;color:rgba(250,247,241,.72);font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:500}
+.scrub input{
+  flex:1;appearance:none;-webkit-appearance:none;height:2px;border-radius:1px;background:rgba(250,247,241,.25);accent-color:var(--rose);
+}
+.scrub input::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--ivory);border:0;cursor:pointer}
+.scrub input::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--ivory);border:0;cursor:pointer}
+.scrub input:focus-visible{outline:2px solid var(--ivory);outline-offset:4px}
+.stage-notes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:clamp(28px,4vh,40px)}
+.stage-note{border:1px solid rgba(250,247,241,.16);border-radius:3px;padding:16px 18px;font-size:13px;line-height:1.65;color:rgba(250,247,241,.72)}
+.stage-note .lt{font-family:var(--accent-face);font-size:12px;letter-spacing:.24em;color:var(--rose)}
+.stage-note b{display:block;font-family:var(--serif);font-weight:450;color:var(--ivory);font-size:17px;margin-top:6px}
+.stage-note p{margin-top:8px}
+
+/* ── chapter D — the composer ── */
+.pickers{display:flex;flex-direction:column;gap:16px;margin-top:clamp(28px,4vh,40px)}
+.picker{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.picker .pk{flex:none;width:9.5em;font-family:var(--accent-face);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--steel-deep)}
+.picker button{
+  border:1px solid var(--g-line);border-radius:999px;padding:9px 18px;
+  font-size:12.5px;letter-spacing:.05em;color:var(--ink);
+  transition:border-color .3s var(--ease),background .3s var(--ease);
+}
+.picker button:hover{border-color:var(--steel)}
+.picker button.on{border-color:var(--steel-deep);background:var(--g-cream)}
+.picker button:focus-visible{outline:2px solid var(--steel-deep);outline-offset:2px}
+.page-mini{margin-top:clamp(30px,4.4vh,46px);border:1px solid var(--g-line);border-radius:3px;overflow:hidden;box-shadow:0 24px 60px rgba(46,34,40,.10)}
+/* 1 · the solid header, as it crosses the page */
+.pm-hdr{display:flex;align-items:center;justify-content:space-between;padding:.65rem 22px;background:var(--dHdr);border-bottom:1px solid var(--dHline);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+/* 2 · the foot of the Aero hero — the fixed point everything is graded against */
+.pm-hero{position:relative;padding:56px 22px 40px;background:
+  radial-gradient(120% 150% at 18% 30%,rgba(255,255,255,.9) 0%,rgba(244,247,250,.35) 55%,rgba(232,239,245,.55) 100%),#F3F7FB}
+.pm-hero::before,.pm-hero::after{content:"";position:absolute;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle at 32% 30%,rgba(255,255,255,.95),rgba(243,247,251,.35) 55%,rgba(213,222,230,.55) 72%,rgba(255,255,255,.85) 78%,rgba(243,247,251,.15) 82%);
+  box-shadow:inset 0 1px 8px rgba(255,255,255,.9),0 10px 26px rgba(84,104,124,.16)}
+.pm-hero::before{width:120px;height:120px;right:12%;top:-28px}
+.pm-hero::after{width:66px;height:66px;right:32%;bottom:-10px;filter:blur(1px);opacity:.8}
+.pm-hero .kicker{margin-bottom:14px}
+.pm-hero h3{font-size:clamp(30px,3.6vw,46px)}
+.pm-hero h3 em{color:var(--logo-red)}
+.pm-hero .hero-ctas{margin-top:22px}
+.pm-hero .btn{padding:13px 24px;font-size:11px}
+/* 3 · section 03 on the chosen dawn */
+.pm-seg{padding:44px 22px;text-align:center;background:var(--dDawn);border-top:1px solid var(--dSegLine);border-bottom:1px solid var(--dSegLine)}
+.pm-seg .kicker{justify-content:center;margin-bottom:12px}
+.pm-seg .kicker::after{content:"";width:34px;height:1px;background:var(--steel)}
+:root[data-dawn="b1"] .pm-seg .kicker::before,:root[data-dawn="b1"] .pm-seg .kicker::after{background:var(--gold)}
+.pm-seg h3{font-size:clamp(24px,3vw,38px)}
+.pm-seg .gloss{margin-top:10px;font-family:var(--accent-face);font-size:13.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--dGloss)}
+.pm-seg .def{font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30;font-size:clamp(16px,1.7vw,22px);line-height:1.45;max-width:38ch;margin:16px auto 0}
+.pm-seg .def em{color:var(--logo-red);font-style:italic}
+/* 4 · the eight tiles (four shown) on the glacier ivory */
+.pm-tiles{padding:40px 22px;background:var(--g-ivory)}
+.pm-tiles h4{font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30;font-size:clamp(20px,2.3vw,30px)}
+.pm-tiles h4 em{font-style:italic;color:var(--logo-red)}
+.tile-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:20px}
+.tile{position:relative;padding:16px;background:var(--g-ivory);border:1px solid var(--g-line);border-radius:2px;transition:border-color .35s var(--ease),transform .35s var(--ease),box-shadow .35s var(--ease)}
+.tile:hover{border-color:var(--steel);transform:translateY(-3px);box-shadow:0 14px 30px rgba(46,54,71,.08)}
+.tile .num{font-family:var(--accent-face);font-size:11px;letter-spacing:.26em;color:var(--steel-deep)}
+.tile h5{font-family:var(--accent-face);font-weight:400;font-size:15.5px;letter-spacing:-.01em;line-height:1.2;margin-top:7px;color:var(--ink)}
+.tile p{margin-top:7px;font-size:11.5px;line-height:1.55;color:var(--ink-soft)}
+.tile .plus{position:absolute;right:12px;top:12px;width:22px;height:22px;border-radius:50%;border:1px solid var(--g-line);display:grid;place-content:center;color:var(--steel-deep);font-size:12px;line-height:1}
+/* 5 · the scene in one band: the voice on the dark stage, the rise, the payoff */
+.pm-scene{position:relative;padding:40px 22px;background:linear-gradient(90deg,#2A1B20 0%,#2A1B20 52%,var(--dDawn) 88%);display:flex;align-items:center;gap:18px}
+.pm-scene .beat{font-family:var(--serif);font-size:clamp(15px,1.7vw,21px);line-height:1.35;max-width:24em;color:var(--dBeat);text-shadow:var(--dBeatGlow)}
+.pm-scene .payoff{margin-left:auto;font-family:var(--accent-face);font-weight:400;font-size:clamp(22px,2.6vw,34px);letter-spacing:.04em;color:var(--ink)}
+/* 6 · the doctors on the chosen dawn */
+.pm-docs{padding:40px 22px;background:var(--dDawn);border-top:1px solid var(--dSegLine);border-bottom:1px solid var(--dSegLine)}
+.pm-docs .duo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;max-width:34rem;margin-inline:auto}
+.pm-doc{text-align:center}
+.pm-doc .face{position:relative;aspect-ratio:1;border-radius:2px;background:linear-gradient(165deg,var(--dCardA),var(--dCardB));box-shadow:0 14px 34px rgba(46,34,40,.10);display:grid;place-content:center}
+.pm-doc .face i{font-style:normal;font-family:var(--accent-face);font-size:clamp(30px,4vw,44px);letter-spacing:.06em;color:var(--dMono);opacity:.55}
+.pm-doc h5{font-family:var(--accent-face);font-weight:400;font-size:16.5px;margin-top:12px;color:var(--ink)}
+.pm-doc p{margin-top:4px;font-size:11.5px;color:var(--ink-soft)}
+.pm-doc .btn{padding:10px 18px;font-size:10px;margin-top:10px}
+/* 7 · one voice at a time, on the glacier ivory */
+.pm-story{padding:44px 22px;background:var(--g-ivory);text-align:center}
+.pm-story blockquote{font-family:var(--quote-face);font-style:italic;font-weight:500;font-size:clamp(17px,2vw,24px);line-height:1.5;max-width:26ch;margin-inline:auto;color:var(--ink)}
+.pm-story .dots{display:flex;justify-content:center;gap:9px;margin-top:18px}
+.pm-story .dots i{width:6px;height:6px;border-radius:50%;background:var(--g-line)}
+.pm-story .dots i.on{background:var(--burgundy);transform:scale(1.4)}
+/* 8 · the FAQ on the chosen dawn */
+.pm-faq{padding:40px 22px;background:var(--dDawn);border-top:1px solid var(--dSegLine)}
+.pm-faq .row{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:14px 4px;border-bottom:1px solid var(--dSegLine);font-family:var(--serif);font-size:clamp(15px,1.6vw,19px)}
+.pm-faq .row.open{color:var(--logo-red)}
+.pm-faq .ind{flex:none;width:26px;height:26px;border:1px solid var(--dSegLine);border-radius:50%;position:relative}
+.pm-faq .ind::before,.pm-faq .ind::after{content:"";position:absolute;top:50%;left:50%;background:var(--burgundy)}
+.pm-faq .ind::before{width:10px;height:1.5px;transform:translate(-50%,-50%)}
+.pm-faq .ind::after{width:1.5px;height:10px;transform:translate(-50%,-50%)}
+.pm-faq .row.open .ind{background:var(--burgundy);border-color:var(--burgundy)}
+.pm-faq .row.open .ind::before{background:var(--ivory)}
+.pm-faq .row.open .ind::after{transform:translate(-50%,-50%) scaleY(0)}
+.pm-faq .a{padding:2px 4px 16px;font-size:12.5px;line-height:1.7;color:var(--ink-soft);max-width:44em}
+/* 9 · the call strip on the glacier ivory */
+.pm-book{display:flex;flex-wrap:wrap;align-items:center;gap:18px;padding:30px 22px;background:var(--g-ivory);border-top:1px solid var(--dHline)}
+.pm-book .cir{flex:none;width:52px;height:52px;border-radius:50%;background:radial-gradient(circle at 34% 30%,var(--rose),var(--burgundy));display:grid;place-content:center;color:var(--ivory);font-family:var(--serif);font-style:italic;font-size:19px}
+.pm-book p{font-family:var(--serif);font-size:clamp(15px,1.7vw,20px);max-width:24em;line-height:1.4}
+.pm-book p em{color:var(--logo-red)}
+.pm-book .btn{margin-left:auto;padding:12px 22px;font-size:10.5px}
+/* 10 · the footer in the chosen chrome */
+.pm-foot{padding:30px 22px;background:var(--dFoot);border-top:1px solid var(--dHline)}
+
+/* ── the verdict ── */
+.verdict{
+  margin-top:clamp(36px,5vh,56px);border:1px solid var(--g-line);border-left:3px solid var(--logo-red);
+  border-radius:3px;padding:clamp(20px,3vh,30px) clamp(18px,2.6vw,30px);background:var(--g-cream);
+}
+.verdict .lt{font-family:var(--accent-face);font-size:12px;letter-spacing:.24em;color:var(--steel-deep);text-transform:uppercase}
+.verdict h3{font-size:clamp(20px,2.3vw,28px);margin-top:10px}
+.verdict p{margin-top:12px;font-size:14px;line-height:1.75;color:var(--ink-soft);max-width:62em}
+.verdict p strong{font-weight:500;color:var(--burgundy)}
+
+/* ─── foot ─── */
+.foot{margin-top:clamp(50px,8vh,80px);border-top:1px solid var(--g-line);background:var(--g-cream);padding:clamp(32px,5vh,48px) 0 clamp(44px,6vh,64px)}
+.foot p{font-size:13px;line-height:1.75;color:var(--ink-soft);max-width:70em}
+.foot p+p{margin-top:10px}
+.foot .lt{font-family:var(--accent-face);font-size:12px;letter-spacing:.24em;color:var(--steel-deep)}
+.foot em{color:var(--ink)}
+
+/* entrance — one quiet rise per block, and none at all for reduced motion */
+.rev{opacity:0;transform:translateY(18px)}
+.rev.in{opacity:1;transform:none;transition:opacity .8s var(--ease),transform .8s var(--ease)}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .rev{opacity:1;transform:none;transition:none}
+  .tile,.tile:hover{transform:none}
+}
+@media (max-width:900px){
+  .stage-notes{grid-template-columns:1fr}
+  .tile-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .spec{position:static;margin:18px clamp(16px,4vw,26px) 26px;max-width:none}
+  .plate{min-height:0;padding-bottom:0}
+  .pm-scene{flex-direction:column;align-items:flex-start;gap:12px}
+  .pm-scene .payoff{margin-left:0}
+}
+@media (max-width:560px){
+  .pm-docs .duo{grid-template-columns:1fr}
+  .picker .pk{width:100%}
+}
+</style>
+
+<header class="mast">
+  <div class="wrap">
+    <p class="chapter-mark">Peptide Therapy · Round 8 · The Grade Lab</p>
+    <h1>The rest of the page auditions its <em>grade</em></h1>
+    <p class="lede">The hero went glacier in round 7 — <strong>Aero</strong>, his pick off fourteen plates.
+    Below it, the page still wears the hormone page's warm ivory and gold, and the two temperatures meet
+    in the middle of one screen. Three questions decide the re-grade, and each is a chapter here:
+    the <strong>chrome</strong>, the <strong>dawn</strong>, and the <strong>scene's voice</strong>.
+    Every specimen uses the live copy, the live type files and measured contrast.
+    Answer with a letter per chapter — <strong>A2 · B2 · C2</strong> — or play with the composer at the foot
+    and read the whole page in your pick.</p>
+    <ul class="index">
+      <li><a href="#ref"><span class="lt">0</span> Aero <span class="tag">· the reference</span></a></li>
+      <li><a href="#chrome"><span class="lt">A</span> The chrome <span class="tag">· header + footer</span></a></li>
+      <li><a href="#dawn"><span class="lt">B</span> The dawn <span class="tag">· three sections + the scene's payoff</span></a></li>
+      <li><a href="#voice"><span class="lt">C</span> The voice <span class="tag">· the chain scene's key line</span></a></li>
+      <li><a href="#compose"><span class="lt">D</span> The composer <span class="tag">· the whole page, your pick</span></a></li>
+    </ul>
+  </div>
+</header>
+
+<!-- ═══ 0 · THE REFERENCE — Aero, exactly as judged: same shader, same grade multiply ═══ -->
+<section class="plate" id="ref">
+  <canvas id="cv-aero" aria-hidden="true"></canvas>
+  <div class="tint" aria-hidden="true"></div>
+  <div class="veil" aria-hidden="true"></div>
+  <div class="hero-inner wrap">
+    <p class="kicker">Peptide Therapy · Recovery, resilience, repair</p>
+    <h2 class="h1"><span>Peptide</span><br><em>therapy</em></h2>
+    <p class="hero-sub">Medi-Gyn offers medically supervised <strong>peptide therapy</strong> —
+    precise, personalised protocols for recovery, resilience and repair.</p>
+    <div class="hero-ctas"><span class="btn">Book a consultation <span aria-hidden="true">→</span></span><span class="btn ghost">How peptides work</span></div>
+  </div>
+  <aside class="spec">
+    <span class="lt">0 · The reference</span><b>Aero, in glacier</b>
+    <span class="eng">The shipped hero · judged round 7</span>
+    <p>Liquid-glass orbs over the bright dish, colour-locked to silver, white and graphite,
+    one <strong>#F3F7FB</strong> multiply for the temperature. Everything below is judged
+    against this frame — it is the one thing already decided.</p>
+  </aside>
+</section>
+
+<!-- ═══ A · THE CHROME ═══ -->
+<section class="chapter" id="chrome">
+  <div class="wrap">
+    <p class="chapter-mark">Chapter A · The chrome</p>
+    <h2>The header and footer — shared skin, or the page's own?</h2>
+    <p class="lede">The bar and the footer are true copies of the landing page's — ivory glass, warm hairline,
+    cream ground — and re-grading them here <strong>forks that copy on purpose</strong>. The case for keeping them:
+    one chrome across every page. The case for forking: the warm bar measures the <strong>same lightness</strong>
+    as the glacier ground (1.01 : 1), so the difference the eye reads is pure temperature — a champagne band
+    lying on a blue-white page. Both cases are below, at full size. The red mark never moves either way.</p>
+
+    <div class="strips">
+      <article class="strip cs-a1 rev" id="a1">
+        <div class="strip-head"><span class="lt">A1</span><b>Keep the ivory — shared chrome</b>
+          <span class="hx">bar rgba(250,247,241,.95) · line #DED4C2 · footer #F4EDE1</span></div>
+        <div class="m-hdr">
+          <span class="wordmark">medi<span class="star">✦</span>gyn</span>
+          <div class="hdr-pills">
+            <span class="hdr-pill" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.25" stroke="currentColor" stroke-width="1.5"/><path d="M3.75 12h16.5M12 3.75c2.2 2.3 3.3 5.05 3.3 8.25S14.2 18 12 20.25C9.8 18 8.7 15.2 8.7 12S9.8 6.05 12 3.75Z" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <span class="hdr-pill hdr-burger" aria-hidden="true"><span></span><span></span><span></span></span>
+          </div>
+        </div>
+        <div class="chrome-body">
+          <p class="kicker">04 · Where peptides help</p>
+          <h3>Eight places to <em>begin</em></h3>
+          <p>The page under the bar is glacier either way — this strip and the two below differ only in the chrome itself.</p>
+        </div>
+        <div class="m-foot">
+          <div class="m-foot-grid">
+            <div><h4 class="f-head">Newsletter</h4>
+              <div class="f-input"><i>Your email</i><span class="go">Subscribe</span></div></div>
+            <div><h4 class="f-head">Follow us</h4>
+              <div class="f-social"><i>ig</i><i>fb</i><i>in</i></div></div>
+          </div>
+          <p class="f-legal">© Medi-Gyn · Dubai — London · All rights reserved</p>
+        </div>
+        <div class="strip-note"><strong>What it buys:</strong> the reader carries one identical bar and one identical
+        footer across the whole site. <strong>What it costs:</strong> the only warm surfaces left on a cool page are
+        the two that frame every screenshot. <span class="m">Ivory bar vs glacier ground: Δlightness ≈ 0, Δtemperature = all of it.</span></div>
+      </article>
+
+      <article class="strip cs-a2 rev" id="a2">
+        <div class="strip-head"><span class="lt">A2</span><b>Glacier chrome — the page owns its bar</b>
+          <span class="hx">bar rgba(244,247,250,.94) · line #D5DEE6 · footer #EAF0F5</span></div>
+        <div class="m-hdr">
+          <span class="wordmark">medi<span class="star">✦</span>gyn</span>
+          <div class="hdr-pills">
+            <span class="hdr-pill" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.25" stroke="currentColor" stroke-width="1.5"/><path d="M3.75 12h16.5M12 3.75c2.2 2.3 3.3 5.05 3.3 8.25S14.2 18 12 20.25C9.8 18 8.7 15.2 8.7 12S9.8 6.05 12 3.75Z" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <span class="hdr-pill hdr-burger" aria-hidden="true"><span></span><span></span><span></span></span>
+          </div>
+        </div>
+        <div class="chrome-body">
+          <p class="kicker">04 · Where peptides help</p>
+          <h3>Eight places to <em>begin</em></h3>
+          <p>The bar keeps the landing page's geometry, blur and red mark — only its temperature follows the page it serves.</p>
+        </div>
+        <div class="m-foot">
+          <div class="m-foot-grid">
+            <div><h4 class="f-head">Newsletter</h4>
+              <div class="f-input"><i>Your email</i><span class="go">Subscribe</span></div></div>
+            <div><h4 class="f-head">Follow us</h4>
+              <div class="f-social"><i>ig</i><i>fb</i><i>in</i></div></div>
+          </div>
+          <p class="f-legal">© Medi-Gyn · Dubai — London · All rights reserved</p>
+        </div>
+        <div class="strip-note"><strong>My recommendation.</strong> The glacier bar reads as the same header — same
+        geometry, same red wordmark, same blur — while the page finally closes cool the way it opens. The fork is one
+        set of three values per file, recorded as deliberate. <span class="m">Red mark on the glacier bar: 7.4 : 1.</span></div>
+      </article>
+
+      <article class="strip cs-a3 rev" id="a3">
+        <div class="strip-head"><span class="lt">A3</span><b>Bright glass — the hero's dish as a bar</b>
+          <span class="hx">bar rgba(252,253,255,.92) · line #D5DEE6 · footer #EAF0F5</span></div>
+        <div class="m-hdr">
+          <span class="wordmark">medi<span class="star">✦</span>gyn</span>
+          <div class="hdr-pills">
+            <span class="hdr-pill" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.25" stroke="currentColor" stroke-width="1.5"/><path d="M3.75 12h16.5M12 3.75c2.2 2.3 3.3 5.05 3.3 8.25S14.2 18 12 20.25C9.8 18 8.7 15.2 8.7 12S9.8 6.05 12 3.75Z" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <span class="hdr-pill hdr-burger" aria-hidden="true"><span></span><span></span><span></span></span>
+          </div>
+        </div>
+        <div class="chrome-body">
+          <p class="kicker">04 · Where peptides help</p>
+          <h3>Eight places to <em>begin</em></h3>
+          <p>Whiter than the ground it crosses — the bar borrows the hero dish's brightness instead of matching the page.</p>
+        </div>
+        <div class="m-foot">
+          <div class="m-foot-grid">
+            <div><h4 class="f-head">Newsletter</h4>
+              <div class="f-input"><i>Your email</i><span class="go">Subscribe</span></div></div>
+            <div><h4 class="f-head">Follow us</h4>
+              <div class="f-social"><i>ig</i><i>fb</i><i>in</i></div></div>
+          </div>
+          <p class="f-legal">© Medi-Gyn · Dubai — London · All rights reserved</p>
+        </div>
+        <div class="strip-note">The livelier cousin of A2 — the bar reads as a pane of the hero's glass sliding over
+        the page. Costs a touch of quiet: the bar is now the brightest thing on screen, which the ivory system never
+        allowed its chrome to be.</div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ B · THE DAWN ═══ -->
+<section class="chapter" id="dawn" style="background:var(--g-cream)">
+  <div class="wrap">
+    <p class="chapter-mark">Chapter B · The dawn</p>
+    <h2>The ground three sections stand on — and the colour the scene rises to</h2>
+    <p class="lede">"What are peptides?", the doctors and the FAQ all stand on the <strong>dawn</strong> — and the
+    chain scene's last act rises to <strong>exactly that colour</strong> (the token and the scene share it by
+    cross-reference, so the pick recolours the animation's payoff too — the bar under each specimen shows that rise).
+    Each candidate sits between two slices of the glacier page, because that is the company it will actually keep.
+    All four keep the red, the burgundy and both inks; printed ratios are computed on the flat grounds.</p>
+
+    <div class="strips">
+      <article class="strip ds-b1 rev" id="b1">
+        <div class="strip-head"><span class="lt">B1</span><b>The rose dawn — as it stands</b><span class="hx">#F6E7E1</span></div>
+        <div class="g-shim"></div>
+        <div class="m-seg">
+          <p class="kicker">03 · What are peptides?</p>
+          <h3>What are peptides?</h3>
+          <p class="gloss" style="color:var(--gold-gloss)">The body's own signalling molecules</p>
+          <p class="def">Short chains of <em>amino acids</em> your body already makes — each one carrying
+          a precise instruction: repair, rebuild, rebalance.</p>
+        </div>
+        <div class="rise"><i>The scene's last act</i><b>rises to #F6E7E1</b></div>
+        <div class="strip-note">The hormone page's sunrise, kept. Honest reading: it is the one candidate that keeps
+        the clash — a warm blush section on a cool page, three times. Here so the eye can rule it out (or in).
+        <span class="m">gloss #7F6230 4.72 · ink-soft 5.49 · red 6.74</span></div>
+      </article>
+
+      <article class="strip ds-b2 rev" id="b2">
+        <div class="strip-head"><span class="lt">B2</span><b>Glacier dawn — cold morning light</b><span class="hx">#E8EFF5</span></div>
+        <div class="g-shim"></div>
+        <div class="m-seg">
+          <p class="kicker">03 · What are peptides?</p>
+          <h3>What are peptides?</h3>
+          <p class="gloss">The body's own signalling molecules</p>
+          <p class="def">Short chains of <em>amino acids</em> your body already makes — each one carrying
+          a precise instruction: repair, rebuild, rebalance.</p>
+        </div>
+        <div class="rise"><i>The scene's last act</i><b>rises to #E8EFF5</b></div>
+        <div class="strip-note"><strong>My recommendation.</strong> The rose dawn's exact depth, moved to this page's
+        temperature — the sections still breathe against the white, and the scene's payoff becomes arctic first light,
+        which is what "glacier" promises. <span class="m">gloss #54687C 4.96 · ink-soft 5.70 · red 7.00</span></div>
+      </article>
+
+      <article class="strip ds-b3 rev" id="b3">
+        <div class="strip-head"><span class="lt">B3</span><b>The ✦ BHRT white, verbatim</b><span class="hx">#FAF7F1</span></div>
+        <div class="g-shim"></div>
+        <div class="m-seg">
+          <p class="kicker">03 · What are peptides?</p>
+          <h3>What are peptides?</h3>
+          <p class="gloss">The body's own signalling molecules</p>
+          <p class="def">Short chains of <em>amino acids</em> your body already makes — each one carrying
+          a precise instruction: repair, rebuild, rebalance.</p>
+        </div>
+        <div class="rise"><i>The scene's last act</i><b>rises to #FAF7F1</b></div>
+        <div class="strip-note">Your instinct, taken literally: the exact ivory of the ✦ BHRT mark that slides down
+        the axis on the hormone page. On that dark plum it reads as pure light; laid on this page's blue-white it is
+        the brand's warm ivory again — look at the seam above: the faint champagne cast is that warmth. What made the
+        mark beautiful was <strong>light against dark</strong>, not the pigment — B4 keeps the instinct and moves the light.
+        <span class="m">gloss #54687C 5.38 · ink-soft 6.19 · red 7.59</span></div>
+      </article>
+
+      <article class="strip ds-b4 rev" id="b4">
+        <div class="strip-head"><span class="lt">B4</span><b>The BHRT light, in this page's air</b><span class="hx">#FBFDFF</span></div>
+        <div class="g-shim"></div>
+        <div class="m-seg">
+          <p class="kicker">03 · What are peptides?</p>
+          <h3>What are peptides?</h3>
+          <p class="gloss">The body's own signalling molecules</p>
+          <p class="def">Short chains of <em>amino acids</em> your body already makes — each one carrying
+          a precise instruction: repair, rebuild, rebalance.</p>
+        </div>
+        <div class="rise"><i>The scene's last act</i><b>rises to #FBFDFF</b></div>
+        <div class="strip-note">The same instinct, translated: the dawn sections rise <strong>brighter</strong> than
+        the page instead of warmer — into light, the way the mark glows on the stage, and the way the hero's dish is
+        the brightest thing on its frame. Subtlest of the four; the hairlines do more of the work, and the scene's
+        payoff becomes near-white. <span class="m">gloss #54687C 5.65 · ink-soft 6.49 · red 7.96</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ C · THE VOICE ═══ -->
+<section class="stage-ch" id="voice">
+  <div class="wrap">
+    <p class="chapter-mark">Chapter C · The voice</p>
+    <h2>The chain scene finds its voice</h2>
+    <p class="lede">The scene is a composition of its own — rose-stone beads on the ink stage, the chain written
+    link by link, and one lit line naming the decline: <strong>"With age, fewer messages get written."</strong>
+    That line is the only coloured voice in the scene, and it can speak three ways. Pick a voice, then drag the
+    scrub through the whole track — the dawn it rises to follows your chapter-B pick in the composer.</p>
+
+    <div class="voices" role="group" aria-label="Scene voice">
+      <button data-voice="c1"><span class="lt">C1</span> Champagne · as it stands</button>
+      <button data-voice="c2" class="on"><span class="lt">C2</span> Steel · the hero's metal</button>
+      <button data-voice="c3"><span class="lt">C3</span> Glass · the ✦ BHRT light</button>
+    </div>
+
+    <div class="stage-box">
+      <canvas id="scene" aria-label="A sketch of the chain scene: beads assembling into a coiled peptide chain"></canvas>
+      <p class="stage-beat" id="beat-key">With age, fewer messages get written. Repair slows. Recovery lags.</p>
+      <p class="stage-beat late" id="beat-late">And your body remembers exactly what to do with it.</p>
+      <p class="stage-title" id="stage-title" aria-hidden="true">Peptides</p>
+    </div>
+    <div class="scrub">
+      <label for="scrub">The scene · 0 → 1</label>
+      <input type="range" id="scrub" min="0" max="1000" value="440">
+    </div>
+
+    <div class="stage-notes">
+      <div class="stage-note"><span class="lt">C1</span><b>Champagne — as it stands</b>
+        <p>The chain and the key line keep the brand's gold: the voice that narrates the whole site. Strongest
+        argument: continuity. Weakest: it is the last champagne left on a glacier page. 6.7 : 1 on the stage.</p></div>
+      <div class="stage-note"><span class="lt">C2</span><b>Steel — the hero's metal</b>
+        <p>Chain and key line take the glacier steel — the scene becomes the hero's own material writing in the dark,
+        and the page speaks one temperature end to end. The line lifts a step lighter (#8FA5B8, 6.5 : 1) so it
+        carries the same weight the gold did.</p></div>
+      <div class="stage-note"><span class="lt">C3</span><b>Glass — the ✦ BHRT light</b>
+        <p>Your "white thingy", spoken here: the chain in silver glass, the key line in ivory with a cool halo —
+        the exact treatment the ✦ BHRT mark gets on its dark stage, in this page's light. 15.4 : 1; the risk is the
+        key line no longer differs from the plain beats, so the halo alone must say "this one matters".</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ D · THE COMPOSER ═══ -->
+<section class="chapter" id="compose">
+  <div class="wrap">
+    <p class="chapter-mark">Chapter D · The composer</p>
+    <h2>The whole page, in your pick</h2>
+    <p class="lede">Every block below is the live page in miniature — real copy, real materials — re-graded
+    on the spot from the three choices. The one red, the burgundy, the rose and both inks never move;
+    the sections that don't stand on the dawn stand on the glacier ivory in every combination.</p>
+
+    <div class="pickers">
+      <div class="picker" role="group" aria-label="Chrome"><span class="pk">A · Chrome</span>
+        <button data-chrome="a1">A1 · Keep the ivory</button>
+        <button data-chrome="a2" class="on">A2 · Glacier</button>
+        <button data-chrome="a3">A3 · Bright glass</button>
+      </div>
+      <div class="picker" role="group" aria-label="Dawn"><span class="pk">B · Dawn</span>
+        <button data-dawn="b1">B1 · Rose</button>
+        <button data-dawn="b2" class="on">B2 · Glacier dawn</button>
+        <button data-dawn="b3">B3 · BHRT verbatim</button>
+        <button data-dawn="b4">B4 · BHRT light</button>
+      </div>
+      <div class="picker" role="group" aria-label="Voice"><span class="pk">C · Voice</span>
+        <button data-voice="c1">C1 · Champagne</button>
+        <button data-voice="c2" class="on">C2 · Steel</button>
+        <button data-voice="c3">C3 · Glass</button>
+      </div>
+    </div>
+
+    <div class="page-mini rev" aria-label="The peptide page in miniature, re-graded from the picks above">
+      <div class="pm-hdr">
+        <span class="wordmark" style="font-size:19px">medi<span class="star">✦</span>gyn</span>
+        <div class="hdr-pills">
+          <span class="hdr-pill" style="width:28px;height:28px" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" style="width:13px;height:13px"><circle cx="12" cy="12" r="8.25" stroke="currentColor" stroke-width="1.5"/><path d="M3.75 12h16.5M12 3.75c2.2 2.3 3.3 5.05 3.3 8.25S14.2 18 12 20.25C9.8 18 8.7 15.2 8.7 12S9.8 6.05 12 3.75Z" stroke="currentColor" stroke-width="1.5"/></svg></span>
+          <span class="hdr-pill hdr-burger" style="width:28px;height:28px" aria-hidden="true"><span style="width:14px"></span><span style="width:14px"></span><span style="width:14px"></span></span>
+        </div>
+      </div>
+      <div class="pm-hero">
+        <p class="kicker">Peptide Therapy · Recovery, resilience, repair</p>
+        <h3>Peptide <em>therapy</em></h3>
+        <div class="hero-ctas"><span class="btn">Book a consultation</span><span class="btn ghost">How peptides work</span></div>
+      </div>
+      <div class="pm-seg">
+        <p class="kicker">03 · What are peptides?</p>
+        <h3>What are peptides?</h3>
+        <p class="gloss">The body's own signalling molecules</p>
+        <p class="def">Short chains of <em>amino acids</em> your body already makes — each one carrying a precise instruction.</p>
+      </div>
+      <div class="pm-tiles">
+        <h4>Eight places to <em>begin</em></h4>
+        <div class="tile-grid">
+          <div class="tile"><p class="num">01</p><h5>Auto Immune Disease</h5><p>Regulation, not suppression.</p><span class="plus" aria-hidden="true">+</span></div>
+          <div class="tile"><p class="num">02</p><h5>Brain Health</h5><p>Clarity, focus, recovery.</p><span class="plus" aria-hidden="true">+</span></div>
+          <div class="tile"><p class="num">03</p><h5>Gut Health</h5><p>Lining, barrier, balance.</p><span class="plus" aria-hidden="true">+</span></div>
+          <div class="tile"><p class="num">07</p><h5>Anti Ageing</h5><p>Repair that keeps its pace.</p><span class="plus" aria-hidden="true">+</span></div>
+        </div>
+      </div>
+      <div class="pm-scene">
+        <p class="beat">With age, fewer messages get written. Repair slows. Recovery lags.</p>
+        <p class="payoff">Peptides</p>
+      </div>
+      <div class="pm-docs">
+        <div class="duo">
+          <div class="pm-doc"><div class="face"><i>AK</i></div><h5>Dr. Andrey Komissarov</h5><p>MD, PhD — Internal, Integrative &amp; Functional Medicine</p><span class="btn">Book a consultation</span></div>
+          <div class="pm-doc"><div class="face"><i>EY</i></div><h5>Dr. Eslam Yakout</h5><p>Functional and Regenerative Medicine Doctor</p><span class="btn">Book a consultation</span></div>
+        </div>
+      </div>
+      <div class="pm-story">
+        <blockquote>"My shoulder had been eighteen months of 'give it time'. Four months of peptide therapy and
+        I'm swimming again — properly, mornings, like before."</blockquote>
+        <div class="dots" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
+      </div>
+      <div class="pm-faq">
+        <div class="row open">Are peptides safe?<span class="ind" aria-hidden="true"></span></div>
+        <p class="a">Peptides used in a medical setting are prescribed and supervised — sourced, dosed and
+        monitored by your doctor against your own labs.</p>
+        <div class="row">How soon will I feel a difference?<span class="ind" aria-hidden="true"></span></div>
+      </div>
+      <div class="pm-book">
+        <span class="cir" aria-hidden="true">i</span>
+        <p>Not sure where to begin? Start with a <em>free 10-minute discovery call</em></p>
+        <span class="btn">Book a discovery call</span>
+      </div>
+      <div class="pm-foot">
+        <div class="m-foot-grid">
+          <div><h4 class="f-head">Newsletter</h4>
+            <div class="f-input" style="border-color:var(--dHline)"><i>Your email</i><span class="go">Subscribe</span></div></div>
+          <div><h4 class="f-head">Follow us</h4>
+            <div class="f-social"><i>ig</i><i>fb</i><i>in</i></div></div>
+        </div>
+        <p class="f-legal">© Medi-Gyn · Dubai — London · All rights reserved</p>
+      </div>
+    </div>
+
+    <aside class="verdict">
+      <span class="lt">The verdict I'd give</span>
+      <h3>A2 · B2 · C2 — glacier end to end, with C3's halo held in reserve</h3>
+      <p><strong>A2</strong> because a chrome that measures identical in lightness and opposite in temperature reads
+      as a mistake, not a system — and the red mark carries the cross-site identity better than the ivory ever did.
+      <strong>B2</strong> because it is the only candidate that keeps the dawn's <em>depth</em> (the sections still
+      read as places, not gaps) while moving its temperature — and the scene's payoff becomes first light over ice,
+      which is this page's story told in its own colour. <strong>C2</strong> because the scene is the page's heart,
+      and the heart should beat in the page's metal; but C3 is genuinely beautiful and your instinct about that white
+      is right — if the steel line reads too quiet on the stage, the ✦ BHRT halo treatment is the upgrade path, not
+      a compromise.</p>
+      <p>Whatever the picks: the one red, the burgundy, the rose and both inks stay by brand law, BG_B moves in
+      lockstep with the dawn token, and every alpha on the live page gets re-measured on the new grounds before it
+      ships — the printed ratios here cover the flat candidates only.</p>
+    </aside>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">
+    <p><span class="lt">Swap notes</span> — Built against <em>peptide-therapy/index.html</em>. A is three values per
+    file (bar ground, hairline, footer ground) plus the recorded fork of the true-copy chrome. B is the token swap
+    the round-7 handover maps (ivory→#F4F7FA · cream→#EAF0F5 · line→#D5DEE6 · gold→#7C93A8 · gold-deep→#54687C),
+    the dawn token to the winning candidate, and <em>BG_B</em> in the scene script to the same RGB — two copies of
+    one colour, both must move. C is the scene's GOLD/GOLD_DEEP constants and the <em>.scene-beat.gold</em> rule;
+    judged as a composition, not find-and-replaced.</p>
+    <p>This lab lives in the repo at <em>peptide-therapy/grade-lab.html</em> (fonts relative) and as a private
+    Claude artifact with the fonts embedded — the hero lab's two-copies rule. Answer with a letter per chapter,
+    or name your own mix.</p>
+  </div>
+</footer>
+
+<script>
+"use strict";
+(function(){
+const REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const DPR = Math.min(devicePixelRatio || 1, 1.5);
+
+/* ══ 0 · the Aero reference — the hero lab's plate K, verbatim: same noise prelude,
+      same dish, same liquid-glass bead, same two layers. One shader, no libraries. ══ */
+const NOISE = `
+float hash(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453); }
+float noise(vec2 p){
+  vec2 i=floor(p), f=fract(p); f=f*f*(3.-2.*f);
+  return mix(mix(hash(i),hash(i+vec2(1,0)),f.x),
+             mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),f.x),f.y);
+}
+float fbm(vec2 p){
+  float v=0., a=.5;
+  for(int i=0;i<5;i++){ v+=a*noise(p); p*=2.04; a*=.5; }
+  return v;
+}`;
+const BGW = `
+vec3 bgWhite(vec2 p, float t, vec2 rc, float rr, float ra){
+  float g = fbm(p*1.7 + vec2(t*.008,-t*.006));
+  vec3 col = mix(vec3(1.), vec3(.955,.956,.960), smoothstep(.2,.9,g));
+  col -= step(.9968, hash(floor(p*240.)))*.035;
+  float dr = length(p-rc)-rr;
+  col = mix(col, vec3(.74,.74,.75), smoothstep(.012,.002,abs(dr))*ra);
+  col += smoothstep(.0,-.25,dr)*.010*step(.001,ra);
+  return col;
+}`;
+const LIQUID = `
+vec3 liquidBead(vec2 rel, float dc, vec2 pw, float rw, float t, vec2 rc, float rr, float ra, float frost){
+  dc = min(dc, 1.);
+  float nz = sqrt(max(1.-dc*dc, 0.));
+  vec2 jit = (vec2(noise(pw*130.), noise(pw*130.+41.)) - .5) * frost * rw;
+  vec2 base = pw - rel*rw*(1.-nz)*1.35 + jit;
+  vec2 dsp = rel*min(rw,.09)*.03*dc;
+  vec3 col;
+  col.r = bgWhite(base + dsp, t, rc, rr, ra).r;
+  col.g = bgWhite(base,       t, rc, rr, ra).g;
+  col.b = bgWhite(base - dsp, t, rc, rr, ra).b;
+  col = mix(col, vec3(1.), .05 + .09*smoothstep(.95,.15,dc));
+  float gd = length((rel - vec2(0.,.52))*vec2(1.25,1.9));
+  col += smoothstep(.72,.26,gd)*(.15 + .09*smoothstep(.2,.9,rel.y));
+  col += smoothstep(.72,.30,length((rel - vec2(0.,-.55))*vec2(1.1,1.7)))*.07;
+  float fres = pow(1.-nz, 3.);
+  col = mix(col, vec3(.985,.99,.995), fres*.45);
+  col = mix(col, vec3(.55,.56,.575), smoothstep(.955,.995,dc)*.45);
+  col += smoothstep(.995,.94,dc)*smoothstep(.88,.94,dc)*.10;
+  vec3 n = normalize(vec3(rel, nz));
+  col += vec3(pow(max(dot(n, normalize(vec3(-.38,.62,.68))), 0.), 60.))*.65;
+  col *= 1. - smoothstep(.5,1.,dc)*smoothstep(.05,-.6,rel.y)*.09;
+  return col;
+}`;
+const FRAG_K = `
+vec3 layerK(vec3 col, vec2 p, float scale, vec2 drift, float rise, float seed, float t, float soft, float strength, vec2 rc, float rr, float frost){
+  vec2 q = p*scale + vec2(drift.x*t, drift.y*t - rise*t);
+  vec2 id = floor(q), f = fract(q);
+  for(int oy=-1;oy<=1;oy++) for(int ox=-1;ox<=1;ox++){
+    vec2 nb = vec2(float(ox),float(oy));
+    float h = hash(id+nb+seed);
+    if(fract(h*9.17) < .48) continue;
+    float br = 1. + .05*sin(t*(.3+.4*fract(h*3.7)) + h*6.2832);
+    vec2 c = nb + .5 + .28*vec2(sin(t*(.05+.07*fract(h*5.1))+h*6.2832),
+                                cos(t*(.04+.06*fract(h*2.3))+h*9.42));
+    float r = mix(.14,.40,fract(h*7.31))*br;
+    vec2 rel = (f-c)/r;
+    float d1 = length(rel);
+    float sh = smoothstep(1.45,.70,length(rel-vec2(.14,-.20)));
+    col = mix(col, col*vec3(.950,.950,.955), sh*.20*strength);
+    if(d1 < 1.+soft){
+      vec3 bead = liquidBead(rel, d1, p, r/scale, t, rc, rr, .30, frost);
+      col = mix(col, bead, smoothstep(1.+soft, 1.-soft, d1)*strength);
+    }
+  }
+  return col;
+}
+void main(){
+  vec2 uv = gl_FragCoord.xy/uRes;
+  vec2 p = uv; p.x *= uRes.x/uRes.y;
+  float t = uTime;
+  vec2 rc = vec2((uRes.x/uRes.y)*.63,.52);
+  float rr = .34+.012*sin(t*.12);
+  vec3 col = bgWhite(p, t, rc, rr, .38);
+  col -= step(.994, hash(floor(p*130.)+3.))*.04;
+  float fade = .30 + .70*smoothstep(.10,.52,uv.x);
+  col = layerK(col, p, 4.4, vec2(-.006,.004), .022, 31., t, .14, .65*fade, rc, rr, .55);
+  col = layerK(col, p, 2.3, vec2(.007,.005),  .042, 13., t, .03, .95*fade, rc, rr, .0);
+  gl_FragColor = vec4(col,1.);
+}`;
+
+function glScene(canvas, frag){
+  const gl = canvas.getContext("webgl",{antialias:false,alpha:false,powerPreference:"low-power"});
+  if(!gl) return null;
+  function sh(type,src){
+    const s=gl.createShader(type); gl.shaderSource(s,src); gl.compileShader(s);
+    if(!gl.getShaderParameter(s,gl.COMPILE_STATUS)){ console.error(gl.getShaderInfoLog(s)); return null; }
+    return s;
+  }
+  const vs = sh(gl.VERTEX_SHADER,"attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);}");
+  const fs = sh(gl.FRAGMENT_SHADER,"precision highp float;uniform float uTime;uniform vec2 uRes;"+NOISE+frag);
+  if(!vs||!fs) return null;
+  const p = gl.createProgram();
+  gl.attachShader(p,vs); gl.attachShader(p,fs); gl.linkProgram(p); gl.useProgram(p);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+  gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+  const loc = gl.getAttribLocation(p,"a");
+  gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+  const uT = gl.getUniformLocation(p,"uTime"), uR = gl.getUniformLocation(p,"uRes");
+  return {
+    resize(){
+      const w=Math.round(canvas.clientWidth*DPR), h=Math.round(canvas.clientHeight*DPR);
+      if(canvas.width!==w||canvas.height!==h){ canvas.width=w; canvas.height=h; }
+      gl.viewport(0,0,canvas.width,canvas.height);
+      gl.uniform2f(uR,canvas.width,canvas.height);
+    },
+    draw(t){ gl.uniform1f(uT,t); gl.drawArrays(gl.TRIANGLES,0,3); }
+  };
+}
+
+const aeroCv = document.getElementById("cv-aero");
+const aero = glScene(aeroCv, BGW + LIQUID + FRAG_K);
+let aeroVisible = true;
+if(aero){
+  const t0 = performance.now();
+  const tNow = () => (performance.now()-t0)/1000;
+  const size = () => { aero.resize(); aero.draw(REDUCE ? 21.7 : tNow()); };
+  addEventListener("resize", size);
+  new IntersectionObserver(es => { for(const e of es) aeroVisible = e.isIntersecting; },{threshold:.02})
+    .observe(document.getElementById("ref"));
+  size();
+  if(!REDUCE){
+    (function loop(){ requestAnimationFrame(loop); if(document.hidden || !aeroVisible) return; aero.draw(tNow()); })();
+  }
+}else{
+  /* no WebGL: the offline fallback is the same idea as the live page's — a flat glacier wash */
+  aeroCv.style.background = "radial-gradient(120% 150% at 20% 35%, #FFFFFF 0%, #F3F7FB 55%, #E8EFF5 100%)";
+}
+
+/* ══ the one selection — chapter pickers and the stage share it ══ */
+const state = { chrome:"a2", dawn:"b2", voice:"c2" };
+const root = document.documentElement;
+function applyState(){
+  root.dataset.chrome = state.chrome;
+  root.dataset.dawn = state.dawn;
+  root.dataset.voice = state.voice;
+  for(const key of ["chrome","dawn","voice"]){
+    document.querySelectorAll(`[data-${key}]`).forEach(el => {
+      if(el.tagName === "BUTTON") el.classList.toggle("on", el.dataset[key] === state[key]);
+    });
+  }
+  drawScene();
+}
+for(const key of ["chrome","dawn","voice"]){
+  document.querySelectorAll(`button[data-${key}]`).forEach(b =>
+    b.addEventListener("click", () => { state[key] = b.dataset[key]; applyState(); }));
+}
+
+/* ══ C · the scene sketch — a pure function of (progress, voice, dawn), like the real
+      engine: seeded scatter, the chain written head to tail onto a loose wave, the coil,
+      the dawn, the payoff. A sketch of the composition, not the shipped scene. ══ */
+const DAWNS = { b1:[246,231,225], b2:[232,239,245], b3:[250,247,241], b4:[251,253,255] };
+const VOICES = {
+  c1:{ chain:[201,164,106], deep:[138,106,52],  pulse:[236,214,178], glass:false },
+  c2:{ chain:[124,147,168], deep:[84,104,124],  pulse:[214,232,246], glass:false },
+  c3:{ chain:[201,212,221], deep:[148,163,177], pulse:[255,255,255], glass:true  },
+};
+const BG_A=[42,27,32], STONE=[176,154,156];
+const N=26;
+/* seeded, like the live scene — Replay rebuilds the exact chain the reader saw */
+function mulberry(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+const rand = mulberry(7);
+const scatter = Array.from({length:N},()=>[.08+.84*rand(), .16+.66*rand(), .55+.9*rand()]);
+const ss=(a,b,x)=>{x=Math.max(0,Math.min(1,(x-a)/(b-a)));return x*x*(3-2*x)};
+const mix=(a,b,k)=>a+(b-a)*k;
+const mixC=(A,B,k)=>[mix(A[0],B[0],k),mix(A[1],B[1],k),mix(A[2],B[2],k)];
+const rgba=(C,a)=>`rgba(${C[0]|0},${C[1]|0},${C[2]|0},${Math.max(0,Math.min(1,a)).toFixed(3)})`;
+
+const scene = document.getElementById("scene");
+const sctx = scene.getContext("2d");
+const scrub = document.getElementById("scrub");
+const beatKey = document.getElementById("beat-key");
+const beatLate = document.getElementById("beat-late");
+const stTitle = document.getElementById("stage-title");
+
+function slot(i, p, W, H){
+  /* the chain's spine: a loose golden wave that winds into the helix across act 3 */
+  const t = i/(N-1);
+  const coil = ss(.60,.78,p);
+  const turns = mix(1.25, 3.1, coil);
+  const amp = H*mix(.20,.13,coil);
+  const ang = t*Math.PI*2*turns + p*.4;
+  const x = W*mix(.14,.86,t);
+  const y = H*.55 + amp*Math.sin(ang);
+  const z = Math.cos(ang)*coil;           /* near-pass light, only once the coil arrives */
+  return [x,y,z];
+}
+function drawScene(){
+  const W = scene.clientWidth, H = scene.clientHeight;
+  if(!W) return;
+  const w=Math.round(W*DPR), h=Math.round(H*DPR);
+  if(scene.width!==w||scene.height!==h){ scene.width=w; scene.height=h; }
+  sctx.setTransform(DPR,0,0,DPR,0,0);
+  const p = scrub.value/1000;
+  const voice = VOICES[state.voice];
+  const dawn = DAWNS[state.dawn];
+  const dw = ss(.79,.86,p);
+
+  /* the stage, rising to the chosen dawn exactly as the live engine does */
+  sctx.fillStyle = rgba(mixC(BG_A, dawn, dw*.72), 1);
+  sctx.fillRect(0,0,W,H);
+  if(dw>0){
+    const g = sctx.createRadialGradient(W*.5,H*.55,0, W*.5,H*.55, Math.max(W,H)*.75);
+    g.addColorStop(0, rgba(dawn,dw)); g.addColorStop(.42, rgba(dawn,dw*.62)); g.addColorStop(1, rgba(dawn,0));
+    sctx.fillStyle=g; sctx.fillRect(0,0,W,H);
+  }
+
+  const wrote = ss(.34,.68,p)*N;                 /* how many links are written */
+  const whole = Math.floor(wrote), fly = wrote-whole;
+  const settle = ss(.86,.94,p);                  /* the figure dims behind the payoff */
+  const chainA = (1-settle*.62);
+
+  /* the written spine — the smooth curve the beads lie on, never bead-to-bead chords */
+  if(whole>1){
+    const pts=[]; for(let i=0;i<whole;i++) pts.push(slot(i,p,W,H));
+    sctx.beginPath(); sctx.moveTo(pts[0][0],pts[0][1]);
+    for(let i=1;i<pts.length-1;i++){
+      const xc=(pts[i][0]+pts[i+1][0])/2, yc=(pts[i][1]+pts[i+1][1])/2;
+      sctx.quadraticCurveTo(pts[i][0],pts[i][1],xc,yc);
+    }
+    const last=pts[pts.length-1]; sctx.lineTo(last[0],last[1]);
+    sctx.strokeStyle = rgba(mixC(voice.chain, voice.deep, dw*.7), .85*chainA);
+    sctx.lineWidth = 1.6; sctx.stroke();
+    if(voice.glass){                            /* the glass voice: a white light riding the strand */
+      sctx.strokeStyle = rgba([255,255,255], .30*chainA);
+      sctx.lineWidth = .7; sctx.stroke();
+    }
+    /* the reach — the one bead currently flying home gets a straight chord the curve absorbs */
+    if(whole<N && fly>0){
+      const from=pts[pts.length-1], to=slot(whole,p,W,H), sc=scatter[whole];
+      const bx=mix(sc[0]*W,to[0],ss(0,1,fly)), by=mix(sc[1]*H,to[1],ss(0,1,fly));
+      sctx.beginPath(); sctx.moveTo(from[0],from[1]); sctx.lineTo(bx,by);
+      sctx.strokeStyle = rgba(voice.chain,.35*chainA); sctx.lineWidth=1; sctx.stroke();
+    }
+    /* the pulse — the instruction in transit, from p .70 */
+    if(p>.70 && p<.98){
+      const pt = ((p-.70)/.28*2.2)%1;
+      const i0 = Math.min(whole-1, Math.floor(pt*(whole-1)));
+      const pp = pts[i0];
+      const g = sctx.createRadialGradient(pp[0],pp[1],0,pp[0],pp[1],14);
+      g.addColorStop(0, rgba(voice.pulse,.85*chainA)); g.addColorStop(1, rgba(voice.pulse,0));
+      sctx.fillStyle=g; sctx.beginPath(); sctx.arc(pp[0],pp[1],14,0,7); sctx.fill();
+    }
+  }
+
+  /* the beads — scattered rose-stone that the writing collects, lit on the coil's near pass */
+  for(let i=0;i<N;i++){
+    const sc = scatter[i];
+    let x=sc[0]*W, y=sc[1]*H, r=2.2*sc[2], C=STONE, a=.5;
+    if(i<whole){
+      const s=slot(i,p,W,H);
+      x=s[0]; y=s[1];
+      const lit=(s[2]+1)/2;
+      r=2.6+1.7*lit; C=mixC(mixC(voice.chain,voice.deep,dw*.6), [255,255,255], voice.glass? .25+.35*lit : .12*lit);
+      a=(.55+.45*lit)*chainA;
+    }else if(i===whole && fly>0){
+      const s=slot(i,p,W,H);
+      x=mix(x,s[0],ss(0,1,fly)); y=mix(y,s[1],ss(0,1,fly));
+      C=mixC(STONE,voice.chain,fly); r=2.6; a=.7;
+    }else{
+      /* unwritten raw material drifts, dim — the raw material was never the problem */
+      x+=Math.sin(i*3.7+p*6)*4; y+=Math.cos(i*2.9+p*5)*3; a=.5*(1-dw*.8);
+    }
+    sctx.beginPath(); sctx.arc(x,y,r,0,7);
+    sctx.fillStyle=rgba(C,a); sctx.fill();
+    if(voice.glass && i<whole){
+      sctx.beginPath(); sctx.arc(x-r*.3,y-r*.35,r*.3,0,7);
+      sctx.fillStyle=rgba([255,255,255],.55*a); sctx.fill();
+    }
+  }
+
+  /* the copy schedule — fixed polarity, a copy-free window around the dawn */
+  beatKey.classList.toggle("lit", p>=.30 && p<=.64);
+  beatLate.classList.toggle("lit", p>=.955);
+  stTitle.classList.toggle("lit", p>=.88);
+}
+scrub.addEventListener("input", drawScene);
+addEventListener("resize", drawScene);
+
+/* entrances */
+const pio = new IntersectionObserver(es => {
+  for(const en of es) if(en.isIntersecting){ en.target.classList.add("in"); pio.unobserve(en.target); }
+},{threshold:.12});
+document.querySelectorAll(".rev").forEach(el => pio.observe(el));
+
+applyState();
+})();
+</script>

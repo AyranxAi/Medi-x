@@ -1,5 +1,13 @@
 # Hormone Balancing & BHRT — `/hormone-balancing/` (shipped 2026-08-10, four refinement rounds same day)
 
+> ## 2026-08-15 — the mark links home
+>
+> Both marks (header `.mark`, footer `.f-mark`) now link `../` with "home" aria labels —
+> his call, and the convention readers arrive with; they linked `#top`, which only
+> scrolled this page. One deliberate divergence from the TRUE-COPY landing chrome,
+> commented at both sites; the landing page keeps `#top`, where home and top are the
+> same place. The same change landed on `/peptide-therapy/` in the same commit.
+
 > ## ⚠️ SUPERSEDED ONCE MORE — 2026-08-13, LATE. READ `../HANDOFF.md` FIRST.
 >
 > Seven of his notes in one pass. Against this document *and* the banner below it, these

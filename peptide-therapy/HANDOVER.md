@@ -1,5 +1,40 @@
 # Peptide Therapy — `/peptide-therapy/` (first ship 2026-08-14)
 
+> ## ROUND 8 — 2026-08-15: the mark learns the way home, and the re-grade gets its lab
+>
+> **1 · BOTH MARKS NOW LINK HOME (`../`), NOT `#top` — his call** ("if someone will click
+> Medigyn logo it should go to the original page right??? thats naturall???" — it is, and
+> they didn't: header `.mark` and footer `.f-mark` scrolled the page they were already
+> on). One attribute + aria label each, here AND on the hormone page, same commit. This is
+> a deliberate divergence from the TRUE-COPY landing chrome, commented at all four sites;
+> the landing page keeps `#top`, where home and top are the same place.
+>
+> **2 · THE ROUND-7 RE-GRADE QUESTIONS ARE NOW A LAB, NOT A MEMO:
+> `peptide-therapy/grade-lab.html` — the hero lab's grammar, its two-copies rule, and
+> ⚠️ THE SAME KEEP-BOTH WARNING.** The repo copy runs on relative fonts; the same lab is
+> published as a private Claude artifact with the fonts embedded at
+> https://claude.ai/code/artifact/1be3d4af-9d72-469d-9c0c-8d7ca00571da — do not delete,
+> overwrite or re-purpose either copy. It holds the three decisions round 7 left him,
+> each as a chapter with the live copy and the live type files:
+>   · **A — the chrome** (keep the ivory TRUE-COPY bar/footer over the glacier body ·
+>     fork them glacier · bright glass). The measured argument in the strips: the ivory
+>     bar vs the glacier ground is 1.006:1 in lightness — the eye reads pure temperature.
+>   · **B — the dawn** (rose #F6E7E1 as-stands · glacier dawn #E8EFF5 · his "BHRT white"
+>     #FAF7F1 verbatim · the same instinct translated to a lifted cool white #FBFDFF).
+>     Every specimen sits between glacier slices and carries a rise bar, because
+>     ⚠️ BG_B RIDES THE PICK — the scene's payoff recolours with the token.
+>   · **C — the scene's voice** (champagne as-stands · steel #7C93A8/#8FA5B8 · glass =
+>     the ✦ BHRT ivory-with-halo treatment in this page's light), on a live sketch of
+>     the chain scene — seeded scatter, write, coil, dawn — scrubbed by slider, the
+>     risen ground following the B pick.
+>   · **D — the composer**: the whole page in miniature, re-graded live from his three
+>     letters. My verdict is recorded in the lab itself: **A2 · B2 · C2**, C3's halo as
+>     the upgrade path if steel reads quiet.
+> ⚠️ RATIOS PRINTED IN THE LAB ARE COMPUTED ON THE FLAT CANDIDATE GROUNDS (WCAG
+> arithmetic — exact for flat colour). The live page's photo-backed alphas still need
+> the render-and-sample method when the winning grade lands; nothing on index.html has
+> been re-graded yet — that ships when his letters come back.
+
 > ## ROUND 7 — 2026-08-15: the silk becomes glass, and the glass sets the temperature
 > for the whole site
 >

@@ -106,14 +106,21 @@
 > every clone (a page-load loop finds nothing to bind — the same trap the mock-booking guard
 > fell into), and the face keeps its box so the monogram costs no layout.
 >
-> **8 · ⚠️ TWO PORTRAIT FILES ARE STILL MISSING, AND THIS TIME IT IS NOT "HE HASN'T SENT
-> THEM".** He sent both in the conversation. **Chat attachments do not reach this
-> filesystem, and egress to medi-gyn.com is refused by policy (403 on CONNECT), so they
-> cannot be fetched either.** The wiring is complete and waiting on a file drop:
-> `images/doctors/dr-nahla-ibrahim-elawady-square.webp` and `…/dr-khalid-shukri-square.webp`
-> — square crops, any size, `object-fit:cover` does the rest. **Then run
-> `node tools/crop-portrait.mjs`** to bake the two `…-head-400.webp` the bio panel's header
-> uses. Until then both cards and both chooser rows show an NE / KS monogram, deliberately.
+> **8 · ✅ ALL FOUR PORTRAITS ARE IN — he uploaded the last two the same day.** They landed
+> on main as `images/dr .webp` and `images/drr.webp` (a filename with a space in it) and
+> were `git mv`'d into `images/doctors/` under the names the markup already expected —
+> round 4's precedent: **the masters are renamed, never re-encoded.**
+> ⚠️ **DR. KHALID'S UPLOAD WAS THE ONE THAT WAS NOT SQUARE**: 1113×1414 against everyone
+> else's square. His original is kept beside the others as `dr-khalid-shukri-master.webp`,
+> is the source both his crops were cut from, is referenced by no markup, and **must not be
+> deleted**. His square is BAKED at sy=120 rather than left to `object-fit:cover` — three
+> crops were auditioned and 120 won: sy=0 cuts his crossed arms off and reads as a tight
+> headshot beside three full figures, sy=150 is the browser's own centre crop with the hair
+> tight to the frame, and 120 keeps both the arms and the headroom. The exact re-bake
+> commands for his square and for all four head crops are recorded in the DOM at the
+> section. ⚠️ **THE MONOGRAM FALLBACK STAYS IN THE CODE.** It is the guard for a future
+> rename, not scaffolding, and it earned its place this round — it was the shipped state
+> for a day. It simply never fires now.
 >
 > **9 · THE PAGE HAS A WHOLE-PAGE HARNESS NOW — `tools/qa/peptide-page.mjs`, 45/45.**
 > Eleven widths, the scene at four stops × two viewports, every dialog walked, the contrast

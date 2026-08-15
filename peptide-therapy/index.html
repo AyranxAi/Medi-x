@@ -2317,20 +2317,30 @@ html.js-scene{--glass-fill:rgba(29,39,47,.45);--glass-hi:rgba(29,39,47,.58);
        Shukri joined on his instruction. The grid is 2×2 at desktop with no change (it
        was always repeat(2)), and the booking chooser gained the matching two rows —
        KEEP THE FOUR AND THE CHOOSER'S FOUR IN THE SAME ORDER.
-       ⚠️ TWO OF THE FOUR PORTRAIT FILES ARE STILL MISSING, and unlike round 3's case
-       this is not "he has not sent them" — HE SENT BOTH IN THE CONVERSATION AND THIS
-       ENVIRONMENT CANNOT LAND THEM: chat attachments do not reach the filesystem, and
-       egress to medi-gyn.com is refused by policy (403 on CONNECT), so they cannot be
-       fetched either. The wiring is complete and waiting; the two files are a drop:
-         images/doctors/dr-andrey-komissarov-square.webp        ✓ present (1024²)
-         images/doctors/dr-eslam-yakout-square.webp             ✓ present (700²)
-         images/doctors/dr-nahla-ibrahim-elawady-square.webp    ⚠ MISSING
-         images/doctors/dr-khalid-shukri-square.webp            ⚠ MISSING
-       Square crops, any size — object-fit:cover does the rest. THEN RUN
-       `node tools/crop-portrait.mjs` to bake the two matching …-head-400.webp files
-       the bio panel's header uses; without them the panel simply goes without a face.
-       Until all of that, the two new cards show an NE / KS monogram and their chooser
-       rows show the same, deliberately, rather than a broken-image glyph. -->
+       ✅ ALL FOUR PORTRAITS ARE IN — he uploaded the last two to main as `images/dr .webp`
+       and `images/drr.webp` (2026-08-16) and they were git mv'd into place, round 4's
+       precedent: the MASTERS ARE NEVER RE-ENCODED, only renamed.
+         dr-andrey-komissarov-square.webp    1024²  · his upload, untouched
+         dr-eslam-yakout-square.webp          700²  · his upload, untouched
+         dr-nahla-ibrahim-elawady-square.webp 1024² · his upload, untouched (it arrived square)
+         dr-khalid-shukri-square.webp        1024²  · BAKED — see below
+       ⚠️ DR. KHALID'S UPLOAD IS THE ONE THAT WAS NOT SQUARE: 1113×1414. His original is
+       kept beside the others as `dr-khalid-shukri-master.webp` and is the source both his
+       crops were cut from; it is not referenced by any markup and must not be deleted.
+       The square is baked at sy=120 rather than left to object-fit:cover, which would
+       centre the crop at sy=150 — auditioned all three (0 / 120 / 150) and 120 won: sy=0
+       cuts his crossed arms off and reads as a tight headshot beside three full figures,
+       and 150 is the browser's own crop with the hair tight to the frame. 120 keeps the
+       arms AND the headroom. Re-bake with:
+         node tools/crop-portrait.mjs images/doctors/dr-khalid-shukri-master.webp <out> 0 120 1113 1024
+       The four …-head-400.webp head crops the bio panel's header uses are all baked with
+       the same tool; the two new ones were framed to match the two that shipped in round 5
+       (hair near the top edge, shoulders filling the bottom):
+         Nahla   … 145 35 640 400        Khalid … 250 60 700 400
+       ⚠️ THE MONOGRAM FALLBACK STAYS IN THE CODE ON ALL FOUR CARDS AND ALL FOUR CHOOSER
+       ROWS. It is the guard for a future rename, not scaffolding — round 4 kept it for the
+       same reason and it earned its place this round, when two of the four were missing for
+       a day. It simply never fires now. -->
   <section class="docs sec-pad" id="doctors">
     <div class="wrap">
       <div class="sec-head">

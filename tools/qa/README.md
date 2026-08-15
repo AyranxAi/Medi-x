@@ -42,9 +42,11 @@ it deliberately, because the footer is a documented true copy of the landing pag
 one-line fix belongs to all three files in one commit. If 360 ever passes, that fix landed
 and the exemption should come out.
 
-⚠️ **Two portrait 404s are expected and named in `EXPECTED_MISSING`** (Dr. Nahla and
-Dr. Khalid). Any *other* 404 fails the run. When their files land, those lines vanish on
-their own.
+`EXPECTED_MISSING` is **empty and should stay that way**. It held Dr. Nahla's and
+Dr. Khalid's portraits for a day while they could not be landed from this environment; the
+files arrived and the list emptied itself, which is exactly what the exemption was written
+to do. Any 404 now is a real one and fails the run — add a path there only with a dated
+reason.
 
 
 The previous handover recorded this as "not in the repo", and that cost a day of

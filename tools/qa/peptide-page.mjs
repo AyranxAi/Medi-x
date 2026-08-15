@@ -44,18 +44,12 @@ const bad  = (m) => { checks++; failures++; console.log('  \x1b[31m✗\x1b[0m ' 
 const note = (m) => console.log('    · ' + m);
 const head = (m) => console.log('\n\x1b[1m' + m + '\x1b[0m');
 
-/* ── the two portraits that are known-missing, and the reason ──────────────────────
-   He sent both in conversation; chat attachments do not reach the filesystem and
-   egress to medi-gyn.com is refused by policy, so they cannot be fetched either. The
-   page is wired for them and falls back to a monogram. Their 404s are EXPECTED — but
-   the harness prints them as a standing reminder rather than hiding them, and the
-   moment the files land these lines disappear on their own. */
-const EXPECTED_MISSING = [
-  'images/doctors/dr-nahla-ibrahim-elawady-square.webp',
-  'images/doctors/dr-nahla-ibrahim-elawady-head-400.webp',
-  'images/doctors/dr-khalid-shukri-square.webp',
-  'images/doctors/dr-khalid-shukri-head-400.webp',
-];
+/* ── files the page may legitimately ask for and not get ───────────────────────────
+   Empty, and it should stay that way. It held Dr. Nahla's and Dr. Khalid's portraits
+   for a day while they could not be landed from this environment; he uploaded them on
+   2026-08-16 and the list emptied itself, exactly as the exemption was written to. Any
+   404 now is a real one and fails the run. Add a path here ONLY with a dated reason. */
+const EXPECTED_MISSING = [];
 
 /* ═══ 1 · THE STYLESHEET PARSES AS WRITTEN ═════════════════════════════════════════ */
 function checkComments(html) {

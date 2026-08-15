@@ -1,0 +1,975 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Bond Lab</title>
+<!-- ═══════════════════════════════════════════════════════════════════════════════════
+     THE BOND LAB — peptide-therapy round 10: six successors to plate D.
+     Sister to hero-lab.html (round 7, fourteen plates) and grade-lab.html (round 8).
+     D · Peptide bonds is LIVE on the page as of round 10 — the correction to round 9's
+     mis-relayed plate E — and it is here as the reference plate at the top, so every
+     candidate is judged against what is actually on the page rather than from memory.
+
+     The question this lab asks is narrower than the hero lab's. That one asked "what
+     material should the hero be made of?" and answered chrome, glass, silk, foam. D
+     settled the material: the hero is made of PEPTIDES. So these six all ask the same
+     next question — WHAT IS A PEPTIDE? — and each answers it differently:
+       O · Coil      a shape        the chain winds into the helix
+       P · Affinity  an action      one chain, one site, one docking event, macro
+       Q · Sequence  a code         real sequences, one letter per residue
+       R · Shoal     an atmosphere  hundreds of chains, docking as distant light
+       S · Lattice   a builder      chains link into a mesh — collagen forming
+       T · Relay     a message      a pulse travels the chain and leaps to the next
+     Each is a drop-in for #silk on index.html: Canvas 2D, no WebGL, no CDN.
+
+     ⚠️ TWO COPIES RULE (the hero lab's): this file lives here with relative fonts, and
+     the same lab is published as a Claude artifact with the fonts embedded. Keep both.
+     ⚠️ THE GRADE IS LOCKED TO GLACIER and there is no grade bar — round 9 took the whole
+     page glacier, so the temperature is no longer a question. The bar at the foot asks
+     the one that IS open: the chains are literally GOLD while this page's --gold token
+     was remapped to STEEL #7C93A8. It re-colours all seven plates at once, and it is the
+     same question the grade lab's chapter C left open for the chain scene.
+     ⚠️ SINGLE-THEME BY DESIGN: no dark variant. The lab exists to predict a light page,
+     and a re-themed lab would falsify the judgement. Every colour is painted explicitly.
+     ═══════════════════════════════════════════════════════════════════════════════════ -->
+<style>
+/* ─── Medi✦X brand faces — the live files, not stand-ins ─── */
+@font-face{font-family:"Playfair";src:url(../fonts/playfair-normal-var-latin.woff2) format("woff2-variations");font-weight:300 900;font-style:normal;font-display:swap}
+@font-face{font-family:"Playfair";src:url(../fonts/playfair-italic-var-latin.woff2) format("woff2-variations");font-weight:300 900;font-style:italic;font-display:swap}
+@font-face{font-family:"MediGyn NOW";src:url(../fonts/medigyn-now-300.woff2) format("woff2");font-weight:300;font-display:swap}
+@font-face{font-family:"MediGyn NOW";src:url(../fonts/medigyn-now-500.woff2) format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"MediGyn Megante";src:url(../fonts/medigyn-megante-400.woff2) format("woff2");font-weight:400;font-display:swap}
+
+/* ─── Medi✦X design constants — the GLACIER values the page ships (round 9) ─── */
+:root{
+  --burgundy:#5C1F31; --rose:#C79A92; --logo-red:#8E2D3A;
+  --ink:#2E2228; --ink-soft:#6A585F;
+  --serif:"Playfair","Playfair Display",Didot,"Times New Roman",Georgia,serif;
+  --sans:"MediGyn NOW",Jost,ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --accent-face:"MediGyn Megante",Optima,Georgia,serif;
+  --ease:cubic-bezier(.22,.61,.36,1);
+  color-scheme:light;
+  --ground:#F4F7FA; --cream:#EAF0F5; --line:#D5DEE6;
+  --tint:#F3F7FB; --uiacc:#7C93A8; --uiacc-deep:#54687C;
+  --ivory:#F4F7FA;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);font-weight:300;background:var(--ground);color:var(--ink);
+  -webkit-font-smoothing:antialiased;line-height:1.6;
+}
+h1,h2{font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30;color:var(--ink);line-height:1.05;letter-spacing:-.01em;text-wrap:balance}
+h1 em{font-style:italic;color:var(--logo-red);font-weight:430}
+a{color:inherit}
+
+/* ─── masthead ─── */
+.mast{padding:clamp(64px,9vh,104px) 0 clamp(40px,6vh,60px);border-bottom:1px solid var(--line);background:var(--ground)}
+.wrap{width:min(1180px,calc(100% - clamp(40px,8vw,120px)));margin-inline:auto}
+.chapter-mark{font-family:var(--accent-face);font-size:13px;letter-spacing:.24em;color:var(--uiacc-deep);text-transform:uppercase}
+.mast h1{font-size:clamp(36px,4.6vw,60px);margin-top:18px}
+.mast .lede{margin-top:18px;max-width:44em;font-size:clamp(15px,1.25vw,17px);color:var(--ink-soft);line-height:1.75}
+.mast .lede + .lede{margin-top:14px}
+.index{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px;list-style:none}
+.index a{
+  display:inline-flex;align-items:baseline;gap:9px;text-decoration:none;
+  border:1px solid var(--line);border-radius:999px;padding:9px 18px;
+  font-size:12.5px;letter-spacing:.06em;color:var(--ink);
+  transition:border-color .3s var(--ease),background .3s var(--ease);
+}
+.index a:hover,.index a:focus-visible{border-color:var(--uiacc);background:var(--cream);outline:none}
+.index .lt{font-family:var(--accent-face);font-size:12px;letter-spacing:.2em;color:var(--uiacc-deep)}
+.index .tag{color:var(--ink-soft)}
+.index a.ref{border-style:dashed}
+
+/* ─── plates ─── */
+.plate{position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden;background:var(--ground)}
+.plate canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+/* the legibility geometry the live hero ships: bottom fade to ivory + a wash behind the copy */
+.veil{position:absolute;inset:0;pointer-events:none;z-index:1;background:
+  linear-gradient(180deg,rgba(244,247,250,0) 55%,var(--ground) 97%),
+  radial-gradient(85% 115% at 20% 44%,rgba(244,247,250,.55) 0%,rgba(244,247,250,.22) 46%,rgba(244,247,250,0) 70%)}
+/* the grade: the glacier whisper multiplied over every plate, exactly as index.html bakes it */
+.tint{position:absolute;inset:0;pointer-events:none;z-index:1;background:var(--tint);mix-blend-mode:multiply}
+.hero-inner{position:relative;z-index:2;width:100%;padding-top:12vh;padding-bottom:12vh}
+.kicker{
+  display:flex;align-items:center;gap:14px;
+  font-weight:500;font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--ink-soft);
+  margin-bottom:clamp(22px,3.4vh,38px);
+}
+.kicker::before{content:"";width:34px;height:1px;background:var(--uiacc)}
+.plate h2.h1{font-size:clamp(42px,7vw,100px);max-width:11em}
+.plate h2.h1 .line{display:block;overflow:hidden}
+.plate h2.h1 .line>span{display:block;transform:translateY(112%)}
+.plate.in h2.h1 .line>span{transform:translateY(0);transition:transform 1.05s var(--ease)}
+.plate.in h2.h1 .line:nth-child(2)>span{transition-delay:.08s}
+h2.h1 em{font-style:italic;color:var(--logo-red);font-weight:430}
+.hero-sub{
+  margin-top:clamp(24px,3.6vh,40px);max-width:34em;
+  font-size:clamp(18px,1.6vw,23px);font-weight:300;color:var(--ink-soft);line-height:1.75;
+}
+.hero-sub strong{font-weight:500;color:var(--burgundy)}
+.fade{opacity:0;transform:translateY(22px)}
+.plate.in .fade{opacity:1;transform:none;transition:opacity .9s var(--ease) .3s,transform .9s var(--ease) .3s}
+.hero-ctas{display:flex;gap:16px;margin-top:clamp(30px,4.4vh,48px);flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;gap:12px;
+  font-weight:500;font-size:13px;letter-spacing:.12em;text-transform:uppercase;
+  padding:18px 34px;border-radius:999px;cursor:default;user-select:none;
+  background:rgba(142,45,58,.85);color:#F4F7FA;
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:1px solid transparent;white-space:nowrap;
+}
+.btn.ghost{background:transparent;color:var(--burgundy);border:1px solid var(--line);backdrop-filter:none;-webkit-backdrop-filter:none}
+
+/* ─── spec chip ─── */
+.spec{
+  position:absolute;z-index:3;right:clamp(18px,3vw,44px);bottom:clamp(18px,4vh,40px);
+  max-width:352px;padding:16px 20px 17px;border:1px solid var(--line);border-radius:16px;
+  background:rgba(244,247,250,.78);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+}
+.spec .lt{font-family:var(--accent-face);font-size:12px;letter-spacing:.24em;color:var(--uiacc-deep)}
+.spec b{display:block;font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30;font-size:21px;margin-top:6px;letter-spacing:-.01em}
+.spec .eng{display:block;margin-top:8px;font-weight:500;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft)}
+.spec .ask{display:block;margin-top:8px;font-family:var(--serif);font-style:italic;font-size:14px;color:var(--uiacc-deep)}
+.spec p{margin-top:8px;font-size:13px;line-height:1.6;color:var(--ink-soft)}
+.spec.live{border-color:var(--uiacc)}
+.spec .now{
+  display:inline-block;margin-top:10px;padding:4px 11px;border-radius:999px;
+  background:rgba(124,147,168,.16);color:var(--uiacc-deep);
+  font-weight:500;font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;
+}
+
+/* ─── letter rail ─── */
+.rail{position:fixed;right:clamp(10px,1.6vw,26px);top:50%;transform:translateY(-50%);z-index:20}
+.rail ul{display:flex;flex-direction:column;gap:6px;list-style:none}
+.rail a{
+  display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;
+  font-family:var(--accent-face);font-size:12px;letter-spacing:.08em;text-decoration:none;color:var(--ink-soft);
+  border:1px solid transparent;transition:border-color .3s var(--ease),color .3s var(--ease),background .3s var(--ease);
+}
+.rail a:hover,.rail a:focus-visible{border-color:var(--line);outline:none}
+.rail a.on{border-color:var(--uiacc);color:var(--uiacc-deep);background:rgba(244,247,250,.7)}
+
+/* ─── accent bar (where the hero lab kept its grade bar) ─── */
+.accents{
+  position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:30;
+  display:flex;gap:2px;padding:5px;border:1px solid var(--line);border-radius:999px;
+  background:rgba(244,247,250,.82);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  max-width:calc(100% - 24px);flex-wrap:wrap;justify-content:center;align-items:center;
+}
+.accents .lbl{
+  padding:8px 6px 8px 12px;font-weight:500;font-size:9.5px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--ink-soft);
+}
+.accents button{
+  display:inline-flex;align-items:center;gap:8px;border:0;cursor:pointer;
+  font-family:var(--sans);font-weight:500;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  padding:8px 14px;border-radius:999px;color:var(--ink-soft);background:transparent;
+  transition:background .3s var(--ease),color .3s var(--ease);
+}
+.accents button:hover,.accents button:focus-visible{color:var(--ink);outline:none}
+.accents button:focus-visible{box-shadow:0 0 0 2px var(--uiacc)}
+.accents button.on{background:rgba(124,147,168,.16);color:var(--ink)}
+.accents i{width:9px;height:9px;border-radius:50%;border:1px solid rgba(0,0,0,.12)}
+.accents [data-accent="gold"] i{background:#C2A05E}
+.accents [data-accent="steel"] i{background:#7C93A8}
+
+/* ─── footnote ─── */
+.foot{border-top:1px solid var(--line);padding:34px 0 108px;background:var(--ground)}
+.foot p{font-size:12.5px;line-height:1.8;color:var(--ink-soft);max-width:56em}
+.foot p + p{margin-top:12px}
+.foot .lt{font-family:var(--accent-face);letter-spacing:.2em;color:var(--uiacc-deep)}
+
+@media (max-width:760px){
+  .plate h2.h1{font-size:clamp(30px,9.2vw,44px)}
+  .hero-sub{font-size:16px}
+  .hero-ctas .btn{width:100%;justify-content:center}
+  .spec{position:static;max-width:none;margin:26px auto 0;width:min(560px,calc(100% - 40px))}
+  .plate{flex-direction:column;justify-content:center;padding-bottom:26px}
+  .rail{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .plate h2.h1 .line>span,.fade{transform:none;opacity:1;transition:none}
+}
+</style>
+
+<header class="mast">
+  <div class="wrap">
+    <p class="chapter-mark">Medi ✦ X · Hero ground study · round 10</p>
+    <h1>The Bond Lab</h1>
+    <p class="lede">Round seven asked what the hero should be <em>made of</em> and auditioned
+    fourteen materials. <strong>D · Peptide bonds</strong> answered it: the hero is made of
+    peptides. So this round asks the next question instead — <em>what is a peptide?</em> — and
+    the six plates below each answer it differently: a shape, an action, a code, an
+    atmosphere, a builder, a message.</p>
+    <p class="lede">D itself sits at the top as the reference, because it is live on the page
+    right now and every candidate should be judged against what is actually there. All seven
+    are Canvas 2D — no WebGL, no CDN, drop-in replacements for <span class="lt">#silk</span>.
+    The bar at the foot re-colours every plate between the chains' <strong>gold</strong> and
+    this page's <strong>steel</strong>: the one open question the grade left behind.</p>
+    <ul class="index">
+      <li><a class="ref" href="#d"><span class="lt">D</span> Peptide bonds <span class="tag">· live now</span></a></li>
+      <li><a href="#o"><span class="lt">O</span> Coil <span class="tag">· a shape</span></a></li>
+      <li><a href="#p"><span class="lt">P</span> Affinity <span class="tag">· an action</span></a></li>
+      <li><a href="#q"><span class="lt">Q</span> Sequence <span class="tag">· a code</span></a></li>
+      <li><a href="#r"><span class="lt">R</span> Shoal <span class="tag">· an atmosphere</span></a></li>
+      <li><a href="#s"><span class="lt">S</span> Lattice <span class="tag">· a builder</span></a></li>
+      <li><a href="#t"><span class="lt">T</span> Relay <span class="tag">· a message</span></a></li>
+    </ul>
+  </div>
+</header>
+
+<nav class="rail" aria-label="Plates">
+  <ul>
+    <li><a href="#d" data-spy="d">D</a></li>
+    <li><a href="#o" data-spy="o">O</a></li>
+    <li><a href="#p" data-spy="p">P</a></li>
+    <li><a href="#q" data-spy="q">Q</a></li>
+    <li><a href="#r" data-spy="r">R</a></li>
+    <li><a href="#s" data-spy="s">S</a></li>
+    <li><a href="#t" data-spy="t">T</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<!-- ══════════ D · PEPTIDE BONDS — the reference, live on the page ══════════ -->
+<section class="plate" id="d">
+  <canvas id="cv-d" aria-hidden="true"></canvas>
+  <div class="tint" aria-hidden="true"></div>
+  <div class="veil" aria-hidden="true"></div>
+  <div class="hero-inner wrap">
+    <p class="kicker fade">Preventative · Precision · Personalised · Partnership</p>
+    <h2 class="h1"><span class="line"><span>Peptide</span></span><span class="line"><span><em>therapy.</em></span></span></h2>
+    <p class="hero-sub fade">Medically supervised <strong>peptide therapy</strong> —
+    precise, personalised protocols for recovery, resilience, repair and healthy ageing.</p>
+    <div class="hero-ctas fade"><span class="btn">Book a consultation <span class="arr">→</span></span><span class="btn ghost">How peptides work</span></div>
+  </div>
+  <aside class="spec live">
+    <span class="lt">D</span><b>Peptide bonds</b>
+    <span class="eng">Canvas 2D · the reference plate</span>
+    <p>Amino chains adrift, free molecules docking on at the ends. The plate that tells the
+    page's own story — the chain scene below the fold, rehearsed in miniature.</p>
+    <span class="now">Live on the page</span>
+  </aside>
+</section>
+
+<!-- ══════════ O · COIL — a shape ══════════ -->
+<section class="plate" id="o">
+  <canvas id="cv-o" aria-hidden="true"></canvas>
+  <div class="tint" aria-hidden="true"></div>
+  <div class="veil" aria-hidden="true"></div>
+  <div class="hero-inner wrap">
+    <p class="kicker fade">Preventative · Precision · Personalised · Partnership</p>
+    <h2 class="h1"><span class="line"><span>Peptide</span></span><span class="line"><span><em>therapy.</em></span></span></h2>
+    <p class="hero-sub fade">Medically supervised <strong>peptide therapy</strong> —
+    precise, personalised protocols for recovery, resilience, repair and healthy ageing.</p>
+    <div class="hero-ctas fade"><span class="btn">Book a consultation <span class="arr">→</span></span><span class="btn ghost">How peptides work</span></div>
+  </div>
+  <aside class="spec">
+    <span class="lt">O</span><b>Coil</b>
+    <span class="eng">Canvas 2D · drop-in swap for #silk</span>
+    <span class="ask">A peptide is a shape.</span>
+    <p>D's chains learn to wind. Each one breathes between a slack strand and a tight helix,
+    beads swelling as they turn toward you. It is the chain scene's closing act, running
+    quietly in the hero an entire page early.</p>
+  </aside>
+</section>
+
+<!-- ══════════ P · AFFINITY — an action ══════════ -->
+<section class="plate" id="p">
+  <canvas id="cv-p" aria-hidden="true"></canvas>
+  <div class="tint" aria-hidden="true"></div>
+  <div class="veil" aria-hidden="true"></div>
+  <div class="hero-inner wrap">
+    <p class="kicker fade">Preventative · Precision · Personalised · Partnership</p>
+    <h2 class="h1"><span class="line"><span>Peptide</span></span><span class="line"><span><em>therapy.</em></span></span></h2>
+    <p class="hero-sub fade">Medically supervised <strong>peptide therapy</strong> —
+    precise, personalised protocols for recovery, resilience, repair and healthy ageing.</p>
+    <div class="hero-ctas fade"><span class="btn">Book a consultation <span class="arr">→</span></span><span class="btn ghost">How peptides work</span></div>
+  </div>
+  <aside class="spec">
+    <span class="lt">P</span><b>Affinity</b>
+    <span class="eng">Canvas 2D · drop-in swap for #silk</span>
+    <span class="ask">A peptide is an action.</span>
+    <p>Pull all the way in. One chain, one binding site, one molecule arriving — it settles,
+    the site lights, it leaves. Every eleven seconds the page says <em>this is what a peptide
+    does</em>, without a diagram and without a word.</p>
+  </aside>
+</section>
+
+<!-- ══════════ Q · SEQUENCE — a code ══════════ -->
+<section class="plate" id="q">
+  <canvas id="cv-q" aria-hidden="true"></canvas>
+  <div class="tint" aria-hidden="true"></div>
+  <div class="veil" aria-hidden="true"></div>
+  <div class="hero-inner wrap">
+    <p class="kicker fade">Preventative · Precision · Personalised · Partnership</p>
+    <h2 class="h1"><span class="line"><span>Peptide</span></span><span class="line"><span><em>therapy.</em></span></span></h2>
+    <p class="hero-sub fade">Medically supervised <strong>peptide therapy</strong> —
+    precise, personalised protocols for recovery, resilience, repair and healthy ageing.</p>
+    <div class="hero-ctas fade"><span class="btn">Book a consultation <span class="arr">→</span></span><span class="btn ghost">How peptides work</span></div>
+  </div>
+  <aside class="spec">
+    <span class="lt">Q</span><b>Sequence</b>
+    <span class="eng">Canvas 2D · drop-in swap for #silk</span>
+    <span class="ask">A peptide is a code.</span>
+    <p>Every bead carries its amino acid's letter, and the chains spell real sequences —
+    GHK, KTTKS, GEKG. A reader who knows will recognise them; a reader who doesn't still
+    reads <em>precision</em>. The only plate that is literally true.</p>
+  </aside>
+</section>
+
+<!-- ══════════ R · SHOAL — an atmosphere ══════════ -->
+<section class="plate" id="r">
+  <canvas id="cv-r" aria-hidden="true"></canvas>
+  <div class="tint" aria-hidden="true"></div>
+  <div class="veil" aria-hidden="true"></div>
+  <div class="hero-inner wrap">
+    <p class="kicker fade">Preventative · Precision · Personalised · Partnership</p>
+    <h2 class="h1"><span class="line"><span>Peptide</span></span><span class="line"><span><em>therapy.</em></span></span></h2>
+    <p class="hero-sub fade">Medically supervised <strong>peptide therapy</strong> —
+    precise, personalised protocols for recovery, resilience, repair and healthy ageing.</p>
+    <div class="hero-ctas fade"><span class="btn">Book a consultation <span class="arr">→</span></span><span class="btn ghost">How peptides work</span></div>
+  </div>
+  <aside class="spec">
+    <span class="lt">R</span><b>Shoal</b>
+    <span class="eng">Canvas 2D · drop-in swap for #silk</span>
+    <span class="ask">A peptide is an atmosphere.</span>
+    <p>Stand back until the chains are a drift of particles moving on one current, and a
+    docking is a small light somewhere out in it. The quietest of the six — closest to the
+    calm the silk had, but made of the right material.</p>
+  </aside>
+</section>
+
+<!-- ══════════ S · LATTICE — a builder ══════════ -->
+<section class="plate" id="s">
+  <canvas id="cv-s" aria-hidden="true"></canvas>
+  <div class="tint" aria-hidden="true"></div>
+  <div class="veil" aria-hidden="true"></div>
+  <div class="hero-inner wrap">
+    <p class="kicker fade">Preventative · Precision · Personalised · Partnership</p>
+    <h2 class="h1"><span class="line"><span>Peptide</span></span><span class="line"><span><em>therapy.</em></span></span></h2>
+    <p class="hero-sub fade">Medically supervised <strong>peptide therapy</strong> —
+    precise, personalised protocols for recovery, resilience, repair and healthy ageing.</p>
+    <div class="hero-ctas fade"><span class="btn">Book a consultation <span class="arr">→</span></span><span class="btn ghost">How peptides work</span></div>
+  </div>
+  <aside class="spec">
+    <span class="lt">S</span><b>Lattice</b>
+    <span class="eng">Canvas 2D · drop-in swap for #silk</span>
+    <span class="ask">A peptide is a builder.</span>
+    <p>The chains find each other and link, and a mesh assembles across the frame — collagen,
+    which is the thing the skin protocols are actually about. Each junction lights as it
+    closes. It builds, holds, releases, and builds again.</p>
+  </aside>
+</section>
+
+<!-- ══════════ T · RELAY — a message ══════════ -->
+<section class="plate" id="t">
+  <canvas id="cv-t" aria-hidden="true"></canvas>
+  <div class="tint" aria-hidden="true"></div>
+  <div class="veil" aria-hidden="true"></div>
+  <div class="hero-inner wrap">
+    <p class="kicker fade">Preventative · Precision · Personalised · Partnership</p>
+    <h2 class="h1"><span class="line"><span>Peptide</span></span><span class="line"><span><em>therapy.</em></span></span></h2>
+    <p class="hero-sub fade">Medically supervised <strong>peptide therapy</strong> —
+    precise, personalised protocols for recovery, resilience, repair and healthy ageing.</p>
+    <div class="hero-ctas fade"><span class="btn">Book a consultation <span class="arr">→</span></span><span class="btn ghost">How peptides work</span></div>
+  </div>
+  <aside class="spec">
+    <span class="lt">T</span><b>Relay</b>
+    <span class="eng">Canvas 2D · drop-in swap for #silk</span>
+    <span class="ask">A peptide is a message.</span>
+    <p>The chains hold almost still. What moves is a signal running bead to bead and then
+    leaping the gap to the next chain. Peptides are signalling molecules, and this is the
+    only plate that shows the signal rather than the molecule.</p>
+  </aside>
+</section>
+
+</main>
+
+<nav class="accents" aria-label="Accent colour">
+  <span class="lbl">Accent</span>
+  <button type="button" data-accent="gold" class="on"><i aria-hidden="true"></i>Gold · as picked</button>
+  <button type="button" data-accent="steel"><i aria-hidden="true"></i>Steel · the token</button>
+</nav>
+
+<footer class="foot">
+  <div class="wrap">
+    <p><span class="lt">The accent question.</span> Plate D's chains are literally gold —
+    <span class="lt">rgba(194,160,94)</span> — and that is how it was picked and how it
+    shipped. But round 9 remapped this page's <span class="lt">--gold</span> token to steel
+    <span class="lt">#7C93A8</span>, so those chains are now the only true gold on the page.
+    The bar above shows both readings across all seven plates. Gold is the brand's voice and
+    the warmest thing left on a cold page; steel is consistent and disappears into the grade.
+    Neither is obviously right, which is why it is a bar and not a decision.</p>
+    <p><span class="lt">How to read the plates.</span> Every one carries the real hero copy at
+    the real sizes over the real glacier grade — the multiply is a layer here exactly as it is
+    baked into the shipped <span class="lt">draw()</span> — so what you judge is what the page
+    would be. Scroll a plate fully into view before judging it: the canvases only run while
+    they are on screen, and the copy plays its entrance once.</p>
+    <p><span class="lt">If one of these wins</span> it replaces D in
+    <span class="lt">peptide-therapy/index.html</span>, one engine for another, and D joins E
+    and Aero in the lab. Chain counts fall on narrow viewports on every plate here, the same
+    way they do on the shipped page — a fixed-length rod covers about four times the share of
+    a phone screen that it covers at 1440.</p>
+  </div>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════════════════════
+   Seven engines, one contract: {resize(), draw(t)} over a 2D context, deterministic from
+   a fixed seed, and never reading anything the accent bar can change except through acc().
+   All seven paint the same warm ivory ground D paints, because the glacier arrives as the
+   .tint layer above — the same division the shipped page keeps.
+   ═══════════════════════════════════════════════════════════════════════════════════ */
+
+const REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const STILL = 21.7;   /* the lab's still — the frame the plates are screenshotted at */
+
+/* The accent, read fresh every frame so the bar re-colours without a rebuild. */
+const ACCENTS = { gold:[194,160,94], steel:[124,147,168] };
+function acc(a){
+  const c = ACCENTS[document.documentElement.dataset.accent] || ACCENTS.gold;
+  return "rgba(" + c[0] + "," + c[1] + "," + c[2] + "," + a + ")";
+}
+/* The neutral residues and the strand — unchanged by the bar. */
+const NODE = a => "rgba(106,88,95," + a + ")";
+const BOND = a => "rgba(122,106,84," + a + ")";
+
+function ctx2d(canvas, dprCap){
+  const d = Math.min(devicePixelRatio || 1, dprCap || 1.5);
+  const c = canvas.getContext("2d");
+  return {
+    ctx:c, get w(){ return canvas.clientWidth; }, get h(){ return canvas.clientHeight; },
+    resize(){
+      const w=Math.round(canvas.clientWidth*d), h=Math.round(canvas.clientHeight*d);
+      if(canvas.width!==w||canvas.height!==h){ canvas.width=w; canvas.height=h; }
+      c.setTransform(d,0,0,d,0,0);
+    }
+  };
+}
+function seeder(s){ let x=s; return () => (x = (x*16807)%2147483647)/2147483647; }
+const wrap = (v,m) => ((v%m)+m)%m;
+const ease = x => x<.5 ? 2*x*x : 1-Math.pow(-2*x+2,2)/2;
+
+/* The ground every plate stands on — D's warm ivory, cooled by .tint above. */
+function ground(c,W,H){
+  const bg=c.createLinearGradient(0,0,0,H);
+  bg.addColorStop(0,"#FBF8F2"); bg.addColorStop(1,"#F6F1E8");
+  c.fillStyle=bg; c.fillRect(0,0,W,H);
+}
+/* Density falls with the viewport on every plate, for the reason in the footnote. */
+const dens = W => W<640 ? .55 : W<1024 ? .74 : 1;
+
+/* ════════ D · PEPTIDE BONDS — the reference, verbatim from the shipped page ════════ */
+function makeBonds(canvas){
+  const s = ctx2d(canvas, 1.5);
+  const rnd = seeder(424242);
+  const chains = [];
+  for(let i=0;i<11;i++){
+    const n = 4 + Math.floor(rnd()*4);
+    chains.push({
+      n, x0:rnd(), y0:rnd(), vx:(rnd()-.5)*14, vy:-(4+rnd()*8),
+      ang:rnd()*6.28, rot:(rnd()-.5)*.06,
+      seg:26+rnd()*10, amp:5+rnd()*6, frq:.5+rnd()*.5, phs:rnd()*6.28,
+      gold:Math.floor(rnd()*n), r:[...Array(n)].map(()=>2.6+rnd()*2.2)
+    });
+  }
+  const frees = [];
+  for(let i=0;i<24;i++) frees.push({ x0:rnd(), y0:rnd(), vx:(rnd()-.5)*10, vy:-(3+rnd()*7), r:2+rnd()*1.6, ph:rnd()*6.28 });
+
+  function nodes(ch,t,W,H){
+    const ax = wrap(ch.x0*W + ch.vx*t, W+120)-60;
+    const ay = wrap(ch.y0*H + ch.vy*t, H+120)-60;
+    const a = ch.ang + ch.rot*t, dx=Math.cos(a), dy=Math.sin(a);
+    const pts=[];
+    for(let i=0;i<ch.n;i++){
+      const off = Math.sin(t*ch.frq + ch.phs + i*1.15)*ch.amp;
+      pts.push({ x: ax + dx*i*ch.seg - dy*off, y: ay + dy*i*ch.seg + dx*off });
+    }
+    return pts;
+  }
+  return { resize(){ s.resize(); }, draw(t){
+    const c=s.ctx, W=s.w, H=s.h; ground(c,W,H);
+    const k = dens(W), ends=[];
+    for(const ch of chains.slice(0, Math.max(4,Math.round(11*k)))){
+      const pts = nodes(ch,t,W,H);
+      c.beginPath();
+      for(let i=0;i<pts.length;i++) i?c.lineTo(pts[i].x,pts[i].y):c.moveTo(pts[i].x,pts[i].y);
+      c.strokeStyle=BOND(.38); c.lineWidth=1; c.stroke();
+      for(let i=0;i<pts.length;i++){
+        const g = i===ch.gold, r = ch.r[i]+(g?1.2:0);
+        c.beginPath(); c.arc(pts[i].x,pts[i].y,r,0,6.2832);
+        c.fillStyle = g ? acc(.82) : NODE(.55); c.fill();
+        if(g){
+          c.beginPath(); c.arc(pts[i].x,pts[i].y,r+3.5+Math.sin(t*2+i)*1.2,0,6.2832);
+          c.strokeStyle=acc(.30); c.lineWidth=1; c.stroke();
+        }
+      }
+      ends.push(pts[0],pts[pts.length-1]);
+    }
+    for(const fr of frees.slice(0, Math.max(9,Math.round(24*k)))){
+      const x = wrap(fr.x0*W + fr.vx*t, W+40)-20 + Math.sin(t*.4+fr.ph)*6;
+      const y = wrap(fr.y0*H + fr.vy*t, H+40)-20;
+      c.beginPath(); c.arc(x,y,fr.r,0,6.2832); c.fillStyle=NODE(.32); c.fill();
+      for(const e of ends){
+        const d=Math.hypot(e.x-x,e.y-y);
+        if(d<52 && d>4){
+          const a=(1-d/52)*.55;
+          c.beginPath(); c.moveTo(x,y); c.lineTo(e.x,e.y);
+          c.strokeStyle=acc(a); c.lineWidth=1; c.stroke();
+          c.beginPath(); c.arc(x,y,fr.r+3,0,6.2832); c.strokeStyle=acc(a*.8); c.stroke();
+        }
+      }
+    }
+  }};
+}
+
+/* ════════ O · COIL — the chain winds into the helix ════════
+   Each bead is placed twice — once on a slack straight rod, once on a helix — and lerped
+   between them by `coil`, which breathes 0→1→0 on its own slow period. The helix's depth
+   term (cos of the same angle) scales the bead radius and its alpha, which is the entire
+   trick: without it a helix in 2D reads as a flat zigzag. */
+function makeCoil(canvas){
+  const s = ctx2d(canvas, 1.5);
+  const rnd = seeder(90210);
+  const chains = [];
+  for(let i=0;i<9;i++){
+    const n = 12 + Math.floor(rnd()*6);
+    chains.push({
+      n, x0:rnd(), y0:rnd(), vx:(rnd()-.5)*11, vy:-(3+rnd()*6),
+      ang:rnd()*6.28, rot:(rnd()-.5)*.05,
+      seg:18+rnd()*6, R:21+rnd()*13, pitch:1.02+rnd()*.34,
+      per:15+rnd()*11, phs:rnd()*6.28, spin:.34+rnd()*.3,
+      gold:2+Math.floor(rnd()*(n-3)), r:[...Array(n)].map(()=>2.4+rnd()*1.7)
+    });
+  }
+  return { resize(){ s.resize(); }, draw(t){
+    const c=s.ctx, W=s.w, H=s.h; ground(c,W,H);
+    for(const ch of chains.slice(0, Math.max(4,Math.round(9*dens(W))))){
+      const ax = wrap(ch.x0*W + ch.vx*t, W+220)-110;
+      const ay = wrap(ch.y0*H + ch.vy*t, H+220)-110;
+      const a = ch.ang + ch.rot*t, dx=Math.cos(a), dy=Math.sin(a);
+      /* 0 → slack strand, 1 → tight helix, and back — but the raw sine is overdriven and
+         clamped so the chain DWELLS coiled instead of passing through the helix on its way
+         somewhere else. A chain that is only briefly a helix reads as a wobbly line. */
+      const coil = ease(Math.min(1, ((Math.sin(t*(6.2832/ch.per) + ch.phs)+1)/2) * 1.5));
+      const pts=[];
+      for(let i=0;i<ch.n;i++){
+        const th = i*ch.pitch + t*ch.spin;
+        const along = i*ch.seg*(1 - .60*coil);            /* the coil pulls the chain shorter */
+        const perp  = Math.sin(th)*ch.R*coil + Math.sin(t*.6 + i*1.1)*4*(1-coil);
+        const depth = Math.cos(th);                        /* +1 toward the viewer, -1 away */
+        pts.push({
+          x: ax + dx*along - dy*perp,
+          y: ay + dy*along + dx*perp,
+          d: depth, r: ch.r[i]*(1 + depth*.42*coil)
+        });
+      }
+      /* strand first, so beads sit on top of it */
+      c.beginPath();
+      for(let i=0;i<pts.length;i++) i?c.lineTo(pts[i].x,pts[i].y):c.moveTo(pts[i].x,pts[i].y);
+      c.strokeStyle=BOND(.30); c.lineWidth=1; c.stroke();
+      for(let i=0;i<pts.length;i++){
+        const p=pts[i], g=i===ch.gold;
+        const fade = .34 + .30*((p.d+1)/2);                /* back of the coil sits back */
+        c.beginPath(); c.arc(p.x,p.y,Math.max(.7,p.r),0,6.2832);
+        c.fillStyle = g ? acc(.52+.34*((p.d+1)/2)) : NODE(fade); c.fill();
+        if(g){
+          c.beginPath(); c.arc(p.x,p.y,p.r+4+Math.sin(t*1.7)*1.3,0,6.2832);
+          c.strokeStyle=acc(.26); c.lineWidth=1; c.stroke();
+        }
+      }
+    }
+  }};
+}
+
+/* ════════ P · AFFINITY — one chain, one site, one docking ════════
+   The only plate with a plot. CYCLE seconds, four acts: the ligand crosses on a quadratic
+   bezier, settles into the site, the site lights and holds, then it leaves the other way.
+   Everything is a pure function of `phase`, so ?t= anywhere reproduces exactly. */
+function makeAffinity(canvas){
+  const s = ctx2d(canvas, 1.5);
+  const rnd = seeder(1337);
+  const N = 7;
+  const beads = [...Array(N)].map(()=>({ r:9+rnd()*5, w:rnd()*6.28 }));
+  const CYCLE = 11;
+  return { resize(){ s.resize(); }, draw(t){
+    const c=s.ctx, W=s.w, H=s.h; ground(c,W,H);
+    const k = W<760 ? .62 : 1;                       /* the whole scene scales on phones */
+    const cx = W*(W<760 ? .5 : .68), cy = H*(W<760 ? .34 : .5);
+    const seg = 46*k, ang = -0.42 + Math.sin(t*.075)*.14;
+    const dx=Math.cos(ang), dy=Math.sin(ang);
+
+    const pts=[];
+    for(let i=0;i<N;i++){
+      const off = Math.sin(t*.5 + beads[i].w)*7*k;
+      const along = (i-(N-1)/2)*seg;
+      pts.push({ x: cx + dx*along - dy*off, y: cy + dy*along + dx*off, r: beads[i].r*k });
+    }
+    const site = pts[N-1];                            /* the binding site is the far end */
+
+    const phase = (t % CYCLE)/CYCLE;
+    /* approach 0–.40 · settle .40–.50 · bound .50–.78 · leave .78–1 */
+    let lig=null, lit=0;
+    if(phase < .50){
+      const u = ease(Math.min(1, phase/.50));
+      const sx = cx + W*.55, sy = cy - H*.42;         /* it comes in high and right */
+      const mx = cx + W*.16, my = cy - H*.06;         /* one control point bends the path */
+      const ex = site.x + dx*seg*.86, ey = site.y + dy*seg*.86;
+      const q = (a,b,e) => (1-u)*(1-u)*a + 2*(1-u)*u*b + u*u*e;
+      lig = { x:q(sx,mx,ex), y:q(sy,my,ey), r:(7+2*u)*k };
+      lit = Math.max(0, (u-.72)/.28)*.6;
+    } else if(phase < .78){
+      const u = (phase-.50)/.28;
+      const bob = Math.sin(u*6.2832*1.5)*1.6*k;
+      lig = { x: site.x + dx*seg*.86, y: site.y + dy*seg*.86 + bob, r:9*k };
+      lit = Math.min(1, u/.18) * (1 - Math.max(0,(u-.82)/.18));
+    } else {
+      const u = ease((phase-.78)/.22);
+      lig = { x: site.x + dx*seg*.86 - W*.34*u, y: site.y + dy*seg*.86 + H*.40*u, r:(9-2*u)*k };
+      lit = Math.max(0, .55*(1-u*2.4));
+    }
+
+    /* the site's field — drawn under everything, so the chain sits inside its own glow */
+    if(lit>.01){
+      const g=c.createRadialGradient(site.x,site.y,0,site.x,site.y,86*k);
+      g.addColorStop(0, acc(.20*lit)); g.addColorStop(1, acc(0));
+      c.fillStyle=g; c.beginPath(); c.arc(site.x,site.y,86*k,0,6.2832); c.fill();
+    }
+
+    c.beginPath();
+    for(let i=0;i<N;i++) i?c.lineTo(pts[i].x,pts[i].y):c.moveTo(pts[i].x,pts[i].y);
+    c.strokeStyle=BOND(.42); c.lineWidth=1.6*k; c.stroke();
+
+    for(let i=0;i<N;i++){
+      const p=pts[i], isSite=i===N-1;
+      c.beginPath(); c.arc(p.x,p.y,p.r,0,6.2832);
+      c.fillStyle = isSite ? acc(.30 + .52*lit) : NODE(.44); c.fill();
+      c.beginPath(); c.arc(p.x,p.y,p.r,0,6.2832);
+      c.strokeStyle = isSite ? acc(.55) : NODE(.20); c.lineWidth=1; c.stroke();
+    }
+    /* the cleft: an open arc on the far side of the site, so it reads as a pocket */
+    c.beginPath(); c.arc(site.x,site.y,site.r+11*k, ang-1.05, ang+1.05);
+    c.strokeStyle=acc(.22+.4*lit); c.lineWidth=1.4*k; c.stroke();
+
+    if(lig){
+      c.beginPath(); c.arc(lig.x,lig.y,lig.r,0,6.2832); c.fillStyle=NODE(.40); c.fill();
+      c.beginPath(); c.arc(lig.x,lig.y,lig.r+4*k,0,6.2832);
+      c.strokeStyle=acc(.24+.5*lit); c.lineWidth=1; c.stroke();
+      const d=Math.hypot(site.x-lig.x, site.y-lig.y);
+      if(d < 150*k){
+        c.beginPath(); c.moveTo(lig.x,lig.y); c.lineTo(site.x,site.y);
+        c.strokeStyle=acc((1-d/(150*k))*.5); c.lineWidth=1; c.stroke();
+      }
+    }
+  }};
+}
+
+/* ════════ Q · SEQUENCE — real sequences, one letter per residue ════════
+   The letters are the plate, so they are drawn UPRIGHT rather than rotated onto the chain:
+   a rotated 11px glyph at this density is unreadable, and unreadable letters would make
+   the one literally-true plate read as decoration. */
+function makeSequence(canvas){
+  const s = ctx2d(canvas, 1.6);
+  const rnd = seeder(55501);
+  /* Real short sequences, in one-letter amino acid code. GHK is the copper peptide, KTTKS
+     the collagen matrikine, GEKG and GQPR skin peptides, RGD the adhesion motif. */
+  const SEQS = [
+    ["G","H","K"], ["K","T","T","K","S"], ["G","E","K","G"],
+    ["G","Q","P","R"], ["R","G","D"], ["Y","G","G","F","M"], ["G","P","O"]
+  ];
+  const chains = SEQS.map((seq,i)=>({
+    seq, x0:rnd(), y0:rnd(), vx:(rnd()-.5)*9, vy:-(2.5+rnd()*4.5),
+    ang:(rnd()-.5)*.5, rot:(rnd()-.5)*.02,
+    seg:40+rnd()*12, amp:3+rnd()*4, frq:.34+rnd()*.3, phs:rnd()*6.28,
+    gold:Math.floor(rnd()*seq.length), r:[...Array(seq.length)].map(()=>3.4+rnd()*1.8)
+  }));
+  return { resize(){ s.resize(); }, draw(t){
+    const c=s.ctx, W=s.w, H=s.h; ground(c,W,H);
+    c.textAlign="center"; c.textBaseline="middle";
+    const size = W<760 ? 10 : 11.5;
+    for(const ch of chains.slice(0, Math.max(4,Math.round(SEQS.length*dens(W))))){
+      const n=ch.seq.length;
+      const ax = wrap(ch.x0*W + ch.vx*t, W+260)-130;
+      const ay = wrap(ch.y0*H + ch.vy*t, H+200)-100;
+      const a = ch.ang + ch.rot*t, dx=Math.cos(a), dy=Math.sin(a);
+      const pts=[];
+      for(let i=0;i<n;i++){
+        const off = Math.sin(t*ch.frq + ch.phs + i*.9)*ch.amp;
+        pts.push({ x: ax + dx*i*ch.seg - dy*off, y: ay + dy*i*ch.seg + dx*off });
+      }
+      c.beginPath();
+      for(let i=0;i<n;i++) i?c.lineTo(pts[i].x,pts[i].y):c.moveTo(pts[i].x,pts[i].y);
+      c.strokeStyle=BOND(.34); c.lineWidth=1; c.stroke();
+      for(let i=0;i<n;i++){
+        const p=pts[i], g=i===ch.gold;
+        c.beginPath(); c.arc(p.x,p.y,ch.r[i],0,6.2832);
+        c.fillStyle = g ? acc(.70) : NODE(.40); c.fill();
+        if(g){
+          c.beginPath(); c.arc(p.x,p.y,ch.r[i]+4+Math.sin(t*1.9+i)*1.1,0,6.2832);
+          c.strokeStyle=acc(.24); c.lineWidth=1; c.stroke();
+        }
+        /* the letter sits above its bead, upright, at the weight of a caption */
+        c.font = '500 ' + size + 'px "MediGyn NOW", ui-sans-serif, system-ui, sans-serif';
+        c.fillStyle = g ? acc(.85) : NODE(.52);
+        c.fillText(ch.seq[i], p.x, p.y - ch.r[i] - size*.82);
+      }
+    }
+  }};
+}
+
+/* ════════ R · SHOAL — the field, seen from far away ════════
+   Ninety-odd three-bead chains on one shared current (a cheap two-term flow field, not per
+   chain velocities — a shoal moves together or it is just noise). A docking is a slow bloom
+   on a long per-chain period, so at any moment two or three are lit somewhere. */
+function makeShoal(canvas){
+  const s = ctx2d(canvas, 1.4);
+  const rnd = seeder(778899);
+  const N = 96;
+  const fish = [...Array(N)].map(()=>({
+    x0:rnd(), y0:rnd(), seg:5.5+rnd()*4, ang:rnd()*6.28, rot:(rnd()-.5)*.12,
+    r:1.1+rnd()*1.1, per:13+rnd()*15, at:rnd(), sw:rnd()*6.28
+  }));
+  return { resize(){ s.resize(); }, draw(t){
+    const c=s.ctx, W=s.w, H=s.h; ground(c,W,H);
+    const count = Math.max(30, Math.round(N*(W<640?.5:W<1024?.75:1)));
+    for(let i=0;i<count;i++){
+      const f=fish[i];
+      /* one current for all of them: drift right-and-up, with a lateral sway keyed to y */
+      const bx = f.x0*W + t*7 + Math.sin(t*.16 + f.y0*7)*22;
+      const by = f.y0*H - t*5.5 + Math.cos(t*.13 + f.x0*9)*14;
+      const x = wrap(bx, W+80)-40, y = wrap(by, H+80)-40;
+      const a = f.ang + f.rot*Math.sin(t*.2+f.sw);
+      const dx=Math.cos(a), dy=Math.sin(a);
+      /* the bloom: a short rise and a long fall, once per f.per seconds */
+      const u = ((t/f.per) + f.at) % 1;
+      const lit = u < .06 ? u/.06 : u < .30 ? 1-(u-.06)/.24 : 0;
+
+      c.beginPath(); c.moveTo(x-dx*f.seg, y-dy*f.seg); c.lineTo(x+dx*f.seg, y+dy*f.seg);
+      c.strokeStyle=BOND(.20); c.lineWidth=.8; c.stroke();
+      for(let j=-1;j<=1;j++){
+        const px=x+dx*f.seg*j, py=y+dy*f.seg*j;
+        c.beginPath(); c.arc(px,py,f.r,0,6.2832);
+        c.fillStyle = (j===0 && lit>.01) ? acc(.30+.55*lit) : NODE(.30); c.fill();
+      }
+      if(lit>.01){
+        const R = 7 + 16*(1-lit);
+        const g=c.createRadialGradient(x,y,0,x,y,R);
+        g.addColorStop(0, acc(.30*lit)); g.addColorStop(1, acc(0));
+        c.fillStyle=g; c.beginPath(); c.arc(x,y,R,0,6.2832); c.fill();
+      }
+    }
+  }};
+}
+
+/* ════════ S · LATTICE — chains link into a mesh, then let go ════════
+   Anchors orbit gently; the candidate edges between near anchors are sorted ONCE into a
+   fixed build order, so the mesh always assembles in the same sequence. The cycle builds
+   for 62% of its length, holds, then releases from the newest edge backwards. */
+function makeLattice(canvas){
+  const s = ctx2d(canvas, 1.5);
+  const rnd = seeder(31415);
+  const N = 26;
+  const anchors = [...Array(N)].map(()=>({
+    x:rnd(), y:rnd(), orb:6+rnd()*9, sp:.10+rnd()*.14, ph:rnd()*6.28
+  }));
+  /* edge list is built off the rest positions — stable, and cheap to sort once */
+  const edges=[];
+  for(let i=0;i<N;i++) for(let j=i+1;j<N;j++){
+    const d=Math.hypot(anchors[i].x-anchors[j].x,(anchors[i].y-anchors[j].y)*.62);
+    if(d<.245) edges.push({i,j,d});
+  }
+  edges.sort((a,b)=> a.d-b.d || a.i-b.i || a.j-b.j);
+  const CYCLE = 30;
+  return { resize(){ s.resize(); }, draw(t){
+    const c=s.ctx, W=s.w, H=s.h; ground(c,W,H);
+    const pos = anchors.map(a=>({
+      x: a.x*W + Math.cos(t*a.sp+a.ph)*a.orb,
+      y: a.y*H + Math.sin(t*a.sp*1.3+a.ph)*a.orb
+    }));
+    const u = (t % CYCLE)/CYCLE;
+    /* built = how many edges exist right now: up over .62, hold, then unwind */
+    const built = u < .62 ? (u/.62) : u < .74 ? 1 : 1-((u-.74)/.26);
+    const upTo = built*edges.length;
+
+    for(let e=0;e<edges.length;e++){
+      const age = upTo - e;
+      if(age <= 0) continue;
+      const grow = Math.min(1, age/1.6);              /* the newest edges draw themselves in */
+      const A=pos[edges[e].i], B=pos[edges[e].j];
+      const ex = A.x + (B.x-A.x)*grow, ey = A.y + (B.y-A.y)*grow;
+      c.beginPath(); c.moveTo(A.x,A.y); c.lineTo(ex,ey);
+      c.strokeStyle=BOND(.30); c.lineWidth=1; c.stroke();
+      /* four residues along the strand */
+      for(let k=1;k<=4;k++){
+        const f=(k/5)*grow;
+        c.beginPath(); c.arc(A.x+(B.x-A.x)*f, A.y+(B.y-A.y)*f, 1.9, 0, 6.2832);
+        c.fillStyle=NODE(.34); c.fill();
+      }
+      /* the junction lights while the bond is closing, and cools once it has */
+      if(grow<1){
+        const l=1-grow;
+        c.beginPath(); c.arc(ex,ey,3+3*l,0,6.2832); c.fillStyle=acc(.30+.5*l); c.fill();
+        c.beginPath(); c.arc(ex,ey,7+9*l,0,6.2832); c.strokeStyle=acc(.26*l); c.lineWidth=1; c.stroke();
+      }
+    }
+    for(let i=0;i<N;i++){
+      c.beginPath(); c.arc(pos[i].x,pos[i].y,2.9,0,6.2832); c.fillStyle=NODE(.46); c.fill();
+    }
+  }};
+}
+
+/* ════════ T · RELAY — the signal, not the molecule ════════
+   Three signals run concurrently on their own periods. Each cycle picks its chain from the
+   cycle index (deterministic, no state), walks bead to bead, and spends the last stretch
+   leaping to the next chain as an arc. The chains barely move: the plate is about what
+   travels along them. */
+function makeRelay(canvas){
+  const s = ctx2d(canvas, 1.5);
+  const rnd = seeder(20260815);
+  const NC = 10;
+  const chains = [...Array(NC)].map(()=>{
+    const n = 5 + Math.floor(rnd()*4);
+    return { n, x0:rnd(), y0:rnd(), ang:rnd()*6.28, rot:(rnd()-.5)*.012,
+             seg:30+rnd()*13, amp:3+rnd()*3, frq:.22+rnd()*.2, phs:rnd()*6.28,
+             dx:(rnd()-.5)*1.6, dy:-(0.5+rnd()*1.1),
+             r:[...Array(n)].map(()=>2.5+rnd()*1.7) };
+  });
+  const SIG = [{per:7.0,off:0},{per:8.6,off:2.9},{per:9.9,off:5.4}];
+  function nodes(ch,t,W,H){
+    const ax = wrap(ch.x0*W + ch.dx*t, W+200)-100;
+    const ay = wrap(ch.y0*H + ch.dy*t, H+200)-100;
+    const a = ch.ang + ch.rot*t, dx=Math.cos(a), dy=Math.sin(a);
+    const pts=[];
+    for(let i=0;i<ch.n;i++){
+      const off = Math.sin(t*ch.frq + ch.phs + i*1.05)*ch.amp;
+      pts.push({ x: ax + dx*i*ch.seg - dy*off, y: ay + dy*i*ch.seg + dx*off });
+    }
+    return pts;
+  }
+  return { resize(){ s.resize(); }, draw(t){
+    const c=s.ctx, W=s.w, H=s.h; ground(c,W,H);
+    const count = Math.max(5, Math.round(NC*dens(W)));
+    const all=[];
+    for(let i=0;i<count;i++){
+      const ch=chains[i], pts=nodes(ch,t,W,H); all.push(pts);
+      c.beginPath();
+      for(let j=0;j<pts.length;j++) j?c.lineTo(pts[j].x,pts[j].y):c.moveTo(pts[j].x,pts[j].y);
+      c.strokeStyle=BOND(.30); c.lineWidth=1; c.stroke();
+      for(let j=0;j<pts.length;j++){
+        c.beginPath(); c.arc(pts[j].x,pts[j].y,ch.r[j],0,6.2832);
+        c.fillStyle=NODE(.42); c.fill();
+      }
+    }
+    for(let k=0;k<SIG.length;k++){
+      const sg=SIG[k];
+      const raw=(t+sg.off)/sg.per, cyc=Math.floor(raw), u=raw-cyc;
+      const ci=(k*3 + cyc*7) % count, nj=((k*3 + (cyc+1)*7) % count);
+      const pts=all[ci], nxt=all[nj];
+      if(!pts||!nxt) continue;
+      const TRAVEL=.80;
+      if(u < TRAVEL){
+        /* walking the chain: the head is bright, the two beads behind it decay */
+        const f=(u/TRAVEL)*(pts.length-1);
+        for(let j=0;j<pts.length;j++){
+          const d=f-j;
+          if(d<-.5 || d>2.6) continue;
+          const g=d<0 ? 1+d*2 : Math.max(0,1-d/2.6);
+          if(g<=.02) continue;
+          const p=pts[j];
+          c.beginPath(); c.arc(p.x,p.y,2.8+2.2*g,0,6.2832); c.fillStyle=acc(.25+.6*g); c.fill();
+          const R=6+16*g;
+          const gr=c.createRadialGradient(p.x,p.y,0,p.x,p.y,R);
+          gr.addColorStop(0,acc(.26*g)); gr.addColorStop(1,acc(0));
+          c.fillStyle=gr; c.beginPath(); c.arc(p.x,p.y,R,0,6.2832); c.fill();
+        }
+      } else {
+        /* the leap: an arc from this chain's end to the next chain's head */
+        const v=ease((u-TRAVEL)/(1-TRAVEL));
+        const A=pts[pts.length-1], B=nxt[0];
+        const mx=(A.x+B.x)/2, my=(A.y+B.y)/2 - Math.hypot(B.x-A.x,B.y-A.y)*.22;
+        const q=(a,b,e,w)=>(1-w)*(1-w)*a + 2*(1-w)*w*b + w*w*e;
+        c.beginPath(); c.moveTo(A.x,A.y);
+        for(let w=.04;w<=v+1e-6;w+=.04) c.lineTo(q(A.x,mx,B.x,w), q(A.y,my,B.y,w));
+        c.strokeStyle=acc(.42*(1-v*.45)); c.lineWidth=1; c.stroke();
+        const hx=q(A.x,mx,B.x,v), hy=q(A.y,my,B.y,v);
+        c.beginPath(); c.arc(hx,hy,3.2,0,6.2832); c.fillStyle=acc(.72); c.fill();
+        const gr=c.createRadialGradient(hx,hy,0,hx,hy,17);
+        gr.addColorStop(0,acc(.24)); gr.addColorStop(1,acc(0));
+        c.fillStyle=gr; c.beginPath(); c.arc(hx,hy,17,0,6.2832); c.fill();
+      }
+    }
+  }};
+}
+
+/* ─────────────────────────── build & run ─────────────────────────── */
+const engines=[];
+function add(id, maker){
+  const el=document.getElementById(id);
+  if(!el) return;
+  let eng=null;
+  try{ eng = maker(el); }catch(e){ eng = null; }
+  if(!eng || !el.getContext){ el.style.background="linear-gradient(160deg,#F8FAFC 30%,#EFF4F8 100%)"; return; }
+  eng.el=el; eng.visible=false; engines.push(eng);
+}
+add("cv-d", makeBonds);
+add("cv-o", makeCoil);
+add("cv-p", makeAffinity);
+add("cv-q", makeSequence);
+add("cv-r", makeShoal);
+add("cv-s", makeLattice);
+add("cv-t", makeRelay);
+
+const t0=performance.now();
+const tNow=()=>(performance.now()-t0)/1000;
+function sizeAll(){ for(const e of engines){ e.resize(); e.draw(REDUCE ? STILL : tNow()); } }
+addEventListener("resize", sizeAll);
+
+const io=new IntersectionObserver(es=>{
+  for(const en of es){
+    const eng=engines.find(e=>e.el===en.target);
+    if(eng) eng.visible=en.isIntersecting;
+  }
+},{threshold:.02});
+for(const e of engines) io.observe(e.el);
+
+sizeAll();
+/* Fonts land after first paint, and plate Q is made of glyphs — redraw when they arrive. */
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(sizeAll);
+
+if(!REDUCE){
+  (function loop(){
+    requestAnimationFrame(loop);
+    if(document.hidden) return;
+    const t=tNow();
+    for(const e of engines) if(e.visible) e.draw(t);
+  })();
+}
+
+/* copy entrance per plate, once — the same feel as the live GSAP intro */
+const pio=new IntersectionObserver(es=>{
+  for(const en of es) if(en.isIntersecting){ en.target.classList.add("in"); pio.unobserve(en.target); }
+},{threshold:.2});
+for(const p of document.querySelectorAll(".plate")) pio.observe(p);
+
+/* rail spy */
+const railLinks=[...document.querySelectorAll(".rail a")];
+const rio=new IntersectionObserver(es=>{
+  for(const en of es) if(en.isIntersecting){
+    for(const a of railLinks) a.classList.toggle("on", a.dataset.spy===en.target.id);
+  }
+},{threshold:.5});
+for(const p of document.querySelectorAll(".plate")) rio.observe(p);
+
+/* accent bar — one dataset flip; every engine reads it through acc() on the next frame */
+const ab=[...document.querySelectorAll(".accents button")];
+for(const b of ab) b.addEventListener("click", ()=>{
+  document.documentElement.dataset.accent=b.dataset.accent;
+  for(const x of ab) x.classList.toggle("on", x===b);
+  if(REDUCE) for(const e of engines){ e.draw(STILL); }   /* no loop to pick it up */
+});
+document.documentElement.dataset.accent="gold";
+</script>

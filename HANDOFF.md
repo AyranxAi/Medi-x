@@ -1,3 +1,29 @@
+# Handoff addendum — 2026-08-15, round 10 (the relay is corrected: the hero is plate D, and three.js leaves the page)
+
+Scope: `peptide-therapy/index.html` + `tools/qa/hero-ground.mjs` (new) + a six-plate lab.
+Round 9 put plate **E · Bleached silk** on the hero from a relayed report; the relay was
+wrong. His correction this round: *"it was not e bleach that they liked it was d"* — so the
+hero is now **D · Peptide bonds**, the plate whose own lab note says it "tells the page's own
+story… it foreshadows the chain scroll-scene below the fold".
+
+D is Canvas 2D rather than a fragment shader, so this is an engine swap, not a shader paste —
+and the hero shader was the page's only `import("three")`, so **the three.js importmap is
+gone**: one fewer CDN dependency and a hero that works without WebGL. The canvas id stays
+`#silk` (the CSS and the fallback know it by name). The glacier still arrives as the single
+`#F3F7FB` multiply the lab judged every plate under. Two things worth knowing before touching
+it: D's nodes are **literally gold on a page whose `--gold` token is now steel**, which is
+what he picked but is not a settled question; and the chain counts **fall on narrow
+viewports** — a fixed-length rod covers ~4× the share of a 390px screen, and shipped verbatim
+the field crossed the headline.
+
+D is the **interim** ground. Round 10's six successor plates — O · Coil, P · Affinity,
+Q · Sequence, R · Shoal, S · Lattice, T · Relay — live in `peptide-therapy/bonds-lab.html`
+under the two-copies rule, with a gold/steel bar that also answers the grade lab's open
+chapter-C question. Full reasoning, the QA numbers and the phone fix in
+[`peptide-therapy/HANDOVER.md`](peptide-therapy/HANDOVER.md), Round 10.
+
+---
+
 # Handoff addendum — 2026-08-14, round 5 (the doctor portrait goes square, the name sits beside it, and the square is measured to the text)
 
 Scope: `peptide-therapy/index.html` + `tools/crop-portrait.mjs` (new) + two baked

@@ -1976,7 +1976,9 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.min.js"></script>
-<script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.166.1/build/three.module.js" } }</script>
+<!-- The three.js importmap stood here and went with the silk (round 10): the hero shader was
+     the page's only `import("three")`, and the peptide-bonds ground that replaced it is
+     Canvas 2D. Restore this line if a WebGL plate is ever ridden back in. -->
 
 <script>
 /* ═══════════ Core interactions (no library required) ═══════════ */
@@ -2690,107 +2692,172 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
 })();
 </script>
 
-<script type="module">
-/* ═══════════ Bleached-silk hero — Three.js shader (round 9; was: Aero, round 7) ═══════════
-   Plate E "Bleached silk" from the hero-lab audition, in the GLACIER grade — the owner's
-   call, relayed 2026-08-15: the liquid-glass orbs did not land ("they dont like it"), the
-   silk did. E is the sister page's own cloud shader bleached toward white — same fbm
-   motion the silk always had, whiter flavour, faint motes adrift on top — so the hero
-   returns to the site's founding material wearing this page's temperature. The round-7
-   glacier multiply (#F3F7FB) stays at the foot of main(): the lab's plates were judged
-   under exactly that grade layer, so what ships is what was seen. Aero lives on in
-   hero-lab.html (plate K) and in the grade lab's reference plate; `git revert` the
-   round-7→9 pair to resurrect it. The canvas id stays #silk — the CSS and the fallback
-   know it by name, and this round the name is true again. */
+<script>
+/* ═══════════ Peptide-bonds hero — Canvas 2D (round 10; was: Bleached silk, round 9) ═══════════
+   Plate D "Peptide bonds" from the hero-lab audition, in the GLACIER grade. Round 9 shipped
+   plate E on a relayed report; the relay was wrong — the owner's pick was D, corrected
+   2026-08-15. D is the plate that tells the page's own story: amino chains adrift, free
+   molecules docking on in gold, which is the chain scene below the fold rehearsed in
+   miniature. E lives on in hero-lab.html (plate E) and Aero in plate K; `git revert` this
+   commit to resurrect the silk.
+
+   THREE THINGS THAT MATTER IF YOU TOUCH THIS:
+
+   1 · The canvas id stays #silk. The CSS (`#silk`, `.hero::after`) and the catch-block
+       fallback know it by name. The name is a lie again — it was a lie for Aero too — but
+       renaming it means touching three rules and a fallback for nothing. It means
+       "the hero ground", not "silk".
+
+   2 · This is Canvas 2D, not WebGL. The `three` importmap went with the silk: the hero
+       shader was the page's only `import("three")`, so the hero now costs nothing at the
+       CDN and survives a machine with no WebGL. GSAP and Lenis are untouched and still
+       carry the chain scene.
+
+   3 · The glacier arrives as ONE multiply at the foot of draw(), not as re-tinted artwork.
+       The lab composited every plate under a #F3F7FB `.tint` layer in `multiply`, and that
+       is the look that was judged — so the same arithmetic ships here rather than a
+       hand-recoloured approximation. The chains stay literally gold (rgba(194,160,94))
+       under it, which on this page is deliberate and worth knowing: the `--gold` TOKEN was
+       remapped to steel #7C93A8 for the glacier re-grade, so these nodes are now the only
+       true gold on the page. That is what plate D was when he picked it. If it should
+       become steel, it is the three rgba() literals below — and bonds-lab.html has a
+       gold/steel bar that shows both before you decide. */
 try{
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const canvas = document.getElementById("silk");
-  const THREE = await import("three");
-  const renderer = new THREE.WebGLRenderer({canvas, antialias:false, alpha:false});
-  const DPR = Math.min(devicePixelRatio || 1, 1.75);
-  const scene = new THREE.Scene();
-  const cam = new THREE.OrthographicCamera(-1,1,1,-1,0,1);
-  const uniforms = {
-    uTime:{value:0},
-    uRes:{value:new THREE.Vector2(1,1)}
-  };
-  const mat = new THREE.ShaderMaterial({
-    uniforms,
-    vertexShader:`void main(){ gl_Position = vec4(position,1.0); }`,
-    fragmentShader:`
-      precision highp float;
-      uniform float uTime; uniform vec2 uRes;
-      /* No palette block: the silk is bleached — white ground, gray folds, the faintest
-         rose and gold whispers baked into the plate — and the glacier temperature arrives
-         as ONE multiply at the foot of main(), exactly how the lab's grade layer produced
-         the look that was judged. */
-      float hash(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453); }
-      float noise(vec2 p){
-        vec2 i=floor(p), f=fract(p); f=f*f*(3.-2.*f);
-        return mix(mix(hash(i),hash(i+vec2(1,0)),f.x),
-                   mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),f.x),f.y);
-      }
-      float fbm(vec2 p){
-        float v=0., a=.5;
-        for(int i=0;i<5;i++){ v+=a*noise(p); p*=2.04; a*=.5; }
-        return v;
-      }
-      /* plate E, verbatim from hero-lab.html: the sister silk's domain-warped fbm,
-         re-graded — white ground, gray folds, a vignette that keeps the copy's corner
-         calm, and motes adrift on top (the molecule whisper over the silk) */
-      void main(){
-        vec2 uv = gl_FragCoord.xy / uRes;
-        vec2 p = uv; p.x *= uRes.x/uRes.y;
-        float t = uTime*.045;
-        vec2 q = vec2(fbm(p*1.35 + t), fbm(p*1.35 + vec2(2.7,7.1) - t));
-        vec2 r = vec2(fbm(p*1.9 + 3.2*q + vec2(1.3,9.2)), fbm(p*1.9 + 3.2*q + vec2(8.3,2.8)));
-        float f = fbm(p*1.55 + 2.6*r + t*.6);
-        vec3 col = mix(vec3(1.,.998,.994), vec3(.938,.933,.923), smoothstep(.2,.98,uv.y*.45 + f*.6));
-        float sheen = smoothstep(.42,.62,f)*smoothstep(.82,.55,f);
-        col = mix(col, vec3(.780,.604,.573), sheen*.06);
-        float thread = smoothstep(.58,.66,f)*smoothstep(.78,.66,f);
-        col = mix(col, vec3(.761,.627,.369), thread*.05);
-        float vig = smoothstep(.92,.55,distance(uv, vec2(.42,.55)));
-        col = mix(vec3(.985,.976,.960), col, clamp(vig+.25,0.,1.));
-        vec2 mq = p*3.4 + vec2(uTime*.008, -uTime*.02);
-        vec2 id = floor(mq), fr = fract(mq);
-        for(int oy=-1;oy<=1;oy++) for(int ox=-1;ox<=1;ox++){
-          vec2 nb = vec2(float(ox),float(oy));
-          float h = hash(id+nb+7.);
-          if(fract(h*9.7) < .45) continue;
-          vec2 c = nb + .5 + .3*vec2(sin(uTime*.06+h*6.28), cos(uTime*.05+h*4.));
-          float rr = mix(.02,.06,fract(h*5.3));
-          float d = length(fr-c);
-          col += smoothstep(rr, rr*.15, d)*.05;
-          col = mix(col, vec3(.75,.73,.71), smoothstep(.008,.002,abs(d-rr))*.22);
-        }
-        col *= vec3(.9529,.9686,.9843);  /* the glacier grade — #F3F7FB, multiplied (round 7, kept) */
-        gl_FragColor = vec4(col,1.0);
-      }`
-  });
-  scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2,2), mat));
+  const ctx = canvas.getContext("2d");
+  if(!ctx) throw new Error("no 2d context");
+  const DPR = Math.min(devicePixelRatio || 1, 1.5);
 
-  function size(){
-    const w = canvas.clientWidth, h = canvas.clientHeight;
-    renderer.setPixelRatio(DPR);
-    renderer.setSize(w, h, false);
-    uniforms.uRes.value.set(w*DPR, h*DPR);
-    renderer.render(scene, cam); /* re-render on resize — resize clears the GL buffer */
+  /* Deterministic: the same seed draws the same field on every load, so a QA screenshot at
+     a given t is reproducible and a "did the hero change?" diff means something. */
+  let seed = 424242;
+  const rnd = () => (seed = (seed*16807)%2147483647)/2147483647;
+
+  const chains = [];
+  for(let i=0;i<11;i++){
+    const n = 4 + Math.floor(rnd()*4);
+    chains.push({
+      n, x0:rnd(), y0:rnd(),
+      vx:(rnd()-.5)*14, vy:-(4+rnd()*8),
+      ang:rnd()*6.28, rot:(rnd()-.5)*.06,
+      seg:26+rnd()*10, amp:5+rnd()*6, frq:.5+rnd()*.5, phs:rnd()*6.28,
+      gold:Math.floor(rnd()*n),
+      r:[...Array(n)].map(()=>2.6+rnd()*2.2)
+    });
   }
-  size();
-  addEventListener("resize", size);
+  const frees = [];
+  for(let i=0;i<24;i++){
+    frees.push({ x0:rnd(), y0:rnd(), vx:(rnd()-.5)*10, vy:-(3+rnd()*7), r:2+rnd()*1.6, ph:rnd()*6.28 });
+  }
+
+  const wrap = (v,m) => ((v%m)+m)%m;
+
+  /* A chain is a rigid rod of n beads that rotates slowly and ripples along its own axis —
+     the ripple is what stops eleven straight sticks reading as a diagram. */
+  function chainNodes(ch,t,W,H){
+    const ax = wrap(ch.x0*W + ch.vx*t, W+120)-60;
+    const ay = wrap(ch.y0*H + ch.vy*t, H+120)-60;
+    const a = ch.ang + ch.rot*t;
+    const dx = Math.cos(a), dy = Math.sin(a);
+    const pts=[];
+    for(let i=0;i<ch.n;i++){
+      const off = Math.sin(t*ch.frq + ch.phs + i*1.15)*ch.amp;
+      pts.push({ x: ax + dx*i*ch.seg - dy*off, y: ay + dy*i*ch.seg + dx*off });
+    }
+    return pts;
+  }
+
+  let W=0, H=0;
+  function size(){
+    W = canvas.clientWidth; H = canvas.clientHeight;
+    const w = Math.round(W*DPR), h = Math.round(H*DPR);
+    if(canvas.width!==w || canvas.height!==h){ canvas.width=w; canvas.height=h; }
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+  }
+
+  function draw(t){
+    const c = ctx;
+    const bg = c.createLinearGradient(0,0,0,H);
+    bg.addColorStop(0,"#FBF8F2"); bg.addColorStop(1,"#F6F1E8");
+    c.fillStyle=bg; c.fillRect(0,0,W,H);
+
+    /* Pass 1 — the chains. Every chain carries exactly one gold residue: the active site.
+       Its halo breathes, so the eye finds the gold before it finds the chain.
+
+       ART DIRECTION, NOT RESIZING: the counts fall on narrow viewports. A chain is a fixed
+       26–36px rod, so eleven of them at 390px cover roughly four times the share of screen
+       they cover at 1440 — the lab judged this plate on a desktop, and shipped verbatim it
+       ran straight through the headline on a phone. Drawing a PREFIX of the same seeded
+       arrays (never a reseed) keeps the field deterministic and lets a resize cross the
+       breakpoint without the composition jumping to a different set of chains. */
+    const nChains = W < 640 ? 6 : W < 1024 ? 8 : chains.length;
+    const ends=[];
+    for(const ch of chains.slice(0, nChains)){
+      const pts = chainNodes(ch,t,W,H);
+      c.beginPath();
+      for(let i=0;i<pts.length;i++) i?c.lineTo(pts[i].x,pts[i].y):c.moveTo(pts[i].x,pts[i].y);
+      c.strokeStyle="rgba(122,106,84,.38)"; c.lineWidth=1; c.stroke();
+      for(let i=0;i<pts.length;i++){
+        const gold = i===ch.gold, r = ch.r[i]+(gold?1.2:0);
+        c.beginPath(); c.arc(pts[i].x,pts[i].y,r,0,6.2832);
+        c.fillStyle = gold ? "rgba(194,160,94,.82)" : "rgba(106,88,95,.55)";
+        c.fill();
+        if(gold){
+          c.beginPath(); c.arc(pts[i].x,pts[i].y,r+3.5+Math.sin(t*2+i)*1.2,0,6.2832);
+          c.strokeStyle="rgba(194,160,94,.30)"; c.lineWidth=1; c.stroke();
+        }
+      }
+      ends.push(pts[0],pts[pts.length-1]);
+    }
+
+    /* Pass 2 — the free molecules, and the docking. A bond is drawn only where a free
+       molecule comes within 52px of a chain END (not any bead): peptides extend, they do
+       not sprout. Alpha falls off with distance, so bonds fade in as things approach and
+       fade out as they pass — no state, no popping. */
+    const nFrees = W < 640 ? 11 : W < 1024 ? 16 : frees.length;
+    for(const fr of frees.slice(0, nFrees)){
+      const x = wrap(fr.x0*W + fr.vx*t, W+40)-20 + Math.sin(t*.4+fr.ph)*6;
+      const y = wrap(fr.y0*H + fr.vy*t, H+40)-20;
+      c.beginPath(); c.arc(x,y,fr.r,0,6.2832);
+      c.fillStyle="rgba(106,88,95,.32)"; c.fill();
+      for(const e of ends){
+        const dx=e.x-x, dy=e.y-y, d=Math.hypot(dx,dy);
+        if(d<52 && d>4){
+          const a=(1-d/52)*.55;
+          c.beginPath(); c.moveTo(x,y); c.lineTo(e.x,e.y);
+          c.strokeStyle="rgba(194,160,94,"+a+")"; c.lineWidth=1; c.stroke();
+          c.beginPath(); c.arc(x,y,fr.r+3,0,6.2832);
+          c.strokeStyle="rgba(194,160,94,"+(a*.8)+")"; c.stroke();
+        }
+      }
+    }
+
+    /* The glacier grade — #F3F7FB multiplied, the lab's .tint layer exactly (round 7, kept). */
+    c.globalCompositeOperation = "multiply";
+    c.fillStyle = "#F3F7FB";
+    c.fillRect(0,0,W,H);
+    c.globalCompositeOperation = "source-over";
+  }
+
+  /* 21.7s is the lab's still — the frame the plates were screenshotted at, chosen because
+     the field is evenly spread and two dockings are lit. Reduced motion gets that frame. */
+  const STILL = 21.7;
+  size(); draw(STILL);
+  addEventListener("resize", () => { size(); draw(reduce ? STILL : (performance.now()-t0)/1000); });
 
   let inView = true;
   new IntersectionObserver(e => inView = e[0].isIntersecting).observe(canvas);
-  const clock = new THREE.Clock();
-  (function loop(){
-    requestAnimationFrame(loop);
-    if (!inView || document.hidden) return;
-    if (!reduce) uniforms.uTime.value = clock.getElapsedTime();
-    renderer.render(scene, cam);
-  })();
+  const t0 = performance.now();
+  if(!reduce){
+    (function loop(){
+      requestAnimationFrame(loop);
+      if(!inView || document.hidden) return;
+      draw((performance.now()-t0)/1000);
+    })();
+  }
 }catch(e){
-  /* offline / WebGL unavailable: static glacier gradient keeps the hero legible */
+  /* no canvas at all: static glacier gradient keeps the hero legible */
   const c = document.getElementById("silk");
   if (c) c.style.background = "linear-gradient(160deg,#F8FAFC 30%,#EFF4F8 70%,#E9F0F5 100%)";
 }

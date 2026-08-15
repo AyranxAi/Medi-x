@@ -1,5 +1,67 @@
 # Peptide Therapy — `/peptide-therapy/` (first ship 2026-08-14)
 
+> ## ROUND 10 — 2026-08-15: the relay is corrected — the hero is plate D ("PEPTIDE
+> BONDS"), not the bleached silk — SHIPPED TO MAIN AT HIS INSTRUCTION
+>
+> **1 · ROUND 9 SHIPPED THE WRONG PLATE, AND THIS IS THE CORRECTION.** Round 9 moved the
+> hero to plate E on a relayed report ("they like a version of the peptides E in there").
+> The relay was wrong: the owner's pick was **D · Peptide bonds** — his words this round,
+> *"it was not e bleach that they liked it was d"*. E was the silk whitened, which is the
+> smallest possible change; D is the plate that tells the page's own story — amino chains
+> adrift, free molecules docking on in gold, the chain scene below the fold rehearsed in
+> miniature. The lab's own note on D said exactly that, and it is why it is the right one.
+> E lives on in `hero-lab.html` (plate E), Aero in plate K; `git revert` this round's hero
+> commit to resurrect the silk.
+>
+> **2 · THE HERO IS CANVAS 2D NOW, AND THREE.JS IS GONE FROM THE PAGE.** D is a 2D engine,
+> not a fragment shader, so the swap is an engine replacement rather than a shader paste.
+> The hero shader was the page's ONLY `import("three")` — so the importmap went with it
+> (a comment stands at the site saying how to bring it back). One fewer CDN dependency,
+> ~600KB off the critical path, and a hero that survives a machine with no WebGL. GSAP and
+> Lenis are untouched and still carry the chain scene. **The canvas id stays `#silk`** —
+> the CSS and the catch-block fallback know it by name; it means "the hero ground", and it
+> has been a lie since Aero.
+>
+> **3 · THE GLACIER ARRIVES AS ONE MULTIPLY, NOT AS RECOLOURED ARTWORK.** The lab
+> composited every plate under a `#F3F7FB` `.tint` layer in `multiply`; the same
+> arithmetic ships at the foot of `draw()` (round 7's decision, kept through 9 and 10), so
+> what ships is what was judged rather than a hand-approximated re-tint.
+>
+> ⚠️ **D'S NODES ARE LITERALLY GOLD, AND `--gold` IS STEEL ON THIS PAGE.** The re-grade
+> remapped the gold TOKEN to #7C93A8, so these chains are now the only true gold on the
+> page. That is what plate D was when he picked it, so that is what shipped — but it is a
+> live question, not a settled one, and it is the same question the grade lab's chapter C
+> left open for the chain scene. `bonds-lab.html` carries a gold/steel bar that shows both
+> across all six round-10 plates; the switch here is three `rgba()` literals in `draw()`.
+>
+> **4 · ART DIRECTION FOR PHONES, NOT RESIZING.** A chain is a fixed 26–36px rod, so the
+> eleven of them cover roughly four times the share of a 390px screen that they cover at
+> 1440 — shipped verbatim from the lab (which is a desktop judging tool) the field ran
+> straight through the headline. The draw now takes a PREFIX of the same seeded arrays —
+> 6 chains / 11 frees under 640px, 8 / 16 under 1024, the full 11 / 24 above — never a
+> reseed, so the composition does not jump to a different set of chains when a resize
+> crosses a breakpoint.
+>
+> **5 · THE HERO QA HARNESS IS IN THE REPO AND ITS PATHS ARE DERIVED.**
+> `tools/qa/hero-ground.mjs` serves the repo, fulfils GSAP/Lenis from `node_modules`,
+> and deliberately does NOT map three — anything still asking for it aborts and is
+> reported. It reads the canvas back and measures luma SPREAD (a ground that failed to
+> draw is flat, and a mean alone cannot tell you that), samples twice 900ms apart to prove
+> motion, and asserts stillness under reduced-motion. ROOT is resolved from the script's
+> own location and Chromium is searched for, not pinned — the sister harness hardcoded a
+> home directory and a sandbox path and crashed before measuring anything on any other
+> machine.
+>
+> QA: headless Chromium 1440×900 + 390×844 + reduced-motion. Zero console errors, zero
+> page errors at all three. Canvas draws at both widths (luma spread 103–109 against a
+> flat-ground floor of 12), animates at both, holds still at t=21.7s under reduced motion,
+> and three.js is never requested. Screenshots reviewed by eye at both widths — the phone
+> density fix above came out of that look, not out of the numbers.
+>
+> ⚠️ PUSHED TO MAIN AT HIS EXPLICIT INSTRUCTION (this round's request: "push the d on the
+> main page for the mean time"). D is the INTERIM ground — round 10's six new plates in
+> `bonds-lab.html` are its succession, and one of them is meant to replace it.
+
 > ## ROUND 9 — 2026-08-15: the page goes glacier whole (A2 · B2 · C2), and the hero
 > trades its orbs for the bleached silk — SHIPPED TO MAIN AT HIS INSTRUCTION
 >

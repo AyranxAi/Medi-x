@@ -1,0 +1,648 @@
+<title>Peptide Hero Lab</title>
+<style>
+/* ─── Medi✦X brand faces — the live files, not stand-ins ─── */
+@font-face{font-family:"Playfair";src:url(../fonts/playfair-normal-var-latin.woff2) format("woff2-variations");font-weight:300 900;font-style:normal;font-display:swap}
+@font-face{font-family:"Playfair";src:url(../fonts/playfair-italic-var-latin.woff2) format("woff2-variations");font-weight:300 900;font-style:italic;font-display:swap}
+@font-face{font-family:"MediGyn NOW";src:url(../fonts/medigyn-now-300.woff2) format("woff2");font-weight:300;font-display:swap}
+@font-face{font-family:"MediGyn NOW";src:url(../fonts/medigyn-now-500.woff2) format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"MediGyn Megante";src:url(../fonts/medigyn-megante-400.woff2) format("woff2");font-weight:400;font-display:swap}
+
+/* ─── Medi✦X design constants, verbatim from BRAND.md ─── */
+:root{
+  --ivory:#FAF7F1; --cream:#F4EDE1; --line:#DED4C2;
+  --burgundy:#5C1F31; --rose:#C79A92; --logo-red:#8E2D3A;
+  --gold:#C2A05E; --gold-deep:#8A6A34; --gold-tint:#F1E7D2;
+  --ink:#2E2228; --ink-soft:#6A585F;
+  --serif:"Playfair","Playfair Display",Didot,"Times New Roman",Georgia,serif;
+  --sans:"MediGyn NOW",Jost,ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --accent:"MediGyn Megante",Optima,Georgia,serif;
+  --ease:cubic-bezier(.22,.61,.36,1);
+  color-scheme:light;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);font-weight:300;background:var(--ivory);color:var(--ink);
+  -webkit-font-smoothing:antialiased;line-height:1.6;
+}
+h1,h2{font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30;color:var(--ink);line-height:1.05;letter-spacing:-.01em;text-wrap:balance}
+h1 em{font-style:italic;color:var(--logo-red);font-weight:430}
+a{color:inherit}
+
+/* ─── masthead ─── */
+.mast{padding:clamp(64px,9vh,104px) 0 clamp(40px,6vh,60px);border-bottom:1px solid var(--line);background:var(--ivory)}
+.wrap{width:min(1180px,calc(100% - clamp(40px,8vw,120px)));margin-inline:auto}
+.chapter-mark{font-family:var(--accent);font-size:13px;letter-spacing:.24em;color:var(--gold-deep);text-transform:uppercase}
+.mast h1{font-size:clamp(36px,4.6vw,60px);margin-top:18px}
+.mast .lede{margin-top:18px;max-width:44em;font-size:clamp(15px,1.25vw,17px);color:var(--ink-soft);line-height:1.75}
+.index{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px;list-style:none}
+.index a{
+  display:inline-flex;align-items:baseline;gap:9px;text-decoration:none;
+  border:1px solid var(--line);border-radius:999px;padding:9px 18px;
+  font-size:12.5px;letter-spacing:.06em;color:var(--ink);
+  transition:border-color .3s var(--ease),background .3s var(--ease);
+}
+.index a:hover,.index a:focus-visible{border-color:var(--gold);background:var(--cream);outline:none}
+.index .lt{font-family:var(--accent);font-size:12px;letter-spacing:.2em;color:var(--gold-deep)}
+.index .tag{color:var(--ink-soft)}
+
+/* ─── plates ─── */
+.plate{position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden;background:var(--ivory)}
+.plate canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+/* same legibility geometry the live hero ships: bottom fade to ivory + a quiet wash behind the copy */
+.veil{position:absolute;inset:0;pointer-events:none;background:
+  linear-gradient(180deg,rgba(250,247,241,0) 55%,var(--ivory) 97%),
+  radial-gradient(85% 115% at 20% 44%,rgba(250,247,241,.55) 0%,rgba(250,247,241,.22) 46%,rgba(250,247,241,0) 70%)}
+.hero-inner{position:relative;z-index:2;width:100%;padding-top:12vh;padding-bottom:12vh}
+.kicker{
+  display:flex;align-items:center;gap:14px;
+  font-weight:500;font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--ink-soft);
+  margin-bottom:clamp(22px,3.4vh,38px);
+}
+.kicker::before{content:"";width:34px;height:1px;background:var(--gold)}
+.plate h2.h1{font-size:clamp(42px,7vw,100px);max-width:11em}
+.plate h2.h1 .line{display:block;overflow:hidden}
+.plate h2.h1 .line>span{display:block;transform:translateY(112%)}
+.plate.in h2.h1 .line>span{transform:translateY(0);transition:transform 1.05s var(--ease)}
+.plate.in h2.h1 .line:nth-child(2)>span{transition-delay:.08s}
+h2.h1 em{font-style:italic;color:var(--logo-red);font-weight:430}
+.hero-sub{
+  margin-top:clamp(24px,3.6vh,40px);max-width:34em;
+  font-size:clamp(18px,1.6vw,23px);font-weight:300;color:var(--ink-soft);line-height:1.75;
+}
+.hero-sub strong{font-weight:500;color:var(--burgundy)}
+.fade{opacity:0;transform:translateY(22px)}
+.plate.in .fade{opacity:1;transform:none;transition:opacity .9s var(--ease) .3s,transform .9s var(--ease) .3s}
+.hero-ctas{display:flex;gap:16px;margin-top:clamp(30px,4.4vh,48px);flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;gap:12px;
+  font-weight:500;font-size:13px;letter-spacing:.12em;text-transform:uppercase;
+  padding:18px 34px;border-radius:999px;cursor:default;user-select:none;
+  background:rgba(142,45,58,.85);color:var(--ivory);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:1px solid transparent;white-space:nowrap;
+  transition:background .35s var(--ease);
+}
+.btn:hover{background:rgba(163,54,72,.94)}
+.btn.ghost{background:transparent;color:var(--burgundy);border:1px solid var(--line);backdrop-filter:none;-webkit-backdrop-filter:none}
+.btn.ghost:hover{background:var(--cream);border-color:var(--gold)}
+
+/* ─── spec chip ─── */
+.spec{
+  position:absolute;z-index:3;right:clamp(18px,3vw,44px);bottom:clamp(18px,4vh,40px);
+  max-width:340px;padding:16px 20px 17px;border:1px solid var(--line);border-radius:16px;
+  background:rgba(250,247,241,.74);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+}
+.spec .lt{font-family:var(--accent);font-size:12px;letter-spacing:.24em;color:var(--gold-deep)}
+.spec b{display:block;font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30;font-size:21px;margin-top:6px;letter-spacing:-.01em}
+.spec .eng{display:block;margin-top:8px;font-weight:500;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft)}
+.spec p{margin-top:8px;font-size:13px;line-height:1.6;color:var(--ink-soft)}
+
+/* ─── letter rail ─── */
+.rail{position:fixed;right:clamp(10px,1.6vw,26px);top:50%;transform:translateY(-50%);z-index:20}
+.rail ul{display:flex;flex-direction:column;gap:6px;list-style:none}
+.rail a{
+  display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;
+  font-family:var(--accent);font-size:12px;letter-spacing:.08em;text-decoration:none;color:var(--ink-soft);
+  border:1px solid transparent;transition:border-color .3s var(--ease),color .3s var(--ease),background .3s var(--ease);
+}
+.rail a:hover,.rail a:focus-visible{border-color:var(--line);outline:none}
+.rail a.on{border-color:var(--gold);color:var(--gold-deep);background:rgba(250,247,241,.7)}
+
+/* ─── footnote ─── */
+.foot{border-top:1px solid var(--line);padding:34px 0 46px;background:var(--ivory)}
+.foot p{font-size:12.5px;line-height:1.8;color:var(--ink-soft);max-width:56em}
+.foot .lt{font-family:var(--accent);letter-spacing:.2em;color:var(--gold-deep)}
+
+@media (max-width:760px){
+  .plate h2.h1{font-size:clamp(30px,9.2vw,44px)}
+  .hero-sub{font-size:16px}
+  .hero-ctas .btn{width:100%;justify-content:center}
+  .spec{position:static;max-width:none;margin:26px auto 0;width:min(560px,calc(100% - 40px))}
+  .plate{flex-direction:column;justify-content:center;padding-bottom:26px}
+  .rail{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .plate h2.h1 .line>span,.fade{transform:none;opacity:1;transition:none}
+}
+</style>
+
+<header class="mast">
+  <div class="wrap">
+    <p class="chapter-mark">Medi ✦ X · Hero ground study</p>
+    <h1>Peptide Hero Lab</h1>
+    <p class="lede">Five live motion grounds under the real peptide hero — same copy, same palette,
+    same type, a different flavor each. The silk clouds you have now are a Three.js fragment shader;
+    GSAP only moves the text. So the ground swaps clean. Scroll the plates, or jump with the letters
+    on the right, and judge by feel.</p>
+    <ul class="index">
+      <li><a href="#a"><span class="lt">A</span> Petri <span class="tag">· the clinical one</span></a></li>
+      <li><a href="#b"><span class="lt">B</span> Mercury <span class="tag">· the luxe one</span></a></li>
+      <li><a href="#c"><span class="lt">C</span> Molecule drift <span class="tag">· the literal one</span></a></li>
+      <li><a href="#d"><span class="lt">D</span> Peptide bonds <span class="tag">· the storyteller</span></a></li>
+      <li><a href="#e"><span class="lt">E</span> Bleached silk <span class="tag">· your clouds, whiter</span></a></li>
+    </ul>
+  </div>
+</header>
+
+<nav class="rail" aria-label="Plates">
+  <ul>
+    <li><a href="#a" data-spy="a">A</a></li>
+    <li><a href="#b" data-spy="b">B</a></li>
+    <li><a href="#c" data-spy="c">C</a></li>
+    <li><a href="#d" data-spy="d">D</a></li>
+    <li><a href="#e" data-spy="e">E</a></li>
+  </ul>
+</nav>
+
+<!-- ══════════ A · PETRI ══════════ -->
+<section class="plate" id="a">
+  <canvas id="cv-a" aria-hidden="true"></canvas>
+  <div class="veil" aria-hidden="true"></div>
+  <div class="hero-inner wrap">
+    <p class="kicker fade">Peptide Therapy · Recovery, resilience, repair</p>
+    <h2 class="h1"><span class="line"><span>Peptide</span></span><span class="line"><span><em>therapy</em></span></span></h2>
+    <p class="hero-sub fade">Medi-Gyn offers medically supervised <strong>peptide therapy</strong> —
+    precise, personalised protocols for recovery, resilience and repair.</p>
+    <div class="hero-ctas fade"><span class="btn">Book a consultation <span class="arr">→</span></span><span class="btn ghost">How peptides work</span></div>
+  </div>
+  <aside class="spec">
+    <span class="lt">A</span><b>Petri</b>
+    <span class="eng">WebGL fragment shader · drop-in swap for the silk</span>
+    <p>The lab dish from above: micro-droplets drifting under a bright white field, one slow
+    breathing ring. The whitest and most clinical-calm of the five.</p>
+  </aside>
+</section>
+
+<!-- ══════════ B · MERCURY ══════════ -->
+<section class="plate" id="b">
+  <canvas id="cv-b" aria-hidden="true"></canvas>
+  <div class="veil" aria-hidden="true"></div>
+  <div class="hero-inner wrap">
+    <p class="kicker fade">Peptide Therapy · Recovery, resilience, repair</p>
+    <h2 class="h1"><span class="line"><span>Peptide</span></span><span class="line"><span><em>therapy</em></span></span></h2>
+    <p class="hero-sub fade">Medi-Gyn offers medically supervised <strong>peptide therapy</strong> —
+    precise, personalised protocols for recovery, resilience and repair.</p>
+    <div class="hero-ctas fade"><span class="btn">Book a consultation <span class="arr">→</span></span><span class="btn ghost">How peptides work</span></div>
+  </div>
+  <aside class="spec">
+    <span class="lt">B</span><b>Mercury</b>
+    <span class="eng">WebGL fragment shader · drop-in swap for the silk</span>
+    <p>Liquid-chrome cells breathing right of the copy, vignetted back to ivory where the
+    words sit. The glossy, luxe one — closest to your silver reference.</p>
+  </aside>
+</section>
+
+<!-- ══════════ C · MOLECULE DRIFT ══════════ -->
+<section class="plate" id="c">
+  <canvas id="cv-c" aria-hidden="true"></canvas>
+  <div class="veil" aria-hidden="true"></div>
+  <div class="hero-inner wrap">
+    <p class="kicker fade">Peptide Therapy · Recovery, resilience, repair</p>
+    <h2 class="h1"><span class="line"><span>Peptide</span></span><span class="line"><span><em>therapy</em></span></span></h2>
+    <p class="hero-sub fade">Medi-Gyn offers medically supervised <strong>peptide therapy</strong> —
+    precise, personalised protocols for recovery, resilience and repair.</p>
+    <div class="hero-ctas fade"><span class="btn">Book a consultation <span class="arr">→</span></span><span class="btn ghost">How peptides work</span></div>
+  </div>
+  <aside class="spec">
+    <span class="lt">C</span><b>Molecule drift</b>
+    <span class="eng">Canvas 2D layer · rides the existing GSAP ticker</span>
+    <p>Translucent porcelain spheres rising through a shallow depth of field — near ones soft,
+    mid ones crisp. The literal moving-molecules read of your third reference.</p>
+  </aside>
+</section>
+
+<!-- ══════════ D · PEPTIDE BONDS ══════════ -->
+<section class="plate" id="d">
+  <canvas id="cv-d" aria-hidden="true"></canvas>
+  <div class="veil" aria-hidden="true"></div>
+  <div class="hero-inner wrap">
+    <p class="kicker fade">Peptide Therapy · Recovery, resilience, repair</p>
+    <h2 class="h1"><span class="line"><span>Peptide</span></span><span class="line"><span><em>therapy</em></span></span></h2>
+    <p class="hero-sub fade">Medi-Gyn offers medically supervised <strong>peptide therapy</strong> —
+    precise, personalised protocols for recovery, resilience and repair.</p>
+    <div class="hero-ctas fade"><span class="btn">Book a consultation <span class="arr">→</span></span><span class="btn ghost">How peptides work</span></div>
+  </div>
+  <aside class="spec">
+    <span class="lt">D</span><b>Peptide bonds</b>
+    <span class="eng">Canvas 2D layer · rides the existing GSAP ticker</span>
+    <p>Amino chains adrift, free molecules docking on in gold. The one that tells the page's
+    own story — it foreshadows the chain scroll-scene below the fold.</p>
+  </aside>
+</section>
+
+<!-- ══════════ E · BLEACHED SILK ══════════ -->
+<section class="plate" id="e">
+  <canvas id="cv-e" aria-hidden="true"></canvas>
+  <div class="veil" aria-hidden="true"></div>
+  <div class="hero-inner wrap">
+    <p class="kicker fade">Peptide Therapy · Recovery, resilience, repair</p>
+    <h2 class="h1"><span class="line"><span>Peptide</span></span><span class="line"><span><em>therapy</em></span></span></h2>
+    <p class="hero-sub fade">Medi-Gyn offers medically supervised <strong>peptide therapy</strong> —
+    precise, personalised protocols for recovery, resilience and repair.</p>
+    <div class="hero-ctas fade"><span class="btn">Book a consultation <span class="arr">→</span></span><span class="btn ghost">How peptides work</span></div>
+  </div>
+  <aside class="spec">
+    <span class="lt">E</span><b>Bleached silk</b>
+    <span class="eng">WebGL fragment shader · your current shader, re-graded</span>
+    <p>The clouds you have now, bleached toward white with faint motes adrift on top.
+    Same motion, whiter flavor — the smallest possible change.</p>
+  </aside>
+</section>
+
+<footer class="foot">
+  <div class="wrap">
+    <p><span class="lt">SWAP NOTES</span> — Built against <em>peptide-therapy/index.html</em>. Plates A, B and E
+    replace the silk fragment shader in place (same canvas, same uniforms — one paste). Plates C and D are a small
+    Canvas&nbsp;2D layer driven by the GSAP ticker the page already runs, like the chain scene's engine. The GSAP text
+    reveals, Lenis scroll and everything below the hero stay untouched. Type on this page is the live brand files:
+    Playfair variable at 450/opsz 30 and MediGyn NOW. Answer with a letter — or two to combine (e.g. "A ground, D chains").</p>
+  </div>
+</footer>
+
+<script>
+"use strict";
+(function(){
+const REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const DPR = Math.min(devicePixelRatio || 1, 1.5);
+const engines = [];
+
+/* ── tiny raw-WebGL fullscreen-shader helper (CSP-safe: no CDN, no three.js) ── */
+const NOISE = `
+float hash(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453); }
+float noise(vec2 p){
+  vec2 i=floor(p), f=fract(p); f=f*f*(3.-2.*f);
+  return mix(mix(hash(i),hash(i+vec2(1,0)),f.x),
+             mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),f.x),f.y);
+}
+float fbm(vec2 p){
+  float v=0., a=.5;
+  for(int i=0;i<5;i++){ v+=a*noise(p); p*=2.04; a*=.5; }
+  return v;
+}`;
+
+function glScene(canvas, frag){
+  const gl = canvas.getContext("webgl",{antialias:false,alpha:false,powerPreference:"low-power"});
+  if(!gl) return null;
+  function sh(type,src){
+    const s=gl.createShader(type); gl.shaderSource(s,src); gl.compileShader(s);
+    if(!gl.getShaderParameter(s,gl.COMPILE_STATUS)){ console.error(gl.getShaderInfoLog(s)); return null; }
+    return s;
+  }
+  const vs = sh(gl.VERTEX_SHADER,"attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);}");
+  const fs = sh(gl.FRAGMENT_SHADER,"precision highp float;uniform float uTime;uniform vec2 uRes;"+NOISE+frag);
+  if(!vs||!fs) return null;
+  const p = gl.createProgram();
+  gl.attachShader(p,vs); gl.attachShader(p,fs); gl.linkProgram(p); gl.useProgram(p);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+  gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+  const loc = gl.getAttribLocation(p,"a");
+  gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+  const uT = gl.getUniformLocation(p,"uTime"), uR = gl.getUniformLocation(p,"uRes");
+  return {
+    resize(){
+      const w=Math.round(canvas.clientWidth*DPR), h=Math.round(canvas.clientHeight*DPR);
+      if(canvas.width!==w||canvas.height!==h){ canvas.width=w; canvas.height=h; }
+      gl.viewport(0,0,canvas.width,canvas.height);
+      gl.uniform2f(uR,canvas.width,canvas.height);
+    },
+    draw(t){ gl.uniform1f(uT,t); gl.drawArrays(gl.TRIANGLES,0,3); }
+  };
+}
+
+function ctx2d(canvas, dprCap){
+  const d = Math.min(devicePixelRatio || 1, dprCap || 1.5);
+  const c = canvas.getContext("2d");
+  return {
+    ctx:c, get w(){ return canvas.clientWidth; }, get h(){ return canvas.clientHeight; },
+    resize(){
+      const w=Math.round(canvas.clientWidth*d), h=Math.round(canvas.clientHeight*d);
+      if(canvas.width!==w||canvas.height!==h){ canvas.width=w; canvas.height=h; }
+      c.setTransform(d,0,0,d,0,0);
+    }
+  };
+}
+
+/* ════════ A · PETRI — white lab dish, drifting micro-droplets ════════ */
+const FRAG_A = `
+float droplets(vec2 p, float scale, vec2 drift, float seed, float t, out float hilite){
+  vec2 q = p*scale + drift*t;
+  vec2 id = floor(q), f = fract(q);
+  float rim = 0.; hilite = 0.;
+  for(int oy=-1;oy<=1;oy++) for(int ox=-1;ox<=1;ox++){
+    vec2 nb = vec2(float(ox),float(oy));
+    float h = hash(id+nb+seed);
+    if(fract(h*11.13) < .32) continue;
+    float ta = t*(.04+.07*fract(h*5.7));
+    vec2 c = nb + .5 + .31*vec2(sin(ta+h*6.28), cos(ta*1.31+h*4.1));
+    float r = mix(.055,.21,fract(h*7.31));
+    float d = length(f-c)-r;
+    rim += smoothstep(.015,.003,abs(d));
+    float inside = smoothstep(.012,-.02,d);
+    hilite += smoothstep(r*.42,0.,length(f-c-vec2(-.34,.34)*r))*inside;
+  }
+  return rim;
+}
+void main(){
+  vec2 uv = gl_FragCoord.xy/uRes;
+  vec2 p = uv; p.x *= uRes.x/uRes.y;
+  float t = uTime;
+  /* bright white field, faintly alive */
+  float g = fbm(p*1.9 + vec2(t*.012, -t*.008));
+  vec3 col = mix(vec3(1.0,.997,.988), vec3(.962,.953,.938), smoothstep(.2,.9,g));
+  /* static micro-specks, like sediment in the dish */
+  float sp = step(.9965, hash(floor(p*230.)));
+  col -= sp*.05;
+  /* the effect calms toward the copy on the left */
+  float fade = .22 + .78*smoothstep(.12,.55,uv.x);
+  /* two droplet layers */
+  float h1,h2;
+  float r1 = droplets(p, 2.6, vec2(.012,.007), 0., t, h1);
+  float r2 = droplets(p, 4.6, vec2(-.008,.005), 37., t, h2);
+  col = mix(col, vec3(.72,.705,.69), min(r1*.5 + r2*.32, .6)*fade);
+  col += (h1*.10 + h2*.06)*fade;
+  /* the big dish ring, breathing right-of-centre */
+  vec2 cc = vec2((uRes.x/uRes.y)*.64, .5);
+  float R = .335 + .012*sin(t*.14);
+  float dr = length(p-cc)-R;
+  col = mix(col, vec3(.70,.685,.67), smoothstep(.012,.002,abs(dr))*.55*fade);
+  col += smoothstep(.0,-.25,dr)*.018; /* inner face a touch brighter */
+  gl_FragColor = vec4(col,1.);
+}`;
+
+/* ════════ B · MERCURY — packed liquid-chrome cells (voronoi foam) ════════ */
+const FRAG_B = `
+void main(){
+  vec2 uv = gl_FragCoord.xy/uRes;
+  float aspect = uRes.x/uRes.y;
+  vec2 p = uv; p.x *= aspect;
+  float t = uTime;
+  /* foam lattice: ~2 cells tall, centres wandering inside their cells;
+     a soft domain warp bends the straight voronoi seams into bubble curves */
+  vec2 warp = vec2(noise(p*2.6 + t*.05), noise(p*2.6 + 7.3 - t*.04)) - .5;
+  vec2 q = (p + warp*.14)*2.0 + vec2(t*.012, -t*.008);
+  vec2 id = floor(q), f = fract(q);
+  float d1 = 8., d2 = 8.; vec2 v1 = vec2(0.); float h1 = 0.;
+  for(int oy=-1;oy<=1;oy++) for(int ox=-1;ox<=1;ox++){
+    vec2 nb = vec2(float(ox),float(oy));
+    float h = hash(id+nb);
+    vec2 c = nb + .5 + .38*vec2(sin(t*.20 + h*6.2832), cos(t*.16 + h*9.42));
+    vec2 r = c - f;
+    float d = length(r);
+    if(d < d1){ d2 = d1; d1 = d; v1 = r; h1 = h; }
+    else if(d < d2){ d2 = d; }
+  }
+  float border = d2 - d1;
+  float R = (d1 + d2)*.5;
+  /* dome normal — each cell shaded as a bulging chrome bubble */
+  float nz = sqrt(max(R*R - d1*d1, 1e-4));
+  vec3 n = normalize(vec3(-v1, nz));
+  float up = n.y*.5 + .5;
+  vec3 col = mix(vec3(.46,.455,.45), vec3(.985,.980,.972), smoothstep(.06,.78,up));
+  col = mix(col, vec3(.40,.395,.39), smoothstep(.22,.02,abs(n.y))*.45);       /* chrome horizon band */
+  float st = fbm(n.xy*1.8 + h1*3.1 + t*.02);
+  col = mix(col, vec3(.30,.295,.29), smoothstep(.58,.85,st)*.38);             /* warped dark reflections */
+  col = mix(col, vec3(1.,.997,.99), pow(max(dot(n,normalize(vec3(-.3,.6,.72))),0.),26.)); /* specular */
+  col += smoothstep(.5,.0,d1/max(R,.001))*.05;                                 /* bright cap */
+  float crease = smoothstep(.16,.015,border);
+  col = mix(col, vec3(.235,.23,.225), crease*.7);                              /* dark meniscus between cells */
+  col *= vec3(1.,.996,.988);                                                   /* ivory warmth */
+  /* settle back to ivory where the copy sits */
+  col = mix(col, vec3(.980,.969,.945), smoothstep(.55,.08,uv.x)*.85);
+  gl_FragColor = vec4(col,1.);
+}`;
+
+/* ════════ E · BLEACHED SILK — the current shader, re-graded white ════════ */
+const FRAG_E = `
+void main(){
+  vec2 uv = gl_FragCoord.xy/uRes;
+  vec2 p = uv; p.x *= uRes.x/uRes.y;
+  float t = uTime*.045;
+  vec2 q = vec2(fbm(p*1.35 + t), fbm(p*1.35 + vec2(2.7,7.1) - t));
+  vec2 r = vec2(fbm(p*1.9 + 3.2*q + vec2(1.3,9.2)), fbm(p*1.9 + 3.2*q + vec2(8.3,2.8)));
+  float f = fbm(p*1.55 + 2.6*r + t*.6);
+  /* the silk grade, bleached: white ground, gray folds, the faintest rose and gold */
+  vec3 col = mix(vec3(1.,.998,.994), vec3(.938,.933,.923), smoothstep(.2,.98,uv.y*.45 + f*.6));
+  float sheen = smoothstep(.42,.62,f)*smoothstep(.82,.55,f);
+  col = mix(col, vec3(.780,.604,.573), sheen*.06);
+  float thread = smoothstep(.58,.66,f)*smoothstep(.78,.66,f);
+  col = mix(col, vec3(.761,.627,.369), thread*.05);
+  float vig = smoothstep(.92,.55,distance(uv, vec2(.42,.55)));
+  col = mix(vec3(.985,.976,.960), col, clamp(vig+.25,0.,1.));
+  /* motes adrift — the molecule whisper over the silk */
+  vec2 mq = p*3.4 + vec2(uTime*.008, -uTime*.02);
+  vec2 id = floor(mq), fr = fract(mq);
+  for(int oy=-1;oy<=1;oy++) for(int ox=-1;ox<=1;ox++){
+    vec2 nb = vec2(float(ox),float(oy));
+    float h = hash(id+nb+7.);
+    if(fract(h*9.7) < .45) continue;
+    vec2 c = nb + .5 + .3*vec2(sin(uTime*.06+h*6.28), cos(uTime*.05+h*4.));
+    float rr = mix(.02,.06,fract(h*5.3));
+    float d = length(fr-c);
+    col += smoothstep(rr, rr*.15, d)*.05;
+    col = mix(col, vec3(.75,.73,.71), smoothstep(.008,.002,abs(d-rr))*.22);
+  }
+  gl_FragColor = vec4(col,1.);
+}`;
+
+/* ════════ C · MOLECULE DRIFT — porcelain spheres, shallow depth of field ════════ */
+function makeDrift(canvas){
+  const s = ctx2d(canvas, 1.25);
+  /* deterministic pseudo-random, so every visit drifts the same */
+  let seed = 1234567;
+  const rnd = () => (seed = (seed*16807)%2147483647)/2147483647;
+  const N = 26, spheres = [];
+  for(let i=0;i<N;i++){
+    const z = rnd();                       /* 0 far … 1 near */
+    const tint = rnd();
+    spheres.push({
+      x: rnd(), z,
+      y0: rnd(),                            /* phase within the wrap cycle */
+      r: 10 + z*78,
+      vy: 5 + z*16,                         /* px/s rise */
+      swayA: 6 + rnd()*26, swayW: .05 + rnd()*.12, ph: rnd()*6.28,
+      blur: Math.abs(z-.62)*13,             /* mid-depth in focus */
+      tint: tint<.10 ? "rose" : tint<.16 ? "gold" : "porcelain"
+    });
+  }
+  spheres.sort((a,b)=>a.z-b.z);
+  function sphere(c,x,y,r,tint,alpha){
+    const g = c.createRadialGradient(x-r*.35, y-r*.42, r*.08, x, y, r);
+    if(tint==="rose"){
+      g.addColorStop(0,"rgba(255,252,250,"+(.92*alpha)+")");
+      g.addColorStop(.55,"rgba(238,224,220,"+(.42*alpha)+")");
+      g.addColorStop(1,"rgba(199,154,146,"+(.40*alpha)+")");
+    }else if(tint==="gold"){
+      g.addColorStop(0,"rgba(255,253,248,"+(.92*alpha)+")");
+      g.addColorStop(.55,"rgba(240,231,212,"+(.42*alpha)+")");
+      g.addColorStop(1,"rgba(194,160,94,"+(.34*alpha)+")");
+    }else{
+      g.addColorStop(0,"rgba(255,255,255,"+(.94*alpha)+")");
+      g.addColorStop(.55,"rgba(237,236,233,"+(.44*alpha)+")");
+      g.addColorStop(.85,"rgba(206,205,203,"+(.42*alpha)+")");
+      g.addColorStop(1,"rgba(173,173,174,"+(.46*alpha)+")");
+    }
+    c.beginPath(); c.arc(x,y,r,0,6.2832); c.fillStyle=g; c.fill();
+    c.beginPath(); c.arc(x,y,r*.985,0,6.2832);
+    c.strokeStyle="rgba(150,149,148,"+(.20*alpha)+")"; c.lineWidth=Math.max(1,r*.035); c.stroke();
+    c.beginPath(); c.ellipse(x-r*.38,y-r*.44,r*.16,r*.10,-.6,0,6.2832);
+    c.fillStyle="rgba(255,255,255,"+(.55*alpha)+")"; c.fill();
+  }
+  return {
+    resize(){ s.resize(); },
+    draw(t){
+      const c=s.ctx, W=s.w, H=s.h;
+      const bg = c.createLinearGradient(0,0,0,H);
+      bg.addColorStop(0,"#FBF9F4"); bg.addColorStop(.6,"#F7F4EE"); bg.addColorStop(1,"#FAF7F1");
+      c.filter="none"; c.fillStyle=bg; c.fillRect(0,0,W,H);
+      const glow = c.createRadialGradient(W*.68,H*.30,0,W*.68,H*.30,W*.55);
+      glow.addColorStop(0,"rgba(255,255,255,.75)"); glow.addColorStop(1,"rgba(255,255,255,0)");
+      c.fillStyle=glow; c.fillRect(0,0,W,H);
+      for(const sp of spheres){
+        const cyc = H + sp.r*2 + 40;
+        const y = ((sp.y0*cyc - sp.vy*t) % cyc + cyc) % cyc - sp.r - 20;
+        const x = sp.x*W + Math.sin(t*sp.swayW + sp.ph)*sp.swayA;
+        const alpha = .38 + sp.z*.5;
+        c.filter = sp.blur > .8 ? "blur("+sp.blur.toFixed(1)+"px)" : "none";
+        sphere(c,x,y,sp.r,sp.tint,alpha);
+      }
+      c.filter="none";
+    }
+  };
+}
+
+/* ════════ D · PEPTIDE BONDS — amino chains adrift, gold docking ════════ */
+function makeBonds(canvas){
+  const s = ctx2d(canvas, 1.5);
+  let seed = 424242;
+  const rnd = () => (seed = (seed*16807)%2147483647)/2147483647;
+  const chains = [];
+  for(let i=0;i<11;i++){
+    const n = 4 + Math.floor(rnd()*4);
+    chains.push({
+      n, x0:rnd(), y0:rnd(),
+      vx:(rnd()-.5)*14, vy:-(4+rnd()*8),
+      ang:rnd()*6.28, rot:(rnd()-.5)*.06,
+      seg:26+rnd()*10, amp:5+rnd()*6, frq:.5+rnd()*.5, phs:rnd()*6.28,
+      gold:Math.floor(rnd()*n),
+      r:[...Array(n)].map(()=>2.6+rnd()*2.2)
+    });
+  }
+  const frees = [];
+  for(let i=0;i<24;i++){
+    frees.push({ x0:rnd(), y0:rnd(), vx:(rnd()-.5)*10, vy:-(3+rnd()*7), r:2+rnd()*1.6, ph:rnd()*6.28 });
+  }
+  const wrap = (v,m) => ((v%m)+m)%m;
+  function chainNodes(ch,t,W,H){
+    const ax = wrap(ch.x0*W + ch.vx*t, W+120)-60;
+    const ay = wrap(ch.y0*H + ch.vy*t, H+120)-60;
+    const a = ch.ang + ch.rot*t;
+    const dx = Math.cos(a), dy = Math.sin(a);
+    const pts=[];
+    for(let i=0;i<ch.n;i++){
+      const off = Math.sin(t*ch.frq + ch.phs + i*1.15)*ch.amp;
+      pts.push({ x: ax + dx*i*ch.seg - dy*off, y: ay + dy*i*ch.seg + dx*off });
+    }
+    return pts;
+  }
+  return {
+    resize(){ s.resize(); },
+    draw(t){
+      const c=s.ctx, W=s.w, H=s.h;
+      const bg=c.createLinearGradient(0,0,0,H);
+      bg.addColorStop(0,"#FBF8F2"); bg.addColorStop(1,"#F6F1E8");
+      c.fillStyle=bg; c.fillRect(0,0,W,H);
+      const ends=[];
+      for(const ch of chains){
+        const pts = chainNodes(ch,t,W,H);
+        c.beginPath();
+        for(let i=0;i<pts.length;i++) i?c.lineTo(pts[i].x,pts[i].y):c.moveTo(pts[i].x,pts[i].y);
+        c.strokeStyle="rgba(122,106,84,.38)"; c.lineWidth=1; c.stroke();
+        for(let i=0;i<pts.length;i++){
+          const gold = i===ch.gold, r = ch.r[i]+(gold?1.2:0);
+          c.beginPath(); c.arc(pts[i].x,pts[i].y,r,0,6.2832);
+          c.fillStyle = gold ? "rgba(194,160,94,.82)" : "rgba(106,88,95,.55)";
+          c.fill();
+          if(gold){
+            c.beginPath(); c.arc(pts[i].x,pts[i].y,r+3.5+Math.sin(t*2+i)*1.2,0,6.2832);
+            c.strokeStyle="rgba(194,160,94,.30)"; c.lineWidth=1; c.stroke();
+          }
+        }
+        ends.push(pts[0],pts[pts.length-1]);
+      }
+      for(const fr of frees){
+        const x = wrap(fr.x0*W + fr.vx*t, W+40)-20 + Math.sin(t*.4+fr.ph)*6;
+        const y = wrap(fr.y0*H + fr.vy*t, H+40)-20;
+        c.beginPath(); c.arc(x,y,fr.r,0,6.2832);
+        c.fillStyle="rgba(106,88,95,.32)"; c.fill();
+        for(const e of ends){
+          const dx=e.x-x, dy=e.y-y, d=Math.hypot(dx,dy);
+          if(d<52 && d>4){
+            const a=(1-d/52)*.55;
+            c.beginPath(); c.moveTo(x,y); c.lineTo(e.x,e.y);
+            c.strokeStyle="rgba(194,160,94,"+a+")"; c.lineWidth=1; c.stroke();
+            c.beginPath(); c.arc(x,y,fr.r+3,0,6.2832);
+            c.strokeStyle="rgba(194,160,94,"+(a*.8)+")"; c.stroke();
+          }
+        }
+      }
+    }
+  };
+}
+
+/* ── build engines ── */
+function add(id, maker){
+  const el = document.getElementById(id);
+  const eng = maker(el);
+  if(!eng){ el.style.background="linear-gradient(160deg,#FAF7F1 30%,#F4EDE1 70%,#F1E7D2 100%)"; return; }
+  eng.el = el; eng.visible = false;
+  engines.push(eng);
+}
+add("cv-a", c => glScene(c, FRAG_A));
+add("cv-b", c => glScene(c, FRAG_B));
+add("cv-c", c => makeDrift(c));
+add("cv-d", c => makeBonds(c));
+add("cv-e", c => glScene(c, FRAG_E));
+
+function sizeAll(){ for(const e of engines){ e.resize(); e.draw(REDUCE ? 21.7 : tNow()); } }
+let t0 = performance.now();
+const tNow = () => (performance.now()-t0)/1000;
+addEventListener("resize", sizeAll);
+
+const io = new IntersectionObserver(es => {
+  for(const en of es){
+    const eng = engines.find(e => e.el === en.target);
+    if(eng) eng.visible = en.isIntersecting;
+  }
+},{threshold:.02});
+for(const e of engines) io.observe(e.el);
+
+sizeAll();
+if(!REDUCE){
+  (function loop(){
+    requestAnimationFrame(loop);
+    if(document.hidden) return;
+    const t = tNow();
+    for(const e of engines) if(e.visible) e.draw(t);
+  })();
+}
+
+/* copy entrance per plate, once — the same feel as the live GSAP intro */
+const pio = new IntersectionObserver(es => {
+  for(const en of es) if(en.isIntersecting){ en.target.classList.add("in"); pio.unobserve(en.target); }
+},{threshold:.2});
+document.querySelectorAll(".plate").forEach(p => pio.observe(p));
+
+/* letter-rail scrollspy (also backstops the entrance) */
+const links = [...document.querySelectorAll(".rail a")];
+const sio = new IntersectionObserver(es => {
+  for(const en of es) if(en.isIntersecting){
+    en.target.classList.add("in");
+    links.forEach(l => l.classList.toggle("on", l.dataset.spy === en.target.id));
+  }
+},{threshold:.5});
+document.querySelectorAll(".plate").forEach(p => sio.observe(p));
+})();
+</script>

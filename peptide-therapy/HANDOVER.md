@@ -22,20 +22,25 @@
 > copy**; republishing that exact artifact keeps its URL stable. It is private until he
 > flips the share toggle on the artifact page itself.
 >
-> **3 · GLACIER IS HERO-SCOPED IN THIS SHIP, AND THAT IS THE POINT OF THE NEXT ONE —
-> "we want the same vibe on the rest of the website", his words.** The hero's own chrome
-> follows the grade (kicker rule, scroll drip, ghost border — the block above the hero
-> styles carries the argument); the hero's foot still fades to ivory so the page stitches.
-> For whoever does the site-wide pass, the mapping he judged, ivory system → glacier:
+> **3 · GLACIER IS HERO-SCOPED IN THIS SHIP; THE NEXT PASS IS THE REST OF THIS PAGE —
+> "we want the same vibe on the rest of the website", his words, and (his 2026-08-15
+> clarification) the scope of those words is THE PEPTIDE PAGE.** Each service page gets
+> its own design: the hormone page's is ALREADY APPROVED and does not move, functional
+> medicine will get its own when its turn comes. Glacier is this page's identity. So the
+> work ahead is the rest of THIS file: 03's dawn ground, 04/07/08's ivory panels and
+> hairlines, 06's stories, the service tiles and the dialog shell, the doctors band, the
+> chain scene's ink stage and gold beats (a composition of its own — judge it, don't
+> find-and-replace it), and the header pills as they cross the new hero. The mapping he
+> judged, ivory system → glacier, for every surface this page owns:
 > `--ivory #FAF7F1 → #F4F7FA` · `--cream #F4EDE1 → #EAF0F5` · `--line #DED4C2 → #D5DEE6`
 > · `--gold #C2A05E → #7C93A8` · `--gold-deep #8A6A34 → #54687C` · `--gold-tint #F1E7D2
 > → #E4EDF4` (derived, unjudged). **The one red, the burgundy, the rose and both inks do
-> not move** — the one-red rule is brand law and survived all five grades. Three cautions,
-> each already documented elsewhere: BRAND.md's alphas are MEASURED minimums (re-measure
-> on the new grounds, don't transpose); the footer is a TRUE COPY across all three pages
-> (re-grade the three files in one commit or not at all); the chain scene's ink stage and
-> gold beats are a composition of their own (judge them, don't find-and-replace them).
-> The favicon's gold spark is on the list too.
+> not move** — the one-red rule is brand law and survived all five grades. Two cautions:
+> BRAND.md's alphas are MEASURED minimums (re-measure on the new grounds, don't
+> transpose); and ⚠️ the header/footer in this file are documented TRUE COPIES of the
+> landing page's (round 6) — re-grading them here forks that copy on purpose, so it is
+> HIS CALL to fork or to leave them ivory as shared chrome. The favicon's gold spark is
+> shared too; it stays.
 >
 > QA: headless Chromium at 1440×900 and 390×844, CDNs served from npm via interception
 > (the egress situation the round-1 QA record documents — nothing about that shipped):

@@ -521,9 +521,77 @@ section{position:relative}
     color .3s var(--ease),transform .5s var(--ease);
 }
 .px-open svg{width:11px;height:11px;display:block}
-/* the stretch: .px-open is static, so inset:0 resolves against the .px card —
-   the whole tile is the hit area, the circle is only where the control says so */
-.px-open::after{content:"";position:absolute;inset:0;border-radius:2px}
+/* ⚠️ THE STRETCH IS GONE, AND THAT REVERSES A DELIBERATE DECISION — read this
+   before restoring it. Until 2026-08-16 `.px-open::after{inset:0}` made the WHOLE
+   tile the + button: tap anywhere, read more. The tile is now a CHOICE as well as
+   a door, and both cannot own the same pixels. His call (a): the tile selects, and
+   the + keeps its own target — enlarged from the 32px circle to a 44px box, which
+   is the smallest a thumb should be asked to find. The circle still draws at 32.
+   Restoring the stretch silently makes the goal unselectable everywhere except the
+   few pixels the pick button is not covered by it. */
+.px-open{position:relative;z-index:3;width:44px;height:44px}
+.px-open::before{content:"";position:absolute;inset:6px;border:1px solid var(--line);
+  border-radius:50%;transition:background .4s var(--ease),border-color .4s var(--ease)}
+.px:hover .px-open::before,.px-open:focus-visible::before{
+  background:var(--burgundy);border-color:var(--burgundy)}
+
+/* the select surface — the whole card, beneath the + */
+.px-pick{position:absolute;inset:0;z-index:2;border-radius:2px;background:none;
+  border:0;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.px-pick:focus-visible{outline:2px solid var(--logo-red);outline-offset:-3px}
+
+/* the mark — the page's own chain, saying eight different things.
+   ⚠️ DRAFT, AND MINE. Eight figures drawn in the bead-and-bond vocabulary of the
+   chain scene: a shield turned inward · a network inside a head · a coil · a
+   descent to a line · strands rooted through skin · a shaft interrupted by its
+   joint · a spiral · two rings. Outline only, one stroke weight, no fills — the
+   line held against medical clipart, which is the look this page's restraint buys
+   distance from. Two of the eight are unresolved and flagged in HANDOVER. */
+.px-mark{display:block;width:46px;height:46px;color:var(--gold-deep);
+  transition:color .35s var(--ease)}
+.px:hover .px-mark{color:var(--gold)}
+
+/* chosen — ink, never the one red: red is this page's material for "this commits
+   you", and a lit tile is a choice, not a call to action */
+.px[data-picked="true"]{background:var(--ink);border-color:var(--ink)}
+.px[data-picked="true"] h3,.px[data-picked="true"]:hover h3{color:var(--ivory)}
+.px[data-picked="true"] .px-num{color:var(--gold)}
+.px[data-picked="true"] .px-mark{color:var(--gold)}
+.px[data-picked="true"] .px-open{color:var(--ivory)}
+.px[data-picked="true"] .px-open::before{border-color:rgba(244,247,250,.42)}
+.px-tick{position:absolute;top:14px;right:14px;z-index:1;font-family:var(--accent);
+  font-size:13px;color:var(--gold);opacity:0;transition:opacity .3s var(--ease)}
+.px[data-picked="true"] .px-tick{opacity:1}
+
+/* ══ THE TRAY — the programme, assembling ═══════════════════════════════════
+   ⚠️ SCOPED TO THIS SECTION ON PURPOSE. It is `position:sticky` inside .services,
+   so it rides the foot of the viewport while the eight are on screen and scrolls
+   away with them. A fixed bar would follow the reader through the doctors, the
+   stories and the FAQ, which is a section's affordance overstaying its section.
+   ⚠️ NOT SHOWN AT REST. Its resting text would only repeat the h2 above it, which
+   is the duplication this whole arrangement exists to remove: the tray IS the
+   answer and the action, and before there is an answer there is nothing to say. */
+.px-tray{
+  position:sticky;bottom:0;z-index:30;
+  background:rgba(46,34,40,.95);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  color:var(--ivory);padding:14px var(--pad);
+  transform:translateY(120%);opacity:0;pointer-events:none;
+  transition:transform .45s var(--ease),opacity .35s var(--ease);
+}
+.px-tray.on{transform:none;opacity:1;pointer-events:auto}
+.px-tray-in{max-width:1280px;margin:0 auto;display:flex;align-items:center;
+  gap:clamp(12px,2vw,22px)}
+.px-tray-n{font-family:var(--accent);font-size:12px;letter-spacing:.2em;color:var(--gold);
+  white-space:nowrap;font-variant-numeric:tabular-nums}
+.px-tray-l{font-size:13.5px;color:rgba(244,247,250,.78);flex:1;min-width:0;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.px-tray-go{display:inline-flex;align-items:center;gap:10px;flex-shrink:0;
+  font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ivory);background:none;
+  border:1px solid rgba(244,247,250,.42);border-radius:999px;padding:12px 22px;
+  cursor:pointer;transition:all .3s var(--ease)}
+.px-tray-go:hover{background:var(--ivory);color:var(--ink);border-color:var(--ivory)}
+@media(max-width:560px){.px-tray-l{display:none}}
 .px:hover .px-open,.px-open:focus-visible{
   background:var(--burgundy);border-color:var(--burgundy);color:var(--ivory);
   transform:rotate(90deg);
@@ -533,6 +601,67 @@ section{position:relative}
 }
 @media(max-width:640px){
   .px-grid{grid-template-columns:1fr}
+}
+
+
+/* ══ THE PROGRAMME PANEL — inside the .pxd shell, in the page's own dress ══════ */
+.pg-recap{margin-top:12px;padding-left:14px;border-left:2px solid var(--gold);
+  font-size:14.5px;color:var(--ink-soft);line-height:1.55}
+.pg-recap b{color:var(--ink);font-weight:500}
+.pg-blk{margin-top:26px}
+.pg-h{display:flex;align-items:baseline;justify-content:space-between;gap:14px;
+  padding-bottom:9px;border-bottom:1px solid var(--ink)}
+.pg-h span:first-child{font-family:var(--sans);font-weight:500;font-size:11px;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--gold-deep)}
+.pg-amt{font-family:var(--accent);font-size:clamp(17px,2vw,21px);
+  font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--ink)}
+.pg-blk--soft .pg-h{border-bottom-color:var(--line)}
+.pg-list{list-style:none;margin-top:12px}
+.pg-list li{font-size:13.5px;line-height:1.5;padding-left:17px;position:relative;color:var(--ink)}
+.pg-list li + li{margin-top:8px}
+.pg-list li::before{content:"";position:absolute;left:0;top:.62em;width:7px;height:1px;background:var(--gold)}
+.pg-blk--soft .pg-list li{color:var(--ink-soft)}
+.pg-blk--soft .pg-list li::before{background:var(--ink-soft);opacity:.5}
+/* ⚠️ .pg-t IS IN THIS LIST TOO. Left out, the add-on's explanation ran inline
+   straight after the PRICE TBC tag — a <small> is inline by default and the block
+   rule only named the two lists. */
+.pg-list small,.pg-steps small,.pg-t small{display:block;font-size:12px;color:var(--ink-soft);margin-top:4px;line-height:1.45}
+
+/* ⚠️ THE ONLY CONTROL IN THE PANEL BESIDES START. The peptides and the supplements
+   cannot be ticked here — they are prescribed — and a checkbox nobody is allowed to
+   tick is worse than a sentence, so they sit below as a promise instead. */
+.pg-addon{display:flex;align-items:flex-start;gap:14px;width:100%;text-align:left;
+  margin-top:14px;padding:15px 16px;border:1px solid var(--line);background:none;
+  cursor:pointer;transition:all .3s var(--ease)}
+.pg-addon:hover{border-color:var(--ink-soft);background:rgba(255,255,255,.6)}
+.pg-addon[aria-pressed="true"]{border-color:var(--ink);background:var(--gold-tint)}
+.pg-box{flex:0 0 16px;height:16px;margin-top:2px;border:1px solid var(--ink-soft);
+  display:flex;align-items:center;justify-content:center;font-size:10px;color:transparent}
+.pg-addon[aria-pressed="true"] .pg-box{background:var(--ink);border-color:var(--ink);color:var(--ivory)}
+.pg-t{flex:1;font-size:14px;line-height:1.35;color:var(--ink)}
+.pg-p{font-size:13.5px;font-variant-numeric:tabular-nums;white-space:nowrap;
+  color:var(--ink);align-self:center}
+.pg-tag{display:inline-block;font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--logo-red);border:1px solid currentColor;padding:1px 5px;margin-left:7px;
+  vertical-align:middle}
+.pg-steps{list-style:none;margin-top:12px;border-top:1px solid var(--line)}
+.pg-steps li{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:baseline;
+  padding:11px 0;border-bottom:1px solid var(--line);font-size:14px;color:var(--ink)}
+.pg-n{font-family:var(--accent);font-size:11.5px;letter-spacing:.2em;color:var(--gold-deep);
+  font-variant-numeric:tabular-nums}
+.pg-d{font-size:11.5px;color:var(--gold-deep);text-align:right;white-space:nowrap}
+.pg-sum{margin-top:24px;padding-top:16px;border-top:2px solid var(--ink)}
+.pg-row{display:flex;align-items:baseline;justify-content:space-between;gap:14px;
+  font-size:13.5px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.pg-row + .pg-row{margin-top:7px}
+.pg-row--total{margin-top:12px;padding-top:12px;border-top:1px solid var(--line);color:var(--ink)}
+.pg-row--total span:first-child{font-family:var(--sans);font-weight:500;font-size:11px;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--gold-deep)}
+.pg-row--total span:last-child{font-family:var(--accent);font-size:clamp(21px,2.6vw,27px)}
+.pg-foot{margin-top:14px;font-size:12px;color:var(--ink-soft);line-height:1.5;text-align:center}
+@media(max-width:520px){
+  .pg-steps li{grid-template-columns:auto 1fr}
+  .pg-d{grid-column:2;text-align:left;margin-top:4px}
 }
 
 /* ══ THE POPUP — one dialog shell, eight contents ══════════════════════════════
@@ -1718,10 +1847,14 @@ html.js-scene{--glass-fill:rgba(29,39,47,.45);--glass-hi:rgba(29,39,47,.58);
            mock-up; no peptide compounds are named on purpose. -->
       <div class="px-grid">
         <article class="px" data-reveal>
+          <!-- the select surface: the whole tile, under the + -->
+          <button type="button" class="px-pick" data-goal="Auto Immune Disease" aria-pressed="false"
+                  aria-label="Auto Immune Disease — choose this goal"></button>
+          <span class="px-tick" aria-hidden="true">✓</span>
+          <svg class="px-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 6 39 11v12c0 9-7 15-15 18-8-3-15-9-15-18V11z"/><path d="M17.5 17.5 21.5 21.5M30.5 17.5 26.5 21.5"/><circle cx="24" cy="25" r="2.7" fill="currentColor" stroke="none"/></svg>
           <p class="px-num">01</p>
           <h3>Auto Immune Disease</h3>
-          <p>Calming an immune system that has turned on itself — regulation, not suppression.</p>
-          <button type="button" class="px-open" aria-haspopup="dialog" aria-label="Auto Immune Disease — read more">
+<button type="button" class="px-open" aria-haspopup="dialog" aria-label="Auto Immune Disease — read more">
             <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 1v10M1 6h10"/></svg>
           </button>
           <template class="px-detail">
@@ -1739,10 +1872,14 @@ html.js-scene{--glass-fill:rgba(29,39,47,.45);--glass-hi:rgba(29,39,47,.58);
           </template>
         </article>
         <article class="px" data-reveal>
+          <!-- the select surface: the whole tile, under the + -->
+          <button type="button" class="px-pick" data-goal="Brain Health" aria-pressed="false"
+                  aria-label="Brain Health — choose this goal"></button>
+          <span class="px-tick" aria-hidden="true">✓</span>
+          <svg class="px-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 41v-6c-4-3-7-8-7-13 0-9 6-15 14-15s14 6 14 15c0 5-3 10-7 13v6z"/><path d="M24 15v11M24 19l-5 4M24 19l5 4"/><circle cx="24" cy="15" r="2.1" fill="currentColor" stroke="none"/><circle cx="19" cy="23" r="2.1" fill="currentColor" stroke="none"/><circle cx="29" cy="23" r="2.1" fill="currentColor" stroke="none"/></svg>
           <p class="px-num">02</p>
           <h3>Brain Health</h3>
-          <p>Sharper focus and clearer memory, supported at the level of the brain’s own repair.</p>
-          <button type="button" class="px-open" aria-haspopup="dialog" aria-label="Brain Health — read more">
+<button type="button" class="px-open" aria-haspopup="dialog" aria-label="Brain Health — read more">
             <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 1v10M1 6h10"/></svg>
           </button>
           <template class="px-detail">
@@ -1760,10 +1897,14 @@ html.js-scene{--glass-fill:rgba(29,39,47,.45);--glass-hi:rgba(29,39,47,.58);
           </template>
         </article>
         <article class="px" data-reveal>
+          <!-- the select surface: the whole tile, under the + -->
+          <button type="button" class="px-pick" data-goal="Gut Health" aria-pressed="false"
+                  aria-label="Gut Health — choose this goal"></button>
+          <span class="px-tick" aria-hidden="true">✓</span>
+          <svg class="px-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 13h22c6 0 6 8 0 8H15c-6 0-6 8 0 8h18c6 0 6 8 0 8H11"/><circle cx="11" cy="13" r="2.1" fill="currentColor" stroke="none"/><circle cx="11" cy="37" r="2.1" fill="currentColor" stroke="none"/><circle cx="24" cy="21" r="2.1" fill="currentColor" stroke="none"/><circle cx="24" cy="29" r="2.1" fill="currentColor" stroke="none"/></svg>
           <p class="px-num">03</p>
           <h3>Gut Health</h3>
-          <p>Rebuilding the gut lining — where absorption, and resilience, begin.</p>
-          <button type="button" class="px-open" aria-haspopup="dialog" aria-label="Gut Health — read more">
+<button type="button" class="px-open" aria-haspopup="dialog" aria-label="Gut Health — read more">
             <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 1v10M1 6h10"/></svg>
           </button>
           <template class="px-detail">
@@ -1781,10 +1922,14 @@ html.js-scene{--glass-fill:rgba(29,39,47,.45);--glass-hi:rgba(29,39,47,.58);
           </template>
         </article>
         <article class="px" data-reveal>
+          <!-- the select surface: the whole tile, under the + -->
+          <button type="button" class="px-pick" data-goal="Weight Management" aria-pressed="false"
+                  aria-label="Weight Management — choose this goal"></button>
+          <span class="px-tick" aria-hidden="true">✓</span>
+          <svg class="px-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 7v23"/><path d="M16 23 24 31 32 23"/><path d="M11 39h26"/><circle cx="24" cy="7" r="2.1" fill="currentColor" stroke="none"/></svg>
           <p class="px-num">04</p>
           <h3>Weight Management</h3>
-          <p>Metabolic signalling that helps the body let go of what it no longer needs.</p>
-          <button type="button" class="px-open" aria-haspopup="dialog" aria-label="Weight Management — read more">
+<button type="button" class="px-open" aria-haspopup="dialog" aria-label="Weight Management — read more">
             <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 1v10M1 6h10"/></svg>
           </button>
           <template class="px-detail">
@@ -1802,10 +1947,14 @@ html.js-scene{--glass-fill:rgba(29,39,47,.45);--glass-hi:rgba(29,39,47,.58);
           </template>
         </article>
         <article class="px" data-reveal>
+          <!-- the select surface: the whole tile, under the + -->
+          <button type="button" class="px-pick" data-goal="Skin &amp; Hair Loss" aria-pressed="false"
+                  aria-label="Skin &amp; Hair Loss — choose this goal"></button>
+          <span class="px-tick" aria-hidden="true">✓</span>
+          <svg class="px-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 27h34M7 33h34"/><path d="M16 27c0-6 1-9 2-13M24 27c0-7-1-10-1-14M32 27c0-4 1-6 1-8"/><path d="M34 11.5 35.5 7.5" stroke-dasharray="1.6 2"/><circle cx="16" cy="30" r="2.1" fill="currentColor" stroke="none"/><circle cx="24" cy="30" r="2.1" fill="currentColor" stroke="none"/><circle cx="32" cy="30" r="2.1" fill="currentColor" stroke="none"/></svg>
           <p class="px-num">05</p>
           <h3>Skin &amp; Hair Loss</h3>
-          <p>Collagen, skin quality and the follicle itself — renewal you can see.</p>
-          <button type="button" class="px-open" aria-haspopup="dialog" aria-label="Skin & Hair Loss — read more">
+<button type="button" class="px-open" aria-haspopup="dialog" aria-label="Skin & Hair Loss — read more">
             <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 1v10M1 6h10"/></svg>
           </button>
           <template class="px-detail">
@@ -1823,10 +1972,14 @@ html.js-scene{--glass-fill:rgba(29,39,47,.45);--glass-hi:rgba(29,39,47,.58);
           </template>
         </article>
         <article class="px" data-reveal>
+          <!-- the select surface: the whole tile, under the + -->
+          <button type="button" class="px-pick" data-goal="Musculoskeletal Injury" aria-pressed="false"
+                  aria-label="Musculoskeletal Injury — choose this goal"></button>
+          <span class="px-tick" aria-hidden="true">✓</span>
+          <svg class="px-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 7v10"/><circle cx="24" cy="24" r="6.4"/><path d="M24 31v10"/><circle cx="24" cy="7" r="2.1" fill="currentColor" stroke="none"/><circle cx="24" cy="41" r="2.1" fill="currentColor" stroke="none"/></svg>
           <p class="px-num">06</p>
           <h3>Musculoskeletal Injury</h3>
-          <p>Tendon, ligament and muscle repair that keeps pace with how you train.</p>
-          <button type="button" class="px-open" aria-haspopup="dialog" aria-label="Musculoskeletal Injury — read more">
+<button type="button" class="px-open" aria-haspopup="dialog" aria-label="Musculoskeletal Injury — read more">
             <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 1v10M1 6h10"/></svg>
           </button>
           <template class="px-detail">
@@ -1844,10 +1997,14 @@ html.js-scene{--glass-fill:rgba(29,39,47,.45);--glass-hi:rgba(29,39,47,.58);
           </template>
         </article>
         <article class="px" data-reveal>
+          <!-- the select surface: the whole tile, under the + -->
+          <button type="button" class="px-pick" data-goal="Anti Ageing" aria-pressed="false"
+                  aria-label="Anti Ageing — choose this goal"></button>
+          <span class="px-tick" aria-hidden="true">✓</span>
+          <svg class="px-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 7c10 0 17 8 17 17s-7 17-17 17c-8 0-14-6-14-13 0-6 5-11 11-11 5 0 9 4 9 9"/><path d="M20.5 4 24.5 7 20.5 10.5"/><circle cx="30" cy="26" r="2.1" fill="currentColor" stroke="none"/></svg>
           <p class="px-num">07</p>
           <h3>Anti Ageing</h3>
-          <p>Cellular housekeeping for a longer healthspan — not just a longer life.</p>
-          <button type="button" class="px-open" aria-haspopup="dialog" aria-label="Anti Ageing — read more">
+<button type="button" class="px-open" aria-haspopup="dialog" aria-label="Anti Ageing — read more">
             <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 1v10M1 6h10"/></svg>
           </button>
           <template class="px-detail">
@@ -1865,10 +2022,14 @@ html.js-scene{--glass-fill:rgba(29,39,47,.45);--glass-hi:rgba(29,39,47,.58);
           </template>
         </article>
         <article class="px" data-reveal>
+          <!-- the select surface: the whole tile, under the + -->
+          <button type="button" class="px-pick" data-goal="Sexual Health" aria-pressed="false"
+                  aria-label="Sexual Health — choose this goal"></button>
+          <span class="px-tick" aria-hidden="true">✓</span>
+          <svg class="px-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="19" cy="24" r="9"/><circle cx="29" cy="24" r="9"/><circle cx="24" cy="16.5" r="2.1" fill="currentColor" stroke="none"/><circle cx="24" cy="31.5" r="2.1" fill="currentColor" stroke="none"/></svg>
           <p class="px-num">08</p>
           <h3>Sexual Health</h3>
-          <p>Desire and function, restored through your body’s own signalling.</p>
-          <button type="button" class="px-open" aria-haspopup="dialog" aria-label="Sexual Health — read more">
+<button type="button" class="px-open" aria-haspopup="dialog" aria-label="Sexual Health — read more">
             <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 1v10M1 6h10"/></svg>
           </button>
           <template class="px-detail">
@@ -1964,6 +2125,91 @@ html.js-scene{--glass-fill:rgba(29,39,47,.45);--glass-hi:rgba(29,39,47,.58);
         </div>
       </div>
     </div>
+
+    <!-- ⚠️ OUTSIDE .wrap SO THE GROUND CAN GO EDGE TO EDGE while its contents stay
+         on the same 1280px rail as the grid above. Inside .wrap its negative margin
+         landed it one --pad past the text: aligned to nothing, which reads as a bug
+         rather than a decision. -->
+    <div class="px-tray" id="px-tray">
+      <div class="px-tray-in">
+        <span class="px-tray-n" id="px-tray-n"></span>
+        <span class="px-tray-l" id="px-tray-l"></span>
+        <button type="button" class="px-tray-go" id="px-tray-go">See your programme <span aria-hidden="true">→</span></button>
+      </div>
+    </div>
+
+    <!-- ══ THE PROGRAMME PANEL ═══════════════════════════════════════════════
+         Opened into the SAME .pxd shell the eight tiles use, so it inherits the
+         scrim, the Lenis stop, the body lock, Escape, the scrim-click and the
+         focus return — none of which is worth building a second time.
+         Three blocks doing three jobs: WHAT YOU GET · WHAT YOU CAN ADD · WHAT WILL
+         HAPPEN. His reframe, and it is the good part: "not included" and "what you
+         can add" carry the same facts and land in opposite directions.
+         ⚠️ NOT A CHECKOUT. One primary action, one toggle, nothing else clickable.
+         ⚠️ INCLUDED AND PRICED-AFTER COPY IS THE CLIENT'S, VERBATIM (2026-08-16).
+         ⚠️ AED 350 IS A PLACEHOLDER and says so on its own line.
+         ⚠️ VAT IS 5% AND IS ADDED, NOT ASSUMED INCLUSIVE — his instruction. If the
+         1,150 is meant to be VAT-inclusive this is one line, and it is the kind of
+         thing a customer disputes, so it needs confirming before real marketing. -->
+    <template id="prog-panel">
+      <p class="pxd-kicker">Your programme</p>
+      <h3>Here is what you're starting.</h3>
+      <p class="pg-recap" id="pg-recap">Peptide therapy.</p>
+
+      <div class="pg-blk">
+        <div class="pg-h"><span>Included</span><span class="pg-amt">AED 1,150</span></div>
+        <ul class="pg-list">
+          <li>Detailed symptom assessment</li>
+          <li>Analysis and interpretation of your blood test results</li>
+          <li>Issuance of Peptide Therapy Protocol and Prescription</li>
+          <li>Issuance of Science-based Supplementation Plan</li>
+          <li>Lifestyle Modifications Plan</li>
+          <li>4-week | 8-week mentorship support after starting your treatment</li>
+        </ul>
+      </div>
+
+      <div class="pg-blk">
+        <div class="pg-h"><span>Add now</span></div>
+        <button type="button" class="pg-addon" id="pg-addon" aria-pressed="false">
+          <span class="pg-box" aria-hidden="true">✓</span>
+          <span class="pg-t">Home blood sample collection · Dubai<span class="pg-tag">price tbc</span>
+            <small>A nurse comes to you and takes the sample for whichever tests are
+            required. Outside Dubai you use any laboratory near you and we send the
+            exact panel to ask for.</small></span>
+          <span class="pg-p">AED 350</span>
+        </button>
+      </div>
+
+      <div class="pg-blk pg-blk--soft">
+        <div class="pg-h"><span>Priced after your consultation</span></div>
+        <ul class="pg-list">
+          <li>Your peptides — two months
+            <small>Prescribed by your doctor once your blood work is read.</small></li>
+          <li>Supplementation products
+            <small>All products are charged separately. Pricing is shared with you before payment.</small></li>
+        </ul>
+      </div>
+
+      <div class="pg-blk">
+        <div class="pg-h"><span>What happens next</span></div>
+        <ol class="pg-steps">
+          <li><span class="pg-n">01</span><span>Your symptom assessment<small>A questionnaire you complete online.</small></span><span class="pg-d">15 min</span></li>
+          <li><span class="pg-n">02</span><span>Your blood work<small>At any laboratory, using the exact panel we send you — peptide work asks for markers a standard panel leaves out.</small></span><span class="pg-d">2–5 days</span></li>
+          <li><span class="pg-n">03</span><span>Your doctor reads your file<small>Then we tell you your calendar is open.</small></span><span class="pg-d">same or next day</span></li>
+          <li><span class="pg-n">04</span><span>Your consultation<small>Online, with the doctor you choose.</small></span><span class="pg-d">60 min</span></li>
+          <li><span class="pg-n">05</span><span>Support while you begin<small>Four weeks close, then four weeks of follow-up.</small></span><span class="pg-d">8 weeks</span></li>
+        </ol>
+      </div>
+
+      <div class="pg-sum">
+        <div class="pg-row"><span>Subtotal</span><span id="pg-sub">AED 1,150.00</span></div>
+        <div class="pg-row"><span>VAT 5%</span><span id="pg-vat">AED 57.50</span></div>
+        <div class="pg-row pg-row--total"><span>Total today</span><span id="pg-total">AED 1,207.50</span></div>
+      </div>
+      <div class="pxd-cta"><a class="btn" href="#book" data-pg-start>Start your programme <span class="arr">→</span></a></div>
+      <p class="pg-foot">Everything happens online — you never need to visit us. Your
+      peptides and supplements are quoted before anything is collected.</p>
+    </template>
   </section>
 
   <!-- ══════════ 05 · THE PROGRAMME — the P's, the two audiences, the seven steps ═══════
@@ -2919,6 +3165,25 @@ html.js-scene{--glass-fill:rgba(29,39,47,.45);--glass-hi:rgba(29,39,47,.58);
         if (document.fonts && document.fonts.ready) document.fonts.ready.then(sizeFaces);
       });
     });
+    /* ⚠️ EXPOSED, SO SECTION 04's TRAY OPENS THE PROGRAMME PANEL THROUGH THIS SAME
+       SHELL rather than building a second overlay beside it. Everything that makes
+       this one correct — the Lenis stop, the body lock, Escape, the scrim click and
+       the focus return to the opening control — is inherited by doing so, and none
+       of it is worth writing twice. */
+    window.__openPxd = function(tpl, label, from){
+      lastBtn = from || null;
+      bodyEl.innerHTML = "";
+      bodyEl.append(tpl.content.cloneNode(true));
+      pxd.setAttribute("aria-label", label || "Details");
+      pxd.hidden = false;
+      requestAnimationFrame(() => requestAnimationFrame(() => pxd.classList.add("on")));
+      body.classList.add("pxd-open");
+      if (window.__lenis) window.__lenis.stop();
+      panel.scrollTop = 0;
+      panel.focus();
+    };
+    window.__closePxd = pxdClose;
+
     /* ⚠️ THE PANEL HAS TWO VIEWS AND ONE SHELL: the detail the reader opened, and
        the doctor chooser its pill swaps in (his call — see the template). `lastTpl`
        remembers which detail was showing so Back can restore it without re-opening
@@ -3750,3 +4015,95 @@ try{
 
 </body>
 </html>
+
+<!-- ══════════ 04 · THE EIGHT BECOME A CHOICE ══════════════════════════════════
+     ⚠️ STATE ONLY. Every tile, every mark and every word of the panel is authored
+     in the HTML above; this writes aria-pressed, fills three strings and does one
+     sum. Nothing here builds a control — the page's own scene already learned that
+     lesson, and a section whose content comes from innerHTML is a blank section
+     wherever script does not run.
+     ⚠️ ONE DELEGATED LISTENER. The panel's contents are CLONED INTO the .pxd shell
+     on open, so nothing inside it exists at page load — a bound-per-node listener
+     would find nothing to bind to. This is the trap the mock-booking guard fell
+     into in round 4 and the chooser's portraits fell into in round 11. -->
+<script>
+(function(){
+  var tray = document.getElementById("px-tray");
+  var tiles = [].slice.call(document.querySelectorAll(".px-pick"));
+  if (!tray || !tiles.length) return;
+
+  /* ⚠️ VAT IS ADDED AT 5%, NOT ASSUMED INCLUSIVE — his instruction 2026-08-16.
+     If AED 1,150 is meant to be the VAT-INCLUSIVE figure this is one line, and it
+     is exactly the sort of thing a customer disputes after paying, so it wants
+     confirming before this is real marketing.
+     ⚠️ AED 350 IS A PLACEHOLDER and the panel says so on the line itself. */
+  var BASE = 1150, ADDON = 350, VAT = 0.05;
+  var picked = [], addon = false;
+
+  function money(n){
+    return "AED " + n.toLocaleString("en-US", {minimumFractionDigits:2, maximumFractionDigits:2});
+  }
+  /* ⚠️ THE ORDER IS THE GRID'S, NOT THE CLICK'S. Read back in tap order the same
+     three goals render three different ways; keyed off the DOM it is stable and it
+     matches what the reader is looking at. */
+  function inOrder(){
+    return tiles.map(function(b){ return b.dataset.goal; })
+                .filter(function(g){ return picked.indexOf(g) > -1; });
+  }
+  function phrase(a){
+    if (a.length === 1) return "<b>" + a[0] + "</b>";
+    return "<b>" + a.slice(0, -1).join("</b>, <b>") + "</b> and <b>" + a[a.length - 1] + "</b>";
+  }
+  /* the panel only exists once it has been cloned into the shell, so every read
+     here is guarded rather than assumed */
+  function syncPanel(){
+    var r = document.getElementById("pg-recap");
+    if (!r) return;
+    var names = inOrder();
+    r.innerHTML = names.length ? "Peptide therapy for " + phrase(names) + "." : "Peptide therapy.";
+    var sub = BASE + (addon ? ADDON : 0), vat = sub * VAT;
+    document.getElementById("pg-sub").textContent   = money(sub);
+    document.getElementById("pg-vat").textContent   = money(vat);
+    document.getElementById("pg-total").textContent = money(sub + vat);
+    var a = document.getElementById("pg-addon");
+    if (a) a.setAttribute("aria-pressed", addon);
+  }
+  function sync(){
+    tiles.forEach(function(b){
+      var on = picked.indexOf(b.dataset.goal) > -1;
+      b.setAttribute("aria-pressed", on);
+      b.closest(".px").setAttribute("data-picked", on);
+    });
+    var names = inOrder();
+    tray.classList.toggle("on", names.length > 0);
+    document.getElementById("px-tray-n").textContent = names.length + " chosen";
+    document.getElementById("px-tray-l").textContent = names.join(" · ");
+    syncPanel();
+  }
+
+  document.addEventListener("click", function(e){
+    var pick = e.target.closest(".px-pick");
+    if (pick){
+      var g = pick.dataset.goal, i = picked.indexOf(g);
+      if (i > -1) picked.splice(i, 1); else picked.push(g);
+      return sync();
+    }
+    if (e.target.closest("#pg-addon")){ addon = !addon; return syncPanel(); }
+    if (e.target.closest("#px-tray-go")){
+      var tpl = document.getElementById("prog-panel");
+      if (tpl && window.__openPxd){
+        window.__openPxd(tpl, "Your programme", document.getElementById("px-tray-go"));
+        syncPanel();
+      }
+      return;
+    }
+    /* ⚠️ CLOSE FIRST, THEN SCROLL. A fixed overlay cannot be scrolled out of — the
+       same rule the tiles' own pill follows. */
+    if (e.target.closest("[data-pg-start]")){
+      if (window.__closePxd) window.__closePxd();
+    }
+  });
+
+  sync();
+})();
+</script>

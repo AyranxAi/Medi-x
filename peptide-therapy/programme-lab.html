@@ -453,7 +453,12 @@ ul,ol{list-style:none}
    The recommendation, demonstrated: the rail is always reachable, from a
    quiet text link, as an overlay — never as a section of its own and never
    as a place you have to leave the flow to reach. */
-dialog.how{border:none;padding:0;max-width:min(92vw,620px);width:100%;
+/* ⚠️ margin:auto IS LOAD-BEARING AND THE RESET ATE IT. A <dialog> centres itself
+   in the top layer via its UA default margin:auto — and `*{margin:0}` at the top of
+   this stylesheet overrides it, so this modal opened pinned to the top-left corner.
+   It looked like a bug in the dialog's own CSS; it was the reset, hundreds of lines
+   above, doing exactly what it was told. Caught in the goals lab, fixed in both. */
+dialog.how{margin:auto;border:none;padding:0;max-width:min(92vw,620px);width:100%;
   background:var(--ivory);color:var(--ink);position:relative}
 dialog.how::backdrop{background:rgba(46,34,40,.52)}
 .how-in{padding:clamp(26px,4vw,40px)}

@@ -430,6 +430,17 @@ const run = async () => {
   is('42 How it works opens', await page.evaluate(() => document.querySelector('#how').open), true);
   is('43 the overlay carries the same six rows',
      await page.evaluate(() => document.querySelectorAll('#how .rail li').length), 6);
+
+  /* ⚠️ IS IT ACTUALLY CENTRED. A <dialog> centres via its UA margin:auto, which a
+     `*{margin:0}` reset silently overrides — the modal then opens pinned top-left
+     and every content assertion still passes. Measure the box, not the CSS. */
+  const box = await page.evaluate(() => {
+    const d = document.querySelector('#how').getBoundingClientRect();
+    return { l: Math.round(d.left), r: Math.round(innerWidth - d.right), w: Math.round(d.width) };
+  });
+  Math.abs(box.l - box.r) <= 2
+    ? ok('CENTRED the modal is centred', `${box.l}px each side`)
+    : bad('CENTRED the modal is centred', `left ${box.l}, right ${box.r}`);
   await page.click('#how-close');
   await page.waitForTimeout(200);
   is('44 it closes', await page.evaluate(() => document.querySelector('#how').open), false);

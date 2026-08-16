@@ -83,6 +83,10 @@ const run = async () => {
              names: [...document.querySelectorAll('.g-t')].map(e => e.textContent).join('|'),
              descriptors: document.querySelectorAll('.g-d').length,
              sx: document.querySelectorAll('.sx').length,
+             tray: !!document.querySelector('#tray'),
+             panelSteps: document.querySelectorAll('#panel .steps li').length,
+             panelIncl: document.querySelectorAll('#panel .blk:not(.blk--soft) ul li').length,
+             trayShown: getComputedStyle(document.querySelector('#tray')).display,
              wide: document.documentElement.scrollWidth };
   });
   is('0  the js class never lands', dead.js, false);
@@ -91,7 +95,10 @@ const run = async () => {
   is('0c the symptom set is in the HTML', dead.sx, 12);
   has('0d the client\'s spellings survive', dead.names, 'Anti Ageing');
   has('0e and the ampersand one', dead.names, 'Skin & Hair Loss');
-  is('0f no sideways scroll', dead.wide, 1440);
+  is('0f the panel\'s five steps are in the HTML', dead.panelSteps, 5);
+  is('0g the panel\'s included list is in the HTML', dead.panelIncl, 6);
+  is('0h the tray exists but stays down without script', dead.trayShown, 'none');
+  is('0i no sideways scroll', dead.wide, 1440);
   await nCtx.close();
 
   const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 });
@@ -345,7 +352,108 @@ const run = async () => {
     ? ok('19c and leaves no stray rule', blank.border)
     : bad('19c and leaves no stray rule', blank.border);
 
-  is('20 still no console errors after the whole walk', errors.length, 0);
+/* ═════════════ F · THE TRAY AND THE PANEL ═════════════
+     The tray is the answer made permanent: it must arrive on the FIRST pick, in
+     every view, and carry the names — that is what lets a compact presentation
+     work at all. The panel must open from both routes and must not become a
+     checkout: one primary action and one toggle, nothing else clickable. */
+  console.log('\n\x1b[1mF · the tray and the panel\x1b[0m');
+  await page.click('#reset');
+  await page.click('[data-view="marks"]');
+  await page.waitForTimeout(200);
+  is('21 the tray is down before anything is chosen',
+     await page.evaluate(() => document.querySelector('#tray').classList.contains('on')), false);
+  await page.click('[data-goal="Gut Health"]');
+  await page.waitForTimeout(600);
+  const tray1 = await page.evaluate(() => ({
+    on: document.querySelector('#tray').classList.contains('on'),
+    n: document.querySelector('#tray-n').textContent.trim(),
+    l: document.querySelector('#tray-l').textContent.trim(),
+    onScreen: document.querySelector('#tray').getBoundingClientRect().bottom <= innerHeight + 2
+  }));
+  is('21a it arrives on the first pick', tray1.on, true);
+  is('21b and counts', tray1.n, '1 chosen');
+  has('21c and names', tray1.l, 'Gut Health');
+  is('21d and is actually on screen', tray1.onScreen, true);
+
+  /* the tray is what makes the shelf survivable — assert it there specifically */
+  await page.click('[data-view="shelf"]');
+  await page.click('[data-goal="Sexual Health"]');
+  await page.waitForTimeout(400);
+  has('22 the shelf pick that scrolled away is still named in the tray',
+      await page.evaluate(() => document.querySelector('#tray-l').textContent), 'Sexual Health');
+
+  await page.click('[data-open-panel]');
+  await page.waitForTimeout(250);
+  is('23 the tray opens the panel',
+     await page.evaluate(() => document.querySelector('#panel').open), true);
+  /* ⚠️ IS IT ACTUALLY CENTRED. A <dialog> centres via its UA margin:auto, which a
+     `*{margin:0}` reset silently overrides — the modal then opens pinned top-left
+     and every content assertion still passes. Measure the box, not the CSS. */
+  const box = await page.evaluate(() => {
+    const d = document.querySelector('#panel').getBoundingClientRect();
+    return { l: Math.round(d.left), r: Math.round(innerWidth - d.right), w: Math.round(d.width) };
+  });
+  Math.abs(box.l - box.r) <= 2
+    ? ok('CENTRED the modal is centred', `${box.l}px each side`)
+    : bad('CENTRED the modal is centred', `left ${box.l}, right ${box.r}`);
+  has('23a the panel names the goals',
+      await page.evaluate(() => document.querySelector('#panel-recap').textContent), 'Gut Health');
+  is('23b the total starts at the programme price',
+     await page.evaluate(() => document.querySelector('#total').textContent.trim()), 'AED 1,150');
+  await page.click('#addon');
+  await page.waitForTimeout(200);
+  is('24 the add-on moves the total',
+     await page.evaluate(() => document.querySelector('#total').textContent.trim()), 'AED 1,500');
+  await page.click('#addon');
+  await page.waitForTimeout(200);
+  is('24a and moves it back',
+     await page.evaluate(() => document.querySelector('#total').textContent.trim()), 'AED 1,150');
+
+  /* ⚠️ NOT A CHECKOUT. Count the things a customer can press inside the panel:
+     close, the one add-on, and Start. Anything else is another chance to hesitate
+     at the last moment before payment, and this check is how that stays true. */
+  const controls = await page.evaluate(() =>
+    [...document.querySelectorAll('#panel button')].map(b => b.id || b.className.split(' ')[0]));
+  is('25 the panel carries exactly three controls', controls.length, 3);
+  has('25a close', controls.join('|'), 'panel-x');
+  has('25b the one add-on', controls.join('|'), 'addon');
+  has('25c and Start', controls.join('|'), 'btn');
+  await page.click('#panel-x');
+  await page.waitForTimeout(200);
+
+  is('26 it closes', await page.evaluate(() => document.querySelector('#panel').open), false);
+  await page.click('[data-view="grid"]');
+  await page.click('#cont');
+  await page.waitForTimeout(250);
+  is('26a Continue opens the same panel',
+     await page.evaluate(() => document.querySelector('#panel').open), true);
+  await page.click('#panel-x');
+
+  /* ═════════════ G · THE LEGIBILITY TEST ═════════════ */
+  console.log('\n\x1b[1mG · hide labels\x1b[0m');
+  await page.click('[data-view="marks"]');
+  await page.click('#blind');
+  await page.waitForTimeout(200);
+  const blindOn = await page.evaluate(() => ({
+    label: getComputedStyle(document.querySelector('[data-view="marks"] .g-t')).opacity,
+    mark: getComputedStyle(document.querySelector('.g-mark')).display
+  }));
+  is('27 labels go', blindOn.label, '0');
+  is('27a the marks stay', blindOn.mark, 'block');
+  await page.click('#blind');
+  await page.waitForTimeout(200);
+  is('27b and come back',
+     await page.evaluate(() => getComputedStyle(document.querySelector('[data-view="marks"] .g-t')).opacity), '1');
+
+  await page.click('#reset');
+  await page.waitForTimeout(250);
+  is('28 reset puts the tray away',
+     await page.evaluate(() => document.querySelector('#tray').classList.contains('on')), false);
+  is('28a and clears the add-on',
+     await page.evaluate(() => document.querySelector('#total').textContent.trim()), 'AED 1,150');
+
+  is('29 still no console errors after the whole walk', errors.length, 0);
 
   await browser.close();
   console.log(`\n\x1b[1m${pass} passed, ${fail} failed\x1b[0m${SHOTS ? `  ·  shots in ${OUT}` : ''}\n`);

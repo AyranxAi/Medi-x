@@ -1,5 +1,71 @@
 # Peptide Therapy — `/peptide-therapy/` (first ship 2026-08-14)
 
+> ## ROUND 13 — 2026-08-16: chapter 05 becomes ONE INTERACTIVE SECTION — a gate, a symptom
+> list, then seven steps on ← →. STILL A PROTOTYPE; `index.html` HAS NOT MOVED.
+>
+> **1 · `peptide-therapy/journey-lab.html` IS HIS SPEC, BUILT.** A gate ("Ready to begin?" ·
+> two paths) → the chosen symptom list inline → **Continue** → the seven steps one at a time,
+> driven by arrows, keyboard ← →, or the rail. The eight services are selectable inside step 1
+> and the choice is **carried to the closing CTA** ("Book Gut Health →") — his call off the
+> four questions. `?view=step5` opens any view solo, the same convention as the scene's
+> `?scene=`; an unknown value falls back to the gate rather than a blank stage.
+>
+> **2 · ⚠️ PROGRESSIVE ENHANCEMENT, AND THIS IS THE LOAD-BEARING DECISION.** The section's
+> markup is the WHOLE chapter as a plain document — both symptom lists, all seven steps, in
+> order. The wizard exists only under `html.js`. **The first cut had this exactly backwards**:
+> `.wiz-only{display:none}` sat on every `[data-view]`, so a reader without JavaScript got an
+> empty stage — 0 of 10 views. It is written `html:not(.js) .wiz-only{display:none}` now, and
+> only the CONTROLS carry that class, because arrows and a rail do nothing without a script.
+> ⚠️ **NEVER RE-WRITE IT AS `.js .wiz-only{display:block}`** — that rule is (0,2,0), it
+> outranks `.picks{display:grid}` and `.ctrl{display:flex}` at (0,1,0), and it silently
+> flattened the two path cards out of their grid. Both bugs are asserted against now.
+>
+> **3 · THE RAIL IS THE PAGE'S OWN FIGURE.** Seven residues on one backbone, the bond filling
+> in behind you — the chain scene in miniature, which is the chapter's own vocabulary rather
+> than a generic progress bar. It sits ABOVE the step, not under the arrows: a reader wants to
+> know where they are before they read.
+>
+> **4 · ONE JOURNEY FOR BOTH PATHS — his call, verbatim:** *"technically either choosing men
+> or women doesn't really matter as it leads to the same thing and journey"*. The gate picks
+> the symptom list and nothing else. ⚠️ **THE CONSEQUENCE IS FLAGGED IN THE LAB AND NOT
+> SILENTLY ACCEPTED**: step 3's hormone panel is Total Testosterone / SHBG / Free Testosterone,
+> so a woman who has just told the page she is here about cycles or fertility is shown a
+> testosterone-only panel. **That is what their source document contains and NO oestradiol,
+> progesterone, LH/FSH or AMH marker was invented to fill it.**
+>
+> **5 · ⚠️ PCOS → PMOS IS APPLIED, THE EXPANSION IS NOT.** His call this round. He chose
+> "PMOS + expansion" and the words never arrived, so **both** occurrences ship as the bare
+> acronym wearing `.pending` (a dashed red underline and a title attribute), and the harness
+> asserts two are marked and no "PCOS" survives. **Do not invent the expansion** — it is a
+> clinical term on a regulated page.
+>
+> **6 · TWO MORE THINGS ARE PENDING HIM, BOTH FLAGGED ON THE LAB'S OWN FACE.**
+>   · **The questionnaire screenshot could not be taken.** `medi-gyn.com` is blocked by this
+>     environment's egress proxy (403 on CONNECT — the same wall round 3 hit fetching the
+>     doctor portraits; `curl` and WebFetch both refused). Step 2 carries a built browser frame
+>     at 16:10 with the live link beneath it; **drop the image in and replace `.shot-body` with
+>     an `<img>`, nothing else moves.**
+>   · **"DEMO ZOOM" in step 6** — his paste reads *"Protocol Explanation - DEMO ZOOM | In
+>     Person"*. DEMO is read as a note in his own document and is NOT printed. One word if wrong.
+>
+> **7 · ROUND 11'S COPY CORRECTIONS ARE KEPT, NOT RE-REVERTED.** His fresh paste restores the
+> source's original typos ("making it a natural as possible for our body", "Endometrioses",
+> "Disminished", the two "Those who has"). The agreed corrections stand and the sites say so.
+>
+> **8 · 06 IS GONE AS A SECTION AND ITS EXCLUSIONS ARE THE CODA.** *Priced separately*, on
+> ivory — which is what keeps the page's strict dawn/ivory alternation intact when a section is
+> removed (structure-lab's closing plate has the three strips that prove it). The nine verbs
+> are NOT in this build; adding them as step marks is plate A and a small addition.
+>
+> **9 · `tools/qa/journey-lab.mjs`, 41/41** at three widths, plus `?view=` solo, plus
+> **JavaScript disabled**, plus reduced motion. It walks the whole interaction rather than
+> measuring the layout. Two bugs it caught that no static check would:
+>   · **the inverted enhancement above** (0/10 views without JS), and
+>   · **a CSS animation does not restart on an element that already carries the class** — every
+>     step after the first arrived unanimated until `.anim` was removed and re-added on the next
+>     frame. Asserted by walking all seven and demanding each one claims it (6/6).
+> ⚠️ The suite also asserts no label overruns its box — the bug that bit `structure-lab` twice.
+
 > ## ROUND 12 — 2026-08-16: chapter 05's restructure gets its lab — five shapes, drawn to
 > scale. NOTHING ON `index.html` MOVED THIS ROUND.
 >

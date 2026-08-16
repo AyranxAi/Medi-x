@@ -106,7 +106,7 @@ const run = async () => {
     teasers: document.querySelectorAll('.px > p').length,
     nums: document.querySelectorAll('.px-num').length,
     kickers: [...document.querySelectorAll('.px-detail')]
-      .filter(t => /^\d\d ·/.test(t.content.querySelector('.pxd-kicker').textContent.trim())).length,
+      .filter(t => t.content.querySelector('.pxd-kicker')).length,
     names: [...document.querySelectorAll('.px h3')].map(h => h.textContent.trim()).join('|'),
     /* eight <svg>s all drawing the same figure would pass every count ever written */
     uniqueMarks: new Set([...document.querySelectorAll('.px-mark')]
@@ -120,7 +120,21 @@ const run = async () => {
   /* ⚠️ THE NUMERALS ARE GONE ON PURPOSE — on a multi-select they implied a sequence
      that does not exist. They survive in the popup kicker, which is a reference. */
   is('1e no numerals on the tiles', grid.nums, 0);
-  is('1f but the popup kicker keeps its number', grid.kickers, 8);
+  /* ⚠️ THE POPUP KICKER WENT TOO — his call. "01 · Peptide Therapy" told a reader
+     of this page nothing they did not already know, and the numerals had just left
+     the tiles for implying a sequence that does not exist. */
+  is('1f and none left in the popups either', grid.kickers, 0);
+
+  /* the + moved to the top right corner — it is a secondary door on a tile that is
+     now primarily a choice, and corners are where secondary controls belong */
+  const plusPos = await page.evaluate(() => {
+    const t = document.querySelector('.px').getBoundingClientRect();
+    const b = document.querySelector('.px-open').getBoundingClientRect();
+    return { fromTop: Math.round(b.top - t.top), fromRight: Math.round(t.right - b.right) };
+  });
+  plusPos.fromTop < 30 && plusPos.fromRight < 30
+    ? ok('1g the + sits in the top right corner', `${plusPos.fromTop}px / ${plusPos.fromRight}px`)
+    : bad('1g the + sits in the top right corner', JSON.stringify(plusPos));
   is('1d the + survived on all eight', grid.opens, 8);
   is('2  the teaser line is gone from the tiles', grid.teasers, 0);
   has('2  the heading asks rather than announces',
@@ -194,9 +208,9 @@ const run = async () => {
      await page.evaluate(() => !document.querySelector('#pxd').hidden), true);
   const p1 = await page.evaluate(() => ({
     recap: document.querySelector('#pg-recap').textContent.trim(),
+    sub: document.querySelector('#pg-sub').textContent.trim(),
+    vat: document.querySelector('#pg-vat').textContent.trim(),
     total: document.querySelector('#pg-total').textContent.trim(),
-    vatline: (document.querySelector('.pg-vatline')||{}).textContent,
-    vatRows: document.querySelectorAll('.pg-row').length,
     steps: document.querySelectorAll('.pg-steps li').length,
     incl: document.querySelectorAll('.pg-blk:not(.pg-blk--soft) .pg-list li').length
   }));
@@ -204,9 +218,13 @@ const run = async () => {
   has('8b and the second', p1.recap, 'Gut Health');
   /* ⚠️ VAT IS STATED, NOT COMPUTED — his call. One row, not three: a summary that
      shows tax working is a receipt, and this panel is not a checkout. */
-  is('9  one price, no arithmetic', p1.total, 'AED 1,150');
-  is('9a and exactly one money row', p1.vatRows, 1);
-  has('9b with VAT named as a fact', p1.vatline, 'added at checkout');
+  /* ⚠️ HIS INSTRUCTION REVERSED THE SAME DAY and the second one stands: "the +5%
+     should be there with the total price". The tax is IN the total, not promised at
+     a checkout the customer has not reached — a number that grows after you decide
+     is the most disputed thing in any purchase. */
+  is('9  programme line', p1.sub, 'AED 1,150.00');
+  is('9a VAT at 5%', p1.vat, 'AED 57.50');
+  is('9b the total carries it', p1.total, 'AED 1,207.50');
   is('10 five steps', p1.steps, 5);
   is('10a six included lines', p1.incl, 6);
   const copy = await page.evaluate(() => document.querySelector('.pxd-body').textContent);
@@ -234,17 +252,33 @@ const run = async () => {
   const p2 = await page.evaluate(() => ({
     total: document.querySelector('#pg-total').textContent.trim()
   }));
-  is('12 the add-on moves the total', p2.total, 'AED 3,100');
+  is('12 the add-on moves the total', p2.total, 'AED 3,255.00');
   await page.click('#pg-addon');
   await page.waitForTimeout(300);
   is('12c and back again',
-     await page.evaluate(() => document.querySelector('#pg-total').textContent.trim()), 'AED 1,150');
+     await page.evaluate(() => document.querySelector('#pg-total').textContent.trim()), 'AED 1,207.50');
 
   /* ⚠️ NOT A CHECKOUT: close, the one add-on, Start. Every extra control in there
      is another chance to hesitate at the last moment before payment. */
   const controls = await page.evaluate(() =>
     document.querySelectorAll('.pxd-panel button, .pxd-panel a').length);
   is('13 the panel carries three controls', controls, 3);
+
+  /* ⚠️ HIS "the cards are not swipeable". A fixed overlay's inner scroller chains
+     its drag to the locked body unless told not to; assert the panel is a real
+     scroller AND that it carries the three properties that make a thumb work. */
+  const scroller = await page.evaluate(() => {
+    const p = document.querySelector('.pxd-panel'), cs = getComputedStyle(p);
+    p.scrollTop = 400;
+    return { overflows: p.scrollHeight > p.clientHeight + 8, moved: p.scrollTop > 0,
+             chain: cs.overscrollBehaviorY, touch: cs.touchAction,
+             lenis: p.hasAttribute('data-lenis-prevent') };
+  });
+  is('13a the panel is a real scroller', scroller.overflows, true);
+  is('13b and it moves', scroller.moved, true);
+  is('13c the drag stays inside it', scroller.chain, 'contain');
+  is('13d the browser owns the axis', scroller.touch, 'pan-y');
+  is('13e and Lenis is kept off it', scroller.lenis, true);
   if (SHOTS) await page.screenshot({ path: path.join(OUT, 'sv-panel.png') });
 
   await page.click('[data-pg-start]');

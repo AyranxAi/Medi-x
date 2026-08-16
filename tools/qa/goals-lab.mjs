@@ -391,10 +391,13 @@ const run = async () => {
     off: document.querySelector('#tray-go').disabled,
     label: document.querySelector('#tray-go-t').textContent.trim()
   }));
-  is('21 the tray is up from the start', rest.up, '1');
-  has('21e and carries the promise at rest', rest.l, 'ninety seconds');
+  /* ⚠️ NOTHING CHOSEN, NOTHING SHOWN — his call. The resting bar carried "four
+     questions · about ninety seconds", a promise borrowed from the four-question
+     flow in the other lab and simply untrue on a one-question screen; and a bar
+     that is up before there is an answer only repeats the lede above it. */
+  is('21 the tray is down at rest', rest.up, '0');
+  is('21e and says nothing', rest.l, '');
   is('21f with its action closed', rest.off, true);
-  is('21g labelled for the next step', rest.label, 'Next');
   await page.click('[data-goal="Gut Health"]');
   await page.waitForTimeout(600);
   const tray1 = await page.evaluate(() => ({
@@ -434,16 +437,16 @@ const run = async () => {
     : bad('CENTRED the modal is centred', `left ${box.l}, right ${box.r}`);
   has('23a the panel names the goals',
       await page.evaluate(() => document.querySelector('#panel-recap').textContent), 'Gut Health');
-  is('23b the total starts at the programme price',
-     await page.evaluate(() => document.querySelector('#total').textContent.trim()), 'AED 1,150');
+  is('23b the total carries VAT at 5%',
+     await page.evaluate(() => document.querySelector('#total').textContent.trim()), 'AED 1,207.50');
   await page.click('#addon');
   await page.waitForTimeout(200);
   is('24 the add-on moves the total',
-     await page.evaluate(() => document.querySelector('#total').textContent.trim()), 'AED 3,100');
+     await page.evaluate(() => document.querySelector('#total').textContent.trim()), 'AED 3,255.00');
   await page.click('#addon');
   await page.waitForTimeout(200);
   is('24a and moves it back',
-     await page.evaluate(() => document.querySelector('#total').textContent.trim()), 'AED 1,150');
+     await page.evaluate(() => document.querySelector('#total').textContent.trim()), 'AED 1,207.50');
 
   /* ⚠️ NOT A CHECKOUT. Count the things a customer can press inside the panel:
      close, the one add-on, and Start. Anything else is another chance to hesitate
@@ -479,10 +482,10 @@ const run = async () => {
   await page.waitForTimeout(250);
   is('28 reset returns the tray to its resting state',
      await page.evaluate(() => document.querySelector('#tray-go').disabled), true);
-  has('28b and the promise comes back',
-      await page.evaluate(() => document.querySelector('#tray-l').textContent), 'ninety seconds');
+  is('28b and the tray goes down with it',
+     await page.evaluate(() => document.querySelector('#tray').classList.contains('has')), false);
   is('28a and clears the add-on',
-     await page.evaluate(() => document.querySelector('#total').textContent.trim()), 'AED 1,150');
+     await page.evaluate(() => document.querySelector('#total').textContent.trim()), 'AED 1,207.50');
 
   is('29 still no console errors after the whole walk', errors.length, 0);
 

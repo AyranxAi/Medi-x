@@ -1,5 +1,88 @@
 # Peptide Therapy — `/peptide-therapy/` (first ship 2026-08-14)
 
+> ## ROUND 13 — 2026-08-16 (later): the tile finishes becoming a control
+>
+> **1 · THE + MOVED TO THE TOP RIGHT.** It sat bottom-right because it used to BE the
+> whole tile's affordance and read as a "more" control at the foot of the copy. The
+> tile is a choice now and the + is a secondary door on it — corners are where
+> secondary controls live, and the top right is the one a thumb reaches for last,
+> which is right for the control that must not be hit by accident. The tick moved to
+> the bottom-right corner it vacated.
+>
+> **2 · THE POPUP'S PILL BUILDS THE PROGRAMME INSTEAD OF SENDING PEOPLE TO A DOCTOR.**
+> "Book a consultation" → **"Add to your programme"**, which adds that goal, closes the
+> panel and raises the tray. ⚠️ **THE POPUP CANNOT SAY WHICH GOAL IT IS** — its markup
+> is cloned from a `<template>` carrying no identity — so the tile is remembered at the
+> moment its + is pressed (`openGoal`) and the pill reads that back.
+> ⚠️⚠️ **A CONSEQUENCE WORTH KNOWING: THE DOCTOR CHOOSER IS NOW UNREACHABLE FROM THE
+> PAGE.** Nothing opens `#pxd-choose` any more. **The template is kept on purpose** —
+> doctor choice moved to the moment the consultation is booked (his call), and that is
+> exactly the UI for it. `peptide-page.mjs` used to reach the chooser by clicking
+> `[data-choose]` and died on null; it now asserts the band-order invariant against
+> the TEMPLATE, because a test that walks a path the product has removed is testing
+> the test.
+>
+> **3 · THE POPUP KICKER WENT** — "01 · Peptide Therapy" told a reader of this page
+> nothing they did not already know, and the numerals had just left the tiles for
+> implying a sequence that does not exist. **The marks went 46 → 58px.**
+>
+> **4 · ⚠️ VAT CAME BACK, AND HIS INSTRUCTION REVERSED WITHIN THE SAME DAY.** First:
+> *"show 1,150 only, VAT line at checkout."* Then: *"the +5% should be there with the
+> total price."* **THE SECOND STANDS**, and the reasoning behind the reversal is sound —
+> a number that grows after you have decided is the most disputed thing in any
+> purchase, and this panel exists to make the next click feel safe. Three rows now:
+> programme, VAT 5%, total. **1,150.00 → 57.50 → 1,207.50**, or with the collection
+> **3,100.00 → 155.00 → 3,255.00**.
+> ⚠️ **ALWAYS TWO DECIMALS IN THAT BLOCK, EVEN ON WHOLE FIGURES.** Letting round
+> numbers drop their fils put "AED 1,207.50" and "AED 3,255" in the same column, which
+> reads as a formatting fault rather than a total.
+> ⚠️ **WHETHER AED 1,150 IS THE VAT-EXCLUSIVE BASE IS STILL NOT ON THE RECORD.** The
+> page currently treats it as the base and adds on top.
+>
+> **5 · ⚠️ THE ONE THING ASKED FOR THAT IS NOT BUILT: PAYMENT.** His *"when they click
+> start programme that should link to the payment already, either with Apple Pay or
+> something, reducing friction"* is right and it is the correct next move — but it needs
+> a payment provider on a merchant account (Stripe, Tabby, Network International, Apple
+> Pay through any of them), which is his to open and not something to fake. Start
+> follows the page's existing convention and lands on `#book`. **The moment a provider
+> exists, that `href` is the only line that changes.**
+>
+> **6 · "THE CARDS ARE NOT SWIPEABLE" — the overlay's inner scroller needed telling.**
+> `overflow:auto` alone lets a phone chain the drag to the locked body, which reads as
+> a panel that will not move. Three properties fix it and all three are asserted:
+> `overscroll-behavior:contain` keeps the gesture inside the panel, `touch-action:pan-y`
+> hands the browser the axis outright, and `data-lenis-prevent` keeps Lenis off it even
+> though this page is `smoothWheel`-only today. ⚠️ **VERIFIED IN CHROMIUM, NOT ON A
+> REAL iOS DEVICE** — these are the standard fixes and the mechanism is measured, but
+> nobody has put a thumb on an iPhone.
+>
+> **7 · THE TRAY IS DOWN AT REST IN BOTH THE PAGE AND THE LAB.** The lab's resting bar
+> carried "four questions · about ninety seconds", a promise borrowed from the
+> four-question flow in `programme-lab.html` and simply untrue on a one-question
+> screen — and a bar that is up before there is an answer only repeats the lede above
+> it. Nothing chosen, nothing there.
+>
+> **8 · TWO MARKS WERE REPLACED after the hide-labels test, and both were his calls.**
+> **Musculoskeletal Injury** was a straight shaft interrupted by a circle and read as a
+> pin or a valve; it is a **bent limb with its joint** now, because the BEND is the
+> whole thing that says joint. **Sexual Health** was two interlocking rings and read as
+> "pairing"; it is a **flame** now, against the card's own copy — *"desire and function,
+> restored"*. ⚠️ **THE FLAME IS THE ONE MARK THAT LEAVES THE BEAD-AND-BOND VOCABULARY**,
+> which the lit core at its centre is there to tie back. If a later round wants the set
+> pure, that is the one to revisit.
+>
+> **9 · QA — 219 checks across four harnesses, all green.**
+> `peptide-page.mjs` **46** · `services-choice.mjs` **64** · `goals-lab.mjs` **109** ·
+> `programme-lab.mjs` **96**. New assertions worth keeping: the + is measured to be in
+> the corner rather than trusted to be; the popup is proved to be a real scroller that
+> actually moves and carries all three touch properties; and "add to your programme" is
+> walked end to end — it adds the goal, closes the panel and raises the tray.
+>
+> **10 · ⚠️ STILL HIS, AND UNCHANGED FROM ROUND 12:** whether 1,150 includes VAT ·
+> chapter 05's seven steps now duplicating the panel's five on one page · the
+> "For women" / "For men" split he asked to leave for later · and payment.
+
+
 > ## ROUND 12 — 2026-08-16: the eight stop being a list. Section 04 becomes the
 > choice, and the page grows a programme panel
 >

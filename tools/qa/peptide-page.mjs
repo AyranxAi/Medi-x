@@ -316,33 +316,52 @@ async function checkDialogs() {
     if (closed) ok(`${name} — Esc closes`); else bad(`${name} — Esc did not close`);
   }
 
-  /* the chooser must mirror the doctors band, in the band's order */
+  /* ⚠️ THE CHOOSER IS NO LONGER REACHABLE FROM THE PAGE, AND THAT IS DELIBERATE.
+     Round 12 moved doctor selection to the moment the consultation is booked (his
+     call), so the eight tiles' pill became "Add to your programme" and nothing on
+     the page opens #pxd-choose any more. THE TEMPLATE IS KEPT ON PURPOSE — it is
+     exactly the right UI for that later moment and re-deleting it would only mean
+     rebuilding it — so the invariant it exists for is asserted against the TEMPLATE
+     instead of against a route that no longer runs. The old version of this check
+     clicked [data-choose] and died on null, which is the honest failure: a test
+     that walks a path the product has removed is testing the test. */
   const cards = await page.evaluate(() => [...document.querySelectorAll('.doc > h3')].map(h => h.textContent.trim()));
+  const chooser = await page.evaluate(() => {
+    const t = document.getElementById('pxd-choose');
+    if (!t) return null;
+    return { rows: [...t.content.querySelectorAll('.pxd-doc b')].map(b => b.textContent.trim()),
+             mono: [...t.content.querySelectorAll('.pxd-doc-face')]
+               .map(f => f.classList.contains('no-photo') ? f.dataset.mono : 'photo') };
+  });
+  if (!chooser) bad('the doctor chooser template has gone missing');
+  else if (JSON.stringify(chooser.rows) === JSON.stringify(cards))
+    ok(`chooser template mirrors the band, in order — ${cards.length} doctors`);
+  else bad(`chooser and band disagree:\n      band    ${JSON.stringify(cards)}\n      chooser ${JSON.stringify(chooser.rows)}`);
+  if (chooser) note(`portraits: ${chooser.mono.join(' · ')} (template, unrouted)`);
+
+  /* the eight tiles' pill now BUILDS THE PROGRAMME instead of sending people to a
+     doctor — assert the swap, and that pressing it actually adds the goal */
   await page.evaluate(() => document.querySelector('.px .px-open').click());
   await page.waitForTimeout(600);
-  await page.evaluate(() => document.querySelector('#pxd [data-choose]').click());
-  await page.waitForTimeout(700);
-  const chooser = await page.evaluate(() => ({
-    rows: [...document.querySelectorAll('#pxd .pxd-doc b')].map(b => b.textContent.trim()),
-    mono: [...document.querySelectorAll('#pxd .pxd-doc-face')].map(f => f.classList.contains('no-photo') ? f.dataset.mono : 'photo'),
-    faces: [...document.querySelectorAll('#pxd .pxd-doc-face')].map(f => Math.round(f.getBoundingClientRect().width)),
-  }));
-  if (JSON.stringify(chooser.rows) === JSON.stringify(cards))
-    ok(`chooser mirrors the band, in order — ${cards.length} doctors`);
-  else bad(`chooser and band disagree:\n      band    ${JSON.stringify(cards)}\n      chooser ${JSON.stringify(chooser.rows)}`);
-  if (new Set(chooser.faces).size === 1)
-    ok(`all ${chooser.faces.length} chooser squares are one size (${chooser.faces[0]}px) — monograms cost no layout`);
-  else bad(`chooser squares disagree in size: ${JSON.stringify(chooser.faces)}`);
-  note(`portraits: ${chooser.mono.join(' · ')}`);
-
-  /* Select is mock on every row, including the ones cloned out of the template */
-  const inert = await page.evaluate(() => {
-    const before = location.href;
-    document.querySelector('#pxd .pxd-doc .btn').click();
-    return { moved: location.href !== before, stillOpen: !document.getElementById('pxd').hidden };
+  const pill = await page.evaluate(() => {
+    const b = document.querySelector('#pxd [data-add-goal]');
+    return { text: b ? b.textContent.trim() : null,
+             stale: !!document.querySelector('#pxd [data-choose]') };
   });
-  if (!inert.moved && inert.stillOpen) ok('Select is inert and leaves the dialog open (delegated mock-booking guard)');
-  else bad(`Select escaped its guard: ${JSON.stringify(inert)}`);
+  if (pill.text && /add to your programme/i.test(pill.text)) ok(`the tile pill reads "${pill.text}"`);
+  else bad(`the tile pill reads ${JSON.stringify(pill.text)}`);
+  if (!pill.stale) ok('and no tile still routes to the chooser');
+  else bad('a tile pill still carries data-choose');
+  const added = await page.evaluate(() => {
+    document.querySelector('#pxd [data-add-goal]').click();
+    return { picked: document.querySelectorAll('.px[data-picked="true"]').length,
+             closed: !document.getElementById('pxd').classList.contains('on'),
+             tray: document.getElementById('px-tray').classList.contains('on') };
+  });
+  await page.waitForTimeout(600);
+  if (added.picked === 1 && added.closed && added.tray)
+    ok('pressing it adds the goal, closes the panel and raises the tray');
+  else bad(`add-to-programme misbehaved: ${JSON.stringify(added)}`);
 
   await page.keyboard.press('Escape'); await page.waitForTimeout(500);
   if (errs.length) bad(`console/page errors: ${JSON.stringify([...new Set(errs)].slice(0, 4))}`);

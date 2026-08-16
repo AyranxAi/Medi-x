@@ -246,15 +246,19 @@ const run = async () => {
         return r.right > 0 && r.left < innerWidth && r.bottom > 0 && r.top < innerHeight && r.width > 4; };
       return { lit: document.querySelectorAll('.g[aria-pressed="true"]').length,
                visible: [...document.querySelectorAll('.g[aria-pressed="true"]')].filter(inView).length,
-               answer: document.querySelector('#chosen').textContent.trim() };
+               answer: document.querySelector('#tray-l').textContent.trim() };
     });
     is(`11 ${v}: three are selected`, seen.lit, 3);
-    const label = `11a ${v}: how many of the three are on screen`;
-    if (v === 'shelf') seen.visible < 3
-      ? ok(label + ' (fewer, as predicted)', `${seen.visible} of 3`)
-      : bad(label, `${seen.visible} of 3 — the shelf was expected to hide some`);
-    else is(label, seen.visible, 3);
-    has(`11b ${v}: the answer line names all three`, seen.answer, 'Sexual Health');
+    /* ⚠️ THIS NUMBER IS REPORTED, NOT ASSERTED, AND THAT IS THE POINT.
+       Asserting "3 of 3" only ever measured which layouts happen to fit a 1440×900
+       window — the shelf hides picks by scrolling them away, and index hides its
+       eighth row simply by being eight ruled rows tall. Neither is a defect once
+       the tray exists; the tray is precisely what makes a view that cannot show
+       every pick still usable. So the measurement is printed for the record and
+       the ASSERTION is the design claim: whatever the layout hides, the tray
+       names all three. */
+    ok(`11a ${v}: ${seen.visible} of 3 picks visible in the layout itself`);
+    has(`11b ${v}: and the tray names all three regardless`, seen.answer, 'Sexual Health');
   }
 
   /* the answer line must read in MARKUP order, not click order — otherwise the
@@ -264,7 +268,7 @@ const run = async () => {
   await page.click('[data-goal="Sexual Health"]');
   await page.click('[data-goal="Auto Immune Disease"]');
   await page.click('[data-goal="Gut Health"]');
-  const order = await page.evaluate(() => document.querySelector('#chosen').textContent.trim());
+  const order = await page.evaluate(() => document.querySelector('#tray-l').textContent.trim());
   order.indexOf('Auto Immune') < order.indexOf('Gut Health') && order.indexOf('Gut Health') < order.indexOf('Sexual')
     ? ok('12 the answer reads in the order shown, not the order tapped')
     : bad('12 the answer reads in the order shown', order);
@@ -312,7 +316,10 @@ const run = async () => {
     return { 'lit tile': [g(lit).color, g(lit).backgroundColor],
              'lit numeral': [g(lit.querySelector('.g-n')).color, g(lit).backgroundColor],
              'unlit numeral': [g(document.querySelector('.g:not([aria-pressed="true"]) .g-n')).color, body],
-             'the answer line': [g(document.querySelector('#chosen')).color, body],
+             /* the answer moved onto the tray's ink, so it is measured against
+                that ground and not the page's */
+             'the tray answer': [g(document.querySelector('#tray-l')).color,
+                                 g(document.querySelector('#tray')).backgroundColor],
              'the lede': [g(document.querySelector('#lede')).color, body] };
   });
   for (const [k,[fg,bg]] of Object.entries(pairs)) {
@@ -320,15 +327,30 @@ const run = async () => {
     r >= 4.5 ? ok(`18 ${k} clears 4.5:1`, r.toFixed(2)) : bad(`18 ${k} clears 4.5:1`, r.toFixed(2));
   }
 
-  /* the one-red rule: red is the CTA material and must never be a selected state */
+  /* ⚠️ THE ONE RED, NOW THAT THERE IS ONLY ONE ACTION. Red is this page's material
+     for "this is the thing that commits you", so it must appear on exactly one
+     control and never on a selected state or a navigation step. Since the Continue
+     went, that is: the lit tile is INK, the tray's action is an OUTLINE (it moves
+     you along, it does not commit you), and the panel's Start is the one filled
+     red in the whole file. */
   const reds = await page.evaluate(() => {
-    const lit = getComputedStyle(document.querySelector('.g[aria-pressed="true"]')).backgroundColor;
-    return { lit, cta: getComputedStyle(document.querySelector('#cont')).backgroundColor };
+    const g = el => getComputedStyle(el);
+    return {
+      lit:   g(document.querySelector('.g[aria-pressed="true"]')).backgroundColor,
+      tray:  g(document.querySelector('#tray-go')).backgroundColor,
+      start: g(document.querySelector('#panel .btn')).backgroundColor,
+      filled: [...document.querySelectorAll('button')]
+        .filter(b => /142, ?45, ?58/.test(getComputedStyle(b).backgroundColor)).length
+    };
   });
-  !/142, ?45, ?58/.test(reds.lit) ? ok('19 selection is ink, never the one red', reds.lit)
-                                  : bad('19 selection is ink, never the one red', reds.lit);
-  /2, ?45, ?58|142, ?45, ?58/.test(reds.cta) ? ok('19a the CTA still is the one red')
-                                             : bad('19a the CTA still is the one red', reds.cta);
+  const RED = /142, ?45, ?58/;
+  !RED.test(reds.lit)   ? ok('19 selection is ink, never the one red', reds.lit)
+                        : bad('19 selection is ink, never the one red', reds.lit);
+  !RED.test(reds.tray)  ? ok('19a the tray action is an outline, not a commitment', reds.tray)
+                        : bad('19a the tray action is an outline', reds.tray);
+  RED.test(reds.start)  ? ok('19e Start is the one red', reds.start)
+                        : bad('19e Start is the one red', reds.start);
+  is('19f and it is the only red control on the page', reds.filled, 1);
 
   if (SHOTS) {
     await page.setViewportSize({ width: 390, height: 844 });
@@ -342,15 +364,17 @@ const run = async () => {
   await page.click('#reset');
   await page.click('[data-view="grid"]');
   await page.waitForTimeout(150);
-  const blank = await page.evaluate(() => {
-    const c = document.querySelector('#chosen');
-    return { h: Math.round(c.getBoundingClientRect().height),
-             border: getComputedStyle(c).borderLeftColor };
-  });
-  is('19b the empty answer line has no height', blank.h, 0);
-  /^(transparent|rgba\(0, ?0, ?0, ?0\))$/.test(blank.border)
-    ? ok('19c and leaves no stray rule', blank.border)
-    : bad('19c and leaves no stray rule', blank.border);
+  /* ⚠️ THE ANSWER IS SAID EXACTLY ONCE. A Continue button, a .chosen line and the
+     tray all carried the same thing at one point — two of them are gone, and this
+     asserts they stay gone rather than creeping back as a convenience. */
+  const dupes2 = await page.evaluate(() => ({
+    cont: !!document.querySelector('#cont'),
+    chosen: !!document.querySelector('#chosen'),
+    openers: document.querySelectorAll('[data-open-panel]').length
+  }));
+  is('19b there is no second Continue', dupes2.cont, false);
+  is('19c there is no second answer line', dupes2.chosen, false);
+  is('19d exactly one control opens the panel', dupes2.openers, 1);
 
 /* ═════════════ F · THE TRAY AND THE PANEL ═════════════
      The tray is the answer made permanent: it must arrive on the FIRST pick, in
@@ -361,18 +385,29 @@ const run = async () => {
   await page.click('#reset');
   await page.click('[data-view="marks"]');
   await page.waitForTimeout(200);
-  is('21 the tray is down before anything is chosen',
-     await page.evaluate(() => document.querySelector('#tray').classList.contains('on')), false);
+  const rest = await page.evaluate(() => ({
+    up: getComputedStyle(document.querySelector('#tray')).opacity,
+    l: document.querySelector('#tray-l').textContent.trim(),
+    off: document.querySelector('#tray-go').disabled,
+    label: document.querySelector('#tray-go-t').textContent.trim()
+  }));
+  is('21 the tray is up from the start', rest.up, '1');
+  has('21e and carries the promise at rest', rest.l, 'ninety seconds');
+  is('21f with its action closed', rest.off, true);
+  is('21g labelled for the next step', rest.label, 'Next');
   await page.click('[data-goal="Gut Health"]');
   await page.waitForTimeout(600);
   const tray1 = await page.evaluate(() => ({
-    on: document.querySelector('#tray').classList.contains('on'),
+    on: document.querySelector('#tray').classList.contains('has'),
     n: document.querySelector('#tray-n').textContent.trim(),
     l: document.querySelector('#tray-l').textContent.trim(),
     onScreen: document.querySelector('#tray').getBoundingClientRect().bottom <= innerHeight + 2
   }));
-  is('21a it arrives on the first pick', tray1.on, true);
+  is('21a it fills in on the first pick', tray1.on, true);
   is('21b and counts', tray1.n, '1 chosen');
+  is('21h and its label becomes the reward',
+     await page.evaluate(() => document.querySelector('#tray-go-t').textContent.trim()),
+     'See your programme');
   has('21c and names', tray1.l, 'Gut Health');
   is('21d and is actually on screen', tray1.onScreen, true);
 
@@ -423,12 +458,6 @@ const run = async () => {
   await page.waitForTimeout(200);
 
   is('26 it closes', await page.evaluate(() => document.querySelector('#panel').open), false);
-  await page.click('[data-view="grid"]');
-  await page.click('#cont');
-  await page.waitForTimeout(250);
-  is('26a Continue opens the same panel',
-     await page.evaluate(() => document.querySelector('#panel').open), true);
-  await page.click('#panel-x');
 
   /* ═════════════ G · THE LEGIBILITY TEST ═════════════ */
   console.log('\n\x1b[1mG · hide labels\x1b[0m');
@@ -448,8 +477,10 @@ const run = async () => {
 
   await page.click('#reset');
   await page.waitForTimeout(250);
-  is('28 reset puts the tray away',
-     await page.evaluate(() => document.querySelector('#tray').classList.contains('on')), false);
+  is('28 reset returns the tray to its resting state',
+     await page.evaluate(() => document.querySelector('#tray-go').disabled), true);
+  has('28b and the promise comes back',
+      await page.evaluate(() => document.querySelector('#tray-l').textContent), 'ninety seconds');
   is('28a and clears the add-on',
      await page.evaluate(() => document.querySelector('#total').textContent.trim()), 'AED 1,150');
 

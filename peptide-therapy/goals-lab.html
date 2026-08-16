@@ -106,6 +106,12 @@ ul,ol{list-style:none}
 /* ─────────────────────────── THE STAGE ─────────────────────────── */
 .stage{min-height:calc(100svh - var(--bar-h));display:flex;flex-direction:column;
   justify-content:center;padding:clamp(34px,6vh,72px) var(--pad) clamp(40px,7vh,80px)}
+/* ⚠️ A PERSISTENT BAR EATS ITS OWN HEIGHT, PERMANENTLY. The tray is sticky at the
+   foot of the stage, so without this the last row of the tallest view (index, eight
+   ruled rows) scrolls underneath it and a customer's own selection is hidden behind
+   the thing that exists to show them their selection. Caught by the harness: with
+   three chosen, index reported 2 of 3 on screen. */
+.js .stage{padding-bottom:0}
 .inner{width:100%;max-width:1080px;margin:0 auto}
 .chapter-mark{font-family:var(--accent);font-size:13px;letter-spacing:.24em;
   color:var(--gold-deep);text-transform:uppercase}
@@ -344,16 +350,24 @@ ul,ol{list-style:none}
    makes the programme read as being ASSEMBLED rather than picked off a shelf,
    which is the emotional core of what is being sold. */
 .tray{display:none}
+/* ⚠️ IT SITS OUTSIDE .inner, WHICH IS WHY IT CAN BE FULL BLEED. Inside the 1080px
+   column its negative margin pulled it one --pad past the text and left it aligned
+   to nothing — neither edge-to-edge nor flush with the content, which reads as a
+   bug rather than a decision. The GROUND now goes edge to edge and the CONTENTS
+   ride the same 1080px rail as everything above it. */
 .js .tray{
-  position:sticky;bottom:0;z-index:40;display:flex;align-items:center;gap:clamp(12px,2vw,22px);
-  margin:clamp(22px,3vh,32px) calc(var(--pad) * -1) calc(clamp(30px,5vh,60px) * -1);
-  padding:14px clamp(20px,4.5vw,72px);
+  position:sticky;bottom:0;z-index:40;display:block;
+  margin:clamp(22px,3vh,32px) calc(var(--pad) * -1) calc(var(--pad) * -1);
+  padding:14px var(--pad);
   background:rgba(46,34,40,.95);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
   color:var(--ivory);
   transform:translateY(120%);opacity:0;pointer-events:none;
   transition:transform .45s var(--ease),opacity .35s var(--ease);
 }
-.js .tray.on{transform:none;opacity:1;pointer-events:auto}
+.js .tray{transform:none;opacity:1;pointer-events:auto}
+.tray-go[disabled]{opacity:.38;cursor:not-allowed;pointer-events:none}
+.tray-n:empty{display:none}
+.tray-in{max-width:1080px;margin:0 auto;display:flex;align-items:center;gap:clamp(12px,2vw,22px)}
 .tray-n{font-family:var(--accent);font-size:12px;letter-spacing:.2em;color:var(--gold);
   white-space:nowrap;font-variant-numeric:tabular-nums}
 .tray-l{font-size:13.5px;color:rgba(244,247,250,.78);line-height:1.35;
@@ -562,21 +576,27 @@ dialog.panel::backdrop{background:rgba(46,34,40,.6)}
       </div>
     </div>
 
-    <p class="chosen" id="chosen"></p>
-
 
     <!-- ══ THE TRAY ══ authored, not generated. Without script it never shows —
          it is a JS affordance and there is nothing for it to do — but it is here,
          so the panel it opens is here too, and neither is built at runtime. -->
-    <div class="tray" id="tray">
-      <span class="tray-n" id="tray-n">0 chosen</span>
-      <span class="tray-l" id="tray-l"></span>
-      <button type="button" class="tray-go" data-open-panel>See your programme →</button>
-    </div>
+    <!-- ⚠️ NO CONTINUE BUTTON, AND NO SEPARATE ANSWER LINE. Both said what the
+         tray says. In the full flow a Continue would also be a SECOND forward path
+         beside the tray's — the escape hatch that cannibalises the sequence it sits
+         inside. The tray is the whole apparatus: it is up from the start carrying
+         the ninety-second promise, it fills in with the answer as they choose, and
+         its label names where it is going rather than saying "continue". In the
+         full flow that label steps — "Next: your symptoms" … "Next: where you are"
+         … "See your programme" — which is what makes the last phrase land, because
+         it arrives once. -->
+  </div>
 
-    <div class="foot">
-      <button type="button" class="btn" id="cont" data-open-panel disabled>Continue <span class="arr">→</span></button>
-      <span class="note" id="footnote">Four questions. About ninety seconds.</span>
+  <div class="tray" id="tray">
+    <div class="tray-in">
+      <span class="tray-n" id="tray-n"></span>
+      <span class="tray-l" id="tray-l">Four questions · about ninety seconds</span>
+      <button type="button" class="tray-go" id="tray-go" data-open-panel disabled>
+        <span id="tray-go-t">Next</span> <span aria-hidden="true">→</span></button>
     </div>
   </div>
 </section>
@@ -733,7 +753,16 @@ dialog.panel::backdrop{background:rgba(46,34,40,.6)}
       probably the answer.</p>
       <p>Type is the one to reach for if this section should be the page's signature
       moment rather than its workhorse. Pills is the wrong ceremony for an AED 1,150
-      decision. The shelf works, but only with the answer line under it.</p>
+      decision.</p>
+      <p><b>The tray changed the arithmetic for the compact views.</b> With three
+      goals chosen, the layouts themselves show 3 of 3 — except the shelf, which
+      shows 1, and the index, which shows 2 because eight ruled rows do not fit a
+      laptop screen. Neither is a defect any more: the tray names all three
+      whatever the layout hides, which is exactly why it is up from the first pick
+      and not saved for the end. It is also the only forward control on the screen
+      — there is no Continue, because a Continue would open the same panel forty
+      pixels away and, in the full flow, be a second forward path competing with
+      the sequence it sits inside.</p>
       <p><b>8 is where this should end up.</b> Ask Dr. Khalid for the mapping —
       which symptoms point at which of the eight — and the category picker
       disappears entirely.</p>
@@ -830,10 +859,16 @@ dialog.panel::backdrop{background:rgba(46,34,40,.6)}
   function syncTray(){
     var mode = stage.dataset.mode;
     var names = mode === 'derive' ? derivedNames : inOrder(picked);
-    var tray = $('#tray');
-    tray.classList.toggle('on', names.length > 0);
-    $('#tray-n').textContent = names.length + ' chosen';
-    $('#tray-l').textContent = names.join(' · ');
+    var any = names.length > 0;
+    $('#tray').classList.toggle('has', any);
+    $('#tray-n').textContent = any ? names.length + ' chosen' : '';
+    $('#tray-l').textContent = any ? names.join(' · ')
+                                   : 'Four questions · about ninety seconds';
+    /* ⚠️ THE LABEL IS THE NAVIGATION. One question in this lab so it has one
+       destination; in the full flow it steps through the remaining questions and
+       only reads "See your programme" on the last. */
+    $('#tray-go-t').textContent = any ? 'See your programme' : 'Next';
+    $('#tray-go').disabled = !any;
     $('#panel-recap').innerHTML = names.length
       ? 'Peptide therapy for ' + list(names) + '.'
       : 'Peptide therapy.';
@@ -849,17 +884,9 @@ dialog.panel::backdrop{background:rgba(46,34,40,.6)}
     if(mode === 'derive'){
       derivedNames = derive();
       n = derivedNames.length;
-      $('#chosen').innerHTML = sx.length
-        ? 'You told us about ' + sx.length + ' thing' + (sx.length > 1 ? 's' : '') + '.'
-        : '';
     } else {
-      var o = inOrder(picked);
-      n = o.length;
-      $('#chosen').innerHTML = o.length
-        ? 'Peptide therapy for ' + list(o) + '.'
-        : '';
+      n = inOrder(picked).length;
     }
-    $('#cont').disabled = n === 0;
     syncTray();
   }
 
@@ -877,9 +904,6 @@ dialog.panel::backdrop{background:rgba(46,34,40,.6)}
     $('#lede').textContent = (v === 'derive')
       ? "Tap anything that sounds like you. You do not need to know which programme you need — that is our job."
       : "Choose as many as apply — most people choose two or three. They are eight goals, not eight programmes: the process, the panel and the price are the same whichever you pick.";
-    $('#footnote').textContent = (v === 'shelf')
-      ? "Your picks scroll away — which is why the line above it has to exist."
-      : "Four questions. About ninety seconds.";
     render();
   }
 

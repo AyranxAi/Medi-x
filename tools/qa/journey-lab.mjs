@@ -66,8 +66,8 @@ for (const [w, h, label] of [[1440,900,'desktop'], [1024,800,'tablet'], [390,844
   const gate = await pg.evaluate(() => ({
     onGate: document.querySelector('[data-view="gate"]').classList.contains('on'),
     picks: document.querySelectorAll('.pick').length,
-    ctrlHidden: getComputedStyle(document.getElementById('ctrl')).display === 'none',
-    railHidden: document.getElementById('rail-wrap').hidden,
+    ctrlHidden: getComputedStyle(document.getElementById('nav')).visibility === 'hidden',
+    railHidden: getComputedStyle(document.getElementById('chain')).display === 'none',
     eight: document.querySelectorAll('#eight button').length,
     beads: document.querySelectorAll('.bead').length,
     bonds: document.querySelectorAll('.bond').length,
@@ -79,7 +79,9 @@ for (const [w, h, label] of [[1440,900,'desktop'], [1024,800,'tablet'], [390,844
   // Asserted as visible TEXT, because a stray headline or lede is exactly what he objected to.
   const rest = await pg.evaluate(() => document.getElementById('programme').innerText
     .split('\n').map(t => t.trim()).filter(Boolean));
-  const strayed = rest.filter(t => !/^(Ready to begin\?|For women|For men|Cycles,|Testosterone,|→)/.test(t));
+  // case-insensitive: the two labels are uppercased by text-transform, and innerText
+  // returns the TRANSFORMED text, not the source.
+  const strayed = rest.filter(t => !/^(ready to begin\?|for women|for men|cycles,|testosterone,|→)/i.test(t));
   ok(strayed.length === 0, `nothing but the question and the two doors at rest${strayed.length ? ' — strayed: ' + strayed.slice(0,3).map(t=>'“'+t.slice(0,42)+'”').join(', ') : ''}`);
   ok(gate.beads === 7 && gate.bonds === 6, `rail is 7 residues on 6 bonds (${gate.beads}/${gate.bonds})`);
 
@@ -93,7 +95,7 @@ for (const [w, h, label] of [[1440,900,'desktop'], [1024,800,'tablet'], [390,844
     on: document.querySelector('[data-view="women"]').classList.contains('on'),
     menOff: !document.querySelector('[data-view="men"]').classList.contains('on'),
     cont: !document.getElementById('next').disabled,
-    note: document.getElementById('ctrl-note').innerText.replace(/\s+/g,' ').trim(),
+    note: document.getElementById('nav-label').innerText.replace(/\s+/g,' ').trim(),
     pmos: document.querySelectorAll('[data-view="women"] .pending').length,
     noPcos: !document.querySelector('[data-view="women"]').innerText.includes('PCOS'),
   }));
@@ -103,11 +105,13 @@ for (const [w, h, label] of [[1440,900,'desktop'], [1024,800,'tablet'], [390,844
   ok(aud.cont && /continue/i.test(aud.note), `› is live on the symptom panel and says where it goes (“${aud.note}”)`);
   ok(aud.pmos === 2 && aud.noPcos, `PCOS→PMOS applied and flagged pending (${aud.pmos} marked, no PCOS left)`);
   ok(await onCount() === 1, 'still exactly one view visible');
+  ok(await pg.evaluate(() => getComputedStyle(document.getElementById('chain')).display === 'none'),
+     'the step chain stays hidden on the symptom panel — you are not in the journey yet');
 
   // ── into the journey, and all the way through ─────────────────────────────
   await pg.click('#next'); await pg.waitForTimeout(220);
   ok(await pg.evaluate(() => document.querySelector('[data-view="step1"]').classList.contains('on')), '› lands on step 1');
-  ok(await pg.evaluate(() => !document.getElementById('rail-wrap').hidden), 'the rail appears inside the journey');
+  ok(await pg.evaluate(() => getComputedStyle(document.getElementById('chain')).display !== 'none'), 'the chain appears inside the journey');
   ok(await pg.evaluate(() => document.getElementById('prev').disabled) === false, 'back is live on step 1');
 
   let animated = 0;
@@ -118,7 +122,7 @@ for (const [w, h, label] of [[1440,900,'desktop'], [1024,800,'tablet'], [390,844
       anim: document.querySelector(`[data-view="${n}"]`).classList.contains('anim'),
       now: document.querySelectorAll('.bead.now').length,
       done: document.querySelectorAll('.bond.done').length,
-      note: document.getElementById('ctrl-note').innerText.trim(),
+      note: document.getElementById('nav-label').innerText.trim(),
     }), STEPS[i]);
     if (s.anim) animated++;
     if (!s.on) ok(false, `→ reaches ${STEPS[i]}`);
@@ -138,9 +142,9 @@ for (const [w, h, label] of [[1440,900,'desktop'], [1024,800,'tablet'], [390,844
   await pg.waitForTimeout(120);
   await pg.evaluate(() => { for (let i = 0; i < 6; i++) document.getElementById('next').click(); });
   await pg.waitForTimeout(220);
-  const cta = await pg.evaluate(() => document.querySelector('#ctrl-r a.btn')?.innerText.trim() || '');
+  const cta = await pg.evaluate(() => document.getElementById('cta')?.innerText.trim() || '');
   ok(/gut\s+health/i.test(cta), `the choice reaches the closing CTA (“${cta.replace(/\s+/g," ")}”)`);
-  const chosen = await pg.evaluate(() => document.querySelector('#ctrl-r .chosen')?.innerText || '');
+  const chosen = await pg.evaluate(() => document.querySelector('#nav-right .chosen')?.innerText || '');
   ok(/women/i.test(chosen), `the chosen path is shown back with a way to change it (“${chosen.replace(/\s+/g,' ').trim()}”)`);
 
   // ── keyboard ──────────────────────────────────────────────────────────────
@@ -150,7 +154,7 @@ for (const [w, h, label] of [[1440,900,'desktop'], [1024,800,'tablet'], [390,844
   ok(await pg.evaluate(() => document.querySelector('[data-view="step7"]').classList.contains('on')), '→ key steps forward');
 
   // ── no label may overrun its own box ──────────────────────────────────────
-  const spill = await pg.evaluate(() => [...document.querySelectorAll('.step-of,.sublab,.aud-sub,.coda h3,.bead,.ctrl-note,.eight button,.btn')]
+  const spill = await pg.evaluate(() => [...document.querySelectorAll('.eyebrow,.label,.subgroup>p,.nav-label,.eight button,.cta,.chosen')]
     .filter(e => e.scrollWidth > e.clientWidth + 1).map(e => e.className + ':' + e.textContent.trim().slice(0, 22)));
   ok(spill.length === 0, `no label overruns its box${spill.length ? ': ' + spill.slice(0,4).join(' | ') : ''}`);
 
@@ -193,8 +197,8 @@ console.log('\n── javascript disabled ──');
   });
   ok(seen.views === seen.total, `every view is readable without JS (${seen.views}/${seen.total})`);
   const must = ['Ready to begin', 'For women', 'For men', 'Book your programme', 'Symptom',
-                'Diagnostic testing', 'IGF-1', 'Diagnostic results review', 'personalised',
-                'Protocol explanation', 'mentorship', 'Priced separately'];
+                'appointment', 'IGF-1', 'explained', 'protocol',
+                'mentorship', 'Priced separately'];
   const missing = must.filter(m => !seen.text.includes(m));
   ok(missing.length === 0, `the whole chapter is in the no-JS document${missing.length ? ' — missing: ' + missing.join(', ') : ''}`);
   // HIS CALL 2026-08-16: blood work only. Asserted as an ABSENCE so neither the scans nor the

@@ -1,5 +1,68 @@
 # Peptide Therapy — `/peptide-therapy/` (first ship 2026-08-14)
 
+> ## ROUND 14 — 2026-08-16: the journey goes INK and FULL BLEED. His verdict on round 13 was
+> *"do you think clinique la prairie will design it like this, it has no aesthetic"* — and he
+> was right. `index.html` STILL HAS NOT MOVED.
+>
+> **1 · WHAT WAS ACTUALLY WRONG WITH 13, because the diagnosis matters more than the fix.**
+> It was a working wizard, not a designed one: a bordered card floating on dawn, thirty
+> symptoms set as dashed bullets down a narrow column, and generic chrome. Every mechanism was
+> right and every aesthetic decision was absent. **Four calls off four questions:** ink rather
+> than glacier · every symptom item KEPT but set as an editorial grid · a full-screen takeover
+> rather than an inline reveal · **the page's own peptide chain as a live ground** rather than
+> photography (the page has never faked any, and this way it still hasn't).
+>
+> **2 · ⚠️ THE INK PALETTE IS MEASURED, NOT PICKED**, and the numbers are in the stylesheet:
+> on `#0D161D` — paper `#F2F6F9` 16.81 · `#AEC0CC` 9.75 · `#91A6B4` 7.24 · gold `#C2A05E` 7.38;
+> on the `#18262F` lift — 14.24 / 8.26 / 6.13 / 6.25. Everything clears AA, most clear AAA.
+> ⚠️ **THE ONE RED CANNOT COME TO THIS GROUND.** `--logo-red #8E2D3A` carries ~2:1 on ink and
+> fails at any size, so the accent is **the hero's own gold `#C2A05E`** — the colour plate D
+> already ships for its active site on this very page. The section borrows the brand's existing
+> warm note instead of inventing one, which is also why it does not reopen the burgundy fight.
+>
+> **3 · THE GROUND IS THE HERO'S ENGINE, NOT A LOOKALIKE.** Same seed 424242, same
+> rod-and-ripple geometry, same 52px docking rule. What changed and why is commented at the
+> site: counts fall to 7/5/4 chains and time runs at .55× (a background must not compete with
+> the sentence in front of it); the strokes go ivory at low alpha; and ⚠️ **THE GLACIER
+> MULTIPLY IS REMOVED** — that layer exists to drop a bright plate into the glacier grade and
+> on ink it would crush the field to black. A CSS veil leans across the frame so type sits on
+> near-solid ink at the left while the chain stays visible at the right.
+>
+> **4 · EVERY SYMPTOM ITEM SURVIVES.** His call was to set them well, not to cut them.
+> A hairline above each cell instead of a dash before each line — thirty dashes down a dark
+> column is what made 13 read as a form. The client's nested perimenopause group becomes its
+> own labelled set rather than an indent; **nothing moved between the groups.** All 26 women's
+> items fit one 1440×900 screen. ⚠️ **BOTH INTRODUCTIONS ARE GONE ON HIS INSTRUCTION** — the
+> women's "Often, we don't understand what is happening…" and both of the men's paragraphs.
+> Straight from the title to the list.
+>
+> **5 · THREE BUGS, ALL FROM THE SAME FAMILY, ALL CAUGHT.**
+>   · ⚠️ **`.chain{display:flex}` BEAT THE UA'S `[hidden]{display:none}`** — the step chain
+>     stayed on screen through the gate and both symptom panels while `chain.hidden` cheerfully
+>     reported `true`. `.chain[hidden]{display:none}` is now spelt out, and **the harness
+>     asserts COMPUTED DISPLAY rather than the property, because the property is what hid it.**
+>     This is the third display-cascade collision in two rounds (round 13's `.js .wiz-only`
+>     flattening `.picks`, and its inverted enhancement). Assume the next one exists.
+>   · **The sticky nav's fade reached solid too late** and a long symptom list ran under the
+>     chevrons on a phone. Only the phone screenshot showed it.
+>   · **`innerText` returns TRANSFORMED text** — the resting-state assertion failed on
+>     "FOR WOMEN" because `text-transform:uppercase` had already been applied.
+>
+> **6 · `tools/qa/journey-lab.mjs`, 45/45** — three widths, `?view=` solo, JavaScript disabled,
+> reduced motion. It still asserts the resting state as visible TEXT (nothing but the question
+> and the two doors) and the retired diagnostics as an ABSENCE (no BOZAT, no DUTCH, no
+> "functional test"). ⚠️ `min-height:100svh` and **NO `overflow` ON `.prog`** — overflow would
+> make the section a scroll container and kill the sticky nav; the canvas is `inset:0` so
+> nothing can escape anyway.
+>
+> **7 · ⚠️ FIVE THINGS STILL WAITING ON HIM**, all on the lab's own closing plate: the **PMOS
+> expansion** (both occurrences ship as the bare acronym, gold dashed underline, never
+> invented); the **questionnaire screenshot** (medi-gyn.com is still blocked, 403 on CONNECT);
+> **women still see a testosterone-only panel** because one journey for both paths was his
+> call; **the three P's are homeless** since the headline came off; and **the ink ground breaks
+> the page's strict dawn/ivory alternation** — deliberate for a takeover, but the sections
+> either side want a look once he has decided.
+
 > ## ROUND 13 — 2026-08-16: chapter 05 becomes ONE INTERACTIVE SECTION — a gate, a symptom
 > list, then seven steps on ← →. STILL A PROTOTYPE; `index.html` HAS NOT MOVED.
 >

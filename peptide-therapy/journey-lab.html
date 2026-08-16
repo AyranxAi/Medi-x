@@ -1,6 +1,5 @@
-<!-- ⚠️ CHARSET FIRST, AHEAD OF THE FONT BLOB — see structure-lab.html for the bug this
-     prevents (no declaration = Latin-1 mojibake over file://, and nothing but a
-     screenshot notices). It must land inside the first 1024 bytes. -->
+<!-- ⚠️ CHARSET FIRST, AHEAD OF THE FONT BLOB — no declaration means Latin-1 mojibake over
+     file://, and nothing but a screenshot notices. It must land inside the first 1024 bytes. -->
 <meta charset="utf-8">
 <title>Peptide Journey Lab</title>
 <style>
@@ -12,259 +11,225 @@
 @font-face{font-family:"MediGyn Megante";src:url(data:font/woff2;base64,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) format("woff2");font-weight:400;font-style:normal;font-display:swap}
 
 /* ══════════════════════════════════════════════════════════════════════════════
-   JOURNEY LAB — chapter 05 as ONE interactive section: a gate, a symptom list,
-   then the seven steps one at a time on ← →.  His spec, 2026-08-16.
-   Palette and type are the peptide page's own glacier grade, read out of
-   index.html's :root. Single theme on purpose — this is a judging instrument for
-   an approved grade; every colour is painted explicitly so it holds anywhere.
+   JOURNEY LAB — chapter 05 as ONE full-bleed section on ink.
+   His four calls, 2026-08-16: ink rather than glacier · every symptom item kept but
+   set as an editorial grid, not a bulleted list · a full-screen takeover, not a
+   dropdown · the page's own peptide chain as a live ground rather than photography.
 
-   ⚠️ PROGRESSIVE ENHANCEMENT, NOT A JS APP. The section's markup contains ALL
-   seven steps and BOTH symptom lists as a plain document. The wizard exists only
-   under html.js, which the script adds. Kill the script and a reader still gets
-   the whole chapter — the same discipline the scene's no-JS fallback keeps.
+   ⚠️ THE INK PALETTE IS MEASURED, NOT PICKED. Every value below was run against both
+   grounds before it was used (WCAG on flat colour; the canvas sits under a veil that
+   only ever darkens, so these are floors):
+     on #0D161D  ·  #F2F6F9 16.81  ·  #AEC0CC 9.75  ·  #91A6B4 7.24  ·  #C2A05E 7.38
+     on #18262F  ·  #F2F6F9 14.24  ·  #AEC0CC 8.26  ·  #91A6B4 6.13  ·  #C2A05E 6.25
+   ⚠️ THE ONE RED CANNOT COME HERE. --logo-red #8E2D3A carries about 2:1 on this ground
+   and fails at any size. The accent is the hero's OWN gold #C2A05E — the colour plate D
+   already ships for its active site on this very page — so the section borrows the
+   brand's existing warm note rather than inventing one.
+
+   ⚠️ PROGRESSIVE ENHANCEMENT. The markup is the whole chapter as a plain document; the
+   takeover exists only under html.js. Never write `.js .wiz-only{display:block}` — that
+   is (0,2,0) and outranks the display of anything it lands on.
    ══════════════════════════════════════════════════════════════════════════ */
 :root{
-  --ivory:#F4F7FA; --dawn:#E8EFF5; --line:#D5DEE6; --tint:#E4EDF4;
-  --steel:#7C93A8; --steel-deep:#54687C;
-  --ink:#2E2228; --ink-soft:#6A585F; --red:#8E2D3A;
+  --ink:#0D161D; --ink-lift:#18262F;
+  --paper:#F2F6F9; --paper-2:#AEC0CC; --paper-3:#91A6B4;
+  --gold:#C2A05E;
+  --rule:rgba(242,246,249,.13);
+  --rule-2:rgba(242,246,249,.26);
   --serif:"Playfair",Didot,"Times New Roman",Georgia,serif;
   --sans:"MediGyn NOW",Jost,ui-sans-serif,system-ui,-apple-system,sans-serif;
   --accent:"MediGyn Megante",Optima,Georgia,serif;
   --ease:cubic-bezier(.22,.61,.36,1);
-  --pad:clamp(20px,5vw,64px);
+  --pad:clamp(22px,5.4vw,80px);
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--ivory);color:var(--ink);font-family:var(--sans);font-weight:300;font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
+body{margin:0;background:var(--ink);color:var(--paper);
+  font-family:var(--sans);font-weight:300;font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
 h1,h2,h3,h4,p,ul,ol{margin:0}
 ul,ol{padding:0;list-style:none}
 a{color:inherit}
-button{font:inherit;color:inherit}
-:focus-visible{outline:2px solid var(--red);outline-offset:3px;border-radius:2px}
-.wrap{max-width:1280px;margin:0 auto;padding:0 var(--pad)}
+button{font:inherit;color:inherit;background:none;border:0}
+:focus-visible{outline:1px solid var(--gold);outline-offset:4px}
 
-/* ── lab chrome (NOT part of the section — strip this when porting) ────────── */
-.labbar{
-  position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;
-  gap:16px;padding:14px var(--pad);background:rgba(244,247,250,.94);backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--line);
-}
-.labbar p{font-family:var(--accent);font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.labbar p span{color:var(--steel-deep)}
-.labbar em{
-  font-style:normal;font-family:var(--sans);font-weight:500;font-size:9.5px;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--ivory);background:var(--red);padding:5px 10px;border-radius:999px;flex:none;
-}
-.labnote{padding:clamp(40px,6vh,68px) 0 clamp(10px,2vh,20px)}
-.labnote h1{font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30;font-size:clamp(28px,3.6vw,46px);line-height:1.1;letter-spacing:-.015em;max-width:16em;text-wrap:balance}
-.labnote h1 em{font-style:italic;color:var(--red);font-weight:430}
-.labnote>p{margin-top:20px;max-width:62ch;color:var(--ink-soft);font-size:15.5px;line-height:1.8}
-.labnote>p strong{font-weight:500;color:var(--ink)}
-.kicker{font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--red);display:flex;align-items:center;gap:14px;margin-bottom:20px}
-.kicker::after{content:"";flex:1;height:1px;background:var(--line);max-width:180px}
+/* ── lab chrome — strip this whole block when porting ─────────────────────── */
+.labbar{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;
+  gap:16px;padding:14px var(--pad);background:rgba(13,22,29,.9);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--rule)}
+.labbar p{font-family:var(--accent);font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.labbar p span{color:var(--paper-3)}
+.labbar em{font-style:normal;font-family:var(--sans);font-weight:500;font-size:9.5px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--ink);background:var(--gold);padding:5px 10px;border-radius:999px;flex:none}
+.clean .labbar,.clean .flags{display:none}
 
 /* ════════════════════════════════════════════════════════════════════════════
-   ▼▼▼ THE SECTION ITSELF — everything from here to the closing marker is what
-   ports into index.html as the new chapter 05. ▼▼▼
-   ══════════════════════════════════════════════════════════════════════════ */
-.prog{background:var(--dawn);padding:clamp(80px,12vh,150px) 0}
-.prog-head{max-width:24em}
-.prog h2{
-  font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30;
-  font-size:clamp(32px,4.4vw,58px);line-height:1.08;letter-spacing:-.015em;text-wrap:balance;
-}
-.prog h2 em{font-style:italic;color:var(--red);font-weight:430}
-.prog-sub{margin-top:18px;font-size:clamp(15px,1.3vw,17.5px);line-height:1.8;color:var(--ink-soft);max-width:50ch}
+   ▼▼▼ THE SECTION — everything to the closing marker is what ports ▼▼▼ */
 
-/* ── the stage ────────────────────────────────────────────────────────────── */
-.stage{margin-top:clamp(34px,5vh,54px);background:var(--ivory);border:1px solid var(--line);border-radius:2px}
-.stage-in{padding:clamp(26px,3.6vw,52px)}
+/* ⚠️ NO overflow:hidden ON THIS SECTION. It would make the section a scroll container
+   and kill the sticky nav; the canvas is inset:0 so nothing can escape anyway. */
+.prog{position:relative;min-height:100svh;display:flex;flex-direction:column;
+  background:linear-gradient(160deg,var(--ink) 0%,var(--ink-lift) 68%,var(--ink) 100%)}
+#ground{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:0}
+/* The legibility veil. It leans across the frame so type sits on near-solid ink at the
+   left while the chain stays visible at the right — the same left-fade the hero uses. */
+.veil{position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(100deg,rgba(13,22,29,.95) 0%,rgba(13,22,29,.88) 38%,
+             rgba(13,22,29,.62) 72%,rgba(13,22,29,.45) 100%)}
+.veil::after{content:"";position:absolute;inset:0;
+  background:radial-gradient(120% 80% at 50% 50%,transparent 40%,rgba(13,22,29,.55) 100%)}
 
-/* ── 1 · the gate ─────────────────────────────────────────────────────────── */
-/* The gate is the section at rest, so it is allowed to be big and quiet — one
-   question, two doors, and a lot of air. Everything after it is dense; that contrast
-   is the design rather than an accident of content. */
-.gate{padding:clamp(18px,4vh,54px) 0}
-.gate .gate-q{font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30;
-  font-size:clamp(34px,5.2vw,68px);line-height:1.02;letter-spacing:-.02em;text-wrap:balance}
-.gate .gate-q em{font-style:italic;color:var(--red);font-weight:430}
-.picks{margin-top:clamp(28px,4.4vh,52px);display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))}
-.pick{
-  display:flex;align-items:center;justify-content:space-between;gap:18px;text-align:left;
-  padding:clamp(20px,2.4vw,28px);background:transparent;border:1px solid var(--line);border-radius:2px;
-  cursor:pointer;transition:border-color .35s var(--ease),transform .35s var(--ease),background .35s var(--ease);
-}
-.pick:hover{border-color:var(--steel);transform:translateY(-2px);background:var(--tint)}
-.pick[aria-pressed="true"]{border-color:var(--ink);background:var(--tint)}
-.pick b{display:block;font-family:var(--accent);font-weight:400;font-size:clamp(21px,2.1vw,28px);letter-spacing:-.02em;line-height:1.15}
-.pick span{display:block;margin-top:6px;font-size:13.5px;line-height:1.6;color:var(--ink-soft)}
-.pick i{
-  flex:none;font-style:normal;width:38px;height:38px;border-radius:999px;border:1px solid var(--line);
-  display:grid;place-items:center;color:var(--steel-deep);font-family:var(--accent);font-size:16px;
-  transition:background .3s var(--ease),color .3s var(--ease),border-color .3s var(--ease);
-}
-.pick:hover i,.pick[aria-pressed="true"] i{background:var(--ink);border-color:var(--ink);color:var(--ivory)}
+.stage{position:relative;z-index:2;flex:1;display:flex;align-items:center;
+  padding:clamp(72px,11vh,132px) var(--pad) clamp(20px,3vh,34px)}
+.hold{width:100%;max-width:1220px;margin:0 auto}
 
-/* ── 2 · the symptom panel ────────────────────────────────────────────────── */
-.aud-panel h3{font-family:var(--accent);font-weight:400;font-size:clamp(22px,2.2vw,30px);letter-spacing:-.02em;line-height:1.15}
-.aud-panel>p{margin-top:12px;font-size:14.5px;line-height:1.8;color:var(--ink-soft);max-width:58ch}
-.aud-sub{margin-top:24px;font-family:var(--accent);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--steel-deep)}
-.sym{margin-top:16px;columns:2;column-gap:clamp(24px,3vw,48px)}
-@media (max-width:700px){ .sym{columns:1} }
-.sym li{break-inside:avoid;padding:7px 0 7px 18px;position:relative;font-size:14px;line-height:1.55;color:var(--ink)}
-.sym li::before{content:"";position:absolute;left:0;top:15px;width:6px;height:1px;background:var(--steel)}
-/* The perimenopause sub-list is twelve items and break-inside:avoid keeps it whole,
-   so it alone decided where the parent's columns broke — column one ran ~700px against
-   column two's ~250. Setting it two-up halves its height and the balance returns. */
-.sym ul{margin:6px 0 2px;padding-left:2px;columns:2;column-gap:clamp(18px,2vw,34px)}
-@media (max-width:900px){ .sym ul{columns:1} }
-.sym ul li{font-size:13.5px;color:var(--ink-soft)}
-.sym ul li::before{background:var(--line)}
-.pending{border-bottom:1px dashed var(--red);cursor:help}
+/* ── the gate ─────────────────────────────────────────────────────────────── */
+.gate-q{font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30;
+  font-size:clamp(46px,8.2vw,116px);line-height:.98;letter-spacing:-.025em;text-wrap:balance;
+  color:var(--paper)}
+.gate-q em{font-style:italic;color:var(--gold);font-weight:430}
+.picks{margin-top:clamp(38px,6.5vh,76px);display:grid;gap:clamp(12px,1.4vw,20px);
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));max-width:860px}
+.pick{display:flex;align-items:center;justify-content:space-between;gap:20px;cursor:pointer;
+  padding:clamp(24px,2.6vw,34px) clamp(24px,2.6vw,34px);border:1px solid var(--rule);
+  text-align:left;transition:border-color .45s var(--ease),background .45s var(--ease)}
+.pick:hover,.pick:focus-visible{border-color:var(--gold);background:rgba(242,246,249,.035)}
+.pick b{display:block;font-family:var(--sans);font-weight:500;font-size:12px;letter-spacing:.26em;
+  text-transform:uppercase;color:var(--paper)}
+.pick span.sub{display:block;margin-top:9px;font-size:13.5px;line-height:1.6;color:var(--paper-3)}
+.pick i{flex:none;font-style:normal;font-family:var(--accent);font-size:19px;color:var(--paper-3);
+  transition:transform .45s var(--ease),color .45s var(--ease)}
+.pick:hover i,.pick:focus-visible i{transform:translateX(6px);color:var(--gold)}
 
-/* ── 3 · the seven steps ──────────────────────────────────────────────────── */
-/* THE BEAD RAIL — seven residues on one backbone, the bond filling as you go.
-   The page's own chain scene in miniature; the figure this chapter already owns. */
-.rail{display:flex;align-items:center;gap:0;margin-bottom:clamp(26px,3.4vh,40px)}
-.bead{
-  flex:none;width:30px;height:30px;border-radius:999px;background:var(--ivory);
-  border:1px solid var(--line);display:grid;place-items:center;cursor:pointer;
-  font-family:var(--accent);font-size:12.5px;line-height:1;color:var(--steel-deep);
-  transition:background .4s var(--ease),border-color .4s var(--ease),color .4s var(--ease),transform .4s var(--ease);
-}
-.bead:hover{border-color:var(--steel);transform:scale(1.08)}
-.bead.done{border-color:var(--steel);color:var(--ink)}
-.bead.now{background:var(--ink);border-color:var(--ink);color:var(--ivory);transform:scale(1.12)}
-.bond{flex:1;height:1px;background:var(--line);min-width:6px;transition:background .5s var(--ease)}
-.bond.done{background:var(--steel)}
+/* ── shared view type ─────────────────────────────────────────────────────── */
+.eyebrow{font-family:var(--sans);font-weight:500;font-size:10.5px;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--paper-3)}
+.v-title{margin-top:16px;font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30;
+  font-size:clamp(32px,4.4vw,62px);line-height:1.02;letter-spacing:-.022em;text-wrap:balance}
+.v-title em{font-style:italic;color:var(--gold);font-weight:430}
+.v-lede{margin-top:20px;max-width:56ch;font-size:clamp(14.5px,1.15vw,16.5px);line-height:1.85;color:var(--paper-2)}
+.v-lede strong{font-weight:500;color:var(--paper)}
+.label{margin-top:clamp(30px,4.4vh,48px);font-family:var(--accent);font-size:11.5px;
+  letter-spacing:.26em;text-transform:uppercase;color:var(--paper-3);
+  display:flex;align-items:center;gap:16px}
+.label::after{content:"";flex:1;height:1px;background:var(--rule)}
 
-.step-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
-.step-of{font-family:var(--sans);font-weight:500;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--steel-deep)}
-.stepv h3{
-  margin-top:8px;font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30;
-  font-size:clamp(25px,2.9vw,40px);line-height:1.1;letter-spacing:-.015em;text-wrap:balance;
-}
-.stepv h3 em{font-style:italic;color:var(--red);font-weight:430}
-.stepv>p{margin-top:16px;font-size:15px;line-height:1.8;color:var(--ink-soft);max-width:54ch}
-.stepv>p strong{font-weight:500;color:var(--ink)}
-.sublab{margin-top:26px;font-family:var(--accent);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--steel-deep)}
-.plainlist{margin-top:12px;display:flex;flex-direction:column;gap:9px;max-width:56ch}
-.plainlist li{position:relative;padding-left:18px;font-size:14.5px;line-height:1.6}
-.plainlist li::before{content:"";position:absolute;left:0;top:12px;width:6px;height:1px;background:var(--steel)}
-.plainlist ul{margin-top:8px;display:flex;flex-direction:column;gap:7px}
-.plainlist ul li{font-size:13.5px;color:var(--ink-soft)}
-.plainlist ul li::before{background:var(--line)}
+/* ── the symptom grid — every item kept, no bullet in sight ───────────────── */
+/* ⚠️ A HAIRLINE PER CELL, NOT A DASH PER LINE. Thirty dashes down a dark column is
+   what made the old version read as a form; a rule above each item turns the same
+   thirty into a set. Nothing was removed to achieve it — his call was keep them all. */
+.grid{margin-top:18px;display:grid;gap:0 clamp(24px,3.2vw,56px);
+  grid-template-columns:repeat(auto-fill,minmax(min(100%,258px),1fr))}
+.grid li{padding:13px 0 14px;border-top:1px solid var(--rule);
+  font-size:14.5px;line-height:1.5;color:var(--paper-2)}
+.grid li.mark{color:var(--paper)}
+.grid li .pending{border-bottom:1px dashed var(--gold);cursor:help}
+.subgroup{margin-top:clamp(26px,3.6vh,40px)}
+.subgroup>p{font-family:var(--accent);font-size:11px;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--paper-3);margin-bottom:2px}
 
-/* the eight, selectable — the choice is carried to the closing CTA */
-.eight{margin-top:16px;display:flex;flex-wrap:wrap;gap:9px}
-.eight button{
-  padding:11px 18px;border-radius:999px;border:1px solid var(--line);background:transparent;
-  font-family:var(--sans);font-weight:400;font-size:13.5px;letter-spacing:.01em;cursor:pointer;
-  transition:border-color .3s var(--ease),background .3s var(--ease),color .3s var(--ease);
-}
-.eight button:hover{border-color:var(--steel);background:var(--tint)}
-.eight button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--ivory)}
+/* ── the eight, selectable ────────────────────────────────────────────────── */
+.eight{margin-top:18px;display:flex;flex-wrap:wrap;gap:10px}
+.eight button{padding:12px 20px;border:1px solid var(--rule);cursor:pointer;
+  font-family:var(--sans);font-weight:400;font-size:13.5px;color:var(--paper-2);
+  transition:border-color .35s var(--ease),color .35s var(--ease),background .35s var(--ease)}
+.eight button:hover{border-color:var(--rule-2);color:var(--paper)}
+.eight button[aria-pressed="true"]{border-color:var(--gold);color:var(--ink);background:var(--gold)}
 
-.aside{
-  margin-top:26px;border-left:2px solid var(--line);padding:4px 0 4px 20px;
-  display:flex;flex-direction:column;gap:10px;max-width:56ch;
-}
-.aside p{font-size:14px;line-height:1.7;color:var(--ink-soft)}
-.aside a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}
-.aside a:hover{text-decoration-color:var(--steel)}
+.aside{margin-top:clamp(26px,3.6vh,40px);padding-left:22px;border-left:1px solid var(--rule);
+  display:flex;flex-direction:column;gap:11px;max-width:56ch}
+.aside p{font-size:13.5px;line-height:1.75;color:var(--paper-3)}
+.aside a{color:var(--paper-2);text-decoration:underline;text-decoration-color:var(--rule-2);
+  text-underline-offset:4px;transition:color .3s var(--ease)}
+.aside a:hover{color:var(--gold)}
 
-/* the questionnaire frame — a real browser chrome around the shot */
-.shot{margin-top:22px;border:1px solid var(--line);border-radius:3px;overflow:hidden;background:var(--ivory);max-width:620px}
-.shot-top{display:flex;align-items:center;gap:8px;padding:9px 12px;background:var(--tint);border-bottom:1px solid var(--line)}
-.shot-top i{width:8px;height:8px;border-radius:999px;background:var(--line);flex:none}
-.shot-top span{
-  flex:1;font-family:var(--sans);font-weight:400;font-size:10.5px;letter-spacing:.04em;color:var(--steel-deep);
-  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center;
-}
-.shot-body{aspect-ratio:16/10;display:grid;place-items:center;padding:24px;text-align:center;
-  background:repeating-linear-gradient(135deg,var(--ivory) 0 7px,var(--tint) 7px 14px)}
-.shot-body p{font-family:var(--accent);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--steel-deep);line-height:1.7}
-.shot-body p b{display:block;font-family:var(--sans);font-weight:400;font-size:12.5px;letter-spacing:.02em;
-  text-transform:none;color:var(--ink-soft);margin-top:10px;max-width:36ch}
+/* the questionnaire frame */
+.shot{margin-top:24px;border:1px solid var(--rule);max-width:560px;background:rgba(242,246,249,.03)}
+.shot-top{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--rule)}
+.shot-top i{width:6px;height:6px;border-radius:999px;background:var(--rule-2);flex:none}
+.shot-top span{flex:1;text-align:center;font-size:10.5px;letter-spacing:.04em;color:var(--paper-3);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.shot-body{aspect-ratio:16/10;display:grid;place-items:center;padding:26px;text-align:center}
+.shot-body p{font-family:var(--accent);font-size:12px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--paper-3);line-height:1.9}
+.shot-body b{display:block;margin-top:12px;font-family:var(--sans);font-weight:300;font-size:12.5px;
+  letter-spacing:.01em;text-transform:none;color:var(--paper-3);max-width:34ch;line-height:1.7}
 
-/* ── controls ─────────────────────────────────────────────────────────────── */
-.ctrl{
-  display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
-  margin-top:clamp(28px,4vh,44px);padding-top:22px;border-top:1px solid var(--line);
-}
-.ctrl-l,.ctrl-r{display:flex;align-items:center;gap:10px}
-.arrow{
-  width:46px;height:46px;border-radius:999px;border:1px solid var(--line);background:transparent;
-  display:grid;place-items:center;cursor:pointer;color:var(--ink);
-  transition:border-color .3s var(--ease),background .3s var(--ease),transform .3s var(--ease),opacity .3s var(--ease);
-}
-.arrow svg{width:15px;height:15px}
-.arrow:hover:not(:disabled){border-color:var(--ink);background:var(--tint)}
-.arrow:disabled{opacity:.3;cursor:not-allowed}
-.ctrl-note{font-size:12.5px;letter-spacing:.04em;color:var(--steel-deep)}
-.ctrl-note b{font-weight:500;color:var(--ink)}
-.btn{
-  display:inline-flex;align-items:center;gap:12px;cursor:pointer;text-decoration:none;
-  font-family:var(--sans);font-weight:500;font-size:13px;letter-spacing:.12em;text-transform:uppercase;
-  padding:17px 32px;border-radius:999px;border:1px solid transparent;
-  background:rgba(142,45,58,.9);color:#F7F3EE;
-  transition:background .3s var(--ease),transform .3s var(--ease);
-}
-.btn:hover{background:var(--red);transform:translateY(-1px)}
-.btn.ghost{background:transparent;border-color:var(--line);color:var(--ink)}
-.btn.ghost:hover{background:var(--tint);border-color:var(--ink)}
-.chosen{
-  display:inline-flex;align-items:center;gap:9px;font-size:12px;letter-spacing:.06em;color:var(--steel-deep);
-}
-.chosen button{background:transparent;border:0;padding:0;cursor:pointer;text-decoration:underline;
-  text-decoration-color:var(--line);text-underline-offset:3px;font-size:12px;color:var(--steel-deep)}
-.chosen button:hover{color:var(--ink)}
+/* the closing footnote + CTA on step 7 */
+.foot-note{margin-top:clamp(28px,4vh,44px);padding-top:22px;border-top:1px solid var(--rule);max-width:64ch}
+.foot-note p{font-size:13px;line-height:1.8;color:var(--paper-3)}
+.foot-note b{font-weight:500;color:var(--paper-2)}
+.cta{display:inline-flex;align-items:center;gap:14px;margin-top:clamp(24px,3.4vh,36px);
+  padding:19px 38px;border:1px solid var(--gold);color:var(--gold);cursor:pointer;text-decoration:none;
+  font-family:var(--sans);font-weight:500;font-size:12px;letter-spacing:.24em;text-transform:uppercase;
+  transition:background .4s var(--ease),color .4s var(--ease)}
+.cta:hover{background:var(--gold);color:var(--ink)}
 
-/* ── the coda — 06's exclusions, re-framed, on the ivory that keeps the
-      page's dawn/ivory alternation intact (see structure-lab, closing plate) ── */
-.coda{background:var(--ivory);padding:clamp(46px,7vh,80px) 0;border-top:1px solid var(--line)}
-.coda-in{display:grid;gap:clamp(20px,3vw,44px);grid-template-columns:minmax(0,1fr)}
-@media (min-width:900px){ .coda-in{grid-template-columns:auto minmax(0,1fr);align-items:baseline} }
-.coda h3{font-family:var(--accent);font-weight:400;font-size:clamp(19px,1.9vw,25px);letter-spacing:-.02em;line-height:1.2;white-space:nowrap}
-.coda ul{display:flex;flex-direction:column;gap:12px;max-width:64ch}
-.coda li{position:relative;padding-left:18px;font-size:14.5px;line-height:1.7;color:var(--ink-soft)}
-.coda li::before{content:"";position:absolute;left:0;top:13px;width:6px;height:1px;background:var(--steel)}
-.coda li b{font-weight:500;color:var(--ink)}
+/* ── the nav — one bar, bottom left: chevrons, the chain, the label ───────── */
+/* Sticky so it stays reachable when a symptom list runs past the viewport on a phone;
+   the section deliberately sets no overflow, which would break it. */
+.nav{position:sticky;bottom:0;z-index:5;display:flex;align-items:center;gap:clamp(16px,2.4vw,34px);
+  flex-wrap:wrap;padding:clamp(30px,4.4vh,48px) var(--pad) clamp(22px,3.4vh,38px);
+  /* The fade has to reach SOLID well before the chevrons, or a long symptom list on a
+     phone runs straight under them — it did, and only the phone screenshot showed it. */
+  background:linear-gradient(to top,var(--ink) 0 56%,rgba(13,22,29,.90) 76%,rgba(13,22,29,0) 100%)}
+.chevs{display:flex;gap:10px;flex:none}
+.chev{width:48px;height:48px;border:1px solid var(--rule);display:grid;place-items:center;cursor:pointer;
+  border-radius:999px;color:var(--paper-2);
+  transition:border-color .35s var(--ease),color .35s var(--ease),opacity .35s var(--ease)}
+.chev svg{width:14px;height:14px}
+.chev:hover:not(:disabled){border-color:var(--gold);color:var(--gold)}
+.chev:disabled{opacity:.22;cursor:not-allowed}
+/* ⚠️ .chain[hidden] MUST BE SPELT OUT. An author `display:flex` beats the UA's
+   [hidden]{display:none}, so the step chain stayed on screen through the gate and the
+   symptom panels while `chain.hidden` cheerfully reported true. The harness now asserts
+   COMPUTED DISPLAY rather than the property — the property was what hid the bug. */
+.chain{display:flex;align-items:center;flex:none}
+.chain[hidden]{display:none}
+.bead{width:9px;height:9px;border-radius:999px;border:1px solid var(--rule-2);background:transparent;
+  cursor:pointer;padding:0;flex:none;transition:background .45s var(--ease),border-color .45s var(--ease),transform .45s var(--ease)}
+.bead.done{background:var(--paper-3);border-color:var(--paper-3)}
+.bead.now{background:var(--gold);border-color:var(--gold);transform:scale(1.5)}
+.bond{width:clamp(14px,2vw,30px);height:1px;background:var(--rule-2);flex:none;transition:background .5s var(--ease)}
+.bond.done{background:var(--paper-3)}
+.nav-label{font-size:12px;letter-spacing:.06em;color:var(--paper-3);min-width:0}
+.nav-label b{font-weight:500;color:var(--paper)}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:12px}
+.chosen{display:inline-flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--paper-3)}
+.chosen button{cursor:pointer;text-decoration:underline;text-decoration-color:var(--rule-2);
+  text-underline-offset:4px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--paper-3)}
+.chosen button:hover{color:var(--gold)}
 
-/* ── the wizard only exists under html.js ───────────────────────────────────
-   ⚠️ HIDE UNDER :not(.js), NEVER SHOW UNDER .js. A `.js .wiz-only{display:block}`
-   rule is (0,2,0) and outranks `.picks{display:grid}` and `.ctrl{display:flex}`
-   at (0,1,0) — it silently flattened the two path cards out of their grid and
-   would have done the same to the controls. Written this way, an enhanced element
-   simply keeps whatever display its own rule gives it, and [hidden] still works. */
+/* ── enhancement gates ────────────────────────────────────────────────────── */
 html:not(.js) .wiz-only{display:none}
-.js .static-only{display:none}
 .js [data-view]{display:none}
 .js [data-view].on{display:block}
-.js [data-view].on.anim{animation:rise .5s var(--ease) both}
-@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-/* Without JS the document is simply the whole chapter, in order, nothing hidden. */
-.static-only h3{margin-top:34px}
+.js [data-view].on.anim{animation:rise .62s var(--ease) both}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+html:not(.js) .stage{display:block}
+html:not(.js) [data-view]+[data-view]{margin-top:clamp(40px,6vh,72px)}
+html:not(.js) .prog{min-height:0}
 
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001ms !important;transition-duration:.001ms !important}
   .js [data-view].on.anim{animation:none}
 }
 
-/* ── lab flags (NOT part of the section) ──────────────────────────────────── */
-.flags{background:var(--dawn);padding:clamp(56px,8vh,92px) 0;border-top:1px solid var(--line)}
-.flag-grid{margin-top:clamp(28px,4vh,42px);display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
-.flag{background:var(--ivory);border:1px solid var(--line);border-left:2px solid var(--red);border-radius:2px;padding:24px 26px}
-.flag h4{font-family:var(--accent);font-weight:400;font-size:18px;line-height:1.25;margin-bottom:10px}
-.flag p{font-size:13.5px;line-height:1.7;color:var(--ink-soft)}
-.flag p+p{margin-top:9px}
-.flag em{font-style:italic;color:var(--ink)}
-
-/* ?clean=1 — the section ALONE, with every piece of lab furniture removed, so the
-   thing being judged is the thing that ports. */
-.clean .labbar,.clean .labnote,.clean .flags{display:none}
+/* ── lab flags — not part of the section ──────────────────────────────────── */
+.flags{background:var(--ink);border-top:1px solid var(--rule);padding:clamp(56px,8vh,92px) 0}
+.flags .hold{padding:0 var(--pad)}
+.flags h2{font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30;
+  font-size:clamp(26px,3.2vw,42px);line-height:1.08;letter-spacing:-.02em;margin-top:18px}
+.flag-grid{margin-top:clamp(28px,4vh,44px);display:grid;gap:1px;background:var(--rule);
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr))}
+.flag{background:var(--ink);padding:28px}
+.flag h4{font-family:var(--accent);font-weight:400;font-size:17px;line-height:1.3;margin-bottom:12px;color:var(--paper)}
+.flag p{font-size:13px;line-height:1.75;color:var(--paper-3)}
+.flag p+p{margin-top:10px}
+.flag em{font-style:italic;color:var(--paper-2)}
 </style>
 <script>
-/* Runs BEFORE the chrome is parsed so ?clean never flashes the lab bar first. */
+/* Runs before the chrome is parsed so ?clean never flashes the lab bar first. */
 if(new URLSearchParams(location.search).has('clean'))document.documentElement.classList.add('clean');
 </script>
 
@@ -274,397 +239,332 @@ if(new URLSearchParams(location.search).has('clean'))document.documentElement.cl
 </header>
 
 <main>
-
-<section class="labnote">
-  <div class="wrap">
-    <p class="kicker">The brief, built</p>
-    <h1>One section. A gate, a list, then seven steps on <em>← →</em>.</h1>
-    <p>Your spec from today, working. Choose a path, read what we look for, then commit
-    into the journey — one step at a time, arrows or keyboard, the eight carried through to
-    the booking. <strong>Nothing here is hidden from a reader without JavaScript:</strong>
-    the section's markup is the whole chapter as a plain document, and the wizard is an
-    enhancement laid over it. Open questions are listed at the foot.</p>
-  </div>
-</section>
-
-<!-- ═══════════════ ▼ PORTABLE SECTION STARTS ▼ ═══════════════════════════════
-     Everything between this marker and the closing one is chapter 05. It carries
-     no lab chrome and no lab-only class. -->
+<!-- ═══════════════ ▼ PORTABLE SECTION STARTS ▼ ═══════════════════════════════ -->
 <section class="prog" id="programme">
-  <div class="wrap">
-    <div class="stage">
-      <div class="stage-in">
+  <canvas id="ground" aria-hidden="true"></canvas>
+  <div class="veil" aria-hidden="true"></div>
 
-        <!-- ── THE RAIL — seven residues on one backbone ──────────────────
-             It sits ABOVE the step, not under the arrows: a reader wants to know
-             where they are BEFORE they read, and the bead chain is this page's own
-             figure — the scene's beads, in miniature, with the bond filling behind. -->
-        <div class="wiz-only" id="rail-wrap" hidden>
-          <div class="rail" id="rail" role="tablist" aria-label="The seven steps"></div>
+  <div class="stage">
+    <div class="hold">
+
+      <!-- ── THE GATE — the question and two doors, and nothing else ──────── -->
+      <!-- ⚠️ THIS CARRIES THE SECTION'S ONLY <h2>. The chapter headline was removed on
+           his instruction; without this the section would have no heading at all. -->
+      <div class="gate on anim" data-view="gate">
+        <h2 class="gate-q">Ready to <em>begin?</em></h2>
+        <div class="picks wiz-only">
+          <button type="button" class="pick" data-sex="women">
+            <span><b>For women</b><span class="sub">Cycles, PMOS, perimenopause, menopause, fertility.</span></span>
+            <i aria-hidden="true">→</i>
+          </button>
+          <button type="button" class="pick" data-sex="men">
+            <span><b>For men</b><span class="sub">Testosterone, andropause, energy, body composition.</span></span>
+            <i aria-hidden="true">→</i>
+          </button>
         </div>
+      </div>
 
-        <!-- ── VIEW: THE GATE ────────────────────────────────────────────── -->
-        <!-- ⚠️ THE GATE CARRIES THE SECTION'S ONLY <h2> AND IT HAS TO. The chapter
-             headline was removed on his instruction, so without this the section would
-             have no heading at all — a hole for a screen reader and for search. The
-             question IS the heading now. -->
-        <div class="gate on anim" data-view="gate">
-          <h2 class="gate-q">Ready to <em>begin?</em></h2>
-          <div class="picks wiz-only">
-            <button type="button" class="pick" data-sex="women" aria-pressed="false">
-              <span><b>For women</b><span>Cycles, PMOS, perimenopause, menopause, fertility.</span></span>
-              <i aria-hidden="true">→</i>
-            </button>
-            <button type="button" class="pick" data-sex="men" aria-pressed="false">
-              <span><b>For men</b><span>Testosterone, andropause, energy, body composition.</span></span>
-              <i aria-hidden="true">→</i>
-            </button>
-          </div>
-        </div>
-
-        <!-- ── VIEW: THE SYMPTOM PANEL, women ────────────────────────────── -->
-        <!-- ⚠️ CLIENT COPY AND CLIENT ORDER. The round-11 corrections are KEPT rather than
-             re-reverted to the source's typos ("what it is happening", "Endometrioses",
-             "Disminished", the two "Those who has"), and the one exact repeat that was
-             removed stays removed ("Trouble sleeping" duplicated "Sleeping problems").
-             ⚠️ PCOS → PMOS IS HIS CALL 2026-08-16. THE EXPANSION IS STILL PENDING — he
-             chose "PMOS + expansion" and the words did not arrive, so the item ships as the
-             bare acronym and is marked .pending. Do NOT invent the words. -->
-        <div class="aud-panel" data-view="women">
-          <h3>For women</h3>
-          <p>Often, we don’t understand what is happening in our bodies at different stages in
-          our lives. At MEDI-GYN, we provide the knowledge and guidance to empower you to take
-          control of your hormonal health and your life.</p>
-          <p class="aud-sub">Those who experience symptoms such as</p>
-          <ul class="sym">
-            <li>Irregular, scanty menstrual cycles or PMS</li>
-            <li><span class="pending" title="Expansion pending — was “PCOS (Polycystic ovaries)”">PMOS</span></li>
-            <li>PMDD (Premenstrual dysphoric disorder)</li>
-            <li>Depression</li>
-            <li>Repeated miscarriages</li>
-            <li>Endometriosis</li>
-            <li>Premature ovarian failure</li>
-            <li>Symptoms of perimenopause and menopause
-              <ul>
-                <li>Unexpected feelings of depression</li>
-                <li>Constant tiredness</li>
-                <li>Sleeping problems</li>
-                <li>Night sweats</li>
-                <li>Hot flashes or flushes</li>
-                <li>Decreased sex drive</li>
-                <li>Weight gain</li>
-                <li>Irritability</li>
-                <li>Anxiousness</li>
-                <li>Mood swings</li>
-                <li>Low moods</li>
-                <li>Discomfort during intercourse</li>
-              </ul>
-            </li>
-            <li>Diminished Ovarian Reserve (DOR)</li>
-            <li>Trying for a baby over 6 months</li>
-            <li>Unexplained infertility</li>
-            <li>Those with insulin resistance</li>
-            <li>Those with high-androgen <span class="pending" title="Expansion pending — was “PCOS”">PMOS</span></li>
-            <li>Those with dominant Estrogen and Endometriosis</li>
-            <li>Those with unbalanced reproductive hormones</li>
-          </ul>
-        </div>
-
-        <!-- ── VIEW: THE SYMPTOM PANEL, men ──────────────────────────────── -->
-        <div class="aud-panel" data-view="men">
-          <h3>For men</h3>
-          <p>Hormones in men are just as important as they are for women — they regulate most
-          major bodily processes. In fact, both men and women produce the same hormones, only
-          in different amounts.</p>
-          <p>A low level of testosterone in a man means more than just a low sex drive. Men
-          entering middle age may experience so-called Andropause — a male equivalent of
-          menopause — and report a loss of ‘joie de vivre’: many of them start to question
-          their lives, their relationships and their work.</p>
-          <p class="aud-sub">Symptoms of male hormonal imbalance may include</p>
-          <ul class="sym">
-            <li>Tiredness, fatigue, or “burnout syndrome” (decreased drive and ambition)</li>
-            <li>Decreased strength and lean body mass</li>
+      <!-- ── FOR WOMEN ────────────────────────────────────────────────────── -->
+      <!-- ⚠️ THE INTRODUCTION IS GONE ON HIS INSTRUCTION — "Often, we don't understand
+           what is happening in our bodies … your hormonal health and your life." went
+           whole. Straight from the title to the list.
+           ⚠️ CLIENT ORDER, EVERY ITEM KEPT — his call was to set them well, not to cut
+           them. Round 11's corrections stand ("Endometrioses"→Endometriosis,
+           "Disminished"→Diminished, the two "Those who has"), and the one exact repeat
+           removed then stays removed ("Trouble sleeping" duplicated "Sleeping problems").
+           ⚠️ PCOS → PMOS IS HIS CALL. THE EXPANSION IS STILL PENDING — do not invent it. -->
+      <div data-view="women">
+        <p class="eyebrow">The programme</p>
+        <h3 class="v-title">For <em>women</em></h3>
+        <p class="label">Those who experience symptoms such as</p>
+        <ul class="grid">
+          <li class="mark">Irregular, scanty menstrual cycles or PMS</li>
+          <li class="mark"><span class="pending" title="Expansion pending — was “PCOS (Polycystic ovaries)”">PMOS</span></li>
+          <li class="mark">PMDD (Premenstrual dysphoric disorder)</li>
+          <li class="mark">Depression</li>
+          <li class="mark">Repeated miscarriages</li>
+          <li class="mark">Endometriosis</li>
+          <li class="mark">Premature ovarian failure</li>
+          <li class="mark">Diminished Ovarian Reserve (DOR)</li>
+          <li class="mark">Trying for a baby over 6 months</li>
+          <li class="mark">Unexplained infertility</li>
+          <li class="mark">Those with insulin resistance</li>
+          <li class="mark">Those with high-androgen <span class="pending" title="Expansion pending — was “PCOS”">PMOS</span></li>
+          <li class="mark">Those with dominant Estrogen and Endometriosis</li>
+          <li class="mark">Those with unbalanced reproductive hormones</li>
+        </ul>
+        <!-- The client nests these twelve under "Symptoms of perimenopause and menopause".
+             Nested one level inside a dark grid they read as debris; as their own labelled
+             set they read as what they are. Nothing moved between the groups. -->
+        <div class="subgroup">
+          <p>Symptoms of perimenopause and menopause</p>
+          <ul class="grid">
+            <li>Unexpected feelings of depression</li>
+            <li>Constant tiredness</li>
+            <li>Sleeping problems</li>
+            <li>Night sweats</li>
+            <li>Hot flashes or flushes</li>
+            <li>Decreased sex drive</li>
+            <li>Weight gain</li>
             <li>Irritability</li>
-            <li>Poor sleeping patterns</li>
-            <li>Low libido</li>
-            <li>Memory loss</li>
-            <li>Erectile dysfunction</li>
-            <li>Decreased morning erections and decreased erection strength</li>
-            <li>Depression</li>
-            <li>Low sperm count</li>
-            <li>Loss of muscle mass</li>
-            <li>Increased body fat (especially in the waist area)</li>
-            <li>Decreased bone mass</li>
-            <li>Mood changes / low mood</li>
-            <li>Brain fog</li>
-            <li>Elevated blood sugar</li>
-            <li>Stress</li>
             <li>Anxiousness</li>
-            <li>High cholesterol</li>
+            <li>Mood swings</li>
+            <li>Low moods</li>
+            <li>Discomfort during intercourse</li>
           </ul>
         </div>
+      </div>
 
-        <!-- ── VIEWS: THE SEVEN STEPS ────────────────────────────────────── -->
-        <!-- ⚠️ ONE JOURNEY FOR BOTH PATHS — his call today, verbatim: "technically either
-             choosing men or women doesn't really matter as it leads to the same thing and
-             journey". The gate picks the symptom list and nothing else.
-             ⚠️ THE CONSEQUENCE IS FLAGGED, NOT SILENTLY ACCEPTED: step 3's hormone panel is
-             Total Testosterone / SHBG / Free Testosterone, so a woman who chose "For women"
-             is shown a testosterone-only panel. That is what their source document contains
-             and no oestradiol/progesterone/LH/FSH/AMH markers were invented to fill it. -->
-        <!-- Without JavaScript this heading introduces the seven steps that follow as a
-             plain document. The script hides it, because the rail says it better. -->
-        <p class="static-only" style="margin-top:34px;font-family:var(--accent);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:#54687C">How it works — seven steps</p>
+      <!-- ── FOR MEN ──────────────────────────────────────────────────────── -->
+      <!-- ⚠️ BOTH INTRODUCTORY PARAGRAPHS GONE, same instruction — "Hormones in men are
+           just as important …" and "A low level of testosterone …". Straight to the list. -->
+      <div data-view="men">
+        <p class="eyebrow">The programme</p>
+        <h3 class="v-title">For <em>men</em></h3>
+        <p class="label">Symptoms of male hormonal imbalance may include</p>
+        <ul class="grid">
+          <li class="mark">Tiredness, fatigue, or “burnout syndrome”</li>
+          <li class="mark">Decreased drive and ambition</li>
+          <li class="mark">Decreased strength and lean body mass</li>
+          <li class="mark">Loss of muscle mass</li>
+          <li class="mark">Increased body fat, especially at the waist</li>
+          <li class="mark">Decreased bone mass</li>
+          <li class="mark">Low libido</li>
+          <li class="mark">Erectile dysfunction</li>
+          <li class="mark">Decreased morning erections and erection strength</li>
+          <li class="mark">Low sperm count</li>
+          <li class="mark">Poor sleeping patterns</li>
+          <li class="mark">Memory loss</li>
+          <li class="mark">Brain fog</li>
+          <li class="mark">Depression</li>
+          <li class="mark">Mood changes / low mood</li>
+          <li class="mark">Irritability</li>
+          <li class="mark">Anxiousness</li>
+          <li class="mark">Stress</li>
+          <li class="mark">Elevated blood sugar</li>
+          <li class="mark">High cholesterol</li>
+        </ul>
+      </div>
 
-        <div class="stepv" data-view="step1">
-          <p class="step-of">Step 1 of 7</p>
-          <h3>Book your <em>programme</em></h3>
-          <p>Choose where you’d like to begin — then book it. <strong>Pick one of the eight</strong>
-          and we’ll carry it through to your booking.</p>
-          <p class="sublab">Where would you like to start?</p>
-          <div class="eight" id="eight" role="group" aria-label="Choose a starting point"></div>
-          <div class="aside">
-            <p>If you do have any questions prior to your booking, please email or call us:
-            <a href="mailto:info@medi-gyn.com">info@medi-gyn.com</a> ·
-            <a href="tel:+971555450797">+971 5 55 45 0797</a></p>
-            <p>Would you rather talk it through first? <a href="#book">Book a discovery call
-            with Irina</a> and she’ll walk you through the programme.</p>
+      <!-- ── THE SEVEN STEPS ──────────────────────────────────────────────── -->
+      <!-- ⚠️ ONE JOURNEY FOR BOTH PATHS — his call: "either choosing men or women doesn't
+           really matter as it leads to the same thing and journey". The gate picks the
+           symptom list and nothing else. The consequence is flagged at the foot of the lab:
+           step 3's hormone panel is testosterone-only for everybody, which is what their
+           source contains — no female marker was invented to fill it.
+           ⚠️ BLOOD WORK ONLY — his call: no BOZAT scans, no "The DUTCH Plus". -->
+      <div data-view="step1">
+        <p class="eyebrow">Step 1 / 7</p>
+        <h3 class="v-title">Book your <em>programme</em></h3>
+        <p class="v-lede">Choose where you would like to begin. <strong>We carry it through to
+        your booking.</strong></p>
+        <p class="label">Where would you like to start?</p>
+        <div class="eight" id="eight" role="group" aria-label="Choose a starting point"></div>
+        <div class="aside">
+          <p>Questions before you book? Email or call us —
+          <a href="mailto:info@medi-gyn.com">info@medi-gyn.com</a> ·
+          <a href="tel:+971555450797">+971 5 55 45 0797</a></p>
+          <p>Or <a href="#book">book a discovery call with Irina</a>, who will walk you
+          through the programme first.</p>
+        </div>
+      </div>
+
+      <div data-view="step2">
+        <p class="eyebrow">Step 2 / 7</p>
+        <h3 class="v-title">Symptom <em>questionnaire</em></h3>
+        <p class="v-lede">Complete your <strong>Peptide Therapy Health Assessment</strong>. It
+        takes a few minutes, and it is what your doctor reads before you meet.</p>
+        <!-- ⚠️ THE SCREENSHOT IS A PLACEHOLDER AND NOT A STYLE CHOICE. medi-gyn.com is
+             blocked by this environment's egress proxy (403 on CONNECT — the wall round 3
+             hit fetching the doctor portraits), so it could not be photographed here. Drop
+             the image in and replace .shot-body with an <img>; the frame and ratio are built. -->
+        <div class="shot">
+          <div class="shot-top"><i></i><i></i><i></i><span>medi-gyn.com/peptides-questionnaire/</span></div>
+          <div class="shot-body">
+            <p>Screenshot pending
+              <b>This environment cannot reach medi-gyn.com — send the image and it drops
+              straight into this frame.</b></p>
           </div>
         </div>
-
-        <div class="stepv" data-view="step2">
-          <p class="step-of">Step 2 of 7</p>
-          <h3>Symptom <em>questionnaire</em></h3>
-          <p>Please complete your <strong>Peptide Therapy Health Assessment</strong> — it takes
-          a few minutes and it is what your doctor reads before you meet.</p>
-          <!-- ⚠️ THE SCREENSHOT IS A PLACEHOLDER AND IT IS NOT A STYLE CHOICE.
-               medi-gyn.com is blocked by this environment's egress proxy (403 to CONNECT —
-               the same wall round 3 hit fetching the doctor portraits), so the questionnaire
-               could not be photographed here. Drop the image in as
-               images/peptides-questionnaire.webp and replace .shot-body with an <img>; the
-               frame, the ratio and the caption are already built around it. -->
-          <div class="shot">
-            <div class="shot-top">
-              <i aria-hidden="true"></i><i aria-hidden="true"></i><i aria-hidden="true"></i>
-              <span>medi-gyn.com/peptides-questionnaire/</span>
-            </div>
-            <div class="shot-body">
-              <p>Screenshot pending
-                <b>This environment cannot reach medi-gyn.com — send the image and it drops
-                straight into this frame.</b>
-              </p>
-            </div>
-          </div>
-          <div class="aside">
-            <p><a href="https://medi-gyn.com/peptides-questionnaire/" target="_blank" rel="noopener">
-            Open the Peptide Therapy Health Assessment →</a></p>
-          </div>
+        <div class="aside">
+          <p><a href="https://medi-gyn.com/peptides-questionnaire/" target="_blank" rel="noopener">
+          Open the Health Assessment →</a></p>
         </div>
+      </div>
 
-        <div class="stepv" data-view="step3">
-          <p class="step-of">Step 3 of 7</p>
-          <h3>Diagnostic testing — your <em>appointment</em></h3>
-          <!-- ⚠️ BLOOD WORK ONLY — HIS CALL 2026-08-16: "it's going to be blood test only required,
-               not Bozat and not the Dutch Test". The BOZAT scans are struck from this step and
-               from step 4's review; "The DUTCH Plus" never appeared here (it was in the old 06)
-               and is not to be reintroduced. Their source document still names both. -->
-          <p>You have a choice of how your doctor’s visit is done —
-          <strong>in the comfort of your own home or hotel room</strong>, or as an
-          <strong>online Zoom session</strong>. Your bloods are drawn at home if you are in
-          Dubai, or at any lab where you are.</p>
-          <p class="sublab">Blood work</p>
-          <ul class="plainlist">
-            <li>IGF-1 (Insulin-Like Growth Factor 1)</li>
-            <li>Fasting blood glucose</li>
-            <li>HbA1c</li>
-            <li>Liver function panel (ALT, AST)</li>
-            <li>Kidney function panel (Creatinine, eGFR)</li>
-            <li>Lipid panel (Cholesterol, LDL, HDL, Triglycerides)</li>
-            <li>TSH (Thyroid Stimulating Hormone) and Free T3 / Free T4</li>
-            <li>Vitamin D</li>
-          </ul>
-          <p class="sublab">Hormones</p>
-          <ul class="plainlist">
+      <div data-view="step3">
+        <p class="eyebrow">Step 3 / 7</p>
+        <h3 class="v-title">Your <em>appointment</em></h3>
+        <p class="v-lede">You choose how your doctor’s visit happens — <strong>in your own home
+        or hotel room</strong>, or as an <strong>online Zoom session</strong>. Your bloods are
+        drawn at home if you are in Dubai, or at any lab where you are.</p>
+        <p class="label">Blood work</p>
+        <ul class="grid">
+          <li class="mark">IGF-1 (Insulin-Like Growth Factor 1)</li>
+          <li class="mark">Fasting blood glucose</li>
+          <li class="mark">HbA1c</li>
+          <li class="mark">Liver function panel (ALT, AST)</li>
+          <li class="mark">Kidney function panel (Creatinine, eGFR)</li>
+          <li class="mark">Lipid panel (Cholesterol, LDL, HDL, Triglycerides)</li>
+          <li class="mark">TSH (Thyroid Stimulating Hormone) and Free T3 / Free T4</li>
+          <li class="mark">Vitamin D</li>
+        </ul>
+        <div class="subgroup">
+          <p>Hormones</p>
+          <ul class="grid">
             <li>Total Testosterone</li>
             <li>SHBG</li>
             <li>Free Testosterone (calculated)</li>
           </ul>
         </div>
-
-        <div class="stepv" data-view="step4">
-          <p class="step-of">Step 4 of 7</p>
-          <h3>Diagnostic results review — <em>Zoom</em></h3>
-          <p>Your doctor explains your blood test results in detail, so you feel
-          empowered and more in control of your health as you</p>
-          <ul class="plainlist">
-            <li>understand your current health condition and your lifestyle choices — diet, exercise</li>
-            <li>have a well-informed view of your health markers and what they mean</li>
-          </ul>
-        </div>
-
-        <div class="stepv" data-view="step5">
-          <p class="step-of">Step 5 of 7</p>
-          <h3>Your 2-month personalised <em>protocol</em></h3>
-          <p>Our medical and functional medicine doctor creates your two-month personalised
-          protocol, with the latest know-how in the field of wellness and well-ageing.</p>
-          <p class="sublab">The Medi-Gyn protocol includes</p>
-          <!-- correction kept from round 11: "making it a natural as possible for our body"
-               → "as natural as possible for your body". His new paste reverts to the original
-               typo; the agreed correction stands. -->
-          <ul class="plainlist">
-            <li>Bioidentical Hormone | Testosterone Therapy (“BHT” | “THT”)
-              <ul><li>bioidentical hormones carry the same hormonal molecule as your own body, making them as natural as possible for your body</li></ul>
-            </li>
-            <li>Peptide therapy</li>
-            <li>Science-driven supplements, including vital micronutrients and adaptogens
-              <ul><li>to boost the immune system, increase ATP energy in your cells, and support natural cell rejuvenation</li></ul>
-            </li>
-            <li>Lifestyle change recommendations that accelerate your body’s natural healing process, rejuvenating your body inside out</li>
-          </ul>
-        </div>
-
-        <div class="stepv" data-view="step6">
-          <p class="step-of">Step 6 of 7</p>
-          <!-- ⚠️ HIS PASTE READS "Protocol Explanation - DEMO ZOOM | In Person". "DEMO" is
-               read as a note in his own document rather than copy, and is not printed. If it
-               IS copy, it is one word. -->
-          <h3>Protocol explanation — Zoom or <em>in person</em></h3>
-          <p>Your doctor explains and clarifies your personalised protocol in detail, via Zoom
-          or in person — BHT, THT, peptides, and any medication or supplementation.</p>
-        </div>
-
-        <div class="stepv" data-view="step7">
-          <p class="step-of">Step 7 of 7</p>
-          <h3>4-week close <em>mentorship</em></h3>
-          <ul class="plainlist">
-            <li>Four weeks of close mentorship to check on your progress and ease you into your protocol.</li>
-            <li>A further four weeks of follow-up throughout your programme with us.</li>
-          </ul>
-          <div class="aside">
-            <p>That is the whole programme — eight weeks of somebody beside you, after the two
-            months of protocol.</p>
-          </div>
-        </div>
-
-        <!-- ── CONTROLS ──────────────────────────────────────────────────── -->
-        <div class="ctrl wiz-only" id="ctrl">
-          <div class="ctrl-l">
-            <button type="button" class="arrow" id="prev" aria-label="Previous step">
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M10 2L4 8l6 6"/></svg>
-            </button>
-            <button type="button" class="arrow" id="next" aria-label="Next step">
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 2l6 6-6 6"/></svg>
-            </button>
-            <span class="ctrl-note" id="ctrl-note"></span>
-          </div>
-          <div class="ctrl-r" id="ctrl-r"></div>
-        </div>
-
-
       </div>
+
+      <div data-view="step4">
+        <p class="eyebrow">Step 4 / 7</p>
+        <h3 class="v-title">Your results, <em>explained</em></h3>
+        <p class="v-lede">Your doctor explains your blood test results in detail on Zoom, so you
+        feel empowered and more in control of your health as you</p>
+        <ul class="grid" style="max-width:900px">
+          <li class="mark">understand your current health condition and your lifestyle choices — diet, exercise</li>
+          <li class="mark">have a well-informed view of your health markers and what they mean</li>
+        </ul>
+      </div>
+
+      <div data-view="step5">
+        <p class="eyebrow">Step 5 / 7</p>
+        <h3 class="v-title">Your 2-month <em>protocol</em></h3>
+        <p class="v-lede">Our medical and functional medicine doctor creates your two-month
+        personalised protocol, with the latest know-how in wellness and well-ageing.</p>
+        <p class="label">The Medi-Gyn protocol includes</p>
+        <!-- round 11's correction stands: "making it a natural as possible for our body"
+             → "as natural as possible for your body". His later paste reverts to the typo. -->
+        <ul class="grid">
+          <li class="mark">Bioidentical Hormone | Testosterone Therapy (“BHT” | “THT”)</li>
+          <li>the same hormonal molecule as your own body, as natural as possible for it</li>
+          <li class="mark">Peptide therapy</li>
+          <li class="mark">Science-driven supplements — vital micronutrients and adaptogens</li>
+          <li>to boost the immune system, increase ATP energy in your cells, and support natural cell rejuvenation</li>
+          <li class="mark">Lifestyle changes that accelerate your body’s natural healing, rejuvenating you inside out</li>
+        </ul>
+      </div>
+
+      <div data-view="step6">
+        <p class="eyebrow">Step 6 / 7</p>
+        <!-- ⚠️ His paste reads "Protocol Explanation - DEMO ZOOM | In Person". DEMO is read
+             as a note in his own document, not copy, and is not printed. -->
+        <h3 class="v-title">Protocol <em>explained</em></h3>
+        <p class="v-lede">Your doctor explains and clarifies your personalised protocol in
+        detail, via Zoom or in person — BHT, THT, peptides, and any medication or
+        supplementation.</p>
+      </div>
+
+      <div data-view="step7">
+        <p class="eyebrow">Step 7 / 7</p>
+        <h3 class="v-title">Eight weeks <em>beside you</em></h3>
+        <ul class="grid" style="max-width:900px">
+          <li class="mark">Four weeks of close mentorship, to check on your progress and ease you into your protocol</li>
+          <li class="mark">A further four weeks of follow-up throughout your programme with us</li>
+        </ul>
+        <!-- 06's exclusions, re-framed and moved here: the last thing read before booking
+             is the right place for what a price does and does not cover. -->
+        <div class="foot-note">
+          <p><b>Priced separately.</b> Your blood work — collected at home if you are based in
+          Dubai, or at any lab at your destination. And your peptide prescription, which is
+          personalised, so pricing varies; you see the price before anything is collected.</p>
+        </div>
+        <a class="cta" href="#book" id="cta">Book a consultation <span aria-hidden="true">→</span></a>
+      </div>
+
     </div>
   </div>
-</section>
 
-<section class="coda">
-  <div class="wrap">
-    <div class="coda-in">
-      <h3>Priced separately</h3>
-      <ul>
-        <li><b>Your blood work</b> — collected at home if you are based in Dubai, or at any lab
-        at your destination.</li>
-        <li><b>Peptide therapy</b> — every prescription is personalised, so pricing varies. You
-        see the price of any prescription before anything is collected.</li>
-      </ul>
+  <!-- ── THE NAV — bottom left: chevrons, the chain, the label ─────────────── -->
+  <div class="nav wiz-only" id="nav">
+    <div class="chevs">
+      <button type="button" class="chev" id="prev" aria-label="Back">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M10 2L4 8l6 6"/></svg>
+      </button>
+      <button type="button" class="chev" id="next" aria-label="Forward">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M6 2l6 6-6 6"/></svg>
+      </button>
     </div>
+    <div class="chain" id="chain" role="tablist" aria-label="The seven steps" hidden></div>
+    <span class="nav-label" id="nav-label"></span>
+    <div class="nav-right" id="nav-right"></div>
   </div>
 </section>
 <!-- ═══════════════ ▲ PORTABLE SECTION ENDS ▲ ════════════════════════════════ -->
 
 <section class="flags">
-  <div class="wrap">
-    <p class="kicker">Still open</p>
-    <h1 style="font-family:var(--serif);font-weight:450;font-variation-settings:'opsz' 30;font-size:clamp(26px,3.2vw,40px);line-height:1.1;letter-spacing:-.015em">What I need from you before this ports.</h1>
+  <div class="hold">
+    <p class="eyebrow">Still open</p>
+    <h2>What I need from you before this ports.</h2>
     <div class="flag-grid">
       <div class="flag">
         <h4>The PMOS expansion.</h4>
-        <p>You chose “PMOS + expansion” and the words didn’t come through. Both items ship as
-        the bare acronym with a dashed underline so they are impossible to miss —
-        <em>PMOS</em> and <em>“Those with high-androgen PMOS”</em>.</p>
-        <p>Send the expansion and it is one line. I have not invented it: this is a clinical
-        term on a regulated page.</p>
+        <p>Both occurrences ship as the bare acronym with a gold dashed underline. Send the
+        words and it is one line — I have not invented it, because it is a clinical term on a
+        regulated page.</p>
       </div>
       <div class="flag">
         <h4>The questionnaire screenshot.</h4>
         <p>medi-gyn.com is blocked by this environment’s egress proxy — a 403 on CONNECT, the
-        same wall round 3 hit fetching the doctor portraits. I could not photograph it.</p>
-        <p>Drop the image anywhere and I’ll bake it into the frame that is already built for
-        it. The live link works in the meantime.</p>
+        same wall round 3 hit fetching the doctor portraits.</p>
+        <p>Drop the image anywhere and it goes into the frame that is already built for it.</p>
       </div>
       <div class="flag">
-        <h4>Women get a testosterone-only panel.</h4>
-        <p>Your call today was one journey for both paths, so step 3 shows Total Testosterone,
-        SHBG and Free Testosterone to everyone — including someone who has just told you she
-        is here about cycles, PMOS or fertility.</p>
-        <p>That is exactly what your source document contains and I invented nothing to fill
-        it. Flagging once: <em>if the women’s panel differs clinically, it is a list from you
-        and about twenty minutes of work.</em></p>
+        <h4>Women still see a testosterone-only panel.</h4>
+        <p>One journey for both paths was your call, so step 3 shows Total Testosterone, SHBG
+        and Free Testosterone to everyone — including someone who has just told you she is
+        here about cycles, PMOS or fertility.</p>
+        <p>That is what your source document contains. <em>If the women’s panel differs
+        clinically, it is a list from you.</em></p>
       </div>
       <div class="flag">
-        <h4>“DEMO ZOOM” in step 6.</h4>
-        <p>Your paste reads <em>“Protocol Explanation - DEMO ZOOM | In Person”</em>. I read
-        DEMO as a note in your own document, not copy, and did not print it.</p>
-        <p>If it is copy, say so — it is one word.</p>
+        <h4>The three P’s are homeless.</h4>
+        <p>“Preventative. Precision. Personalised.” came off this section when the headline
+        went. The hero kicker still carries the words.</p>
+        <p>They can head the section, become a kicker, or live elsewhere on the page entirely
+        — your call, not mine to make quietly.</p>
+      </div>
+      <div class="flag">
+        <h4>Ink against the rest of the page.</h4>
+        <p>This section is now the only dark ground between the chain scene and the footer, so
+        it breaks the strict dawn/ivory alternation the page has kept since 03.</p>
+        <p>It reads as deliberate — a takeover usually should — but the two sections either
+        side of it want a look once you have decided.</p>
       </div>
       <div class="flag">
         <h4>Where the eight selection goes.</h4>
-        <p>Picking one of the eight is remembered and rewrites the closing button — <em>Book
-        Gut Health →</em>. Right now that button still points at <code>#book</code>, like every
-        other booking control on both pages.</p>
-        <p>Your booking system already lists the doctors at AED 1150 / 1h, so wiring a
-        per-service deep link is one attribute — but I need the URL shape from you.</p>
-      </div>
-      <div class="flag">
-        <h4>What happens to the old 06.</h4>
-        <p>The included/excluded ledger is gone as a section: its nine verbs were the journey
-        said twice, and the exclusions became the <em>Priced separately</em> coda above — on
-        ivory, which is what keeps the page’s dawn/ivory alternation intact.</p>
-        <p>If you want the nine verbs back as step marks (the structure lab’s plate A), that is
-        a small addition rather than a rebuild.</p>
+        <p>Picking one rewrites the closing button. It still points at <code>#book</code>, like
+        every booking control on both pages.</p>
+        <p>Wiring a per-service deep link is one attribute — I need the URL shape from you.</p>
       </div>
     </div>
   </div>
 </section>
-
 </main>
 
 <script>
-/* ── the wizard ──────────────────────────────────────────────────────────────
-   Progressive enhancement: the document above is already the whole chapter, so
-   the first thing this does is claim it (html.js) and the last thing it could do
-   is fail — in which case the reader still has every step, in order.           */
 document.documentElement.classList.add('js');
 
 const EIGHT=["Auto Immune Disease","Brain Health","Gut Health","Weight Management",
              "Skin & Hair Loss","Musculoskeletal Injury","Anti Ageing","Sexual Health"];
-
 const VIEWS=['gate','women','men','step1','step2','step3','step4','step5','step6','step7'];
 const STEPS=['step1','step2','step3','step4','step5','step6','step7'];
 const state={view:'gate',sex:null,service:null};
-
 const $=s=>document.querySelector(s);
 const views={}; VIEWS.forEach(v=>views[v]=document.querySelector(`[data-view="${v}"]`));
-const railWrap=$('#rail-wrap'), rail=$('#rail'), ctrl=$('#ctrl'),
-      prev=$('#prev'), next=$('#next'), note=$('#ctrl-note'), ctrlR=$('#ctrl-r');
+const chain=$('#chain'), prev=$('#prev'), next=$('#next'),
+      label=$('#nav-label'), navR=$('#nav-right'), nav=$('#nav');
 
-/* the eight, selectable — the choice is carried to the closing CTA */
-(function(){
+(function(){                                   /* the eight */
   const box=$('#eight');
   EIGHT.forEach(name=>{
     const b=document.createElement('button');
     b.type='button'; b.textContent=name; b.setAttribute('aria-pressed','false');
     b.addEventListener('click',()=>{
-      state.service = state.service===name ? null : name;   /* click again to clear */
+      state.service = state.service===name ? null : name;    /* click again to clear */
       [...box.children].forEach(c=>c.setAttribute('aria-pressed',String(c.textContent===state.service)));
       paint();
     });
@@ -672,106 +572,182 @@ const railWrap=$('#rail-wrap'), rail=$('#rail'), ctrl=$('#ctrl'),
   });
 })();
 
-/* the rail — seven residues on one backbone, the bond filling as you advance */
-(function(){
+(function(){                                   /* the chain in the nav bar */
   STEPS.forEach((v,i)=>{
-    if(i){const bond=document.createElement('span');bond.className='bond';bond.dataset.bond=String(i);rail.appendChild(bond);}
+    if(i){const bd=document.createElement('span');bd.className='bond';bd.dataset.bond=String(i);chain.appendChild(bd);}
     const b=document.createElement('button');
-    b.type='button'; b.className='bead'; b.textContent=String(i+1);
-    b.setAttribute('role','tab'); b.setAttribute('aria-label',`Step ${i+1} of 7`);
+    b.type='button'; b.className='bead'; b.setAttribute('role','tab');
+    b.setAttribute('aria-label',`Step ${i+1} of 7`);
     b.addEventListener('click',()=>go(v));
-    rail.appendChild(b);
+    chain.appendChild(b);
   });
 })();
 
-function idx(){ return STEPS.indexOf(state.view); }        /* -1 when not in the journey */
+const idx=()=>STEPS.indexOf(state.view);
 
 function go(v,{focus=true}={}){
-  if(!views[v]&&v!=='gate')return;
+  if(!views[v])return;
   state.view=v;
-  /* ⚠️ THE ANIM CLASS IS REMOVED AND RE-ADDED ON THE NEXT FRAME. Setting it on an
-     element that already carries it does not restart a CSS animation, so every step
-     after the first arrived without one — a bug you only see by watching, not by
-     reading the state. */
-  Object.entries(views).forEach(([k,el])=>{ if(el){el.classList.remove('on','anim');} });
+  /* ⚠️ REMOVE .anim AND RE-ADD IT ON THE NEXT FRAME. Setting a class an element already
+     carries does not restart a CSS animation, so every step after the first arrived with
+     no entrance at all — visible only by watching, never by reading the state. */
+  Object.values(views).forEach(el=>el&&el.classList.remove('on','anim'));
   const el=views[v];
-  if(el){ el.classList.add('on'); requestAnimationFrame(()=>el.classList.add('anim')); }
+  el.classList.add('on');
+  requestAnimationFrame(()=>el.classList.add('anim'));
   paint();
-  if(focus&&el){ const h=el.querySelector('h3'); if(h){h.setAttribute('tabindex','-1');h.focus({preventScroll:true});} }
-  try{ history.replaceState(null,'',v==='gate'?location.pathname:`${location.pathname}?view=${v}`); }catch(e){}
+  if(focus){const h=el.querySelector('h2,h3'); if(h){h.setAttribute('tabindex','-1');h.focus({preventScroll:true});}}
+  try{history.replaceState(null,'',v==='gate'?location.pathname+location.search.replace(/[?&]view=[^&]*/,'').replace(/^&/,'?'):
+      `${location.pathname}?${new URLSearchParams([...new URLSearchParams(location.search).entries()].filter(([k])=>k!=='view').concat([['view',v]]))}`);}catch(e){}
 }
 
 function paint(){
   const i=idx(), inJourney=i>=0, onAud=state.view==='women'||state.view==='men';
-  railWrap.hidden=!inJourney;
-  ctrl.style.display = state.view==='gate' ? 'none' : 'flex';
-
-  rail.querySelectorAll('.bead').forEach((b,n)=>{
-    b.classList.toggle('now',n===i);
-    b.classList.toggle('done',n<i);
+  nav.style.visibility = state.view==='gate' ? 'hidden' : 'visible';
+  chain.hidden=!inJourney;
+  chain.querySelectorAll('.bead').forEach((b,n)=>{
+    b.classList.toggle('now',n===i); b.classList.toggle('done',n<i);
     b.setAttribute('aria-selected',String(n===i));
   });
-  rail.querySelectorAll('.bond').forEach(b=>b.classList.toggle('done',+b.dataset.bond<=i));
-
+  chain.querySelectorAll('.bond').forEach(b=>b.classList.toggle('done',+b.dataset.bond<=i));
   prev.disabled = state.view==='gate';
   next.disabled = state.view==='step7';
-  /* The label beside the chevrons is the only signpost now that the CTA is gone, so it
-     has to say where › goes, not merely where you are. */
-  note.innerHTML = inJourney ? `<b>${i+1}</b> of 7`
-                 : (onAud ? `<b>Continue</b> — how it works` : '');
-
-  /* the chrome carries both choices back to the reader, and lets them change either */
-  ctrlR.innerHTML='';
-  if(inJourney){
-    if(state.sex){
-      const s=document.createElement('span'); s.className='chosen';
-      s.innerHTML=`For ${state.sex}`;
-      const c=document.createElement('button'); c.type='button'; c.textContent='change';
-      c.addEventListener('click',()=>go(state.sex));
-      s.appendChild(c); ctrlR.appendChild(s);
-    }
-    if(state.view==='step7'){
-      const a=document.createElement('a'); a.className='btn'; a.href='#book';
-      a.innerHTML=`Book ${state.service?state.service:'a consultation'} <span aria-hidden="true">→</span>`;
-      ctrlR.appendChild(a);
-    }
+  /* The label is the only signpost forward now that the CTA has gone, so it says where
+     › GOES rather than merely where you are. */
+  label.innerHTML = inJourney ? `<b>${i+1}</b> &nbsp;of 7` : (onAud ? `<b>Continue</b> — how it works` : '');
+  navR.innerHTML='';
+  if(inJourney && state.sex){
+    const s=document.createElement('span'); s.className='chosen'; s.textContent=`For ${state.sex}`;
+    const c=document.createElement('button'); c.type='button'; c.textContent='change';
+    c.addEventListener('click',()=>go(state.sex));
+    s.appendChild(c); navR.appendChild(s);
   }
+  const cta=$('#cta');
+  if(cta) cta.firstChild.textContent = state.service ? `Book ${state.service} ` : 'Book a consultation ';
 }
 
 document.querySelectorAll('.pick').forEach(p=>{
-  p.addEventListener('click',()=>{
-    state.sex=p.dataset.sex;
-    document.querySelectorAll('.pick').forEach(q=>q.setAttribute('aria-pressed',String(q===p)));
-    go(state.sex);
-  });
+  p.addEventListener('click',()=>{ state.sex=p.dataset.sex; go(state.sex); });
 });
-
 prev.addEventListener('click',()=>{
   const i=idx();
-  if(i>0) go(STEPS[i-1]);
-  else if(i===0) go(state.sex||'gate');
-  else go('gate');
+  if(i>0) go(STEPS[i-1]); else if(i===0) go(state.sex||'gate'); else go('gate');
 });
 next.addEventListener('click',()=>{
   const i=idx();
-  if(i>=0&&i<6) go(STEPS[i+1]);
-  else if(i<0) go('step1');
+  if(i>=0&&i<6) go(STEPS[i+1]); else if(i<0) go('step1');
 });
-
-/* keyboard, but never while someone is typing or tabbing through the eight */
 document.addEventListener('keydown',e=>{
-  if(state.view==='gate')return;
-  if(e.metaKey||e.ctrlKey||e.altKey)return;
+  if(state.view==='gate'||e.metaKey||e.ctrlKey||e.altKey)return;
   const t=e.target;
   if(t&&(t.closest('input,textarea,select')||t.closest('#eight')))return;
   if(e.key==='ArrowRight'&&!next.disabled){e.preventDefault();next.click();}
   if(e.key==='ArrowLeft'&&!prev.disabled){e.preventDefault();prev.click();}
 });
 
-/* ?view=step3 — solo QA, the same convention as the scene's ?scene= */
-(function(){
+(function(){                                    /* ?view= solo, the scene's convention */
   const v=new URLSearchParams(location.search).get('view');
   if(v&&views[v]){ if(v==='women'||v==='men')state.sex=v; go(v,{focus:false}); }
   else go('gate',{focus:false});
 })();
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   THE GROUND — the page's OWN peptide-bond engine (index.html, plate D, round 10),
+   re-lit for ink and quietened to sit behind type. What changed and why:
+     · counts fall (7/5/4 chains against 11/8/6) and time runs at .55× — a background
+       must not compete with the sentence in front of it;
+     · the ground gradient and the glacier multiply are gone: that multiply exists to
+       drop a bright plate into the glacier grade, and on ink it would crush the field
+       to black. The section's CSS gradient is the ground now;
+     · the strokes are ivory at low alpha instead of plum, and the active site keeps
+       the hero's OWN gold rgba(194,160,94) — the one warm note this page already ships.
+   ⚠️ THE SEED AND THE GEOMETRY ARE UNTOUCHED. Same 424242, same rod-and-ripple, same
+   52px docking rule — so this is the hero's field, dimmed, not a lookalike. ═════ */
+try{
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const canvas=document.getElementById("ground");
+  const ctx=canvas.getContext("2d");
+  if(!ctx) throw new Error("no 2d context");
+  const DPR=Math.min(devicePixelRatio||1,1.5);
+  let seed=424242;
+  const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
+  const chains=[];
+  for(let i=0;i<11;i++){
+    const n=4+Math.floor(rnd()*4);
+    chains.push({n,x0:rnd(),y0:rnd(),vx:(rnd()-.5)*14,vy:-(4+rnd()*8),
+      ang:rnd()*6.28,rot:(rnd()-.5)*.06,seg:26+rnd()*10,amp:5+rnd()*6,
+      frq:.5+rnd()*.5,phs:rnd()*6.28,gold:Math.floor(rnd()*n),
+      r:[...Array(n)].map(()=>2.6+rnd()*2.2)});
+  }
+  const frees=[];
+  for(let i=0;i<24;i++) frees.push({x0:rnd(),y0:rnd(),vx:(rnd()-.5)*10,vy:-(3+rnd()*7),r:2+rnd()*1.6,ph:rnd()*6.28});
+  const wrap=(v,m)=>((v%m)+m)%m;
+  function chainNodes(ch,t,W,H){
+    const ax=wrap(ch.x0*W+ch.vx*t,W+120)-60, ay=wrap(ch.y0*H+ch.vy*t,H+120)-60;
+    const a=ch.ang+ch.rot*t, dx=Math.cos(a), dy=Math.sin(a), pts=[];
+    for(let i=0;i<ch.n;i++){
+      const off=Math.sin(t*ch.frq+ch.phs+i*1.15)*ch.amp;
+      pts.push({x:ax+dx*i*ch.seg-dy*off, y:ay+dy*i*ch.seg+dx*off});
+    }
+    return pts;
+  }
+  let W=0,H=0;
+  function size(){
+    W=canvas.clientWidth; H=canvas.clientHeight;
+    const w=Math.round(W*DPR), h=Math.round(H*DPR);
+    if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+  }
+  function draw(tt){
+    const t=tt*.55, c=ctx;
+    c.clearRect(0,0,W,H);
+    const nChains=W<640?4:W<1024?5:7;
+    const ends=[];
+    for(const ch of chains.slice(0,nChains)){
+      const pts=chainNodes(ch,t,W,H);
+      c.beginPath();
+      for(let i=0;i<pts.length;i++) i?c.lineTo(pts[i].x,pts[i].y):c.moveTo(pts[i].x,pts[i].y);
+      c.strokeStyle="rgba(174,192,204,.20)"; c.lineWidth=1; c.stroke();
+      for(let i=0;i<pts.length;i++){
+        const gold=i===ch.gold, r=ch.r[i]+(gold?1.2:0);
+        c.beginPath(); c.arc(pts[i].x,pts[i].y,r,0,6.2832);
+        c.fillStyle=gold?"rgba(194,160,94,.62)":"rgba(174,192,204,.28)";
+        c.fill();
+        if(gold){
+          c.beginPath(); c.arc(pts[i].x,pts[i].y,r+3.5+Math.sin(t*2+i)*1.2,0,6.2832);
+          c.strokeStyle="rgba(194,160,94,.22)"; c.lineWidth=1; c.stroke();
+        }
+      }
+      ends.push(pts[0],pts[pts.length-1]);
+    }
+    const nFrees=W<640?7:W<1024?10:14;
+    for(const fr of frees.slice(0,nFrees)){
+      const x=wrap(fr.x0*W+fr.vx*t,W+40)-20+Math.sin(t*.4+fr.ph)*6;
+      const y=wrap(fr.y0*H+fr.vy*t,H+40)-20;
+      c.beginPath(); c.arc(x,y,fr.r,0,6.2832);
+      c.fillStyle="rgba(174,192,204,.18)"; c.fill();
+      for(const e of ends){
+        const dx=e.x-x, dy=e.y-y, d=Math.hypot(dx,dy);
+        if(d<52&&d>4){
+          const a=(1-d/52)*.42;
+          c.beginPath(); c.moveTo(x,y); c.lineTo(e.x,e.y);
+          c.strokeStyle="rgba(194,160,94,"+a+")"; c.lineWidth=1; c.stroke();
+        }
+      }
+    }
+  }
+  const STILL=21.7;                    /* the lab's still — the frame the plates were judged at */
+  size(); draw(STILL);
+  let t0=performance.now();
+  addEventListener("resize",()=>{size(); draw(reduce?STILL:(performance.now()-t0)/1000);});
+  let inView=true;
+  new IntersectionObserver(e=>inView=e[0].isIntersecting).observe(canvas);
+  if(!reduce){
+    (function loop(){
+      requestAnimationFrame(loop);
+      if(!inView||document.hidden)return;
+      draw((performance.now()-t0)/1000);
+    })();
+  }
+}catch(e){ /* no canvas: the section's CSS gradient is the ground, and it is enough */ }
 </script>

@@ -66,7 +66,7 @@ const parse = s => { const n = (s.match(/[\d.]+/g)||[]).map(Number); return { c:
 const over = (fg,bg) => { const f = parse(fg), b = parse(bg); return f.c.map((v,i)=> v*f.a + b.c[i]*(1-f.a)); };
 const contrast = (fg,bg) => ratio(over(fg,bg), parse(bg).c);
 
-const VIEWS = ['grid','index','type','shelf','pills','derive'];
+const VIEWS = ['grid','index','type','shelf','pills','plates','marks','derive'];
 
 const run = async () => {
   const browser = await chromium.launch({ executablePath: findChromium(), args: ['--force-color-profile=srgb'] });
@@ -154,30 +154,79 @@ const run = async () => {
   }
   const sigs = Object.entries(prints).map(([k,p]) => [k, JSON.stringify(p)]);
   const dupes = sigs.filter(([k,s], i) => sigs.findIndex(([,s2]) => s2 === s) !== i);
-  dupes.length === 0 ? ok('4  all six render differently')
-                     : bad('4  all six render differently', 'identical: ' + dupes.map(d=>d[0]).join(', '));
+  dupes.length === 0 ? ok('4  all eight render differently')
+                     : bad('4  all eight render differently', 'identical: ' + dupes.map(d=>d[0]).join(', '));
 
   is('5  grid is four columns on the container', prints.grid.outerCols, 4);
   is('5a and the index is not', prints.index.outerCols, 0);
   is('6  index shows the descriptor', prints.index.descriptorShown, true);
   is('6a index is three columns per row', prints.index.innerCols, 3);
   is('6b and it is the only view that shows a descriptor',
-     ['grid','type','shelf','pills'].some(v => prints[v].descriptorShown), false);
+     ['grid','type','shelf','pills','plates','marks'].some(v => prints[v].descriptorShown), false);
   ok('7  type is set large', `${prints.type.size}px vs grid ${prints.grid.size}px`);
   prints.type.size >= prints.grid.size * 1.8
     ? ok('7a type is decisively larger than the grid', `${prints.type.size} ≥ ${Math.round(prints.grid.size*1.8)}`)
     : bad('7a type is decisively larger than the grid', `${prints.type.size} vs ${prints.grid.size}`);
   is('8  the shelf actually scrolls sideways', prints.shelf.scrollable, true);
-  is('8a and nothing else does', [prints.grid,prints.index,prints.type,prints.pills].some(p=>p.scrollable), false);
+  is('8a and nothing else does', [prints.grid,prints.index,prints.type,prints.pills,prints.plates,prints.marks].some(p=>p.scrollable), false);
   is('9  pills are pill-shaped', prints.pills.radius >= 20, true);
-  is('9a nothing else is', [prints.grid.radius,prints.index.radius,prints.type.radius].every(r=>r<20), true);
+  is('9a nothing else is', [prints.grid.radius,prints.index.radius,prints.type.radius,
+     prints.plates.radius,prints.marks.radius].every(r=>r<20), true);
+
+  /* ── the two tile views, which is what "show them as clickable tiles" asked for ──
+     PLATES: eight distinct pictures must actually decode, and the resting state
+     must be visibly quieter than the chosen one — that desaturation IS the
+     selection state, so if the filter ever stops applying the view silently
+     loses its only affordance.
+     MARKS: eight distinct drawings, not one drawing eight times. Compare the
+     path geometry, because eight <svg>s that all render the same shape would
+     pass every count-based check ever written. */
+  await page.click('[data-view="plates"]');
+  await page.waitForTimeout(700);
+  const plates = await page.evaluate(async () => {
+    const els = [...document.querySelectorAll('.g-plate')];
+    const urls = els.map(e => (getComputedStyle(e).backgroundImage.match(/url\("?(data:[^")]+)"?\)/)||[])[1]);
+    const sizes = await Promise.all(urls.map(u => u ? new Promise(r => {
+      const i = new Image(); i.onload = () => r(i.naturalWidth); i.onerror = () => r(0); i.src = u; }) : 0));
+    return { n: els.length, unique: new Set(urls).size, sizes,
+             resting: getComputedStyle(els[0]).filter };
+  });
+  is('9b plates: eight frames', plates.n, 8);
+  is('9c plates: eight DIFFERENT pictures', plates.unique, 8);
+  is('9d plates: all eight decode', plates.sizes.every(w => w > 0), true);
+  has('9e plates: the resting state is desaturated', plates.resting, 'saturate');
+  await page.click('[data-goal="Gut Health"]');
+  await page.waitForTimeout(700);
+  const lifted = await page.evaluate(() =>
+    getComputedStyle(document.querySelector('.g[aria-pressed="true"] .g-plate')).filter);
+  lifted !== plates.resting
+    ? ok('9f plates: choosing brings the picture to life', `${plates.resting} → ${lifted}`)
+    : bad('9f plates: choosing brings the picture to life', 'filter unchanged');
+  await page.click('#reset');
+
+  await page.click('[data-view="marks"]');
+  await page.waitForTimeout(180);
+  const marks = await page.evaluate(() => {
+    const svgs = [...document.querySelectorAll('.g-mark')];
+    const geom = svgs.map(s => [...s.querySelectorAll('path,circle')]
+      .map(e => e.getAttribute('d') || `${e.getAttribute('cx')},${e.getAttribute('cy')}`).join(';'));
+    const box = svgs[0].getBoundingClientRect();
+    return { n: svgs.length, unique: new Set(geom).size,
+             drawn: Math.round(box.width), shown: getComputedStyle(svgs[0]).display };
+  });
+  is('9g marks: eight figures', marks.n, 8);
+  is('9h marks: eight DIFFERENT figures', marks.unique, 8);
+  is('9i marks: they are actually drawn', marks.drawn >= 40, true);
+  is('9j marks: hidden in every other view',
+     await page.evaluate(() => { document.querySelector('[data-view="grid"]').click();
+       return getComputedStyle(document.querySelector('.g-mark')).display; }), 'none');
   is('10 symptom-first swaps the mode', prints.derive.mode, 'derive');
 
   /* ═════════════ C · CAN YOU STILL SEE YOUR ANSWER ═════════════
      The measurement that decides this whole question. Pick three, then count how
      many of the three are actually inside the viewport without scrolling. */
   console.log('\n\x1b[1mC · with three chosen, how many can you see\x1b[0m');
-  for (const v of ['grid','index','type','shelf','pills']) {
+  for (const v of ['grid','index','type','shelf','pills','plates','marks']) {
     await page.click('#reset');
     await page.click(`[data-view="${v}"]`);
     await page.waitForTimeout(180);

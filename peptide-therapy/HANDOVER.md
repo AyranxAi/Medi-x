@@ -1,5 +1,105 @@
 # Peptide Therapy — `/peptide-therapy/` (first ship 2026-08-14)
 
+> ## ROUND 12 — 2026-08-16: THE GLACIER IS REVERSED. The palette comes home whole and
+> ONE colour is added beside it — the champagne's complement, `--deep #003758`
+>
+> **READ THIS BEFORE TOUCHING ANY COLOUR ON THIS PAGE.** Rounds 7 through 11 are now
+> history, not guidance. What changed is not a value, it is the **method**, and the method
+> is the only thing that matters for whatever comes next.
+>
+> **1 · THE METHOD THAT WAS REJECTED, IN THE CLIENT'S OWN WORDS.** Relayed 2026-08-16:
+> > *"What you did is, got the pallet, created colors that works good with it seperatly.
+> > Then incorporated that stand alone color alone! It should be incorporating our original
+> > colors PLUS an addition of one that fits with it harmonsly. For example in our Peptide
+> > we make the champigne and baige take 60% 20% burgendy logo color 20% other deep color"*
+>
+> Every round from 7 onward took the palette, derived a **cousin** of it (rotate the hue,
+> hold L\* and C\*), and shipped the cousin **in place of** the palette. Glacier was that.
+> The twelve warm families explored this round were that. It is a seductive method because
+> every contrast figure survives the rotation exactly — which makes it *look* rigorous while
+> it quietly replaces the brand with a lookalike. ⚠️ **The arithmetic being sound is not
+> evidence that the approach is right, and this page spent five rounds proving it.**
+>
+> **2 · WHAT SHIPPED INSTEAD — 60 / 20 / 20.** Every champagne, beige, burgundy and red is
+> **BRAND.md verbatim again**: `--ivory #FAF7F1 · --cream #F4EDE1 · --line #DED4C2 ·
+> --gold #C2A05E · --gold-deep #8A6A34 · --gold-tint #F1E7D2 · --dawn #F6E7E1`. One colour
+> joins them and takes the page's dark surfaces.
+> > `--deep #003758` — **the champagne's complement.** `--gold` sits at h83.8°; its
+> > complement is h263.8°. Taken at **`--burgundy`'s own L\* 21.9 and C\* 29.9**, so it
+> > stands beside the burgundy as an equal rather than on top of it as a guest.
+>
+> Derived, not picked, and **reproducible**: `node tools/qa/third-colour.mjs` regenerates
+> every value and prints the contrast table. ⚠️ **If `--gold`, `--burgundy` or `--deep` ever
+> moves, run that tool and paste its table back into the stylesheet.** Do not re-measure by
+> eye and do not edit a number in a comment without re-running it.
+>
+> **3 · WHAT THE THIRD COLOUR DRESSES.** `.scene-stage` (was `#1D272F`), `.turn` (was
+> `#003A5F`), the scene glow, the canvas floor `BG_A`. ⚠️ **`.turn` and `.scene-stage` must
+> always carry the same ground** — the band is what a reduced-motion or no-JS visitor sees
+> *instead of* the scene, and that rule has survived every round.
+>
+> **4 · THE SOLVED ACCENTS ARE ALL RETIRED, AND THAT IS THE HEADLINE.** Round 9 pinned
+> `.scene-beat.gold` to `#8FA5B8` and round 11 *solved* `#95ABBF` for the turn band, both
+> because the champagne had been replaced by steel and could not appear on its own page.
+> Nothing has replaced it now, so the beats and the band simply read `var(--gold)`, the
+> italics read `var(--rose)`, and the chain's `GOLD` constant is the brand champagne again.
+> **Three literals and one solved colour deleted.** When the palette is added to rather
+> than swapped out, the accents need no arithmetic.
+>
+> **5 · MEASURED ON THE NEW GROUND** — ivory 11.64 · champagne 5.03 · rose 5.02 · stone
+> beads 4.71 · ivory on the recessed strip 13.86 · hue separation from the burgundy 102°.
+> ⚠️ **These are LOWER than round 11's and that is expected, not a regression.** The old
+> stage sat at `--ink`'s lightness (L\* 14.8); this one sits at `--burgundy`'s (L\* 21.9),
+> because the third colour is pinned to the burgundy. A lighter stage means smaller ratios
+> on everything standing on it. Every pair clears 4.5.
+> ⚠️ **`--deep` vs `--burgundy` measures 1.00:1 and that is BY DESIGN** — they share a
+> lightness so they carry equal weight. Hue is the only thing keeping them apart; 30° is
+> the floor and they sit 102° apart. Do not "fix" this with a luminance test.
+>
+> **6 · TWO TRAPS THIS ROUND WALKED INTO, BOTH RECORDED AT THEIR SITE.**
+> · **A lifted surface under a gold label.** The obvious move is to lift the step strip
+> above the stage; measured, that puts the champagne at **3.55:1** on it. `--deep-mid` is
+> **recessed** (L\*−6), not lifted. Do not tidy the minus sign away.
+> · **`--gold-gloss` diverges from `--gold-deep` again, and it has to.** `--gold-deep`
+> measures 4.16 on the rose dawn — under the floor for `.seg-gloss`'s size — which is why
+> `#7F6230` was solved on the sister page originally. Round 9 let them converge because the
+> glacier's steel happened to pass everywhere; with the rose dawn restored that coincidence
+> is gone. **If the dawn ever moves, re-measure this pair first — it has failed silently once.**
+>
+> **7 · THE PRELOADER STAYS BURGUNDY — his call, made this round**, and it is no longer a
+> clash: the page opens burgundy and the burgundy is still in it, at the footer.
+>
+> **8 · THE HERO'S MULTIPLY CHANGED, THE MECHANISM DID NOT.** Plate D still grades in one
+> `multiply` at the foot of `draw()`; the tint moved `#F3F7FB → #FAF7F1`. ⚠️ Its chain nodes
+> were `rgba(194,160,94)` all along — they are no longer the odd thing out, because
+> `--gold` is that colour again. **The hero's metal and the page's accent finally match.**
+>
+> **9 · THE DECISION ARTIFACTS — KEEP BOTH, THEY ARE THE RECORD.**
+> · **The Third Colour** (current, the shipped approach) —
+> https://claude.ai/code/artifact/a98f1aa8-0e7e-4f2b-9ba3-4f534887207f
+> The 60/20/20 live on the real page, a harmony track marked with where the brand's own
+> colours sit, six candidate hues, and proportions **measured off the specimen** rather
+> than asserted (currently 62/17/21).
+> · **Warm Cousins** (⚠️ **SUPERSEDED — the rejected method**) —
+> https://claude.ai/code/artifact/b3b98284-9381-42cb-be05-52248a361d7b
+> Twelve families replacing the palette, on one ivory→ink ground slider. **Do not take a
+> value out of it.** It is kept because it is the clearest possible illustration of the
+> approach the client turned down, and because its ground-slider work is reusable if a
+> dark theme is ever wanted *properly* — as an addition, not a replacement.
+> ⚠️ `grade-lab.html` and `hero-lab.html` and their artifact twins are likewise history now.
+> Keep them; do not read values out of them into `index.html`.
+>
+> **10 · STILL OPEN.**
+> · **The client has not seen this shipped.** The champagne's complement was chosen off the
+> six-candidate board; the page built from it has not been signed off.
+> · **The hormone page and this page now share a palette**, distinguished only by the added
+> colour. Round 7's *"each service page owns its temperature"* is superseded — worth
+> confirming that is intended before functional medicine gets its own page.
+> · **The bonds lab and the grade lab still speak glacier** in their copy and their bars.
+> Neither is linked from the live page; both will contradict it if shown.
+> · The eight service tiles, the FAQ and the "more effective alternative to traditional
+> medicine" claim still need clinical sign-off — unchanged from round 11.
+
 > ## ROUND 11 — 2026-08-16: the client's notes land — the scene goes cool, the page grows
 > two chapters, and the band grows two doctors
 >

@@ -1,3 +1,55 @@
+# Handoff addendum — 2026-08-16, round 12 (the glacier is reversed: the palette comes home whole, and one colour is added beside it)
+
+Scope: `peptide-therapy/index.html`, a new `tools/qa/third-colour.mjs`, and the round-12
+banner in [`peptide-therapy/HANDOVER.md`](peptide-therapy/HANDOVER.md) — **read that banner
+before touching any colour on that page.**
+
+The client's correction this round was about **method, not taste**, and it invalidates five
+rounds of work: *"you got the pallet, created colors that works good with it seperatly, then
+incorporated that stand alone color alone! It should be incorporating our original colors
+PLUS an addition of one that fits with it harmonsly… we make the champigne and baige take
+60% 20% burgendy logo color 20% other deep color."*
+
+Every round from 7 onward had taken the palette, derived a **cousin** of it — rotate the
+hue, hold L\* and C\* — and shipped the cousin **in place of** the palette. Glacier was that.
+So were the twelve warm families explored this round. ⚠️ **It is a seductive method because
+every contrast figure survives the rotation exactly, which makes it look rigorous while it
+quietly replaces the brand with a lookalike.** The arithmetic being sound is not evidence
+that the approach is right.
+
+What ships instead: **BRAND.md verbatim**, plus one added colour.
+
+- **`--deep #003758` — the champagne's complement.** `--gold` sits at h83.8°, its complement
+  at h263.8°, taken at **`--burgundy`'s own L\* 21.9 / C\* 29.9** so it stands beside the
+  burgundy as an equal. It dresses `.scene-stage`, `.turn`, the scene glow and the canvas
+  floor. Derived, not picked: **`node tools/qa/third-colour.mjs`** regenerates every value
+  and prints the contrast table — re-run it if `--gold`, `--burgundy` or `--deep` moves.
+- **Every solved accent is deleted.** Round 9's pinned `#8FA5B8` and round 11's solved
+  `#95ABBF` existed only because the champagne had been replaced and could not appear on its
+  own page. The beats and the band read `var(--gold)` now, the italics `var(--rose)`.
+- **Measured**: ivory 11.64 · champagne 5.03 · rose 5.02 · beads 4.71 · hue separation from
+  the burgundy 102°. ⚠️ Lower than round 11's **by design** — the stage moved from `--ink`'s
+  lightness to `--burgundy`'s. ⚠️ `--deep` vs `--burgundy` is 1.00:1 **on purpose**; they
+  share a weight and hue is what separates them.
+- **The preloader stays burgundy** (his call) and is no longer a clash. **The hero's tint
+  moved `#F3F7FB → #FAF7F1`**; its chain nodes were always `rgba(194,160,94)`, so the hero's
+  metal and the page's accent finally match.
+
+⚠️ **The two decision artifacts are the record and both are kept** — the current one,
+**The Third Colour**, at https://claude.ai/code/artifact/a98f1aa8-0e7e-4f2b-9ba3-4f534887207f,
+and the **superseded** **Warm Cousins** at
+https://claude.ai/code/artifact/b3b98284-9381-42cb-be05-52248a361d7b, which illustrates the
+rejected method. **Do not take a value out of the second one.** `grade-lab.html`,
+`hero-lab.html` and their artifact twins are history for the same reason: keep them, don't
+read values out of them.
+
+⚠️ **The hormone page and the peptide page now share one palette**, told apart by the added
+colour rather than by temperature — which supersedes round 7's *"each service page owns its
+temperature over the same bones."* Worth confirming that is intended before functional
+medicine gets a page. **Not yet seen by the client in built form.**
+
+---
+
 # Handoff addendum — 2026-08-15, round 10b (the lab gets real geometry: thirteen grounds in three chapters)
 
 Scope: `peptide-therapy/bonds-lab.html` (regenerated), a new `.lab-dev/` build rig, `vendor/`,

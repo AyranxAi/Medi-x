@@ -51,28 +51,34 @@
   font-display:swap;src:url(../fonts/cormorant-garamond-italic-latin.woff2) format("woff2");
   unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
 
-/* ──────────────── TOKENS — Medi✦X BRAND.md constants + THIS PAGE'S GLACIER GRADE ────────────────
-   ⚠️ ROUND 9 (2026-08-15): the surfaces are RE-GRADED to glacier — his letters A2·B2·C2 off
-   peptide-therapy/grade-lab.html (kept, with its artifact twin — see HANDOVER round 8). The
-   token NAMES keep their BRAND.md roles; six VALUES move by the judged round-7 mapping
-   (ivory→#F4F7FA · cream→#EAF0F5 · line→#D5DEE6 · gold→#7C93A8 · gold-deep→#54687C ·
-   gold-tint→#E4EDF4). The one red, the burgundy, the rose and both inks are BRAND LAW and
-   do not move — on any grade, ever. The hormone page keeps the warm originals: each service
-   page owns its temperature over the same bones. Three warm survivors on THIS page are
-   pinned as literals where they live, each with its argument: the preloader's ✦ (the
-   favicon's shared gold spark), and the turn band's golds (a complete burgundy composition
-   — re-grading only its accents would half-grade the one deliberately warm band). */
+/* ──────────── TOKENS — Medi✦X BRAND.md constants + THIS PAGE'S ONE ADDED COLOUR ────────────
+   ⚠️ ROUND 12 (2026-08-16): THE GLACIER RE-GRADE IS REVERSED AND THE APPROACH IS THE POINT.
+   Rounds 7–9 re-graded the surfaces to glacier — six token VALUES moved off the judged
+   round-7 mapping while the NAMES kept their BRAND.md roles. The client's verdict on that
+   method, relayed 2026-08-16: "you got the palette, created colours that work good with it
+   separately, then incorporated that stand-alone colour alone… it should be incorporating
+   our original colours PLUS an addition of one that fits with it harmoniously."
+   So every value below is BRAND.md verbatim again, and ONE new colour — --deep, the
+   champagne's complement — joins them. The construction, the client's own wording and the
+   contrast table live at --deep further down this block.
+   ⚠️ WHAT THIS MEANS FOR THE PAGES: the peptide page and the hormone page now share the
+   same palette and are told apart by the ADDED colour, not by a different temperature.
+   Round 7's "each service page owns its temperature over the same bones" is superseded —
+   the bones and the temperature are shared now, and the third colour is the difference.
+   ⚠️ THE GRADE LABS ARE HISTORY, NOT GUIDANCE. grade-lab.html, hero-lab.html and their
+   artifact twins document a decision that has been reversed. Keep them (they are the
+   record of what was tried), but do not read a value out of them into this file. */
 :root{
-  --ivory:#F4F7FA;         /* glacier white — the page ground */
-  --cream:#EAF0F5;
-  --line:#D5DEE6;
+  --ivory:#FAF7F1;         /* BRAND.md, restored — the page ground */
+  --cream:#F4EDE1;
+  --line:#DED4C2;
   --burgundy:#5C1F31;
   --rose:#C79A92;
   --logo-red:#8E2D3A;      /* the one red */
   --red-hover:#A33648;
-  --gold:#7C93A8;          /* the accent role — steel on this grade */
-  --gold-deep:#54687C;
-  --gold-tint:#E4EDF4;
+  --gold:#C2A05E;          /* BRAND.md, restored — the champagne */
+  --gold-deep:#8A6A34;
+  --gold-tint:#F1E7D2;
   --ink:#2E2228;
   --ink-soft:#6A585F;
   --serif:"Playfair","Playfair Display",Didot,"Times New Roman",Georgia,serif;
@@ -88,18 +94,47 @@
   --quote-story:"Cormorant Garamond",Georgia,serif;
   /* ⚠️ THE DAWN, AS A TOKEN — 2026-08-13 (evening). This is the exact colour the scene's
      ground rises TO, and section 03 now stands on it so the handoff has no seam.
-     ⚠️ IT MUST STAY EQUAL TO BG_B IN THE SCENE SCRIPT (`const BG_B=[232,239,245]`). Two
+     ⚠️ IT MUST STAY EQUAL TO BG_B IN THE SCENE SCRIPT (`const BG_B=[246,231,225]`). Two
      copies of one colour in two languages; there is no way to share them in a zero-build
      single file, so they are cross-referenced at both sites instead. Change one, change
      the other, or 03 grows a seam that is 2 RGB values wide and impossible to spot. */
-  --dawn:#E8EFF5;          /* glacier dawn — B2, his letter. The rose #F6E7E1 lives on in the sister page */
-  /* ⚠️ TWO TOKENS THAT NOW SHARE A VALUE, AND THE SPLIT STAYS. The warm system needed a
-     darker gloss (#7F6230) because --gold-deep #8A6A34 measured 4.16 on the rose dawn,
-     under the 4.5 floor for .seg-gloss's size. The steel deep #54687C passes EVERYWHERE
-     the gloss appears on this grade — measured: 4.96 dawn / 5.01 cream / 5.35 ivory — so
-     gloss and deep converge. The token is kept, not collapsed, because the divergence was
-     a decision and the next grade may need it again (same rule as --quote/--quote-story). */
-  --gold-gloss:#54687C;
+  --dawn:#F6E7E1;          /* BRAND.md, restored — the rose dawn the sister page never left */
+
+  /* ══ THE THIRD COLOUR ══════════════════════════════════════════════════════
+     2026-08-16, the client's own construction, relayed: "With our original palette
+     (with it + a new colour) mixed — it can be one deep colour… we make the
+     champagne and beige take 60%, 20% burgundy logo colour, 20% other deep colour."
+     ⚠️ THIS IS AN ADDITION, NOT A RE-GRADE, AND THE DISTINCTION IS THE WHOLE POINT.
+     Rounds 7–9 replaced the palette with a cousin of itself (glacier). That was the
+     rejected approach: "you got the palette, created colours that work good with it
+     separately, then incorporated that stand-alone colour alone." Every champagne,
+     beige, burgundy and red above is now BRAND.md verbatim again; this ONE colour
+     joins them.
+     WHAT IT IS: --gold #C2A05E sits at hue 83.8°. Its complement is 263.8°. Taken at
+     --burgundy's OWN L* 21.9 and C* 29.9, so it stands beside the burgundy as an equal
+     rather than on top of it as a guest. Chroma clips to gamut at this lightness; L* is
+     untouched, so no contrast figure moves. Hue separation from the burgundy is 102°
+     — they share a lightness by design, so hue is the only thing keeping them apart,
+     and 30° is the floor.
+     MEASURED, on the flat grounds: ivory 11.64 · champagne 5.03 · rose 5.02 ·
+     stone beads 4.71 · ivory on the recessed strip 13.86. All clear.
+     ⚠️ --deep-mid, --deep-line and --deep-glow are DERIVED from --deep and must move
+     with it. The mid is RECESSED (L*-6), not lifted: a strip lifted above the stage
+     put the champagne at 3.55 on it, and a gold label over a lifted surface is the
+     trap this page already fell into once. */
+  --deep:#003758;
+  --deep-mid:#002A45;      /* recessed base — the step strip */
+  --deep-line:#275377;     /* hairline on the deep, 1.53 against it */
+  --deep-glow:#1C5884;     /* the scene's light */
+  /* ⚠️ THE GLOSS DIVERGES FROM --gold-deep AGAIN, AND IT HAS TO. --gold-deep #8A6A34
+     measures 4.16 on the rose dawn — under the 4.5 floor for .seg-gloss's size — which is
+     exactly why #7F6230 was solved on the sister page in the first place (same hue at 92%
+     lightness: 4.72 dawn / 4.89 cream / 5.32 ivory). Round 9 let the two converge because
+     the glacier's steel deep happened to pass everywhere; with the rose dawn restored that
+     coincidence is gone and the split is load-bearing once more.
+     ⚠️ IF THE DAWN EVER MOVES, RE-MEASURE THIS ONE FIRST — it is the tightest pair on the
+     page and it has already failed silently once. */
+  --gold-gloss:#7F6230;
   --ease:cubic-bezier(.22,.61,.36,1);
   --pad:clamp(20px,4.5vw,72px);
   /* landing-page header geometry (ported from medi-x BRAND system) */
@@ -193,7 +228,7 @@ img{max-width:100%}
      rgba(250,247,241,.95); this page's bar follows its own grade at the same alpha
      geometry. Same bar otherwise: geometry, blur, red mark. The TRUE-COPY status of
      the header is deliberately forked here — recorded, not drifted. */
-  background:rgba(244,247,250,.94);
+  background:rgba(250,247,241,.94);
   border-bottom-color:var(--line);
   backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
 }
@@ -297,8 +332,8 @@ body.nav-open .nav li{
 /* the foot fade + the lab's radial wash behind the copy (round 7) — one rule since round 9,
    the transparent stop matching the glacier ivory it fades to */
 .hero::after{content:"";position:absolute;inset:0;pointer-events:none;background:
-  linear-gradient(180deg,rgba(244,247,250,0) 55%,var(--ivory) 97%),
-  radial-gradient(85% 115% at 20% 44%,rgba(244,247,250,.55) 0%,rgba(244,247,250,.22) 46%,rgba(244,247,250,0) 70%)}
+  linear-gradient(180deg,rgba(250,247,241,0) 55%,var(--ivory) 97%),
+  radial-gradient(85% 115% at 20% 44%,rgba(250,247,241,.55) 0%,rgba(250,247,241,.22) 46%,rgba(250,247,241,0) 70%)}
 .hero-inner{position:relative;z-index:2;width:100%;padding-top:14vh;padding-bottom:12vh}
 .hero .kicker{margin-bottom:clamp(22px,3.4vh,38px)}
 /* The sister page's ramp, inherited. "Peptide" / "therapy" are short lines (≈4.3em),
@@ -344,47 +379,43 @@ section{position:relative}
 .signals-close strong{font-weight:500;color:var(--burgundy)}
 
 /* ─────────────────────────── 02 · THE TURN (dark) ─────────────────────────── */
-/* ══ 2026-08-16 · THE BAND ITSELF WENT COOL — round 9 said "if the band itself ever goes
-   cool, that is a different decision", and this is that decision, made by the client.
+/* ══ 2026-08-16 (round 12) · THE BAND TAKES THE THIRD COLOUR, AND ITS ACCENTS COME HOME.
    ⚠️ THIS BAND IS SECTION 3'S STATIC TWIN — it is what a reduced-motion or no-JS visitor
-   sees INSTEAD of the chain scene (.scene-fallback). The client's note was about section 3;
-   leaving the fallback burgundy would mean the unapproved colour is exactly what the
-   accessibility path still shows. So it moved WITH the stage, by the same arithmetic:
-     ground   --burgundy #5C1F31 → #003A5F  (L* 21.86 → 23.18, C* 29.9 → 26.7, h 6° → 267°;
-                                             R clips to 0, which is where the drift comes from)
-     accents  champagne  #C2A05E → #95ABBF  (NOT the raw rotation, which lands on #50ADE8 —
-                                             C*39 is a sky blue this brand does not own)
-     the glow --rose     #C79A92 → #87A8C5  (the same italic steel the beats now take)
-   ⚠️ #95ABBF IS SOLVED, NOT PICKED, and it is the round-9 method applied a second time:
-   the champagne carried EXACTLY 5.00:1 on the burgundy, so the accent is the glacier
-   family's own chroma (C*13, h256) at whatever L* returns 5.00:1 on #003A5F — L*68.9.
-   The token's #7C93A8 measures 3.62 here and the stage's #8FA5B8 measures 4.66; both are
-   legal for large text and both are a visibly quieter band than the one that shipped.
-   ⚠️ --burgundy THE TOKEN IS UNTOUCHED. It still dresses the preloader, ::selection, the
-   FAQ marks, the × and the story dots. THE PRELOADER IS NOW THE PAGE'S ONE FULL BURGUNDY
-   FIELD and it is left standing deliberately — it is chrome shared with the landing page,
-   not section 3, so forking it is his call and not a side effect of this one. */
-.turn{background:#003A5F;color:var(--ivory);overflow:hidden}
-.turn .chapter-mark{color:#95ABBF}
+   sees INSTEAD of the chain scene (.scene-fallback), so it and .scene-stage must always
+   carry the SAME ground. That rule survives every round; only the ground has changed.
+     ground   #003A5F → var(--deep) #003758   the third colour (see the token block)
+     accents  #95ABBF → var(--gold)  #C2A05E  the champagne itself, 5.03:1 here
+     the glow #87A8C5 → var(--rose)  #C79A92  the brand rose, back on its own hue
+   ⚠️ THE SOLVED ACCENT IS RETIRED AND THAT IS THE POINT. Round 11 had to SOLVE for
+   #95ABBF because the champagne could not appear on a blue that had replaced it. Now
+   nothing has replaced it: the champagne is a brand token again and it lands at 5.03 on
+   this ground, which is the same 5.00 it always carried on the burgundy. When the
+   palette is added to rather than swapped out, the accents need no arithmetic.
+   ⚠️ --burgundy THE TOKEN IS UNTOUCHED and still dresses the preloader, ::selection, the
+   FAQ marks, the × and the story dots. THE PRELOADER STAYS BURGUNDY — his call, made
+   2026-08-16 — and it is no longer a clash: the page opens burgundy and the burgundy is
+   still in it, at the stories band and the footer. */
+.turn{background:var(--deep);color:var(--ivory);overflow:hidden}
+.turn .chapter-mark{color:var(--gold)}
 .turn-quote{
   font-family:var(--quote);font-weight:400;
   font-size:clamp(30px,4.4vw,60px);line-height:1.22;color:var(--ivory);max-width:16em;
 }
-.turn-quote .gold{color:#95ABBF} /* the solved accent — see the .turn note */
+.turn-quote .gold{color:var(--gold)}
 .turn-cols{display:grid;grid-template-columns:1fr 1fr;gap:clamp(36px,5vw,90px);margin-top:clamp(48px,7vh,84px)}
 /* the four ivory alphas below were the WARM ivory 250,247,241 — glacier now, same alphas:
    body copy measures 7.29:1 against the 7.60 it measured on the burgundy */
-.turn-cols p{font-size:clamp(15px,1.25vw,18px);font-weight:300;color:rgba(244,247,250,.78);line-height:1.85}
+.turn-cols p{font-size:clamp(15px,1.25vw,18px);font-weight:300;color:rgba(250,247,241,.78);line-height:1.85}
 .turn-cols p strong{font-weight:500;color:var(--ivory)}
 .turn-list{list-style:none;display:flex;flex-direction:column}
 .turn-list li{
-  display:flex;align-items:baseline;gap:18px;padding:18px 0;border-bottom:1px solid rgba(244,247,250,.16);
+  display:flex;align-items:baseline;gap:18px;padding:18px 0;border-bottom:1px solid rgba(250,247,241,.16);
   font-family:var(--serif);font-size:clamp(19px,1.9vw,26px);color:var(--ivory);
 }
-.turn-list li:first-child{border-top:1px solid rgba(244,247,250,.16)}
-.turn-list .star{color:#95ABBF;font-size:.65em} /* the solved accent — see the .turn note */
+.turn-list li:first-child{border-top:1px solid rgba(250,247,241,.16)}
+.turn-list .star{color:var(--gold);font-size:.65em}
 .turn-glow{position:absolute;right:-18vw;top:-20vh;width:60vw;height:60vw;border-radius:50%;
-  background:radial-gradient(circle,rgba(135,168,197,.16) 0%,rgba(0,58,95,0) 62%);pointer-events:none}
+  background:radial-gradient(circle,rgba(199,154,146,.16) 0%,rgba(0,55,88,0) 62%);pointer-events:none}
 
 /* ⚠️ .link-arrow IS NOT ON THIS PAGE — it is the sister page's "go and read"
    material, and nothing here routes anywhere yet (see the 04 note). The day the
@@ -496,7 +527,7 @@ section{position:relative}
 }
 .px:hover,.px:focus-within{
   border-color:var(--gold);transform:translateY(-3px);
-  box-shadow:0 14px 30px rgba(46,54,71,.08);
+  box-shadow:0 14px 30px rgba(71,24,38,.08);
 }
 .px-num{font-family:var(--accent);font-size:12px;letter-spacing:.26em;color:var(--gold-deep)}
 /* Megante — an explicit family also keeps the global h1–h3 "opsz" 30 rule inert
@@ -622,7 +653,7 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
 }
 .aud:hover,.aud:focus-within{
   border-color:var(--gold);transform:translateY(-3px);
-  box-shadow:0 14px 30px rgba(46,54,71,.08);
+  box-shadow:0 14px 30px rgba(71,24,38,.08);
 }
 .aud-txt{min-width:0;flex:1}
 .aud h3{
@@ -783,7 +814,7 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
   position:relative;width:min(100%,27rem);aspect-ratio:1;
   border-radius:2px;overflow:hidden;
   background:linear-gradient(165deg,var(--cream),var(--gold-tint));
-  box-shadow:0 18px 44px rgba(46,54,71,.12);
+  box-shadow:0 18px 44px rgba(71,24,38,.12);
 }
 .doc-photo img{width:100%;height:100%;object-fit:cover;display:block}
 .doc.no-photo .doc-photo img{display:none}
@@ -853,7 +884,7 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
 .pxd-face{
   flex:none;display:block;overflow:hidden;border-radius:2px;
   width:var(--face);height:var(--face);
-  box-shadow:0 10px 26px rgba(46,54,71,.14);
+  box-shadow:0 10px 26px rgba(71,24,38,.14);
 }
 .pxd-face img{width:100%;height:100%;object-fit:cover;display:block}
 .pxd-hdr-txt{min-width:0}
@@ -1142,7 +1173,7 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
 .cta-face{
   flex:none;display:block;border-radius:50%;object-fit:cover;
   width:clamp(72px,7vw,104px);height:clamp(72px,7vw,104px);
-  box-shadow:0 10px 30px rgba(46,54,71,.14);
+  box-shadow:0 10px 30px rgba(71,24,38,.14);
 }
 /* ⚠️ IT IS AN h2 SET SMALL, NOT A <p>. Two reasons and both matter: it is the section's only
    statement, so the document outline should have it; and .final p — the rule this section
@@ -1210,7 +1241,7 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
    is not what "true copy" means. Ours is the safe one of the two. */
 footer{
   background:var(--cream);padding:3rem clamp(1.25rem,6vw,6rem) 1.6rem;
-  border-top:1px solid rgba(46,54,71,.14);
+  border-top:1px solid rgba(71,24,38,.14);
   font-weight:400;line-height:normal;
 }
 /* the h1,h2,h3 serif rule at the top of this file must not reach into a copied component */
@@ -1233,8 +1264,8 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
 .f-news form{display:flex;gap:.5rem;max-width:24rem}
 .f-news input{
   flex:1;min-width:0;height:2.75rem;padding:0 1.1rem;
-  border-radius:var(--btn-radius);border:1px solid rgba(46,54,71,.28);
-  background:rgba(244,247,250,.6);color:var(--ink);
+  border-radius:var(--btn-radius);border:1px solid rgba(71,24,38,.28);
+  background:rgba(250,247,241,.6);color:var(--ink);
   font-family:var(--sans);font-size:.95rem;font-weight:400;
 }
 .f-news input::placeholder{color:rgba(106,88,95,.7)}
@@ -1264,7 +1295,7 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
 .f-social svg{width:17px;height:17px}
 .f-base{
   margin-top:2rem;padding-top:1.4rem;
-  border-top:1px solid rgba(46,54,71,.14);
+  border-top:1px solid rgba(71,24,38,.14);
   display:flex;flex-wrap:wrap;align-items:center;gap:.8rem 1.5rem;justify-content:center;
 }
 .f-base p{margin:0;font-size:.7rem;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-soft);text-align:center}
@@ -1291,37 +1322,39 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
    middle, .34–.73) gets the length it is the point of. The finished frame holds from
    ~.86 to the end. */
 .scene-track{height:420vh;position:relative}
-/* ══ THE STAGE IS COOL NOW, AND IT IS A TRANSLATION, NOT A NEW COLOUR ═══════════════
-   ⚠️ 2026-08-16, the client's call relayed through him: "the burgundy is not approved
-   as now that we have transitioned to blue… we must find another colour with the same
-   VALUE of this burgundy". Value is the operative word, so the move is arithmetic, not
-   taste: every warm surface in this scene was converted to CIE LCh, its L* and C* were
-   HELD, and only the hue was rotated into the page's glacier family (h≈256°, where
-   --dawn 252°, --gold 257° and --gold-deep 260° already live).
-     stage ground  #2E2228 → #1D272F   (L* 14.83 → 15.05, C* 7.2 → 6.9)
-     canvas BG_A   #2A1B20 → #14202A   (L* 11.83 → 11.61 — in the script, cross-ref'd)
-     the glow      #5C1F31 → #003A5F   (--burgundy's own L* and C*, hue-rotated; R clips to 0)
+/* ══ THE STAGE IS THE THIRD COLOUR, AND EVERYTHING STANDING ON IT IS A BRAND TOKEN ═══
+   ⚠️ 2026-08-16 (round 12). Round 11 rotated this whole scene into the glacier family
+   because the palette itself had been replaced and the burgundy no longer fitted the
+   page. That premise is gone: the palette is BRAND.md again, and ONE deep colour was
+   added beside it (the token block carries the construction and the client's own words).
+   So the scene does not need translating any more — it needs its own colours back, on
+   a new ground.
+     stage ground  #1D272F → var(--deep) #003758   the third colour
+     canvas BG_A   [20,32,42] → [21,32,43]         its floor, at --ink's own L* 11.8
+     the glow      #003A5F → var(--deep-glow)      the same hue, lifted
+     beads STONE   #93A1AE → #B09A9C               the brand stone, restored
+     the italics   #87A8C5 → var(--rose)           the brand rose, restored
+     the gold beat #8FA5B8 → var(--gold)           the champagne, restored
      ⚠️ NEVER PUT A SLASH DIRECTLY AFTER AN ASTERISK IN A CSS COMMENT. Writing the pair
      "lightness-star slash chroma-star" as shorthand closes the comment on the spot: the
      rest of the prose becomes declarations and the parser eats the rule that follows.
-     .scene-stage lost its height:100svh exactly that way while this block was being
-     written — a 0-pixel stage, an undrawn canvas, and NOT ONE console error to say so.
-     Write "L* and C*". (The first attempt at this very warning quoted the offending pair
-     and broke the rule a second time.)
-     beads STONE   #B09A9C → #93A1AE   (L* 65.55 held)
-     the italics   #C79A92 → #87A8C5   (L* 67.52 held)
-   THE PROOF THAT IT IS THE SAME PICTURE IS THE CONTRAST TABLE — every measured pair
-   survived the rotation to within 0.05 of its warm original, which is what "the same
-   value" has to mean if it means anything:
-     ivory beat   15.31 → 15.38 : 1      the gold beat  6.46 → 6.49 : 1
-     the italics   6.63 →  6.64 : 1      a drifting bead 6.23 → 6.26 : 1
+     .scene-stage lost its height:100svh exactly that way while an earlier round wrote
+     this block — a 0-pixel stage, an undrawn canvas, and NOT ONE console error to say
+     so. Write "L* and C*".
+   MEASURED ON THE NEW GROUND, and this is the table to re-run if --deep ever moves:
+     ivory beat  11.64 : 1      the gold beat  5.03 : 1
+     the italics  5.02 : 1      a drifting bead 4.71 : 1
+   ⚠️ THESE ARE LOWER THAN ROUND 11'S AND THAT IS EXPECTED, NOT A REGRESSION. The old
+   stage was --ink's lightness (L* 14.8); this one is --burgundy's (L* 21.9), because the
+   third colour is pinned to the burgundy so the two read as equals. A lighter stage
+   means smaller ratios on everything standing on it. Every pair still clears 4.5, and
+   the gold clears the 3.0 large-text floor with room to spare.
    ⚠️ --ink IS DELIBERATELY NOT TOUCHED, here or anywhere. It is the page's TEXT ink and
-   it dresses .scene-beat.light and .scene-title — type standing on the RISEN glacier
-   ground, exactly like every heading in every other chapter. Cooling it for this one
-   section would fork the page's body ink to fix a background problem. */
-.scene-stage{height:100svh;width:100%;position:relative;overflow:hidden;background:#1D272F;--scene-fg:var(--ivory)}
+   it dresses .scene-beat.light and .scene-title — type standing on the RISEN dawn,
+   exactly like every heading in every other chapter. */
+.scene-stage{height:100svh;width:100%;position:relative;overflow:hidden;background:var(--deep);--scene-fg:var(--ivory)}
 .scene-glow{position:absolute;right:-22vw;top:-26vh;width:72vw;height:72vw;border-radius:50%;pointer-events:none;
-  background:radial-gradient(circle,rgba(0,58,95,.38) 0%,rgba(29,39,47,0) 62%)}
+  background:radial-gradient(circle,rgba(28,88,132,.38) 0%,rgba(0,55,88,0) 62%)}
 .scene-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 /* the payoff word — Megante at display size, the voice the chapter marks wear.
    ⚠️ MEGANTE, NOT PLAYFAIR, inherited from the sister scene with its reason: at
@@ -1347,25 +1380,29 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
    belt to that braces: it separates the glyph from the particle field either way. */
 .scene-beat{position:absolute;left:0;right:0;top:0;opacity:0;font-family:var(--serif);
   font-size:clamp(27px,3.5vw,49px);line-height:1.22;   /* his 1.16x, chosen in the figure room */
-  color:var(--ivory);text-shadow:0 1px 24px rgba(29,39,47,.62)}
-.scene-beat.light{color:var(--ink);text-shadow:0 1px 24px rgba(244,247,250,.8)}
-/* ⚠️ #87A8C5 IS --rose AT ITS OWN LIGHTNESS, NOT A NEW ACCENT (2026-08-16 — see the
-   translation table at .scene-stage). --rose #C79A92 is BRAND LAW and is untouched as a
-   token; it simply no longer appears IN THIS SCENE, because the client's note took the
-   whole stage cool and a lone warm italic on a slate ground is a stain, not an accent.
-   The rose still dresses the rest of the page and the sister page entirely. Measured:
-   the italic carried 6.63:1 on the warm stage and carries 6.64:1 on the cool one. */
-.scene-beat em{font-style:italic;color:#87A8C5}
+  color:var(--ivory);text-shadow:0 1px 24px rgba(0,55,88,.62)}
+.scene-beat.light{color:var(--ink);text-shadow:0 1px 24px rgba(250,247,241,.8)}
+/* ⚠️ THE ITALIC IS --rose AGAIN (round 12). Round 11 replaced it with #87A8C5 — the rose
+   at its own lightness, rotated cool — on the argument that "a lone warm italic on a
+   slate ground is a stain, not an accent". That argument was correct AND it was a symptom:
+   it was only true because the ground had stopped being ours. The stage is now the third
+   colour standing beside the brand rather than in place of it, so the rose can appear on
+   it as itself. Measured 5.02:1 here against the 6.63 it carried on the burgundy stage —
+   lower because this stage is lighter (--burgundy's L*, not --ink's), and clear of 4.5. */
+.scene-beat em{font-style:italic;color:var(--rose)}
 /* the held word — blooms in a beat after its sentence lands */
-.scene-beat .w{display:inline-block;font-style:italic;color:#87A8C5;opacity:0;
+.scene-beat .w{display:inline-block;font-style:italic;color:var(--rose);opacity:0;
   transform:translateY(.35em) scale(.92);filter:blur(5px);
   transition:opacity .8s var(--ease),transform .8s var(--ease),filter .8s var(--ease)}
 .scene-beat .w.on{opacity:1;transform:none;filter:blur(0)}
-/* the key validating line, lit — lives entirely on the dark stage. ⚠️ A STEP LIGHTER THAN
-   THE TOKEN, AND IT IS MEASURED (C2, round 9): the champagne #C2A05E carried 6.65:1 on the
-   stage; the token's steel #7C93A8 carries 5.17 — legal (3.0 floor, large text) but a
-   visibly quieter voice. #8FA5B8 is the same steel at the champagne's weight: 6.46:1. */
-.scene-beat.gold{color:#8FA5B8}
+/* the key validating line, lit — lives entirely on the dark stage. ⚠️ THE PIN IS GONE AND
+   THAT IS THE HEADLINE (round 12). It was pinned to #8FA5B8 rather than var(--gold) for
+   one reason: the token had been replaced by steel and the steel was too quiet here
+   (5.17). The token is the champagne again, so the beat simply reads it — one fewer
+   literal, and the beat can never drift from the accent again. Measured 5.03:1 on the new
+   stage against the 6.65 the champagne carried on the burgundy one; the drop is the
+   lighter ground, and it clears the 3.0 large-text floor by two thirds. */
+.scene-beat.gold{color:var(--gold)}
 /* ══ THE SCENE CONTROLS — NEW 2026-08-11 ══════════════════════════════════════
    Skip, replay and step, at the foot of the pinned stage.
    ⚠️ THEY CROSS-FADE WITH "SCROLL TO LISTEN" RATHER THAN SITTING BESIDE IT. Both
@@ -1420,7 +1457,7 @@ html.js-scene .scene-ctrl{
   background:var(--glass-hi,rgba(255,255,255,.22));transform:translateY(-1px)}
 /* pre-first-frame defaults only (2026-08-13): the scene script now drives all four
    glass properties per frame at every width, flipping them when the whole ground does */
-html.js-scene{--glass-fill:rgba(29,39,47,.45);--glass-hi:rgba(29,39,47,.58);
+html.js-scene{--glass-fill:rgba(0,55,88,.45);--glass-hi:rgba(0,55,88,.58);
               --glass-line:rgba(255,255,255,.26);--glass-top:rgba(255,255,255,.30)}
 @media(max-width:560px){
   .scene-ctrl{gap:8px;font-size:9.5px}
@@ -1429,7 +1466,7 @@ html.js-scene{--glass-fill:rgba(29,39,47,.45);--glass-hi:rgba(29,39,47,.58);
 .scene-hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);
   /* the WARM ivory #FAF7F1 was still hiding here after round 9's re-grade — it is the
      glacier ivory now, same value, and it stands on a cool ground (2026-08-16) */
-  font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:rgba(244,247,250,.55)}
+  font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:rgba(250,247,241,.55)}
 /* ?scene=<0..1> QA mode: only the stage, frozen at that progress */
 .scene-solo header,.scene-solo .progress,.scene-solo .hero,.scene-solo .peptides,
 .scene-solo .services,.scene-solo .docs,.scene-solo .stories,.scene-solo .faq,.scene-solo .final,
@@ -3266,25 +3303,26 @@ html.js-scene{--glass-fill:rgba(29,39,47,.45);--glass-hi:rgba(29,39,47,.58);
      block that drew the DNA reading is deleted whole; `git revert` this commit
      if it is ever wanted back. */
 
-  const INK=[46,34,40], IVORY=[244,247,250];       /* the page's white moved cool (round 9); the scene's follows */
+  const INK=[46,34,40], IVORY=[250,247,241];       /* --ink and --ivory, both BRAND.md (round 12) */
   /* ⚠️ BG_B IS --dawn — the stage rises to exactly the colour section 03 above it stands
-     on. Two copies of one colour in two languages; change one, change the other (the
-     token carries the same warning). GLACIER DAWN since round 9 — B2, his letter. */
-  /* ⚠️ BG_A IS THE COOL GROUND SINCE 2026-08-16 — the client's "the burgundy is not
-     approved… same value, in the blue". [42,27,32] #2A1B20 → [20,32,42] #14202A: L* 11.83
-     → 11.61, chroma held, hue rotated into the glacier family. The full translation table
-     and the contrast proof live at .scene-stage in the stylesheet; the CSS pre-frame
-     ground (#1D272F) is BG_A's sibling and moved with it. */
-  const BG_A=[20,32,42], BG_B=[232,239,245];
-  /* an unwritten bead. ⚠️ WAS DIM ROSE-STONE [176,154,156] — the same 2026-08-16
-     translation, L* 65.55 held exactly, so a drifting bead still measures 6.26:1 on the
-     stage against the 6.23 it measured warm. --rose the TOKEN is untouched brand law; it
-     just no longer appears in this scene. */
-  const STONE=[147,161,174];
-  /* ⚠️ THE CHAIN SPEAKS STEEL — C2, his letter (round 9). Was GOLD [201,164,106] /
-     GOLD_DEEP [138,106,52]: the hero's metal writes the message now, judged in the grade
-     lab as a composition (chain + key line together), not find-and-replaced. */
-  const GOLD=[124,147,168], GOLD_DEEP=[84,104,124];
+     on. Two copies of one colour in two languages, and there is no way to share them in
+     a zero-build single file; change one, change the other, or the seam reappears. Back
+     to the rose dawn #F6E7E1 in round 12, with the rest of the palette. */
+  /* ⚠️ BG_A IS THE CANVAS FLOOR AND IT BELONGS TO --deep, NOT TO --ink. It is the third
+     colour taken down to --ink's own lightness (L* 11.8) so the canvas bottoms out in the
+     stage's own hue instead of going neutral-black under it. The CSS pre-frame ground
+     (.scene-stage) is BG_A's sibling and must move with it — that pairing is what stops
+     a one-frame flash of the wrong colour before the canvas paints. */
+  const BG_A=[22,32,42], BG_B=[246,231,225];
+  /* an unwritten bead — the brand's dim rose-stone, restored in round 12. It measures
+     4.71:1 on the new stage; it measured 6.23 on the old burgundy one, and the drop is
+     the stage getting lighter (--burgundy's L* rather than --ink's), not the bead
+     changing. Still clear of 4.5. */
+  const STONE=[176,154,156];
+  /* ⚠️ THE CHAIN SPEAKS CHAMPAGNE AGAIN (round 12). Round 9 made it steel because the
+     --gold token had BEEN replaced by steel; the token is BRAND.md again, so the chain
+     is written in the brand's own metal and needs no substitute. */
+  const GOLD=[194,160,94], GOLD_DEEP=[138,106,52];
   const ss=(a,b,x)=>{x=Math.max(0,Math.min(1,(x-a)/(b-a)));return x*x*(3-2*x)};
   const mix=(a,b,k)=>a+(b-a)*k;
   const mixC=(A,B,k)=>[Math.round(mix(A[0],B[0],k)),Math.round(mix(A[1],B[1],k)),Math.round(mix(A[2],B[2],k))];
@@ -3397,11 +3435,11 @@ html.js-scene{--glass-fill:rgba(29,39,47,.45);--glass-hi:rgba(29,39,47,.58);
     stage.style.setProperty("--scene-fg", rgba(mixC(IVORY,INK,ss(.798,.824,p)),1));
     const gl=dw>.55;
     stage.style.setProperty("--ctrl-fg",  gl?rgba(INK,1):rgba(IVORY,1));
-    /* the three dark glass values are the warm #2E2228 translated to #1D272F, same
+    /* the three dark glass values are --deep (round 12; they were #1D272F, and before that the warm #2E2228), same
        alphas — 2026-08-16, with the rest of the stage */
-    stage.style.setProperty("--glass-fill", gl?"rgba(255,255,255,.20)":"rgba(29,39,47,.45)");
-    stage.style.setProperty("--glass-hi",   gl?"rgba(255,255,255,.34)":"rgba(29,39,47,.58)");
-    stage.style.setProperty("--glass-line", gl?"rgba(29,39,47,.22)":"rgba(255,255,255,.26)");
+    stage.style.setProperty("--glass-fill", gl?"rgba(255,255,255,.20)":"rgba(0,55,88,.45)");
+    stage.style.setProperty("--glass-hi",   gl?"rgba(255,255,255,.34)":"rgba(0,55,88,.58)");
+    stage.style.setProperty("--glass-line", gl?"rgba(0,55,88,.22)":"rgba(255,255,255,.26)");
     stage.style.setProperty("--glass-top",  gl?"rgba(255,255,255,.55)":"rgba(255,255,255,.30)");
     glow.style.opacity=(1-ss(.70,.80,p)).toFixed(3);
     /* SEQUENTIAL, not the sister page's cross-fade: both want bottom-centre, and a
@@ -3506,7 +3544,7 @@ html.js-scene{--glass-fill:rgba(29,39,47,.45);--glass-hi:rgba(29,39,47,.58);
         for(let k=0;k<2;k++){
           const q=(((p-.70)*3.2 + t*.05 + k*.5)%1+1)%1;
           const [x,y]=curve(q,p,t);
-          const C=dw>.5?GOLD_DEEP:[214,232,246];   /* the travelling light, champagne → glacier (round 9) */
+          const C=dw>.5?GOLD_DEEP:[236,214,178];   /* the travelling light, champagne → glacier (round 9) */
           const grd=ctx.createRadialGradient(x,y,0,x,y,13);
           grd.addColorStop(0,rgba(C,.8*pk*dim));
           grd.addColorStop(1,rgba(C,0));
@@ -3598,15 +3636,15 @@ html.js-scene{--glass-fill:rgba(29,39,47,.45);--glass-hi:rgba(29,39,47,.58);
        CDN and survives a machine with no WebGL. GSAP and Lenis are untouched and still
        carry the chain scene.
 
-   3 · The glacier arrives as ONE multiply at the foot of draw(), not as re-tinted artwork.
-       The lab composited every plate under a #F3F7FB `.tint` layer in `multiply`, and that
-       is the look that was judged — so the same arithmetic ships here rather than a
-       hand-recoloured approximation. The chains stay literally gold (rgba(194,160,94))
-       under it, which on this page is deliberate and worth knowing: the `--gold` TOKEN was
-       remapped to steel #7C93A8 for the glacier re-grade, so these nodes are now the only
-       true gold on the page. That is what plate D was when he picked it. If it should
-       become steel, it is the three rgba() literals below — and bonds-lab.html has a
-       gold/steel bar that shows both before you decide. */
+   3 · The grade arrives as ONE multiply at the foot of draw(), not as re-tinted artwork.
+       The lab composited every plate under a `.tint` layer in `multiply` and that is the
+       look that was judged, so the same arithmetic ships here rather than a hand-recoloured
+       approximation. ⚠️ ROUND 12 CHANGED THE TINT, NOT THE MECHANISM: it was the glacier
+       #F3F7FB, it is now the page's own --ivory #FAF7F1, so the plate is graded to the
+       surface it actually sits on. The chains are literally gold (rgba(194,160,94)) and
+       are no longer the odd thing out — the `--gold` token is #C2A05E again, so the hero's
+       metal and the page's accent are finally the same colour. That is what plate D was
+       when he picked it, and the palette has come back to meet it. */
 try{
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const canvas = document.getElementById("silk");
@@ -3718,9 +3756,10 @@ try{
       }
     }
 
-    /* The glacier grade — #F3F7FB multiplied, the lab's .tint layer exactly (round 7, kept). */
+    /* The grade — ONE multiply of the page ground, the lab's .tint layer mechanism exactly.
+       ⚠️ Round 12 swapped the tint glacier→ivory; see the note at the top of this block. */
     c.globalCompositeOperation = "multiply";
-    c.fillStyle = "#F3F7FB";
+    c.fillStyle = "#FAF7F1";
     c.fillRect(0,0,W,H);
     c.globalCompositeOperation = "source-over";
   }

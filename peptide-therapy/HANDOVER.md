@@ -1,5 +1,75 @@
 # Peptide Therapy — `/peptide-therapy/` (first ship 2026-08-14)
 
+> ## ROUND 12 — 2026-08-16: chapter 05's restructure gets its lab — five shapes, drawn to
+> scale. NOTHING ON `index.html` MOVED THIS ROUND.
+>
+> **1 · `peptide-therapy/structure-lab.html` IS A PROPOSAL, NOT A CHANGE.** His "im thinking
+> of reordering the structure… give me your best fit and diverse ideas". Same grammar as
+> `hero-lab` / `grade-lab` / `bonds-lab`: the page's own glacier tokens read straight out of
+> `index.html`'s `:root`, the brand's four faces embedded from the same file, five complete
+> alternative structures for 05 with a live specimen of each. ⚠️ **HAND-WRITTEN, NOT BUILT** —
+> unlike `bonds-lab.html` there is no `.lab-dev/` behind this one; edit the file directly.
+>
+> **2 · THE DIAGNOSIS IS THAT 05 HAS NO ORDER PROBLEM.** Measured, not asserted: 03's
+> definition is **25 words** after his own "too long for them" cut, and 05's opening
+> re-defines the same molecule at **86** — 3.4× the length he just shortened, two screens
+> later, with the scene saying it a third time in between. And 06 is 05 told a second time in
+> verbs: TEST↔step 3 (both name the BOZAT scans), COLLATE·ANALYSE·INTERPRET↔step 4,
+> CREATE↔step 5, HEAL↔step 7. **598 words in flow across the two sections.** The lab draws
+> that overlap as its central figure; two of the seven steps join nothing, and both are
+> informative — step 1 is a numbered instruction to press the button at the foot of the page.
+>
+> **3 · FIVE STRUCTURES, ONE MARKED.** A · The Triptych (the three P's become three
+> movements, his nine verbs become the step marks — ≈337 in flow, the one I'd build) ·
+> B · The Requisition (promote the fifteen markers to hero, five ruled rows around them —
+> ≈232) · C · The Cadence (time as the spine — ≈230) · D · The Ledger (one spread, everything
+> folded — ≈120) · E · The Consultation (six questions — ≈245). ⚠️ **NOW's 598 IS MEASURED AND
+> A–E ARE PROJECTED**, and the lab says so on its own face.
+>
+> **4 · ⚠️ THREE THINGS NEED HIS ANSWER AND NO LAYOUT CAN SUPPLY THEM.**
+>   · **The page gives, then takes away** — step 3 walks the reader through their blood panel
+>     and step 5 puts peptides in their protocol, then 06 lists both under *What's excluded*.
+>     Almost certainly a pricing distinction; the page never says so. Every structure here
+>     re-frames it as *priced separately* — **that re-framing is a guess until he confirms it.**
+>   · **The two lists disagree**: 06 promises a functional *"The DUTCH Plus"* test; step 3's
+>     fifteen markers do not contain it and never mention it.
+>   · **The struck fourth P is still in the content** — step 7 IS Partnership (round 11 point 1
+>     records that he struck the word deliberately). Each structure states where it put step 7.
+>
+> **5 · THE GROUND ALTERNATION IS A REAL COST OF THE MERGE, AND THE LAB'S CLOSING PLATE DRAWS
+> IT.** Verified against the stylesheet, not assumed: dawn(03) ivory(04) dawn(05) ivory(06)
+> dawn(doctors) ivory(stories) dawn(faq) ivory(book) — **a strict alternation with no
+> exception**. So absorbing 06 (which every structure does) collides doctors against 05 and
+> inverts four sections below it. ⚠️ **THE FIX COSTS NOTHING AND IS WHY NO STRUCTURE DELETES
+> THE EXCLUSIONS**: the *priced separately* coda takes 06's ivory as a hairlined band, and the
+> alternation survives untouched. The bigger reorder (doctors above the programme) is
+> deliberately NOT proposed this round — it moves two dawn sections adjacent and deserves its
+> own ground pass against a chapter that is 337 words rather than 598.
+>
+> **6 · `tools/qa/structure-lab.mjs`, 37/37** at 1440×900, 1024×800, 390×844 + reduced motion.
+> **Four bugs it caught that eyeballing did not:**
+>   · **The folded blocks falsified the whole chart.** Drawn to the words scale, column A
+>     measured 477px against NOW's 393 — the object exists to say A is shorter and it drew A
+>     as longer. Folded words are not in flow: they are a fixed-height drawer below the stack
+>     now, and the harness asserts every stack height against its own printed total.
+>   · **Padding cannot be shorter than itself.** `padding:5px 8px` on a border-box block means
+>     no block renders under 10px, so every 3-word block (1.9px of truth) drew at 10 and NOW,
+>     which has two, collected 16px of lie. Padding moved to the label.
+>   · **No `<meta charset>` and the whole file rendered Latin-1 mojibake over `file://`** —
+>     every em dash, middot and plate glyph. Nothing in the suite noticed; the first
+>     screenshot did. It must stay the first line, ahead of the font blob, to land inside the
+>     first 1024 bytes. Asserted now.
+>   · **Tracked capitals overran their fixed columns** — COMPRESS out of `.moves .op`,
+>     INTERPRET out of `.c-verb` and into the step title. Both re-sized to the MEASURED width
+>     of the longest word (INTERPRET is 84px at 11px Megante, not the 81 that 7.4em gives).
+> ⚠️ Also removed: a stale `.col-foot`/`.col-total` block left later in the cascade after the
+> totals moved into the column heads, silently overriding the new rules.
+>
+> **7 · SINGLE-THEME ON PURPOSE.** No `prefers-color-scheme` block and no `[data-theme]`
+> stamps — this is a judging instrument for an approved grade, and rendering the client's
+> glacier page in a dark inversion would show him a page that does not exist. Every colour is
+> painted explicitly so it holds on either host ground.
+
 > ## ROUND 11 — 2026-08-16: the client's notes land — the scene goes cool, the page grows
 > two chapters, and the band grows two doctors
 >

@@ -1163,6 +1163,20 @@ const EXCLUDED = [
   ]}
 ];
 
+/* ⚠️ C2'S PLATE PATHS ARE LITERALS IN ONE TABLE, NOT BUILT BY CONCATENATION. The hero
+   lab's TWO COPIES RULE applies to this file: it lives here with relative paths, and the
+   same lab is published as a Claude artifact with the fonts and plates inlined as data
+   URIs. `tools/build-lab-artifact.mjs` does that by rewriting these six strings, and a
+   path assembled by concatenating a directory, a plate name and an extension at render
+   time is not a string it can find. Keep them whole.
+   ⚠️ That build refuses to write a file with any relative path left in it — including
+   one written inside a comment, which is why this note describes the shape rather than
+   quoting it. */
+const PLATES = {
+  'menopause-941': { avif:'../images/doors/menopause-941.avif', webp:'../images/doors/menopause-941.webp' },
+  'trt-941':       { avif:'../images/doors/trt-941.avif',       webp:'../images/doors/trt-941.webp' },
+};
+
 /* the two audiences — teasers are the client's, and the full lists are index.html's,
    in the client's order, with the de-duplications already recorded there */
 const AUD = {
@@ -1675,10 +1689,11 @@ function c2(root){
     btn.type = 'button'; btn.setAttribute('aria-haspopup','dialog');
     btn.setAttribute('aria-label', a.h + ' — read the full list of symptoms');
     /* AVIF with a WebP fallback, the repo's own <picture> discipline */
+    const p = PLATES[a.plate];
     btn.innerHTML =
       '<picture>' +
-        '<source srcset="../images/doors/' + a.plate + '.avif" type="image/avif">' +
-        '<img src="../images/doors/' + a.plate + '.webp" alt="" loading="lazy" decoding="async">' +
+        '<source srcset="' + p.avif + '" type="image/avif">' +
+        '<img src="' + p.webp + '" alt="" loading="lazy" decoding="async">' +
       '</picture>' +
       '<span class="c2-scrim"></span>' +
       '<span class="c2-cap"><h3>' + a.h + '</h3><p>' + a.teaser + '</p>' +
@@ -1737,6 +1752,11 @@ function c3(root){
    every bay after A6 rendered as an empty box. The page threw exactly one console error
    and looked, at a glance, like a CSS problem. */
 const BASE = {a:'a1', b:'b1', c:'c1'};
+
+/* the width control reads off body. Set here rather than relying on the attribute in the
+   markup, because the artifact copy is published as page CONTENT and the host supplies
+   the <body> — see the two copies rule at PLATES. */
+if (!document.body.dataset.w) document.body.dataset.w = 'full';
 
 /* ═══ mount ═══════════════════════════════════════════════════════════════════════ */
 const RENDER = {a1,a2,a3,a4,a5,a6,a7,a8,b1,b2,b3,b4,c1,c2,c3};

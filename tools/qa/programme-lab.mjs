@@ -34,7 +34,8 @@
    hardcoded a home directory and crashed before measuring anything on any other machine.
    ═══════════════════════════════════════════════════════════════════════════════════ */
 import { chromium } from 'playwright';
-import { readFileSync, mkdirSync, existsSync, readdirSync } from 'fs';
+import { readFileSync, mkdirSync, existsSync, readdirSync, statSync } from 'fs';
+import { spawnSync } from 'child_process';
 import http from 'http';
 import fs from 'fs';
 import path from 'path';
@@ -42,8 +43,14 @@ import { fileURLToPath } from 'url';
 
 const HERE  = path.dirname(fileURLToPath(import.meta.url));
 const ROOT  = path.resolve(HERE, '../..');
-const PAGE  = '/peptide-therapy/programme-lab.html';
 const SHOTS = process.argv.includes('--shots');
+/* bonds-lab.mjs's flag, for the same reason: the copy the client actually opens is the
+   generated artifact, not the repo file, and the two have different asset paths. Under
+   --artifact the harness serves the built copy inside the skeleton the artifact host
+   supplies AND aborts every off-origin request, so anything that did not get inlined
+   fails here rather than rendering unstyled in front of him. */
+const ARTIFACT = process.argv.includes('--artifact');
+const PAGE = ARTIFACT ? '/artifact.html' : '/peptide-therapy/programme-lab.html';
 const OUT   = path.join(ROOT, '.qa-out');
 if (SHOTS) mkdirSync(OUT, { recursive: true });
 
@@ -85,9 +92,21 @@ function findChromium() {
   return undefined; /* let playwright resolve its own */
 }
 
-function serve(port) {
+/* the skeleton the artifact host wraps content in — doctype, head, body and nothing else.
+   Reproduced here so --artifact tests the document the client gets, not a bare fragment. */
+function skeleton(content) {
+  return '<!doctype html><html lang="en"><head><meta charset="utf-8">' +
+         '<meta name="viewport" content="width=device-width,initial-scale=1">' +
+         '</head><body>' + content + '</body></html>';
+}
+
+function serve(port, artifactHtml) {
   const srv = http.createServer((rq, rs) => {
     let p = decodeURIComponent(rq.url.split('?')[0]);
+    if (p === '/artifact.html') {
+      rs.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
+      return rs.end(artifactHtml);
+    }
     let f = path.join(ROOT, p);
     try { if (fs.statSync(f).isDirectory()) f = path.join(f, 'index.html'); }
     catch { rs.writeHead(404); return rs.end('not found'); }
@@ -177,15 +196,48 @@ function checkColours(html) {
 
 /* ═══ the browser run ══════════════════════════════════════════════════════════════ */
 async function run() {
-  const html = readFileSync(path.join(ROOT, PAGE.slice(1)), 'utf8');
+  /* the static checks always read the REPO copy — it is the source of both, and its
+     comments and colour literals are what the artifact copy inherits verbatim */
+  const html = readFileSync(path.join(ROOT, 'peptide-therapy/programme-lab.html'), 'utf8');
   checkComments(html);
   checkColours(html);
 
-  const srv = await serve(8791);
+  let artifactHtml = null;
+  if (ARTIFACT) {
+    head('0 · The artifact copy is built and self-contained');
+    const built = path.join(OUT, 'programme-lab-artifact.html');
+    mkdirSync(OUT, { recursive: true });
+    const r = spawnSync(process.execPath,
+      [path.join(ROOT, 'tools/build-lab-artifact.mjs'), 'peptide-therapy/programme-lab.html', built],
+      { cwd: ROOT, encoding: 'utf8' });
+    if (r.status !== 0) { bad('build failed'); (r.stderr || '').split('\n').slice(0, 6).forEach(note); }
+    else {
+      const kb = Math.round(statSync(built).size / 1024);
+      ok('built · ' + kb + ' KB · no relative paths, no external hosts');
+      if (kb > 16 * 1024) bad('over the 16MB artifact ceiling');
+      artifactHtml = skeleton(readFileSync(built, 'utf8'));
+    }
+  }
+
+  const srv = await serve(8791, artifactHtml);
   const br  = await chromium.launch({ executablePath: findChromium() });
 
   /* ─── 2 · desktop: it renders, and nothing throws ─── */
+
+  /* ⚠️ UNDER --artifact, EVERY OFF-ORIGIN REQUEST IS ABORTED. The artifact CSP blocks
+     them in production, so a font or plate that did not get inlined must fail here and
+     not quietly fall back to a system face in front of the client. */
+  const guard = async (page) => {
+    if (!ARTIFACT) return;
+    await page.route('**/*', route => {
+      const u = route.request().url();
+      if (u.startsWith('http://localhost:8791/')) return route.continue();
+      return route.abort();
+    });
+  };
+
   const pg = await br.newPage({ viewport: { width: 1440, height: 900 } });
+  await guard(pg);
   const errs = [], bad4 = [];
   pg.on('console',  m => { if (m.type() === 'error') errs.push(m.text()); });
   pg.on('pageerror', e => errs.push('PAGEERROR: ' + e.message));
@@ -467,6 +519,7 @@ async function run() {
   /* ─── 7 · the phone, where most of the traffic is ─── */
   head('7 · 390 × 844 — the fallbacks are real, not squeezed');
   const ph = await br.newPage({ viewport: { width: 390, height: 844 } });
+  await guard(ph);
   const phErrs = [];
   ph.on('pageerror', e => phErrs.push(e.message));
   await ph.goto('http://localhost:8791' + PAGE, { waitUntil: 'networkidle' });

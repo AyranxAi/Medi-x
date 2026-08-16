@@ -57,7 +57,30 @@
 > removed (structure-lab's closing plate has the three strips that prove it). The nine verbs
 > are NOT in this build; adding them as step marks is plate A and a small addition.
 >
-> **9 · `tools/qa/journey-lab.mjs`, 41/41** at three widths, plus `?view=` solo, plus
+> **8b · SAME DAY, TWO CORRECTIONS FROM HIM AFTER SEEING IT.**
+>   · **BLOOD WORK ONLY** — *"it's going to be blood test only required not Bozat and not the
+>     Dutch Test"*. The BOZAT scans are struck from step 3 and from step 4's review; step 3 now
+>     offers a choice about the DOCTOR'S VISIT and says the bloods are drawn at home in Dubai or
+>     at any lab. The coda's "blood tests and functional tests" is "your blood work". ⚠️ **THE
+>     STRUCTURE LAB WAS SWEPT TOO** — its overlap figure, plate A's specimen, B's rows, C's week
+>     one, D's Precision line and E's first question all named the scans; its open question
+>     about the two lists disagreeing over the DUTCH Plus is marked SETTLED, because it is.
+>     ⚠️ **THEIR SOURCE DOCUMENT STILL NAMES BOTH**, so the harness asserts BOZAT, DUTCH and
+>     "functional test" are ABSENT — an absence check, so a later copy pass cannot drift them
+>     back in.
+>   · **THE SECTION AT REST IS THE QUESTION AND NOTHING ELSE** — *"I want one section where it
+>     says 'Ready to begin?' and only that word and male and female button"*. ⚠️ **THE CHAPTER
+>     HEADLINE AND LEDE ARE REMOVED FROM THIS SECTION**: "Preventative. Precision.
+>     Personalised." and the benefits paragraph are gone, and the gate's question is now the
+>     section's own `<h2>` — without it the section would have had no heading at all. At rest it
+>     is **799px**, down from 1034. ⚠️ **THE BIG CONTINUE BUTTON WENT WITH IT**: his chevrons do
+>     both jobs (*"a chevron button < > on the bottom left to go back and choose again or to go
+>     through"*), so the label beside them has to say where › GOES, not where you are — it reads
+>     "Continue — how it works" on the symptom panel and "n of 7" inside the journey. The three
+>     P's are PARKED, not deleted; if they belong somewhere it is his call where.
+>   · `?clean=1` strips every piece of lab furniture so the thing judged is the thing that ports.
+>
+> **9 · `tools/qa/journey-lab.mjs`, 43/43** at three widths, plus `?view=` solo, plus
 > **JavaScript disabled**, plus reduced motion. It walks the whole interaction rather than
 > measuring the layout. Two bugs it caught that no static check would:
 >   · **the inverted enhancement above** (0/10 views without JS), and

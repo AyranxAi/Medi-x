@@ -75,6 +75,12 @@ for (const [w, h, label] of [[1440,900,'desktop'], [1024,800,'tablet'], [390,844
   ok(gate.onGate && gate.picks === 2, 'opens on the gate with two paths');
   ok(gate.ctrlHidden && gate.railHidden, 'no arrows and no rail before a path is chosen');
   ok(gate.eight === 8, `the eight are built (${gate.eight})`);
+  // HIS CALL 2026-08-16: at rest the section is the question and two doors, nothing else.
+  // Asserted as visible TEXT, because a stray headline or lede is exactly what he objected to.
+  const rest = await pg.evaluate(() => document.getElementById('programme').innerText
+    .split('\n').map(t => t.trim()).filter(Boolean));
+  const strayed = rest.filter(t => !/^(Ready to begin\?|For women|For men|Cycles,|Testosterone,|→)/.test(t));
+  ok(strayed.length === 0, `nothing but the question and the two doors at rest${strayed.length ? ' — strayed: ' + strayed.slice(0,3).map(t=>'“'+t.slice(0,42)+'”').join(', ') : ''}`);
   ok(gate.beads === 7 && gate.bonds === 6, `rail is 7 residues on 6 bonds (${gate.beads}/${gate.bonds})`);
 
   // only one view is ever on
@@ -86,18 +92,21 @@ for (const [w, h, label] of [[1440,900,'desktop'], [1024,800,'tablet'], [390,844
   const aud = await pg.evaluate(() => ({
     on: document.querySelector('[data-view="women"]').classList.contains('on'),
     menOff: !document.querySelector('[data-view="men"]').classList.contains('on'),
-    cont: !!document.querySelector('#ctrl-r .btn'),
+    cont: !document.getElementById('next').disabled,
+    note: document.getElementById('ctrl-note').innerText.replace(/\s+/g,' ').trim(),
     pmos: document.querySelectorAll('[data-view="women"] .pending').length,
     noPcos: !document.querySelector('[data-view="women"]').innerText.includes('PCOS'),
   }));
   ok(aud.on && aud.menOff, 'choosing “For women” shows her list and only hers');
-  ok(aud.cont, 'a Continue button appears on the symptom panel');
+  // The big CTA is gone by design — the chevron does the work, so the label beside it is
+  // the ONLY signpost forward. Assert the signpost, not just the enabled button.
+  ok(aud.cont && /continue/i.test(aud.note), `› is live on the symptom panel and says where it goes (“${aud.note}”)`);
   ok(aud.pmos === 2 && aud.noPcos, `PCOS→PMOS applied and flagged pending (${aud.pmos} marked, no PCOS left)`);
   ok(await onCount() === 1, 'still exactly one view visible');
 
   // ── into the journey, and all the way through ─────────────────────────────
-  await pg.click('#ctrl-r .btn'); await pg.waitForTimeout(220);
-  ok(await pg.evaluate(() => document.querySelector('[data-view="step1"]').classList.contains('on')), 'Continue lands on step 1');
+  await pg.click('#next'); await pg.waitForTimeout(220);
+  ok(await pg.evaluate(() => document.querySelector('[data-view="step1"]').classList.contains('on')), '› lands on step 1');
   ok(await pg.evaluate(() => !document.getElementById('rail-wrap').hidden), 'the rail appears inside the journey');
   ok(await pg.evaluate(() => document.getElementById('prev').disabled) === false, 'back is live on step 1');
 

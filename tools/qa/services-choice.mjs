@@ -103,7 +103,10 @@ const run = async () => {
     picks: document.querySelectorAll('.px-pick').length,
     marks: document.querySelectorAll('.px-mark').length,
     opens: document.querySelectorAll('.px-open').length,
-    teasers: document.querySelectorAll('.px > p:not(.px-num)').length,
+    teasers: document.querySelectorAll('.px > p').length,
+    nums: document.querySelectorAll('.px-num').length,
+    kickers: [...document.querySelectorAll('.px-detail')]
+      .filter(t => /^\d\d ·/.test(t.content.querySelector('.pxd-kicker').textContent.trim())).length,
     names: [...document.querySelectorAll('.px h3')].map(h => h.textContent.trim()).join('|'),
     /* eight <svg>s all drawing the same figure would pass every count ever written */
     uniqueMarks: new Set([...document.querySelectorAll('.px-mark')]
@@ -114,8 +117,16 @@ const run = async () => {
   is('1a eight select surfaces', grid.picks, 8);
   is('1b eight marks', grid.marks, 8);
   is('1c eight DIFFERENT marks', grid.uniqueMarks, 8);
+  /* ⚠️ THE NUMERALS ARE GONE ON PURPOSE — on a multi-select they implied a sequence
+     that does not exist. They survive in the popup kicker, which is a reference. */
+  is('1e no numerals on the tiles', grid.nums, 0);
+  is('1f but the popup kicker keeps its number', grid.kickers, 8);
   is('1d the + survived on all eight', grid.opens, 8);
   is('2  the teaser line is gone from the tiles', grid.teasers, 0);
+  has('2  the heading asks rather than announces',
+      await page.evaluate(() => document.querySelector('#services h2').textContent), 'Where would you like to begin');
+  has('2c the lede says you may pick more than one',
+      await page.evaluate(() => document.querySelector('.sec-lede').textContent), 'as many as apply');
   has('2a the client\'s spellings survive', grid.names, 'Anti Ageing');
   has('2b and the ampersand one', grid.names, 'Skin & Hair Loss');
 
@@ -183,51 +194,51 @@ const run = async () => {
      await page.evaluate(() => !document.querySelector('#pxd').hidden), true);
   const p1 = await page.evaluate(() => ({
     recap: document.querySelector('#pg-recap').textContent.trim(),
-    sub: document.querySelector('#pg-sub').textContent.trim(),
-    vat: document.querySelector('#pg-vat').textContent.trim(),
     total: document.querySelector('#pg-total').textContent.trim(),
+    vatline: (document.querySelector('.pg-vatline')||{}).textContent,
+    vatRows: document.querySelectorAll('.pg-row').length,
     steps: document.querySelectorAll('.pg-steps li').length,
     incl: document.querySelectorAll('.pg-blk:not(.pg-blk--soft) .pg-list li').length
   }));
   has('8a it names both goals', p1.recap, 'Brain Health');
   has('8b and the second', p1.recap, 'Gut Health');
-  is('9  subtotal', p1.sub, 'AED 1,150.00');
-  is('9a VAT at 5%', p1.vat, 'AED 57.50');
-  is('9b total', p1.total, 'AED 1,207.50');
+  /* ⚠️ VAT IS STATED, NOT COMPUTED — his call. One row, not three: a summary that
+     shows tax working is a receipt, and this panel is not a checkout. */
+  is('9  one price, no arithmetic', p1.total, 'AED 1,150');
+  is('9a and exactly one money row', p1.vatRows, 1);
+  has('9b with VAT named as a fact', p1.vatline, 'added at checkout');
   is('10 five steps', p1.steps, 5);
   is('10a six included lines', p1.incl, 6);
   const copy = await page.evaluate(() => document.querySelector('.pxd-body').textContent);
-  has('11 the collection is a nurse, not a kit', copy, 'A nurse comes to you');
+  has('11 the collection is a team at your home, not a kit', copy, 'comes to your home');
+  has('11g at his real figure, not my placeholder', copy, 'AED 1,950');
+  is('11h and nothing on the page is marked tbc', /price tbc/i.test(copy), false);
   has('11a the assessment is online', copy, 'complete online');
   has('11b the read is same or next day', copy, 'same or next day');
-  has('11c the consultation is online', copy, 'Online, with the doctor you choose');
+  has('11c the consultation is online', copy, 'Online. You choose your doctor');
   has('11d and the page says you never visit', copy, 'never need to visit');
-  has('11e the placeholder price is flagged', copy, 'price tbc');
 
   /* the add-on's explanation is a <small> inside a flex child — inline by default,
      which ran it straight after the PRICE TBC tag on one line */
   const stacked = await page.evaluate(() => {
     const t = document.querySelector('.pg-t');
-    const tag = t.querySelector('.pg-tag').getBoundingClientRect();
+    const head = t.childNodes[0];
+    const r = document.createRange(); r.selectNode(head);
     const sm = t.querySelector('small').getBoundingClientRect();
-    return sm.top >= tag.bottom - 1;
+    return sm.top >= r.getBoundingClientRect().bottom - 1;
   });
   is('11f the add-on explanation is on its own line', stacked, true);
 
   await page.click('#pg-addon');
   await page.waitForTimeout(300);
   const p2 = await page.evaluate(() => ({
-    sub: document.querySelector('#pg-sub').textContent.trim(),
-    vat: document.querySelector('#pg-vat').textContent.trim(),
     total: document.querySelector('#pg-total').textContent.trim()
   }));
-  is('12 the add-on moves the subtotal', p2.sub, 'AED 1,500.00');
-  is('12a and the VAT with it', p2.vat, 'AED 75.00');
-  is('12b and the total', p2.total, 'AED 1,575.00');
+  is('12 the add-on moves the total', p2.total, 'AED 3,100');
   await page.click('#pg-addon');
   await page.waitForTimeout(300);
   is('12c and back again',
-     await page.evaluate(() => document.querySelector('#pg-total').textContent.trim()), 'AED 1,207.50');
+     await page.evaluate(() => document.querySelector('#pg-total').textContent.trim()), 'AED 1,150');
 
   /* ⚠️ NOT A CHECKOUT: close, the one add-on, Start. Every extra control in there
      is another chance to hesitate at the last moment before payment. */
@@ -271,7 +282,7 @@ const run = async () => {
     const t = document.querySelector('.px[data-picked="true"]') || document.querySelector('.px');
     const tray = document.querySelector('#px-tray');
     return { 'chosen tile name': [g(t.querySelector('h3')).color, g(t).backgroundColor],
-             'chosen tile numeral': [g(t.querySelector('.px-num')).color, g(t).backgroundColor],
+             'chosen tile mark': [g(t.querySelector('.px-mark')).color, g(t).backgroundColor],
              'tray answer': [g(document.querySelector('#px-tray-l')).color, g(tray).backgroundColor] };
   });
   for (const [k,[fg,bg]] of Object.entries(pairs)) {

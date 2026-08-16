@@ -88,6 +88,56 @@ const contrast = (fg, bg) => ratio(over(fg, bg), parse(bg).c);
 const run = async () => {
   const exe = findChromium();
   const browser = await chromium.launch({ executablePath: exe, args: ['--force-color-profile=srgb'] });
+
+  /* ══════════════════ 0 · THE PAGE WITHOUT SCRIPT ══════════════════
+     THIS SECTION IS WHY THE LAB WAS REBUILT. The first version generated every
+     goal, pill, row, doctor and all three rails from JS arrays via innerHTML —
+     so with script unavailable for any reason it rendered four headings and
+     nothing else. Not a degraded page: a blank one.
+
+     Script can be unavailable for reasons that have nothing to do with this
+     file being correct — a host CSP without 'unsafe-inline', a sandbox that
+     strips inline script, an error thrown above it. So the content is now
+     authored in the HTML and this context proves it, by loading the page with
+     the engine's script support switched off entirely. */
+  const noJsCtx = await browser.newContext({ viewport: { width: 1440, height: 900 }, javaScriptEnabled: false });
+  const noJs = await noJsCtx.newPage();
+  await noJs.goto(pathToFileURL(PAGE).href, { waitUntil: 'load' });
+  await noJs.waitForTimeout(250);
+
+  console.log('\n\x1b[1m0 · with JavaScript disabled\x1b[0m');
+  const dead = await noJs.evaluate(() => {
+    const vis = s => [...document.querySelectorAll(s)].filter(e => e.getBoundingClientRect().height > 0).length;
+    return {
+      goals:   vis('.goal'),
+      pills:   vis('.pill'),
+      rows:    vis('.row'),
+      docs:    vis('.doc'),
+      railRows:vis('.rail li'),
+      /* the dialog's copy is present but unrendered until opened — count it, don't measure it */
+      dialogRail: document.querySelectorAll('#how .rail li').length,
+      screens: vis('#flow .screen'),
+      price:   (document.querySelector('.price-v') || {}).textContent,
+      incl:    vis('.ledger:not(.ledger--out) li'),
+      excl:    vis('.ledger--out li'),
+      jsClass: document.documentElement.classList.contains('js'),
+      wide:    document.documentElement.scrollWidth
+    };
+  });
+  is('0   the js class never lands', dead.jsClass, false);
+  is('0a  all eight goals are in the HTML', dead.goals, 8);
+  is('0b  all twenty-five symptom pills are in the HTML', dead.pills, 25);
+  is('0c  all three locations are in the HTML', dead.rows, 3);
+  is('0d  all four doctors are in the HTML', dead.docs, 4);
+  is('0e  the summary rail is in the HTML', dead.railRows, 6);
+  is('0e2 the overlay rail is in the HTML too', dead.dialogRail, 6);
+  is('0f  every screen is readable, stacked', dead.screens, 6);
+  is('0g  the price survives', (dead.price || '').trim(), 'AED 1,150');
+  is('0h  what is included survives', dead.incl, 6);
+  is('0i  what is not included survives', dead.excl, 4);
+  is('0j  still no sideways scroll', dead.wide, 1440);
+  await noJsCtx.close();
+
   const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 });
   const page = await ctx.newPage();
 
@@ -148,23 +198,27 @@ const run = async () => {
 
   console.log('\n\x1b[1mC · content\x1b[0m');
   const docOrder = await page.evaluate(() =>
-    [...document.querySelectorAll('#docs .doc .doc-n')].map(n => n.textContent.trim()));
+    [...document.querySelectorAll('.docs .doc .doc-n')].map(n => n.textContent.trim()));
   const wantOrder = ['Dr. Andrey Komissarov', 'Dr. Eslam Yakout', 'Dr. Nahla Ibrahim Elawady', 'Dr. Khalid Shukri'];
   JSON.stringify(docOrder) === JSON.stringify(wantOrder)
     ? ok('7  doctors are in band order')
     : bad('7  doctors are in band order', docOrder.join(' · '));
 
-  /* ⚠️ DECODE BEFORE MEASURING. The doctors live on screen 4, which is display:none
-     at load, so naturalWidth is 0 until the image has actually decoded. Reading it
-     cold reported all four portraits missing on a page where all four are fine. */
+  /* The portraits are CSS backgrounds, so there is no naturalWidth to read — each
+     data URI is written once in .face-* and referenced by class from the markup.
+     Pull the resolved url() back out and decode it, which proves both that the
+     custom property resolved and that the bytes behind it are a real image. */
   const faces = await page.evaluate(async () => {
-    const imgs = [...document.querySelectorAll('#docs .doc-face')];
-    await Promise.all(imgs.map(i => i.decode().catch(() => {})));
-    return imgs.map(i => i.naturalWidth);
+    const els = [...document.querySelectorAll('.doc-face')];
+    const urls = els.map(e => (getComputedStyle(e).backgroundImage.match(/url\("?(data:[^")]+)"?\)/) || [])[1]);
+    const sizes = await Promise.all(urls.map(u => u ? new Promise(res => {
+      const i = new Image(); i.onload = () => res(i.naturalWidth); i.onerror = () => res(0); i.src = u;
+    }) : Promise.resolve(0)));
+    return { n: els.length, sizes };
   });
-  faces.length === 4 && faces.every(w => w > 0)
-    ? ok('8  four portraits decoded', faces.join('/'))
-    : bad('8  four portraits decoded', faces.join('/'));
+  faces.n === 4 && faces.sizes.every(w => w > 0)
+    ? ok('8  four portraits decoded', faces.sizes.join('/'))
+    : bad('8  four portraits decoded', JSON.stringify(faces));
 
   /* ⚠️ GEOMETRY, NOT PRESENCE. Both the name and the specialism are <span>s; when
      they were left inline they set on ONE line ("Dr. Andrey KomissarovMD, PhD")
@@ -172,14 +226,14 @@ const run = async () => {
      nothing on an inline box. Every text-content assertion passed throughout.
      Assert that the two boxes do not share a line. */
   const stacked = await page.evaluate(() =>
-    [...document.querySelectorAll('#docs .doc')].every(d => {
+    [...document.querySelectorAll('.docs .doc')].every(d => {
       const n = d.querySelector('.doc-n').getBoundingClientRect();
       const s = d.querySelector('.doc-s').getBoundingClientRect();
       return s.top >= n.bottom - 1;
     }));
   is('8a name and specialism are on separate lines', stacked, true);
 
-  const goals = await page.evaluate(() => [...document.querySelectorAll('#goals .goal .t')].map(t => t.textContent));
+  const goals = await page.evaluate(() => [...document.querySelectorAll('.goals .goal .t')].map(t => t.textContent));
   is('9  eight goals', goals.length, 8);
   has('9a the client\'s spellings survive', goals.join('|'), 'Anti Ageing');
 
@@ -208,7 +262,7 @@ const run = async () => {
       bookConsult:  /book a consultation/i.test(body),
       bookProtocol: /book a protocol/i.test(body),
       onAControl:   /consultation/i.test(controls),
-      inTheRail:    /consultation/i.test(document.querySelector('#rail').textContent),
+      inTheRail:    /consultation/i.test(document.querySelector('.screen[data-step="5"] .rail').textContent),
       startsIt:     /start your programme/i.test(document.querySelector('#flow').textContent)
     };
   });
@@ -249,7 +303,7 @@ const run = async () => {
   is('18 single-select DOES auto-advance', await step(), 4);
 
   if (SHOTS) await page.screenshot({ path: path.join(OUT, 'pl-4-doctor.png') });
-  await page.click('[data-doc="shukri"]');
+  await page.click('[data-doc="Dr. Khalid Shukri"]');
   await page.waitForTimeout(600);
   is('19 doctor auto-advances to the summary', await step(), 5);
   is('20 the summary stands on ivory', await ground(), 'ivory');
@@ -261,7 +315,7 @@ const run = async () => {
   has('23 recap counts the symptoms', recap, '2 symptoms');
 
   const rail = await page.evaluate(() =>
-    [...document.querySelectorAll('#rail li')].map(li => li.innerText.replace(/\n/g, ' § ')));
+    [...document.querySelectorAll('.screen[data-step="5"] .rail li')].map(li => li.innerText.replace(/\n/g, ' § ')));
   is('24 the rail is six rows', rail.length, 6);
   has('25 row 3 personalises to the location', rail[2], 'any laboratory near you');
   has('26 row 4 sells the prep day', rail[3], '48 hours');
@@ -304,7 +358,7 @@ const run = async () => {
     const g = el => getComputedStyle(el);
     const bg = g(document.querySelector('#flow')).backgroundColor;
     return { 'recap':     [g(document.querySelector('.screen[data-step="5"] .recap')).color, bg],
-             'durations': [g(document.querySelector('#rail .rd')).color, bg],
+             'durations': [g(document.querySelector('.screen[data-step="5"] .rail .rd')).color, bg],
              'exclusions':[g(document.querySelector('.ledger--out li')).color, bg],
              'price':     [g(document.querySelector('.screen[data-step="5"] .price-v')).color, bg] };
   });
@@ -316,7 +370,7 @@ const run = async () => {
   await page.click('#back'); await page.click('#back'); await page.click('#back');
   await settle();
   const sel = await page.evaluate(() => {
-    const b = document.querySelector('#goals [data-goal="Gut Health"]');
+    const b = document.querySelector('[data-goal="Gut Health"]');
     return [getComputedStyle(b.querySelector('.t')).color, getComputedStyle(b).backgroundColor];
   });
   const rs = contrast(sel[0], sel[1]);
@@ -333,18 +387,31 @@ const run = async () => {
   is('38 A hides the escape hatch',
      await page.evaluate(() => getComputedStyle(document.querySelector('#skipbtn')).display === 'none'), true);
 
+  /* ⚠️ B IS NOT A SECOND SECTION. It is the same six screens re-laid into two
+     columns, so the assertion is that the four question screens are up TOGETHER
+     and the threshold is not — never that some other element became visible. */
   await page.click('[data-shape="b"]');
-  const bVis = await page.evaluate(() => ({
-    b: getComputedStyle(document.querySelector('#shape-b')).display !== 'none',
-    a: getComputedStyle(document.querySelector('#flow')).display !== 'none'
-  }));
-  bVis.b && !bVis.a ? ok('39 B replaces A, not stacks on it') : bad('39 B replaces A', JSON.stringify(bVis));
+  await page.waitForTimeout(200);
+  const bVis = await page.evaluate(() => {
+    const up = [...document.querySelectorAll('#flow .screen')]
+      .filter(s => getComputedStyle(s).display !== 'none').map(s => s.dataset.step);
+    const s5 = document.querySelector('#flow .screen[data-step="5"]');
+    return { up, cols: getComputedStyle(document.querySelector('#flow')).gridTemplateColumns.split(' ').length,
+             sticky: getComputedStyle(s5).position };
+  });
+  JSON.stringify(bVis.up) === JSON.stringify(['1','2','3','4','5'])
+    ? ok('39 B shows all five at once', bVis.up.join(''))
+    : bad('39 B shows all five at once', bVis.up.join(''));
+  is('39a B is two columns', bVis.cols, 2);
+  is('39b the ledger sticks beside the questions', bVis.sticky, 'sticky');
 
-  /* state is one object — the second copy of the grid must already agree */
+  /* one set of screens means there is nothing to keep in sync — the selection
+     made in A is the same DOM node, and it must simply still be pressed */
   const carried = await page.evaluate(() =>
-    document.querySelector('#goals-b [data-goal="Gut Health"]').getAttribute('aria-pressed'));
-  is('40 selections carry across shapes', carried, 'true');
-  const bRail = await page.evaluate(() => document.querySelectorAll('#rail-b li').length);
+    document.querySelector('[data-goal="Gut Health"]').getAttribute('aria-pressed'));
+  is('40 selections survive the shape switch', carried, 'true');
+  const bRail = await page.evaluate(() =>
+    document.querySelectorAll('#flow .screen[data-step="5"] .rail li').length);
   is('41 B carries the whole rail in view', bRail, 6);
   if (SHOTS) {
     await page.screenshot({ path: path.join(OUT, 'pl-b-onescreen.png'), fullPage: true });
@@ -362,7 +429,7 @@ const run = async () => {
   await page.waitForTimeout(200);
   is('42 How it works opens', await page.evaluate(() => document.querySelector('#how').open), true);
   is('43 the overlay carries the same six rows',
-     await page.evaluate(() => document.querySelectorAll('#rail-how li').length), 6);
+     await page.evaluate(() => document.querySelectorAll('#how .rail li').length), 6);
   await page.click('#how-close');
   await page.waitForTimeout(200);
   is('44 it closes', await page.evaluate(() => document.querySelector('#how').open), false);
@@ -371,7 +438,7 @@ const run = async () => {
   await page.waitForTimeout(150);
   const cleared = await page.evaluate(() => ({
     step: +document.querySelector('#flow .screen.is-on').dataset.step,
-    pressed: document.querySelectorAll('#goals [aria-pressed="true"]').length,
+    pressed: document.querySelectorAll('.goals [aria-pressed="true"]').length,
     recap: document.querySelector('#recap').innerText.trim()
   }));
   is('45 reset returns to step 1', cleared.step, 1);

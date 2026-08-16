@@ -51,29 +51,41 @@
   font-display:swap;src:url(../fonts/cormorant-garamond-italic-latin.woff2) format("woff2");
   unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
 
-/* ──────────────── TOKENS — Medi✦X BRAND.md constants + THIS PAGE'S GLACIER GRADE ────────────────
-   ⚠️ ROUND 9 (2026-08-15): the surfaces are RE-GRADED to glacier — his letters A2·B2·C2 off
-   peptide-therapy/grade-lab.html (kept, with its artifact twin — see HANDOVER round 8). The
-   token NAMES keep their BRAND.md roles; six VALUES move by the judged round-7 mapping
-   (ivory→#F4F7FA · cream→#EAF0F5 · line→#D5DEE6 · gold→#7C93A8 · gold-deep→#54687C ·
-   gold-tint→#E4EDF4). The one red, the burgundy, the rose and both inks are BRAND LAW and
-   do not move — on any grade, ever. The hormone page keeps the warm originals: each service
-   page owns its temperature over the same bones. Three warm survivors on THIS page are
-   pinned as literals where they live, each with its argument: the preloader's ✦ (the
-   favicon's shared gold spark), and the turn band's golds (a complete burgundy composition
-   — re-grading only its accents would half-grade the one deliberately warm band). */
+/* ──────────────── TOKENS — Medi✦X BRAND.md constants, ON THE PLUM GRADE ────────────────
+   ⚠️⚠️ ROUND 14 (2026-08-16): THE GLACIER IS REVERSED. His call — "roll the plum design in
+   the whole peptide page" — taken ahead of showing the work to the client, and the
+   commercial reason is plain: medi-gyn.com is warm, the landing page is warm, and the
+   sister hormone page never left. A service page in steel was the one screen in the estate
+   that did not look like the brand.
+   ⚠️ WHAT THAT REVERSES: round 9's glacier grade, which was HIS OWN pick — letters A2·B2·C2
+   off peptide-therapy/grade-lab.html (the lab is KEPT, with its artifact twin, and it is
+   still the reference for the mapping in both directions). Six values moved then and six
+   move back now; they are the SAME six, so the grade is a straight swap and not a redesign:
+     ivory  #F4F7FA → #FAF7F1      gold       #7C93A8 → #C2A05E
+     cream  #EAF0F5 → #F4EDE1      gold-deep  #54687C → #8A6A34
+     line   #D5DEE6 → #DED4C2      gold-tint  #E4EDF4 → #F1E7D2
+   plus the two that were always their own decision: --dawn #E8EFF5 → #F6E7E1 (the rose the
+   sister page kept) and --gold-gloss, which un-converges — see its own note below.
+   ⚠️ THE ONE RED, THE BURGUNDY, THE ROSE AND BOTH INKS DID NOT MOVE — on either grade,
+   ever. That is what made this reversible at all: the brand law never took a temperature,
+   so only the surfaces had to travel.
+   ⚠️ THE THREE "WARM SURVIVORS" ARE NO LONGER SURVIVORS AND THEIR PINS ARE NOW REDUNDANT,
+   not wrong — the preloader's ✦ and the turn band's two golds are pinned as literals equal
+   to what the tokens now resolve to. They are LEFT PINNED on purpose: each pin carries the
+   argument for why that particular value is not a grade decision, and unpinning them would
+   throw the argument away to save six characters. */
 :root{
-  --ivory:#F4F7FA;         /* glacier white — the page ground */
-  --cream:#EAF0F5;
-  --line:#D5DEE6;
+  --ivory:#FAF7F1;         /* warm ivory — the page ground */
+  --cream:#F4EDE1;
+  --line:#DED4C2;
   --burgundy:#5C1F31;
   --rose:#C79A92;
   --logo-red:#8E2D3A;      /* the one red */
   --red-hover:#A33648;
-  --gold:#7C93A8;          /* the accent role — steel on this grade */
-  --gold-deep:#54687C;
-  --gold-tint:#E4EDF4;
-  --ink:#2E2228;
+  --gold:#C2A05E;          /* the accent role — gold again */
+  --gold-deep:#8A6A34;
+  --gold-tint:#F1E7D2;
+  --ink:#2E2228;           /* dark plum */
   --ink-soft:#6A585F;
   --serif:"Playfair","Playfair Display",Didot,"Times New Roman",Georgia,serif;
   --sans:"MediGyn NOW",Jost,ui-sans-serif,system-ui,-apple-system,sans-serif;
@@ -88,18 +100,21 @@
   --quote-story:"Cormorant Garamond",Georgia,serif;
   /* ⚠️ THE DAWN, AS A TOKEN — 2026-08-13 (evening). This is the exact colour the scene's
      ground rises TO, and section 03 now stands on it so the handoff has no seam.
-     ⚠️ IT MUST STAY EQUAL TO BG_B IN THE SCENE SCRIPT (`const BG_B=[232,239,245]`). Two
+     ⚠️ IT MUST STAY EQUAL TO BG_B IN THE SCENE SCRIPT (`const BG_B=[246,231,225]`). Two
      copies of one colour in two languages; there is no way to share them in a zero-build
      single file, so they are cross-referenced at both sites instead. Change one, change
      the other, or 03 grows a seam that is 2 RGB values wide and impossible to spot. */
-  --dawn:#E8EFF5;          /* glacier dawn — B2, his letter. The rose #F6E7E1 lives on in the sister page */
-  /* ⚠️ TWO TOKENS THAT NOW SHARE A VALUE, AND THE SPLIT STAYS. The warm system needed a
-     darker gloss (#7F6230) because --gold-deep #8A6A34 measured 4.16 on the rose dawn,
-     under the 4.5 floor for .seg-gloss's size. The steel deep #54687C passes EVERYWHERE
-     the gloss appears on this grade — measured: 4.96 dawn / 5.01 cream / 5.35 ivory — so
-     gloss and deep converge. The token is kept, not collapsed, because the divergence was
-     a decision and the next grade may need it again (same rule as --quote/--quote-story). */
-  --gold-gloss:#54687C;
+  --dawn:#F6E7E1;          /* the rose dawn — round 14, back from the glacier's #E8EFF5 */
+  /* ⚠️⚠️ THE TWO TOKENS UN-CONVERGE, AND THE ROUND-9 NOTE PREDICTED THIS EXACT MOMENT:
+     "the divergence was a decision and the next grade may need it again". It does.
+     On the warm system --gold-deep #8A6A34 measures 4.16 on the rose dawn — UNDER the
+     4.5 floor for .seg-gloss's size — which is the whole reason #7F6230 was cut in the
+     first place. On glacier the steel deep passed everywhere (4.96 dawn / 5.01 cream /
+     5.35 ivory) so the two collapsed to one value; going back to warm splits them again.
+     ⚠️ DO NOT "TIDY" THIS TO var(--gold-deep). It reads like a duplicate on the glacier
+     grade and like a bug on this one, and it is neither — it is a measured minimum, and
+     collapsing it drops .seg-gloss below the floor on the one ground it sits on. */
+  --gold-gloss:#7F6230;
   --ease:cubic-bezier(.22,.61,.36,1);
   --pad:clamp(20px,4.5vw,72px);
   /* landing-page header geometry (ported from medi-x BRAND system) */
@@ -193,7 +208,7 @@ img{max-width:100%}
      rgba(250,247,241,.95); this page's bar follows its own grade at the same alpha
      geometry. Same bar otherwise: geometry, blur, red mark. The TRUE-COPY status of
      the header is deliberately forked here — recorded, not drifted. */
-  background:rgba(244,247,250,.94);
+  background:rgba(250,247,241,.95);
   border-bottom-color:var(--line);
   backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
 }
@@ -295,10 +310,10 @@ body.nav-open .nav li{
 .hero{position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden}
 #silk{position:absolute;inset:0;width:100%;height:100%;display:block}
 /* the foot fade + the lab's radial wash behind the copy (round 7) — one rule since round 9,
-   the transparent stop matching the glacier ivory it fades to */
+   the transparent stop matching the ivory it fades to (warm again, round 14) */
 .hero::after{content:"";position:absolute;inset:0;pointer-events:none;background:
-  linear-gradient(180deg,rgba(244,247,250,0) 55%,var(--ivory) 97%),
-  radial-gradient(85% 115% at 20% 44%,rgba(244,247,250,.55) 0%,rgba(244,247,250,.22) 46%,rgba(244,247,250,0) 70%)}
+  linear-gradient(180deg,rgba(250,247,241,0) 55%,var(--ivory) 97%),
+  radial-gradient(85% 115% at 20% 44%,rgba(250,247,241,.55) 0%,rgba(250,247,241,.22) 46%,rgba(250,247,241,0) 70%)}
 .hero-inner{position:relative;z-index:2;width:100%;padding-top:14vh;padding-bottom:12vh}
 .hero .kicker{margin-bottom:clamp(22px,3.4vh,38px)}
 /* The sister page's ramp, inherited. "Peptide" / "therapy" are short lines (≈4.3em),
@@ -319,10 +334,11 @@ body.nav-open .nav li{
 .hero-hint .tick::after{content:"";position:absolute;top:-50%;left:0;width:100%;height:50%;background:var(--gold);animation:drip 2.1s var(--ease) infinite}
 @keyframes drip{0%{top:-50%}100%{top:110%}}
 
-/* ── The round-7 GLACIER, HERO-SCOPED block stood here and is COLLAPSED — round 9. Its
-   overrides (steel kicker rule, glacier tick + drip, glacier ghost border, the ::after
-   wash) are now exactly what the global tokens and the base ::after rule produce, because
-   the whole page wears the grade the hero introduced. Deleted as redundant, not reverted. */
+/* ── A round-7 HERO-SCOPED GLACIER block stood here and was COLLAPSED in round 9, once
+   the whole page wore the grade the hero had introduced: its overrides were by then exactly
+   what the global tokens already produced. ⚠️ THAT COLLAPSE IS WHY ROUND 14'S REVERSAL WAS
+   A TOKEN EDIT AND NOT A HERO REWRITE — there was no second, hero-only grade left to chase.
+   Deleted as redundant then, and still redundant now. */
 
 /* ─────────────────────────── SECTION SHELL ─────────────────────────── */
 section{position:relative}
@@ -344,47 +360,48 @@ section{position:relative}
 .signals-close strong{font-weight:500;color:var(--burgundy)}
 
 /* ─────────────────────────── 02 · THE TURN (dark) ─────────────────────────── */
-/* ══ 2026-08-16 · THE BAND ITSELF WENT COOL — round 9 said "if the band itself ever goes
-   cool, that is a different decision", and this is that decision, made by the client.
+/* ══ THE BAND IS BURGUNDY AGAIN — round 14 (2026-08-16), the plum reversal.
    ⚠️ THIS BAND IS SECTION 3'S STATIC TWIN — it is what a reduced-motion or no-JS visitor
-   sees INSTEAD of the chain scene (.scene-fallback). The client's note was about section 3;
-   leaving the fallback burgundy would mean the unapproved colour is exactly what the
-   accessibility path still shows. So it moved WITH the stage, by the same arithmetic:
-     ground   --burgundy #5C1F31 → #003A5F  (L* 21.86 → 23.18, C* 29.9 → 26.7, h 6° → 267°;
-                                             R clips to 0, which is where the drift comes from)
-     accents  champagne  #C2A05E → #95ABBF  (NOT the raw rotation, which lands on #50ADE8 —
-                                             C*39 is a sky blue this brand does not own)
-     the glow --rose     #C79A92 → #87A8C5  (the same italic steel the beats now take)
-   ⚠️ #95ABBF IS SOLVED, NOT PICKED, and it is the round-9 method applied a second time:
-   the champagne carried EXACTLY 5.00:1 on the burgundy, so the accent is the glacier
-   family's own chroma (C*13, h256) at whatever L* returns 5.00:1 on #003A5F — L*68.9.
-   The token's #7C93A8 measures 3.62 here and the stage's #8FA5B8 measures 4.66; both are
-   legal for large text and both are a visibly quieter band than the one that shipped.
-   ⚠️ --burgundy THE TOKEN IS UNTOUCHED. It still dresses the preloader, ::selection, the
-   FAQ marks, the × and the story dots. THE PRELOADER IS NOW THE PAGE'S ONE FULL BURGUNDY
-   FIELD and it is left standing deliberately — it is chrome shared with the landing page,
-   not section 3, so forking it is his call and not a side effect of this one. */
-.turn{background:#003A5F;color:var(--ivory);overflow:hidden}
-.turn .chapter-mark{color:#95ABBF}
+   sees INSTEAD of the chain scene (.scene-fallback). It has to hold whatever colour the
+   stage holds, or the accessibility path shows a different page from the animated one.
+   That rule is why it went cool WITH the stage on 2026-08-16 and why it comes back WITH it
+   now; it is the one thing about this band that must never be decided on its own.
+   ⚠️ THE COOL VALUES IT HELD, kept here because reversing a grade twice is cheaper than
+   re-deriving it, and the arithmetic behind each one is not obvious:
+     ground   --burgundy #5C1F31 → was #003A5F  (L* 21.86 → 23.18, C* 29.9 → 26.7, h 6°→267°)
+     accents  champagne  #C2A05E → was #95ABBF  (SOLVED not picked: the champagne carried
+                                    exactly 5.00:1 on the burgundy, so the steel was the
+                                    glacier family's chroma at whatever L* returned 5.00:1)
+     the glow --rose     #C79A92 → was #87A8C5  (L* 67.52 held)
+   ⚠️ THE CONTRAST THE WARM VALUES CARRY IS THE ONE THAT SHIPPED FOR ROUNDS 1–8 and it is
+   the better of the two: the champagne measures 5.00:1 on the burgundy against the steel's
+   4.66, and the band reads as a composition rather than as a quieter version of one.
+   ⚠️ --burgundy THE TOKEN WAS UNTOUCHED THROUGHOUT — it never took a temperature, which is
+   why this band could be restored by pointing at it again rather than by picking a colour.
+   It also dresses the preloader, ::selection, the FAQ marks, the × and the story dots, so
+   the preloader and this band finally agree again. */
+.turn{background:var(--burgundy);color:var(--ivory);overflow:hidden}
+.turn .chapter-mark{color:#C2A05E}
 .turn-quote{
   font-family:var(--quote);font-weight:400;
   font-size:clamp(30px,4.4vw,60px);line-height:1.22;color:var(--ivory);max-width:16em;
 }
-.turn-quote .gold{color:#95ABBF} /* the solved accent — see the .turn note */
+.turn-quote .gold{color:#C2A05E} /* the solved accent — see the .turn note */
 .turn-cols{display:grid;grid-template-columns:1fr 1fr;gap:clamp(36px,5vw,90px);margin-top:clamp(48px,7vh,84px)}
-/* the four ivory alphas below were the WARM ivory 250,247,241 — glacier now, same alphas:
-   body copy measures 7.29:1 against the 7.60 it measured on the burgundy */
-.turn-cols p{font-size:clamp(15px,1.25vw,18px);font-weight:300;color:rgba(244,247,250,.78);line-height:1.85}
+/* the four ivory alphas below are the WARM ivory 250,247,241 again (round 14). The alphas
+   never moved across either grade — only the ink did — so body copy is back to the 7.60:1
+   it measured on the burgundy, from the 7.29 it measured on the slate. */
+.turn-cols p{font-size:clamp(15px,1.25vw,18px);font-weight:300;color:rgba(250,247,241,.78);line-height:1.85}
 .turn-cols p strong{font-weight:500;color:var(--ivory)}
 .turn-list{list-style:none;display:flex;flex-direction:column}
 .turn-list li{
-  display:flex;align-items:baseline;gap:18px;padding:18px 0;border-bottom:1px solid rgba(244,247,250,.16);
+  display:flex;align-items:baseline;gap:18px;padding:18px 0;border-bottom:1px solid rgba(250,247,241,.16);
   font-family:var(--serif);font-size:clamp(19px,1.9vw,26px);color:var(--ivory);
 }
-.turn-list li:first-child{border-top:1px solid rgba(244,247,250,.16)}
-.turn-list .star{color:#95ABBF;font-size:.65em} /* the solved accent — see the .turn note */
+.turn-list li:first-child{border-top:1px solid rgba(250,247,241,.16)}
+.turn-list .star{color:#C2A05E;font-size:.65em} /* the solved accent — see the .turn note */
 .turn-glow{position:absolute;right:-18vw;top:-20vh;width:60vw;height:60vw;border-radius:50%;
-  background:radial-gradient(circle,rgba(135,168,197,.16) 0%,rgba(0,58,95,0) 62%);pointer-events:none}
+  background:radial-gradient(circle,rgba(199,154,146,.16) 0%,rgba(92,31,49,0) 62%);pointer-events:none}
 
 /* ⚠️ .link-arrow IS NOT ON THIS PAGE — it is the sister page's "go and read"
    material, and nothing here routes anywhere yet (see the 04 note). The day the
@@ -482,7 +499,12 @@ section{position:relative}
    ⚠️ POPUP COPY IS DRAFT — clinical claims kept deliberately soft, no compound
    names on purpose (naming specific peptides invites specific claims). Route
    through him before real marketing. */
+/* ⚠️ ITS FOOT IS CUT because .pgb now butts against it — the two are one chapter in two
+   bands (the choice, then what the choice buys). Two full .sec-pad feet between the last
+   tile and the band's kicker read as two unrelated sections, which is the opposite of
+   what growing this section was for. The band carries the normal padding on its far side. */
 .services{background:var(--ivory)}
+.services.sec-pad{padding-bottom:clamp(52px,7vh,88px)}
 .sec-lede{
   max-width:58ch;margin-top:18px;color:var(--ink-soft);
   font-size:clamp(15px,1.25vw,17px);line-height:1.62;
@@ -500,7 +522,7 @@ section{position:relative}
 }
 .px:hover,.px:focus-within{
   border-color:var(--gold);transform:translateY(-3px);
-  box-shadow:0 14px 30px rgba(46,54,71,.08);
+  box-shadow:0 14px 30px rgba(71,24,38,.08);
 }
 /* ⚠️ .px-num IS GONE FROM THE MARKUP — his call. On a list of eight the numerals
    were editorial furniture; on a MULTI-SELECT they implied a sequence that does not
@@ -571,40 +593,92 @@ section{position:relative}
 .px[data-picked="true"] h3,.px[data-picked="true"]:hover h3{color:var(--ivory)}
 .px[data-picked="true"] .px-mark{color:var(--gold)}
 .px[data-picked="true"] .px-open{color:var(--ivory)}
-.px[data-picked="true"] .px-open::before{border-color:rgba(244,247,250,.42)}
+.px[data-picked="true"] .px-open::before{border-color:rgba(250,247,241,.42)}
 .px-tick{position:absolute;bottom:14px;right:16px;z-index:1;font-family:var(--accent);
   font-size:13px;color:var(--gold);opacity:0;transition:opacity .3s var(--ease)}
 .px[data-picked="true"] .px-tick{opacity:1}
 
 /* ══ THE TRAY — the programme, assembling ═══════════════════════════════════
-   ⚠️ SCOPED TO THIS SECTION ON PURPOSE. It is `position:sticky` inside .services,
-   so it rides the foot of the viewport while the eight are on screen and scrolls
-   away with them. A fixed bar would follow the reader through the doctors, the
-   stories and the FAQ, which is a section's affordance overstaying its section.
+   ⚠️⚠️ IT IS FIXED NOW AND FOLLOWS THE READER — round 14, his call: "the brown thingy
+   should be sticking to the bottom when we scroll… to remind them that they have clicked
+   on the program". THAT REVERSES ROUND 12, which scoped it to the section with this
+   argument: "a fixed bar would follow the reader through the doctors, the stories and the
+   FAQ, which is a section's affordance overstaying its section."
+   ⚠️ THAT ARGUMENT WAS RIGHT AND IS ANSWERED RATHER THAN OVERRULED — which is the whole
+   design here. A chosen goal is an UNCOMMITTED INTENT: nothing is paid, nothing is booked,
+   and if the only evidence of it scrolls away then a reader four chapters down has to
+   remember they started something and scroll back up to finish it. So the tray persists.
+   What stops it overstaying is that IT SHRINKS: once the eight are off screen it drops to
+   .mini — a right-hand pill carrying the count and the action, with the goal names hidden.
+   A slab becomes a bookmark. Full width is how it behaves INSIDE its own section, where it
+   is the section's answer; a pill is how it behaves everywhere else, where it is a reminder.
+   ⚠️ IT HIDES ITSELF OVER #book (.px-tray.done). The final strip is the real booking
+   control, and a floating "See your programme" over the top of "Book your programme" is two
+   primary actions competing in one viewport — the exact escape-hatch problem round 12
+   removed the Continue button for.
    ⚠️ NOT SHOWN AT REST. Its resting text would only repeat the h2 above it, which
    is the duplication this whole arrangement exists to remove: the tray IS the
-   answer and the action, and before there is an answer there is nothing to say. */
+   answer and the action, and before there is an answer there is nothing to say.
+   ⚠️ FIXED MEANS IT NO LONGER RESERVES SPACE — it floats over content instead of
+   occupying a row at the foot of .services. Nothing was added to compensate and nothing
+   needs to be: .sec-pad already ends every section with clamp(90px,13vh,160px), which
+   clears the bar's ~62px at every width. THAT IS LOAD-BEARING NOW. If a future section
+   drops .sec-pad, or the bar grows a second line, the last thing in that section goes
+   under it — and because the bar only appears once a goal is chosen, it will look fine
+   in every screenshot taken before anyone clicks. */
 .px-tray{
-  position:sticky;bottom:0;z-index:30;
+  position:fixed;bottom:0;left:0;right:0;z-index:30;
   background:rgba(46,34,40,.95);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
   color:var(--ivory);padding:14px var(--pad);
   transform:translateY(120%);opacity:0;pointer-events:none;
-  transition:transform .45s var(--ease),opacity .35s var(--ease);
+  transition:transform .45s var(--ease),opacity .35s var(--ease),
+    padding .45s var(--ease),background .45s var(--ease);
 }
 .px-tray.on{transform:none;opacity:1;pointer-events:auto}
+.px-tray.done{transform:translateY(120%);opacity:0;pointer-events:none}
 .px-tray-in{max-width:1280px;margin:0 auto;display:flex;align-items:center;
-  gap:clamp(12px,2vw,22px)}
+  gap:clamp(12px,2vw,22px);transition:max-width .45s var(--ease)}
 .px-tray-n{font-family:var(--accent);font-size:12px;letter-spacing:.2em;color:var(--gold);
   white-space:nowrap;font-variant-numeric:tabular-nums}
-.px-tray-l{font-size:13.5px;color:rgba(244,247,250,.78);flex:1;min-width:0;
+.px-tray-l{font-size:13.5px;color:rgba(250,247,241,.78);flex:1;min-width:0;
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .px-tray-go{display:inline-flex;align-items:center;gap:10px;flex-shrink:0;
   font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.14em;
   text-transform:uppercase;color:var(--ivory);background:none;
-  border:1px solid rgba(244,247,250,.42);border-radius:999px;padding:12px 22px;
+  border:1px solid rgba(250,247,241,.42);border-radius:999px;padding:12px 22px;
   cursor:pointer;transition:all .3s var(--ease)}
 .px-tray-go:hover{background:var(--ivory);color:var(--ink);border-color:var(--ivory)}
-@media(max-width:560px){.px-tray-l{display:none}}
+/* ── .mini: the bar becomes a bookmark ──────────────────────────────────────────
+   ⚠️ THE GROUND GOES TRANSPARENT AND THE PILL CARRIES ITS OWN. A full-bleed plum band
+   riding over the doctors' portraits and the testimonial photographs is the thing round 12
+   objected to, and shrinking the CONTENTS alone would not have fixed it — the band was the
+   problem, not the text on it. So in .mini the bar itself stops painting and the pill
+   becomes the only opaque thing on screen.
+   ⚠️ THE PILL KEEPS ITS OWN BLUR because it now floats over photographs rather than over
+   the chooser's flat ivory, and 11px uppercase over a face needs the ground. */
+.px-tray.mini{background:transparent;backdrop-filter:none;-webkit-backdrop-filter:none;
+  padding-bottom:clamp(16px,2.4vh,26px);pointer-events:none}
+/* ⚠️ gap:0 IS WHAT MAKES IT ONE PILL. The count and the button are two elements butted
+   into a single rounded shape (999px 0 0 999px + 0 999px 999px 0); the bar's own
+   clamp(12px,2vw,22px) gutter drove a hole through the middle of it. */
+.px-tray.mini .px-tray-in{max-width:1280px;justify-content:flex-end;gap:0}
+.px-tray.mini .px-tray-l{display:none}
+.px-tray.mini .px-tray-n{
+  background:rgba(46,34,40,.95);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border-radius:999px 0 0 999px;padding:12px 4px 12px 20px;pointer-events:auto}
+.px-tray.mini .px-tray-go{
+  background:rgba(46,34,40,.95);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border-color:transparent;border-radius:0 999px 999px 0;padding-left:14px;pointer-events:auto}
+.px-tray.mini .px-tray-go:hover{background:var(--ivory);color:var(--ink)}
+@media(max-width:560px){
+  .px-tray-l{display:none}
+  /* on a phone the full bar is already only count + action, so .mini would be a
+     restyle with nothing to remove. It keeps the band and just stays put. */
+  .px-tray.mini{background:rgba(46,34,40,.95);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+  .px-tray.mini .px-tray-n,.px-tray.mini .px-tray-go{background:none;backdrop-filter:none;border-radius:999px}
+  .px-tray.mini .px-tray-go{border-color:rgba(250,247,241,.42);padding-left:22px}
+  .px-tray.mini .px-tray-in{justify-content:space-between}
+}
 .px:hover .px-open,.px-open:focus-visible{
   background:var(--burgundy);border-color:var(--burgundy);color:var(--ivory);
   transform:rotate(90deg);
@@ -672,7 +746,8 @@ section{position:relative}
   letter-spacing:.2em;text-transform:uppercase;color:var(--gold-deep)}
 .pg-row--total span:last-child{font-family:var(--accent);font-size:clamp(21px,2.6vw,27px)}
 .pg-vatline{margin-top:9px;font-size:12px;color:var(--ink-soft);text-align:right}
-.pg-foot{margin-top:14px;font-size:12px;color:var(--ink-soft);line-height:1.5;text-align:center}
+/* .pg-foot's rule stood here and went with its <p> — round 14, his "it's not good in that
+   page". The argument is at the deleted markup in the template. */
 @media(max-width:520px){
   .pg-steps li{grid-template-columns:auto 1fr}
   .pg-d{grid-column:2;text-align:left;margin-top:4px}
@@ -721,143 +796,137 @@ section{position:relative}
 .pxd-cta{margin-top:26px}
 body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds still under the overlay */
 
-/* ═══════════════ 05 · THE PROGRAMME — the P's, the audiences, the seven steps ═══
-   NEW 2026-08-16, his call: "it's our job now to do a set up before the doctors, a
-   section that will feature the following" — the client's own peptide copy, their
-   two explainer paragraphs, their women's and men's symptom lists, and their
-   seven-step programme, all in one chapter that lands the reader on the doctors.
-   ⚠️ THE GROUND SEQUENCE STILL ALTERNATES, and it had to be checked rather than
-   assumed: the page ran ivory(04) → dawn(doctors) → ivory(06) → dawn(07) → ivory(08),
-   so inserting TWO chapters between 04 and the doctors means dawn then ivory, or the
-   whole tail of the page inverts and two ivory bands meet. .prog is dawn, .incl is
-   ivory, and the doctors keep their dawn. Nothing below moved.
-   ⚠️ EVERY WORD IN BOTH NEW CHAPTERS IS CLIENT COPY, not this page's draft register —
-   the same status as the doctor bios below, and the opposite of the eight tiles. The
-   corrections made are recorded at each site in the markup. Do not tighten in passing.
-   NO SECOND MATERIAL WAS INVENTED FOR ANY OF IT: the audience buttons are the tile's
-   card, the steps are the FAQ's hairline rhythm with the tile's Megante number, and
-   both popups are the shell the eight tiles already open. */
-.prog{background:var(--dawn)}
-/* the P's carry the chapter, so they are the HEADLINE — the client's own line is the
-   h2 rather than a decorative kicker above one. Three, not four: see the hero. */
-.prog h2 .p-sep{color:var(--gold);font-style:normal;padding:0 .12em}
-/* the two client paragraphs, side by side on a desktop. Not .px p's 34ch — these are
-   the chapter's lede and want the segment measure, so they take a column each and the
-   grid does the constraining. */
-.prog-lede{
-  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:clamp(28px,4vw,64px);max-width:74rem;
+/* ═══════════════ 05 · THE PROGRAMME BAND — what the choice above buys ═══════════
+   NEW ROUND 14, and it exists for three reasons that all arrived at once.
+   1 · HIS ASK — "make the one where they can choose the program more appealing… if it
+       means making that section larger then we go for it". This is the larger part. The
+       chooser was eight tiles and nothing else; a reader who never pressed one saw no
+       price, no process and no proof that any of it was medicine.
+   2 · THE PAGE COULD NOT ANSWER "WHAT DOES IT COST" AT ALL. Deleting section 05 left the
+       price behind two clicks — pick a goal, open the panel. A page that asks for a
+       decision before it names a number is asking for the wrong decision first.
+   3 · ⚠️ THE GROUND ALTERNATION. .services is ivory and .incl is ivory; .prog (dawn) was
+       the only thing between them, so deleting it put two ivory bands against each other.
+       This band is dawn and it restores ivory→dawn→ivory→dawn to the foot of the page
+       WITHOUT re-grading anything below. That is why it is a sibling <section> and not a
+       div inside .services: a full-bleed ground inside a padded section leaves a strip of
+       the wrong colour under it.
+   ⚠️⚠️ WHAT THIS BAND MUST NEVER GROW: THE STEPS. The six "what happens next" steps live
+   in the programme panel and NOWHERE ELSE. Section 05 was deleted precisely because its
+   seven steps said the same thing as the panel's five on one page, and the fastest way to
+   rebuild that fault is to "helpfully" add the process here. The band carries the OFFER
+   (price, what is included, which markers are run); the panel carries the PERSONALISED
+   CART (your goals, the add-on, the total that moves, the button). If a reader wants the
+   sequence, the tray is one press away and it is on screen.
+   ⚠️ THE INCLUDED LIST DOES APPEAR TWICE — here and in the panel — AND THAT IS DELIBERATE,
+   not an oversight of the rule above. Six short lines in a shop window and the same six
+   confirmed in a cart is how any purchase works; a price and its contents are the two
+   things a customer expects to see restated at the moment of paying. It is the long
+   sequence, not the short ledger, that could not survive being said twice.
+   ⚠️ id="programme" IS REUSED FROM THE DELETED SECTION and that is intentional: nothing
+   links to it (checked at the time — no nav item, no in-page anchor, no cross-file href),
+   and the name now sits on the thing that is actually the programme. */
+.pgb{background:var(--dawn)}
+/* it butts against the chooser rather than standing apart from it — one chapter in two
+   bands, which is what "make that section larger" asked for. .services' own bottom padding
+   is cut to match below. */
+.pgb.sec-pad{padding-top:clamp(56px,8vh,104px)}
+.pgb-head{max-width:34rem}
+.pgb h2{font-size:clamp(30px,3.9vw,52px);line-height:1.08;letter-spacing:-.02em}
+.pgb-lede{margin-top:18px;color:var(--ink-soft);font-size:clamp(15px,1.3vw,17.5px);line-height:1.8}
+/* ⚠️ THE PRICE CARD LEADS AND THE LEDGER FOLLOWS, not the other way round. The number is
+   the thing the page could not say before this band existed; burying it under six lines of
+   inclusions makes the reader hunt for it, which is the feeling this band exists to remove. */
+.pgb-grid{
+  display:grid;grid-template-columns:minmax(0,22rem) minmax(0,1fr);
+  gap:clamp(24px,3.4vw,56px);align-items:start;
+  margin-top:clamp(38px,5.5vh,68px);max-width:74rem;
 }
-.prog-lede p{
-  color:var(--ink-soft);font-size:clamp(15px,1.3vw,17.5px);line-height:1.85;
-}
-.prog-lede p strong{font-weight:500;color:var(--ink)}
-/* ── the two audiences ──────────────────────────────────────────────────────────
-   ⚠️ THESE ARE .px's MATERIAL AT ROW SCALE, DELIBERATELY — ivory fill, --line
-   hairline, 2px radius, gold edge and a 3px lift on hover, and the circled + that
-   the open dialog answers. The eight tiles taught the reader that this material
-   opens; a new material here would have to teach it again for two more controls.
-   The whole row is the hit area by the same stretched-::after trick, so the h3 stays
-   valid markup and a keyboard still finds exactly one button per row. */
-.aud-row{
-  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:clamp(14px,1.6vw,24px);margin-top:clamp(44px,6vh,72px);
-}
-.aud{
-  position:relative;display:flex;align-items:center;gap:clamp(16px,2vw,28px);
-  padding:clamp(22px,2.4vw,32px);
+/* ⚠️ STICKY, SO THE NUMBER TRAVELS WITH THE LEDGER. The three ledger blocks are twice the
+   card's height, so a static card leaves the reader looking at "priced after your
+   consultation" with the price two screens above — which is the one moment they most want
+   it. It also fills what was otherwise dead ground under the card.
+   ⚠️ IT NEEDS align-items:start ON .pgb-grid TO WORK. A stretched grid item is already as
+   tall as its row, so it has nothing to travel through and sticky silently does nothing. */
+.pgb-price{
   background:var(--ivory);border:1px solid var(--line);border-radius:2px;
-  transition:border-color .35s var(--ease),transform .35s var(--ease),
-    box-shadow .35s var(--ease);
+  padding:clamp(24px,2.6vw,34px);
+  position:sticky;top:clamp(84px,13vh,132px);
 }
-.aud:hover,.aud:focus-within{
-  border-color:var(--gold);transform:translateY(-3px);
-  box-shadow:0 14px 30px rgba(46,54,71,.08);
-}
-.aud-txt{min-width:0;flex:1}
-.aud h3{
-  font-family:var(--accent);font-weight:400;color:var(--ink);
-  font-size:clamp(21px,2vw,29px);line-height:1.15;letter-spacing:-.02em;
+/* the header is fixed on this page and the tray is fixed at the foot, so a card that is
+   taller than the gap between them would sit under one of them and never scroll clear */
+@media(max-height:720px){.pgb-price{position:static}}
+.pgb-price .pgb-k{font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--gold-deep)}
+.pgb-fig{font-family:var(--accent);font-size:clamp(38px,5vw,62px);line-height:1;
+  color:var(--ink);margin-top:12px;font-variant-numeric:tabular-nums}
+.pgb-fig small{font-size:.42em;letter-spacing:.06em;padding-right:.28em;color:var(--ink-soft)}
+/* the tax rows, in the panel's own arithmetic and to the panel's own two decimals.
+   ⚠️ ALWAYS TWO DECIMALS, EVEN ON WHOLE FIGURES — round 13's finding: letting round numbers
+   drop their fils put "AED 1,207.50" and "AED 3,255" in one column and read as a bug. */
+.pgb-rows{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);
+  font-size:13.5px;color:var(--ink-soft)}
+.pgb-rows div{display:flex;justify-content:space-between;gap:16px}
+.pgb-rows div + div{margin-top:7px}
+.pgb-rows .pgb-tot{margin-top:12px;padding-top:12px;border-top:1px solid var(--line);
+  color:var(--ink);font-weight:500}
+.pgb-note{margin-top:16px;font-size:12.5px;line-height:1.6;color:var(--ink-soft)}
+.pgb-ledger .pgb-k{font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--gold-deep)}
+/* the second and third heads need air above them; the first must not have any, or it
+   stops aligning with the price card's own kicker across the gutter */
+.pgb-k--sep{margin-top:clamp(26px,3.2vh,38px);padding-top:clamp(20px,2.6vh,28px);
+  border-top:1px solid var(--line)}
+.pgb-list{margin:16px 0 0;padding:0;list-style:none;
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px clamp(20px,2.6vw,40px)}
+/* the add-on and the priced-after rows carry a <small> each, so two narrow columns would
+   set them four words to a line — they run full width instead */
+.pgb-list--wide{grid-template-columns:1fr;gap:14px}
+.pgb-list li{position:relative;padding-left:22px;color:var(--ink-soft);
+  font-size:clamp(14px,1.1vw,16px);line-height:1.6}
+.pgb-list li::before{content:"✦";position:absolute;left:0;top:.15em;color:var(--gold);font-size:.72em}
+.pgb-list li b{font-weight:500;color:var(--ink);white-space:nowrap}
+.pgb-list small{display:block;margin-top:4px;font-size:12.5px;line-height:1.55;
+  color:var(--ink-soft);opacity:.82}
+/* ── the markers, folded ────────────────────────────────────────────────────────
+   ⚠️ A <details>, NOT A DIALOG. Every other disclosure on this page opens the .pxd shell,
+   and this one deliberately does not: the shell locks the body, stops Lenis and traps
+   focus, which is the right price for a thousand words of client copy and much too high
+   for a list of eleven assay names. It is also the only control here that must work with
+   no JavaScript at all — the markers are the page's proof that this is medicine, and
+   proof should not depend on a script.
+   ⚠️ THESE ELEVEN ARE THE ONLY THING RESCUED FROM SECTION 05. Everything else in that
+   chapter was already said better in the panel; the blood panel was named nowhere else on
+   the page, and the panel's step 02 refers to "the exact panel we send you" without ever
+   saying what is in it. */
+.pgb-markers{margin-top:clamp(30px,4vh,48px);max-width:74rem;
+  border-top:1px solid var(--line);padding-top:18px}
+.pgb-markers summary{
+  cursor:pointer;list-style:none;display:inline-flex;align-items:center;gap:12px;
+  font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--gold-deep);
   transition:color .3s var(--ease);
 }
-.aud:hover h3{color:var(--logo-red)}
-.aud p{
-  margin-top:6px;color:var(--ink-soft);
-  font-size:clamp(14px,1.1vw,16px);line-height:1.6;
-}
-.aud-open{
-  flex:none;width:38px;height:38px;padding:0;
-  border:1px solid var(--line);border-radius:50%;
-  display:grid;place-content:center;color:var(--burgundy);
-  transition:background .4s var(--ease),border-color .4s var(--ease),
-    color .3s var(--ease),transform .5s var(--ease);
-}
-.aud-open svg{width:12px;height:12px;display:block}
-.aud-open::after{content:"";position:absolute;inset:0;border-radius:2px}
-.aud:hover .aud-open,.aud-open:focus-visible{
-  background:var(--burgundy);border-color:var(--burgundy);color:var(--ivory);
-  transform:rotate(90deg);
-}
-/* ── the seven steps ────────────────────────────────────────────────────────────
-   The FAQ's rhythm — a hairline per row, nothing boxed — with .px-num's Megante
-   numeral in the margin. A card each would have made seven cards under two cards
-   under eight cards; the page has enough boxes by this point in the scroll.
-   ⚠️ THE NUMBER COLUMN IS A FIXED TRACK, not a float or a ::before counter: the
-   step bodies carry nested lists (the blood panel, the protocol contents) and a
-   counter would have re-numbered against them. Client numbering is load-bearing. */
-/* the only kicker inside a chapter body on this page. It is a label for the seven, not a
-   second chapter head — so it takes .kicker's rule and its own top margin, and the h2
-   above it keeps being the only headline in the section. */
-.step-head{margin-top:clamp(56px,8vh,92px)}
-.steps{list-style:none;margin:clamp(28px,3.5vh,44px) 0 0;padding:0;max-width:74rem}
-.step{
-  display:grid;grid-template-columns:auto minmax(0,1fr);
-  gap:clamp(18px,2.6vw,42px);
-  padding:clamp(24px,3vh,38px) 0;border-top:1px solid var(--line);
-}
-.step:last-child{border-bottom:1px solid var(--line)}
-.step-n{
-  font-family:var(--accent);font-size:clamp(22px,2.4vw,34px);line-height:1;
-  color:var(--gold);width:1.6em;
-}
-.step h3{
-  font-family:var(--accent);font-weight:400;color:var(--ink);
-  font-size:clamp(19px,1.8vw,26px);line-height:1.2;letter-spacing:-.02em;
-}
-.step > div > p{
-  margin-top:10px;color:var(--ink-soft);
-  font-size:clamp(14.5px,1.15vw,16.5px);line-height:1.75;max-width:52ch;
-}
-.step a:not(.btn){color:var(--gold-deep);border-bottom:1px solid var(--line);
-  transition:border-color .3s var(--ease),color .3s var(--ease)}
-.step a:not(.btn):hover{color:var(--logo-red);border-color:var(--logo-red)}
-/* an address and a dialling code are single tokens to a reader even though the browser
-   is happy to break them at the hyphen: step 1 wrapped as "info@medi-" / "gyn.com" at
-   1440, which reads as two broken things rather than one address */
-.step a[href^="mailto"],.step a[href^="tel"]{white-space:nowrap}
-/* the ✦ list, lifted from .pxd-list so a step's contents read the way a popup's do */
-.step-list{margin:12px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px;max-width:52ch}
-.step-list li{
-  position:relative;padding-left:22px;color:var(--ink-soft);
-  font-size:clamp(14px,1.1vw,16px);line-height:1.6;
-}
-.step-list li::before{content:"✦";position:absolute;left:0;top:.15em;color:var(--gold);font-size:.72em}
-.step-list .step-list{margin-top:9px;padding-left:0}
-.step-sub{
-  margin-top:18px;font-family:var(--accent);font-size:12px;letter-spacing:.22em;
-  text-transform:uppercase;color:var(--gold-deep);
-}
-/* the markers panel — two columns of assay names, which are labels rather than prose */
-.step-cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 clamp(20px,2.6vw,44px)}
-.step-cols .step-list{max-width:none}
+.pgb-markers summary::-webkit-details-marker{display:none}
+.pgb-markers summary:hover{color:var(--logo-red)}
+.pgb-markers summary::after{content:"+";font-family:var(--accent);font-size:17px;
+  letter-spacing:0;line-height:1;transition:transform .4s var(--ease)}
+.pgb-markers[open] summary::after{transform:rotate(45deg)}
+.pgb-cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px clamp(20px,2.6vw,44px);margin-top:20px}
+.pgb-cols p{grid-column:1/-1;font-family:var(--sans);font-weight:500;font-size:11px;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin-top:6px}
+.pgb-cols p:first-child{margin-top:0}
+.pgb-cols span{position:relative;padding-left:22px;color:var(--ink-soft);
+  font-size:clamp(13.5px,1.05vw,15.5px);line-height:1.55}
+.pgb-cols span::before{content:"✦";position:absolute;left:0;top:.15em;color:var(--gold);font-size:.72em}
 @media(max-width:900px){
-  .prog-lede{grid-template-columns:1fr;gap:clamp(20px,3vh,30px)}
-  .aud-row{grid-template-columns:1fr}
+  .pgb-grid{grid-template-columns:1fr}
+  .pgb-cols{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media(max-width:560px){
-  .step{grid-template-columns:1fr;gap:12px}
-  .step-n{width:auto}
-  .step-cols{grid-template-columns:1fr}
+  .pgb-list{grid-template-columns:1fr}
+  .pgb-cols{grid-template-columns:1fr}
 }
 
 /* ═══════════════ 06 · WHAT'S INCLUDED / WHAT'S EXCLUDED ════════════════════════
@@ -933,7 +1002,7 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
   position:relative;width:min(100%,27rem);aspect-ratio:1;
   border-radius:2px;overflow:hidden;
   background:linear-gradient(165deg,var(--cream),var(--gold-tint));
-  box-shadow:0 18px 44px rgba(46,54,71,.12);
+  box-shadow:0 18px 44px rgba(71,24,38,.12);
 }
 .doc-photo img{width:100%;height:100%;object-fit:cover;display:block}
 .doc.no-photo .doc-photo img{display:none}
@@ -1003,7 +1072,7 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
 .pxd-face{
   flex:none;display:block;overflow:hidden;border-radius:2px;
   width:var(--face);height:var(--face);
-  box-shadow:0 10px 26px rgba(46,54,71,.14);
+  box-shadow:0 10px 26px rgba(71,24,38,.14);
 }
 .pxd-face img{width:100%;height:100%;object-fit:cover;display:block}
 .pxd-hdr-txt{min-width:0}
@@ -1292,7 +1361,7 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
 .cta-face{
   flex:none;display:block;border-radius:50%;object-fit:cover;
   width:clamp(72px,7vw,104px);height:clamp(72px,7vw,104px);
-  box-shadow:0 10px 30px rgba(46,54,71,.14);
+  box-shadow:0 10px 30px rgba(71,24,38,.14);
 }
 /* ⚠️ IT IS AN h2 SET SMALL, NOT A <p>. Two reasons and both matter: it is the section's only
    statement, so the document outline should have it; and .final p — the rule this section
@@ -1360,7 +1429,7 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
    is not what "true copy" means. Ours is the safe one of the two. */
 footer{
   background:var(--cream);padding:3rem clamp(1.25rem,6vw,6rem) 1.6rem;
-  border-top:1px solid rgba(46,54,71,.14);
+  border-top:1px solid rgba(71,24,38,.14);
   font-weight:400;line-height:normal;
 }
 /* the h1,h2,h3 serif rule at the top of this file must not reach into a copied component */
@@ -1383,8 +1452,8 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
 .f-news form{display:flex;gap:.5rem;max-width:24rem}
 .f-news input{
   flex:1;min-width:0;height:2.75rem;padding:0 1.1rem;
-  border-radius:var(--btn-radius);border:1px solid rgba(46,54,71,.28);
-  background:rgba(244,247,250,.6);color:var(--ink);
+  border-radius:var(--btn-radius);border:1px solid rgba(71,24,38,.28);
+  background:rgba(250,247,241,.6);color:var(--ink);
   font-family:var(--sans);font-size:.95rem;font-weight:400;
 }
 .f-news input::placeholder{color:rgba(106,88,95,.7)}
@@ -1414,7 +1483,7 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
 .f-social svg{width:17px;height:17px}
 .f-base{
   margin-top:2rem;padding-top:1.4rem;
-  border-top:1px solid rgba(46,54,71,.14);
+  border-top:1px solid rgba(71,24,38,.14);
   display:flex;flex-wrap:wrap;align-items:center;gap:.8rem 1.5rem;justify-content:center;
 }
 .f-base p{margin:0;font-size:.7rem;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-soft);text-align:center}
@@ -1441,16 +1510,23 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
    middle, .34–.73) gets the length it is the point of. The finished frame holds from
    ~.86 to the end. */
 .scene-track{height:420vh;position:relative}
-/* ══ THE STAGE IS COOL NOW, AND IT IS A TRANSLATION, NOT A NEW COLOUR ═══════════════
-   ⚠️ 2026-08-16, the client's call relayed through him: "the burgundy is not approved
-   as now that we have transitioned to blue… we must find another colour with the same
-   VALUE of this burgundy". Value is the operative word, so the move is arithmetic, not
-   taste: every warm surface in this scene was converted to CIE LCh, its L* and C* were
-   HELD, and only the hue was rotated into the page's glacier family (h≈256°, where
-   --dawn 252°, --gold 257° and --gold-deep 260° already live).
-     stage ground  #2E2228 → #1D272F   (L* 14.83 → 15.05, C* 7.2 → 6.9)
-     canvas BG_A   #2A1B20 → #14202A   (L* 11.83 → 11.61 — in the script, cross-ref'd)
-     the glow      #5C1F31 → #003A5F   (--burgundy's own L* and C*, hue-rotated; R clips to 0)
+/* ══ THE STAGE IS PLUM AGAIN — ROUND 14, AND IT CONTRADICTS A RECORDED CLIENT NOTE ═════
+   ⚠️⚠️ READ THIS BEFORE TOUCHING THE STAGE. On 2026-08-16 the client's call was relayed
+   through him in these words: "THE BURGUNDY IS NOT APPROVED as now that we have
+   transitioned to blue… we must find another colour with the same VALUE of this burgundy".
+   That note is why this stage went cool. Later the same day his instruction was "roll the
+   plum design in the whole peptide page", which restores the exact colour that note
+   rejected. HIS INSTRUCTION IS THE LATER ONE AND IT IS THE ONE IMPLEMENTED — he is the
+   decision-maker and the reversal has a plain commercial reason (medi-gyn.com is warm, the
+   landing page is warm, the sister hormone page never left, and this page is about to be
+   shown to the client). But the two statements have not been reconciled BY THE PERSON WHO
+   MADE THEM, and this is the single most likely thing on the page to be sent back.
+   ⚠️ IF IT IS SENT BACK, THE COOL VALUES ARE ALL HERE AND THE MOVE IS ARITHMETIC, NOT
+   TASTE — every warm surface converted to CIE LCh, L* and C* HELD, hue rotated into the
+   glacier family (h≈256°):
+     stage ground  #2E2228 → was #1D272F   (L* 14.83 → 15.05, C* 7.2 → 6.9)
+     canvas BG_A   #2A1B20 → was #14202A   (L* 11.83 → 11.61 — in the script, cross-ref'd)
+     the glow      #5C1F31 → was #003A5F   (--burgundy's own L* and C*, hue-rotated)
      ⚠️ NEVER PUT A SLASH DIRECTLY AFTER AN ASTERISK IN A CSS COMMENT. Writing the pair
      "lightness-star slash chroma-star" as shorthand closes the comment on the spot: the
      rest of the prose becomes declarations and the parser eats the rule that follows.
@@ -1458,20 +1534,21 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
      written — a 0-pixel stage, an undrawn canvas, and NOT ONE console error to say so.
      Write "L* and C*". (The first attempt at this very warning quoted the offending pair
      and broke the rule a second time.)
-     beads STONE   #B09A9C → #93A1AE   (L* 65.55 held)
-     the italics   #C79A92 → #87A8C5   (L* 67.52 held)
-   THE PROOF THAT IT IS THE SAME PICTURE IS THE CONTRAST TABLE — every measured pair
-   survived the rotation to within 0.05 of its warm original, which is what "the same
-   value" has to mean if it means anything:
-     ivory beat   15.31 → 15.38 : 1      the gold beat  6.46 → 6.49 : 1
-     the italics   6.63 →  6.64 : 1      a drifting bead 6.23 → 6.26 : 1
-   ⚠️ --ink IS DELIBERATELY NOT TOUCHED, here or anywhere. It is the page's TEXT ink and
-   it dresses .scene-beat.light and .scene-title — type standing on the RISEN glacier
-   ground, exactly like every heading in every other chapter. Cooling it for this one
-   section would fork the page's body ink to fix a background problem. */
-.scene-stage{height:100svh;width:100%;position:relative;overflow:hidden;background:#1D272F;--scene-fg:var(--ivory)}
+     beads STONE   #B09A9C → was #93A1AE   (L* 65.55 held)
+     the italics   #C79A92 → was #87A8C5   (L* 67.52 held)
+   THE TWO GRADES ARE THE SAME PICTURE BY MEASUREMENT — every pair survived the rotation to
+   within 0.05, which is what "the same value" has to mean if it means anything. Warm first,
+   cool second:
+     ivory beat   15.31 / 15.38 : 1      the gold beat  6.46 / 6.49 : 1
+     the italics   6.63 /  6.64 : 1      a drifting bead 6.23 / 6.26 : 1
+   So NOTHING IS AT RISK EITHER WAY on contrast: this reversal is a brand decision and not
+   an accessibility one, and it can be taken back without re-measuring anything.
+   ⚠️ --ink WAS NEVER TOUCHED, on either grade. It is the page's TEXT ink and it dresses
+   .scene-beat.light and .scene-title — type standing on the RISEN ground, exactly like
+   every heading in every other chapter. */
+.scene-stage{height:100svh;width:100%;position:relative;overflow:hidden;background:#2E2228;--scene-fg:var(--ivory)}
 .scene-glow{position:absolute;right:-22vw;top:-26vh;width:72vw;height:72vw;border-radius:50%;pointer-events:none;
-  background:radial-gradient(circle,rgba(0,58,95,.38) 0%,rgba(29,39,47,0) 62%)}
+  background:radial-gradient(circle,rgba(92,31,49,.38) 0%,rgba(46,34,40,0) 62%)}
 .scene-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 /* the payoff word — Megante at display size, the voice the chapter marks wear.
    ⚠️ MEGANTE, NOT PLAYFAIR, inherited from the sister scene with its reason: at
@@ -1497,25 +1574,30 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
    belt to that braces: it separates the glyph from the particle field either way. */
 .scene-beat{position:absolute;left:0;right:0;top:0;opacity:0;font-family:var(--serif);
   font-size:clamp(27px,3.5vw,49px);line-height:1.22;   /* his 1.16x, chosen in the figure room */
-  color:var(--ivory);text-shadow:0 1px 24px rgba(29,39,47,.62)}
-.scene-beat.light{color:var(--ink);text-shadow:0 1px 24px rgba(244,247,250,.8)}
-/* ⚠️ #87A8C5 IS --rose AT ITS OWN LIGHTNESS, NOT A NEW ACCENT (2026-08-16 — see the
-   translation table at .scene-stage). --rose #C79A92 is BRAND LAW and is untouched as a
-   token; it simply no longer appears IN THIS SCENE, because the client's note took the
-   whole stage cool and a lone warm italic on a slate ground is a stain, not an accent.
-   The rose still dresses the rest of the page and the sister page entirely. Measured:
-   the italic carried 6.63:1 on the warm stage and carries 6.64:1 on the cool one. */
-.scene-beat em{font-style:italic;color:#87A8C5}
+  color:var(--ivory);text-shadow:0 1px 24px rgba(46,34,40,.62)}
+.scene-beat.light{color:var(--ink);text-shadow:0 1px 24px rgba(250,247,241,.8)}
+/* ⚠️ --rose IS BACK IN THE SCENE (round 14). It was displaced by #87A8C5 — itself only
+   --rose at its own lightness, never a new accent — for one reason: with the stage cool, a
+   lone warm italic on a slate ground is a stain rather than an accent. That reason expired
+   with the slate. Measured: the italic carries 6.63:1 on the warm stage against the 6.64
+   it carried on the cool one, so this is a hue decision with no contrast consequence.
+   ⚠️ THE TOKEN NEVER MOVED — --rose #C79A92 is BRAND LAW and was untouched on both grades;
+   only this scene stopped pointing at it. */
+.scene-beat em{font-style:italic;color:var(--rose)}
 /* the held word — blooms in a beat after its sentence lands */
-.scene-beat .w{display:inline-block;font-style:italic;color:#87A8C5;opacity:0;
+.scene-beat .w{display:inline-block;font-style:italic;color:var(--rose);opacity:0;
   transform:translateY(.35em) scale(.92);filter:blur(5px);
   transition:opacity .8s var(--ease),transform .8s var(--ease),filter .8s var(--ease)}
 .scene-beat .w.on{opacity:1;transform:none;filter:blur(0)}
-/* the key validating line, lit — lives entirely on the dark stage. ⚠️ A STEP LIGHTER THAN
-   THE TOKEN, AND IT IS MEASURED (C2, round 9): the champagne #C2A05E carried 6.65:1 on the
-   stage; the token's steel #7C93A8 carries 5.17 — legal (3.0 floor, large text) but a
-   visibly quieter voice. #8FA5B8 is the same steel at the champagne's weight: 6.46:1. */
-.scene-beat.gold{color:#8FA5B8}
+/* the key validating line, lit — lives entirely on the dark stage. ⚠️ THE CHAMPAGNE IS THE
+   TOKEN'S OWN VALUE AGAIN (round 14), so this rule and var(--gold) now agree. It is PINNED
+   AS A LITERAL RATHER THAN COLLAPSED TO var(--gold) because the two genuinely diverged on
+   the glacier grade and the arithmetic that separated them is worth keeping: the champagne
+   carried 6.65:1 on the stage, the token's steel #7C93A8 carried 5.17 — legal at the 3.0
+   large-text floor but a visibly quieter voice — so round 9 cut #8FA5B8, the same steel at
+   the champagne's weight, 6.46:1. Any future grade that moves --gold has to answer this
+   measurement again, and a var() here would hide the question. */
+.scene-beat.gold{color:#C2A05E}
 /* ══ THE SCENE CONTROLS — NEW 2026-08-11 ══════════════════════════════════════
    Skip, replay and step, at the foot of the pinned stage.
    ⚠️ THEY CROSS-FADE WITH "SCROLL TO LISTEN" RATHER THAN SITTING BESIDE IT. Both
@@ -1561,8 +1643,8 @@ html.js-scene .scene-ctrl{
   /* the two shadow blacks are the warm near-black #14090D translated at its own L* and C*
      to #050D14 — same rule as the rest of the stage (2026-08-16) */
   box-shadow:inset 0 1px 0 var(--glass-top,rgba(255,255,255,.34)),
-             inset 0 -1px 0 rgba(5,13,20,.06),
-             0 6px 20px rgba(5,13,20,.16);
+             inset 0 -1px 0 rgba(20,9,13,.06),
+             0 6px 20px rgba(20,9,13,.16);
   transition:background .3s var(--ease),border-color .3s var(--ease),transform .2s var(--ease);
   cursor:pointer;
 }
@@ -1570,16 +1652,17 @@ html.js-scene .scene-ctrl{
   background:var(--glass-hi,rgba(255,255,255,.22));transform:translateY(-1px)}
 /* pre-first-frame defaults only (2026-08-13): the scene script now drives all four
    glass properties per frame at every width, flipping them when the whole ground does */
-html.js-scene{--glass-fill:rgba(29,39,47,.45);--glass-hi:rgba(29,39,47,.58);
+html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
               --glass-line:rgba(255,255,255,.26);--glass-top:rgba(255,255,255,.30)}
 @media(max-width:560px){
   .scene-ctrl{gap:8px;font-size:9.5px}
   .scene-ctrl button{padding:8px 10px}
 }
 .scene-hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);
-  /* the WARM ivory #FAF7F1 was still hiding here after round 9's re-grade — it is the
+  /* this was the one WARM ivory that survived round 9's re-grade by accident and was
+     corrected to glacier; round 14 makes the accident the rule again. It is the
      glacier ivory now, same value, and it stands on a cool ground (2026-08-16) */
-  font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:rgba(244,247,250,.55)}
+  font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:rgba(250,247,241,.55)}
 /* ?scene=<0..1> QA mode: only the stage, frozen at that progress */
 .scene-solo header,.scene-solo .progress,.scene-solo .hero,.scene-solo .peptides,
 .scene-solo .services,.scene-solo .docs,.scene-solo .stories,.scene-solo .faq,.scene-solo .final,
@@ -2203,14 +2286,38 @@ html.js-scene{--glass-fill:rgba(29,39,47,.45);--glass-hi:rgba(29,39,47,.58);
         </ul>
       </div>
 
+      <!-- ══ WHAT HAPPENS NEXT — SIX STEPS SINCE ROUND 14, AND THE ORDER IS HIS CORRECTION
+           ⚠️ THE OLD 03/04 WERE IN THE WRONG ORDER AND IT MATTERED. They read "your doctor
+           reads your file" then "your consultation — you choose your doctor when you book
+           the time", which quietly said a stranger reads your labs and you pick someone
+           afterwards. His fix: "the choose your doctor should be on the third one, as that
+           doctor will read your file, then you can choose the time with them." So the
+           CHOICE comes first and the reading is what that named doctor then does — which is
+           also the only order under which choosing a doctor means anything.
+           ⚠️ THIS IS THE MOMENT THE #pxd-choose TEMPLATE WAS KEPT FOR. Round 13 recorded
+           that the chooser had become unreachable and was kept on purpose because "doctor
+           choice moved to the moment the consultation is booked". Step 03 IS that moment,
+           and it is now named on the page. The template is still unrouted — wiring it here
+           is a real candidate for the next round, and it is the natural home.
+           ⚠️ STEP 05 IS NEW AND IT IS THE STEP THE PANEL HAS NEVER HAD: the peptides
+           actually arriving. His words — "after that is where we deliver the peptides after
+           the payment and so on and the after care". Until now the panel priced the
+           peptides ("priced after your consultation") and then jumped to mentorship, so the
+           one thing the customer is buying never appeared in the sequence at all.
+           ⚠️ ITS DURATION CELL SAYS "after payment", NOT A NUMBER OF DAYS. No delivery time
+           has been given and inventing one here would be the AED 350 mistake again — a
+           figure that reads as a commitment because it is set in the same column as "60 min".
+           ⚠️ SIX STEPS, NOT FIVE — services-choice.mjs check 10 and peptide-page.mjs both
+           count them, and both were updated in this commit. -->
       <div class="pg-blk">
         <div class="pg-h"><span>What happens next</span></div>
         <ol class="pg-steps">
           <li><span class="pg-n">01</span><span>Your symptom assessment<small>A questionnaire you complete online.</small></span><span class="pg-d">15 min</span></li>
           <li><span class="pg-n">02</span><span>Your blood work<small>At any laboratory, using the exact panel we send you — peptide work asks for markers a standard panel leaves out.</small></span><span class="pg-d">2–5 days</span></li>
-          <li><span class="pg-n">03</span><span>Your doctor reads your file<small>Then we tell you your calendar is open.</small></span><span class="pg-d">same or next day</span></li>
-          <li><span class="pg-n">04</span><span>Your consultation<small>Online. You choose your doctor when you book the time.</small></span><span class="pg-d">60 min</span></li>
-          <li><span class="pg-n">05</span><span>Support while you begin<small>Four weeks close, then four weeks of follow-up.</small></span><span class="pg-d">8 weeks</span></li>
+          <li><span class="pg-n">03</span><span>Choose your doctor<small>You pick who you would like to see. They read your file first, then you choose a time with them.</small></span><span class="pg-d">same or next day</span></li>
+          <li><span class="pg-n">04</span><span>Your consultation<small>Your doctor takes you through the findings, writes your prescription, and names the peptides you will be on.</small></span><span class="pg-d">60 min</span></li>
+          <li><span class="pg-n">05</span><span>Your peptides arrive<small>Quoted after your consultation. Once payment is settled they are dispensed and delivered to you.</small></span><span class="pg-d">after payment</span></li>
+          <li><span class="pg-n">06</span><span>Support while you begin<small>Four weeks close, then four weeks of follow-up.</small></span><span class="pg-d">8 weeks</span></li>
         </ol>
       </div>
 
@@ -2235,295 +2342,129 @@ html.js-scene{--glass-fill:rgba(29,39,47,.45);--glass-hi:rgba(29,39,47,.58);
            convention and lands on #book, where every other booking control on both
            pages already goes. THE MOMENT A PROVIDER EXISTS, this href is the only
            line that changes. -->
+      <!-- ⚠️ A .pg-foot LINE STOOD HERE AND IS REMOVED ON HIS CALL (round 14): "Everything
+           happens online — you never need to visit us. Your peptides and supplements are
+           quoted before anything is collected." His note: "it's not good in that page."
+           He is right, and the reason is worth keeping so it is not re-added: BOTH HALVES
+           OF IT WERE ALREADY SAID BETTER ABOVE. "Quoted before anything is collected" is
+           the whole point of the "Priced after your consultation" block two screens up, in
+           the client's own words. And "you never need to visit us" had stopped being true
+           in this panel the moment step 05 started delivering peptides to an address —
+           it also undersells a clinic whose own add-on is a nurse coming to your home.
+           A last line under a primary action is the last thing read before the click; it
+           should not be a hedge. The button is the end of the panel now.
+           ⚠️ .pg-foot's CSS RULE WENT WITH IT — a rule for markup that no longer exists is
+           the same lie as a selector for it, and this file has enough real warnings. -->
       <div class="pxd-cta"><a class="btn" href="#book" data-pg-start>Start your programme <span class="arr">→</span></a></div>
-      <p class="pg-foot">Everything happens online — you never need to visit us. Your
-      peptides and supplements are quoted before anything is collected.</p>
     </template>
   </section>
 
-  <!-- ══════════ 05 · THE PROGRAMME — the P's, the two audiences, the seven steps ═══════
-       NEW 2026-08-16, his call: "it's our job now to do a set up before the doctors, a
-       section that will feature the following". Everything below is THE CLIENT'S OWN COPY,
-       the same status as the doctor bios — not this page's draft register. Reproduced with
-       typographic and grammatical corrections only, and every one of them is recorded at
-       the site where it was made so nothing silently drifts from what they sent.
-       ⚠️ THE HEADLINE IS THE P'S THEMSELVES, and there are THREE. Their source document is
-       headed "4 P's — Preventative, Precision, Personalised & Partnership"; Partnership is
-       struck on his instruction, here and in the hero kicker, in the same commit. Do not
-       restore it from the source document without him.
-       ⚠️ ONE CLINICAL CLAIM IN THE SECOND PARAGRAPH IS THEIRS AND IT IS A STRONG ONE —
-       "a more effective alternative to traditional medicine". It is reproduced because it
-       is their copy, but it is a comparative efficacy claim about a regulated therapy and
-       it should be signed off (or softened) before this page is real marketing, alongside
-       the FAQ and the eight tiles. Flagged, not quietly edited. -->
-  <section class="prog sec-pad" id="programme">
+  <!-- ══════════ 05 · THE PROGRAMME BAND — what the choice above buys ═══════════════════
+       NEW ROUND 14. His "make the one where they can choose the program more appealing…
+       if it means making that section larger then we go for it" — this is the larger part,
+       and it also carries the price the page could not state at all once section 05 went,
+       and the dawn ground that keeps ivory→dawn→ivory alternating to the foot of the page.
+       The full argument, including what this band must never grow into, is at .pgb in the
+       stylesheet. Read it before adding anything here.
+       ⚠️ EVERY FIGURE AND EVERY INCLUDED LINE BELOW IS THE CLIENT'S, and each one is
+       already asserted by services-choice.mjs against the panel's copy of it. THE TWO MUST
+       AGREE — a shop window quoting a different price from the cart is the one bug this
+       duplication can produce, so check 12 compares them rather than trusting them.
+       ⚠️ AED 1,150 IS TREATED AS THE VAT-EXCLUSIVE BASE, exactly as the panel treats it,
+       and WHETHER THAT IS RIGHT IS STILL NOT ON THE RECORD — it has been open since round
+       12. It now matters more than it did: the number is on the open page rather than
+       behind two clicks, so a wrong assumption is public. -->
+  <section class="pgb sec-pad" id="programme">
     <div class="wrap">
-      <div class="sec-head">
-        <h2 data-reveal>Preventative. Precision.<br><em>Personalised.</em></h2>
-      </div>
-      <div class="prog-lede">
-        <!-- CLIENT COPY, point 1. Corrections: "ilnesses" → "illnesses"; the sentence had
-             no finite verb for its subject ("Peptides are the building blocks … provide
-             numerous reliefs"), so "and they provide" closes it; "reliefs to" → "relief
-             from". Nothing else moved — the list of benefits is theirs, in their order. -->
-        <p data-reveal>Peptides are the <strong>building blocks of proteins</strong> —
-        naturally occurring chains of amino acids — and they provide relief from many of the
-        common illnesses of ageing, including helping with muscle repair, accelerated injury
-        recovery time, promoting weight loss and lean muscle gain, increasing growth hormone
-        production, and even helping reverse signs of sexual dysfunction.</p>
-        <!-- CLIENT COPY, point 2. Corrections: "by going and giving" → "by giving";
-             "Due to the fact that they are so specific" → "Because they are so specific".
-             ⚠️ The efficacy claim in the first sentence is untouched — see the section note. -->
-        <p data-reveal>Peptides work by giving <strong>specific instructions</strong> to
-        cells and molecules, making them a more effective alternative to traditional
-        medicine. Because they are so specific, peptides are also well tolerated, with
-        minimal side effects.</p>
+      <div class="pgb-head">
+        <p class="kicker" data-reveal>05 · The programme</p>
+        <h2 data-reveal>One programme,<br><em>whichever you choose.</em></h2>
+        <p class="pgb-lede" data-reveal>Every goal above runs the same way — the same
+        assessment, the same blood panel, the same doctor's hour, the same price. What
+        changes is what your doctor prescribes at the end of it.</p>
       </div>
 
-      <!-- ══ THE TWO AUDIENCES ══════════════════════════════════════════════════════════
-           His call 2026-08-16: the women's and men's lists open from a button rather than
-           standing in the page. They are ~30 and ~19 items of clinical symptom, which is a
-           wall in the middle of a chapter that is otherwise about how the programme runs —
-           so they take the shell the eight tiles already opened the reader into.
-           ⚠️ BOTH LISTS ARE THE CLIENT'S, IN THE CLIENT'S ORDER. The nesting under
-           "Symptoms of perimenopause, menopause" is theirs too — it is written that way in
-           the source. What was removed, and only this: exact repeats inside one list, each
-           recorded at the list it came from. Nothing was re-grouped or re-worded for tone.
-           ⚠️ THIS IS HORMONE-SYMPTOM COPY ON A PEPTIDE PAGE, and that is deliberate — they
-           supplied it for this section. If it should instead route to the hormone page, the
-           change is two <template>s deleted and two hrefs added; the buttons stay. -->
-      <div class="aud-row">
-        <div class="aud" data-reveal>
-          <div class="aud-txt">
-            <h3>For women</h3>
-            <p>Cycles, PCOS, perimenopause, menopause, fertility — the full list of what we look for.</p>
+      <div class="pgb-grid">
+        <div class="pgb-price" data-reveal>
+          <p class="pgb-k">The programme</p>
+          <p class="pgb-fig"><small>AED</small>1,150</p>
+          <div class="pgb-rows">
+            <div><span>Programme</span><span>AED 1,150.00</span></div>
+            <div><span>VAT 5%</span><span>AED 57.50</span></div>
+            <div class="pgb-tot"><span>Total today</span><span>AED 1,207.50</span></div>
           </div>
-          <button type="button" class="aud-open" aria-haspopup="dialog"
-                  aria-label="For women — read the full list of symptoms">
-            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 1v10M1 6h10"/></svg>
-          </button>
-          <template class="aud-detail">
-            <p class="pxd-kicker">Peptide Therapy · For women</p>
-            <h3>For women</h3>
-            <p>Often, we don’t understand what is happening in our bodies at different stages
-            in our lives. At MEDI-GYN, we provide the knowledge and guidance to empower you to
-            take control of your hormonal health and your life.</p>
-            <p class="pxd-sub">Those who experience symptoms such as</p>
-            <!-- ⚠️ CLIENT ORDER, VERBATIM. Corrections: "what it is happening" → "what is
-                 happening"; "Endometrioses" → "Endometriosis"; "Disminished" → "Diminished";
-                 "Those who has an insulin resistance" → "Those with insulin resistance";
-                 "Those who has dominant Estrogen" → "Those with dominant Estrogen".
-                 ONE ITEM REMOVED: "Trouble sleeping" — an exact repeat of "Sleeping
-                 problems" three lines above it in the same nested list. -->
-            <ul class="pxd-list">
-              <li>Irregular, scanty menstrual cycles or PMS</li>
-              <li>PCOS (Polycystic ovaries)</li>
-              <li>PMDD (Premenstrual dysphoric disorder)</li>
-              <li>Depression</li>
-              <li>Repeated miscarriages</li>
-              <li>Endometriosis</li>
-              <li>Premature ovarian failure</li>
-              <li>Symptoms of perimenopause and menopause
-                <ul class="pxd-list">
-                  <li>Unexpected feelings of depression</li>
-                  <li>Constant tiredness</li>
-                  <li>Sleeping problems</li>
-                  <li>Night sweats</li>
-                  <li>Hot flashes or flushes</li>
-                  <li>Decreased sex drive</li>
-                  <li>Weight gain</li>
-                  <li>Irritability</li>
-                  <li>Anxiousness</li>
-                  <li>Mood swings</li>
-                  <li>Low moods</li>
-                  <li>Discomfort during intercourse</li>
-                </ul>
-              </li>
-              <li>Diminished Ovarian Reserve (DOR)</li>
-              <li>Trying for a baby over 6 months</li>
-              <li>Unexplained infertility</li>
-              <li>Those with insulin resistance</li>
-              <li>Those with high-androgen PCOS</li>
-              <li>Those with dominant Estrogen and Endometriosis</li>
-              <li>Those with unbalanced reproductive hormones</li>
-            </ul>
-            <div class="pxd-cta"><a class="btn" href="#book">Book a consultation <span class="arr">→</span></a></div>
-          </template>
+          <p class="pgb-note">One price for every goal above. Nothing is added to it
+          without being quoted to you first.</p>
         </div>
-        <div class="aud" data-reveal>
-          <div class="aud-txt">
-            <h3>For men</h3>
-            <p>Testosterone, andropause, energy, body composition — the full list of what we look for.</p>
-          </div>
-          <button type="button" class="aud-open" aria-haspopup="dialog"
-                  aria-label="For men — read the full list of symptoms">
-            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 1v10M1 6h10"/></svg>
-          </button>
-          <template class="aud-detail">
-            <p class="pxd-kicker">Peptide Therapy · For men</p>
-            <h3>For men</h3>
-            <p>Hormones in men are just as important as they are for women — they regulate most
-            major bodily processes. In fact, both men and women produce the same hormones, only
-            in different amounts.</p>
-            <!-- correction: the source sentence carried two finite verbs with no conjunction
-                 ("Men … may experience so-called Andropause … may report a loss"); the second
-                 becomes "and report". The mismatched quotes around ‘joie de vivre’ are closed. -->
-            <p>A low level of testosterone in a man means more than just a low sex drive. Men
-            entering middle age may experience so-called Andropause — a male equivalent of
-            menopause — and report a loss of ‘joie de vivre’: many of them start to question
-            their lives, their relationships and their work.</p>
-            <p class="pxd-sub">Symptoms of male hormonal imbalance may include</p>
-            <!-- ⚠️ CLIENT ORDER, VERBATIM. Corrections: "Low sperm account" → "Low sperm
-                 count"; "burnout syndrome'" → matched quotes; "Mood changes/ low mood" →
-                 spaced. THREE ITEMS REMOVED, all repeats within this one list: a second
-                 "Irritability", a standalone "Fatigue" (already inside item 1), and "Low sex
-                 drive" (listed as "Low libido" seven lines above). "High cholesterol" was
-                 left dangling below the list in the source and is restored to it as the
-                 final item, which is plainly where it belongs. -->
-            <ul class="pxd-list">
-              <li>Tiredness, fatigue, or “burnout syndrome” (decreased drive and ambition)</li>
-              <li>Decreased strength and lean body mass</li>
-              <li>Irritability</li>
-              <li>Poor sleeping patterns</li>
-              <li>Low libido</li>
-              <li>Memory loss</li>
-              <li>Erectile dysfunction</li>
-              <li>Decreased morning erections and decreased erection strength</li>
-              <li>Depression</li>
-              <li>Low sperm count</li>
-              <li>Loss of muscle mass</li>
-              <li>Increased body fat (especially in the waist area)</li>
-              <li>Decreased bone mass</li>
-              <li>Mood changes / low mood</li>
-              <li>Brain fog</li>
-              <li>Elevated blood sugar</li>
-              <li>Stress</li>
-              <li>Anxiousness</li>
-              <li>High cholesterol</li>
-            </ul>
-            <div class="pxd-cta"><a class="btn" href="#book">Book a consultation <span class="arr">→</span></a></div>
-          </template>
+
+        <!-- ⚠️ THREE BLOCKS, IN THE PANEL'S OWN ORDER AND FOR THE PANEL'S OWN REASON —
+             INCLUDED · WHAT YOU CAN ADD · PRICED AFTER. That split is his reframe from
+             round 12 and it is the good part: "not included" and "what you can add" carry
+             identical facts and land in opposite directions. The band inherits the frame
+             rather than inventing a second way of saying it, so a reader who opens the
+             panel afterwards meets a shape they have already read.
+             ⚠️ THE ADD-ON IS A STATEMENT HERE, NOT A CONTROL. In the panel it is a real
+             toggle that moves the total; on the page it is a fact. A checkbox out here
+             would have to either carry state into the panel — which means two sources of
+             truth for one number — or reset when the panel opens, which reads as broken.
+             ⚠️ AED 1,950 IS HIS REAL FIGURE (2026-08-16) and it must equal the panel's.
+             services-choice.mjs compares the two rather than trusting them. -->
+        <div class="pgb-ledger" data-reveal>
+          <p class="pgb-k">What's included</p>
+          <ul class="pgb-list">
+            <li>Detailed symptom assessment</li>
+            <li>Analysis and interpretation of your blood test results</li>
+            <li>Issuance of Peptide Therapy Protocol and Prescription</li>
+            <li>Issuance of Science-based Supplementation Plan</li>
+            <li>Lifestyle Modifications Plan</li>
+            <li>4-week | 8-week mentorship support after starting your treatment</li>
+          </ul>
+
+          <p class="pgb-k pgb-k--sep">What you can add</p>
+          <ul class="pgb-list pgb-list--wide">
+            <li>Home blood sample collection · Dubai — <b>AED 1,950</b>
+              <small>A team or a nurse comes to your home and takes the sample for whichever
+              tests are required. Outside Dubai you use any laboratory near you and we send
+              the exact panel to ask for.</small></li>
+          </ul>
+
+          <p class="pgb-k pgb-k--sep">Priced after your consultation</p>
+          <ul class="pgb-list pgb-list--wide">
+            <li>Your peptides — two months
+              <small>Prescribed by your doctor once your blood work is read.</small></li>
+            <li>Supplementation products
+              <small>All products are charged separately. Pricing is shared with you before
+              payment.</small></li>
+          </ul>
         </div>
       </div>
 
-      <!-- ══ HOW IT WORKS — the client's seven steps, their numbering, their order ═══════
-           ⚠️ THE NUMBERS ARE THE CLIENT'S AND ARE WRITTEN OUT, not generated: several steps
-           carry nested lists and a CSS counter would have numbered against those.
-           ⚠️ THE THREE CONTACT ROUTES IN STEP 1 ARE LIVE, and they are the page's own, not
-           new ones: #book is the call strip at the foot of this page, and the mail and
-           telephone are the two the footer already publishes. The client's source said
-           "scroll down and press Book Now", which is exactly what the #book anchor does. -->
-      <p class="step-head kicker" data-reveal>How it works</p>
-      <ol class="steps">
-        <li class="step" data-reveal>
-          <span class="step-n" aria-hidden="true">1</span>
-          <div>
-            <h3>Book your programme</h3>
-            <ul class="step-list">
-              <li>Make an online booking of your programme — <a href="#book">book now</a> at the foot of this page.</li>
-              <li>If you have any questions before booking, email or call us:
-                <a href="mailto:info@medi-gyn.com">info@medi-gyn.com</a> ·
-                <a href="tel:+971555450797">+971 5 55 45 0797</a></li>
-            </ul>
-          </div>
-        </li>
-        <li class="step" data-reveal>
-          <span class="step-n" aria-hidden="true">2</span>
-          <div>
-            <h3>Symptom questionnaire</h3>
-            <p>Complete your Peptide Therapy Health Assessment.</p>
-          </div>
-        </li>
-        <li class="step" data-reveal>
-          <span class="step-n" aria-hidden="true">3</span>
-          <div>
-            <h3>Your appointment</h3>
-            <p>You have a choice of how your doctor’s visit and your “BOZAT” scans are done —
-            in the comfort of your own home or hotel room, or as an online Zoom session.</p>
-            <!-- ⚠️ THE SOURCE PUT "IGF-1 (Insulin-Like Growth Factor 1)" ON ITS OWN LINE
-                 ABOVE THE PANEL AND "Hormones" ABOVE THE LAST THREE. Read as two headed
-                 groups with IGF-1 as the panel's first assay — the only reading that makes
-                 a list of it. If they meant IGF-1 as a heading of its own, this is one <li>
-                 to move; it is flagged rather than guessed at silently. -->
-            <p class="step-sub">Blood work</p>
-            <div class="step-cols">
-              <ul class="step-list">
-                <li>IGF-1 (Insulin-Like Growth Factor 1)</li>
-                <li>Fasting blood glucose</li>
-                <li>HbA1c</li>
-                <li>Liver function panel (ALT, AST)</li>
-              </ul>
-              <ul class="step-list">
-                <li>Kidney function panel (Creatinine, eGFR)</li>
-                <li>Lipid panel (Cholesterol, LDL, HDL, Triglycerides)</li>
-                <li>TSH and Free T3 / Free T4</li>
-                <li>Vitamin D</li>
-              </ul>
-            </div>
-            <p class="step-sub">Hormones</p>
-            <ul class="step-list">
-              <li>Total Testosterone</li>
-              <li>SHBG</li>
-              <li>Free Testosterone (calculated)</li>
-            </ul>
-          </div>
-        </li>
-        <li class="step" data-reveal>
-          <span class="step-n" aria-hidden="true">4</span>
-          <div>
-            <h3>Diagnostic results review — Zoom</h3>
-            <p>Your doctor explains your scan and blood test results in detail, so you feel
-            empowered and more in control of your health as you</p>
-            <ul class="step-list">
-              <li>understand your current health condition and your lifestyle choices — diet, exercise</li>
-              <li>have a well-informed view of your health markers and what they mean</li>
-            </ul>
-          </div>
-        </li>
-        <li class="step" data-reveal>
-          <span class="step-n" aria-hidden="true">5</span>
-          <div>
-            <h3>Your 2-month personalised protocol</h3>
-            <p>Our medical and functional medicine doctor creates your two-month personalised
-            protocol, with the latest know-how in the field of wellness and well-ageing.</p>
-            <p class="step-sub">The Medi-Gyn protocol includes</p>
-            <!-- correction: "making it a natural as possible for our body" → "as natural as
-                 possible for your body" -->
-            <ul class="step-list">
-              <li>Bioidentical Hormone | Testosterone Therapy (“BHT” | “THT”)
-                <ul class="step-list">
-                  <li>bioidentical hormones carry the same hormonal molecule as your own body, making them as natural as possible for your body</li>
-                </ul>
-              </li>
-              <li>Peptide therapy</li>
-              <li>Science-driven supplements, including vital micronutrients and adaptogens
-                <ul class="step-list">
-                  <li>to boost the immune system, increase ATP energy in your cells, and support natural cell rejuvenation</li>
-                </ul>
-              </li>
-              <li>Lifestyle change recommendations that accelerate your body’s natural healing process, rejuvenating your body inside out</li>
-            </ul>
-          </div>
-        </li>
-        <li class="step" data-reveal>
-          <span class="step-n" aria-hidden="true">6</span>
-          <div>
-            <h3>Protocol explanation — Zoom or in person</h3>
-            <p>Your doctor explains and clarifies your personalised protocol in detail, via
-            Zoom or in person — BHT, THT, peptides, and any medication or supplementation.</p>
-          </div>
-        </li>
-        <li class="step" data-reveal>
-          <span class="step-n" aria-hidden="true">7</span>
-          <div>
-            <h3>4-week close mentorship</h3>
-            <ul class="step-list">
-              <li>Four weeks of close mentorship to check on your progress and ease you into your protocol.</li>
-              <li>A further four weeks of follow-up throughout your programme with us.</li>
-            </ul>
-          </div>
-        </li>
-      </ol>
+      <!-- ⚠️ THE ONLY THING RESCUED FROM THE DELETED SECTION 05 — the client's own blood
+           panel, in their own order and their own spellings. The panel's step 02 says "the
+           exact panel we send you" and never says what is in it; these eleven are what
+           makes AED 1,150 read as medicine rather than a wellness package.
+           ⚠️ THE SOURCE PUT "IGF-1" ON ITS OWN LINE ABOVE THE REST AND "Hormones" ABOVE THE
+           LAST THREE. Read as two headed groups with IGF-1 as the panel's first assay —
+           the only reading that makes a list of it. Flagged in round 12, still unanswered,
+           and reproduced here unchanged rather than quietly re-grouped. -->
+      <details class="pgb-markers" data-reveal>
+        <summary>The markers we run</summary>
+        <div class="pgb-cols">
+          <p>Blood work</p>
+          <span>IGF-1 (Insulin-Like Growth Factor 1)</span>
+          <span>Fasting blood glucose</span>
+          <span>HbA1c</span>
+          <span>Liver function panel (ALT, AST)</span>
+          <span>Kidney function panel (Creatinine, eGFR)</span>
+          <span>Lipid panel (Cholesterol, LDL, HDL, Triglycerides)</span>
+          <span>TSH and Free T3 / Free T4</span>
+          <span>Vitamin D</span>
+          <p>Hormones</p>
+          <span>Total Testosterone</span>
+          <span>SHBG</span>
+          <span>Free Testosterone (calculated)</span>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -3157,9 +3098,12 @@ html.js-scene{--glass-fill:rgba(29,39,47,.45);--glass-hi:rgba(29,39,47,.58);
       if (window.__lenis) window.__lenis.start();
       if (lastBtn) lastBtn.focus();
     }
-    /* one shell serves THREE families now: the eight service tiles, the doctor cards,
-       and (2026-08-16) the two audience rows in 05 — same open grammar, same close
-       grammar, no second dialog to drift.
+    /* one shell serves TWO families: the eight service tiles and the doctor cards —
+       same open grammar, same close grammar, no second dialog to drift.
+       ⚠️ .aud WAS THE THIRD AND IT LEFT WITH SECTION 05 (round 14). The selectors are
+       dropped rather than left "harmlessly unmatched", because a selector for markup
+       that no longer exists is a claim about the page that is no longer true — the next
+       reader spends the same minute searching for it that this comment saves them.
        ⚠️ ADDING A FAMILY IS THREE SELECTORS, ALL ON THESE TWO LINES: the container, its
        button, its <template>. Miss one and the family silently never opens — there is no
        error, because the loop simply returns early on the missing half.
@@ -3167,9 +3111,9 @@ html.js-scene{--glass-fill:rgba(29,39,47,.45);--glass-hi:rgba(29,39,47,.58);
        `tile.querySelector("h3")` below safe: it finds the row's own visible heading and
        never the h3 inside the panel markup. That is load-bearing for the aria-label and
        for the chooser's kicker. */
-    document.querySelectorAll(".px,.doc,.aud").forEach(tile => {
-      const btn = tile.querySelector(".px-open,.doc-info,.aud-open");
-      const tpl = tile.querySelector(".px-detail,.doc-detail,.aud-detail");
+    document.querySelectorAll(".px,.doc").forEach(tile => {
+      const btn = tile.querySelector(".px-open,.doc-info");
+      const tpl = tile.querySelector(".px-detail,.doc-detail");
       if (!btn || !tpl) return;
       btn.addEventListener("click", () => {
         lastBtn = btn;
@@ -3560,25 +3504,30 @@ html.js-scene{--glass-fill:rgba(29,39,47,.45);--glass-hi:rgba(29,39,47,.58);
      block that drew the DNA reading is deleted whole; `git revert` this commit
      if it is ever wanted back. */
 
-  const INK=[46,34,40], IVORY=[244,247,250];       /* the page's white moved cool (round 9); the scene's follows */
+  const INK=[46,34,40], IVORY=[250,247,241];       /* the page's white; warm again since round 14 */
   /* ⚠️ BG_B IS --dawn — the stage rises to exactly the colour section 03 above it stands
      on. Two copies of one colour in two languages; change one, change the other (the
-     token carries the same warning). GLACIER DAWN since round 9 — B2, his letter. */
-  /* ⚠️ BG_A IS THE COOL GROUND SINCE 2026-08-16 — the client's "the burgundy is not
-     approved… same value, in the blue". [42,27,32] #2A1B20 → [20,32,42] #14202A: L* 11.83
-     → 11.61, chroma held, hue rotated into the glacier family. The full translation table
-     and the contrast proof live at .scene-stage in the stylesheet; the CSS pre-frame
-     ground (#1D272F) is BG_A's sibling and moved with it. */
-  const BG_A=[20,32,42], BG_B=[232,239,245];
-  /* an unwritten bead. ⚠️ WAS DIM ROSE-STONE [176,154,156] — the same 2026-08-16
-     translation, L* 65.55 held exactly, so a drifting bead still measures 6.26:1 on the
-     stage against the 6.23 it measured warm. --rose the TOKEN is untouched brand law; it
-     just no longer appears in this scene. */
-  const STONE=[147,161,174];
-  /* ⚠️ THE CHAIN SPEAKS STEEL — C2, his letter (round 9). Was GOLD [201,164,106] /
-     GOLD_DEEP [138,106,52]: the hero's metal writes the message now, judged in the grade
-     lab as a composition (chain + key line together), not find-and-replaced. */
-  const GOLD=[124,147,168], GOLD_DEEP=[84,104,124];
+     token carries the same warning). THE ROSE DAWN AGAIN since round 14; it was the glacier
+     #E8EFF5 (B2, his letter) from round 9 until then. */
+  /* ⚠️ BG_A IS THE PLUM GROUND AGAIN — round 14. It was [20,32,42] #14202A from
+     2026-08-16 on the client's "the burgundy is not approved… same value, in the blue",
+     and that note is DIRECTLY CONTRADICTED by the reversal — the full argument, and the
+     warning that this is the likeliest thing to be sent back, is at .scene-stage in the
+     stylesheet. The arithmetic if it goes cool again: [42,27,32] #2A1B20 → [20,32,42]
+     #14202A, L* 11.83 → 11.61, chroma held, hue rotated. ⚠️ THE CSS PRE-FRAME GROUND IS
+     BG_A'S SIBLING AND MUST MOVE WITH IT — it is `background:#2E2228` on .scene-stage,
+     and it is what a reader sees for the frame before the script's first draw(). */
+  const BG_A=[42,27,32], BG_B=[246,231,225];
+  /* an unwritten bead — dim rose-stone, and --rose is back in this scene with it (round
+     14). It was [147,161,174] on the cool grade, L* 65.55 held exactly in both directions,
+     so a drifting bead measures 6.23:1 on this stage against the 6.26 it measured cool. */
+  const STONE=[176,154,156];
+  /* ⚠️ THE CHAIN SPEAKS GOLD AGAIN — round 14. It was STEEL [124,147,168] / [84,104,124]
+     from round 9 (C2, his letter), judged in the grade lab as a COMPOSITION — chain plus
+     key line together — rather than find-and-replaced. Reversing it is the same discipline:
+     these two and .scene-beat.gold move together or the chain and the line it writes stop
+     agreeing. bonds-lab.html carries the gold/steel bar that judged it. */
+  const GOLD=[201,164,106], GOLD_DEEP=[138,106,52];
   const ss=(a,b,x)=>{x=Math.max(0,Math.min(1,(x-a)/(b-a)));return x*x*(3-2*x)};
   const mix=(a,b,k)=>a+(b-a)*k;
   const mixC=(A,B,k)=>[Math.round(mix(A[0],B[0],k)),Math.round(mix(A[1],B[1],k)),Math.round(mix(A[2],B[2],k))];
@@ -3691,11 +3640,11 @@ html.js-scene{--glass-fill:rgba(29,39,47,.45);--glass-hi:rgba(29,39,47,.58);
     stage.style.setProperty("--scene-fg", rgba(mixC(IVORY,INK,ss(.798,.824,p)),1));
     const gl=dw>.55;
     stage.style.setProperty("--ctrl-fg",  gl?rgba(INK,1):rgba(IVORY,1));
-    /* the three dark glass values are the warm #2E2228 translated to #1D272F, same
+    /* the three dark glass values are #2E2228 again — they were translated to #1D272F, same
        alphas — 2026-08-16, with the rest of the stage */
-    stage.style.setProperty("--glass-fill", gl?"rgba(255,255,255,.20)":"rgba(29,39,47,.45)");
-    stage.style.setProperty("--glass-hi",   gl?"rgba(255,255,255,.34)":"rgba(29,39,47,.58)");
-    stage.style.setProperty("--glass-line", gl?"rgba(29,39,47,.22)":"rgba(255,255,255,.26)");
+    stage.style.setProperty("--glass-fill", gl?"rgba(255,255,255,.20)":"rgba(46,34,40,.45)");
+    stage.style.setProperty("--glass-hi",   gl?"rgba(255,255,255,.34)":"rgba(46,34,40,.58)");
+    stage.style.setProperty("--glass-line", gl?"rgba(46,34,40,.22)":"rgba(255,255,255,.26)");
     stage.style.setProperty("--glass-top",  gl?"rgba(255,255,255,.55)":"rgba(255,255,255,.30)");
     glow.style.opacity=(1-ss(.70,.80,p)).toFixed(3);
     /* SEQUENTIAL, not the sister page's cross-fade: both want bottom-centre, and a
@@ -3721,7 +3670,7 @@ html.js-scene{--glass-fill:rgba(29,39,47,.45);--glass-hi:rgba(29,39,47,.58);
     const gA=ss(.005,.05,p);                       /* the whole act fades in once */
     const coil=ss(.60,.78,p);
     const dim=1-.62*ss(.845,.92,p);                /* the helix steps back as the word arrives */
-    const beadC=mixC(GOLD,GOLD_DEEP,ss(.30,.90,dw)); /* the steel deepens on the risen ground —
+    const beadC=mixC(GOLD,GOLD_DEEP,ss(.30,.90,dw)); /* the gold deepens on the risen ground —
                                                         the sister page's contrast rule */
 
     /* positions first — links draw under beads and both need them */
@@ -3800,7 +3749,7 @@ html.js-scene{--glass-fill:rgba(29,39,47,.45);--glass-hi:rgba(29,39,47,.58);
         for(let k=0;k<2;k++){
           const q=(((p-.70)*3.2 + t*.05 + k*.5)%1+1)%1;
           const [x,y]=curve(q,p,t);
-          const C=dw>.5?GOLD_DEEP:[214,232,246];   /* the travelling light, champagne → glacier (round 9) */
+          const C=dw>.5?GOLD_DEEP:[236,214,178];   /* the travelling light — champagne again (round 14) */
           const grd=ctx.createRadialGradient(x,y,0,x,y,13);
           grd.addColorStop(0,rgba(C,.8*pk*dim));
           grd.addColorStop(1,rgba(C,0));
@@ -3892,15 +3841,14 @@ html.js-scene{--glass-fill:rgba(29,39,47,.45);--glass-hi:rgba(29,39,47,.58);
        CDN and survives a machine with no WebGL. GSAP and Lenis are untouched and still
        carry the chain scene.
 
-   3 · The glacier arrives as ONE multiply at the foot of draw(), not as re-tinted artwork.
-       The lab composited every plate under a #F3F7FB `.tint` layer in `multiply`, and that
-       is the look that was judged — so the same arithmetic ships here rather than a
-       hand-recoloured approximation. The chains stay literally gold (rgba(194,160,94))
-       under it, which on this page is deliberate and worth knowing: the `--gold` TOKEN was
-       remapped to steel #7C93A8 for the glacier re-grade, so these nodes are now the only
-       true gold on the page. That is what plate D was when he picked it. If it should
-       become steel, it is the three rgba() literals below — and bonds-lab.html has a
-       gold/steel bar that shows both before you decide. */
+   3 · ⚠️ THE HERO IS WARM ARTWORK AND ALWAYS WAS. Round 9 cooled it with ONE multiply at
+       the foot of draw() rather than re-authoring the colours — "not re-tinted artwork" —
+       and round 14 deleted those three lines to reverse it. The ground stops (#FBF8F2 →
+       #F6F1E8) and the chains (rgba(194,160,94)) below are the ORIGINALS, untouched
+       across both grades, which is why the reversal cost three lines and no redraw.
+       The chains are ordinary gold again now rather than the page's last true gold —
+       under the glacier they were the only warm metal left, because `--gold` was steel.
+       bonds-lab.html still carries the gold/steel bar if a future grade wants to compare. */
 try{
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const canvas = document.getElementById("silk");
@@ -4012,11 +3960,15 @@ try{
       }
     }
 
-    /* The glacier grade — #F3F7FB multiplied, the lab's .tint layer exactly (round 7, kept). */
-    c.globalCompositeOperation = "multiply";
-    c.fillStyle = "#F3F7FB";
-    c.fillRect(0,0,W,H);
-    c.globalCompositeOperation = "source-over";
+    /* ⚠️ THE GLACIER MULTIPLY WAS HERE AND IT IS GONE (round 14). Three lines —
+       globalCompositeOperation="multiply", fillStyle="#F3F7FB", fillRect — cooled the
+       whole hero after it was drawn. Deleting them is the ENTIRE hero half of the plum
+       reversal, because the artwork under it was warm the whole time: the ground stops
+       (#FBF8F2 → #F6F1E8) and the chains (rgba(194,160,94)) were never re-authored, only
+       tinted. That was round 9's deliberate choice — "ONE multiply at the foot of draw(),
+       not re-tinted artwork" — and it is the reason this grade could be reversed in a
+       commit instead of a redraw. KEEP IT THAT WAY: if a future grade cools the hero
+       again, put the multiply back here rather than editing the colours above. */
   }
 
   /* 21.7s is the lab's still — the frame the plates were screenshotted at, chosen because
@@ -4036,7 +3988,7 @@ try{
     })();
   }
 }catch(e){
-  /* no canvas at all: static glacier gradient keeps the hero legible */
+  /* no canvas at all: a static gradient keeps the hero legible */
   const c = document.getElementById("silk");
   if (c) c.style.background = "linear-gradient(160deg,#F8FAFC 30%,#EFF4F8 70%,#E9F0F5 100%)";
 }
@@ -4112,6 +4064,34 @@ try{
     document.getElementById("px-tray-n").textContent = names.length + " chosen";
     document.getElementById("px-tray-l").textContent = names.join(" · ");
     syncPanel();
+  }
+
+  /* ══ THE TRAY FOLLOWS, THEN SHRINKS, THEN GETS OUT OF THE WAY — round 14 ═══════════
+     Two observers, each answering one question, because they are genuinely two questions
+     and one combined handler would have to re-derive both on every callback.
+     ⚠️ OBSERVERS, NOT A SCROLL LISTENER. This page runs Lenis, so a scroll handler fires
+     on every interpolated frame and would be doing getBoundingClientRect() against a
+     smoothed scroll position sixty times a second for a boolean that changes twice.
+     ⚠️ .mini IS DRIVEN BY THE GRID, NOT BY .services. The section is taller than the
+     viewport, so watching the SECTION would keep the bar full-width long after the last
+     tile had gone — the reader would be looking at the programme band with a bar that
+     still thinks it is over the chooser. The grid is the thing the bar is the answer to.
+     ⚠️ THE FALLBACK IS "FULL BAR, NEVER HIDDEN", not "no tray". On a browser without
+     IntersectionObserver the tray behaves exactly as it did in round 12 plus the fixed
+     position — the degradation loses the polish and keeps the function. */
+  var grid = document.querySelector(".px-grid");
+  var book = document.getElementById("book");
+  if (window.IntersectionObserver && grid){
+    new IntersectionObserver(function(es){
+      tray.classList.toggle("mini", !es[0].isIntersecting);
+    }, { rootMargin: "0px 0px -35% 0px" }).observe(grid);
+  }
+  if (window.IntersectionObserver && book){
+    /* the final strip owns the screen once any real part of it is up: two primary
+       actions in one viewport is the escape hatch, not a convenience */
+    new IntersectionObserver(function(es){
+      tray.classList.toggle("done", es[0].isIntersecting);
+    }, { threshold: 0.12 }).observe(book);
   }
 
   /* ⚠️ THE POPUP CANNOT SAY WHICH GOAL IT IS. Its markup is cloned out of a

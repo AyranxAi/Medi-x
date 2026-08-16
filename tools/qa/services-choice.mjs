@@ -212,6 +212,13 @@ const run = async () => {
     vat: document.querySelector('#pg-vat').textContent.trim(),
     total: document.querySelector('#pg-total').textContent.trim(),
     steps: document.querySelectorAll('.pg-steps li').length,
+    /* the step TITLES in document order — the <small> is stripped so a copy edit inside a
+       step's description does not move an order assertion */
+    stepOrder: [...document.querySelectorAll('.pg-steps li')].map(li => {
+      const s = li.querySelector('span:nth-child(2)').cloneNode(true);
+      const sm = s.querySelector('small'); if (sm) sm.remove();
+      return s.textContent.trim();
+    }),
     incl: document.querySelectorAll('.pg-blk:not(.pg-blk--soft) .pg-list li').length
   }));
   has('8a it names both goals', p1.recap, 'Brain Health');
@@ -225,7 +232,15 @@ const run = async () => {
   is('9  programme line', p1.sub, 'AED 1,150.00');
   is('9a VAT at 5%', p1.vat, 'AED 57.50');
   is('9b the total carries it', p1.total, 'AED 1,207.50');
-  is('10 five steps', p1.steps, 5);
+  /* ⚠️ SIX SINCE ROUND 14, AND THE COUNT IS NOT THE POINT — THE ORDER IS. His correction:
+     the doctor is CHOSEN at 03 and reads the file afterwards, where the old copy had a
+     stranger reading the labs and the reader picking someone at 04. The two assertions
+     below pin the order itself, because a step list is exactly the kind of thing a later
+     edit reshuffles without anyone noticing it now describes a different clinic. */
+  is('10 six steps', p1.steps, 6);
+  is('10b the doctor is chosen before the file is read', p1.stepOrder.indexOf('Choose your doctor'), 2);
+  is('10c and the peptides arrive before the aftercare',
+     p1.stepOrder.indexOf('Your peptides arrive') < p1.stepOrder.indexOf('Support while you begin'), true);
   is('10a six included lines', p1.incl, 6);
   const copy = await page.evaluate(() => document.querySelector('.pxd-body').textContent);
   has('11 the collection is a team at your home, not a kit', copy, 'comes to your home');
@@ -233,8 +248,19 @@ const run = async () => {
   is('11h and nothing on the page is marked tbc', /price tbc/i.test(copy), false);
   has('11a the assessment is online', copy, 'complete online');
   has('11b the read is same or next day', copy, 'same or next day');
-  has('11c the consultation is online', copy, 'Online. You choose your doctor');
-  has('11d and the page says you never visit', copy, 'never need to visit');
+  /* ⚠️ 11c CHANGED WITH THE STEP ORDER (round 14). It asserted "Online. You choose your
+     doctor when you book the time" on step 04 — copy his correction deleted, because it
+     had the reader picking a doctor AFTER a stranger had read their labs. The doctor is
+     chosen at 03 now and step 04 is what the consultation actually delivers, so this
+     asserts the deliverable rather than the channel. */
+  has('11c the consultation delivers the prescription', copy, 'writes your prescription');
+  has('11e and the peptides arrive as a step of their own', copy, 'Your peptides arrive');
+  /* ⚠️ 11d IS INVERTED, NOT DELETED. It asserted the panel's closing line — "Everything
+     happens online — you never need to visit us" — which he removed in round 14 ("it's not
+     good in that page"). The line is now ASSERTED ABSENT: it was a hedge under a primary
+     action, and it had also stopped being true the moment step 05 started delivering
+     peptides to an address. Deleting the check would let it drift back in unnoticed. */
+  is('11d the hedge under the button is gone', /never need to visit/i.test(copy), false);
 
   /* the add-on's explanation is a <small> inside a flex child — inline by default,
      which ran it straight after the PRICE TBC tag on one line */
@@ -257,6 +283,32 @@ const run = async () => {
   await page.waitForTimeout(300);
   is('12c and back again',
      await page.evaluate(() => document.querySelector('#pg-total').textContent.trim()), 'AED 1,207.50');
+
+  /* ══ THE SHOP WINDOW AND THE CART MUST AGREE — NEW ROUND 14 ═══════════════════════
+     ⚠️ THE PROGRAMME BAND RESTATES THE PANEL'S FIGURES AND ITS INCLUDED LIST ON THE OPEN
+     PAGE, and that duplication is deliberate — the page could not name a price at all once
+     section 05 was deleted, and a customer expects to see the contents again at the moment
+     of paying. What is NOT acceptable is the two drifting apart: a band quoting 1,150 over
+     a panel quoting something else is a dispute after payment, which is the exact failure
+     the VAT rows exist to prevent. So every figure that appears twice is COMPARED here.
+     ⚠️ THE BAND IS READ FROM OUTSIDE THE OVERLAY. It is ordinary page markup, so it is
+     still in the document while the panel is open — no need to close anything. */
+  const twice = await page.evaluate(() => {
+    const t = s => { const e = document.querySelector(s); return e ? e.textContent.trim() : null; };
+    const rows = [...document.querySelectorAll('.pgb-rows div')].map(d => d.lastElementChild.textContent.trim());
+    return {
+      bandBase:  rows[0], bandVat: rows[1], bandTotal: rows[2],
+      panelBase: t('#pg-sub'), panelVat: t('#pg-vat'), panelTotal: t('#pg-total'),
+      bandAddon:  /AED 1,950/.test(t('.pgb-ledger') || ''),
+      bandIncl:   document.querySelectorAll('.pgb-ledger .pgb-list:first-of-type li').length,
+      panelIncl:  document.querySelectorAll('.pg-blk:not(.pg-blk--soft) .pg-list li').length,
+    };
+  });
+  is('12d the band and the panel quote one programme price', twice.bandBase, twice.panelBase);
+  is('12e one VAT line',   twice.bandVat,   twice.panelVat);
+  is('12f one total',      twice.bandTotal, twice.panelTotal);
+  is('12g the add-on is his real figure in both', twice.bandAddon, true);
+  is('12h and the included list is the same length', twice.bandIncl, twice.panelIncl);
 
   /* ⚠️ NOT A CHECKOUT: close, the one add-on, Start. Every extra control in there
      is another chance to hesitate at the last moment before payment. */

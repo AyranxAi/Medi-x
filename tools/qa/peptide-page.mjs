@@ -278,10 +278,21 @@ async function checkScene() {
       if (off <= 0.14) ok(`${label} p=${p} — helix spans ${got}px against curve()'s ${Math.round(want)}px (${(off * 100).toFixed(1)}% off): NOT compressed`);
       else bad(`${label} p=${p} — helix spans ${got}px, expected ~${Math.round(want)}px: the amplitude is a function of coil again`);
     }
-    /* the ground must be cool, not the old plum — read at .30, before the dawn starts */
+    /* ⚠️ THIS CHECK'S POLARITY IS INVERTED, AND THE INVERSION IS THE POINT (round 14).
+       It read "the ground must be COOL, not the old plum" and asserted B > R, because
+       2026-08-16 carried a client note that burgundy was not approved. His later
+       instruction — "roll the plum design in the whole peptide page" — reverses that, so
+       the same check now guards the opposite invariant.
+       ⚠️ IT IS FLIPPED RATHER THAN DELETED because the risk it covers is unchanged in
+       either direction: the stage ground lives in TWO languages (CSS `background:#2E2228`
+       on .scene-stage for the pre-frame, and BG_A in the scene script for every frame
+       after), and nothing but this check notices when only one of them is edited. A
+       half-graded stage flashes the wrong colour for one frame on load — which is exactly
+       the kind of thing that never shows up in review and always shows up on a client's
+       phone. Read at .30, before the dawn starts. */
     const g = (spans[0.30].bg.match(/\d+/g) || []).map(Number);
-    if (g.length >= 3 && g[2] > g[0]) ok(`${label} — the stage is cool (B ${g[2]} > R ${g[0]}), not the unapproved burgundy`);
-    else bad(`${label} — the stage does not read cool: ${spans[0.30].bg}`);
+    if (g.length >= 3 && g[0] > g[2]) ok(`${label} — the stage is plum (R ${g[0]} > B ${g[2]}), both languages agreeing`);
+    else bad(`${label} — the stage did not come back warm: ${spans[0.30].bg}`);
     if (errs.length) bad(`${label} — console/page errors: ${JSON.stringify([...new Set(errs)].slice(0, 4))}`);
     else ok(`${label} — zero console and page errors across four stops`);
     await ctx.close();
@@ -295,26 +306,59 @@ async function checkDialogs() {
   await page.goto(`http://localhost:${PORT}${PAGE}?probe=1`, { waitUntil: 'load' });
   await page.waitForTimeout(1500);
 
-  for (const [sel, name, min] of [
-    ['.aud:nth-of-type(1) .aud-open', 'For women', 25],
-    ['.aud:nth-of-type(2) .aud-open', 'For men', 18],
-  ]) {
-    await page.evaluate(s => document.querySelector(s).click(), sel);
-    await page.waitForTimeout(700);
-    const st = await page.evaluate(() => {
-      const d = document.getElementById('pxd');
-      return { hidden: d.hidden, label: d.getAttribute('aria-label'),
-               items: d.querySelectorAll('.pxd-body .pxd-list li').length,
-               focused: document.activeElement === d.querySelector('.pxd-panel') };
-    });
-    if (!st.hidden && st.label === name && st.items >= min && st.focused)
-      ok(`${name} — opens, ${st.items} list items, focus on the panel`);
-    else bad(`${name} — ${JSON.stringify(st)}`);
-    await page.keyboard.press('Escape');
-    await page.waitForTimeout(600);
-    const closed = await page.evaluate(() => document.getElementById('pxd').hidden);
-    if (closed) ok(`${name} — Esc closes`); else bad(`${name} — Esc did not close`);
-  }
+  /* ⚠️ SECTION 05 IS GONE (round 14) AND ITS TWO DIALOGS WENT WITH IT. This used to
+     open "For women" and "For men" and count their symptom lines. The section was
+     deleted whole on his call — the client's two explainer paragraphs, both symptom
+     lists and the seven steps — because the programme panel now carries the same
+     ground in five steps and the page was saying it twice.
+     THE CHECK IS INVERTED RATHER THAN DROPPED, for the reason the chooser's check
+     below already records: an assertion is cheap and a silent restoration is not.
+     Section 05's markup is the single most likely thing to come back by accident —
+     it is ~1,100 words of CLIENT copy, so it exists in his documents, in the git
+     history and in every handover, and any of those is one paste away from the page.
+     If it does come back, the page has two "what happens next" sequences again and
+     nothing else in this harness would say so. */
+  const dead = await page.evaluate(() => ({
+    aud:   document.querySelectorAll('.aud, .aud-open, .aud-detail').length,
+    steps: document.querySelectorAll('.steps .step').length,
+    lede:  document.body.textContent.includes('building blocks of proteins'),
+    /* ⚠️ #programme IS REUSED BY THE NEW BAND, so its presence proves nothing either way —
+       what proves the old section is gone is that the id now belongs to .pgb. */
+    band:  !!document.querySelector('section.pgb#programme'),
+    /* the panel's six, and they are the page's ONLY sequence */
+    panel: document.getElementById('prog-panel')
+             ? document.getElementById('prog-panel').content.querySelectorAll('.pg-steps li').length : -1,
+    /* ⚠️ THE SHOP WINDOW AND THE CART MUST QUOTE THE SAME NUMBER. The band restates the
+       price the panel computes; two copies of one figure in two places is exactly the
+       duplication that goes wrong silently, so it is compared rather than trusted. */
+    bandTotal:  (document.querySelector('.pgb-tot span:last-child') || {}).textContent,
+    panelTotal: document.getElementById('prog-panel')
+             ? document.getElementById('prog-panel').content.querySelector('#pg-total').textContent : null,
+  }));
+  if (!dead.aud && !dead.steps && !dead.lede)
+    ok('section 05 is gone — no audience rows, no seven steps, no client lede');
+  else bad(`section 05 has come back: ${JSON.stringify(dead)}`);
+  if (dead.band) ok('#programme now names the programme band');
+  else bad('the programme band is missing, and with it the page\'s only price and the dawn ground');
+  if (dead.panel === 6) ok('the programme panel is the page\'s only sequence — six steps');
+  else bad(`the panel's steps are wrong: ${dead.panel}`);
+  if (dead.bandTotal && dead.bandTotal.trim() === (dead.panelTotal || '').trim())
+    ok(`the band and the panel quote one total — ${dead.bandTotal.trim()}`);
+  else bad(`shop window and cart disagree: band ${dead.bandTotal} vs panel ${dead.panelTotal}`);
+
+  /* ⚠️ THE GROUND MUST STILL ALTERNATE, and this is the check that would have caught the
+     fault deleting section 05 introduced: .services and .incl are both ivory, and .prog
+     (dawn) was the only thing keeping them apart. The band replaces it. Asserting the
+     SEQUENCE rather than each colour means the next chapter added or removed here fails
+     loudly instead of quietly putting two ivory bands together. */
+  const grounds = await page.evaluate(() =>
+    ['.services', '.pgb', '.incl', '.docs', '.stories', '.faq'].map(s => {
+      const el = document.querySelector(s);
+      return el ? getComputedStyle(el).backgroundColor : null;
+    }));
+  const alternates = grounds.every((g, i) => g && (i === 0 || g !== grounds[i - 1]));
+  if (alternates) ok('the grounds still alternate across the tail — ivory / dawn, six chapters');
+  else bad(`two neighbouring chapters share a ground: ${JSON.stringify(grounds)}`);
 
   /* ⚠️ THE CHOOSER IS NO LONGER REACHABLE FROM THE PAGE, AND THAT IS DELIBERATE.
      Round 12 moved doctor selection to the moment the consultation is booked (his
@@ -369,37 +413,98 @@ async function checkDialogs() {
   await ctx.close();
 }
 
-/* ═══ 6 · CONTRAST ON THE RE-GRADED SURFACES ═══════════════════════════════════════
-   WCAG arithmetic on the flat grounds the scene actually paints. The point is not that
-   these pass — the warm originals passed too — it is that the COOL translation kept the
-   warm numbers, which is what "the same value" was asked for. */
+/* ═══ 6 · THE GRADE, AND THE CONTRAST IT CARRIES ═══════════════════════════════════
+   ⚠️⚠️ THIS CHECK USED TO PROVE NOTHING ABOUT THE PAGE AND IT LOOKED LIKE IT DID. Until
+   round 14 it was a table of TWELVE HARDCODED HEXES with the arithmetic run over them —
+   no page, no browser, no measurement. It passed identically whether the page shipped
+   glacier, plum, or neither, and it had a green tick beside it the whole time. It was
+   found only because the plum reversal made it print the COOL numbers under a heading
+   claiming they were current.
+   ⚠️ SO PART A NOW READS THE LIVE PAGE. The tokens are pulled off the running document
+   and compared against BRAND.md's warm system — that is the assertion that actually
+   fails if a grade half-lands, and it is the one that was missing.
+   ⚠️ PART B KEEPS THE ARITHMETIC, because the equivalence it proves is still worth
+   holding: the two grades measure the same to within 0.05 at every pair, so the choice
+   between them is a brand decision and never an accessibility one. That matters
+   precisely because this page has now been graded in both directions and may be again —
+   but it is labelled as what it is, a comparison of two historical tables, NOT evidence
+   about what shipped. Never let those two jobs share a heading again. */
 function lum(hex) {
   const c = hex.match(/\w\w/g).map(h => { const v = parseInt(h, 16) / 255; return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; });
   return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
 }
 const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
+const hex = rgb => '#' + (rgb.match(/\d+/g) || []).slice(0, 3)
+  .map(n => (+n).toString(16).padStart(2, '0')).join('').toUpperCase();
+
+async function checkGrade() {
+  head('6 · The grade on the page, read from the page');
+  const { ctx, page } = await newPage(1440, 900);
+  await page.goto(`http://localhost:${PORT}${PAGE}?probe=1`, { waitUntil: 'load' });
+  await page.waitForTimeout(1200);
+  /* BRAND.md's warm system. --burgundy, --rose, --logo-red and both inks are brand law
+     and never took a temperature; the six below are the ones that travelled. */
+  const WANT = {
+    '--ivory': '#FAF7F1', '--cream': '#F4EDE1', '--line': '#DED4C2',
+    '--gold': '#C2A05E', '--gold-deep': '#8A6A34', '--gold-tint': '#F1E7D2',
+    '--dawn': '#F6E7E1', '--gold-gloss': '#7F6230',
+    '--burgundy': '#5C1F31', '--rose': '#C79A92', '--ink': '#2E2228',
+  };
+  const got = await page.evaluate(names => {
+    const cs = getComputedStyle(document.documentElement);
+    const out = {};
+    for (const n of names) out[n] = cs.getPropertyValue(n).trim().toUpperCase();
+    /* the two places the stage's ground is written, in two languages — the CSS
+       pre-frame value and whatever the script has painted by now */
+    out.stageCSS = getComputedStyle(document.querySelector('.scene-stage')).backgroundColor;
+    out.turn = document.querySelector('.turn')
+      ? getComputedStyle(document.querySelector('.turn')).backgroundColor : null;
+    return out;
+  }, Object.keys(WANT));
+
+  let drifted = [];
+  for (const [k, v] of Object.entries(WANT)) if (got[k] !== v) drifted.push(`${k} ${got[k]}≠${v}`);
+  if (!drifted.length) ok(`all eleven tokens are the warm system — ivory ${got['--ivory']}, dawn ${got['--dawn']}, gold ${got['--gold']}`);
+  else bad(`the grade half-landed: ${drifted.join(' · ')}`);
+
+  /* ⚠️ --gold-gloss MUST NOT EQUAL --gold-deep ON THIS GRADE. They converged on glacier
+     and un-converge on plum, because #8A6A34 measures 4.16 on the rose dawn — under the
+     4.5 floor for .seg-gloss's size. "Tidying" the duplicate away is a silent a11y
+     regression, so it is asserted rather than trusted. */
+  if (got['--gold-gloss'] !== got['--gold-deep'])
+    ok(`gloss and deep stay split — ${got['--gold-gloss']} vs ${got['--gold-deep']}, the 4.5 floor on the rose dawn`);
+  else bad('--gold-gloss collapsed into --gold-deep: .seg-gloss now measures 4.16 on the dawn');
+
+  if (hex(got.stageCSS) === '#2E2228') ok('the stage\'s CSS pre-frame ground is the plum');
+  else bad(`the stage's pre-frame ground did not revert: ${got.stageCSS}`);
+  if (got.turn && hex(got.turn) === '#5C1F31') ok('the scene\'s static twin is burgundy again');
+  else bad(`.turn did not revert: ${got.turn}`);
+  await ctx.close();
+}
+
 function checkContrast() {
-  head('6 · The cool translation held its values');
+  head('6b · Plum and glacier measure the same (two historical tables, not the page)');
   const pairs = [
-    ['the ivory beat', '#F4F7FA', '#14202A', '#F4F7FA', '#2A1B20', 3],
-    ['the gold beat',  '#8FA5B8', '#14202A', '#8FA5B8', '#2A1B20', 3],
-    ['the italic',     '#87A8C5', '#14202A', '#C79A92', '#2A1B20', 3],
-    ['a drifting bead','#93A1AE', '#14202A', '#B09A9C', '#2A1B20', 3],
-    ['the turn accent','#95ABBF', '#003A5F', '#C2A05E', '#5C1F31', 3],
-    ['the turn body',  '#BECDD8', '#003A5F', '#D7C7C7', '#5C1F31', 4.5],
+    ['the ivory beat', '#FAF7F1', '#2A1B20', '#F4F7FA', '#14202A', 3],
+    ['the gold beat',  '#C2A05E', '#2A1B20', '#8FA5B8', '#14202A', 3],
+    ['the italic',     '#C79A92', '#2A1B20', '#87A8C5', '#14202A', 3],
+    ['a drifting bead','#B09A9C', '#2A1B20', '#93A1AE', '#14202A', 3],
+    ['the turn accent','#C2A05E', '#5C1F31', '#95ABBF', '#003A5F', 3],
+    ['the turn body',  '#D7C7C7', '#5C1F31', '#BECDD8', '#003A5F', 4.5],
   ];
   for (const [name, fg, bg, wasFg, wasBg, floor] of pairs) {
     const now = ratio(fg, bg), was = ratio(wasFg, wasBg);
     const drift = Math.abs(now - was);
     if (now < floor) bad(`${name}: ${now.toFixed(2)}:1 — under the ${floor} floor`);
-    else if (drift > 0.4) bad(`${name}: ${now.toFixed(2)}:1 against ${was.toFixed(2)} warm — drifted ${drift.toFixed(2)}`);
-    else ok(`${name}: ${now.toFixed(2)}:1 (warm original ${was.toFixed(2)}, drift ${drift.toFixed(2)})`);
+    else if (drift > 0.4) bad(`${name}: ${now.toFixed(2)}:1 against ${was.toFixed(2)} cool — drifted ${drift.toFixed(2)}`);
+    else ok(`${name}: ${now.toFixed(2)}:1 plum (glacier ${was.toFixed(2)}, drift ${drift.toFixed(2)})`);
   }
 }
 
 await checkWidths();
 await checkScene();
 await checkDialogs();
+await checkGrade();
 checkContrast();
 
 head('7 · Files the page asks for and does not get');

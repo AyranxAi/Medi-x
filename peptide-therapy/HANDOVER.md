@@ -1,5 +1,137 @@
 # Peptide Therapy — `/peptide-therapy/` (first ship 2026-08-14)
 
+> ## ROUND 14 — 2026-08-16 (later still): the glacier is reversed, section 05 is deleted
+> whole, and the chooser grows the band that carries the price
+>
+> **1 · ⚠️⚠️ THE PAGE IS PLUM AGAIN, AND THIS REVERSES A NOTE THE CLIENT MADE THE SAME DAY.**
+> His instruction: *"roll the plum design in the whole peptide page."* The commercial reason
+> is plain — medi-gyn.com is warm, the landing page is warm, the sister hormone page never
+> left, and a service page in steel was the one screen in the estate that did not look like
+> the brand. **BUT ON RECORD, EARLIER THE SAME DAY, IS THE CLIENT'S OWN:** *"the burgundy is
+> not approved as now that we have transitioned to blue… we must find another colour with
+> the same VALUE of this burgundy."* **His instruction is the later one and it is the one
+> implemented.** The two have not been reconciled by the people who made them, and this is
+> **the single most likely thing on the page to be sent back.** The conflict is recorded at
+> `.scene-stage` in the stylesheet, not just here.
+> ⚠️ **NOTHING IS AT RISK ON CONTRAST EITHER WAY** — the two grades measure the same to
+> within 0.05 at every pair (check 6b proves it), so this is a brand decision, never an
+> accessibility one, and it can be taken back without re-measuring anything.
+>
+> **2 · WHY THE REVERSAL COST A COMMIT INSTEAD OF A REDRAW — round 9 built it to be undone.**
+> Three decisions made by the round that *applied* the glacier are the reason:
+> · **The hero was tinted, not re-authored.** "ONE multiply at the foot of `draw()`, not
+> re-tinted artwork" — deleting three lines (`multiply` / `#F3F7FB` / `fillRect`) restored
+> warm artwork that had been sitting underneath the whole time.
+> · **`--gold-gloss` was kept split from `--gold-deep`** with the note *"the next grade may
+> need it again"*. It does: `#8A6A34` measures **4.16** on the rose dawn, under the 4.5 floor
+> for `.seg-gloss`. ⚠️ **DO NOT TIDY THAT DUPLICATE AWAY** — check 6 asserts they stay split.
+> · **The brand law never took a temperature.** `--burgundy`, `--rose`, `--logo-red` and both
+> inks were untouched on both grades, so `.turn` was restored by pointing at `var(--burgundy)`
+> again rather than by picking a colour.
+> ⚠️ **THE PAGE HAS NO PHOTOGRAPHIC PLATES** (only doctor portraits), so no image was
+> re-encoded. That is why this was cheap here and would not be on the landing page.
+>
+> **3 · SECTION 05 IS DELETED WHOLE — 425 lines of markup and CSS.** His call: *"we have
+> basically compressed all the information, we need now to delete the following."* Gone: the
+> P's headline, the client's two explainer paragraphs, both **For women / For men** symptom
+> lists (~50 lines), and the **seven steps**. This closes two items that had been open since
+> round 12 — the steps duplicating the panel's, and the women/men split.
+> ✅ **A SIDE EFFECT WORTH BANKING: the flagged efficacy claim went with it** — *"a more
+> effective alternative to traditional medicine"* was in that lede and no longer needs
+> softening or sign-off.
+> ⚠️ **THE HARNESS CHECK IS INVERTED, NOT DELETED.** Section 05 is ~1,100 words of CLIENT
+> copy, so it lives in his documents, in git and in every handover — any of which is one
+> paste away from the page. `peptide-page.mjs` now asserts it is **absent**.
+>
+> **4 · ⚠️ DELETING IT BROKE THE GROUND ALTERNATION, AND THAT IS WHAT THE NEW BAND FIXES.**
+> `.services` is ivory and `.incl` is ivory; `.prog` (dawn) was the only thing between them.
+> **05 · The programme band** (`.pgb`, and it reuses the vacated `id="programme"`) is dawn,
+> so ivory→dawn→ivory→dawn survives to the foot of the page and **nothing below moved**.
+> There is now a check that asserts the *sequence* rather than each colour.
+>
+> **5 · THE BAND IS ALSO HIS "MAKE THAT SECTION MORE APPEALING… GO LARGER".** The chooser was
+> eight tiles and nothing else: a reader who never pressed one saw **no price, no proof, no
+> process**. The band carries the price (with VAT), what's included, what you can add, what
+> is priced after — and the **eleven blood markers**, the one thing rescued from section 05,
+> because the panel says *"the exact panel we send you"* and never says what is in it.
+> ⚠️⚠️ **WHAT THE BAND MUST NEVER GROW: THE STEPS.** They live in the programme panel and
+> nowhere else. Section 05 was deleted *for* saying them twice, and the fastest way to
+> rebuild that fault is to "helpfully" add the process here.
+> ⚠️ **THE INCLUDED LIST DOES APPEAR TWICE AND THAT IS DELIBERATE** — shop window and cart.
+> Six short lines restated at the moment of paying is how any purchase works. **Checks 12d–12h
+> compare the band's figures against the panel's** rather than trusting them, because a band
+> quoting a different price from the cart is a dispute after payment.
+>
+> **6 · THE PANEL'S STEPS WENT 5 → 6, AND THE ORDER WAS A REAL FAULT.** His correction: *"the
+> choose your doctor should be on the third one, as that doctor will read your file, then you
+> can choose the time with them."* The old copy had a **stranger reading your labs** and the
+> reader picking someone afterwards. Now: **03 choose your doctor → 04 the consultation
+> (findings, prescription, which peptides) → 05 your peptides arrive → 06 support.**
+> ⚠️ **STEP 05 IS NEW AND THE PANEL HAD NEVER HAD IT** — the thing the customer is actually
+> buying never appeared in the sequence. His words: *"after that is where we deliver the
+> peptides after the payment and so on and the after care."*
+> ⚠️ **ITS DURATION CELL SAYS "after payment", NOT A NUMBER OF DAYS.** No delivery time has
+> been given and inventing one beside "60 min" would be the AED 350 mistake again.
+> ⚠️ **STEP 03 IS THE HOME THE `#pxd-choose` TEMPLATE WAS KEPT FOR.** Round 13 recorded it as
+> unreachable but kept "because doctor choice moved to the moment the consultation is booked".
+> That moment is now named on the page. **Wiring it is the natural next round.**
+>
+> **7 · THE CLOSING LINE UNDER THE BUTTON IS GONE** — *"Everything happens online — you never
+> need to visit us…"*, his *"it's not good in that page."* He is right twice over: the quoting
+> half was already the "Priced after your consultation" block in his own words, and *"you
+> never need to visit us"* stopped being true the moment step 05 delivered to an address.
+> A hedge is the wrong last thing to read before a primary action. **Check 11d asserts it
+> stays gone.**
+>
+> **8 · THE TRAY FOLLOWS THE READER NOW, AND SHRINKS RATHER THAN OVERSTAYING.** His *"the
+> brown thingy should be sticking to the bottom when we scroll… to remind them that they have
+> clicked on the program."* **THAT REVERSES ROUND 12**, which scoped it to the section — but
+> that round's argument ("a fixed bar would follow the reader through the doctors, the stories
+> and the FAQ") is **answered, not overruled**: once the eight are off screen the tray drops
+> to `.mini`, stops painting its band, and becomes a **pill in the corner**. It hides entirely
+> over `#book`, so two primary actions never share a viewport.
+> ⚠️ **DRIVEN BY THE GRID, NOT THE SECTION** — `.services` is taller than the viewport, so
+> watching the section would keep the bar full-width over the band below it.
+> ⚠️ **FIXED NO LONGER RESERVES SPACE.** Nothing was added to compensate because `.sec-pad`
+> already ends every section with `clamp(90px,13vh,160px)`. **That is load-bearing now.**
+>
+> **9 · ⚠️⚠️ A QA CHECK WAS FOUND TO HAVE BEEN PROVING NOTHING, WITH A GREEN TICK BESIDE IT.**
+> Check 6 ("the cool translation held its values") was **twelve hardcoded hexes and the
+> arithmetic run over them — no page, no browser, no measurement.** It passed identically
+> whether the page shipped glacier, plum or neither. It was caught only because the reversal
+> made it print the *cool* numbers under a heading claiming they were current. **It now reads
+> the live document** and compares eleven tokens against BRAND.md; the arithmetic survives as
+> **6b**, relabelled as what it is — a comparison of two historical tables, not evidence about
+> what shipped. ⚠️ **NEVER LET THOSE TWO JOBS SHARE A HEADING AGAIN.**
+>
+> **10 · QA — 123 checks across two harnesses, all green.**
+> `peptide-page.mjs` **51** (was 46) · `services-choice.mjs` **72** (was 64).
+> ⚠️ `goals-lab.mjs` and `programme-lab.mjs` were **not re-run and are not counted** — both
+> test lab files that were deliberately left on the glacier grade (see 11).
+>
+> **11 · THE VARIATIONS HE ASKED FOR ARE A LAB: `programme-band-lab.html`.** Three of the four
+> round-14 questions came back *"show me different variations"*, so the answer follows the
+> grade-lab contract: live markup at real scale, every variant lettered, the shipped one
+> tagged. **Four decisions, twelve variants: A the band's shape · B the blood panel · C the
+> price · D the tray.** On the page right now: **A1 · B1 · C1 · D2.**
+> ⚠️ **IT IS A NEW FILE BECAUSE IT IS ON THE PLUM GRADE.** `goals-lab.html` and
+> `programme-lab.html` were authored and judged under glacier and their tokens are still
+> steel. **They are deliberately NOT updated** — they are the record of decisions taken under
+> the grade they were taken under. Showing him shapes in the wrong colours is how a shape gets
+> rejected for its palette.
+> ⚠️ **THE LAB LINKS ITS FONTS INSTEAD OF INLINING THEM** — ~40KB against the older labs'
+> 500KB+, and the two proprietary faces are referenced rather than embedded so the file can be
+> shared without shipping the licence with it.
+>
+> **12 · ⚠️ STILL HIS, AND THE FIRST ONE GOT MORE URGENT:**
+> · **whether AED 1,150 includes VAT** — open since round 12, and it is now printed on the
+> **open page** rather than behind two clicks, so a wrong assumption is public;
+> · **payment** — still the one thing asked for that is not built; `Start` lands on `#book`
+> and the `href` is the only line that changes when a provider exists;
+> · **the burgundy conflict in 1**, which only he and the client can settle;
+> · **the peptide delivery time** for step 05, deliberately left as "after payment".
+
+
 > ## ROUND 13 — 2026-08-16 (later): the tile finishes becoming a control
 >
 > **1 · THE + MOVED TO THE TOP RIGHT.** It sat bottom-right because it used to BE the

@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Programme band lab — four decisions, on the plum grade</title>
+<!--
+  ══════════════════════════════════════════════════════════════════════════════════
+  PROGRAMME BAND LAB — round 14, 2026-08-16
+  ══════════════════════════════════════════════════════════════════════════════════
+  His answer to three of the four round-14 questions was "show me different variations",
+  so this is those variations. It is the fourth lab in the series and it follows the same
+  contract as grade-lab, goals-lab and programme-lab:
+
+    · every variant is LIVE MARKUP at real scale, not a mock-up or a description
+    · every variant carries a LETTER, and he replies with letters (grade-lab's "A2 B2 C2"
+      shipped a whole re-grade that way)
+    · the variant that is ALREADY ON THE PAGE is marked SHIPPED, so "no reply" has a
+      defined meaning and nothing is ambiguous if he picks only some of the letters
+
+  ⚠️ THIS LAB IS ON THE PLUM GRADE, WHICH IS THE WHOLE REASON IT IS A NEW FILE rather
+  than a section added to goals-lab.html. goals-lab and programme-lab were both authored
+  and judged under the GLACIER grade and their tokens are still steel. Showing him shapes
+  in the wrong colours is how a shape gets rejected for its palette — so this file carries
+  the warm tokens and the older labs are left exactly as they were, because they are the
+  record of decisions taken under the grade they were taken under. Do not "update" them.
+
+  ⚠️ THE FONTS ARE LINKED, NOT INLINED. The other labs are 500KB+ because they carry
+  base64 copies of Playfair and the two proprietary faces. Every one of those files is on
+  disk in ../fonts/ and this lab points at them, which is why it is ~40KB instead. The
+  page itself still inlines them on purpose — it must survive being opened from anywhere —
+  but a lab is only ever opened from this repo.
+  ⚠️ MediGyn NOW and MediGyn Megante ARE PROPRIETARY BRAND ASSETS (see BRAND.md). They
+  are referenced here, not embedded, so this file can be shared as a file without shipping
+  the licence with it. Do not inline them to "make it portable".
+-->
+<style>
+@font-face{font-family:"Playfair";src:url(../fonts/playfair-normal-var-latin.woff2) format("woff2");
+  font-weight:300 900;font-display:swap}
+@font-face{font-family:"Playfair";font-style:italic;src:url(../fonts/playfair-italic-var-latin.woff2) format("woff2");
+  font-weight:300 900;font-display:swap}
+@font-face{font-family:"MediGyn NOW";src:url(../fonts/medigyn-now-300.woff2) format("woff2");font-weight:300;font-display:swap}
+@font-face{font-family:"MediGyn NOW";src:url(../fonts/medigyn-now-400.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"MediGyn NOW";src:url(../fonts/medigyn-now-500.woff2) format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"MediGyn Megante";src:url(../fonts/medigyn-megante-400.woff2) format("woff2");font-weight:400;font-display:swap}
+
+/* ⚠️ THE WARM SYSTEM, COPIED FROM index.html AFTER THE ROUND-14 REVERSAL. If the page's
+   tokens move again this file has to be told — there is no way to share them in a
+   zero-build single file, the same trade-off --dawn and BG_B already live with. */
+:root{
+  --ivory:#FAF7F1; --cream:#F4EDE1; --line:#DED4C2;
+  --burgundy:#5C1F31; --rose:#C79A92; --logo-red:#8E2D3A;
+  --gold:#C2A05E; --gold-deep:#8A6A34; --gold-tint:#F1E7D2; --gold-gloss:#7F6230;
+  --ink:#2E2228; --ink-soft:#6A585F; --dawn:#F6E7E1;
+  --serif:"Playfair",Georgia,serif;
+  --sans:"MediGyn NOW",ui-sans-serif,system-ui,sans-serif;
+  --accent:"MediGyn Megante",Optima,Georgia,serif;
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --pad:clamp(20px,4.5vw,72px);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--sans);font-weight:300;background:var(--ivory);color:var(--ink);line-height:1.6}
+.wrap{max-width:1280px;margin:0 auto;padding:0 var(--pad)}
+
+/* ── the lab's own chrome, deliberately NOT the brand's — it must never be mistaken
+      for a page surface in a screenshot ────────────────────────────────────────── */
+.lab-top{background:var(--ink);color:var(--ivory);padding:26px var(--pad) 22px}
+.lab-top h1{font-family:var(--accent);font-weight:400;font-size:clamp(20px,2.4vw,30px);letter-spacing:-.01em}
+.lab-top p{max-width:62ch;margin-top:10px;font-size:13.5px;line-height:1.7;color:rgba(250,247,241,.72)}
+.lab-top b{color:var(--gold);font-weight:400}
+.lab-jump{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.lab-jump a{font-family:var(--sans);font-weight:500;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ivory);text-decoration:none;border:1px solid rgba(250,247,241,.34);border-radius:999px;padding:8px 16px;
+  transition:background .3s var(--ease),color .3s var(--ease)}
+.lab-jump a:hover{background:var(--ivory);color:var(--ink)}
+
+.q{border-top:1px solid var(--line);padding:0 0 10px}
+.q-head{padding:34px var(--pad) 0;max-width:80ch}
+.q-head h2{font-family:var(--accent);font-weight:400;font-size:clamp(19px,2vw,26px);color:var(--ink)}
+.q-head p{margin-top:8px;font-size:13.5px;line-height:1.7;color:var(--ink-soft)}
+
+.v-label{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+  padding:30px var(--pad) 0;}
+.v-letter{font-family:var(--accent);font-size:22px;color:var(--logo-red);line-height:1}
+.v-name{font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink)}
+.v-why{flex:1 1 26rem;min-width:0;font-size:12.5px;line-height:1.65;color:var(--ink-soft)}
+.tag{font-family:var(--sans);font-weight:500;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;
+  border-radius:999px;padding:5px 11px;white-space:nowrap}
+.tag--ship{background:var(--gold-tint);color:var(--gold-gloss);border:1px solid var(--gold)}
+.tag--cost{background:#F6E7E1;color:var(--burgundy);border:1px solid var(--rose)}
+.stage{margin-top:16px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+
+/* ═══════════════ THE BAND — the shipped rules, copied verbatim from index.html ═══
+   ⚠️ COPIED, NOT IMPORTED, and that is the cost of a zero-build single file: if .pgb
+   changes on the page it changes here too, or the lab starts arguing for a shape the
+   page no longer has. The variant-only rules are all under .pgb--* below so the shared
+   block stays a straight copy and the diff against index.html stays readable. */
+.pgb{background:var(--dawn);padding:clamp(48px,7vh,88px) 0 clamp(60px,9vh,110px)}
+.pgb-head{max-width:34rem}
+.pgb .kicker{font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--logo-red);display:flex;align-items:center;gap:14px}
+.pgb .kicker::before{content:"";width:34px;height:1px;background:var(--gold)}
+.pgb h2{font-family:var(--serif);font-weight:450;font-size:clamp(30px,3.9vw,52px);line-height:1.08;
+  letter-spacing:-.02em;margin-top:16px}
+.pgb h2 em{font-style:italic;color:var(--logo-red)}
+.pgb-lede{margin-top:18px;color:var(--ink-soft);font-size:clamp(15px,1.3vw,17.5px);line-height:1.8}
+.pgb-grid{display:grid;grid-template-columns:minmax(0,22rem) minmax(0,1fr);
+  gap:clamp(24px,3.4vw,56px);align-items:start;margin-top:clamp(38px,5.5vh,68px);max-width:74rem}
+.pgb-price{background:var(--ivory);border:1px solid var(--line);border-radius:2px;padding:clamp(24px,2.6vw,34px)}
+.pgb-k{font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--gold-deep)}
+.pgb-fig{font-family:var(--accent);font-size:clamp(38px,5vw,62px);line-height:1;color:var(--ink);
+  margin-top:12px;font-variant-numeric:tabular-nums}
+.pgb-fig small{font-size:.42em;letter-spacing:.06em;padding-right:.28em;color:var(--ink-soft)}
+.pgb-rows{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);font-size:13.5px;color:var(--ink-soft)}
+.pgb-rows div{display:flex;justify-content:space-between;gap:16px}
+.pgb-rows div + div{margin-top:7px}
+.pgb-rows .pgb-tot{margin-top:12px;padding-top:12px;border-top:1px solid var(--line);color:var(--ink);font-weight:500}
+.pgb-note{margin-top:16px;font-size:12.5px;line-height:1.6;color:var(--ink-soft)}
+.pgb-k--sep{margin-top:clamp(26px,3.2vh,38px);padding-top:clamp(20px,2.6vh,28px);border-top:1px solid var(--line)}
+.pgb-list{margin:16px 0 0;padding:0;list-style:none;display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));gap:12px clamp(20px,2.6vw,40px)}
+.pgb-list--wide{grid-template-columns:1fr;gap:14px}
+.pgb-list li{position:relative;padding-left:22px;color:var(--ink-soft);font-size:clamp(14px,1.1vw,16px);line-height:1.6}
+.pgb-list li::before{content:"✦";position:absolute;left:0;top:.15em;color:var(--gold);font-size:.72em}
+.pgb-list li b{font-weight:500;color:var(--ink);white-space:nowrap}
+.pgb-list small{display:block;margin-top:4px;font-size:12.5px;line-height:1.55;color:var(--ink-soft);opacity:.82}
+.pgb-markers{margin-top:clamp(30px,4vh,48px);max-width:74rem;border-top:1px solid var(--line);padding-top:18px}
+.pgb-markers summary{cursor:pointer;list-style:none;display:inline-flex;align-items:center;gap:12px;
+  font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold-deep);transition:color .3s var(--ease)}
+.pgb-markers summary::-webkit-details-marker{display:none}
+.pgb-markers summary:hover{color:var(--logo-red)}
+.pgb-markers summary::after{content:"+";font-family:var(--accent);font-size:17px;letter-spacing:0;line-height:1;
+  transition:transform .4s var(--ease)}
+.pgb-markers[open] summary::after{transform:rotate(45deg)}
+.pgb-cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px clamp(20px,2.6vw,44px);margin-top:20px}
+.pgb-cols p{grid-column:1/-1;font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--ink-soft);margin-top:6px}
+.pgb-cols p:first-child{margin-top:0}
+.pgb-cols span{position:relative;padding-left:22px;color:var(--ink-soft);font-size:clamp(13.5px,1.05vw,15.5px);line-height:1.55}
+.pgb-cols span::before{content:"✦";position:absolute;left:0;top:.15em;color:var(--gold);font-size:.72em}
+
+/* ── A2 · the rail: the price stops being a card and becomes the band's own top edge ── */
+.pgb--rail .pgb-grid{grid-template-columns:1fr;max-width:74rem}
+.pgb--rail .pgb-price{display:grid;grid-template-columns:auto 1fr auto;align-items:center;
+  gap:clamp(20px,3vw,48px);padding:clamp(20px,2.2vw,28px) clamp(24px,2.6vw,34px)}
+.pgb--rail .pgb-fig{margin-top:0}
+.pgb--rail .pgb-rows{margin-top:0;padding-top:0;border-top:0;display:flex;gap:clamp(18px,2.4vw,38px)}
+.pgb--rail .pgb-rows div{display:block;text-align:right}
+.pgb--rail .pgb-rows .pgb-tot{margin-top:0;padding-top:0;border-top:0}
+.pgb--rail .pgb-note{display:none}
+.pgb--rail .pgb-list{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:900px){
+  .pgb--rail .pgb-price{grid-template-columns:1fr;text-align:left}
+  .pgb--rail .pgb-rows{flex-wrap:wrap}
+  .pgb--rail .pgb-rows div{text-align:left}
+}
+
+/* ── A3 · the statement: no card at all, the figure set as display type ── */
+.pgb--say .pgb-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start}
+.pgb--say .pgb-price{background:none;border:0;padding:0}
+.pgb--say .pgb-fig{font-size:clamp(56px,8vw,104px);letter-spacing:-.03em}
+.pgb--say .pgb-rows{max-width:22rem}
+
+/* ── the tray, in its three behaviours. Shown as static mock-ups inside a framed
+      viewport rather than driven live: the point is what the reader SEES four chapters
+      down, and a live tray in a lab would need the whole page under it to prove it. ── */
+.tray-demo{position:relative;height:300px;overflow:hidden;background:var(--ivory);
+  border-bottom:1px solid var(--line)}
+.tray-demo-bg{position:absolute;inset:0;display:grid;grid-template-columns:repeat(3,1fr);
+  gap:16px;padding:22px var(--pad);opacity:.5}
+.tray-demo-bg div{background:var(--cream);border:1px solid var(--line);border-radius:2px}
+.tray-demo-cap{position:absolute;top:14px;left:var(--pad);font-family:var(--sans);font-weight:500;
+  font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft)}
+.px-tray{position:absolute;bottom:0;left:0;right:0;background:rgba(46,34,40,.95);
+  color:var(--ivory);padding:14px var(--pad)}
+.px-tray-in{max-width:1280px;margin:0 auto;display:flex;align-items:center;gap:clamp(12px,2vw,22px)}
+.px-tray-n{font-family:var(--accent);font-size:12px;letter-spacing:.2em;color:var(--gold);white-space:nowrap}
+.px-tray-l{font-size:13.5px;color:rgba(250,247,241,.78);flex:1;min-width:0;overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap}
+.px-tray-go{display:inline-flex;align-items:center;gap:10px;flex-shrink:0;font-family:var(--sans);
+  font-weight:500;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ivory);
+  background:none;border:1px solid rgba(250,247,241,.42);border-radius:999px;padding:12px 22px}
+.px-tray--mini{background:transparent;padding-bottom:22px}
+.px-tray--mini .px-tray-in{justify-content:flex-end;gap:0}
+.px-tray--mini .px-tray-l{display:none}
+.px-tray--mini .px-tray-n{background:rgba(46,34,40,.95);border-radius:999px 0 0 999px;padding:12px 4px 12px 20px}
+.px-tray--mini .px-tray-go{background:rgba(46,34,40,.95);border-color:transparent;border-radius:0 999px 999px 0;padding-left:14px}
+.px-tray--gone{display:none}
+.tray-gone-note{position:absolute;bottom:20px;left:var(--pad);right:var(--pad);text-align:center;
+  font-size:12.5px;color:var(--ink-soft);font-style:italic}
+
+@media(max-width:900px){
+  .pgb-grid,.pgb--say .pgb-grid{grid-template-columns:1fr}
+  .pgb-cols,.pgb--rail .pgb-list{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:560px){
+  .pgb-list,.pgb-cols,.pgb--rail .pgb-list{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="lab-top">
+  <h1>Programme band lab — four decisions, on the plum grade</h1>
+  <p>Round 14. Three of the four questions came back <b>“show me different variations”</b>,
+  so here they are, live and at real scale. Reply in <b>letters</b> — the grade lab shipped a
+  whole re-grade off <b>“A2 B2 C2”</b> and this works the same way. Anything you don’t name
+  keeps the option tagged <b>shipped</b>, which is what is on the page right now, so a partial
+  answer is never ambiguous.</p>
+  <div class="lab-jump">
+    <a href="#A">A · the band’s shape</a>
+    <a href="#B">B · the blood panel</a>
+    <a href="#C">C · the price</a>
+    <a href="#D">D · the tray</a>
+  </div>
+</header>
+
+<!-- ══════════════════ A · THE BAND'S SHAPE ══════════════════ -->
+<section class="q" id="A">
+  <div class="q-head">
+    <h2>A · The band’s shape</h2>
+    <p>This is the block that replaced the seven steps. It has to do three jobs at once: say
+    what the programme costs, say what is in it, and carry the dawn ground that keeps the
+    page alternating now that section 05 is gone. All three variants do all three — the
+    difference is how much weight the number carries against the ledger.</p>
+  </div>
+
+  <div class="v-label">
+    <span class="v-letter">A1</span><span class="v-name">The ledger</span>
+    <span class="tag tag--ship">shipped</span>
+    <span class="v-why">A bounded card holds the money and the ledger runs beside it. The card
+    is sticky, so the figure travels with you as you read down the three blocks. The most
+    conventional of the three, and the easiest to scan.</span>
+  </div>
+  <div class="stage">
+    <div class="pgb">
+      <div class="wrap">
+        <div class="pgb-head">
+          <p class="kicker">05 · The programme</p>
+          <h2>One programme,<br><em>whichever you choose.</em></h2>
+          <p class="pgb-lede">Every goal above runs the same way — the same assessment, the
+          same blood panel, the same doctor’s hour, the same price. What changes is what your
+          doctor prescribes at the end of it.</p>
+        </div>
+        <div class="pgb-grid">
+          <div class="pgb-price">
+            <p class="pgb-k">The programme</p>
+            <p class="pgb-fig"><small>AED</small>1,150</p>
+            <div class="pgb-rows">
+              <div><span>Programme</span><span>AED 1,150.00</span></div>
+              <div><span>VAT 5%</span><span>AED 57.50</span></div>
+              <div class="pgb-tot"><span>Total today</span><span>AED 1,207.50</span></div>
+            </div>
+            <p class="pgb-note">One price for every goal above. Nothing is added to it without
+            being quoted to you first.</p>
+          </div>
+          <div class="pgb-ledger">
+            <p class="pgb-k">What’s included</p>
+            <ul class="pgb-list">
+              <li>Detailed symptom assessment</li>
+              <li>Analysis and interpretation of your blood test results</li>
+              <li>Issuance of Peptide Therapy Protocol and Prescription</li>
+              <li>Issuance of Science-based Supplementation Plan</li>
+              <li>Lifestyle Modifications Plan</li>
+              <li>4-week | 8-week mentorship support after starting your treatment</li>
+            </ul>
+            <p class="pgb-k pgb-k--sep">What you can add</p>
+            <ul class="pgb-list pgb-list--wide">
+              <li>Home blood sample collection · Dubai — <b>AED 1,950</b>
+                <small>A team or a nurse comes to your home and takes the sample for whichever
+                tests are required.</small></li>
+            </ul>
+            <p class="pgb-k pgb-k--sep">Priced after your consultation</p>
+            <ul class="pgb-list pgb-list--wide">
+              <li>Your peptides — two months
+                <small>Prescribed by your doctor once your blood work is read.</small></li>
+              <li>Supplementation products
+                <small>All products are charged separately.</small></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="v-label">
+    <span class="v-letter">A2</span><span class="v-name">The rail</span>
+    <span class="v-why">The price becomes a full-width strip across the top of the band and the
+    ledger runs in three columns beneath it. Shorter by about a third, and the number is the
+    first thing the eye lands on — but the strip loses the sticky behaviour, so on a phone the
+    figure scrolls away before the ledger ends.</span>
+  </div>
+  <div class="stage">
+    <div class="pgb pgb--rail">
+      <div class="wrap">
+        <div class="pgb-head">
+          <p class="kicker">05 · The programme</p>
+          <h2>One programme,<br><em>whichever you choose.</em></h2>
+        </div>
+        <div class="pgb-grid">
+          <div class="pgb-price">
+            <div><p class="pgb-k">The programme</p><p class="pgb-fig"><small>AED</small>1,150</p></div>
+            <div></div>
+            <div class="pgb-rows">
+              <div><span>VAT 5%</span><br><span>AED 57.50</span></div>
+              <div class="pgb-tot"><span>Total today</span><br><span>AED 1,207.50</span></div>
+            </div>
+          </div>
+          <div class="pgb-ledger">
+            <p class="pgb-k pgb-k--sep">What’s included</p>
+            <ul class="pgb-list">
+              <li>Detailed symptom assessment</li>
+              <li>Analysis and interpretation of your blood test results</li>
+              <li>Issuance of Peptide Therapy Protocol and Prescription</li>
+              <li>Issuance of Science-based Supplementation Plan</li>
+              <li>Lifestyle Modifications Plan</li>
+              <li>4-week | 8-week mentorship support after starting your treatment</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="v-label">
+    <span class="v-letter">A3</span><span class="v-name">The statement</span>
+    <span class="v-why">No card, no border — the figure is set as display type at the scale of a
+    headline and the ledger answers it across the gutter. The most confident of the three and
+    the most exposed: a number this size with nothing around it reads as a claim, so it only
+    works if 1,150 is final and VAT-inclusive is settled.</span>
+  </div>
+  <div class="stage">
+    <div class="pgb pgb--say">
+      <div class="wrap">
+        <div class="pgb-head">
+          <p class="kicker">05 · The programme</p>
+          <h2>One programme,<br><em>whichever you choose.</em></h2>
+        </div>
+        <div class="pgb-grid">
+          <div class="pgb-price">
+            <p class="pgb-k">The programme</p>
+            <p class="pgb-fig"><small>AED</small>1,150</p>
+            <div class="pgb-rows">
+              <div><span>Programme</span><span>AED 1,150.00</span></div>
+              <div><span>VAT 5%</span><span>AED 57.50</span></div>
+              <div class="pgb-tot"><span>Total today</span><span>AED 1,207.50</span></div>
+            </div>
+          </div>
+          <div class="pgb-ledger">
+            <p class="pgb-k">What’s included</p>
+            <ul class="pgb-list pgb-list--wide">
+              <li>Detailed symptom assessment</li>
+              <li>Analysis and interpretation of your blood test results</li>
+              <li>Issuance of Peptide Therapy Protocol and Prescription</li>
+              <li>Issuance of Science-based Supplementation Plan</li>
+              <li>Lifestyle Modifications Plan</li>
+              <li>4-week | 8-week mentorship support after starting your treatment</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ B · THE BLOOD PANEL ══════════════════ -->
+<section class="q" id="B">
+  <div class="q-head">
+    <h2>B · The blood panel</h2>
+    <p>These eleven markers are the only thing rescued from the deleted section 05, and they
+    are the page’s one piece of hard proof that this is medicine rather than a wellness
+    package — the programme panel says “the exact panel we send you” and never says what is
+    in it. The question is how much room they get.</p>
+  </div>
+
+  <div class="v-label">
+    <span class="v-letter">B1</span><span class="v-name">Folded</span>
+    <span class="tag tag--ship">shipped</span>
+    <span class="v-why">One line, opens on a press. Costs no height when closed, works with no
+    JavaScript, and keeps the band’s foot quiet. The risk: most readers never open it, so the
+    proof is there for the sceptical and invisible to everyone else.</span>
+  </div>
+  <div class="stage">
+    <div class="pgb" style="padding-top:34px;padding-bottom:34px">
+      <div class="wrap">
+        <details class="pgb-markers" style="margin-top:0;border-top:0;padding-top:0">
+          <summary>The markers we run</summary>
+          <div class="pgb-cols">
+            <p>Blood work</p>
+            <span>IGF-1 (Insulin-Like Growth Factor 1)</span><span>Fasting blood glucose</span>
+            <span>HbA1c</span><span>Liver function panel (ALT, AST)</span>
+            <span>Kidney function panel (Creatinine, eGFR)</span>
+            <span>Lipid panel (Cholesterol, LDL, HDL, Triglycerides)</span>
+            <span>TSH and Free T3 / Free T4</span><span>Vitamin D</span>
+            <p>Hormones</p>
+            <span>Total Testosterone</span><span>SHBG</span><span>Free Testosterone (calculated)</span>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <div class="v-label">
+    <span class="v-letter">B2</span><span class="v-name">Open, in three columns</span>
+    <span class="v-why">Always visible. Adds roughly 180px to the band and makes the assay names
+    part of what a scrolling reader takes in — which is exactly the impression the page is
+    short of. The cost is that the band ends on a list of clinical terms rather than on the
+    offer.</span>
+  </div>
+  <div class="stage">
+    <div class="pgb" style="padding-top:34px;padding-bottom:34px">
+      <div class="wrap">
+        <div class="pgb-markers" style="margin-top:0;border-top:0;padding-top:0">
+          <p class="pgb-k">The markers we run</p>
+          <div class="pgb-cols">
+            <p>Blood work</p>
+            <span>IGF-1 (Insulin-Like Growth Factor 1)</span><span>Fasting blood glucose</span>
+            <span>HbA1c</span><span>Liver function panel (ALT, AST)</span>
+            <span>Kidney function panel (Creatinine, eGFR)</span>
+            <span>Lipid panel (Cholesterol, LDL, HDL, Triglycerides)</span>
+            <span>TSH and Free T3 / Free T4</span><span>Vitamin D</span>
+            <p>Hormones</p>
+            <span>Total Testosterone</span><span>SHBG</span><span>Free Testosterone (calculated)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="v-label">
+    <span class="v-letter">B3</span><span class="v-name">Panel only</span>
+    <span class="tag tag--cost">costs the page its proof</span>
+    <span class="v-why">The markers move inside the programme panel, attached to step 02, and
+    the open page never names one. Cleanest band of the three — and the page goes back to
+    asking for AED 1,150 without evidence, which is the state deleting section 05 left it in.</span>
+  </div>
+  <div class="stage">
+    <div class="pgb" style="padding-top:34px;padding-bottom:34px">
+      <div class="wrap">
+        <p class="pgb-note" style="margin-top:0;font-style:italic">Nothing here — the band ends
+        at the ledger, and the markers appear only after a goal is chosen and the panel is
+        opened, under “Your blood work”.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ C · THE PRICE ══════════════════ -->
+<section class="q" id="C">
+  <div class="q-head">
+    <h2>C · The price</h2>
+    <p>⚠️ Whichever you pick, one thing is still open from round 12 and it matters more now
+    that the number is on the open page rather than behind two clicks: <b>is AED 1,150 the
+    VAT-exclusive base, or does it already include VAT?</b> Everything below assumes it is the
+    base and adds 5% on top, exactly as the programme panel does.</p>
+  </div>
+
+  <div class="v-label">
+    <span class="v-letter">C1</span><span class="v-name">With the VAT working</span>
+    <span class="tag tag--ship">shipped</span>
+    <span class="v-why">Three rows: programme, VAT, total. Your own round-13 reasoning, applied
+    one level earlier — a number that grows after someone has decided is the most disputed
+    thing in any purchase.</span>
+  </div>
+  <div class="stage">
+    <div class="pgb" style="padding:34px 0">
+      <div class="wrap"><div style="max-width:22rem">
+        <div class="pgb-price">
+          <p class="pgb-k">The programme</p>
+          <p class="pgb-fig"><small>AED</small>1,150</p>
+          <div class="pgb-rows">
+            <div><span>Programme</span><span>AED 1,150.00</span></div>
+            <div><span>VAT 5%</span><span>AED 57.50</span></div>
+            <div class="pgb-tot"><span>Total today</span><span>AED 1,207.50</span></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="v-label">
+    <span class="v-letter">C2</span><span class="v-name">Bare</span>
+    <span class="v-why">The figure alone, with VAT still computed in the panel. Quieter, and it
+    sidesteps the VAT-base question on the open page — but it moves the moment the number grows
+    to after the reader has committed, which is the thing C1 exists to avoid.</span>
+  </div>
+  <div class="stage">
+    <div class="pgb" style="padding:34px 0">
+      <div class="wrap"><div style="max-width:22rem">
+        <div class="pgb-price">
+          <p class="pgb-k">The programme</p>
+          <p class="pgb-fig"><small>AED</small>1,150</p>
+          <p class="pgb-note" style="margin-top:14px">Excludes VAT at 5%, shown on your
+          programme summary.</p>
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="v-label">
+    <span class="v-letter">C3</span><span class="v-name">No price on the page</span>
+    <span class="tag tag--cost">back to where the deletion left it</span>
+    <span class="v-why">The band carries the ledger only and the figure lives in the panel. Most
+    qualification, least transparency — and it re-creates the gap this band was built to close.</span>
+  </div>
+  <div class="stage">
+    <div class="pgb" style="padding:34px 0">
+      <div class="wrap"><div style="max-width:22rem">
+        <div class="pgb-price">
+          <p class="pgb-k">The programme</p>
+          <p class="pgb-note" style="margin-top:12px;font-style:italic">Choose a goal above and
+          open your programme summary to see the price.</p>
+        </div>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ D · THE TRAY ══════════════════ -->
+<section class="q" id="D">
+  <div class="q-head">
+    <h2>D · The tray — “the brown thingy”</h2>
+    <p>Your question was whether it should stick to the bottom as you scroll, to remind people
+    they have started something. It should — a chosen goal is an uncommitted intent, and if the
+    only evidence of it scrolls away then someone four chapters down has to remember and scroll
+    back. The real question is what it looks like once the eight tiles are behind you. Each
+    frame below is what you would see four chapters down, over the doctors.</p>
+  </div>
+
+  <div class="v-label">
+    <span class="v-letter">D1</span><span class="v-name">Section-scoped</span>
+    <span class="v-why">Round 12’s behaviour: it rides the foot of the viewport while the eight
+    are on screen and scrolls away with them. Nothing follows the reader — and nothing reminds
+    them either.</span>
+  </div>
+  <div class="tray-demo">
+    <div class="tray-demo-bg"><div></div><div></div><div></div></div>
+    <span class="tray-demo-cap">four chapters down · over the doctors</span>
+    <p class="tray-gone-note">The tray is gone. Two goals are still chosen, and nothing on
+    screen says so.</p>
+  </div>
+
+  <div class="v-label">
+    <span class="v-letter">D2</span><span class="v-name">Follows, then condenses</span>
+    <span class="tag tag--ship">shipped</span>
+    <span class="v-why">Full-width bar while you are among the tiles; once they are behind you it
+    drops the goal names, stops painting its band and becomes a pill in the corner. It hides
+    itself entirely over the booking strip at the foot, so two primary actions never share a
+    screen.</span>
+  </div>
+  <div class="tray-demo">
+    <div class="tray-demo-bg"><div></div><div></div><div></div></div>
+    <span class="tray-demo-cap">four chapters down · over the doctors</span>
+    <div class="px-tray px-tray--mini">
+      <div class="px-tray-in">
+        <span class="px-tray-n">2 chosen</span>
+        <span class="px-tray-l">Brain Health · Gut Health</span>
+        <button type="button" class="px-tray-go">See your programme <span>→</span></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="v-label">
+    <span class="v-letter">D3</span><span class="v-name">Follows, full width</span>
+    <span class="v-why">The bar never shrinks. The strongest reminder and the heaviest — a
+    full-bleed plum band riding over the doctors’ portraits and the testimonial photographs for
+    the rest of the page. This is the version round 12 refused, and seeing it over a photograph
+    is the fastest way to judge whether that refusal still holds.</span>
+  </div>
+  <div class="tray-demo">
+    <div class="tray-demo-bg"><div></div><div></div><div></div></div>
+    <span class="tray-demo-cap">four chapters down · over the doctors</span>
+    <div class="px-tray">
+      <div class="px-tray-in">
+        <span class="px-tray-n">2 chosen</span>
+        <span class="px-tray-l">Brain Health · Gut Health</span>
+        <button type="button" class="px-tray-go">See your programme <span>→</span></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="lab-top" style="margin-top:0">
+  <p style="max-width:64ch">Currently on the page: <b>A1 · B1 · C1 · D2</b>. Reply with any
+  letters you want changed — anything you don’t name stays as it is. The one thing no letter
+  answers is whether <b>AED 1,150 includes VAT</b>; that is still open from round 12 and it is
+  now printed on the public page.</p>
+</footer>
+
+</body>
+</html>

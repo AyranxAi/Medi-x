@@ -439,7 +439,7 @@ const run = async () => {
   await page.click('#addon');
   await page.waitForTimeout(200);
   is('24 the add-on moves the total',
-     await page.evaluate(() => document.querySelector('#total').textContent.trim()), 'AED 1,500');
+     await page.evaluate(() => document.querySelector('#total').textContent.trim()), 'AED 3,100');
   await page.click('#addon');
   await page.waitForTimeout(200);
   is('24a and moves it back',

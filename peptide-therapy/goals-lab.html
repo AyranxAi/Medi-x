@@ -635,11 +635,11 @@ dialog.panel::backdrop{background:rgba(46,34,40,.6)}
       <div class="blk-h"><span>Add now</span></div>
       <button type="button" class="addon" id="addon" aria-pressed="false">
         <span class="addon-box" aria-hidden="true">✓</span>
-        <span class="addon-t">Home blood collection · Dubai<span class="addon-tag">price tbc</span>
-          <small>We come to your home or hotel. Outside Dubai you use any laboratory
-          near you and we send the exact panel.</small></span>
-        <span class="addon-p">AED 350</span>
-      </button>
+        <span class="addon-t">Home blood sample collection · Dubai
+          <small>A team or a nurse comes to your home and takes the sample for
+          whichever tests are required. Outside Dubai you use any laboratory near
+          you and we send the exact panel to ask for.</small></span>
+        <span class="addon-p">AED 1,950</span>
     </div>
 
     <div class="blk blk--soft">
@@ -656,18 +656,19 @@ dialog.panel::backdrop{background:rgba(46,34,40,.6)}
       <div class="blk-h"><span>What happens next</span></div>
       <ol class="steps">
         <li><span class="sn">01</span><span>Your symptom assessment</span><span class="sd">15 min</span></li>
-        <li><span class="sn">02</span><span>Your blood work</span><span class="sd">1 visit · 2–5 days</span></li>
-        <li><span class="sn">03</span><span>Your doctor reads your file</span><span class="sd">48 hours</span></li>
-        <li><span class="sn">04</span><span>Your consultation</span><span class="sd">60 min</span></li>
+        <li><span class="sn">02</span><span>Your blood work</span><span class="sd">2–5 days</span></li>
+        <li><span class="sn">03</span><span>Your doctor reads your file</span><span class="sd">same or next day</span></li>
+        <li><span class="sn">04</span><span>Your consultation — online</span><span class="sd">60 min</span></li>
         <li><span class="sn">05</span><span>Support while you begin</span><span class="sd">8 weeks</span></li>
       </ol>
     </div>
 
     <div class="total"><span class="total-l">Total today</span>
       <span class="total-v" id="total">AED 1,150</span></div>
+    <p class="panel-foot" style="text-align:right;margin-top:8px">VAT is added at checkout.</p>
     <button type="button" class="btn" data-mock>Start your programme <span class="arr">→</span></button>
-    <p class="panel-foot">Nothing is charged in this lab. Your peptides and supplements
-    are quoted before anything is collected.</p>
+    <p class="panel-foot">Everything happens online — you never need to visit us.
+    Nothing is charged in this lab.</p>
   </div>
 </dialog>
 
@@ -853,7 +854,7 @@ dialog.panel::backdrop{background:rgba(46,34,40,.6)}
      Both are authored above; this only writes their numbers. The tray carries the
      answer permanently so no presentation has to — which is what lets a compact
      view (shelf, pills) be viable at all. */
-  var BASE = 1150, ADDON = 350, addon = false;
+  var BASE = 1150, ADDON = 1950, addon = false;
   function money(n){ return 'AED ' + n.toLocaleString('en-US'); }
 
   function syncTray(){

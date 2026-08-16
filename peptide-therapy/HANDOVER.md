@@ -1,5 +1,182 @@
 # Peptide Therapy — `/peptide-therapy/` (first ship 2026-08-14)
 
+> ## ROUND 12 — 2026-08-16: the eight stop being a list. Section 04 becomes the
+> choice, and the page grows a programme panel
+>
+> **THIS IS THE FIRST ROUND THAT TOUCHED `index.html` SINCE ROUND 11, and everything
+> before it in this arc was labs standing beside the page.** Three labs were built to
+> decide three things, all three are committed, and all three are still the reference
+> for *why* the page looks the way it does:
+> `programme-lab.html` (the intake in three shapes) · `goals-lab.html` (one question,
+> eight presentations) · and the harnesses `tools/qa/{programme-lab,goals-lab,services-choice}.mjs`.
+>
+> **1 · THE VOCABULARY, WHICH IS THE DECISION UNDER EVERY OTHER DECISION.**
+> **You START a PROGRAMME · the doctor WRITES your PROTOCOL · the CONSULTATION is the
+> hour inside it.** "Book a consultation" was wrong by four steps and the proposed
+> "book a protocol" was wrong by five — worse, because someone who thinks they bought a
+> plan and finds a questionnaire and a blood draw has been baited harder. ⚠️ **STEP 1
+> OF THE CLIENT'S OWN SEVEN ALREADY READ "Book your programme"** — the word was on the
+> page the whole time. The harnesses assert it: no control anywhere says
+> "consultation", and the rail's row 5 does, which is the first moment it is true.
+>
+> **2 · EIGHT GOALS, ONE PROGRAMME — his call, and it rules the whole design.** Same
+> process, same panel, same price for all eight, so the choice is recognition and
+> routing, not a product decision. That is why it is MULTI-SELECT, why there is no
+> comparison UI, and why ⚠️ **THE LEDE UNDER THE HEADING IS LOAD-BEARING RATHER THAN
+> DECORATIVE**: it is the only line on the page telling a reader they may pick more
+> than one and that picking three costs no more than picking one. Remove it and the
+> grid reads as eight products to choose between.
+>
+> **3 · SECTION 04 WAS UPGRADED IN PLACE, NOT DELETED AND REBUILT — and that was the
+> right call for three reasons that are invisible on the rendered page.**
+> ⚠️ **`id="services"` IS LOAD-BEARING**: the chain scene's Skip control lands there.
+> ⚠️ **THE GROUNDS ALTERNATE** and removing a chapter has inverted the tail before.
+> ⚠️ **EACH TILE WAS NEVER A NAME AND A LINE.** Every one carries a `<template>` with
+> two paragraphs, four "common goals" chips and a route into the doctor chooser —
+> roughly a thousand words that a delete-and-rebuild would have thrown away.
+> What each tile gained: a **mark** and a **select surface**. What it lost: its teaser
+> sentence, which is not mourned — every one was a shorter paraphrase of the popup's
+> own first paragraph, still there in full.
+>
+> **4 · ⚠️⚠️ THE HIT AREA MOVED, AND THAT REVERSES A DELIBERATE DECISION.** Until this
+> round `.px-open::after{inset:0}` made the WHOLE tile the + button — tap anywhere,
+> read more — and the stylesheet said so on purpose. The tile is now a CHOICE as well
+> as a door and both cannot own the same pixels. **His pick: the tile selects; the +
+> keeps its own target, enlarged from the 32px circle to a 44px box** (the circle still
+> DRAWS at 32, via `::before`). **Restoring the stretch silently makes the goals
+> unselectable and every content assertion still passes** — which is why
+> `services-choice.mjs` checks 4–6 assert the swap in BOTH directions: the body selects
+> and does not open, the + opens and does not select.
+>
+> **5 · THE TRAY IS SCOPED TO THE SECTION, AND IS NOT SHOWN AT REST.** `position:sticky`
+> inside `.services`, so it rides the foot of the viewport while the eight are on
+> screen and scrolls away with them; fixed, it would have followed the reader through
+> the doctors, the stories and the FAQ. It is the section's ONLY forward control —
+> ⚠️ **THERE IS DELIBERATELY NO CONTINUE BUTTON.** One opened the same panel forty
+> pixels away, and in a full flow it would be a second forward path beside the tray's,
+> which is the escape hatch that cannibalises the sequence it sits inside.
+> The tray is also what makes a compact presentation viable at all: measured across the
+> goals lab's eight views with three goals chosen, the LAYOUTS show 3 of 3 — except the
+> shelf, which shows 1, and the index, which shows 2 because eight ruled rows do not
+> fit a laptop screen. Neither is a defect once the answer lives in the tray.
+>
+> **6 · THE PANEL OPENS INTO THE PAGE'S OWN `.pxd` SHELL, not beside it.**
+> `window.__openPxd` / `window.__closePxd` are exposed from that controller, so the
+> programme panel inherits the scrim, the Lenis stop, the body lock, Escape, the scrim
+> click and the focus return. ⚠️ **Start CLOSES THE OVERLAY BEFORE IT SCROLLS to
+> `#book`** — a fixed overlay cannot be scrolled out of, the same rule the tiles' pill
+> already followed. ⚠️ **THE PANEL'S CONTENTS DO NOT EXIST UNTIL IT IS OPENED** (they
+> are cloned from `<template id="prog-panel">`), so every binding is DELEGATED — the
+> trap the mock-booking guard fell into in round 4 and the chooser's portraits fell
+> into in round 11.
+>
+> **7 · "NOT INCLUDED" BECAME "WHAT YOU CAN ADD", and that reframe is his.** The same
+> four facts land in opposite directions: omission becomes option. It splits in two and
+> **the split is the design** — **ADD NOW** is the home collection, a real toggle with a
+> real price that moves the total; **PRICED AFTER YOUR CONSULTATION** is the peptides
+> and the supplements, which are ⚠️ **NOT checkboxes, because a checkbox nobody is
+> allowed to tick is worse than a sentence.** They sit as a promise instead, in his own
+> words. ⚠️ **THE PANEL IS NOT A CHECKOUT: three controls, and check 13 counts them.**
+> Every extra control there is another chance to hesitate at the last moment.
+>
+> **8 · THE MONEY, AND WHAT IS STILL NOT SETTLED.**
+> `AED 1,150` — the programme. His confirmation: *"1150 is for the book the program."*
+> **THIS IS THE FIRST PRICE ON THIS PAGE. A number is a commercial statement.**
+> `AED 1,950` — home blood sample collection, Dubai. His figure, 2026-08-16: a team or
+> a nurse comes to their home and takes the sample for whichever tests are required.
+> ⚠️ **AED 350 STOOD HERE FOR ONE COMMIT ON THE BRANCH AND NEVER REACHED MAIN.** It was
+> invented to make the mechanic demonstrable and carried a "price tbc" tag; asking
+> before pushing is the only reason the public site never saw it. Nothing on the page
+> is marked tbc now, and check 11h asserts that it stays that way.
+> ⚠️ **VAT IS NOT COMPUTED IN THE PANEL — his call: "show 1,150 only, VAT line at
+> checkout."** Three rows of tax working turns a summary into a receipt. The TOTAL is
+> kept (1,150 alone, 3,100 with the collection) because the add-on gives the panel two
+> numbers and a reader should not be made to add them; VAT is stated as a fact on one
+> line. ⚠️ **WHETHER 1,150 IS VAT-INCLUSIVE OR THE BASE IS STILL NOT ON THE RECORD.**
+> It is the sort of thing a customer disputes after paying.
+>
+> **9 · THE JOURNEY, IN HIS WORDS, AND THREE OF THESE CORRECTED WHAT WAS BUILT:**
+> · **MEDI-X IS TELEHEALTH.** There is no place to visit; the consultation is online and
+>   the panel says so plainly.
+> · the assessment is a **WEB QUESTIONNAIRE** — not a PDF to complete and send back.
+> · the home collection is **A TEAM OR A NURSE WHO COMES TO THEM** — not a kit.
+> · the doctor's read is **SAME DAY OR NEXT DAY** — not 48 hours. Submit today, book
+>   tomorrow at the earliest.
+> · blood work happens **at any laboratory, from the exact panel we send** — peptide
+>   work asks for markers a standard panel leaves out, which is why the list matters.
+> · **THE DOCTOR IS CHOSEN WHEN THE CONSULTATION IS BOOKED**, not during selection.
+> · the cycle is **two months, then a renewed consultation and a new blood test** —
+>   which is the loop, confirmed in his own exclusions copy.
+>
+> **10 · THE EIGHT MARKS ARE DRAFT AND THEY ARE MINE.** Beads and bonds — the chain
+> scene's own vocabulary — arranged eight ways: a shield turned inward · a network
+> inside a head · a coil · a descent to a line · strands rooted through skin · a shaft
+> interrupted by its joint · a spiral · two rings crossing. Outline only, one stroke
+> weight, no fills: the line held against medical clipart, which is the look this page's
+> restraint buys distance from. ⚠️ **THE ONLY TEST FOR A MARK IS "HIDE LABELS" IN
+> `goals-lab.html` — cover the names and try to name them.** Two failed that test on
+> the first pass and were redrawn (a balance that read as a crane, two bone-ends that
+> read as a needle). ⚠️ **TWO ARE STILL UNRESOLVED AND ARE HIS CALL: the joint reads as
+> a pin, and the two rings say "pairing" rather than "sexual health."**
+>
+> **11 · THE NUMERALS CAME OFF THE TILES — his call.** On a list of eight they were
+> editorial furniture; on a MULTI-SELECT they implied a sequence that does not exist,
+> and someone who picks 03 and 07 should not wonder what happened between. They survive
+> in the popup kicker, which is a reference rather than an instruction, and check 1f
+> holds them there.
+>
+> **12 · WHAT THE LABS DECIDED, KEPT FOR THE NEXT PERSON:**
+> · **Shape A (guided flow) over B (one screen) and C (flow + skip)** — this is a
+>   high-effort purchase from a brand the customer likely does not know, often from
+>   another country; every step is a reason to build commitment gradually.
+> · **Presentation: the marks**, over grid, index, type, shelf, pills and photographic
+>   plates. ⚠️ **THE PLATES ARE THE ARGUMENT AGAINST PLATES:** eight real pictures,
+>   competently cropped, still tell a visitor nothing — **there is no photograph of Auto
+>   Immune Disease.** Photography works for products and places, not abstract clinical
+>   categories. ⚠️ If plates are ever commissioned, `LICENSES/AI-DoorPlates.txt` already
+>   forbids identifiable faces, and **the automatic crop found a face in three of eight
+>   on its first pass** — that rule needs a human, not a setting.
+> · **The upgrade path is SYMPTOM-FIRST** (goals lab, view 8): the customer describes
+>   themselves and the page names the goal back. ⚠️ **ITS MAPPING IS INVENTED AND MUST
+>   NOT SHIP** — the routing is his doctors' to write.
+>
+> **13 · ⚠️ TWO OPEN ITEMS, BOTH THE SAME SHAPE:**
+> · **CHAPTER 05'S SEVEN STEPS AND THE PANEL'S FIVE NOW DESCRIBE ONE PROCESS TWICE ON
+>   ONE PAGE.** Flagged, not touched. His call.
+> · **THE "For women" / "For men" SPLIT IS STILL IN `index.html`** and the labs already
+>   merged it. His call, 2026-08-16: *"keep things as they are for now, we will open
+>   this later."* The merged version is option 3 of the three put to him — one card,
+>   shared symptoms first, the reproductive and andropause material as two small groups.
+>   ⚠️ "Basically the same thing" is true of fatigue, sleep, libido, mood and weight; it
+>   is **not** true of PCOS against low sperm count, and a merged list where a man reads
+>   "repeated miscarriages" is worse than the split it replaces.
+>
+> **14 · QA — THREE HARNESSES, 158 CHECKS, ALL GREEN.**
+> `peptide-page.mjs` **45/45** (unchanged — the scene, the grade, the dialogs and the
+> cool translation are untouched) · `services-choice.mjs` **58** · `goals-lab.mjs`
+> **110** · `programme-lab.mjs` **96**.
+> ⚠️ **FIVE MEASUREMENT LESSONS WORTH KEEPING, because each one reported a failure that
+> did not exist or a pass that was not real:**
+> 1. **ALPHA IS NOT OPTIONAL IN A CONTRAST CHECK.** `rgba(244,247,250,.72)` truncated to
+>    three channels reports **1.01:1** on ink against a true **8.03**. Composite first.
+> 2. **DO NOT SAMPLE MID-TRANSITION.** A ground that cross-fades over 550ms read as
+>    `rgb(52,40,46)` at 400ms — ink at 97% — and every ratio computed against it was
+>    wrong by a plausible amount, which is worse than wrong by an obvious one.
+> 3. **RELOAD AT EACH WIDTH; DO NOT JUST RESIZE.** ScrollTrigger writes pin dimensions
+>    at init and does not recompute on a bare resize, so `setViewportSize` alone
+>    reported a 1440px document at a 1280 viewport.
+> 4. **ASSERT GEOMETRY, NOT TEXT, FOR ANYTHING THAT STACKS.** Two `<span>`s left inline
+>    set the doctor's name and specialism on ONE line and dropped the margin silently;
+>    every text assertion passed.
+> 5. **`margin:auto` IS LOAD-BEARING ON A `<dialog>` AND A `*{margin:0}` RESET EATS IT.**
+>    Both labs' modals opened pinned to the top-left while every content check passed.
+>    Measure the box.
+> ⚠️ **AND ONE ARCHITECTURE LESSON THAT COST A REBUILD: JS TOGGLES STATE, IT NEVER
+> SUPPLIES CONTENT.** The first programme lab generated every control from arrays via
+> `innerHTML` and rendered four headings wherever script did not run. Every lab now
+> authors its markup and is verified with `javaScriptEnabled:false`.
+
+
 > ## ROUND 11 — 2026-08-16: the client's notes land — the scene goes cool, the page grows
 > two chapters, and the band grows two doctors
 >

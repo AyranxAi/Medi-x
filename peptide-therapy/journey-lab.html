@@ -254,7 +254,15 @@ html:not(.js) .wiz-only{display:none}
 .flag p{font-size:13.5px;line-height:1.7;color:var(--ink-soft)}
 .flag p+p{margin-top:9px}
 .flag em{font-style:italic;color:var(--ink)}
+
+/* ?clean=1 — the section ALONE, with every piece of lab furniture removed, so the
+   thing being judged is the thing that ports. */
+.clean .labbar,.clean .labnote,.clean .flags{display:none}
 </style>
+<script>
+/* Runs BEFORE the chrome is parsed so ?clean never flashes the lab bar first. */
+if(new URLSearchParams(location.search).has('clean'))document.documentElement.classList.add('clean');
+</script>
 
 <header class="labbar">
   <p>Journey Lab <span>· Peptide Therapy, chapter 05</span></p>
@@ -456,9 +464,14 @@ html:not(.js) .wiz-only{display:none}
         <div class="stepv" data-view="step3">
           <p class="step-of">Step 3 of 7</p>
           <h3>Diagnostic testing — your <em>appointment</em></h3>
-          <p>You have a choice of how your doctor’s visit and your “BOZAT” scans are done —
+          <!-- ⚠️ BLOOD WORK ONLY — HIS CALL 2026-08-16: "it's going to be blood test only required,
+               not Bozat and not the Dutch Test". The BOZAT scans are struck from this step and
+               from step 4's review; "The DUTCH Plus" never appeared here (it was in the old 06)
+               and is not to be reintroduced. Their source document still names both. -->
+          <p>You have a choice of how your doctor’s visit is done —
           <strong>in the comfort of your own home or hotel room</strong>, or as an
-          <strong>online Zoom session</strong>.</p>
+          <strong>online Zoom session</strong>. Your bloods are drawn at home if you are in
+          Dubai, or at any lab where you are.</p>
           <p class="sublab">Blood work</p>
           <ul class="plainlist">
             <li>IGF-1 (Insulin-Like Growth Factor 1)</li>
@@ -481,7 +494,7 @@ html:not(.js) .wiz-only{display:none}
         <div class="stepv" data-view="step4">
           <p class="step-of">Step 4 of 7</p>
           <h3>Diagnostic results review — <em>Zoom</em></h3>
-          <p>Your doctor explains your scan and blood test results in detail, so you feel
+          <p>Your doctor explains your blood test results in detail, so you feel
           empowered and more in control of your health as you</p>
           <ul class="plainlist">
             <li>understand your current health condition and your lifestyle choices — diet, exercise</li>
@@ -558,8 +571,8 @@ html:not(.js) .wiz-only{display:none}
     <div class="coda-in">
       <h3>Priced separately</h3>
       <ul>
-        <li><b>Diagnostics</b> — blood tests and functional tests, collected at home if you are
-        based in Dubai, or at any lab at your destination.</li>
+        <li><b>Your blood work</b> — collected at home if you are based in Dubai, or at any lab
+        at your destination.</li>
         <li><b>Peptide therapy</b> — every prescription is personalised, so pricing varies. You
         see the price of any prescription before anything is collected.</li>
       </ul>

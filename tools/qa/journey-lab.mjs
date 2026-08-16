@@ -184,10 +184,14 @@ console.log('\n── javascript disabled ──');
   });
   ok(seen.views === seen.total, `every view is readable without JS (${seen.views}/${seen.total})`);
   const must = ['Ready to begin', 'For women', 'For men', 'Book your programme', 'Symptom',
-                'BOZAT', 'IGF-1', 'Diagnostic results review', 'personalised', 'Protocol explanation',
-                'mentorship', 'Priced separately'];
+                'Diagnostic testing', 'IGF-1', 'Diagnostic results review', 'personalised',
+                'Protocol explanation', 'mentorship', 'Priced separately'];
   const missing = must.filter(m => !seen.text.includes(m));
   ok(missing.length === 0, `the whole chapter is in the no-JS document${missing.length ? ' — missing: ' + missing.join(', ') : ''}`);
+  // HIS CALL 2026-08-16: blood work only. Asserted as an ABSENCE so neither the scans nor the
+  // functional test can drift back in from the source document on a later copy pass.
+  const retired = ['BOZAT', 'DUTCH', 'functional test'].filter(m => seen.text.includes(m));
+  ok(retired.length === 0, `retired diagnostics stay out of the copy${retired.length ? ' — found: ' + retired.join(', ') : ''}`);
   ok(await pg.evaluate(() => document.documentElement.scrollWidth) <= 1440, 'no horizontal overflow without JS');
   await ctx.close();
 }

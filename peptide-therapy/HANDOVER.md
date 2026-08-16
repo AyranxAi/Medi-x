@@ -1,5 +1,9 @@
 # Peptide Therapy — `/peptide-therapy/` (first ship 2026-08-14)
 
+> 📍 **START WITH `STATE-OF-PLAY.md`** if you are picking this branch up cold. It is the
+> ten-minute version: what is built, what is decided and in whose words, what is still
+> waiting on him, and the traps. This file is the full round-by-round record behind it.
+
 > ## ROUND 14 — 2026-08-16: the journey goes INK and FULL BLEED. His verdict on round 13 was
 > *"do you think clinique la prairie will design it like this, it has no aesthetic"* — and he
 > was right. `index.html` STILL HAS NOT MOVED.
@@ -48,7 +52,7 @@
 >   · **`innerText` returns TRANSFORMED text** — the resting-state assertion failed on
 >     "FOR WOMEN" because `text-transform:uppercase` had already been applied.
 >
-> **6 · `tools/qa/journey-lab.mjs`, 45/45** — three widths, `?view=` solo, JavaScript disabled,
+> **6 · `tools/qa/journey-lab.mjs`, 89 assertions all green** — three widths, `?view=` solo, JavaScript disabled,
 > reduced motion. It still asserts the resting state as visible TEXT (nothing but the question
 > and the two doors) and the retired diagnostics as an ABSENCE (no BOZAT, no DUTCH, no
 > "functional test"). ⚠️ `min-height:100svh` and **NO `overflow` ON `.prog`** — overflow would
@@ -143,7 +147,7 @@
 >     P's are PARKED, not deleted; if they belong somewhere it is his call where.
 >   · `?clean=1` strips every piece of lab furniture so the thing judged is the thing that ports.
 >
-> **9 · `tools/qa/journey-lab.mjs`, 43/43** at three widths, plus `?view=` solo, plus
+> **9 · `tools/qa/journey-lab.mjs`** at three widths, plus `?view=` solo, plus
 > **JavaScript disabled**, plus reduced motion. It walks the whole interaction rather than
 > measuring the layout. Two bugs it caught that no static check would:
 >   · **the inverted enhancement above** (0/10 views without JS), and

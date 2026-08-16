@@ -1,0 +1,1800 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Programme Lab</title>
+<!-- ═══════════════════════════════════════════════════════════════════════════════════
+     THE PROGRAMME LAB — peptide-therapy: chapters 05 and 06 audition their shape.
+
+     Sister to hero-lab.html (round 7 · the grade), grade-lab.html (round 8 · the rest of
+     the page) and bonds-lab.html (round 10 · the hero's ground), and built in their
+     grammar: the brand's own type files, live switching, a spec chip under every bay.
+
+     WHAT THIS LAB IS FOR. Round 11 shipped the client's programme copy in exactly one
+     shape each — the seven steps as a hairline ledger, the included/excluded as two
+     columns, the two audiences as two opening rows. Those shapes were chosen against the
+     page's box budget on the day, not against each other. This file puts fifteen
+     treatments of the SAME WORDS side by side so the shape can be picked on its merits.
+
+     ⚠️ EVERY WORD IN EVERY TREATMENT IS THE CLIENT'S, AND IS THE STRING THAT SHIPS.
+     The copy lives once, in the DATA block, and all fifteen treatments render from it —
+     so no audition can flatter itself by quietly tightening a sentence. The corrections
+     already recorded in index.html (typos, finite verbs, de-duplicated list items) come
+     through with it; this lab introduces none of its own.
+
+     ⚠️ ONE TREATMENT ADDS INFORMATION RATHER THAN STYLING, AND IT IS FLAGGED THERE AND
+     HERE: A3 · The Eight Weeks draws the programme on a calendar. The client's source
+     dates almost nothing — "2-month protocol", "four weeks", "a further four weeks" are
+     the only durations in it — so A3 draws ONLY those, and puts steps 1–4 in an undated
+     band marked "before day one". It does not invent week numbers for them. If he wants
+     a fully dated timeline, the dates have to come from him.
+
+     ⚠️ THIS FILE RENDERS FROM JS AND HAS NO NO-JS FALLBACK. That is fine for a lab and
+     wrong for the page: whichever treatment is adopted gets hand-written into index.html
+     as static markup, the way A1 already is. Do not port the renderer.
+
+     ⚠️ HEIGHTS IN THE CHIPS ARE MEASURED, NOT GUESSED. Each bay measures its own rendered
+     height after the faces load and prints it against A1's, at the width you are actually
+     viewing — which is the whole argument for several of these treatments, so it should
+     not be a claim in prose.
+
+     ⚠️ NO NEW COLOUR IS INTRODUCED. Every value is a token from index.html's :root (the
+     glacier grade, round 8/11). If a treatment looks like it needs a new colour, that is
+     a finding, not a licence — bring it to the grade lab.
+     ═══════════════════════════════════════════════════════════════════════════════════ -->
+<style>
+/* ─── Medi✦X brand faces — the live files, not stand-ins ─── */
+@font-face{font-family:"Playfair";src:url(../fonts/playfair-normal-var-latin.woff2) format("woff2-variations");font-weight:300 900;font-style:normal;font-display:swap}
+@font-face{font-family:"Playfair";src:url(../fonts/playfair-italic-var-latin.woff2) format("woff2-variations");font-weight:300 900;font-style:italic;font-display:swap}
+@font-face{font-family:"MediGyn NOW";src:url(../fonts/medigyn-now-300.woff2) format("woff2");font-weight:300;font-display:swap}
+@font-face{font-family:"MediGyn NOW";src:url(../fonts/medigyn-now-400.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"MediGyn NOW";src:url(../fonts/medigyn-now-500.woff2) format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"MediGyn Megante";src:url(../fonts/medigyn-megante-400.woff2) format("woff2");font-weight:400;font-display:swap}
+
+:root{
+  /* ── the glacier grade, verbatim from peptide-therapy/index.html :root ── */
+  --ivory:#F4F7FA; --cream:#EAF0F5; --line:#D5DEE6;
+  --burgundy:#5C1F31; --rose:#C79A92; --logo-red:#8E2D3A; --red-hover:#A33648;
+  --gold:#7C93A8; --gold-deep:#54687C; --gold-tint:#E4EDF4; --gold-gloss:#54687C;
+  --ink:#2E2228; --ink-soft:#6A585F;
+  --dawn:#E8EFF5;
+  --serif:"Playfair","Playfair Display",Didot,"Times New Roman",Georgia,serif;
+  --sans:"MediGyn NOW",Jost,ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --accent:"MediGyn Megante",Optima,Georgia,serif;
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --pad:clamp(20px,4.5vw,72px);
+  color-scheme:light;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);font-weight:300;line-height:1.6;
+  background:var(--ivory);color:var(--ink);-webkit-font-smoothing:antialiased;
+}
+h1,h2{font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30;
+  line-height:1.08;letter-spacing:-.01em;text-wrap:balance;color:var(--ink)}
+h1 em,h2 em{font-style:italic;color:var(--logo-red);font-weight:430}
+button{font:inherit;background:none;border:0;cursor:pointer;color:inherit}
+a{color:inherit}
+.wrap{max-width:1280px;margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}
+.kicker{font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.32em;
+  text-transform:uppercase;color:var(--logo-red);display:flex;align-items:center;gap:14px}
+.kicker::before{content:"";width:34px;height:1px;background:var(--gold)}
+.chapter-mark{font-family:var(--accent);font-size:13px;letter-spacing:.24em;
+  color:var(--gold-deep);text-transform:uppercase}
+
+/* ═══ lab chrome ═══════════════════════════════════════════════════════════════════ */
+.mast{padding:clamp(56px,9vh,104px) 0 clamp(34px,5vh,52px)}
+.mast h1{font-size:clamp(34px,4.6vw,62px);margin-top:18px;max-width:15em}
+.mast .lede{max-width:44em;margin-top:22px;color:var(--ink-soft);
+  font-size:clamp(15px,1.25vw,17px);line-height:1.85}
+.mast .lede + .lede{margin-top:14px}
+.mast .lede strong{font-weight:500;color:var(--ink)}
+.index{display:flex;flex-wrap:wrap;gap:8px;margin-top:30px;list-style:none}
+.index a{display:inline-flex;align-items:baseline;gap:8px;text-decoration:none;
+  border:1px solid var(--line);border-radius:999px;padding:9px 16px;background:var(--cream);
+  font-size:12px;letter-spacing:.04em;color:var(--ink-soft);
+  transition:border-color .3s var(--ease),color .3s var(--ease),background .3s var(--ease)}
+.index a:hover{border-color:var(--gold);color:var(--ink);background:var(--gold-tint)}
+.index a b{font-family:var(--accent);font-weight:400;color:var(--gold-deep);letter-spacing:.1em}
+
+/* the sticky control bar — ground and width, the two things that change a verdict */
+.ctl{position:sticky;top:0;z-index:60;background:rgba(244,247,250,.93);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.ctl-in{max-width:1280px;margin:0 auto;padding:11px var(--pad);
+  display:flex;flex-wrap:wrap;align-items:center;gap:10px 26px}
+.ctl-grp{display:flex;align-items:center;gap:10px}
+.ctl-grp > span{font-family:var(--accent);font-size:11px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--gold-deep)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;
+  background:var(--cream)}
+.seg button{padding:7px 15px;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-soft);transition:background .3s var(--ease),color .3s var(--ease)}
+.seg button + button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--burgundy);color:var(--ivory)}
+.ctl-note{font-size:11.5px;color:var(--ink-soft);letter-spacing:.02em;margin-left:auto}
+
+/* ═══ chapters and bays ════════════════════════════════════════════════════════════ */
+.ch{padding-top:clamp(56px,8vh,96px)}
+.ch-head{border-top:2px solid var(--ink);padding-top:20px;margin-bottom:clamp(24px,4vh,44px)}
+.ch-head h2{font-size:clamp(26px,3.2vw,42px);margin-top:12px;max-width:18em}
+.ch-head .lede{max-width:44em;margin-top:14px;color:var(--ink-soft);font-size:15px;line-height:1.8}
+
+.bay{padding-bottom:clamp(44px,6vh,72px)}
+.bay-head{padding:26px 0 20px;border-top:1px solid var(--line)}
+.bay-id{font-family:var(--accent);font-size:12px;letter-spacing:.26em;color:var(--gold-deep)}
+.bay-head h3{font-family:var(--accent);font-weight:400;font-size:clamp(21px,2.2vw,30px);
+  letter-spacing:-.01em;margin-top:8px;display:flex;flex-wrap:wrap;align-items:baseline;gap:12px}
+.tag{font-family:var(--sans);font-weight:500;font-size:10px;letter-spacing:.18em;
+  text-transform:uppercase;padding:4px 10px;border-radius:999px;
+  background:var(--gold-tint);color:var(--gold-deep);border:1px solid var(--line)}
+.tag.ship{background:var(--burgundy);color:var(--ivory);border-color:var(--burgundy)}
+.tag.warn{background:rgba(142,45,58,.08);color:var(--logo-red);border-color:rgba(142,45,58,.3)}
+.bay-thesis{max-width:44em;margin-top:12px;color:var(--ink-soft);font-size:15px;line-height:1.8}
+.chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:1px;margin-top:22px;background:var(--line);border:1px solid var(--line)}
+.chip{background:var(--ivory);padding:13px 15px}
+.chip dt{font-family:var(--accent);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold-deep)}
+.chip dd{margin-top:6px;font-size:13px;line-height:1.55;color:var(--ink-soft)}
+.chip dd b{font-weight:500;color:var(--ink);font-variant-numeric:tabular-nums}
+
+/* the demo frame — a container, so treatments answer to the frame and the phone toggle
+   is a real phone test rather than a browser-resize approximation */
+.demo{container-type:inline-size;background:var(--dawn);border:1px solid var(--line);
+  transition:width .4s var(--ease)}
+.demo[data-g="ivory"]{background:var(--ivory)}
+.demo[data-g="cream"]{background:var(--cream)}
+body[data-w="phone"] .demo{width:390px;margin-inline:auto;border-radius:2px}
+.demo-in{padding:clamp(30px,4.5vw,58px) clamp(22px,4vw,54px)}
+
+/* ═══ shared treatment primitives — the page's own, so nothing here is a new material ══ */
+.t-h3{font-family:var(--accent);font-weight:400;color:var(--ink);
+  font-size:clamp(19px,1.8vw,26px);line-height:1.2;letter-spacing:-.02em}
+.t-p{margin-top:10px;color:var(--ink-soft);font-size:clamp(14.5px,1.15vw,16.5px);
+  line-height:1.75;max-width:52ch}
+.t-list{margin:12px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;
+  gap:9px;max-width:52ch}
+.t-list li{position:relative;padding-left:22px;color:var(--ink-soft);
+  font-size:clamp(14px,1.1vw,16px);line-height:1.6}
+.t-list li::before{content:"✦";position:absolute;left:0;top:.15em;color:var(--gold);font-size:.72em}
+.t-list .t-list{margin-top:9px;padding-left:0}
+.t-sub{margin-top:18px;font-family:var(--accent);font-size:12px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--gold-deep)}
+.t-cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 clamp(20px,2.6vw,44px)}
+.t-cols .t-list{max-width:none}
+@container (max-width:560px){.t-cols{grid-template-columns:1fr}}
+.t-body a{color:var(--gold-deep);border-bottom:1px solid var(--line);text-decoration:none;
+  transition:border-color .3s var(--ease),color .3s var(--ease)}
+.t-body a:hover{color:var(--logo-red);border-color:var(--logo-red)}
+.t-body a[href^="mailto"],.t-body a[href^="tel"]{white-space:nowrap}
+
+/* ══════════════════════════════════════════════════════════════════════════════════
+   A1 · THE LEDGER — as shipped. index.html's .steps, class-for-class, so the eight
+   auditions below are judged against the real thing and not a sketch of it.
+   ══════════════════════════════════════════════════════════════════════════════════ */
+.a1-head{margin-bottom:clamp(20px,3vh,34px)}
+.a1-steps{list-style:none;max-width:74rem}
+.a1-step{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(18px,2.6vw,42px);
+  padding:clamp(24px,3vh,38px) 0;border-top:1px solid var(--line)}
+.a1-step:last-child{border-bottom:1px solid var(--line)}
+.a1-n{font-family:var(--accent);font-size:clamp(22px,2.4vw,34px);line-height:1;
+  color:var(--gold);width:1.6em}
+@container (max-width:560px){
+  .a1-step{grid-template-columns:1fr;gap:12px}
+  .a1-n{width:auto}
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════════
+   A2 · THE SPINE — one rule down the left, a bead per step, and the rule FILLS as the
+   bay scrolls. The ledger's information with a direction added to it.
+   The fill is a scaleY on a second rule, driven by one IntersectionObserver-free
+   scroll read; ⚠️ it is transform-only on purpose — animating a height here would lay
+   out seven step bodies on every frame.
+   ══════════════════════════════════════════════════════════════════════════════════ */
+.a2-wrap{position:relative;padding-left:clamp(34px,4.5vw,62px)}
+.a2-rail{position:absolute;left:clamp(11px,1.5vw,20px);top:8px;bottom:8px;width:1px;
+  background:var(--line)}
+.a2-fill{position:absolute;inset:0;background:var(--gold-deep);transform-origin:50% 0;
+  transform:scaleY(0);transition:transform .18s linear}
+.a2-steps{list-style:none;display:flex;flex-direction:column;gap:clamp(26px,3.6vh,44px)}
+.a2-step{position:relative}
+.a2-bead{position:absolute;left:calc(-1 * clamp(34px,4.5vw,62px));top:.15em;
+  width:clamp(22px,3vw,40px);display:grid;place-items:center}
+.a2-dot{width:9px;height:9px;border-radius:50%;background:var(--dawn);
+  border:1px solid var(--gold);box-shadow:0 0 0 5px var(--dawn);
+  transition:background .45s var(--ease),border-color .45s var(--ease)}
+.demo[data-g="ivory"] .a2-dot{background:var(--ivory);box-shadow:0 0 0 5px var(--ivory)}
+.a2-step.lit .a2-dot{background:var(--gold-deep);border-color:var(--gold-deep)}
+.a2-num{font-family:var(--accent);font-size:11px;letter-spacing:.14em;color:var(--gold-deep);
+  display:block;margin-bottom:5px}
+
+/* ══════════════════════════════════════════════════════════════════════════════════
+   A3 · THE EIGHT WEEKS — the only treatment that adds information, and the only one
+   with a caveat printed inside it.
+   ⚠️ THE CLIENT'S SOURCE DATES ALMOST NOTHING. It gives three durations and no dates:
+   the protocol is two months, the mentorship is four weeks, the follow-up is "a further
+   four weeks". Everything drawn on the calendar below is one of those three. Steps 1–4
+   and 6 sit in an UNDATED band because that is what the source supports — the moment
+   this graphic guesses "week 1, week 2" it is publishing a schedule the clinic never
+   agreed to, and a patient will hold them to it.
+   ══════════════════════════════════════════════════════════════════════════════════ */
+.a3-pre{border:1px dashed var(--line);border-radius:2px;padding:clamp(16px,2vw,24px);
+  background:rgba(255,255,255,.35)}
+.a3-pre-h{font-family:var(--accent);font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold-deep);display:flex;align-items:center;gap:12px}
+.a3-pre-h::after{content:"";flex:1;height:1px;background:var(--line)}
+.a3-pre-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:14px;margin-top:16px}
+.a3-card{border-left:2px solid var(--gold);padding-left:12px}
+.a3-card b{display:block;font-family:var(--accent);font-weight:400;font-size:15px;
+  color:var(--ink);line-height:1.25}
+.a3-card span{display:block;margin-top:5px;font-size:12.5px;line-height:1.55;color:var(--ink-soft)}
+.a3-card i{font-family:var(--accent);font-style:normal;font-size:11px;color:var(--gold-deep);
+  letter-spacing:.14em}
+.a3-cal{margin-top:clamp(24px,3.4vh,40px)}
+.a3-ruler{display:grid;grid-template-columns:repeat(8,1fr);border-bottom:1px solid var(--line)}
+.a3-tick{padding:0 0 8px;border-left:1px solid var(--line);
+  font-family:var(--accent);font-size:10.5px;letter-spacing:.12em;color:var(--gold-deep);
+  text-align:center}
+.a3-tick:first-child{border-left:0}
+.a3-tick b{font-weight:inherit}
+.a3-bars{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+/* ⚠️ min-height, NOT height. A fixed height with overflow:hidden clipped the step-6
+   marker's second line at 390 — the caption that says the source gives it no date was
+   the half that got cut, which is the one sentence in this graphic that may not go
+   missing. Anything whose text can wrap gets a floor, not a ceiling. */
+.a3-bar{position:relative;min-height:clamp(46px,6vw,58px);border-radius:2px;
+  display:flex;align-items:center;padding:10px 14px;overflow:hidden}
+.a3-bar.solid{background:var(--gold-deep);color:var(--ivory)}
+/* ⚠️ AN UNDATED EVENT MAY NOT BE DRAWN AS A SPAN. Step 6 first shipped in this lab as a
+   full-width band with a caption reading "undated" underneath it — and a full-width band
+   on an eight-week ruler says EIGHT WEEKS louder than any caption says otherwise. It
+   hugs its own text now and wears a dashed edge: a marker, which is what the source
+   supports. Same rule as the flag at the foot — the graphic may not assert what the
+   client's copy does not contain. */
+.a3-bar.point{width:max-content;max-width:100%;background:transparent;
+  border:1px dashed var(--gold-deep);color:var(--ink)}
+.a3-bar.point b{color:var(--ink)}
+.a3-bar.split{background:rgba(124,147,168,.28);border:1px solid var(--line)}
+.a3-bar b{font-family:var(--accent);font-weight:400;font-size:clamp(13px,1.2vw,15.5px);
+  line-height:1.2;letter-spacing:.01em}
+.a3-bar span{font-size:11.5px;opacity:.85;display:block;margin-top:3px}
+.a3-split-in{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr}
+.a3-split-in > div{display:flex;flex-direction:column;justify-content:center;padding:0 14px}
+.a3-split-in > div + div{border-left:1px dashed var(--gold-deep)}
+.a3-flag{margin-top:18px;display:flex;gap:10px;align-items:flex-start;
+  font-size:12px;line-height:1.65;color:var(--ink-soft);max-width:60ch}
+.a3-flag::before{content:"⚠";color:var(--logo-red);font-size:13px;line-height:1.4}
+@container (max-width:560px){
+  /* ⚠️ THE RULER KEEPS ALL EIGHT WEEKS ON A PHONE. It first dropped to four ticks to
+     save room — and the bars underneath still ran the full width, so the graphic read
+     as a two-month protocol drawn against a four-week ruler. Only the "WK" prefix goes;
+     the eight columns stay, because they are what the bars are measured against. */
+  .a3-tick{font-size:9.5px;letter-spacing:.06em}
+  .a3-tick b{display:none}
+  .a3-split-in{grid-template-columns:1fr;grid-template-rows:1fr 1fr}
+  .a3-split-in > div + div{border-left:0;border-top:1px dashed var(--gold-deep)}
+  .a3-bar.split{height:auto;min-height:96px}
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════════
+   A4 · THE RAIL — seven cards on one horizontal scroll-snap track.
+   The argument is scroll length: the ledger is seven full step-bodies of vertical
+   scroll, and this is one card of height. The cost is that step 3 and step 5 carry
+   nested panels that do not fit a card, so the rail shows a PRÉCIS and the full text
+   has to live somewhere — here, in the card's own expand.
+   ⚠️ NATIVE SCROLL, NOT A JS CAROUSEL: scroll-snap gives keyboard, trackpad, touch
+   momentum and a real scrollbar for free, and every hand-built carousel on the web
+   has had to reimplement all four badly.
+   ══════════════════════════════════════════════════════════════════════════════════ */
+.a4-top{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;
+  margin-bottom:18px;flex-wrap:wrap}
+.a4-arrows{display:flex;gap:8px}
+.a4-arrows button{width:40px;height:40px;border:1px solid var(--line);border-radius:50%;
+  display:grid;place-items:center;color:var(--burgundy);background:rgba(255,255,255,.5);
+  transition:background .3s var(--ease),border-color .3s var(--ease),color .3s var(--ease)}
+.a4-arrows button:hover:not(:disabled){background:var(--burgundy);border-color:var(--burgundy);
+  color:var(--ivory)}
+.a4-arrows button:disabled{opacity:.32;cursor:default}
+.a4-arrows svg{width:13px;height:13px}
+.a4-track{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;
+  padding-bottom:16px;scrollbar-width:thin}
+.a4-card{flex:0 0 clamp(240px,30cqw,320px);scroll-snap-align:start;
+  background:var(--ivory);border:1px solid var(--line);border-radius:2px;
+  padding:clamp(20px,2.4vw,28px);display:flex;flex-direction:column;
+  transition:border-color .35s var(--ease)}
+.a4-card:hover{border-color:var(--gold)}
+.a4-card .n{font-family:var(--accent);font-size:30px;line-height:1;color:var(--gold)}
+.a4-card h4{font-family:var(--accent);font-weight:400;font-size:18px;line-height:1.22;
+  letter-spacing:-.01em;color:var(--ink);margin-top:14px}
+.a4-card p{margin-top:9px;font-size:13.5px;line-height:1.65;color:var(--ink-soft);flex:1}
+.a4-more{margin-top:16px;align-self:flex-start;font-family:var(--sans);font-weight:500;
+  font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-deep);
+  border-bottom:1px solid var(--line);padding-bottom:3px;
+  transition:color .3s var(--ease),border-color .3s var(--ease)}
+.a4-more:hover{color:var(--logo-red);border-color:var(--logo-red)}
+.a4-card[data-open="1"] .a4-detail{display:block}
+.a4-detail{display:none;margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}
+.a4-prog{height:2px;background:var(--line);position:relative;overflow:hidden}
+.a4-prog i{position:absolute;inset:0;background:var(--gold-deep);transform-origin:50% 50%;
+  transform:scaleX(.14)}
+
+/* ══════════════════════════════════════════════════════════════════════════════════
+   A5 · THE DOORS — the FAQ's own accordion, applied to the seven. One open at a time.
+   The whole chapter becomes seven headlines and one body: the shortest treatment there
+   is. It is also the only one that hides the programme by default, which is the exact
+   thing a page selling a programme may not want to do.
+   ══════════════════════════════════════════════════════════════════════════════════ */
+.a5-list{list-style:none;border-top:1px solid var(--line)}
+.a5-item{border-bottom:1px solid var(--line)}
+.a5-btn{width:100%;display:grid;grid-template-columns:auto minmax(0,1fr) auto;
+  align-items:center;gap:clamp(14px,2vw,26px);padding:clamp(18px,2.4vh,26px) 0;text-align:left}
+.a5-n{font-family:var(--accent);font-size:clamp(18px,2vw,26px);line-height:1;color:var(--gold);
+  width:1.4em}
+.a5-t{font-family:var(--accent);font-weight:400;font-size:clamp(16px,1.6vw,22px);
+  line-height:1.25;letter-spacing:-.01em;color:var(--ink);transition:color .3s var(--ease)}
+.a5-btn:hover .a5-t,.a5-btn[aria-expanded="true"] .a5-t{color:var(--logo-red)}
+.a5-pm{width:30px;height:30px;border:1px solid var(--line);border-radius:50%;
+  display:grid;place-items:center;color:var(--burgundy);flex:none;
+  transition:transform .45s var(--ease),background .35s var(--ease),color .3s var(--ease)}
+.a5-btn[aria-expanded="true"] .a5-pm{transform:rotate(45deg);background:var(--burgundy);
+  color:var(--ivory);border-color:var(--burgundy)}
+.a5-pm svg{width:11px;height:11px}
+.a5-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s var(--ease)}
+.a5-item[data-open="1"] .a5-panel{grid-template-rows:1fr}
+.a5-panel > div{overflow:hidden}
+.a5-inner{padding:0 0 clamp(22px,3vh,32px) calc(1.4em + clamp(14px,2vw,26px))}
+@container (max-width:560px){.a5-inner{padding-left:0}}
+
+/* ══════════════════════════════════════════════════════════════════════════════════
+   A6 · THE STAGE — a sticky index of the seven beside one panel that swaps.
+   Reads as a clinical pathway rather than a list, and the reader can jump. Two costs,
+   both real: it needs a viewport tall enough for the tallest step (step 3's assay
+   panel), and below the container breakpoint it has no honest form — so it FALLS BACK
+   TO A5's accordion rather than pretending to be a two-column layout at 390px.
+   ══════════════════════════════════════════════════════════════════════════════════ */
+.a6-grid{display:grid;grid-template-columns:minmax(190px,.34fr) minmax(0,1fr);
+  gap:clamp(28px,4vw,64px);align-items:start}
+.a6-nav{position:sticky;top:clamp(70px,9vh,96px);list-style:none;
+  display:flex;flex-direction:column;border-left:1px solid var(--line)}
+.a6-nav button{width:100%;text-align:left;padding:12px 0 12px 18px;position:relative;
+  font-size:13.5px;line-height:1.45;color:var(--ink-soft);
+  transition:color .3s var(--ease),padding .3s var(--ease)}
+.a6-nav button::before{content:"";position:absolute;left:-1px;top:8px;bottom:8px;width:2px;
+  background:transparent;transition:background .3s var(--ease)}
+.a6-nav button:hover{color:var(--ink)}
+.a6-nav button[aria-selected="true"]{color:var(--ink);font-weight:500;padding-left:22px}
+.a6-nav button[aria-selected="true"]::before{background:var(--gold-deep)}
+.a6-nav .k{font-family:var(--accent);font-size:11px;letter-spacing:.16em;color:var(--gold);
+  margin-right:9px}
+.a6-panel{min-height:clamp(280px,34vh,420px)}
+.a6-panel > div{animation:a6in .5s var(--ease) both}
+@keyframes a6in{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+.a6-mark{font-family:var(--accent);font-size:clamp(42px,6vw,80px);line-height:.9;
+  color:var(--gold);opacity:.35;display:block;margin-bottom:6px}
+@container (max-width:700px){.a6-grid{display:none}}
+.a6-fallback{display:none}
+@container (max-width:700px){.a6-fallback{display:block}}
+
+/* ══════════════════════════════════════════════════════════════════════════════════
+   A7 · THE PLATES — the magazine reading. Each step is a spread: an outsize Megante
+   numeral as a graphic, the body in a column beside it, sides alternating.
+   The most editorial treatment on this page and by a distance the tallest — which is
+   the trade, stated plainly rather than discovered after it ships.
+   ══════════════════════════════════════════════════════════════════════════════════ */
+.a7-list{list-style:none;display:flex;flex-direction:column;gap:clamp(40px,7vh,84px)}
+.a7-step{display:grid;grid-template-columns:minmax(0,.42fr) minmax(0,1fr);
+  gap:clamp(24px,4vw,60px);align-items:start}
+.a7-step:nth-child(even){grid-template-columns:minmax(0,1fr) minmax(0,.42fr)}
+.a7-step:nth-child(even) .a7-fig{order:2}
+.a7-fig{position:relative}
+.a7-fig .n{font-family:var(--accent);font-size:clamp(84px,13cqw,190px);line-height:.78;
+  color:var(--gold);opacity:.5;display:block;letter-spacing:-.03em}
+.a7-fig .rule{display:block;width:clamp(40px,7cqw,92px);height:1px;background:var(--gold);
+  margin-top:clamp(14px,2vw,22px)}
+.a7-fig .lab{display:block;margin-top:12px;font-family:var(--accent);font-size:11px;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--gold-deep)}
+@container (max-width:700px){
+  .a7-step,.a7-step:nth-child(even){grid-template-columns:1fr;gap:14px}
+  .a7-step:nth-child(even) .a7-fig{order:0}
+  .a7-fig .n{font-size:64px}
+  .a7-fig .rule{display:none}
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════════
+   A8 · THE CHART — the programme drawn as the clinical document it describes.
+   Ruled rows, a status column, tick boxes, and the assay list set the way a real
+   requisition sets one. It is the treatment that most sounds like the clinic; it is
+   also the one that reads coldest, and a page that is selling reassurance may not want
+   its programme to look like paperwork. That is his call, not a technical one.
+   ⚠️ THE TICK BOXES ARE DECORATIVE AND ARE aria-hidden. They are not checkboxes, they
+   are not stateful, and giving them a form role would put seven meaningless controls
+   into the tab order.
+   ══════════════════════════════════════════════════════════════════════════════════ */
+.a8-doc{background:var(--ivory);border:1px solid var(--line);border-radius:2px}
+.a8-hdr{display:flex;flex-wrap:wrap;justify-content:space-between;gap:14px;
+  padding:clamp(16px,2vw,22px) clamp(16px,2.2vw,26px);border-bottom:2px solid var(--ink)}
+.a8-hdr .l{font-family:var(--accent);font-size:12px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--ink)}
+.a8-hdr .r{font-family:var(--accent);font-size:11px;letter-spacing:.16em;color:var(--gold-deep)}
+.a8-row{display:grid;grid-template-columns:34px 56px minmax(0,1fr);
+  border-bottom:1px solid var(--line)}
+.a8-row:last-child{border-bottom:0}
+.a8-box{border-right:1px solid var(--line);display:grid;place-items:center;padding-top:18px;
+  align-content:start}
+.a8-box i{width:13px;height:13px;border:1px solid var(--gold);display:block;border-radius:1px}
+.a8-ref{border-right:1px solid var(--line);padding:16px 0 16px 12px;
+  font-family:var(--accent);font-size:11.5px;letter-spacing:.1em;color:var(--gold-deep);
+  align-self:start}
+.a8-cell{padding:15px clamp(14px,2vw,22px) clamp(18px,2.2vw,24px)}
+.a8-cell h4{font-family:var(--accent);font-weight:400;font-size:clamp(15px,1.5vw,20px);
+  line-height:1.25;color:var(--ink);letter-spacing:-.01em}
+.a8-cell .t-p{font-size:14px;margin-top:8px}
+.a8-assay{margin-top:14px;border:1px solid var(--line);border-radius:1px}
+.a8-assay-h{padding:8px 12px;border-bottom:1px solid var(--line);background:var(--cream);
+  font-family:var(--accent);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold-deep)}
+.a8-assay ul{list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+/* ⚠️ RULE THE ROWS WITH border-top AND EXEMPT THE FIRST ROW — never border-bottom with a
+   last-row exemption. The first version did the latter, and its exemption
+   (`:nth-last-child(-n+2):nth-child(even)`) is only correct in two columns: dropped to
+   one column, the Hormones panel's three assays made SHBG an "even, second-from-last"
+   cell and it silently lost the divider between SHBG and Free Testosterone. Counting
+   from the top is the same arithmetic in every column count. */
+.a8-assay li{padding:8px 12px;font-size:12.5px;line-height:1.45;color:var(--ink-soft);
+  border-top:1px solid var(--line);border-right:1px solid var(--line)}
+.a8-assay li:nth-child(even){border-right:0}
+.a8-assay li:nth-child(-n+2){border-top:0}          /* the first ROW of a two-column grid */
+.a8-assay.single ul{grid-template-columns:1fr}
+.a8-assay.single li{border-right:0}
+.a8-assay.single li:nth-child(2){border-top:1px solid var(--line)}  /* one column: row 2 */
+@container (max-width:560px){
+  .a8-row{grid-template-columns:28px 46px minmax(0,1fr)}
+  .a8-assay ul{grid-template-columns:1fr}
+  .a8-assay li{border-right:0}
+  .a8-assay li:nth-child(2){border-top:1px solid var(--line)}
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════════
+   B · THE LEDGER — what's included / what's excluded
+   ══════════════════════════════════════════════════════════════════════════════════ */
+/* B1 · two columns, as shipped */
+.b1-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(30px,5vw,80px)}
+.b1-col h3{font-family:var(--accent);font-weight:400;font-size:clamp(20px,2vw,28px);
+  color:var(--ink);letter-spacing:-.01em}
+.b1-list{list-style:none;margin-top:22px;display:flex;flex-direction:column;gap:14px}
+.b1-list li{position:relative;padding-left:24px;color:var(--ink-soft);
+  font-size:clamp(14px,1.1vw,16px);line-height:1.65}
+.b1-list li::before{content:"✦";position:absolute;left:0;top:.1em;color:var(--gold);font-size:.78em}
+.b1-list .b1-list{margin-top:12px}
+.b1-list b{font-family:var(--accent);font-weight:400;letter-spacing:.1em;color:var(--ink)}
+@container (max-width:700px){.b1-grid{grid-template-columns:1fr;gap:36px}}
+
+/* B2 · the balance — one ledger, two marks. Included is the page's ✦; excluded is a
+   hollow ring, so the difference is a SHAPE and not only a heading two feet away. */
+.b2-sheet{border-top:1px solid var(--ink)}
+.b2-band{padding:clamp(18px,2.6vh,28px) 0;border-bottom:1px solid var(--line)}
+.b2-band:last-child{border-bottom:1px solid var(--ink)}
+.b2-band-h{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.b2-band-h h3{font-family:var(--accent);font-weight:400;font-size:clamp(17px,1.7vw,23px);
+  color:var(--ink);letter-spacing:-.01em}
+.b2-mark{font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:500;
+  color:var(--gold-deep)}
+/* ⚠️ THE MEASURE IS CAPPED BECAUSE THIS BAND IS ONE COLUMN. B1 gets its measure for
+   free — two columns of a 1280 wrap is ~46em each. Stacked, the same strings run the
+   full 1330px and TEST sets as a single 150-character line, roughly twice the measure
+   the rest of this site reads at. Anything that un-columns a list has to restate the
+   width the columns were providing.
+   ⚠️ 60ch IS ABOUT 84 ACTUAL CHARACTERS IN THIS FACE, NOT 60. CSS `ch` is the advance
+   of the digit zero, and MediGyn NOW's zero is narrow against its own average letter —
+   measured over this section's real strings, the ratio is ~1.4. The first cap here was
+   written as 78ch on the assumption that ch ≈ a character, and set 109. Any `ch` cap on
+   this site wants dividing by 1.4 to read as characters. */
+.b2-rows{list-style:none;margin-top:16px;display:flex;flex-direction:column;max-width:60ch}
+.b2-row{display:grid;grid-template-columns:22px minmax(0,1fr);gap:12px;
+  padding:9px 0;align-items:baseline}
+.b2-row .m{color:var(--gold);font-size:11px;line-height:1.7;text-align:center}
+.b2-band.out .b2-row .m{color:var(--ink-soft);opacity:.75}
+.b2-row .c{font-size:clamp(14px,1.1vw,16px);line-height:1.65;color:var(--ink-soft)}
+.b2-row .c b{font-family:var(--accent);font-weight:400;letter-spacing:.1em;color:var(--ink)}
+.b2-row.sub{padding-left:26px}
+.b2-band.out .b2-row .c{color:var(--ink-soft)}
+.b2-foot{margin-top:14px;font-size:12.5px;line-height:1.7;color:var(--ink-soft);max-width:56ch}
+
+/* B3 · the verbs — the nine capitals ARE the structure, so they get the left track and
+   the clause reads off them. The excluded list drops to a quiet footnote, which is a
+   real editorial position: it says the programme is the story and the exclusions are
+   terms. If the exclusions are commercially load-bearing, this is the wrong treatment. */
+.b3-list{list-style:none;display:flex;flex-direction:column}
+.b3-row{display:grid;grid-template-columns:minmax(120px,.26fr) minmax(0,1fr);
+  gap:clamp(18px,3vw,44px);padding:clamp(14px,2vh,22px) 0;
+  border-bottom:1px solid var(--line);align-items:baseline}
+.b3-row:first-child{border-top:1px solid var(--line)}
+.b3-v{font-family:var(--accent);font-weight:400;font-size:clamp(15px,1.5vw,20px);
+  letter-spacing:.14em;color:var(--ink);line-height:1.2}
+.b3-row.sub .b3-v{font-size:clamp(12.5px,1.2vw,15px);color:var(--gold-deep);padding-left:18px;
+  position:relative}
+.b3-row.sub .b3-v::before{content:"";position:absolute;left:0;top:.62em;width:10px;height:1px;
+  background:var(--gold)}
+.b3-c{font-size:clamp(14px,1.1vw,16px);line-height:1.7;color:var(--ink-soft);max-width:60ch}
+.b3-out{margin-top:clamp(30px,4.5vh,52px);padding:clamp(20px,2.6vw,30px);
+  background:var(--cream);border:1px solid var(--line);border-radius:2px}
+.b3-out h4{font-family:var(--accent);font-weight:400;font-size:14px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--gold-deep)}
+.b3-out .t-list{margin-top:12px;max-width:none;
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px clamp(20px,3vw,44px)}
+.b3-out .t-list .t-list{display:flex;grid-column:auto}
+@container (max-width:700px){
+  .b3-row{grid-template-columns:1fr;gap:6px}
+  .b3-row.sub .b3-v{padding-left:18px}
+  .b3-out .t-list{grid-template-columns:1fr}
+}
+
+/* B4 · the tabs — one panel, two tabs, the smallest footprint of the four.
+   ⚠️ REAL TAB SEMANTICS: role=tablist/tab/tabpanel with arrow-key roving focus. A pair
+   of divs that swap on click is not a tab set and a screen reader will not announce it
+   as one. */
+.b4-tabs{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;
+  background:var(--ivory)}
+.b4-tabs button{padding:11px 24px;font-family:var(--sans);font-weight:500;font-size:11.5px;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);
+  transition:background .35s var(--ease),color .3s var(--ease)}
+.b4-tabs button + button{border-left:1px solid var(--line)}
+.b4-tabs button[aria-selected="true"]{background:var(--burgundy);color:var(--ivory)}
+.b4-panel{margin-top:clamp(24px,3.4vh,38px)}
+.b4-panel > div{animation:a6in .45s var(--ease) both}
+.b4-panel .b1-list{margin-top:0;max-width:64ch}
+.b4-count{margin-top:14px;font-size:12px;letter-spacing:.04em;color:var(--ink-soft)}
+
+/* ══════════════════════════════════════════════════════════════════════════════════
+   C · THE TWO AUDIENCES
+   ══════════════════════════════════════════════════════════════════════════════════ */
+/* C1 · two rows, as shipped */
+.c1-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(14px,1.6vw,24px)}
+.c1-aud{position:relative;display:flex;align-items:center;gap:clamp(16px,2vw,28px);
+  padding:clamp(22px,2.4vw,32px);background:var(--ivory);border:1px solid var(--line);
+  border-radius:2px;transition:border-color .35s var(--ease),transform .35s var(--ease),
+  box-shadow .35s var(--ease)}
+.c1-aud:hover{border-color:var(--gold);transform:translateY(-3px);
+  box-shadow:0 14px 30px rgba(46,54,71,.08)}
+.c1-txt{min-width:0;flex:1}
+.c1-aud h3{font-family:var(--accent);font-weight:400;color:var(--ink);
+  font-size:clamp(21px,2vw,29px);line-height:1.15;letter-spacing:-.02em;
+  transition:color .3s var(--ease)}
+.c1-aud:hover h3{color:var(--logo-red)}
+.c1-aud p{margin-top:6px;color:var(--ink-soft);font-size:clamp(14px,1.1vw,16px);line-height:1.6}
+.c1-open{flex:none;width:38px;height:38px;border:1px solid var(--line);border-radius:50%;
+  display:grid;place-content:center;color:var(--burgundy);
+  transition:background .4s var(--ease),border-color .4s var(--ease),color .3s var(--ease),
+  transform .5s var(--ease)}
+.c1-open svg{width:12px;height:12px}
+.c1-aud:hover .c1-open{background:var(--burgundy);border-color:var(--burgundy);
+  color:var(--ivory);transform:rotate(90deg)}
+@container (max-width:700px){.c1-row{grid-template-columns:1fr}}
+
+/* C2 · the diptych — the doors' own plates, at row scale. The page already owns
+   menopause-941 and trt-941 (the landing page's doors), so this costs no new asset and
+   no new encode. ⚠️ THE SCRIM IS NOT MEASURED YET: the alphas below are a STARTING
+   POINT copied from the doors' geometry, and if this treatment is adopted the copy has
+   to be re-measured against these two plates at these two crops — the repo's rule is
+   render, hide the copy, sample the worst 2% of the ground. */
+.c2-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(12px,1.6vw,22px)}
+.c2-door{position:relative;display:block;overflow:hidden;border-radius:2px;
+  aspect-ratio:4/3;border:1px solid var(--line);text-align:left;width:100%}
+.c2-door img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  transition:transform 1.1s var(--ease)}
+.c2-door:hover img{transform:scale(1.045)}
+.c2-scrim{position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(29,39,47,.86) 0%,rgba(29,39,47,.58) 38%,
+    rgba(29,39,47,.12) 72%,rgba(29,39,47,0) 100%)}
+.c2-cap{position:absolute;left:0;right:0;bottom:0;padding:clamp(18px,2.6vw,30px)}
+.c2-cap h3{font-family:var(--accent);font-weight:400;color:#F4F7FA;
+  font-size:clamp(20px,2.2vw,30px);line-height:1.15;letter-spacing:-.02em}
+.c2-cap p{margin-top:7px;color:rgba(244,247,250,.86);font-size:clamp(13px,1.05vw,15px);
+  line-height:1.55;max-width:34ch}
+.c2-cap .go{margin-top:14px;display:inline-flex;align-items:center;gap:9px;
+  font-family:var(--sans);font-weight:500;font-size:10.5px;letter-spacing:.18em;
+  text-transform:uppercase;color:#F4F7FA}
+.c2-cap .go i{width:26px;height:26px;border:1px solid rgba(244,247,250,.5);border-radius:50%;
+  display:grid;place-items:center;font-style:normal;transition:background .35s var(--ease)}
+.c2-door:hover .go i{background:rgba(244,247,250,.18)}
+@container (max-width:700px){.c2-row{grid-template-columns:1fr}.c2-door{aspect-ratio:16/10}}
+
+/* C3 · the switch — no dialog at all. One panel, a two-way control, the full list
+   standing in the page. It answers the question the other two dodge: what does the
+   symptom list actually look like when it is NOT hidden behind a button?
+   ⚠️ THE ANSWER IS THE HEIGHT CHIP. Read it before arguing about the aesthetics. */
+.c3-top{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.c3-sw{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;
+  background:var(--ivory)}
+.c3-sw button{padding:11px 26px;font-family:var(--sans);font-weight:500;font-size:11.5px;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);
+  transition:background .35s var(--ease),color .3s var(--ease)}
+.c3-sw button + button{border-left:1px solid var(--line)}
+.c3-sw button[aria-selected="true"]{background:var(--burgundy);color:var(--ivory)}
+.c3-body{margin-top:clamp(24px,3.4vh,38px)}
+.c3-body > div{animation:a6in .45s var(--ease) both}
+.c3-lede{max-width:58ch;color:var(--ink-soft);font-size:clamp(14.5px,1.15vw,16.5px);
+  line-height:1.8}
+.c3-lede + .c3-lede{margin-top:12px}
+.c3-cols{margin-top:22px;columns:2;column-gap:clamp(24px,4vw,56px)}
+.c3-cols ul{list-style:none}
+.c3-cols li{break-inside:avoid;position:relative;padding-left:22px;margin-bottom:9px;
+  color:var(--ink-soft);font-size:14px;line-height:1.55}
+.c3-cols li::before{content:"✦";position:absolute;left:0;top:.15em;color:var(--gold);font-size:.72em}
+.c3-cols li ul{margin-top:9px}
+@container (max-width:700px){.c3-cols{columns:1}}
+
+/* ═══ footer ═══════════════════════════════════════════════════════════════════════ */
+.foot{margin-top:clamp(60px,9vh,110px);border-top:2px solid var(--ink);
+  padding:clamp(30px,4.5vh,52px) 0 clamp(50px,7vh,90px)}
+.foot h2{font-size:clamp(20px,2.2vw,28px)}
+.foot .lede{max-width:44em;margin-top:16px;color:var(--ink-soft);font-size:14.5px;line-height:1.85}
+.foot .lede + .lede{margin-top:12px}
+.foot .lede b{font-weight:500;color:var(--ink)}
+.foot ol{margin:18px 0 0 20px;color:var(--ink-soft);font-size:14.5px;line-height:1.85}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body data-w="full">
+
+<div class="wrap">
+  <header class="mast">
+    <p class="chapter-mark">Medi✦X · peptide-therapy · lab</p>
+    <h1>Fifteen ways to show <em>the programme</em></h1>
+    <p class="lede">Round 11 put the client's programme copy on the page in one shape each —
+    the seven steps as a hairline ledger, what's included and excluded as two columns, the
+    two audiences as two opening rows. Each of those was chosen against the page's box
+    budget on the day. <strong>None of them was chosen against an alternative.</strong></p>
+    <p class="lede">So here are the alternatives, on the same words. Every treatment renders
+    from one copy of the client's text, so nothing in this file can win an audition by
+    quietly tightening a sentence. Under each is a spec chip, and the <strong>height in it
+    is measured live</strong> at the width you are viewing — because for half of these the
+    whole argument is how much scroll the chapter costs.</p>
+    <ul class="index">
+      <li><a href="#A"><b>A</b> The seven · 8 treatments</a></li>
+      <li><a href="#B"><b>B</b> The ledger · 4 treatments</a></li>
+      <li><a href="#C"><b>C</b> The two audiences · 3 treatments</a></li>
+      <li><a href="#verdict"><b>—</b> How to read this</a></li>
+    </ul>
+  </header>
+</div>
+
+<div class="ctl">
+  <div class="ctl-in">
+    <div class="ctl-grp">
+      <span>Ground</span>
+      <div class="seg" id="segGround">
+        <button type="button" data-g="dawn" aria-pressed="true">Dawn</button>
+        <button type="button" data-g="ivory" aria-pressed="false">Ivory</button>
+        <button type="button" data-g="cream" aria-pressed="false">Cream</button>
+      </div>
+    </div>
+    <div class="ctl-grp">
+      <span>Width</span>
+      <div class="seg" id="segWidth">
+        <button type="button" data-w="full" aria-pressed="true">Full</button>
+        <button type="button" data-w="phone" aria-pressed="false">Phone 390</button>
+      </div>
+    </div>
+    <p class="ctl-note">Heights re-measure on every switch.</p>
+  </div>
+</div>
+
+<!-- ═══════════ A · THE SEVEN ═══════════════════════════════════════════════════════ -->
+<section class="ch" id="A">
+  <div class="wrap">
+    <div class="ch-head">
+      <p class="kicker">Chapter A</p>
+      <h2>The seven steps</h2>
+      <p class="lede">The client's numbering is load-bearing and is written out in every
+      treatment below — never generated by a CSS counter, because steps 3 and 5 carry
+      nested lists a counter would number against. Steps 3 and 5 are also the two that
+      break most of these layouts: the blood panel is eleven assays and the protocol is
+      four items with two sub-items. Judge every treatment on those two, not on step 2.</p>
+    </div>
+  </div>
+
+  <article class="bay" id="a1">
+    <div class="wrap"><div class="bay-head">
+      <p class="bay-id">A1</p>
+      <h3>The Ledger <span class="tag ship">as shipped</span></h3>
+      <p class="bay-thesis">A hairline per row, a Megante numeral in a fixed track, nothing
+      boxed. It borrows the FAQ's rhythm, and it was chosen because by this point in the
+      scroll the page has already spent seven cards on the tiles and two on the audiences —
+      seven more boxes would have been the third grid in a row.</p>
+      <dl class="chips">
+        <div class="chip"><dt>Structure</dt><dd>7 rows · 1 hairline each · no containers</dd></div>
+        <div class="chip"><dt>Height here</dt><dd data-metric="a1"><b>—</b></dd></div>
+        <div class="chip"><dt>Wins</dt><dd>Everything visible at once. No interaction to discover, nothing to fail. Prints.</dd></div>
+        <div class="chip"><dt>Costs</dt><dd>Longest honest read on the page. Step 3 dominates the section by sheer mass.</dd></div>
+      </dl>
+    </div></div>
+    <div class="demo" data-g="dawn"><div class="demo-in" data-render="a1"></div></div>
+  </article>
+
+  <article class="bay" id="a2">
+    <div class="wrap"><div class="bay-head">
+      <p class="bay-id">A2</p>
+      <h3>The Spine <span class="tag">smallest change</span></h3>
+      <p class="bay-thesis">A1's information with a direction added: one rule down the left,
+      a bead per step, and the rule fills as the section scrolls. Seven separate rows become
+      one continuous thing — which is what a programme is. The cheapest of the eight to adopt:
+      it is a rule, a bead and a scroll listener over markup that already exists.</p>
+      <dl class="chips">
+        <div class="chip"><dt>Structure</dt><dd>A1's rows · 1 rail · 7 beads · scroll-linked fill</dd></div>
+        <div class="chip"><dt>Height here</dt><dd data-metric="a2"><b>—</b></dd></div>
+        <div class="chip"><dt>Wins</dt><dd>Reads as a journey, not a list. Degrades to A1 exactly if the script never runs.</dd></div>
+        <div class="chip"><dt>Costs</dt><dd>Adds a scroll listener to a page that already runs a pinned canvas scene.</dd></div>
+      </dl>
+    </div></div>
+    <div class="demo" data-g="dawn"><div class="demo-in" data-render="a2"></div></div>
+  </article>
+
+  <article class="bay" id="a3">
+    <div class="wrap"><div class="bay-head">
+      <p class="bay-id">A3</p>
+      <h3>The Eight Weeks <span class="tag warn">needs his dates</span></h3>
+      <p class="bay-thesis">The only treatment that adds information rather than styling: the
+      programme drawn on a calendar. It is also the only one this lab cannot finish alone.
+      <strong>The client's source gives three durations and no dates</strong> — two months of
+      protocol, four weeks of mentorship, a further four weeks of follow-up. Those three are
+      drawn. Steps 1–4 and 6 sit in an undated band, because inventing "week 1, week 2" for
+      them publishes a schedule the clinic never agreed to and a patient will hold them to it.</p>
+      <dl class="chips">
+        <div class="chip"><dt>Structure</dt><dd>1 undated band (5 cards) · 8-week ruler · 2 bars</dd></div>
+        <div class="chip"><dt>Height here</dt><dd data-metric="a3"><b>—</b></dd></div>
+        <div class="chip"><dt>Wins</dt><dd>Answers "how long is this?" — the question the ledger never answers at all.</dd></div>
+        <div class="chip"><dt>Blocked on</dt><dd>Dates for steps 1–4 and 6, or a decision to keep them undated.</dd></div>
+      </dl>
+    </div></div>
+    <div class="demo" data-g="dawn"><div class="demo-in" data-render="a3"></div></div>
+  </article>
+
+  <article class="bay" id="a4">
+    <div class="wrap"><div class="bay-head">
+      <p class="bay-id">A4</p>
+      <h3>The Rail <span class="tag">shortest</span></h3>
+      <p class="bay-thesis">Seven cards on one horizontal scroll-snap track. The chapter stops
+      being seven screens of scroll and becomes one card tall. Native scroll, not a JS
+      carousel — keyboard, trackpad, touch momentum and a real scrollbar all come free, and
+      every hand-built carousel has had to reimplement those badly. Steps 3 and 5 do not fit
+      a card, so each card carries a précis and opens for the full text.</p>
+      <dl class="chips">
+        <div class="chip"><dt>Structure</dt><dd>7 cards · x-snap · arrows + progress · in-card expand</dd></div>
+        <div class="chip"><dt>Height here</dt><dd data-metric="a4"><b>—</b></dd></div>
+        <div class="chip"><dt>Wins</dt><dd>By far the least vertical cost. Works the same on a phone as on a desktop.</dd></div>
+        <div class="chip"><dt>Costs</dt><dd>Horizontal scroll hides content by default — some readers never find card 5.</dd></div>
+      </dl>
+    </div></div>
+    <div class="demo" data-g="dawn"><div class="demo-in" data-render="a4"></div></div>
+  </article>
+
+  <article class="bay" id="a5">
+    <div class="wrap"><div class="bay-head">
+      <p class="bay-id">A5</p>
+      <h3>The Doors <span class="tag">most compact</span></h3>
+      <p class="bay-thesis">The FAQ's own accordion, applied to the seven, one open at a time.
+      The whole chapter collapses to seven headlines and one body. It is the shortest treatment
+      here by a wide margin — and it is the only one that <strong>hides the programme by
+      default</strong>, which is precisely what a page selling that programme may not want.</p>
+      <dl class="chips">
+        <div class="chip"><dt>Structure</dt><dd>7 rows · 1 panel open · grid-template-rows transition</dd></div>
+        <div class="chip"><dt>Height here</dt><dd data-metric="a5"><b>—</b></dd></div>
+        <div class="chip"><dt>Wins</dt><dd>Scannable in one glance. Material already on the page, so nothing new to learn.</dd></div>
+        <div class="chip"><dt>Costs</dt><dd>Seven clicks to read the programme. Search engines index it, readers may not.</dd></div>
+      </dl>
+    </div></div>
+    <div class="demo" data-g="dawn"><div class="demo-in" data-render="a5"></div></div>
+  </article>
+
+  <article class="bay" id="a6">
+    <div class="wrap"><div class="bay-head">
+      <p class="bay-id">A6</p>
+      <h3>The Stage <span class="tag">most clinical</span></h3>
+      <p class="bay-thesis">A sticky index of the seven beside one panel that swaps. Reads as a
+      pathway rather than a list, and lets a returning reader jump straight to step 5. Below the
+      container breakpoint it has no honest two-column form, so it <strong>falls back to A5's
+      accordion</strong> rather than pretending — switch the width control to Phone 390 to see
+      the fallback, which is the form most of the traffic will actually get.</p>
+      <dl class="chips">
+        <div class="chip"><dt>Structure</dt><dd>Sticky 7-item index + 1 panel · A5 below 700px</dd></div>
+        <div class="chip"><dt>Height here</dt><dd data-metric="a6"><b>—</b></dd></div>
+        <div class="chip"><dt>Wins</dt><dd>Random access. Fixed height regardless of how long step 3 is.</dd></div>
+        <div class="chip"><dt>Costs</dt><dd>Two layouts to maintain. Needs viewport height for step 3's assay panel.</dd></div>
+      </dl>
+    </div></div>
+    <div class="demo" data-g="dawn"><div class="demo-in" data-render="a6"></div></div>
+  </article>
+
+  <article class="bay" id="a7">
+    <div class="wrap"><div class="bay-head">
+      <p class="bay-id">A7</p>
+      <h3>The Plates <span class="tag">most editorial</span></h3>
+      <p class="bay-thesis">The magazine reading. Each step is a spread — an outsize Megante
+      numeral as a graphic, the body in a column beside it, sides alternating. It is the
+      treatment that most looks like the rest of this site, and it is by a distance the
+      tallest thing in the lab. That trade is the entire decision, and the height chip states
+      it rather than leaving it to be discovered after launch.</p>
+      <dl class="chips">
+        <div class="chip"><dt>Structure</dt><dd>7 spreads · alternating · numeral to 190px</dd></div>
+        <div class="chip"><dt>Height here</dt><dd data-metric="a7"><b>—</b></dd></div>
+        <div class="chip"><dt>Wins</dt><dd>Unmistakably the brand. Gives step 2 the same weight as step 3, which the ledger cannot.</dd></div>
+        <div class="chip"><dt>Costs</dt><dd>Tallest of the eight. Collapses to a plain stack on a phone, losing the whole device.</dd></div>
+      </dl>
+    </div></div>
+    <div class="demo" data-g="dawn"><div class="demo-in" data-render="a7"></div></div>
+  </article>
+
+  <article class="bay" id="a8">
+    <div class="wrap"><div class="bay-head">
+      <p class="bay-id">A8</p>
+      <h3>The Chart <span class="tag">most authoritative</span></h3>
+      <p class="bay-thesis">The programme drawn as the clinical document it describes: ruled
+      rows, a reference column, tick boxes, and the assay list set the way a requisition sets
+      one. It sounds more like the clinic than any other treatment here. It also reads coldest —
+      and a page selling reassurance may not want its programme to look like paperwork. That is
+      an editorial call, not a technical one.</p>
+      <dl class="chips">
+        <div class="chip"><dt>Structure</dt><dd>1 ruled document · 7 rows · 3 columns · boxed assays</dd></div>
+        <div class="chip"><dt>Height here</dt><dd data-metric="a8"><b>—</b></dd></div>
+        <div class="chip"><dt>Wins</dt><dd>Reads as medicine. Step 3's eleven assays finally look like they belong.</dd></div>
+        <div class="chip"><dt>Costs</dt><dd>Cold. Introduces a document material the page does not otherwise own.</dd></div>
+      </dl>
+    </div></div>
+    <div class="demo" data-g="dawn"><div class="demo-in" data-render="a8"></div></div>
+  </article>
+</section>
+
+<!-- ═══════════ B · THE LEDGER ══════════════════════════════════════════════════════ -->
+<section class="ch" id="B">
+  <div class="wrap">
+    <div class="ch-head">
+      <p class="kicker">Chapter B</p>
+      <h2>What's included, what's excluded</h2>
+      <p class="lede">Nine capitalised verbs on one side and two exclusions on the other — and
+      the two sides are wildly unequal in mass, which is the design problem. Two columns give
+      an eight-item list a two-item neighbour and a great deal of white space. Each treatment
+      below answers that imbalance differently. <strong>ANALYSE and INTERPRET stay nested under
+      COLLATE in all four</strong>: the source reads "COLLATE all the above, in order to /
+      ANALYSE / INTERPRET", so they are what the collating is for.</p>
+    </div>
+  </div>
+
+  <article class="bay" id="b1">
+    <div class="wrap"><div class="bay-head">
+      <p class="bay-id">B1</p>
+      <h3>Two Columns <span class="tag ship">as shipped</span></h3>
+      <p class="bay-thesis">The plainest possible reading, and it does the one thing the section
+      exists to do: put the two lists where they can be compared without scrolling between them.
+      Its weakness is visible immediately at full width — the right column runs out halfway.</p>
+      <dl class="chips">
+        <div class="chip"><dt>Structure</dt><dd>2 columns · 8 items vs 2 items</dd></div>
+        <div class="chip"><dt>Height here</dt><dd data-metric="b1"><b>—</b></dd></div>
+        <div class="chip"><dt>Wins</dt><dd>Instantly legible as a comparison. Nothing to operate.</dd></div>
+        <div class="chip"><dt>Costs</dt><dd>The imbalance shows. On a phone the two columns stack and stop being a comparison at all.</dd></div>
+      </dl>
+    </div></div>
+    <div class="demo" data-g="ivory"><div class="demo-in" data-render="b1"></div></div>
+  </article>
+
+  <article class="bay" id="b2">
+    <div class="wrap"><div class="bay-head">
+      <p class="bay-id">B2</p>
+      <h3>The Balance <span class="tag">keeps the comparison</span></h3>
+      <p class="bay-thesis">One ledger, two bands, and the difference carried by a
+      <strong>shape as well as a heading</strong> — the page's ✦ for what's in, a hollow ring
+      for what's out. Stacking rather than columning means the imbalance stops being a hole in
+      the layout and becomes what it actually is: a long list and a short one. It is also the
+      only treatment here that reads identically on a phone and a desktop.</p>
+      <dl class="chips">
+        <div class="chip"><dt>Structure</dt><dd>1 sheet · 2 bands · ✦ / ○ marks · rules top and bottom</dd></div>
+        <div class="chip"><dt>Height here</dt><dd data-metric="b2"><b>—</b></dd></div>
+        <div class="chip"><dt>Wins</dt><dd>Same reading at every width. The marks survive a greyscale print.</dd></div>
+        <div class="chip"><dt>Costs</dt><dd>Taller than B1 at desktop. You read the two lists in sequence, not side by side.</dd></div>
+      </dl>
+    </div></div>
+    <div class="demo" data-g="ivory"><div class="demo-in" data-render="b2"></div></div>
+  </article>
+
+  <article class="bay" id="b3">
+    <div class="wrap"><div class="bay-head">
+      <p class="bay-id">B3</p>
+      <h3>The Verbs <span class="tag">strongest position</span></h3>
+      <p class="bay-thesis">The nine capitals are already the structure of the client's copy, so
+      here they get the left track and every clause reads off them. EVALUATE · ESTABLISH ·
+      UNDERSTAND · TEST · COLLATE · CREATE · HEAL becomes a method with a shape. The exclusions
+      drop to a quiet panel underneath — which is <strong>a commercial position, not a layout
+      choice</strong>: it says the method is the story and the exclusions are terms. If the
+      exclusions are load-bearing at the point of sale, this is the wrong treatment.</p>
+      <dl class="chips">
+        <div class="chip"><dt>Structure</dt><dd>9 verb rows (2 nested) · 1 footnote panel</dd></div>
+        <div class="chip"><dt>Height here</dt><dd data-metric="b3"><b>—</b></dd></div>
+        <div class="chip"><dt>Wins</dt><dd>The verbs finally do work instead of sitting inside sentences as bold text.</dd></div>
+        <div class="chip"><dt>Costs</dt><dd>Demotes the exclusions. Needs sign-off that that is intended.</dd></div>
+      </dl>
+    </div></div>
+    <div class="demo" data-g="ivory"><div class="demo-in" data-render="b3"></div></div>
+  </article>
+
+  <article class="bay" id="b4">
+    <div class="wrap"><div class="bay-head">
+      <p class="bay-id">B4</p>
+      <h3>The Tabs <span class="tag">smallest</span></h3>
+      <p class="bay-thesis">One panel, two tabs, real tab semantics — roving arrow-key focus,
+      <code>role="tablist"</code>, the lot, because a pair of divs that swap on click is not a
+      tab set and a screen reader will not announce it as one. Smallest footprint of the four.
+      The catch is structural: a tab set says <em>these two things are alternatives</em>, and
+      included/excluded are not alternatives, they are two halves of one answer.</p>
+      <dl class="chips">
+        <div class="chip"><dt>Structure</dt><dd>2 tabs · 1 panel · roving tabindex</dd></div>
+        <div class="chip"><dt>Height here</dt><dd data-metric="b4"><b>—</b></dd></div>
+        <div class="chip"><dt>Wins</dt><dd>Fixed, small height. The short list no longer looks like an oversight.</dd></div>
+        <div class="chip"><dt>Costs</dt><dd>Semantically wrong for a pair that should be read together. Hides half the answer.</dd></div>
+      </dl>
+    </div></div>
+    <div class="demo" data-g="ivory"><div class="demo-in" data-render="b4"></div></div>
+  </article>
+</section>
+
+<!-- ═══════════ C · THE TWO AUDIENCES ═══════════════════════════════════════════════ -->
+<section class="ch" id="C">
+  <div class="wrap">
+    <div class="ch-head">
+      <p class="kicker">Chapter C</p>
+      <h2>For women · For men</h2>
+      <p class="lede">Two teaser rows that open a dialog of roughly thirty and nineteen clinical
+      symptoms. The question underneath is not really styling: it is whether that list belongs
+      behind a button at all. C3 answers it by putting the whole thing in the page, and the
+      height chip is the answer. <strong>Note this is hormone-symptom copy on a peptide page</strong> —
+      the client supplied it for this section, and if it should instead route to the hormone
+      page the change is two templates deleted and two hrefs added.</p>
+    </div>
+  </div>
+
+  <article class="bay" id="c1">
+    <div class="wrap"><div class="bay-head">
+      <p class="bay-id">C1</p>
+      <h3>Two Rows <span class="tag ship">as shipped</span></h3>
+      <p class="bay-thesis">The eight tiles' own material at row scale — ivory fill, hairline,
+      2px radius, the circled + that the dialog answers. Deliberately not a new material: the
+      tiles already taught the reader that this shape opens, and a new one would have to teach
+      it again for two more controls.</p>
+      <dl class="chips">
+        <div class="chip"><dt>Structure</dt><dd>2 rows · stretched hit area · dialog on open</dd></div>
+        <div class="chip"><dt>Height here</dt><dd data-metric="c1"><b>—</b></dd></div>
+        <div class="chip"><dt>Wins</dt><dd>Tiny. Keeps a 30-item symptom list out of the middle of the chapter.</dd></div>
+        <div class="chip"><dt>Costs</dt><dd>Two more boxes in a chapter that already has boxes. Gives the audiences no visual weight.</dd></div>
+      </dl>
+    </div></div>
+    <div class="demo" data-g="dawn"><div class="demo-in" data-render="c1"></div></div>
+  </article>
+
+  <article class="bay" id="c2">
+    <div class="wrap"><div class="bay-head">
+      <p class="bay-id">C2</p>
+      <h3>The Diptych <span class="tag">no new assets</span></h3>
+      <p class="bay-thesis">Two plates instead of two rows, using <strong>the landing page's own
+      doors</strong> — <code>menopause-941</code> and <code>trt-941</code> already ship in this
+      repo, so this costs no new photography, no new encode and no new licence. It gives the
+      two audiences the weight a clinic page usually gives them, and it is the only treatment
+      here that puts a human being in the chapter.</p>
+      <dl class="chips">
+        <div class="chip"><dt>Structure</dt><dd>2 plates 4:3 · gradient scrim · caption at foot</dd></div>
+        <div class="chip"><dt>Height here</dt><dd data-metric="c2"><b>—</b></dd></div>
+        <div class="chip"><dt>Wins</dt><dd>Weight and warmth. Reuses assets already encoded and paid for.</dd></div>
+        <div class="chip"><dt>Blocked on</dt><dd>Scrim alphas are copied from the doors and <b>not yet measured</b> against these crops.</dd></div>
+      </dl>
+    </div></div>
+    <div class="demo" data-g="dawn"><div class="demo-in" data-render="c2"></div></div>
+  </article>
+
+  <article class="bay" id="c3">
+    <div class="wrap"><div class="bay-head">
+      <p class="bay-id">C3</p>
+      <h3>The Switch <span class="tag">answers the real question</span></h3>
+      <p class="bay-thesis">No dialog at all: a two-way control and the full list standing in
+      the page. This is the treatment that tests the assumption behind the other two — that the
+      symptom lists are too long to show. <strong>Read the height chip before arguing about
+      the aesthetics.</strong> It is also the only version whose list is on the page for a
+      search engine to index and for a reader to Ctrl-F.</p>
+      <dl class="chips">
+        <div class="chip"><dt>Structure</dt><dd>1 switch · 1 panel · full list in 2 columns</dd></div>
+        <div class="chip"><dt>Height here</dt><dd data-metric="c3"><b>—</b></dd></div>
+        <div class="chip"><dt>Wins</dt><dd>Indexable, findable, printable. No dialog code at all.</dd></div>
+        <div class="chip"><dt>Costs</dt><dd>Puts a wall of clinical symptoms in the middle of a chapter about how the programme runs.</dd></div>
+      </dl>
+    </div></div>
+    <div class="demo" data-g="dawn"><div class="demo-in" data-render="c3"></div></div>
+  </article>
+</section>
+
+<div class="wrap">
+  <footer class="foot" id="verdict">
+    <p class="kicker">How to read this</p>
+    <h2>Three decisions, not fifteen</h2>
+    <p class="lede">Pick one from each chapter. They are independent — any A works with any B
+    with any C — but two combinations are worth avoiding, and both are about repetition rather
+    than taste: <b>A4 with C2</b> puts a horizontal card track directly above two photographic
+    doors, which is three interactive surfaces in one chapter; and <b>A5 with B4 and C1</b>
+    makes every single thing in the section something you have to open before you can read it.</p>
+    <p class="lede">Two of the fifteen cannot ship on this lab's say-so alone:</p>
+    <ol>
+      <li><b>A3 · The Eight Weeks</b> needs the client to date steps 1–4 and 6, or to confirm
+      they stay undated. The three durations it draws are the only ones his copy contains.</li>
+      <li><b>C2 · The Diptych</b> needs its scrim re-measured against those two plates at those
+      two crops — render, hide the copy, sample the worst 2% of the ground behind it. The alphas
+      in this file are the doors' geometry as a starting point, and are not a measurement.</li>
+    </ol>
+    <p class="lede">Everything else here is adoptable as it stands: the markup is static in
+    every case, and the copy is already the string that ships. <b>Do not port this file's
+    renderer</b> — it exists so fifteen treatments could share one copy of the client's text,
+    and whichever treatment is chosen gets hand-written into <code>index.html</code> as static
+    markup, exactly as A1 already is.</p>
+  </footer>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════════════════════
+   THE DATA — the client's copy, once. Every treatment renders from this object, which
+   is the only way an audition of fifteen layouts can be fair: no treatment gets to
+   flatter itself with a shorter sentence.
+
+   Corrections already recorded at their sites in index.html come through unchanged.
+   Two fields are NOT the client's and are marked as such:
+     · `short` — a précis, written for the treatments that cannot show a full body
+       (A4's cards, A6's index, A3's undated band). It is EDITORIAL and needs sign-off
+       like any other copy; it is not a shortening of his text, it is new text.
+     · `span`  — used by A3 only, and only where the source states a duration.
+   ═══════════════════════════════════════════════════════════════════════════════════ */
+const STEPS = [
+  {
+    n: '1', t: 'Book your programme',
+    short: 'Book online in a few minutes — or ask us anything first, by mail or phone.',
+    body: [
+      {k:'list', v:[
+        'Make an online booking of your programme — <a href="#book">book now</a> at the foot of this page.',
+        'If you have any questions before booking, email or call us: <a href="mailto:info@medi-gyn.com">info@medi-gyn.com</a> · <a href="tel:+971555450797">+971 5 55 45 0797</a>'
+      ]}
+    ]
+  },
+  {
+    n: '2', t: 'Symptom questionnaire',
+    short: 'Complete your Peptide Therapy Health Assessment.',
+    body: [ {k:'p', v:'Complete your Peptide Therapy Health Assessment.'} ]
+  },
+  {
+    n: '3', t: 'Your appointment',
+    short: 'Your doctor’s visit and “BOZAT” scans — at home, at your hotel, or on Zoom.',
+    body: [
+      {k:'p', v:'You have a choice of how your doctor’s visit and your “BOZAT” scans are done — in the comfort of your own home or hotel room, or as an online Zoom session.'},
+      /* ⚠️ IGF-1 IS READ AS THE PANEL'S FIRST ASSAY, not a heading of its own — the source
+         put it on its own line above the panel. Flagged in index.html at the same site;
+         if they meant it as a heading it is one item to move, in one place, here. */
+      {k:'sub', v:'Blood work'},
+      {k:'cols', v:[
+        ['IGF-1 (Insulin-Like Growth Factor 1)','Fasting blood glucose','HbA1c','Liver function panel (ALT, AST)'],
+        ['Kidney function panel (Creatinine, eGFR)','Lipid panel (Cholesterol, LDL, HDL, Triglycerides)','TSH and Free T3 / Free T4','Vitamin D']
+      ]},
+      {k:'sub', v:'Hormones'},
+      {k:'list', v:['Total Testosterone','SHBG','Free Testosterone (calculated)']}
+    ]
+  },
+  {
+    n: '4', t: 'Diagnostic results review — Zoom',
+    short: 'Your doctor explains every scan and every marker, in detail.',
+    body: [
+      {k:'p', v:'Your doctor explains your scan and blood test results in detail, so you feel empowered and more in control of your health as you'},
+      {k:'list', v:[
+        'understand your current health condition and your lifestyle choices — diet, exercise',
+        'have a well-informed view of your health markers and what they mean'
+      ]}
+    ]
+  },
+  {
+    n: '5', t: 'Your 2-month personalised protocol',
+    short: 'A two-month protocol built from your results — hormones, peptides, supplements, lifestyle.',
+    span: {weeks: 8, label: 'Two months'},
+    body: [
+      {k:'p', v:'Our medical and functional medicine doctor creates your two-month personalised protocol, with the latest know-how in the field of wellness and well-ageing.'},
+      {k:'sub', v:'The Medi-Gyn protocol includes'},
+      {k:'list', v:[
+        {t:'Bioidentical Hormone | Testosterone Therapy (“BHT” | “THT”)', sub:['bioidentical hormones carry the same hormonal molecule as your own body, making them as natural as possible for your body']},
+        'Peptide therapy',
+        {t:'Science-driven supplements, including vital micronutrients and adaptogens', sub:['to boost the immune system, increase ATP energy in your cells, and support natural cell rejuvenation']},
+        'Lifestyle change recommendations that accelerate your body’s natural healing process, rejuvenating your body inside out'
+      ]}
+    ]
+  },
+  {
+    n: '6', t: 'Protocol explanation — Zoom or in person',
+    short: 'Every element of your protocol, explained and clarified — your choice of Zoom or in person.',
+    body: [
+      {k:'p', v:'Your doctor explains and clarifies your personalised protocol in detail, via Zoom or in person — BHT, THT, peptides, and any medication or supplementation.'}
+    ]
+  },
+  {
+    n: '7', t: '4-week close mentorship',
+    short: 'Four weeks of close mentorship, then a further four weeks of follow-up.',
+    span: {weeks: 8, label: 'Four weeks close, four weeks following'},
+    body: [
+      {k:'list', v:[
+        'Four weeks of close mentorship to check on your progress and ease you into your protocol.',
+        'A further four weeks of follow-up throughout your programme with us.'
+      ]}
+    ]
+  }
+];
+
+/* the ledger — verbs kept as their own field so B3 can set them as structure and B1/B2/B4
+   can set them inline, from one string each */
+const INCLUDED = [
+  {v:'EVALUATE',  c:'your health with a detailed medical and lifestyle history'},
+  {v:'ESTABLISH', c:'a timeline of your story — the presenting symptoms, the contributory factors and your current state of health'},
+  {v:'UNDERSTAND',c:'the root causes and drivers of your symptoms, and your own narrative'},
+  {v:'TEST',      c:'through a functional “The DUTCH Plus” test and “BOZAT” Health Assessment Technology scans, to analyse the precise reasons for illness and imbalance'},
+  {v:'COLLATE',   c:'all of the above, in order to', sub:[
+    {v:'ANALYSE',   c:'the findings'},
+    {v:'INTERPRET', c:'them for each and every patient'}
+  ]},
+  {v:'CREATE',    c:'your own personalised protocol to restore your health'},
+  {v:'HEAL',      c:'the root cause of your symptoms, and not just the symptom'}
+];
+/* ⚠️ THE SOURCE ENDS WITH AN EMPTY THIRD BULLET. The client's document has a bare "*"
+   after the peptide-therapy item — an unfinished line, not a third exclusion. It is
+   dropped here exactly as index.html drops it. If a third exclusion was meant, it is
+   missing and only he can supply it. */
+const EXCLUDED = [
+  {t:'Diagnostics — blood tests and functional tests', sub:[
+    'home blood sample collection, if you are based in Dubai, or',
+    'at any lab at your destination'
+  ]},
+  {t:'Peptide therapy', sub:[
+    'all prescriptions are personalised, so pricing may vary',
+    'the price of any prescription is shared with you before any payment is collected'
+  ]}
+];
+
+/* the two audiences — teasers are the client's, and the full lists are index.html's,
+   in the client's order, with the de-duplications already recorded there */
+const AUD = {
+  women: {
+    h: 'For women',
+    teaser: 'Cycles, PCOS, perimenopause, menopause, fertility — the full list of what we look for.',
+    plate: 'menopause-941',
+    lede: [
+      'Often, we don’t understand what is happening in our bodies at different stages in our lives. At MEDI-GYN, we provide the knowledge and guidance to empower you to take control of your hormonal health and your life.'
+    ],
+    sub: 'Those who experience symptoms such as',
+    list: [
+      'Irregular, scanty menstrual cycles or PMS','PCOS (Polycystic ovaries)',
+      'PMDD (Premenstrual dysphoric disorder)','Depression','Repeated miscarriages',
+      'Endometriosis','Premature ovarian failure',
+      {t:'Symptoms of perimenopause and menopause', sub:[
+        'Unexpected feelings of depression','Constant tiredness','Sleeping problems',
+        'Night sweats','Hot flashes or flushes','Decreased sex drive','Weight gain',
+        'Irritability','Anxiousness','Mood swings','Low moods','Discomfort during intercourse'
+      ]},
+      'Diminished Ovarian Reserve (DOR)','Trying for a baby over 6 months',
+      'Unexplained infertility','Those with insulin resistance','Those with high-androgen PCOS',
+      'Those with dominant Estrogen and Endometriosis','Those with unbalanced reproductive hormones'
+    ]
+  },
+  men: {
+    h: 'For men',
+    teaser: 'Testosterone, andropause, energy, body composition — the full list of what we look for.',
+    plate: 'trt-941',
+    lede: [
+      'Hormones in men are just as important as they are for women — they regulate most major bodily processes. In fact, both men and women produce the same hormones, only in different amounts.',
+      'A low level of testosterone in a man means more than just a low sex drive. Men entering middle age may experience so-called Andropause — a male equivalent of menopause — and report a loss of ‘joie de vivre’: many of them start to question their lives, their relationships and their work.'
+    ],
+    sub: 'Symptoms of male hormonal imbalance may include',
+    list: [
+      'Tiredness, fatigue, or “burnout syndrome” (decreased drive and ambition)',
+      'Decreased strength and lean body mass','Irritability','Poor sleeping patterns',
+      'Low libido','Memory loss','Erectile dysfunction',
+      'Decreased morning erections and decreased erection strength','Depression',
+      'Low sperm count','Loss of muscle mass','Increased body fat (especially in the waist area)',
+      'Decreased bone mass','Mood changes / low mood','Brain fog','Elevated blood sugar',
+      'Stress','Anxiousness','High cholesterol'
+    ]
+  }
+};
+
+/* ═══ tiny render helpers ═════════════════════════════════════════════════════════ */
+const el = (tag, cls, html) => {
+  const n = document.createElement(tag);
+  if (cls) n.className = cls;
+  if (html != null) n.innerHTML = html;
+  return n;
+};
+/* a ✦ list, one level of nesting — the shape .step-list and .pxd-list both take */
+function list(items, cls){
+  const ul = el('ul', cls || 't-list');
+  items.forEach(it => {
+    if (typeof it === 'string'){ ul.appendChild(el('li', null, it)); return; }
+    const li = el('li', null, it.t);
+    li.appendChild(list(it.sub, cls || 't-list'));
+    ul.appendChild(li);
+  });
+  return ul;
+}
+/* a step body, from the STEPS `body` array — shared by A1, A2, A5, A6, A7 and A4's expand */
+function stepBody(step){
+  const box = el('div', 't-body');
+  step.body.forEach(b => {
+    if (b.k === 'p')    box.appendChild(el('p', 't-p', b.v));
+    if (b.k === 'sub')  box.appendChild(el('p', 't-sub', b.v));
+    if (b.k === 'list') box.appendChild(list(b.v));
+    if (b.k === 'cols'){
+      const c = el('div','t-cols');
+      b.v.forEach(col => c.appendChild(list(col)));
+      box.appendChild(c);
+    }
+  });
+  return box;
+}
+const PLUS = '<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 1v10M1 6h10"/></svg>';
+
+/* ═══ A1 · the ledger, as shipped ═════════════════════════════════════════════════ */
+function a1(root){
+  root.appendChild(el('p','kicker a1-head','How it works'));
+  const ol = el('ol','a1-steps');
+  STEPS.forEach(s => {
+    const li = el('li','a1-step');
+    li.appendChild(el('span','a1-n', s.n)).setAttribute('aria-hidden','true');
+    const d = el('div');
+    d.appendChild(el('h3','t-h3', s.t));
+    d.appendChild(stepBody(s));
+    li.appendChild(d);
+    ol.appendChild(li);
+  });
+  root.appendChild(ol);
+}
+
+/* ═══ A2 · the spine ══════════════════════════════════════════════════════════════
+   ⚠️ THE FILL IS A scaleY, NEVER A HEIGHT. Seven step bodies re-laid-out on every
+   scroll frame is the one way to make this section janky on a phone.               */
+function a2(root){
+  root.appendChild(el('p','kicker a1-head','How it works'));
+  const wrap = el('div','a2-wrap');
+  const rail = el('div','a2-rail'); const fill = el('i','a2-fill');
+  rail.appendChild(fill); wrap.appendChild(rail);
+  const ol = el('ol','a2-steps');
+  STEPS.forEach(s => {
+    const li = el('li','a2-step');
+    const bead = el('span','a2-bead'); bead.setAttribute('aria-hidden','true');
+    bead.appendChild(el('i','a2-dot'));
+    li.appendChild(bead);
+    li.appendChild(el('span','a2-num','Step ' + s.n));
+    li.appendChild(el('h3','t-h3', s.t));
+    li.appendChild(stepBody(s));
+    ol.appendChild(li);
+  });
+  wrap.appendChild(ol); root.appendChild(wrap);
+
+  const steps = [...ol.children];
+  let ticking = false;
+  const draw = () => {
+    ticking = false;
+    const r = wrap.getBoundingClientRect();
+    const mark = window.innerHeight * 0.52;               /* the reading line */
+    const p = Math.max(0, Math.min(1, (mark - r.top) / Math.max(1, r.height)));
+    fill.style.transform = 'scaleY(' + p.toFixed(4) + ')';
+    steps.forEach(li => li.classList.toggle('lit', li.getBoundingClientRect().top < mark));
+  };
+  addEventListener('scroll', () => { if (!ticking){ ticking = true; requestAnimationFrame(draw); } }, {passive:true});
+  addEventListener('resize', draw); draw();
+}
+
+/* ═══ A3 · the eight weeks ════════════════════════════════════════════════════════
+   Draws ONLY the durations the client's copy states. Steps without a `span` go into
+   the undated band; nothing here derives a date it was not given.                   */
+function a3(root){
+  root.appendChild(el('p','kicker a1-head','How it works'));
+
+  const undated = STEPS.filter(s => !s.span);
+  const pre = el('div','a3-pre');
+  pre.appendChild(el('p','a3-pre-h','Before day one · the client’s source gives no dates for these'));
+  const row = el('div','a3-pre-row');
+  undated.forEach(s => {
+    const c = el('div','a3-card');
+    c.appendChild(el('i',null,'Step ' + s.n));
+    c.appendChild(el('b',null, s.t));
+    c.appendChild(el('span',null, s.short));
+    row.appendChild(c);
+  });
+  pre.appendChild(row); root.appendChild(pre);
+
+  const cal = el('div','a3-cal');
+  const ruler = el('div','a3-ruler');
+  /* the "WK" is its own element so a phone can drop the word and keep the column */
+  for (let w = 1; w <= 8; w++) ruler.appendChild(el('div','a3-tick','<b>WK </b>' + w));
+  cal.appendChild(ruler);
+
+  const bars = el('div','a3-bars');
+  const s5 = STEPS[4], s7 = STEPS[6];
+  const b5 = el('div','a3-bar solid');
+  b5.innerHTML = '<div><b>5 · ' + s5.t + '</b><span>' + s5.span.label + ', end to end</span></div>';
+  bars.appendChild(b5);
+
+  /* a marker, not a band — it hugs its text, so the ruler behind it is never claimed */
+  const b6 = el('div','a3-bar point');
+  b6.innerHTML = '<div><b>6 · Protocol explanation</b><span>An appointment, not a span — the source gives it no date</span></div>';
+  bars.appendChild(b6);
+
+  const b7 = el('div','a3-bar split');
+  b7.innerHTML = '<div class="a3-split-in">' +
+    '<div><b>7 · Close mentorship</b><span>Four weeks, easing you into the protocol</span></div>' +
+    '<div><b>Follow-up</b><span>A further four weeks, through the programme</span></div></div>';
+  bars.appendChild(b7);
+
+  cal.appendChild(bars); root.appendChild(cal);
+  root.appendChild(el('p','a3-flag',
+    'Only three durations exist in the source — two months of protocol, four weeks of mentorship, ' +
+    'a further four weeks of follow-up. Those three are drawn, and nothing else is. Steps 1–4 stand ' +
+    'in the undated band above, and step 6 is drawn as a marker rather than a band so that it never ' +
+    'claims weeks it was never given.'));
+}
+
+/* ═══ A4 · the rail ═══════════════════════════════════════════════════════════════ */
+function a4(root){
+  const top = el('div','a4-top');
+  top.appendChild(el('p','kicker','How it works'));
+  const arrows = el('div','a4-arrows');
+  const mk = (d, path) => {
+    const b = el('button', null, '<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="' + path + '"/></svg>');
+    b.type = 'button'; b.setAttribute('aria-label', d === -1 ? 'Previous steps' : 'Next steps');
+    return b;
+  };
+  const prev = mk(-1,'M7.5 1L2.5 6l5 5'), next = mk(1,'M4.5 1l5 5-5 5');
+  arrows.append(prev, next); top.appendChild(arrows); root.appendChild(top);
+
+  const track = el('div','a4-track');
+  track.setAttribute('tabindex','0');
+  track.setAttribute('role','group');
+  track.setAttribute('aria-label','The seven steps — scroll sideways');
+  STEPS.forEach(s => {
+    const c = el('div','a4-card');
+    c.appendChild(el('span','n', s.n)).setAttribute('aria-hidden','true');
+    c.appendChild(el('h4', null, s.t));
+    c.appendChild(el('p', null, s.short));
+    const more = el('button','a4-more','Read the detail');
+    more.type = 'button'; more.setAttribute('aria-expanded','false');
+    const det = el('div','a4-detail'); det.appendChild(stepBody(s));
+    more.addEventListener('click', () => {
+      const open = c.dataset.open === '1';
+      c.dataset.open = open ? '0' : '1';
+      more.setAttribute('aria-expanded', String(!open));
+      more.textContent = open ? 'Read the detail' : 'Close';
+      measure();
+    });
+    c.append(more, det); track.appendChild(c);
+  });
+  root.appendChild(track);
+
+  const prog = el('div','a4-prog'); const bar = el('i'); prog.appendChild(bar);
+  root.appendChild(prog);
+
+  const sync = () => {
+    const max = track.scrollWidth - track.clientWidth;
+    const p = max <= 0 ? 1 : track.scrollLeft / max;
+    const vis = Math.max(.08, track.clientWidth / track.scrollWidth);
+    bar.style.transform = 'scaleX(' + vis + ') translateX(' + ((p - .5) * (1 / vis) * 100) + '%)';
+    prev.disabled = track.scrollLeft < 4;
+    next.disabled = track.scrollLeft > max - 4;
+  };
+  const page = d => track.scrollBy({left: d * (track.clientWidth * .82), behavior:'smooth'});
+  prev.addEventListener('click', () => page(-1));
+  next.addEventListener('click', () => page(1));
+  track.addEventListener('scroll', sync, {passive:true});
+  addEventListener('resize', sync); requestAnimationFrame(sync);
+}
+
+/* ═══ A5 · the doors ══════════════════════════════════════════════════════════════ */
+function a5(root, opts){
+  const o = opts || {};
+  if (!o.bare) root.appendChild(el('p','kicker a1-head','How it works'));
+  const ul = el('ul','a5-list');
+  STEPS.forEach((s, i) => {
+    const li = el('li','a5-item');
+    const id = (o.idp || 'a5') + '-p' + i;
+    const btn = el('button','a5-btn');
+    btn.type = 'button';
+    btn.setAttribute('aria-expanded', i === 0 ? 'true' : 'false');
+    btn.setAttribute('aria-controls', id);
+    btn.innerHTML = '<span class="a5-n" aria-hidden="true">' + s.n + '</span>' +
+                    '<span class="a5-t">' + s.t + '</span>' +
+                    '<span class="a5-pm" aria-hidden="true">' + PLUS + '</span>';
+    const panel = el('div','a5-panel'); panel.id = id; panel.setAttribute('role','region');
+    const inner = el('div'); const pad = el('div','a5-inner');
+    pad.appendChild(stepBody(s)); inner.appendChild(pad); panel.appendChild(inner);
+    if (i === 0) li.dataset.open = '1';
+    btn.addEventListener('click', () => {
+      const open = li.dataset.open === '1';
+      [...ul.children].forEach(x => {
+        x.dataset.open = '0';
+        x.querySelector('.a5-btn').setAttribute('aria-expanded','false');
+      });
+      if (!open){ li.dataset.open = '1'; btn.setAttribute('aria-expanded','true'); }
+      measure();
+    });
+    li.append(btn, panel); ul.appendChild(li);
+  });
+  root.appendChild(ul);
+}
+
+/* ═══ A6 · the stage — with A5 as its honest small-screen form ════════════════════ */
+function a6(root){
+  root.appendChild(el('p','kicker a1-head','How it works'));
+
+  const grid = el('div','a6-grid');
+  const nav = el('div','a6-nav');
+  nav.setAttribute('role','tablist');
+  nav.setAttribute('aria-orientation','vertical');
+  nav.setAttribute('aria-label','The seven steps');
+  const panel = el('div','a6-panel');
+  panel.setAttribute('role','tabpanel');
+  panel.id = 'a6-panel';
+
+  const show = i => {
+    const s = STEPS[i];
+    panel.innerHTML = '';
+    const box = el('div');
+    box.appendChild(el('span','a6-mark', s.n)).setAttribute('aria-hidden','true');
+    box.appendChild(el('h3','t-h3', s.t));
+    box.appendChild(stepBody(s));
+    panel.appendChild(box);
+    [...nav.children].forEach((b, j) => {
+      b.setAttribute('aria-selected', String(i === j));
+      b.tabIndex = i === j ? 0 : -1;
+    });
+    measure();
+  };
+  STEPS.forEach((s, i) => {
+    const b = el('button', null, '<span class="k">' + s.n + '</span>' + s.t);
+    b.type = 'button'; b.setAttribute('role','tab'); b.setAttribute('aria-controls','a6-panel');
+    b.addEventListener('click', () => show(i));
+    /* roving arrow keys — a vertical tablist without them is a mouse-only control */
+    b.addEventListener('keydown', e => {
+      const d = e.key === 'ArrowDown' ? 1 : e.key === 'ArrowUp' ? -1 : 0;
+      if (!d) return;
+      e.preventDefault();
+      const nx = (i + d + STEPS.length) % STEPS.length;
+      show(nx); nav.children[nx].focus();
+    });
+    nav.appendChild(b);
+  });
+  grid.append(nav, panel); root.appendChild(grid); show(0);
+
+  /* the small-screen form is A5, not a squeezed A6 — see the CSS note */
+  const fb = el('div','a6-fallback');
+  a5(fb, {bare:true, idp:'a6fb'});
+  root.appendChild(fb);
+}
+
+/* ═══ A7 · the plates ═════════════════════════════════════════════════════════════ */
+function a7(root){
+  root.appendChild(el('p','kicker a1-head','How it works'));
+  const ol = el('ol','a7-list');
+  STEPS.forEach(s => {
+    const li = el('li','a7-step');
+    const fig = el('div','a7-fig');
+    fig.innerHTML = '<span class="n" aria-hidden="true">' + s.n + '</span>' +
+                    '<span class="rule"></span><span class="lab">Step ' + s.n + ' of 7</span>';
+    const body = el('div');
+    body.appendChild(el('h3','t-h3', s.t));
+    body.appendChild(stepBody(s));
+    li.append(fig, body); ol.appendChild(li);
+  });
+  root.appendChild(ol);
+}
+
+/* ═══ A8 · the chart ══════════════════════════════════════════════════════════════ */
+function a8(root){
+  root.appendChild(el('p','kicker a1-head','How it works'));
+  const doc = el('div','a8-doc');
+  const hdr = el('div','a8-hdr');
+  hdr.innerHTML = '<span class="l">Peptide therapy · programme pathway</span>' +
+                  '<span class="r">Seven stages · Medi-Gyn</span>';
+  doc.appendChild(hdr);
+
+  STEPS.forEach(s => {
+    const row = el('div','a8-row');
+    row.appendChild(el('div','a8-box','<i></i>')).setAttribute('aria-hidden','true');
+    row.appendChild(el('div','a8-ref','0' + s.n));
+    const cell = el('div','a8-cell');
+    cell.appendChild(el('h4', null, s.t));
+    /* the assay panels are re-set as boxed tables here rather than ✦ lists — that IS
+       this treatment's whole argument, so they cannot be rendered by stepBody() */
+    s.body.forEach(b => {
+      if (b.k === 'p')   cell.appendChild(el('p','t-p', b.v));
+      if (b.k === 'list' && b.v.every(x => typeof x === 'string') && b.v.length <= 3 && cell.querySelector('.a8-assay')){
+        const box = el('div','a8-assay single');
+        box.appendChild(el('div','a8-assay-h','Hormones'));
+        const ul = el('ul'); b.v.forEach(x => ul.appendChild(el('li', null, x)));
+        box.appendChild(ul); cell.appendChild(box);
+      } else if (b.k === 'list'){
+        cell.appendChild(list(b.v));
+      }
+      if (b.k === 'cols'){
+        const box = el('div','a8-assay');
+        box.appendChild(el('div','a8-assay-h','Blood work'));
+        const ul = el('ul');
+        /* the source's two columns are one panel here — a requisition is one list */
+        b.v[0].forEach((x, i) => { ul.appendChild(el('li', null, x)); ul.appendChild(el('li', null, b.v[1][i])); });
+        box.appendChild(ul); cell.appendChild(box);
+      }
+      if (b.k === 'sub' && b.v !== 'Blood work' && b.v !== 'Hormones') cell.appendChild(el('p','t-sub', b.v));
+    });
+    row.appendChild(cell); doc.appendChild(row);
+  });
+  root.appendChild(doc);
+}
+
+/* ═══ B · the ledger ══════════════════════════════════════════════════════════════ */
+const inclItems = () => INCLUDED.map(i => i.sub
+  ? {t:'<b>' + i.v + '</b> ' + i.c, sub: i.sub.map(s => '<b>' + s.v + '</b> ' + s.c)}
+  : '<b>' + i.v + '</b> ' + i.c);
+const exclItems = () => EXCLUDED.map(e => ({t: e.t, sub: e.sub}));
+
+function b1(root){
+  const g = el('div','b1-grid');
+  const a = el('div','b1-col');
+  a.appendChild(el('h3', null, 'What’s included'));
+  a.appendChild(list(inclItems(), 'b1-list'));
+  const b = el('div','b1-col');
+  b.appendChild(el('h3', null, 'What’s excluded'));
+  b.appendChild(list(exclItems(), 'b1-list'));
+  g.append(a, b); root.appendChild(g);
+}
+
+function b2(root){
+  const sheet = el('div','b2-sheet');
+  const band = (cls, h, mark, rows, foot) => {
+    const d = el('div','b2-band ' + cls);
+    const hd = el('div','b2-band-h');
+    hd.appendChild(el('h3', null, h));
+    hd.appendChild(el('span','b2-mark', mark));
+    d.appendChild(hd);
+    const ul = el('ul','b2-rows');
+    rows.forEach(r => {
+      const li = el('li','b2-row');
+      li.innerHTML = '<span class="m" aria-hidden="true">' + (cls === 'out' ? '○' : '✦') + '</span>' +
+                     '<span class="c">' + r.html + '</span>';
+      ul.appendChild(li);
+      (r.kids || []).forEach(k => {
+        const s = el('li','b2-row sub');
+        s.innerHTML = '<span class="m" aria-hidden="true">·</span>' +
+                      '<span class="c">' + k + '</span>';
+        ul.appendChild(s);
+      });
+    });
+    d.appendChild(ul);
+    if (foot) d.appendChild(el('p','b2-foot', foot));
+    return d;
+  };
+  sheet.appendChild(band('in','What’s included','In the programme',
+    INCLUDED.map(i => ({
+      html: '<b>' + i.v + '</b> ' + i.c,
+      kids: (i.sub || []).map(s => '<b>' + s.v + '</b> ' + s.c)
+    }))));
+  sheet.appendChild(band('out','What’s excluded','Billed separately',
+    EXCLUDED.map(e => ({html: e.t, kids: e.sub}))));
+  root.appendChild(sheet);
+}
+
+function b3(root){
+  const ul = el('div','b3-list');
+  const row = (v, c, sub) => {
+    const r = el('div','b3-row' + (sub ? ' sub' : ''));
+    r.appendChild(el('div','b3-v', v));
+    r.appendChild(el('div','b3-c', c));
+    ul.appendChild(r);
+  };
+  INCLUDED.forEach(i => {
+    row(i.v, i.c);
+    (i.sub || []).forEach(s => row(s.v, s.c, true));
+  });
+  root.appendChild(ul);
+  const out = el('div','b3-out');
+  out.appendChild(el('h4', null, 'What’s excluded'));
+  out.appendChild(list(exclItems()));
+  root.appendChild(out);
+}
+
+function b4(root){
+  const tabs = el('div','b4-tabs');
+  tabs.setAttribute('role','tablist');
+  tabs.setAttribute('aria-label','What’s included and excluded');
+  const panel = el('div','b4-panel');
+  panel.setAttribute('role','tabpanel'); panel.id = 'b4-panel';
+  const DATA = [
+    {label:'Included', items: inclItems, note:'Seven stages of the method, from evaluation to healing the root cause.'},
+    {label:'Excluded', items: exclItems, note:'Two items, billed separately — pricing is shared with you before any payment is collected.'}
+  ];
+  const show = i => {
+    panel.innerHTML = '';
+    const box = el('div');
+    box.appendChild(list(DATA[i].items(), 'b1-list'));
+    box.appendChild(el('p','b4-count', DATA[i].note));
+    panel.appendChild(box);
+    [...tabs.children].forEach((b, j) => {
+      b.setAttribute('aria-selected', String(i === j));
+      b.tabIndex = i === j ? 0 : -1;
+    });
+    measure();
+  };
+  DATA.forEach((d, i) => {
+    const b = el('button', null, d.label);
+    b.type = 'button'; b.setAttribute('role','tab'); b.setAttribute('aria-controls','b4-panel');
+    b.addEventListener('click', () => show(i));
+    b.addEventListener('keydown', e => {
+      const d2 = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (!d2) return;
+      e.preventDefault();
+      const nx = (i + d2 + DATA.length) % DATA.length;
+      show(nx); tabs.children[nx].focus();
+    });
+    tabs.appendChild(b);
+  });
+  root.append(tabs, panel); show(0);
+}
+
+/* ═══ C · the two audiences ═══════════════════════════════════════════════════════ */
+function c1(root){
+  const row = el('div','c1-row');
+  ['women','men'].forEach(k => {
+    const a = AUD[k];
+    const d = el('div','c1-aud');
+    const t = el('div','c1-txt');
+    t.appendChild(el('h3', null, a.h));
+    t.appendChild(el('p', null, a.teaser));
+    const b = el('button','c1-open');
+    b.type = 'button'; b.setAttribute('aria-haspopup','dialog');
+    b.setAttribute('aria-label', a.h + ' — read the full list of symptoms');
+    b.innerHTML = PLUS;
+    d.append(t, b); row.appendChild(d);
+  });
+  root.appendChild(row);
+}
+
+function c2(root){
+  const row = el('div','c2-row');
+  ['women','men'].forEach(k => {
+    const a = AUD[k];
+    const btn = el('button','c2-door');
+    btn.type = 'button'; btn.setAttribute('aria-haspopup','dialog');
+    btn.setAttribute('aria-label', a.h + ' — read the full list of symptoms');
+    /* AVIF with a WebP fallback, the repo's own <picture> discipline */
+    btn.innerHTML =
+      '<picture>' +
+        '<source srcset="../images/doors/' + a.plate + '.avif" type="image/avif">' +
+        '<img src="../images/doors/' + a.plate + '.webp" alt="" loading="lazy" decoding="async">' +
+      '</picture>' +
+      '<span class="c2-scrim"></span>' +
+      '<span class="c2-cap"><h3>' + a.h + '</h3><p>' + a.teaser + '</p>' +
+      '<span class="go">The full list <i>' + PLUS + '</i></span></span>';
+    row.appendChild(btn);
+  });
+  root.appendChild(row);
+}
+
+function c3(root){
+  const top = el('div','c3-top');
+  top.appendChild(el('p','kicker','Who it’s for'));
+  const sw = el('div','c3-sw');
+  sw.setAttribute('role','tablist'); sw.setAttribute('aria-label','Audience');
+  top.appendChild(sw); root.appendChild(top);
+
+  const body = el('div','c3-body');
+  body.setAttribute('role','tabpanel'); body.id = 'c3-panel';
+  const KEYS = ['women','men'];
+  const show = i => {
+    const a = AUD[KEYS[i]];
+    body.innerHTML = '';
+    const box = el('div');
+    a.lede.forEach(p => box.appendChild(el('p','c3-lede', p)));
+    box.appendChild(el('p','t-sub', a.sub));
+    const cols = el('div','c3-cols');
+    cols.appendChild(list(a.list));
+    box.appendChild(cols);
+    body.appendChild(box);
+    [...sw.children].forEach((b, j) => {
+      b.setAttribute('aria-selected', String(i === j));
+      b.tabIndex = i === j ? 0 : -1;
+    });
+    measure();
+  };
+  KEYS.forEach((k, i) => {
+    const b = el('button', null, AUD[k].h);
+    b.type = 'button'; b.setAttribute('role','tab'); b.setAttribute('aria-controls','c3-panel');
+    b.addEventListener('click', () => show(i));
+    b.addEventListener('keydown', e => {
+      const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (!d) return;
+      e.preventDefault();
+      const nx = (i + d + KEYS.length) % KEYS.length;
+      show(nx); sw.children[nx].focus();
+    });
+    sw.appendChild(b);
+  });
+  root.appendChild(body); show(0);
+}
+
+/* ⚠️ BASE IS DECLARED HERE, ABOVE THE MOUNT, AND MUST STAY ABOVE IT. Several treatments
+   call measure() during their first render (A6, B4 and C3 all render through show()),
+   and `const` does not hoist — declaring this next to measure() below put it in the
+   temporal dead zone, so the FIRST render threw, the mount loop died on the spot, and
+   every bay after A6 rendered as an empty box. The page threw exactly one console error
+   and looked, at a glance, like a CSS problem. */
+const BASE = {a:'a1', b:'b1', c:'c1'};
+
+/* ═══ mount ═══════════════════════════════════════════════════════════════════════ */
+const RENDER = {a1,a2,a3,a4,a5,a6,a7,a8,b1,b2,b3,b4,c1,c2,c3};
+document.querySelectorAll('[data-render]').forEach(n => {
+  const fn = RENDER[n.dataset.render];
+  if (fn) fn(n);
+});
+
+/* ═══════════════════════════════════════════════════════════════════════════════════
+   THE MEASUREMENT — every chip's height is read off the rendered DOM, not asserted in
+   prose, and re-read whenever the ground, the width or an open panel changes. The
+   comparison is against A1 within the same chapter's units (A1 for chapter A, B1 for B,
+   C1 for C), because "twice the shipped height" is the only number that means anything
+   to someone deciding whether a treatment can go on the page.
+   ⚠️ IT MEASURES .demo, INCLUDING ITS PADDING — that padding is what the section will
+   actually cost in the page, so excluding it would flatter every treatment equally and
+   usefully flatter none.
+   ═══════════════════════════════════════════════════════════════════════════════════ */
+function measure(){
+  const h = {};
+  document.querySelectorAll('[data-metric]').forEach(dd => {
+    const bay = document.getElementById(dd.dataset.metric);
+    if (bay) h[dd.dataset.metric] = Math.round(bay.querySelector('.demo').getBoundingClientRect().height);
+  });
+  document.querySelectorAll('[data-metric]').forEach(dd => {
+    const id = dd.dataset.metric, px = h[id];
+    if (px == null) return;
+    const base = h[BASE[id[0]]];
+    let txt = '<b>' + px.toLocaleString() + ' px</b>';
+    if (base && id !== BASE[id[0]]){
+      const r = px / base;
+      txt += ' · <b>' + (r < 1 ? '−' + Math.round((1 - r) * 100) + '%' : '×' + r.toFixed(2)) +
+             '</b> vs ' + BASE[id[0]].toUpperCase();
+    } else if (base){
+      txt += ' · the baseline';
+    }
+    dd.innerHTML = txt;
+  });
+}
+/* measure once the brand faces have swapped in — measuring before that reads the
+   fallback stack's metrics and every number is wrong by a few percent */
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+addEventListener('load', measure);
+let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(measure, 160); });
+
+/* ═══ the two controls ════════════════════════════════════════════════════════════ */
+document.getElementById('segGround').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  [...e.currentTarget.children].forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  document.querySelectorAll('.demo').forEach(d => d.dataset.g = b.dataset.g);
+  measure();
+});
+document.getElementById('segWidth').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  [...e.currentTarget.children].forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  document.body.dataset.w = b.dataset.w;
+  setTimeout(measure, 420);   /* after the width transition settles */
+});
+</script>
+</body>
+</html>

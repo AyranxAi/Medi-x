@@ -1,5 +1,94 @@
 # Peptide Therapy — `/peptide-therapy/` (first ship 2026-08-14)
 
+> ## ROUND 12 — 2026-08-16: chapters 05 and 06 get a lab — fifteen treatments, one copy of
+> the client's words, and a harness that checks the lab's own claims
+>
+> **NOTHING ON THE PAGE MOVED THIS ROUND.** `index.html` is byte-identical. Two new files:
+> `peptide-therapy/programme-lab.html` and `tools/qa/programme-lab.mjs`. Round 11 shipped
+> the programme copy in exactly one shape each — the seven steps as a hairline ledger, the
+> included/excluded as two columns, the two audiences as two opening rows — and each of
+> those was chosen against the page's box budget on the day, **not against an alternative**.
+> This lab is the alternatives, so the shape can be picked on its merits.
+>
+> **1 · FIFTEEN TREATMENTS IN THREE CHAPTERS, SISTER TO THE OTHER THREE LABS.**
+> A · the seven steps (8) — the shipped Ledger, the Spine, the Eight Weeks, the Rail, the
+> Doors, the Stage, the Plates, the Chart. B · the ledger (4) — Two Columns as shipped, the
+> Balance, the Verbs, the Tabs. C · the two audiences (3) — Two Rows as shipped, the
+> Diptych, the Switch. Ground and width switch live; every bay carries a spec chip.
+> ⚠️ **PICK ONE FROM EACH CHAPTER — THEY ARE INDEPENDENT.** Two combinations are worth
+> avoiding and both are repetition rather than taste: A4+C2 puts a horizontal card track
+> directly above two photographic doors, and A5+B4+C1 makes every single thing in the
+> section something you have to open before you can read it.
+>
+> **2 · THE COPY LIVES ONCE, AND THAT IS THE WHOLE METHOD.** All fifteen render from one
+> `DATA` block, so no treatment can win an audition by quietly tightening a sentence. Round
+> 11's corrections come through with it; the lab introduces none of its own. **Two fields
+> in that block are NOT the client's and are marked as such**: `short` (a précis, written
+> for A3's band, A4's cards and A6's index — new text, needing sign-off like any other) and
+> `span` (used only where the source states a duration).
+> ⚠️ **DO NOT PORT THE RENDERER.** It exists so fifteen treatments could share one copy of
+> his text. Whichever is adopted gets hand-written into `index.html` as static markup, the
+> way A1 already is. The lab has no no-JS fallback and the page must keep having one.
+>
+> **3 · THE HEIGHTS IN THE CHIPS ARE MEASURED LIVE, because for half of these the whole
+> argument is what the chapter costs in scroll.** At 1440, against the shipped baselines:
+> `A4 −79% · A6 −78% · A3 −66% · A5 −61% · A8 −6% · A2 −2% · A1 baseline · A7 ×1.14` ·
+> `B4 −4% · B1 baseline · B3 ×1.57 · B2 ×1.61` · `C1 baseline · C2 ×2.22 · C3 ×4.07`.
+> **C3 is the number that answers a real question**: putting the full symptom lists in the
+> page instead of behind a dialog costs four times the shipped row, and that is the fact to
+> argue from rather than taste.
+>
+> **4 · TWO OF THE FIFTEEN CANNOT SHIP ON THIS LAB'S SAY-SO.**
+> ⚠️ **A3 · THE EIGHT WEEKS NEEDS HIS DATES.** The client's source contains three durations
+> and no dates — two months of protocol, four weeks of mentorship, a further four weeks of
+> follow-up. Those three are drawn and **nothing else is**: steps 1–4 sit in a band headed
+> "before day one", and step 6 is a marker that hugs its own text rather than a band. It
+> first shipped in this lab as a full-width band with an "undated" caption underneath, and
+> a full-width band on an eight-week ruler says EIGHT WEEKS louder than any caption says
+> otherwise. Inventing "week 1, week 2" publishes a schedule the clinic never agreed to and
+> a patient will hold them to it.
+> ⚠️ **C2 · THE DIPTYCH NEEDS ITS SCRIM MEASURED.** It borrows `images/doors/menopause-941`
+> and `trt-941`, which already ship — no new photography, no new encode, no new licence —
+> but **the alphas in the file are the doors' geometry as a starting point and are not a
+> measurement**. BRAND.md's method against these two plates at these two crops before it
+> goes near the page.
+>
+> **5 · THE HARNESS CHECKS THE LAB'S CLAIMS, NOT ITS STYLING** — `tools/qa/programme-lab.mjs`,
+> 24 checks, exits non-zero. The copy is one copy; the printed ratios agree with the pixels;
+> no hex or `rgb()` is outside the peptide tokens; A6's fallback is real at 390.
+> ⚠️ **THREE BUGS IT FOUND, AND THEY ARE THE USEFUL PART OF THIS ENTRY.**
+> (a) `const BASE` sat below the mount loop while three treatments call `measure()` during
+> their first render — the temporal dead zone threw on the FIRST such render, the mount loop
+> died, and **every bay after A6 rendered as an empty box** behind one console error that
+> looked like a CSS problem.
+> (b) A8's Hormones panel silently lost the divider between SHBG and Free Testosterone: a
+> last-row exemption written for two columns misfires on three cells in one. **Rule rows
+> with `border-top` and exempt the first row** — counting from the top is the same
+> arithmetic in every column count.
+> (c) A3's ruler dropped to four ticks on a phone while its bars kept running the full
+> width — a two-month protocol drawn against a four-week ruler — and a fixed `height`
+> clipped the step-6 marker's second line, which is the one sentence in that graphic that
+> may not go missing.
+> ⚠️ **(b) AND (c) WERE FOUND BY A SCREENSHOT, NOT BY THE HARNESS.** Nothing threw and no
+> measurement moved. Both have regression checks now. Run `--shots` and **look at the phone
+> set** — the desktop form is the one everybody imagines while designing.
+> ⚠️ **CHECK 1 CAUGHT ITSELF ON ITS FIRST RUN**: the comment describing the
+> comment-closing bug contained the sequence that causes it, and the harness would not
+> parse. It says so now instead of demonstrating it.
+> ⚠️ **CSS `ch` IS NOT A CHARACTER IN THIS FACE — the ratio is ~1.4.** `ch` is the advance
+> of the digit zero and MediGyn NOW's zero is narrow against its own average letter, so
+> B2's `max-width:78ch` was setting 109 actual characters. Any `ch` cap on this site wants
+> dividing by 1.4 to read as characters; the harness measures each element's own text
+> through canvas `measureText` rather than assuming 0.5em.
+>
+> **6 · ONE THING THE SOURCE IS MISSING AND ONLY HE CAN SUPPLY.** His exclusions list ends
+> with a bare `*` — an empty third bullet. `index.html` drops it and the lab drops it the
+> same way. If a third exclusion was meant, it never arrived.
+> ⚠️ Round 11's flag still stands and this lab does not resolve it: **"a more effective
+> alternative to traditional medicine" is a comparative-efficacy claim about a regulated
+> therapy** and needs sign-off alongside the FAQ and the eight tiles. It is reproduced in
+> the lab's B and A chapters exactly as it stands on the page.
+
 > ## ROUND 11 — 2026-08-16: the client's notes land — the scene goes cool, the page grows
 > two chapters, and the band grows two doctors
 >

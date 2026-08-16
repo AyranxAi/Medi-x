@@ -114,6 +114,53 @@ scroll settled. The harness flags it inline rather than letting you chase a colo
 ⚠️ **A skip exits non-zero.** Same rule `door-contrast.mjs` learned expensively: a silent
 skip that reads as a pass is worse than a fail.
 
+## The programme lab — `programme-lab.mjs`
+
+```bash
+npm install --no-save playwright@1.49.1
+node tools/qa/programme-lab.mjs            # 24 checks at 1440 and 390
+node tools/qa/programme-lab.mjs --shots    # a PNG of every bay, at both widths
+```
+
+`peptide-therapy/programme-lab.html` auditions fifteen treatments of chapters 05 and 06.
+The harness checks the four things the lab **claims**, not its styling:
+
+- **the copy is one copy** — every client string survives into every treatment that shows
+  full step bodies, so no layout can win an audition by quietly shortening a sentence;
+- **the heights are measured** — each chip's printed pixel height and its ratio against
+  the shipped baseline are re-derived from the DOM and compared with what is printed;
+- **no new colour** — every hex and `rgb()` in the stylesheet is a peptide-page token or
+  a documented exception;
+- **the fallbacks are real** — A6's two-column stage is genuinely gone at 390 and A5's
+  accordion is genuinely standing in its place.
+
+⚠️ **A6 is excluded from the one-innerText copy check on purpose, and gets its own walk.**
+It holds one step at a time by design. The first version of the check read it like a
+static list and reported a working treatment as losing four strings. A treatment may
+defer copy behind a control; it may not lose it — so the walk clicks all seven tabs and
+unions what they showed. Excluding a bay from a check is only legitimate when the check
+is wrong *for that bay*, which is why each exclusion is named in the source.
+
+⚠️ **Characters are measured in the real face, never derived from `font-size`.** CSS `ch`
+is the advance of the digit zero, and MediGyn NOW's zero is narrow against its own average
+letter — the ratio over this section's real strings is **~1.4**. A `max-width:78ch` set
+109 actual characters. The check runs each element's own text through canvas `measureText`
+in its own computed font. Assuming 0.5em per character over-counted by a third and would
+have had someone tightening a measure that was already correct.
+
+⚠️ **Two bugs here were found by a screenshot and not by the harness**, and both now have
+regression checks: A8's Hormones panel lost the divider between SHBG and Free Testosterone
+(a last-row exemption written for two columns, misfiring on three cells in one), and A3's
+week ruler dropped to four ticks on a phone while its bars kept running the full width —
+a two-month protocol drawn against a four-week ruler. Nothing threw for either. **Run
+`--shots` and look at the phone set**; the desktop form is the one everybody imagines
+while designing, and 390 is the one most of the traffic gets.
+
+⚠️ **Check 1 caught itself.** The stylesheet-comment check is copied from
+`peptide-page.mjs`, and the first run of this file failed to parse as JavaScript because
+the comment *describing* the bug contained the sequence that causes it. The comment now
+says so instead of demonstrating it.
+
 ## Encoding a new plate — `tools/encode-plate.mjs`
 
 ```bash

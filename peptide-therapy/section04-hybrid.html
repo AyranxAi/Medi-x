@@ -448,21 +448,44 @@ img{display:block;max-width:100%}
    which is display:flex on the focused card and comes AFTER it in the DOM. Its z-index:8
    bought it nothing in that sort; whichever way the engine broke the tie decided whether
    the + was on top of the card or under it.
-   1px of Z ends the tie in every engine, in any order. backface-visibility:visible is the
-   belt to that brace: the back face beside it sets hidden, and an element that inherits
-   hidden while its parent is rotated is invisible for a reason nothing in the CSS names.
+   1px of Z ends the tie in every engine, in any order.
+   ⚠️ THERE WAS A backface-visibility:visible HERE AND IT WAS DEAD CODE — REMOVED, NOT LOST.
+   `.pw>*:not(.pw-back)` below sets hidden at (0,2,0) and sits LATER in this sheet, so it
+   beat the (0,1,0) declaration here; the computed value was `hidden` the whole time. That
+   is also the value we WANT: with the card flipped the + must disappear so the × can take
+   the corner, and a hit test at that point returns .pw-back, which is correct. Had the
+   `visible` ever won it would have painted the + mirrored across the back panel. Do not
+   re-add it. translateZ(1px) is doing the real work; that line was never the brace.
    ⚠️ STILL UNREPRODUCED HERE — Chromium is the only engine in this environment and the
-   WebKit build will not download through the egress policy. This is the third dependency
-   the + had that the × does not, after the font metrics and the grid-on-a-button. If it is
-   STILL missing on his phone, stop removing causes and get a screenshot of that corner. */
+   WebKit build will not download through the egress policy. If the + is STILL missing on
+   his phone, stop removing causes and get a screenshot of that corner. */
 .pw-more{position:absolute;top:0;right:0;z-index:8;width:46px;height:46px;
-  transform:translateZ(1px);backface-visibility:visible;
+  transform:translateZ(1px);
   display:none;place-content:center;color:var(--ivory);
   font-family:var(--sans);font-weight:400;font-size:15px;line-height:1;
   transition:transform .6s var(--ease)}
+/* ⚠️⚠️ NO backdrop-filter HERE — IT WAS THE LAST STRUCTURAL DIFFERENCE BETWEEN THIS AND THE
+   × THAT HAS NEVER BEEN REPORTED MISSING, and it bought nothing measurable. A 6px blur read
+   through a 24px disc is not perceptible; the fill and the hairline are what draw it. What
+   it DID carry is risk: a backdrop-filtered element inside a transform-style:preserve-3d
+   subtree is a long-standing WebKit weak point, and .pw carries preserve-3d for the flip.
+   .pw-close::before computes backdrop-filter:none and has always rendered.
+   ⚠️⚠️ AND THE FILL GOES .36 -> .46 BECAUSE .36 WAS FAILING, NOT TO MATCH IT. Measured on
+   all eight cards at phone size, the + against its own disc was:
+       auto-immune 4.51   gut 5.57   skin 3.88   weight 3.68   anti-ageing 3.68
+       musculoskeletal 3.23   brain 3.19   SEXUAL HEALTH 2.65  <- under the 3:1 floor
+   An earlier note in this file said "4.52:1" and that was AUTO-IMMUNE ONLY — one card
+   generalised to eight. The pale portrait on sexual-health is the worst ground on the rail
+   and it is the card that was genuinely hard to see. At .46 the worst case is 3.41:1 and
+   every card clears the floor. The disc darkens by up to 20/255 on the palest photos; that
+   is the fix rather than a side effect, so do not "restore" it.
+   ⚠️ ANY PROBE HERE MUST READ THE BUTTON'S SIZE, NOT ASSUME IT. The base rule says 46px but
+   `.rail.is-ring .pw-more` renders it at 42px on a phone, so the disc radius is 12, not 14.
+   A ring sampled at an assumed radius lands on the antialiased border and mixes the ivory
+   hairline into the fill — which reported ~2:1 and looked like a contrast collapse that was
+   not there. Sample between the + arm at 5.3px and the measured edge. */
 .pw-more::before{content:"";position:absolute;inset:9px;border-radius:50%;
-  border:1px solid rgba(250,247,241,.5);background:rgba(52,16,28,.36);
-  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  border:1px solid rgba(250,247,241,.5);background:rgba(52,16,28,.46);
   transition:background .35s var(--ease),border-color .35s var(--ease)}
 /* ⚠️⚠️ THE + IS AN SVG AND IS CENTRED ABSOLUTELY — 2026-08-17, his "on the phone the + is
    not shown". IT COULD NOT BE REPRODUCED HERE and that is stated rather than glossed:

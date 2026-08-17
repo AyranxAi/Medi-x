@@ -1250,6 +1250,12 @@ section{position:relative}
   letter-spacing:.2em;text-transform:uppercase;color:var(--gold-deep)}
 .pg-amt{font-family:var(--accent);font-size:clamp(17px,2vw,21px);
   font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--ink)}
+/* the "+ VAT" rider — his call 2026-08-17, "showcase plus vat there". It is set in the
+   SANS at label size rather than in the accent, so it reads as an annotation on the
+   figure and never competes with it for the eye. The summary still does the arithmetic
+   in full below; this only stops AED 1,150 being read as the amount payable. */
+.pg-amt small{font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-soft);margin-left:5px}
 .pg-blk--soft .pg-h{border-bottom-color:var(--line)}
 .pg-list{list-style:none;margin-top:12px}
 .pg-list li{font-size:13.5px;line-height:1.5;padding-left:17px;position:relative;color:var(--ink)}
@@ -1288,6 +1294,11 @@ section{position:relative}
 .pg-sum{margin-top:24px;padding-top:16px;border-top:2px solid var(--ink)}
 .pg-row{display:flex;align-items:baseline;justify-content:space-between;gap:14px;
   font-size:13.5px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+/* ⚠️ WITHOUT THIS THE COLLECTION ROW NEVER HIDES. `hidden` is a UA `display:none`, and
+   the `display:flex` above beats it on specificity — the row would sit in the summary at
+   AED 1,950.00 whether or not the reader had ticked the add-on, which is the worst
+   possible direction for a pricing bug to fail in. */
+.pg-row[hidden]{display:none}
 .pg-row + .pg-row{margin-top:7px}
 .pg-row--total{margin-top:12px;padding-top:12px;border-top:1px solid var(--line);color:var(--ink)}
 .pg-row--total span:first-child{font-family:var(--sans);font-weight:500;font-size:11px;
@@ -2439,13 +2450,26 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
       <div class="sec-head">
         <h2 data-reveal>Where would you like to <em>begin?</em></h2>
         <!-- ⚠️ THE LEDE IS LOAD-BEARING, NOT DECORATION. The eight became a
-             multi-select today and nothing on the page said so; this is the only
+             multi-select and nothing else on the page says so; this is the only
              line that tells a reader they may pick more than one, and that picking
              three does not cost more than picking one. Without it the grid reads as
-             eight products to choose between. -->
+             eight products to choose between.
+             ⚠️⚠️ IT ALSO SAID SOMETHING UNTRUE UNTIL 2026-08-17, and the client caught
+             it: "the process, the panel and THE PRICE are the same whichever you pick."
+             The price is not. AED 1,150 buys the CONSULTATION, and the peptides that
+             follow are prescribed per person and priced after the blood work — so a
+             reader who picked three goals could fairly have expected one bill and met
+             another. THE PROMISE THE LINE EXISTS TO MAKE SURVIVES INTACT, because it was
+             never really about the total: choosing three costs no more than choosing one,
+             which is still true of the only figure the page quotes.
+             ⚠️ DO NOT SHORTEN THIS BACK BY DROPPING THE LAST SENTENCE. The peptide caveat
+             is the half that makes the first half honest; without it the paragraph is the
+             same claim in politer words. -->
         <p class="sec-lede" data-reveal>Choose as many as apply — most people choose
-        two or three. They are eight goals, not eight programmes: the process, the
-        panel and the price are the same whichever you pick.</p>
+        two or three. They are eight goals, not eight programmes: it is the same
+        consultation whichever you pick, and choosing three costs no more than choosing
+        one. Your peptides are prescribed and priced separately, after your blood work
+        is read.</p>
       </div>
       <!-- ⚠️⚠️ THE RING REPLACED THE FOUR-ACROSS GRID OF TILES ON 2026-08-17, and the
            eight <template class="px-detail"> popups went with it — a card's own BACK FACE
@@ -2730,7 +2754,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
       <div class="px-tray-in">
         <span class="px-tray-n" id="px-tray-n"></span>
         <span class="px-tray-l" id="px-tray-l"></span>
-        <button type="button" class="px-tray-go" id="px-tray-go">See your programme <span aria-hidden="true">→</span></button>
+        <button type="button" class="px-tray-go" id="px-tray-go">See your consultation <span aria-hidden="true">→</span></button>
       </div>
     </div>
 
@@ -2742,25 +2766,40 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
          HAPPEN. His reframe, and it is the good part: "not included" and "what you
          can add" carry the same facts and land in opposite directions.
          ⚠️ NOT A CHECKOUT. One primary action, one toggle, nothing else clickable.
-         ⚠️ INCLUDED AND PRICED-AFTER COPY IS THE CLIENT'S, VERBATIM (2026-08-16).
+         ⚠️ THE INCLUDED LIST IS THE CLIENT'S COPY, VERBATIM (2026-08-16).
          ⚠️ AED 1,950 IS HIS REAL FIGURE (2026-08-16). The 350 that stood here was a
          placeholder I invented and it never reached main.
-         ⚠️ VAT IS NOT COMPUTED HERE — his call: "show 1,150 only, VAT line at
-         checkout". The panel states it and moves on. -->
+         ⚠️⚠️ THIS PANEL SELLS A CONSULTATION, NOT A PROGRAMME — 2026-08-17, his relay of
+         the client: "we are only selling consultation with that price of 1150". Four
+         things moved together and they are one decision, not four:
+           · the kicker, the summary's first row, the start pill and the tray's button
+             all say CONSULTATION now. The sixteen "Add to your programme" tiles and the
+             section lede DO NOT — a basket of goals is still fairly a programme, and the
+             lede says so in as many words. What was mislabelled was the MONEY.
+           · the mentorship line loses "| 8-week": four weeks is what this price carries.
+           · the collection is UAE-wide, not Dubai. The old copy sent everyone outside
+             Dubai to their own laboratory; that now applies outside the UAE.
+           · "Priced after your consultation" becomes "What's not included", his wording,
+             and gains blood tests and the review consultation. The old two-item list
+             implied the peptides were the only thing still to pay for.
+         ⚠️ VAT: the figure carries a "+ VAT" rider since 2026-08-17 ("showcase plus vat
+         there"). This REPLACES the round-14 call to "show 1,150 only, VAT line at
+         checkout" — the summary below still does the full arithmetic; the rider only
+         stops the headline figure being read as the amount payable. -->
     <template id="prog-panel">
-      <p class="pxd-kicker">Your programme</p>
+      <p class="pxd-kicker">Your consultation</p>
       <h3>Here is what you're starting.</h3>
       <p class="pg-recap" id="pg-recap">Peptide therapy.</p>
 
       <div class="pg-blk">
-        <div class="pg-h"><span>Included</span><span class="pg-amt">AED 1,150</span></div>
+        <div class="pg-h"><span>Included</span><span class="pg-amt">AED 1,150 <small>+ VAT</small></span></div>
         <ul class="pg-list">
           <li>Detailed symptom assessment</li>
           <li>Analysis and interpretation of your blood test results</li>
           <li>Issuance of Peptide Therapy Protocol and Prescription</li>
           <li>Issuance of Science-based Supplementation Plan</li>
           <li>Lifestyle Modifications Plan</li>
-          <li>4-week | 8-week mentorship support after starting your treatment</li>
+          <li>4-week mentorship support after starting your treatment</li>
         </ul>
       </div>
 
@@ -2768,21 +2807,25 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
         <div class="pg-h"><span>Add now</span></div>
         <button type="button" class="pg-addon" id="pg-addon" aria-pressed="false">
           <span class="pg-box" aria-hidden="true">✓</span>
-          <span class="pg-t">Home blood sample collection · Dubai
-            <small>A team or a nurse comes to your home and takes the sample for
-            whichever tests are required. Outside Dubai you use any laboratory near you and we send the
-            exact panel to ask for.</small></span>
+          <span class="pg-t">Home blood sample collection · UAE
+            <small>A team or a nurse comes to your home anywhere in the UAE and takes the sample
+            for whichever tests are required. Outside the UAE you use any laboratory near you and
+            we send the exact panel to ask for.</small></span>
           <span class="pg-p">AED 1,950</span>
         </button>
       </div>
 
       <div class="pg-blk pg-blk--soft">
-        <div class="pg-h"><span>Priced after your consultation</span></div>
+        <div class="pg-h"><span>What’s not included</span></div>
         <ul class="pg-list">
-          <li>Your peptides — two months
-            <small>Prescribed by your doctor once your blood work is read.</small></li>
+          <li>Blood tests
+            <small>Home blood sample collection fees are separate.</small></li>
+          <li>Peptide therapy
+            <small>Once your prescription is issued, we will price it.</small></li>
           <li>Supplementation products
-            <small>All products are charged separately. Pricing is shared with you before payment.</small></li>
+            <small>Products are charged separately.</small></li>
+          <li>Review consultation
+            <small>This is a new consultation.</small></li>
         </ul>
       </div>
 
@@ -2847,7 +2890,8 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
         <!-- ⚠️ ALWAYS TWO DECIMALS IN THIS BLOCK, EVEN ON WHOLE FIGURES. Letting round
              numbers drop their fils put "AED 1,207.50" and "AED 3,255" in one column,
              which reads as a formatting fault rather than a total. -->
-        <div class="pg-row"><span>Programme</span><span id="pg-sub">AED 1,150.00</span></div>
+        <div class="pg-row"><span>Consultation</span><span id="pg-sub">AED 1,150.00</span></div>
+        <div class="pg-row" id="pg-row-addon" hidden><span>Home blood sample collection</span><span id="pg-addon-amt">AED 1,950.00</span></div>
         <div class="pg-row"><span>VAT 5%</span><span id="pg-vat">AED 57.50</span></div>
         <div class="pg-row pg-row--total"><span>Total today</span><span id="pg-total">AED 1,207.50</span></div>
       </div>
@@ -2873,7 +2917,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
            should not be a hedge. The button is the end of the panel now.
            ⚠️ .pg-foot's CSS RULE WENT WITH IT — a rule for markup that no longer exists is
            the same lie as a selector for it, and this file has enough real warnings. -->
-      <div class="pxd-cta"><a class="btn" href="#book" data-pg-start>Start your programme <span class="arr">→</span></a></div>
+      <div class="pxd-cta"><a class="btn" href="#book" data-pg-start>Start your consultation <span class="arr">→</span></a></div>
     </template>
   </section>
 
@@ -4519,8 +4563,21 @@ try{
     if (!r) return;
     var names = inOrder();
     r.innerHTML = names.length ? "Peptide therapy for " + phrase(names) + "." : "Peptide therapy.";
+    /* ⚠️⚠️ THE FIRST ROW IS THE CONSULTATION AND ONLY THE CONSULTATION — 2026-08-17.
+       It used to print `sub`, which is BASE + the collection, under a label that read
+       "Programme". Renaming that label to "Consultation" on his instruction would have
+       made it actively false the moment the add-on was ticked: AED 3,100.00 sitting
+       against the word Consultation, when 1,950 of it is the nurse. So the collection
+       gets its own row, shown only when it is actually being bought. VAT and the total
+       still work off `sub`, so the arithmetic he confirmed is untouched. */
     var sub = BASE + (addon ? ADDON : 0), vat = sub * VAT;
-    document.getElementById("pg-sub").textContent   = money(sub);
+    document.getElementById("pg-sub").textContent   = money(BASE);
+    var arow = document.getElementById("pg-row-addon");
+    if (arow) {
+      arow.hidden = !addon;
+      var aamt = document.getElementById("pg-addon-amt");
+      if (aamt) aamt.textContent = money(ADDON);
+    }
     document.getElementById("pg-vat").textContent   = money(vat);
     document.getElementById("pg-total").textContent = money(sub + vat);
     var a = document.getElementById("pg-addon");
@@ -4581,7 +4638,7 @@ try{
     if (e.target.closest("#px-tray-go")){
       var tpl = document.getElementById("prog-panel");
       if (tpl && window.__openPxd){
-        window.__openPxd(tpl, "Your programme", document.getElementById("px-tray-go"));
+        window.__openPxd(tpl, "Your consultation", document.getElementById("px-tray-go"));
         syncPanel();
       }
       return;

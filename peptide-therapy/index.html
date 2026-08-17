@@ -1069,14 +1069,30 @@ section{position:relative}
 .px-tray.done{transform:translateY(120%);opacity:0;pointer-events:none}
 .px-tray-in{max-width:1280px;margin:0 auto;display:flex;align-items:center;
   gap:clamp(12px,2vw,22px);transition:max-width .45s var(--ease)}
-.px-tray-n{font-family:var(--accent);font-size:12px;letter-spacing:.2em;color:var(--gold);
-  white-space:nowrap;font-variant-numeric:tabular-nums}
-.px-tray-l{font-size:13.5px;color:rgba(250,247,241,.78);flex:1;min-width:0;
-  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.px-tray-n{font-family:var(--accent);font-size:17px;letter-spacing:.2em;color:var(--gold);
+  white-space:nowrap;font-variant-numeric:tabular-nums;
+  /* ⚠️⚠️ THE -1px IS AN OPTICAL CORRECTION AND IT IS MEASURED, NOT EYEBALLED — his
+     "vertically it's not centered well", 2026-08-17. BOTH RUNS ARE ALREADY PERFECTLY
+     CENTRED BY THE BOX MODEL: every line box in this bar sits 0.0px off centre. What is
+     off is the INK. Read off the painted pixels at these sizes, "1 chosen" landed at
+     +0.5 from the bar's centre and the goal name at -1.5 — a 2px step between two words
+     an inch apart, which is exactly what the eye catches.
+     ⚠️ THE CAUSE IS TWO TYPEFACES, so no box-model fix reaches it. --accent (Megante)
+     and --sans (NOW) carry their ink at different heights inside their line boxes;
+     line-height:1 on both was tried and moved the gap by 0.0px, because ink offset is a
+     font metric and not a leading one. These two nudges close it to 0.0px exactly.
+     ⚠️ THEY ARE TIED TO THIS FONT PAIR AND THESE SIZES. Change either face, or these
+     font-sizes, and re-measure — do not scale the numbers. The real fix is to set the
+     count in --sans like everything else in the bar, which would make both nudges
+     unnecessary; that is a copy/identity decision nobody has taken yet. */
+  position:relative;top:-1px}
+.px-tray-l{font-size:16.5px;color:rgba(250,247,241,.78);flex:1;min-width:0;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  position:relative;top:1px}   /* the other half of the pair above */
 .px-tray-go{display:inline-flex;align-items:center;gap:10px;flex-shrink:0;
-  font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.14em;
+  font-family:var(--sans);font-weight:500;font-size:15px;letter-spacing:.08em;
   text-transform:uppercase;color:var(--ivory);background:none;
-  border:1px solid rgba(250,247,241,.42);border-radius:999px;padding:12px 22px;
+  border:1px solid rgba(250,247,241,.42);border-radius:999px;padding:14px 22px;
   cursor:pointer;transition:all .3s var(--ease)}
 .px-tray-go:hover{background:var(--ivory);color:var(--ink);border-color:var(--ivory)}
 /* ── .mini: the bar becomes a bookmark ──────────────────────────────────────────
@@ -1092,15 +1108,35 @@ section{position:relative}
 /* ⚠️ gap:0 IS WHAT MAKES IT ONE PILL. The count and the button are two elements butted
    into a single rounded shape (999px 0 0 999px + 0 999px 999px 0); the bar's own
    clamp(12px,2vw,22px) gutter drove a hole through the middle of it. */
-.px-tray.mini .px-tray-in{max-width:1280px;justify-content:flex-end;gap:0}
+/* ⚠️⚠️ THE PILL IS ONE PAINTED ELEMENT NOW, AND IT WAS TWO — his "this pill is also off",
+   2026-08-17, and the seam he saw was real. The count and the button were each painting
+   their own half (999px 0 0 999px + 0 999px 999px 0), which FAILS TWICE:
+     · GEOMETRY. The count is 17px with no border, the button 15px WITH one, so the two
+       halves compute different heights — and .px-tray-in centres them rather than
+       stretching, so the shorter half left a visible step at the top and the bottom.
+     · THE BLUR. Each half also carried its own backdrop-filter, and a backdrop-filter
+       starts a new backdrop root. Two roots sample the page independently, so over a
+       photograph the halves blurred to different results and the join showed a second
+       time, in a way no amount of height-matching would have fixed.
+   Painting .px-tray-in instead cures both at once: one background, one blur, one radius.
+   ⚠️ width:max-content IS LOAD-BEARING. .px-tray-in is otherwise a full-width flex row,
+   so painting it would paint a full-width band and put .mini back to being the bar it
+   exists to stop being. It hugs its content and margin-left:auto parks it at the right. */
+.px-tray.mini .px-tray-in{
+  width:max-content;max-width:100%;margin-left:auto;margin-right:0;
+  justify-content:flex-end;gap:0;align-items:stretch;
+  background:rgba(46,34,40,.95);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border-radius:999px;pointer-events:auto}
 .px-tray.mini .px-tray-l{display:none}
-.px-tray.mini .px-tray-n{
-  background:rgba(46,34,40,.95);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  border-radius:999px 0 0 999px;padding:12px 4px 12px 20px;pointer-events:auto}
-.px-tray.mini .px-tray-go{
-  background:rgba(46,34,40,.95);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  border-color:transparent;border-radius:0 999px 999px 0;padding-left:14px;pointer-events:auto}
-.px-tray.mini .px-tray-go:hover{background:var(--ivory);color:var(--ink)}
+.px-tray.mini .px-tray-n,.px-tray.mini .px-tray-go{
+  background:none;backdrop-filter:none;-webkit-backdrop-filter:none;
+  border-radius:0;display:flex;align-items:center;pointer-events:auto}
+.px-tray.mini .px-tray-n{padding:14px 6px 14px 22px}
+.px-tray.mini .px-tray-go{border-color:transparent;padding:14px 22px 14px 14px}
+/* the hover cannot flood the whole pill ivory any more — it is a half of one shape, so
+   it lifts instead. The full-bar rule below still does the ivory swap, where the button
+   IS the whole control. */
+.px-tray.mini .px-tray-go:hover{background:rgba(250,247,241,.14);color:var(--ivory)}
 @media(max-width:560px){
   .px-tray-l{display:none}
   /* on a phone the full bar is already only count + action, so .mini would be a
@@ -1108,7 +1144,12 @@ section{position:relative}
   .px-tray.mini{background:rgba(46,34,40,.95);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
   .px-tray.mini .px-tray-n,.px-tray.mini .px-tray-go{background:none;backdrop-filter:none;border-radius:999px}
   .px-tray.mini .px-tray-go{border-color:rgba(250,247,241,.42);padding-left:22px}
-  .px-tray.mini .px-tray-in{justify-content:space-between}
+  /* ⚠️ THE DESKTOP PILL'S PAINT MUST COME OFF HERE OR THE PHONE GETS BOTH. .mini keeps
+     the full band on a phone (see the note above), and the .px-tray-in rule that makes
+     the desktop pill would sit a second opaque capsule on top of it. */
+  .px-tray.mini .px-tray-in{justify-content:space-between;width:auto;max-width:1280px;
+    margin:0 auto;background:none;backdrop-filter:none;-webkit-backdrop-filter:none;
+    border-radius:0;align-items:center}
 }
 /* ══ WITHOUT SCRIPT, AT EVERY WIDTH, THE EIGHT ARE A LIST ═══════════════════════════
    ⚠️⚠️ THIS USED TO BE THE BELOW-1180 LAYOUT AND IT IS NOW THE NO-SCRIPT ONE. Two things

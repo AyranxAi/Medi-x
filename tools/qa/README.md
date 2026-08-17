@@ -151,6 +151,51 @@ never drew is worse than a hole in the coverage.
 ⚠️ **Check 9a reads the stylesheet as text**, for the same reason `peptide-page.mjs` check 1
 does: an unbalanced CSS comment eats the rule below it and the console stays clean.
 
+## The section 04 ring — `section04-hybrid.mjs`
+
+```bash
+npm install --no-save playwright
+node tools/qa/section04-hybrid.mjs [--shots]
+```
+
+77 checks over `peptide-therapy/section04-hybrid.html` (round 18) — the proposal that merges
+the client's three reference boards into a turning ring of his eight photographs. It asserts
+the promises the page makes **in writing**, because a claim printed on a page and not checked
+anywhere is a claim that will quietly stop being true.
+
+⚠️ **The most valuable checks here are the ones about meaning, not pixels.** Check 1 asserts
+the lab invents no copy — every name, descriptor, outcome and paragraph must already exist in
+`index.html` or `goals-lab.html`, because a mock-up that quietly renames a service and is then
+approved has changed the product by approval. Check 4o asserts the dust only ever marks a
+selection, and that it travels with the card it marks.
+
+⚠️ **Geometry is measured with motion stopped.** The cards carry a 2.5px float, so a snapshot
+of their feet is the ring *plus* wherever eight independent sine waves happen to be — it broke
+the ring check the moment the float shipped, reporting the front card 1px above its neighbour
+on a layout that was perfectly correct. Widening the tolerance would have swallowed a real
+inversion too. `page.addStyleTag('.pw{animation:none}')`, measure, remove.
+
+⚠️ **This harness has measured an animation instead of a page four separate times** — a
+`width` mid-transition, a `box-shadow` mid-transition, a responsive assertion fired 420ms into
+an 800ms reflow, and the float above. **The tell is always a check that passes for exactly the
+one case that did not change.**
+
+⚠️ **`4h` asserts a computed colour, and it exists because a whole ruleset was written and
+never landed.** Two `[data-pick]` blocks were inserted against an anchor comment an earlier
+edit had already consumed, so the substitution matched nothing and did nothing — silently. The
+toggle moved the attribute, the attribute selected no rule, and all three settings rendered
+gold. **Everything looked wired and nothing was.** Asserting the computed value is the only
+thing that can tell a token apart from a token-shaped comment.
+
+⚠️ **Check 6 tests the packer, not the page.** It runs `tools/pack-artifact.mjs`, wraps the
+output in a minimal document, aborts *every* network request, and then asks whether the faces
+still loaded, the photographs still showed and no second document got nested. An artifact copy
+is worth nothing if it fetches.
+
+⚠️ **An intermittent check is a check that has not finished being written.** 4o3 passed at
+100% and then failed at 64% on the next run; the cause was mote lifetimes counted in frames
+rather than milliseconds. Three consecutive clean runs is the bar.
+
 ## Encoding a new plate — `tools/encode-plate.mjs`
 
 ```bash

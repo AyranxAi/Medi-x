@@ -1,3 +1,46 @@
+# Handoff addendum — 2026-08-17, round 18 (section 06 is deleted, and section 04 gets a ring of his own photographs)
+
+Scope: **the live page changed** — `peptide-therapy/index.html` lost section 06 and the four
+chapters below it inverted their grounds. Everything else this round is **new and not wired
+in**: `peptide-therapy/section04-lab.html` (nine variants), `peptide-therapy/section04-hybrid.html`
+(the ring), `images/pathways/` (his eight photographs), `tools/pack-artifact.mjs`, and two
+harnesses — `tools/qa/section04-lab.mjs` and `tools/qa/section04-hybrid.mjs`.
+
+⚠️ **THE LIVE SECTION 04 IS UNCHANGED.** The ring is a proposal at full scale; adopting it is
+its own round, because the tray, the programme panel and the popup all have to meet it. The
+only thing round 18 changed for a visitor is the deleted ledger and the ground inversion.
+
+**What was deleted, and what it cost.** His "remove this" took *What's included / What's
+excluded* — the third place on the page describing what the programme is. ⚠️ **It was also
+the IVORY BEAT between `.services` (dawn) and `.docs` (dawn)**, so removing it put two
+identical bands face to face and the round-16 ground check went red on the first run. The
+four chapters below inverted: **docs ivory · stories dawn · faq ivory · final dawn**. Moving
+`.services` instead was refused a second time — the dawn is load-bearing there twice (the
+chain scene rises to exactly it, and the ivory tiles need it to read as objects).
+
+**`tools/pack-artifact.mjs` — the two-copies rule, automated.** Fonts to `data:` URIs,
+artwork to `data:` URIs (and `data-art` **stripped** for anything it cannot inline, or the
+card shows a broken-image glyph instead of its fallback), three.js's single trailing
+`export{}` rewritten to `window.THREE={}` and emitted as a *classic* script so it runs before
+the deferred module, and the document scaffolding stripped because the artifact host supplies
+its own. ⚠️ **Every substitution passes a FUNCTION** — a replacement *string* treats `$&` and
+friends as insertion patterns and corrupts 666KB of minified source without throwing. Round
+10b hit that by hand.
+
+**Round 18's own eight bugs are all in `peptide-therapy/HANDOVER.md`** and are worth reading
+before touching anything 3D or animated. The four with the longest reach:
+`transform-style:preserve-3d` makes `z-index` inert; perspective pulls a receding element
+toward the vanishing point, so a `translateZ` for depth shortens every offset you computed;
+a `<canvas>` is a **replaced element**, so `position:absolute;inset:0` does *not* size it and
+it silently keeps its last render's width; and anything with a lifetime measures it in
+**milliseconds, not frames** — with ageing on the wall clock and movement on a clamped step,
+because they are different questions.
+
+⚠️ **The harness measured an animation instead of a page four times this round.** The tell is
+always the same: a check that passes for exactly the one case that did not change.
+
+---
+
 # Handoff addendum — 2026-08-15, round 10b (the lab gets real geometry: thirteen grounds in three chapters)
 
 Scope: `peptide-therapy/bonds-lab.html` (regenerated), a new `.lab-dev/` build rig, `vendor/`,

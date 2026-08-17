@@ -8,10 +8,18 @@
 > (**72**). Both must be green before anything ships. They need
 > `npm install --no-save playwright gsap@3.13.0 lenis@1.3.4`.
 > The round-18 files have their own, playwright only: `node tools/qa/section04-lab.mjs`
-> (**49**) and `node tools/qa/section04-hybrid.mjs` (**72**).
+> (**49**) and `node tools/qa/section04-hybrid.mjs` (**77**).
 > **Round 18 is on `main`** — his call, 2026-08-17. ⚠️ **The live section 04 is UNCHANGED by
 > it**: `section04-hybrid.html` is a standalone proposal, not wired into the page. What round
 > 18 changed on the live page is the DELETION of 06 and the inverted tail grounds.
+>
+> **⚠️ ROUND 18 IS TWO SEPARATE THINGS AND CONFUSING THEM WILL WASTE A DAY:**
+> **(a) THE LIVE PAGE CHANGED** — section 06 was deleted and the tail grounds inverted. That
+> is on `main` and it is what a visitor sees.
+> **(b) `section04-hybrid.html` IS A PROPOSAL AND IS NOT WIRED IN.** The live section 04 is
+> still the eight `.px` tiles. ⚠️ **ADOPTING THE RING IS ITS OWN ROUND**: the tray, the
+> programme panel and the popup all have to meet it, and the ground question below has to be
+> answered first. Nothing on the live page imports it.
 >
 > **THE FOUR THINGS A NEW CHAT SHOULD KNOW FIRST:**
 > 1. **The page is PLUM (warm), not glacier.** Round 14 reversed round 9. ⚠️ **It contradicts
@@ -57,6 +65,11 @@
 > · **Peptide delivery time** — step 05 says "8 weeks' supply", deliberately not a shipping
 >   estimate, because none has been given.
 > · Tile popup copy and the FAQ are **draft**, not client-approved.
+>
+> **⚠️ THE HYBRID'S GEOMETRY IS ONE CASCADE AND FOUR CONSTANTS**, and everything else is
+> derived from them — `NEAR .70`, `RATIO .78`, `RISE 58`, `SPREAD 1.06`. Size, climb, opacity
+> and the ring line all read those; **change one and the rest follow.** Do not re-hardcode a
+> ladder anywhere. Checks 4e/4f/4m/4p exist to catch exactly that.
 >
 > **THE LABS** (kept, each the record of a decision): `grade-lab` (glacier, judged A2·B2·C2)
 > · `goals-lab` (eight presentations) · `programme-lab` (intake in three shapes) ·
@@ -460,6 +473,61 @@
 > foot and is doing almost nothing at the top of a card while two of the eight photographs
 > are near-white up there. And the harness froze the float a SECOND time (check 4m), for the
 > same reason as 4e — **geometry is measured with motion stopped.**
+
+> **34 · ⚠️⚠️ HE DREW ON A SCREENSHOT: THE CARDS BESIDE THE MIDDLE LOOKED BOTTOM-ALIGNED WITH
+> IT, AND THEY WERE.** A real ring's near cards sit almost level with the front one — the
+> chord is FLAT near zero, so a=1 lifted **three pixels**. **THE CLIMB IS NOW TAKEN FROM THE
+> SIZE CASCADE, NOT FROM THE RING'S GEOMETRY**: `lift = (1 - scale) / (1 - scaleAt(aMax))`,
+> giving **0 · 24 · 37 · 48 · 56px**. One cascade drives size AND height, so they cannot
+> disagree, and changing `NEAR` or `RATIO` moves both. ⚠️ **THIS IS THE ONE PLACE THE RING
+> DELIBERATELY STOPS BEING PHYSICAL IN ORDER TO BE LEGIBLE** — recorded so nobody "corrects"
+> it back to the projection. Checks 4p/4p2 assert the proportion holds and that the first
+> neighbour lifts at least 14px.
+>
+> **35 · ⚠️⚠️ THE RING LINE IS DRAWN FROM THE CARD FEET, AND THE CSS ELLIPSE IS GONE.** An
+> ellipse's bottom arc is flat at the centre and steep at the edges — a fair match for the
+> old chord climb and **wrong the moment the climb was re-derived** (front-loaded instead).
+> **Two curves tuned separately always drift apart on the next change**; one SVG path built
+> in `layout()` from the very `lift` values the cards use cannot. It sits 11px BELOW the feet
+> — drawn exactly on them it is hidden by the cards it describes and shows only in the gaps,
+> which reads as a broken line rather than as ground. ⚠️ **Do not put the ellipse back as a
+> "simpler" version. It is the thing that silently disagreed.**
+>
+> **36 · THE CASCADE WENT .62/.76 → .70/.78 — "keep the middle, grow the neighbours", his
+> pick from a three-way question.** ⚠️ **GROWING THE NEIGHBOURS COSTS FAN ROOM AND THE COST
+> LANDS ON THE OUTER PAIR** (33% of each visible instead of 46%) — which is acceptable only
+> because those two carry no name at that scale anyway.
+>
+> **37 · ⚠️⚠️ THE DUST MEANS ONE THING NOW: *THIS IS IN YOUR PROGRAMME*.** His note: *"the
+> dust are out of control… they should only be out on the ones that are SELECTED, and they
+> should track the location of that card."* Both halves were right. Two behaviours and no
+> others: a **selected** card keeps a quiet permanent shimmer (11 motes, 0.82 dim); a card
+> brought **forward** gets a **bloom** that fades up and is gone in ~3s. **Arriving feels
+> alive; staying does not keep sparkling.** ⚠️ **PERMANENT DUST ON THE FRONT CARD MARKS
+> NOTHING** — the front card is already the loudest thing on screen — and it is what made it
+> read as out of control.
+> ⚠️⚠️ **MOTES ARE STORED IN THEIR CARD'S OWN COORDINATES, NOT THE CANVAS'S.** That was the
+> real fault: held in section pixels they stayed where they were born while the ring turned
+> underneath them, so a selected card sailed away and left its sparkle scattered. Each mote
+> keeps a `(u,v)` fraction of its host's rect, resolved to pixels every frame — so it
+> follows its card, shrinks with it (floored at .58, or a far card's shimmer is 16 lit
+> subpixels and no use for spotting picks) and cannot be orphaned. Only the choose-burst is
+> free, because it is thrown outward and gone in half a second. Check 4o3 counts lit pixels
+> inside the card against everything outside it, three places round the ring.
+>
+> **38 · TWO CLOCK BUGS UNDER THAT ONE, AND BOTH ARE GENERAL:**
+> · ⚠️⚠️ **LIFETIMES WERE COUNTED IN FRAMES.** Dust lived twice as long on a 120Hz screen and
+>   many times longer on a software renderer — a three-second bloom was still up after six,
+>   which is why the tracking check kept failing at 64%. **Anything with a lifetime measures
+>   it in milliseconds.**
+> · ⚠️⚠️ **AGEING AND MOVEMENT NEED DIFFERENT CLOCKS.** After the first fix they still shared
+>   one clamped step. The clamp is RIGHT for movement — a backgrounded tab returns a gap of
+>   seconds on wake and would teleport every mote across the section — and WRONG for age,
+>   because whenever frames run slower than the clamp, dust ages more slowly than the world.
+>   **Age by the wall clock; move by the clamped step.** On wake everything ages at once and
+>   dies, which is correct: you come back to a clean card, not a four-minute-old bloom.
+>   ⚠️ Three consecutive clean runs is what turned this from "passes" into "stable" — an
+>   intermittent check is a check that has not finished being written.
 
 > ---
 

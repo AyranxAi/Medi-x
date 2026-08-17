@@ -208,7 +208,20 @@ img{display:block;max-width:100%}
   transform-style:preserve-3d;
   transition:transform .8s var(--swing),width .8s var(--swing),height .8s var(--swing),
     opacity .55s var(--ease),box-shadow .6s var(--ease);
-  box-shadow:0 14px 34px rgba(71,24,38,.13)}
+  box-shadow:0 14px 34px rgba(71,24,38,.13);
+  /* ⚠️⚠️ THE FLOAT USES `translate`, NOT `transform`, AND THAT IS THE WHOLE TRICK. The layout
+     already owns transform — a keyframe there would fight the arc every time the ring turned
+     and the two would overwrite each other. `translate` is an INDEPENDENT property that
+     composes before transform, so the bob rides on top of whatever the arc is doing and
+     neither has to know about the other. It also sits outside the card's scale, so a far
+     card bobs by the same few pixels as a near one rather than a fraction of them.
+     ⚠️ --i IS THE CARD'S INDEX AND IT IS WHAT STOPS THIS LOOKING MECHANICAL. Eight cards
+     rising and falling in step is a lift, not a float; staggered, it is a ring breathing. */
+  animation:pw-float calc(7s + var(--i,0) * 340ms) ease-in-out infinite;
+  animation-delay:calc(var(--i,0) * -820ms)}
+@keyframes pw-float{0%,100%{translate:0 0}50%{translate:0 -7px}}
+/* the card in front floats too, but slower and shallower — it is what the eye rests on */
+.pw[data-focus="true"]{animation-duration:9.5s}
 
 /* ── the artwork ──────────────────────────────────────────────────────────────────
    ⚠️ THE SCRIM IS A SEPARATE LAYER FROM THE PICTURE, NOT A FILTER ON IT. Eight
@@ -299,7 +312,7 @@ img{display:block;max-width:100%}
 .pw[data-focus="true"] .pw-n{top:clamp(18px,1.8vw,24px);left:clamp(20px,2vw,28px);
   font-size:clamp(12px,1.1vw,14px)}
 /* WIDE — the copy takes a column and the picture keeps the rest */
-.pw[data-focus="true"] .pw-body{top:0;right:38%;bottom:0;justify-content:center;
+.pw[data-focus="true"] .pw-body{top:0;right:34%;bottom:0;justify-content:center;
   align-items:flex-start;padding:clamp(20px,2vw,28px);gap:clamp(9px,.9vw,13px)}
 /* TALL — the copy sits along the foot and the picture keeps the whole card */
 .rail[data-shape="tall"] .pw[data-focus="true"] .pw-body{top:auto;right:0;left:0;bottom:0;
@@ -311,12 +324,30 @@ img{display:block;max-width:100%}
 .pw[data-focus="true"] .pw-body h3{font-size:clamp(21px,2.05vw,29px);line-height:1.06}
 .pw[data-focus="true"] .pw-line{display:block;color:rgba(250,247,241,.88);
   font-size:clamp(12.5px,1.05vw,14.5px);line-height:1.55;max-width:34ch}
-.pw[data-focus="true"] .pw-body .pw-cta{display:inline-flex}
-.pw-cta{align-items:center;gap:10px;flex:none;border-radius:999px;
-  padding:11px 21px;background:var(--burgundy);color:var(--ivory);
+/* ⚠️⚠️ display CANNOT TRANSITION, SO THE LINE AND THE PILL USED TO POP. They switched from
+   none to shown on the same frame the card began an 800ms grow, so for most of that
+   animation a full-size button sat inside a card still on its way there — which is exactly
+   the "lagging or glitching" he saw. An ANIMATION does what a transition cannot: it restarts
+   when display changes, so both fade up AFTER the card has most of its size, and the card
+   arrives before its contents do rather than the other way round. */
+@keyframes pw-rise{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+.pw[data-focus="true"] .pw-body .pw-cta{display:inline-flex;
+  animation:pw-rise .46s var(--ease) .34s both}
+.pw[data-focus="true"] .pw-line{animation:pw-rise .46s var(--ease) .26s both}
+/* ⚠️⚠️ MEASURED, NOT EYEBALLED — THE PILL WAS 19px WIDER THAN THE COLUMN IT SITS IN. At
+   10px/.17em it drew 243px inside a 224px text column and simply overflowed onto the
+   photograph, which reads as a button that has slipped off its card. nowrap plus flex:none
+   means it will never wrap and never shrink, so it CANNOT be left to fit by luck: the type
+   came down to 9.5/.14em, the padding to 18, and the column went 38% -> 34%. That is 219 in
+   242, with 23px of slack for a longer label. max-width is the hard stop if one ever
+   arrives — better a clipped pill than one sitting on the picture.
+   ⚠️ The harness measures this at four widths in both shapes; it is not a look, it is an
+   inequality, and inequalities are checkable. */
+.pw-cta{align-items:center;gap:9px;flex:none;border-radius:999px;max-width:100%;
+  padding:11px 18px;background:var(--burgundy);color:var(--ivory);
   border:1px solid rgba(250,247,241,.3);
-  font-family:var(--sans);font-weight:500;font-size:10px;letter-spacing:.17em;
-  text-transform:uppercase;white-space:nowrap;
+  font-family:var(--sans);font-weight:500;font-size:9.5px;letter-spacing:.14em;
+  text-transform:uppercase;white-space:nowrap;overflow:hidden;
   transition:background .3s var(--ease),transform .3s var(--ease),color .3s var(--ease)}
 .pw-cta:hover{background:var(--red-hover);transform:translateX(3px)}
 .pw-cta .arr{font-size:13px;line-height:1;transition:transform .4s var(--ease)}
@@ -332,9 +363,13 @@ img{display:block;max-width:100%}
    ⚠️ THE + AND THE CARD FACE CANNOT BOTH OWN THE SAME PIXELS, which is round 12's finding
    in a new costume: the face adds the goal, the + opens the reading. Separate targets, and
    while a card is turned its face stops taking clicks entirely.
-   ⚠️ rotateY MIRRORS POSITIONS, NOT JUST FACES. A control pinned to right:10px lands on the
-   visual LEFT of a turned card, on top of the first line of copy — so the + swaps sides as
-   well as counter-rotating. Counter-rotating alone fixes the glyph and not the geometry. */
+   ⚠️⚠️ ONE CONTROL PER FACE, AND THE COUNTER-ROTATION IS GONE. The first build kept a single
+   + and, when the card turned, counter-rotated it AND swapped it from right to left. Both
+   halves were correct arithmetic and the result was still wrong: `left`/`right` do not
+   transition, so the button JUMPED across the card on frame one and then spent the whole
+   800ms flip rotating on its own axis in front of a turning card. Each face carries its own
+   button now — + on the front, x inside the back — both with their backface hidden, so each
+   simply appears when its side does and nothing has to be un-mirrored. */
 .pw-more{position:absolute;top:0;right:0;z-index:8;width:46px;height:46px;
   display:none;place-content:center;color:var(--ivory);
   font-family:var(--sans);font-weight:300;font-size:19px;line-height:1;
@@ -347,10 +382,21 @@ img{display:block;max-width:100%}
 .pw-more:hover::before{background:var(--gold);border-color:var(--gold)}
 .pw-more:hover{color:var(--ink)}
 .pw[data-focus="true"] .pw-more{display:grid;top:clamp(10px,1vw,14px);right:clamp(10px,1vw,14px)}
-.pw[data-open="true"] .pw-more{right:auto;left:clamp(10px,1vw,14px);transform:rotateY(180deg)}
-.pw[data-open="true"] .pw-more span{transform:rotate(135deg)}
 .pw[data-open="true"] .pw-face{pointer-events:none}
-.pw>*:not(.pw-back):not(.pw-more){backface-visibility:hidden}
+.pw>*:not(.pw-back){backface-visibility:hidden}
+/* the back's own control — inside .pw-back, so it inherits the turn and needs no correction */
+/* ⚠️ THE CROSS IS DRAWN, NOT TYPED. `&times;` is not in MediGyn NOW, so it fell through to
+   a fallback face and rendered as a small filled blob inside the ring — which read as a
+   loading dot, not a close. Every other glyph-shaped control on this page is an SVG path
+   for the same reason; a brand face is not obliged to carry punctuation. */
+.pw-close{position:absolute;top:clamp(10px,1vw,14px);right:clamp(10px,1vw,14px);z-index:9;
+  width:46px;height:46px;display:grid;place-content:center;color:var(--ivory)}
+.pw-close svg{position:relative;width:12px;height:12px;display:block}
+.pw-close::before{content:"";position:absolute;inset:9px;border-radius:50%;
+  border:1px solid rgba(250,247,241,.42);
+  transition:background .35s var(--ease),border-color .35s var(--ease)}
+.pw-close:hover::before{background:var(--gold);border-color:var(--gold)}
+.pw-close:hover{color:var(--ink)}
 .pw-back{position:absolute;inset:0;z-index:7;display:none;flex-direction:column;
   justify-content:center;gap:clamp(9px,.9vw,13px);border-radius:7px;
   padding:clamp(20px,2vw,30px);background:var(--burgundy);color:var(--ivory);
@@ -501,7 +547,7 @@ img{display:block;max-width:100%}
       the same whichever you pick.</p>
     </div>
 
-    <div class="rail" id="rail" data-shape="wide" data-pick="gold" role="group" aria-label="Peptide therapy pathways">
+    <div class="rail" id="rail" data-shape="wide" data-pick="ivory" role="group" aria-label="Peptide therapy pathways">
       <i class="probe probe-f" id="probeF" aria-hidden="true"></i>
       <i class="probe probe-s" id="probeS" aria-hidden="true"></i>
       <button type="button" class="arrow arrow--prev" id="prev" aria-label="Previous pathway">
@@ -524,6 +570,7 @@ img{display:block;max-width:100%}
         </div>
         <button type="button" class="pw-more" aria-label="Auto Immune Disease — read more" aria-expanded="false"><span aria-hidden="true">+</span></button>
         <div class="pw-back">
+          <button type="button" class="pw-close" aria-label="Close"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.6 2.6 9.4 9.4M9.4 2.6 2.6 9.4"/></svg></button>
           <h3>Auto Immune Disease</h3>
           <p>When the immune system turns on the body it is meant to protect, the goal is regulation — not blanket suppression. Immune-modulating peptides support the signalling that helps an overactive response find its level.</p>
           <ul class="pw-out" aria-label="Common goals"><li>Calmer flares</li><li>Steadier energy</li><li>Fewer bad days</li><li>Long-term regulation</li></ul>
@@ -542,6 +589,7 @@ img{display:block;max-width:100%}
         </div>
         <button type="button" class="pw-more" aria-label="Brain Health — read more" aria-expanded="false"><span aria-hidden="true">+</span></button>
         <div class="pw-back">
+          <button type="button" class="pw-close" aria-label="Close"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.6 2.6 9.4 9.4M9.4 2.6 2.6 9.4"/></svg></button>
           <h3>Brain Health</h3>
           <p>Focus, memory and mental stamina ride on how well the brain repairs, perfuses and protects itself. Cognitive peptides support those housekeeping systems — the ones that keep thinking sharp.</p>
           <ul class="pw-out" aria-label="Common goals"><li>Sharper focus</li><li>Clearer memory</li><li>Mental stamina</li><li>Calmer stress response</li></ul>
@@ -560,6 +608,7 @@ img{display:block;max-width:100%}
         </div>
         <button type="button" class="pw-more" aria-label="Gut Health — read more" aria-expanded="false"><span aria-hidden="true">+</span></button>
         <div class="pw-back">
+          <button type="button" class="pw-close" aria-label="Close"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.6 2.6 9.4 9.4M9.4 2.6 2.6 9.4"/></svg></button>
           <h3>Gut Health</h3>
           <p>The gut lining is where nutrition, immunity and resilience begin — and it is one of the fastest-renewing tissues in the body. Gut-repair peptides support that renewal: calming irritation, helping the barrier rebuild.</p>
           <ul class="pw-out" aria-label="Common goals"><li>Settled digestion</li><li>Stronger barrier</li><li>Better absorption</li><li>Less bloating</li></ul>
@@ -578,6 +627,7 @@ img{display:block;max-width:100%}
         </div>
         <button type="button" class="pw-more" aria-label="Weight Management — read more" aria-expanded="false"><span aria-hidden="true">+</span></button>
         <div class="pw-back">
+          <button type="button" class="pw-close" aria-label="Close"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.6 2.6 9.4 9.4M9.4 2.6 2.6 9.4"/></svg></button>
           <h3>Weight Management</h3>
           <p>Metabolic peptides work with your body’s own appetite and energy signalling, so weight comes off the way it should — as fat, not muscle, and without the white-knuckle willpower.</p>
           <ul class="pw-out" aria-label="Common goals"><li>Appetite signalling</li><li>Fat, not muscle</li><li>Steady energy</li><li>Medical monitoring</li></ul>
@@ -596,6 +646,7 @@ img{display:block;max-width:100%}
         </div>
         <button type="button" class="pw-more" aria-label="Skin &amp; Hair Loss — read more" aria-expanded="false"><span aria-hidden="true">+</span></button>
         <div class="pw-back">
+          <button type="button" class="pw-close" aria-label="Close"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.6 2.6 9.4 9.4M9.4 2.6 2.6 9.4"/></svg></button>
           <h3>Skin &amp; Hair Loss</h3>
           <p>Collagen, elasticity and the follicle itself all answer to signalling that slows with age. Skin and hair peptides prompt that renewal from within — repair, not concealment.</p>
           <ul class="pw-out" aria-label="Common goals"><li>Collagen renewal</li><li>Skin quality</li><li>Fuller hair</li><li>Elasticity back</li></ul>
@@ -614,6 +665,7 @@ img{display:block;max-width:100%}
         </div>
         <button type="button" class="pw-more" aria-label="Musculoskeletal Injury — read more" aria-expanded="false"><span aria-hidden="true">+</span></button>
         <div class="pw-back">
+          <button type="button" class="pw-close" aria-label="Close"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.6 2.6 9.4 9.4M9.4 2.6 2.6 9.4"/></svg></button>
           <h3>Musculoskeletal Injury</h3>
           <p>Tendon, ligament and muscle heal slowly because they see little blood flow — and repair peptides exist for exactly that reason. They support the tissue’s own rebuilding, so recovery keeps pace with how you live and train.</p>
           <ul class="pw-out" aria-label="Common goals"><li>Tendon repair</li><li>Faster recovery</li><li>Old injuries</li><li>Back to training</li></ul>
@@ -632,6 +684,7 @@ img{display:block;max-width:100%}
         </div>
         <button type="button" class="pw-more" aria-label="Anti Ageing — read more" aria-expanded="false"><span aria-hidden="true">+</span></button>
         <div class="pw-back">
+          <button type="button" class="pw-close" aria-label="Close"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.6 2.6 9.4 9.4M9.4 2.6 2.6 9.4"/></svg></button>
           <h3>Anti Ageing</h3>
           <p>Ageing is, in part, housekeeping falling behind — repair signals that thin out year by year. Longevity peptides support cellular repair, deep sleep and recovery: healthspan first, so the years you add are years you can use.</p>
           <ul class="pw-out" aria-label="Common goals"><li>Deep sleep</li><li>Cellular repair</li><li>Healthspan</li><li>Sustained energy</li></ul>
@@ -650,6 +703,7 @@ img{display:block;max-width:100%}
         </div>
         <button type="button" class="pw-more" aria-label="Sexual Health — read more" aria-expanded="false"><span aria-hidden="true">+</span></button>
         <div class="pw-back">
+          <button type="button" class="pw-close" aria-label="Close"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.6 2.6 9.4 9.4M9.4 2.6 2.6 9.4"/></svg></button>
           <h3>Sexual Health</h3>
           <p>Desire and function run on signalling — vascular, hormonal and neurological at once. Sexual-health peptides work on those pathways directly, for women and for men.</p>
           <ul class="pw-out" aria-label="Common goals"><li>Desire</li><li>Function</li><li>Confidence</li><li>For women and men</li></ul>
@@ -682,8 +736,8 @@ img{display:block;max-width:100%}
         <button type="button" data-shape="tall" aria-pressed="false">Tall</button>
       </span>
       <span class="shape" role="group" aria-label="Chosen colour">
-        <button type="button" data-pick="gold" aria-pressed="true">Gold</button>
-        <button type="button" data-pick="ivory" aria-pressed="false">Ivory</button>
+        <button type="button" data-pick="gold" aria-pressed="false">Gold</button>
+        <button type="button" data-pick="ivory" aria-pressed="true">Ivory</button>
         <button type="button" data-pick="wine" aria-pressed="false">Wine</button>
       </span>
     </div>
@@ -693,8 +747,8 @@ img{display:block;max-width:100%}
 <section class="notes">
   <div class="notes-in">
     <h2>What it does, what it costs, and what is still yours</h2>
-    <p class="notes-lede">Nine things worth knowing. Seven are decided in the build above
-    and can be reversed in a line; two still need a word from you.</p>
+    <p class="notes-lede">Twelve things worth knowing. Eleven are decided in the build above
+    and can be reversed in a line; one still needs a word from you.</p>
 
     <div class="grid-notes">
       <article class="note">
@@ -760,6 +814,50 @@ img{display:block;max-width:100%}
       </article>
 
       <article class="note">
+        <span class="note-k">New &mdash; your ask</span>
+        <h3>Fairy dust, kept minute</h3>
+        <p>Sixty-four motes between half a pixel and two, drifting up and swaying, fading in
+        and out on a sine so they were always there and you only just noticed them. <b>Minute
+        is the whole discipline of it</b> &mdash; at three pixels this stops being motes in a
+        shaft of light and becomes snow on a medical website.</p>
+        <p><b>It lives inside the card in front, not across the section.</b> Dust scattered
+        evenly says nothing; dust that follows whichever card you have brought forward says
+        <em>this one is alive</em>. Motes are not killed when you turn the ring &mdash; they
+        finish their lives where they were, so turning leaves a short trail rather than a hard
+        cut. And <b>choosing a goal throws a handful of champagne from the tick</b>: the one
+        moment in this section that should feel like a reward, made visible for half a second.
+        Canvas, not fifty animated elements &mdash; it costs the page almost nothing.</p>
+      </article>
+
+      <article class="note">
+        <span class="note-k">Fixed &mdash; your catch</span>
+        <h3>The +, the &times;, and the pill</h3>
+        <p>All three were real. <b>The + was one button pretending to be two</b>: when the
+        card turned it counter-rotated <em>and</em> swapped sides &mdash; but left and right do
+        not animate, so it jumped across the card on the first frame and then spent the whole
+        turn spinning on its own axis. Each face carries its own control now, + on the front
+        and &times; inside the back, so each simply appears when its side does.</p>
+        <p><b>The pill really was outside the card</b> &mdash; measured, it drew 243px inside a
+        224px column and spilled onto the photograph. It could never fit by luck, because it
+        neither wraps nor shrinks. It is 221 in 242 now, checked at three widths in both
+        shapes. <b>And the lag was the copy arriving before the card did</b>: the line and the
+        button switched on at the same instant the card began an 800ms grow, so a full-size
+        button sat inside a card still on its way. They fade up after it, now.</p>
+      </article>
+
+      <article class="note">
+        <span class="note-k">New &mdash; your ask</span>
+        <h3>A little float</h3>
+        <p>Seven pixels, seven to ten seconds, and every card on <b>its own phase</b> &mdash;
+        eight cards rising and falling in step is a lift, not a float. The card in front
+        breathes slowest, because it is the thing the eye rests on.</p>
+        <p>It rides on the CSS <code>translate</code> property rather than
+        <code>transform</code>, which the ring&rsquo;s own layout already owns &mdash; so the
+        bob and the arc compose without either knowing about the other, and a far card floats
+        by the same few pixels as a near one instead of a fraction of them.</p>
+      </article>
+
+      <article class="note">
         <span class="note-k">Decided &mdash; reversible</span>
         <h3>All eight, always</h3>
         <p>A ring answers <em>what am I looking at</em>. This section&rsquo;s reader is
@@ -781,8 +879,8 @@ img{display:block;max-width:100%}
       </article>
 
       <article class="note">
-        <span class="note-k open">Open &mdash; needs you</span>
-        <h3>Gold, ivory, or wine</h3>
+        <span class="note-k">Decided &mdash; your lean</span>
+        <h3>Ivory, with the reason it works</h3>
         <p>Your question, measured against your own eight photographs rather than argued.
         At the corner the chosen badge sits in, every one of them is pale rose &mdash; so
         <b>both light accents fail there</b>: gold reads <b>1.03</b> at worst (gut health,
@@ -792,14 +890,14 @@ img{display:block;max-width:100%}
         ivory line on ivory is not a line. That is the same finding the BHRT star board
         reached: ivory is loudest on the dark and quietest on the pale, <b>gold is the only
         one alive at both ends</b>.</p>
-        <p>So two things happened. <b>The badge stopped depending on its fill</b> &mdash; it
-        has a wine hairline and a soft drop now, so it is found by its edge on all eight
-        whatever colour you pick. And <b>the signals are split</b>: what sits on a card
-        follows your choice, what sits on the ground stays gold. <b>Try all three under the
-        ring.</b> My vote is <em>wine</em> for the badge and gold everywhere else &mdash; it
-        is the one that never depends on which photograph is underneath it &mdash; but ivory
-        now works too, and it is the sharpest tick of the three (11.58 against gold&rsquo;s
-        6.17).</p>
+        <p>So two things happened, and together they are why <b>ivory is now the default on
+        your lean and it holds</b>. <b>The badge stopped depending on its fill</b> &mdash; it
+        has a wine hairline and a soft drop, so it is found by its edge on all eight whatever
+        colour is set. And <b>the signals are split</b>: what sits on a card follows your
+        choice, what sits on the ground stays gold. Ivory also has the sharpest tick of the
+        three &mdash; <b>burgundy on ivory is 11.58</b> against gold&rsquo;s 6.17 &mdash; so
+        with the edge doing the separating, the value that was weakest as a disc is the
+        strongest as a mark. All three are still live under the ring.</p>
       </article>
 
       <article class="note">
@@ -828,9 +926,9 @@ img{display:block;max-width:100%}
 
     <div class="ask">
       <h3>What I need back</h3>
-      <p>Two questions left: <b>the chosen colour</b> &mdash; gold, ivory or wine, all three
-      live under the ring &mdash; and <b>ivory or the rose dawn the rest of the page hands
-      it</b>. Everything else above I can flip in a line if you disagree.</p>
+      <p>One question left: <b>ivory, or the rose dawn the rest of the page hands it</b>
+      &mdash; the ground, not the badge. Everything else above I can flip in a line if you
+      disagree.</p>
     </div>
   </div>
 </section>
@@ -955,6 +1053,7 @@ function toggle(c){
   const on = c.dataset.picked === 'true';
   c.dataset.picked = on ? 'false' : 'true';
   c.querySelector('.pw-face').setAttribute('aria-pressed', String(!on));
+  if (!on && typeof dust !== 'undefined') dust.burst(c.querySelector('.pw-tick'));
   const n = cards.filter(x => x.dataset.picked === 'true').length;
   tally.textContent = n;
   tallyLabel.textContent = n === 0 ? 'nothing chosen yet'
@@ -968,13 +1067,21 @@ cards.forEach((c, i) => {
   });
   for (const b of c.querySelectorAll('.pw-cta'))
     b.addEventListener('click', e => { e.stopPropagation(); toggle(c); });
-  c.querySelector('.pw-more').addEventListener('click', e => {
+  /* ⚠️ TWO BUTTONS, ONE STATE. The + lives on the front face and the x on the back; each is
+     only reachable when its own side is showing, so they cannot disagree — but they must
+     write the SAME attribute, or closing from the back would leave data-open true and the
+     ring would carry a card that is turned and has no way back. */
+  const turn = e => {
     e.stopPropagation();
     const open = c.dataset.open === 'true';
     c.dataset.open = open ? 'false' : 'true';
     c.querySelector('.pw-more').setAttribute('aria-expanded', String(!open));
     if (wide()) c.style.setProperty('--rot', open ? '0deg' : '180deg');
-  });
+  };
+  c.querySelector('.pw-more').addEventListener('click', turn);
+  c.querySelector('.pw-close').addEventListener('click', turn);
+  /* the float's stagger, written once — the CSS reads it as --i */
+  c.style.setProperty('--i', i);
 });
 
 for (const b of document.querySelectorAll('.shape button'))
@@ -1022,6 +1129,111 @@ rail.addEventListener('click', e => {
 
 new ResizeObserver(() => layout()).observe(rail);
 layout();
+
+/* ═══════════ THE DUST ═════════════════════════════════════════════════════════════
+   His note: *"some fairy dust that are minute, like it's a magical card."* Minute is the
+   operative word and the whole discipline of it — at 0.5 to 1.9px these read as motes in a
+   shaft of light, and at 3px they read as snow on a medical website.
+
+   ⚠️⚠️ IT IS CONFINED TO THE CARD IN FRONT, AND THAT IS WHAT KEEPS IT FROM BEING DECORATION.
+   Dust scattered evenly across the section says nothing; dust that lives inside whichever
+   card you have brought forward says THIS ONE IS ALIVE, and it moves with the ring. Motes
+   are born in the focused card's rect and are NOT killed when focus moves — they finish
+   their lives where they were, so turning the ring leaves a short trail behind it rather
+   than a hard cut.
+
+   ⚠️ AND CHOOSING THROWS A HANDFUL. The one moment in this section that should feel like a
+   reward is the moment a goal joins the programme; a burst of champagne from the tick is
+   that moment made visible, and it costs 26 particles that are gone in half a second.
+
+   ⚠️ CANVAS 2D, NOT THREE.JS, AND NOT DOM. Fifty translucent DOM nodes with their own
+   animations would be fifty composited layers over a page that already has eight cards
+   transitioning; three.js would be 666KB for what is fundamentally fifty circles. Canvas 2D
+   is what the chain scene uses on the live page for the same reason.
+
+   ⚠️ THE CANVAS CARRIES width/height:100% IN CSS AS WELL AS A BACKING STORE. Same replaced-
+   element trap as the sculpture: with width:auto an absolutely positioned <canvas> resolves
+   to its INTRINSIC size — the attribute last written — and the over-constrained `right` is
+   ignored, so it sizes itself to the last render and pushes the page sideways. */
+const AMBIENT = 64;
+const dust = (() => {
+  const cv = document.createElement('canvas');
+  cv.id = 'dust'; cv.setAttribute('aria-hidden', 'true');
+  Object.assign(cv.style, { position:'absolute', inset:'0', width:'100%', height:'100%',
+    pointerEvents:'none', zIndex:'42' });
+  rail.append(cv);
+  const g = cv.getContext('2d');
+  const IVORY = '255,253,248', CHAMP = '233,206,152';
+  const motes = [];
+  let W = 0, H = 0, raf = 0, dpr = Math.min(devicePixelRatio || 1, 2);
+
+  function size(){
+    const r = rail.getBoundingClientRect();
+    W = Math.max(1, Math.round(r.width)); H = Math.max(1, Math.round(r.height));
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+    g.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  const facing = () => {
+    const b = cards[focus].getBoundingClientRect(), o = cv.getBoundingClientRect();
+    return { x: b.left - o.left, y: b.top - o.top, w: b.width, h: b.height };
+  };
+  function born(r, burst, ox, oy){
+    return {
+      x: burst ? ox : r.x + Math.random() * r.w,
+      y: burst ? oy : r.y + Math.random() * r.h,
+      vx: (Math.random() - .5) * (burst ? 1.8 : .14),
+      vy: burst ? (Math.random() - .78) * 1.7 : -(.08 + Math.random() * .2),
+      rad: (burst ? .7 : .45) + Math.random() * (burst ? 1.3 : 1.45),
+      sway: Math.random() * 6.283,
+      life: 0, max: burst ? 34 + Math.random() * 34 : 150 + Math.random() * 230,
+      hue: Math.random() < (burst ? .85 : .4) ? CHAMP : IVORY,
+    };
+  }
+  function draw(){
+    g.clearRect(0, 0, W, H);
+    const r = facing();
+    if (wide() && r.w > 8) while (motes.length < AMBIENT) motes.push(born(r, false));
+    for (let i = motes.length - 1; i >= 0; i--) {
+      const m = motes[i];
+      if (++m.life > m.max) { motes.splice(i, 1); continue; }
+      m.x += m.vx + Math.sin(m.life * .021 + m.sway) * .11;
+      m.y += m.vy;
+      /* ⚠️ FADE IN AND OUT ON A SINE, NOT A LINEAR RAMP. A mote that appears at full alpha
+         and then dims is a mote you watched arrive; one that swells and fades was always
+         there and you only just noticed it — which is the difference between dust and
+         particles. */
+      const a = Math.sin((m.life / m.max) * Math.PI) * (m.rad > 1.25 ? .76 : .5);
+      if (a <= .01) continue;
+      if (m.rad > 1.25) {
+        const gr = g.createRadialGradient(m.x, m.y, 0, m.x, m.y, m.rad * 3.4);
+        gr.addColorStop(0, `rgba(${m.hue},${a})`);
+        gr.addColorStop(.4, `rgba(${m.hue},${a * .35})`);
+        gr.addColorStop(1, `rgba(${m.hue},0)`);
+        g.fillStyle = gr;
+        g.beginPath(); g.arc(m.x, m.y, m.rad * 3.4, 0, 6.283); g.fill();
+      }
+      g.fillStyle = `rgba(${m.hue},${a})`;
+      g.beginPath(); g.arc(m.x, m.y, m.rad, 0, 6.283); g.fill();
+    }
+  }
+  function tick(){ draw(); raf = requestAnimationFrame(tick); }
+  new ResizeObserver(() => { size(); if (REDUCE) draw(); }).observe(rail);
+  size();
+  /* ⚠️ REDUCED MOTION GETS ONE SCATTER, NOT AN EMPTY CANVAS. Motion is what is unwanted, not
+     the texture — a card that loses its dust entirely loses the thing being judged. */
+  if (REDUCE) { const r = facing();
+    for (let i = 0; i < AMBIENT; i++) { const m = born(r, false); m.life = m.max * .5; motes.push(m); }
+    draw();
+  } else raf = requestAnimationFrame(tick);
+  return {
+    burst(el){
+      if (REDUCE) return;
+      const b = el.getBoundingClientRect(), o = cv.getBoundingClientRect();
+      const x = b.left + b.width / 2 - o.left, y = b.top + b.height / 2 - o.top;
+      for (let i = 0; i < 26; i++) motes.push(born(null, true, x, y));
+    }
+  };
+})();
 
 /* ═══════════ THE SCULPTURE — the fallback, not the artwork ════════════════════════
    ⚠️ IT DRAWS ONLY WHERE THERE IS NO PHOTOGRAPH. The moment a card's file loads, its glass

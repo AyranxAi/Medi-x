@@ -8,7 +8,7 @@
 > (**72**). Both must be green before anything ships. They need
 > `npm install --no-save playwright gsap@3.13.0 lenis@1.3.4`.
 > The round-18 files have their own, playwright only: `node tools/qa/section04-lab.mjs`
-> (**49**) and `node tools/qa/section04-hybrid.mjs` (**58**).
+> (**49**) and `node tools/qa/section04-hybrid.mjs` (**67**).
 > **Round 18 is on `main`** — his call, 2026-08-17. ⚠️ **The live section 04 is UNCHANGED by
 > it**: `section04-hybrid.html` is a standalone proposal, not wired into the page. What round
 > 18 changed on the live page is the DELETION of 06 and the inverted tail grounds.
@@ -36,10 +36,9 @@
 >    AED 1,950. ⚠️ **Never invent a figure** — see the AED 350 incident in round 12.
 >
 > **WHAT IS STILL OPEN (all his):**
-> · **SECTION 04 — TWO QUESTIONS: THE CHOSEN COLOUR, AND IVORY OR THE ROSE DAWN.** Shape is
->   settled — **he picked wide**. The chosen colour is a three-way toggle under the ring
->   (gold / ivory / wine) with the measurements on the page; ⚠️ **gold's 1.03 on gut-health
->   is why the badge now has an edge**, and that fix stands whichever he picks. ⚠️ **AND THE RING IS NOT WIRED INTO THE LIVE PAGE** — it is
+> · **SECTION 04 — ONE QUESTION: IVORY OR THE ROSE DAWN, THE GROUND.** Shape is settled
+>   (**wide**) and so is the chosen state (**ivory**). ⚠️ **Gold's 1.03 on gut-health is why
+>   the badge has an edge**, and that fix stands whichever colour is set. ⚠️ **AND THE RING IS NOT WIRED INTO THE LIVE PAGE** — it is
 >   a proposal file. Adopting it is a separate round: the tray, the programme panel and the
 >   popup all have to meet it.
 > · *(superseded)* **ONE QUESTION LEFT: IVORY OR THE ROSE DAWN.** He sent a third reference
@@ -369,6 +368,58 @@
 >   for 600ms and the check read it at 500 — partway between the old accent and the new, so
 >   it matched neither. **The tell is always a check that passes for exactly the one case
 >   that did not change**: gold passed because gold was the value it started from.
+
+> **25 · ✅ IVORY IS THE CHOSEN STATE — his lean, and with the edge fix it holds.** ⚠️ **The
+> value that was WEAKEST as a disc is the STRONGEST as a mark**: burgundy-on-ivory is 11.58
+> against gold's ink-on-gold 6.17, so once the badge is found by its outline rather than its
+> fill, ivory is the sharpest of the three. Gold and wine stay one click away.
+>
+> **26 · FAIRY DUST — his ask, and "minute" is the whole discipline of it.** 64 motes between
+> 0.5 and 2px, drifting and swaying, fading in and out ON A SINE so they were always there
+> and you only just noticed them. ⚠️ **AT 3px THIS STOPS BEING MOTES IN A SHAFT OF LIGHT AND
+> BECOMES SNOW ON A MEDICAL WEBSITE.**
+> ⚠️ **IT LIVES INSIDE THE CARD IN FRONT, NOT ACROSS THE SECTION** — dust scattered evenly is
+> decoration; dust that follows the focused card says *this one is alive*. Motes are NOT
+> killed when focus moves; they finish their lives where they were, so turning the ring
+> leaves a short trail instead of a hard cut. **Choosing throws 26 champagne motes from the
+> tick** — the section's one moment of reward, made visible for half a second.
+> ⚠️ **CANVAS 2D, NOT DOM AND NOT THREE.JS.** Fifty translucent nodes with their own
+> animations is fifty composited layers over eight already-transitioning cards; three.js is
+> 666KB for fifty circles. Same reasoning as the chain scene on the live page.
+>
+> **27 · A LITTLE FLOAT — 7px, 7–10s, every card on its own phase.** ⚠️ **EIGHT CARDS RISING
+> IN STEP IS A LIFT, NOT A FLOAT** — `--i` is the stagger and it is what stops it looking
+> mechanical. ⚠️⚠️ **IT USES THE `translate` PROPERTY, NOT `transform`, AND THAT IS THE WHOLE
+> TRICK**: the ring's layout already owns transform, so a keyframe there would fight the arc
+> and the two would overwrite each other. `translate` composes independently — and sits
+> outside the card's scale, so a far card bobs the same few pixels as a near one.
+>
+> **28 · THREE BUGS HE FOUND BEFORE THE HARNESS DID, AND ALL THREE WERE REAL:**
+> · ⚠️⚠️ **THE + WAS ONE BUTTON PRETENDING TO BE TWO.** On turn it counter-rotated AND swapped
+>   sides — but `left`/`right` DO NOT TRANSITION, so it jumped across the card on frame one
+>   and then spent the whole 800ms flip spinning on its own axis in front of a turning card.
+>   **Each face carries its own control now**, + on the front and × inside the back, both
+>   backface-hidden, so nothing has to be un-mirrored. Both write the same `data-open`.
+> · ⚠️⚠️ **THE PILL REALLY WAS OUTSIDE THE CARD: 243px inside a 224px column.** `nowrap` plus
+>   `flex:none` means it never wraps and never shrinks, so **it cannot be left to fit by
+>   luck**. 9.5px/.14em, 18px padding, column 38% → 34% — 221 in 242. Check 4k measures it at
+>   three widths in both shapes, because it is an inequality, not a look.
+> · ⚠️ **THE "LAG" WAS THE COPY ARRIVING BEFORE THE CARD.** `display` cannot transition, so
+>   the line and the pill switched on at the same frame the card began an 800ms grow — a
+>   full-size button inside a card still on its way. **An animation restarts when display
+>   changes where a transition cannot**, so both now rise after the card has its size.
+> · ⚠️ **AND `&times;` IS NOT IN MediGyn NOW** — it fell through to a fallback and rendered as
+>   a filled blob that read as a loading dot. Drawn as an SVG path, like every other
+>   glyph-shaped control here. **A brand face is not obliged to carry punctuation.**
+>
+> **29 · ⚠️⚠️ THE HARNESS MEASURED AN ANIMATION FOR THE FOURTH TIME, AND THIS ONE IS THE
+> CLEAREST STATEMENT OF THE RULE.** The float broke check 4e the moment it shipped: eight
+> cards bobbing on independent phases meant a snapshot of the feet was the ring PLUS wherever
+> eight sine waves happened to be, and it reported the front card 1px above its neighbour on
+> a ring that was perfectly correct. **Widening the tolerance would have swallowed a real
+> inversion too.** The fix is to stop the motion: `addStyleTag('.pw{animation:none}')`,
+> measure, remove. **A float is motion; a ring is geometry; measure the geometry with the
+> motion stopped.**
 
 > ---
 

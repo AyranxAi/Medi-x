@@ -249,6 +249,16 @@ const run = async () => {
   head('4b · The ring reads as a ring');
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.waitForTimeout(900);
+  /* ⚠️⚠️ THE FLOAT IS STOPPED FOR THIS CHECK, AND STOPPING IT IS THE CHECK BEING HONEST.
+     Each card bobs 7px on its own phase, so a snapshot of the feet is the ring PLUS wherever
+     eight independent sine waves happen to be — and the assertion failed the moment the
+     float shipped, reporting the front card 1px above its neighbour on a ring that was
+     perfectly correct. Widening the tolerance to swallow the bob would also swallow a real
+     inversion. A float is motion and a ring is geometry: measure the geometry with the
+     motion stopped, then let it go again. (Fourth time this harness has measured an
+     animation instead of a page — see 4h and check 2.) */
+  const freeze = await page.addStyleTag({ content: '.pw{animation:none !important}' });
+  await page.waitForTimeout(120);
   for (const shape of ['tall', 'wide']) {
     await page.evaluate(sh => document.querySelector(`.shape button[data-shape="${sh}"]`).click(), shape);
     await page.waitForTimeout(1300);
@@ -305,6 +315,8 @@ const run = async () => {
   else bad('4g a shape is not the orientation it claims', JSON.stringify(shapes));
   await page.evaluate(() => document.querySelector('.shape button[data-shape="tall"]').click());
   await page.waitForTimeout(1200);
+  await freeze.evaluate(n => n.remove());   /* the float goes back on */
+  await page.waitForTimeout(200);
 
   /* ═══ 4h · THE ACCENT REALLY RE-POINTS ═════════════════════════════════════════
      ⚠️ THIS CHECK EXISTS BECAUSE THE RULES WERE WRITTEN AND NEVER LANDED. The two
@@ -350,6 +362,62 @@ const run = async () => {
   await page.evaluate(() => document.querySelector('.shape button[data-pick="gold"]').click());
   await page.waitForTimeout(400);
 
+  /* ═══ 4k · THE PILL FITS THE COLUMN IT SITS IN ═════════════════════════════════
+     ⚠️ IT DID NOT, AND HE SAW IT BEFORE THIS FILE DID: at 10px/.17em the button drew 243px
+     inside a 224px text column and simply overflowed onto the photograph. `nowrap` plus
+     `flex:none` means it will never wrap and never shrink, so a pill CANNOT be left to fit
+     by luck — the relationship between its width and its column is an INEQUALITY, and
+     inequalities are checkable. Measured in both shapes at three widths, because the column
+     is a percentage of a clamped card and the label is a fixed string. */
+  head('4k · The pill inside its column');
+  for (const shape of ['wide', 'tall']) {
+    await page.evaluate(sh => document.querySelector(`.shape button[data-shape="${sh}"]`).click(), shape);
+    await page.waitForTimeout(1000);
+    for (const w of [1440, 1280, 1200]) {
+      await page.setViewportSize({ width: w, height: 1000 });
+      await page.waitForTimeout(700);
+      const m = await page.evaluate(() => {
+        const c = document.querySelector('.pw[data-focus="true"]');
+        const body = c.querySelector('.pw-body'), pill = c.querySelector('.pw-body .pw-cta');
+        const cs = getComputedStyle(body);
+        const bb = body.getBoundingClientRect(), pb = pill.getBoundingClientRect();
+        const cb = c.getBoundingClientRect();
+        return { over: Math.round(pb.right - (bb.right - parseFloat(cs.paddingRight))),
+                 offCard: Math.round(pb.right - cb.right), pill: Math.round(pb.width) };
+      });
+      if (m.over <= 0 && m.offCard <= 0)
+        ok(`4k ${shape} @${w} — the pill is inside its column`, `${m.pill}px, ${-m.over}px of slack`);
+      else bad(`4k ${shape} @${w} — the pill escapes`, `${m.over}px past the column, ${m.offCard}px past the card`);
+    }
+  }
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.evaluate(() => document.querySelector('.shape button[data-shape="wide"]').click());
+  await page.waitForTimeout(1000);
+
+  /* ═══ 4l · THE DUST IS THERE, AND IT IS DUST ════════════════════════════════════
+     ⚠️ A PARTICLE LAYER IS EASY TO SHIP BROKEN AND HARD TO NOTICE. A canvas that sized
+     itself and never painted looks exactly like restraint. Diffing two frames a moment
+     apart is the only thing that separates "subtle" from "not running". */
+  head('4l · The dust');
+  const dust = await page.evaluate(() => {
+    const c = document.getElementById('dust');
+    if (!c) return null;
+    const g = c.getContext('2d');
+    const grab = () => { const d = g.getImageData(0, 0, c.width, c.height).data;
+      let lit = 0, sum = 0;
+      for (let i = 3; i < d.length; i += 4) if (d[i] > 6) { lit++; sum += d[i]; }
+      return { lit, sum }; };
+    return new Promise(res => {
+      const a = grab();
+      setTimeout(() => res({ a, b: grab(), w: c.width, h: c.height }), 700);
+    });
+  });
+  if (!dust) bad('4l there is no dust canvas');
+  else if (dust.a.lit > 200 && dust.b.lit > 200 && dust.a.sum !== dust.b.sum)
+    ok('4l the dust is painting and moving', `${dust.a.lit.toLocaleString()} lit subpixels, ${dust.w}x${dust.h}`);
+  else if (dust.a.lit > 200) bad('4l the dust is painted but frozen');
+  else bad('4l the canvas is sized and empty', `${dust.a.lit} lit subpixels`);
+
   /* ═══ 5b · THE + TURNS THE CARD — HIS ADDITION, SO IT IS ASSERTED ══════════════
      ⚠️ THE + AND THE FACE MUST NEVER BOTH BE LIVE. The face adds the goal, the + opens the
      reading; a turned card whose face still takes clicks means one click doing two things,
@@ -360,6 +428,10 @@ const run = async () => {
   head('5b · The turn');
   await page.evaluate(() => document.querySelector('.pw[data-focus="true"] .pw-more').click());
   await page.waitForTimeout(1000);
+  /* ⚠️ ONE CONTROL PER FACE NOW. The + is on the front and the x inside the back, each with
+     its backface hidden — so neither has to be un-mirrored and neither jumps across the card
+     when the turn starts. What has to hold is that BOTH write the same state: a close that
+     did not clear data-open would leave a turned card in the ring with no way back. */
   const turned = await page.evaluate(() => {
     const c = document.querySelector('.pw[data-focus="true"]');
     const r = c.getBoundingClientRect(), m = c.querySelector('.pw-more').getBoundingClientRect();
@@ -377,12 +449,30 @@ const run = async () => {
   is('5c and its face stops taking clicks', turned.face, 'none');
   if (turned.shown && turned.onTop) ok('5d the turned face is showing and on top');
   else bad('5d the back face did not come forward', JSON.stringify(turned));
-  if (turned.plusRight) ok('5e the + stays top-right of the turned card');
-  else bad('5e the + landed on the left — the mirrored-position bug is back');
+  const faces = await page.evaluate(() => {
+    const c = document.querySelector('.pw[data-focus="true"]');
+    const back = getComputedStyle(c.querySelector('.pw-close'));
+    return { close: !!c.querySelector('.pw-close'),
+             /* the front's + must be face-away while the back is showing */
+             plusHidden: getComputedStyle(c.querySelector('.pw-more')).backfaceVisibility === 'hidden',
+             closeDrawn: !!c.querySelector('.pw-close svg') };
+  });
+  if (faces.close && faces.closeDrawn)
+    ok('5e the turned face carries its own drawn close, not a typed glyph');
+  else bad('5e the back has no close control, or it is a text glyph', JSON.stringify(faces));
+  if (faces.plusHidden) ok('5e2 and the front\'s + turns away with its own face');
+  else bad('5e2 the + is visible through the back of the card');
   /* turning back, and leaving the card, must both close it */
   await page.evaluate(() => document.querySelector('.pw[data-focus="true"] .pw-more').click());
   await page.waitForTimeout(800);
   is('5f pressing it again turns the card back',
+     await page.evaluate(() => document.querySelector('.pw[data-focus="true"]').dataset.open), 'false');
+  /* and the BACK's own control has to clear the same state */
+  await page.evaluate(() => document.querySelector('.pw[data-focus="true"] .pw-more').click());
+  await page.waitForTimeout(950);
+  await page.evaluate(() => document.querySelector('.pw[data-focus="true"] .pw-close').click());
+  await page.waitForTimeout(950);
+  is('5f2 and the x on the back closes it too',
      await page.evaluate(() => document.querySelector('.pw[data-focus="true"]').dataset.open), 'false');
   await page.evaluate(() => document.querySelector('.pw[data-focus="true"] .pw-more').click());
   await page.waitForTimeout(700);

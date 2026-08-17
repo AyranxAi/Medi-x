@@ -75,7 +75,16 @@
    argument for why that particular value is not a grade decision, and unpinning them would
    throw the argument away to save six characters. */
 :root{
-  --ivory:#FAF7F1;         /* warm ivory — the page ground */
+  /* ⚠️⚠️ THE PAGE'S ONE GROUND SINCE 2026-08-17, and the scene's rise target with it.
+     Every chapter stands on this now; the rose band is gone and a hairline does the
+     separating (see .peptides / .signals / .docs / .stories / .faq / .final).
+     ⚠️ IT MUST STAY EQUAL TO BG_B IN THE SCENE SCRIPT (`const BG_B=[250,247,241]`). Two
+     copies of one colour in two languages; there is no way to share them in a zero-build
+     single file, so they are cross-referenced at both sites instead. Change one, change
+     the other, or the stage hands off to .signals with a seam a few RGB values wide and
+     impossible to spot. THIS WARNING USED TO LIVE ON --dawn — it moved here with the
+     job, it was not duplicated, and --dawn is no longer a party to it. */
+  --ivory:#FAF7F1;         /* warm ivory — the page ground, and BG_B's twin */
   --cream:#F4EDE1;
   --line:#DED4C2;
   --burgundy:#5C1F31;
@@ -98,23 +107,34 @@
      that Cormorant fails at those sizes over that ground is still true. Two names because
      there are two decisions; collapsing them would silently move the scene. */
   --quote-story:"Cormorant Garamond",Georgia,serif;
-  /* ⚠️ THE DAWN, AS A TOKEN — 2026-08-13 (evening). This is the exact colour the scene's
-     ground rises TO, and section 03 now stands on it so the handoff has no seam.
-     ⚠️ IT MUST STAY EQUAL TO BG_B IN THE SCENE SCRIPT (`const BG_B=[246,231,225]`). Two
-     copies of one colour in two languages; there is no way to share them in a zero-build
-     single file, so they are cross-referenced at both sites instead. Change one, change
-     the other, or 03 grows a seam that is 2 RGB values wide and impossible to spot. */
-  --dawn:#F6E7E1;          /* the rose dawn — round 14, back from the glacier's #E8EFF5 */
-  /* ⚠️⚠️ THE TWO TOKENS UN-CONVERGE, AND THE ROUND-9 NOTE PREDICTED THIS EXACT MOMENT:
-     "the divergence was a decision and the next grade may need it again". It does.
-     On the warm system --gold-deep #8A6A34 measures 4.16 on the rose dawn — UNDER the
-     4.5 floor for .seg-gloss's size — which is the whole reason #7F6230 was cut in the
-     first place. On glacier the steel deep passed everywhere (4.96 dawn / 5.01 cream /
-     5.35 ivory) so the two collapsed to one value; going back to warm splits them again.
-     ⚠️ DO NOT "TIDY" THIS TO var(--gold-deep). It reads like a duplicate on the glacier
-     grade and like a bug on this one, and it is neither — it is a measured minimum, and
-     collapsing it drops .seg-gloss below the floor on the one ground it sits on. */
-  --gold-gloss:#7F6230;
+  /* ⚠️⚠️ THE DAWN IS NO LONGER A SECTION GROUND — his call 2026-08-17, "making the
+     background ivory not rose", taken off a rendered three-way board. The page has ONE
+     ground now (--ivory) and the chapters are separated by a hairline instead of a band.
+     ⚠️ WHAT THAT MEANS FOR THIS TOKEN: it keeps its VALUE and loses two of its three
+     jobs. It is not the scene's rise target any more (that cross-reference moved to
+     --ivory, below) and it is not the alternate band. What is left is the one job the
+     rose still does better than anything else on the page: A COMPONENT TINT, so a row
+     inside a dialog can lift off an ivory panel. `.pxd-doc` is its only user.
+     ⚠️⚠️ DO NOT "FINISH THE JOB" BY SETTING THIS TO IVORY. That was tried and it is a
+     silent regression: .pxd-panel is already --ivory, so ivory rows on an ivory panel
+     leave the booking chooser as four 1px outlines and nothing else. The rose IS the
+     row. This token surviving the flattening is the point, not an oversight. */
+  --dawn:#F6E7E1;          /* the rose — a component tint since 2026-08-17, not a ground */
+  /* ⚠️ --gold-gloss #7F6230 IS GONE — 2026-08-17, retired into --gold-deep by the move to
+     ivory. It existed for exactly one measured reason: .seg-gloss is 19px regular, so its
+     floor is 4.5, and --gold-deep #8A6A34 gave 4.16 on the rose dawn it used to stand on.
+     On ivory the same value measures 4.685 and clears it, so the divergence has no subject
+     left. The round-9 note predicted this in both directions — "the divergence was a
+     decision and the next grade may need it again" — and this is the grade that gives it
+     back. Kept here as two lines rather than only in a commit message, because it is
+     exactly what a return to a darker ground would need restored — the token, and the
+     one declaration that read it:
+       --gold-gloss:#7F6230;
+       .seg-gloss{color:var(--gold-gloss)}
+     ⚠️ WRITTEN WITHOUT A NESTED COMMENT ON PURPOSE. CSS does not nest them: an inner
+     slash-star is only text, but the first star-slash after it closes the WHOLE block
+     and the parser then eats the rule below. Check 1 of peptide-page.mjs exists because
+     that failure is silent — the console stays clean and only a screenshot shows it. */
   --ease:cubic-bezier(.22,.61,.36,1);
   --swing:cubic-bezier(.34,.75,.24,1);  /* the dots’ width, round 18 */
   --pad:clamp(20px,4.5vw,72px);
@@ -359,7 +379,7 @@ section{position:relative}
 .sec-head h2{font-size:clamp(34px,4.6vw,62px);max-width:15em}
 
 /* ─────────────────────────── 01 · SIGNALS (validation) ─────────────────────────── */
-.signals{background:var(--ivory)}
+.signals{background:var(--ivory);border-top:1px solid var(--line)}
 .signals .hl{font-family:var(--serif);font-size:clamp(30px,4.2vw,58px);line-height:1.16;max-width:17.5em;color:var(--ink)}
 .chips{display:flex;flex-wrap:wrap;gap:14px;margin-top:clamp(40px,6vh,64px);max-width:980px}
 .chip{
@@ -425,14 +445,21 @@ section{position:relative}
    then show. It stands ABOVE the scene for the reason "What is BHRT?" does over
    there (his call, inherited here): the scene's closing word should land as the
    payoff for a term the reader already holds.
-   ⚠️ GROUND: the dawn, and the same cross-reference applies — --dawn MUST STAY
-   EQUAL to BG_B in the chain scene script at the foot of this file. The scene
-   rises to exactly this colour. The page's grounds run the sister sequence:
-   dawn(03) → ivory(04) → dawn(05 doctors) → ivory(06) → dawn(07) →
-   ivory(08, hairlined) → cream(footer).
+   ⚠️⚠️ GROUND: IVORY SINCE 2026-08-17, AND THE CROSS-REFERENCE MOVED WITH IT — it is
+   --ivory that MUST STAY EQUAL to BG_B in the chain scene script at the foot of this
+   file, not --dawn. The scene still rises to exactly the colour this section stands on;
+   that colour is simply ivory now. THE OLD LINE HERE SAID `--dawn MUST STAY EQUAL to
+   BG_B` and following it today would put the rose back into the scene and leave a seam
+   at the handoff, which is why it is corrected rather than left as history.
+   ⚠️ THE SISTER SEQUENCE IS RETIRED. This used to read dawn(03) → ivory(04) →
+   dawn(05) → ivory(06) → dawn(07) → ivory(08) → cream(footer). There is one ground
+   now and a 1px --line rule at every chapter head does the separating — measured at
+   1.373:1 against ivory, where the rose/ivory step it replaced was 1.126:1. This
+   section's rules come free: .seg has always drawn a border top AND bottom, which is
+   where the device came from in the first place.
    ⚠️ NO CTA, same rule as the sister segment: this page IS the peptide intro.
    The segment explains and stops; the scene below is where it sends you. */
-.peptides{background:var(--dawn)}
+.peptides{background:var(--ivory)}
 /* No 100vw here on purpose. Sections in this page are already full-bleed — .wrap
    does the constraining — so width:100vw would buy nothing and cost a horizontal
    scrollbar on every desktop that renders a classic scrollbar, because 100vw
@@ -466,10 +493,14 @@ section{position:relative}
 .seg-gloss{
   margin-top:clamp(16px,2vh,24px);font-family:var(--quote);
   font-size:clamp(14px,1.35vw,19px);letter-spacing:.15em;text-transform:uppercase;
-  /* NOT --gold-deep — see the token. At 19px regular this is body text, not large text,
-     so the floor is 4.5 and --gold-deep gives 4.16 on the dawn (and gave 4.31 on the
-     cream that was here before, which already missed). */
-  color:var(--gold-gloss);
+  /* ⚠️ --gold-deep AGAIN SINCE 2026-08-17, and the number is why. At 19px regular this is
+     body text, not large text, so the floor is 4.5 — and --gold-deep measured 4.16 on the
+     rose dawn this used to stand on (4.31 on the cream before that, which also missed),
+     which is what bought the separate --gold-gloss. On ivory it measures 4.685. The
+     workaround's subject is gone, so the workaround goes; see the token block.
+     ⚠️ IF THIS GROUND EVER DARKENS AGAIN, RE-MEASURE BEFORE ASSUMING. 4.685 is 0.185 of
+     margin, and it is the tightest pairing in this section. */
+  color:var(--gold-deep);
 }
 /* ⚠️ 48ch, NOT 34 — his call 2026-08-16 ("make it wider by a little bit so that it's not
    that crammed"), shipped in the same commit that cut the sentence out of the definition.
@@ -513,9 +544,14 @@ section{position:relative}
        QUESTION rather than a settled one, and the lab has always shown it on ivory. If it
        moves, the cost is the whole tail inverting again (see the note on .docs) and the
        scene's BG_B, not a one-line change.
-   ⚠️ THE CHAIN SCENE RISES TO EXACTLY THIS COLOUR (BG_B === --dawn), so the scene now
-   hands off to this section with no seam at all — the same handoff section 03 already
-   had. That is a bonus of the fix, not the reason for it. */
+   ⚠️⚠️ SUPERSEDED 2026-08-17 — "IVORY VS DAWN BEHIND THE RING" IS NO LONGER OPEN. It went
+   ivory with the whole page, so the paragraph above is the record of a question, not a live
+   one. What is still true, and now true of every chapter: the scene rises to the colour the
+   page stands on (BG_B === --ivory since the flattening) and hands off with no seam.
+   ⚠️ .services IS THE ONE CHAPTER WITH NO HAIRLINE, ON PURPOSE. It opens directly under
+   .turn, which is burgundy, so the ground change is already the boundary and a --line rule
+   on a dark edge would be invisible. peptide-page.mjs asserts that exemption against
+   .turn's luminance rather than skipping it, so it fails loudly if .turn ever lightens. */
 /* ⚠️⚠️ THE RING IS SEEN THROUGH A WINDOW, AND THE SECTION IS THE WINDOW. Cards outside the
    fan wait one step past its edge at zero opacity so they slide in rather than pop — which
    means they are, correctly, outside the rail. Invisible is not the same as absent: they
@@ -526,7 +562,7 @@ section{position:relative}
    would break any sticky child a later round puts here. `clip` clips and creates nothing.
    The hidden is the fallback for Safari before 16, where the cost is a container nobody
    scrolls rather than a page that slides. */
-.services{background:var(--dawn);overflow-x:hidden}
+.services{background:var(--ivory);overflow-x:hidden}
 @supports (overflow-x:clip){ .services{overflow-x:clip} }
 .sec-lede{
   max-width:58ch;margin-top:18px;color:var(--ink-soft);
@@ -1295,6 +1331,13 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
    exact files land, the script marks the card .no-photo and the band shows a
    Megante monogram on the gold tint instead of a broken image. Adding the photos
    is a file drop — no markup change. */
+/* ⚠️⚠️ SUPERSEDED 2026-08-17 — THE ALTERNATION IS GONE AND EVERYTHING BELOW IS HISTORY.
+   His call, "making the background ivory not rose": the page has ONE ground now and a 1px
+   --line rule at each chapter head separates the chapters. The reasoning below is kept
+   because the FAILURE MODE it documents has not changed shape — twice a section was deleted
+   and the two chapters that met were left indistinguishable with nothing reporting it — but
+   DO NOT ACT ON ITS INSTRUCTIONS. There is no tail to invert any more, and the check that
+   guards this now reads the hairline, not the colour step (peptide-page.mjs, check 5). */
 /* ⚠️⚠️ THIS GROUND WAS DAWN UNTIL ROUND 18 AND IT MOVED FOR ONE REASON: 06 · WHAT'S
    INCLUDED WAS DELETED, AND IT WAS THE IVORY BEAT THIS SECTION FOLLOWED. Take it out and
    .services (dawn) meets .docs (dawn) — two identical bands, which is exactly the bug
@@ -1314,7 +1357,7 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
    widest channel, where it used to be 16. Neither edge was ever visible as a field (.final's
    own note measures ivory→cream at 1.088:1), so the footer's border-top was already the
    only thing saying "new thing" there and still is. Do not remove it. */
-.docs{background:var(--ivory)}
+.docs{background:var(--ivory);border-top:1px solid var(--line)}
 /* ⚠️ TWO CAPS GOVERN THE PORTRAIT SIZE AND BOTH HAD TO MOVE — his "make the images
    bigger", 2026-08-14. The grid's max-width sets the column, .doc-photo's own cap
    sets the picture inside it, and raising either alone does nothing: at 56rem the
@@ -1551,6 +1594,13 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
 }
 
 /* ─────────────────────────── 06 · TESTIMONIALS ─────────────────────────── */
+/* ⚠️⚠️ SUPERSEDED 2026-08-17 — THE ALTERNATION IS GONE AND EVERYTHING BELOW IS HISTORY.
+   His call, "making the background ivory not rose": the page has ONE ground now and a 1px
+   --line rule at each chapter head separates the chapters. The reasoning below is kept
+   because the FAILURE MODE it documents has not changed shape — twice a section was deleted
+   and the two chapters that met were left indistinguishable with nothing reporting it — but
+   DO NOT ACT ON ITS INSTRUCTIONS. There is no tail to invert any more, and the check that
+   guards this now reads the hairline, not the colour step (peptide-page.mjs, check 5). */
 /* back to IVORY (2026-08-14, round 3) — the doctors section now occupies the 05
    slot and carries the dawn, so the page runs the sister sequence exactly:
    dawn(03) → ivory(04) → dawn(05 doctors) → ivory(06) → dawn(07) → ivory(08). */
@@ -1559,7 +1609,7 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
    the four. The one number worth re-checking was the quote, because it is PURE #000 and
    its note recorded "17.7:1 on this ivory" — on the dawn it is 17.44:1. Nothing else here
    is measured against the ground. */
-.stories{background:var(--dawn)}
+.stories{background:var(--ivory);border-top:1px solid var(--line)}
 /* ⚠️ THE CARD IS GONE — cream ground, 1px border, 20px radius, hover lift, all deleted with
    the two quotes that used to sit beside this one. Nothing here is boxed any more. */
 .story-rail{display:grid}
@@ -1614,14 +1664,17 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
    inverted the tail (see the ⚠️⚠️ note at .docs), so 07 on the dawn would now sit against
    a dawn .stories. The "last warm note before the ivory close" survives INVERTED — .final
    is the dawn now, and it is the last warm note instead.
-   ⚠️ WHAT IT COSTS, STATED: THIS PAGE'S FAQ NO LONGER MATCHES THE SISTER PAGE'S, which is
-   still `.faq{background:var(--dawn)}` in hormone-balancing/index.html. Round 3 chose the
-   dawn to BE that match. The contrast side is safe in the direction it moved — ink,
+   ⚠️⚠️ WIDENED 2026-08-17: THE DIVERGENCE FROM THE SISTER PAGE IS NO LONGER ONE SECTION,
+   IT IS THE WHOLE GROUND SYSTEM. hormone-balancing/index.html still alternates dawn and
+   ivory and still has `.faq{background:var(--dawn)}`; this page has one ivory ground and
+   hairlines. If the two are ever required to agree chapter for chapter, the fix is to bring
+   the sister page across, not to put a band back here — and that is a decision about two
+   pages, so it does not get taken inside this rule. Round 3 chose the dawn to BE that match. The contrast side is safe in the direction it moved — ink,
    ink-soft, --logo-red and the burgundy indicator all gain against a lighter ground, and
    every value here is still the sister page's — but if the two pages are ever required to
    agree section for section, this is the divergence, and the fix is the tail, not this
    line on its own. */
-.faq{background:var(--ivory)}
+.faq{background:var(--ivory);border-top:1px solid var(--line)}
 .faq-grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(40px,5vw,90px);align-items:start}
 .faq-side{position:sticky;top:120px;display:flex;flex-direction:column;gap:22px}
 .faq-side h2{font-size:clamp(32px,3.8vw,52px)}
@@ -1736,7 +1789,7 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
    section is the run's last warm note and it meets the cream footer at 6/255 rather than
    16. Both were always invisible as fields; the two border-tops are still the only things
    saying "new thing" and neither may go while the ground stays light. */
-.final{background:var(--dawn);border-top:1px solid var(--line);text-align:left}
+.final{background:var(--ivory);border-top:1px solid var(--line);text-align:left}
 .cta-wrap{
   display:flex;align-items:center;justify-content:center;
   gap:clamp(18px,2.4vw,34px);padding-block:clamp(26px,4vh,40px);
@@ -2603,7 +2656,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
             <a class="btn" href="#" data-book>Select <span class="arr">→</span></a>
           </div>
           <div class="pxd-doc">
-            <span class="pxd-doc-face" data-mono="KS"><img src="../images/doctors/dr-khalid-shukri-square.webp" alt="" aria-hidden="true"
+            <span class="pxd-doc-face" data-mono="KS"><img src="../images/doctors/dr-khalid-shukri-square-v2.webp" alt="" aria-hidden="true"
                  loading="lazy" decoding="async" width="1024" height="1024"></span>
             <div class="pxd-doc-txt">
               <b>Dr. Khalid Shukri</b>
@@ -2828,16 +2881,39 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
          dr-andrey-komissarov-square.webp    1024²  · his upload, untouched
          dr-eslam-yakout-square.webp          700²  · his upload, untouched
          dr-nahla-ibrahim-elawady-square.webp 1024² · his upload, untouched (it arrived square)
-         dr-khalid-shukri-square.webp        1024²  · BAKED — see below
+         dr-khalid-shukri-square-v2.webp     1024²  · BAKED — see below
        ⚠️ DR. KHALID'S UPLOAD IS THE ONE THAT WAS NOT SQUARE: 1113×1414. His original is
        kept beside the others as `dr-khalid-shukri-master.webp` and is the source both his
        crops were cut from; it is not referenced by any markup and must not be deleted.
-       The square is baked at sy=120 rather than left to object-fit:cover, which would
-       centre the crop at sy=150 — auditioned all three (0 / 120 / 150) and 120 won: sy=0
-       cuts his crossed arms off and reads as a tight headshot beside three full figures,
-       and 150 is the browser's own crop with the hair tight to the frame. 120 keeps the
-       arms AND the headroom. Re-bake with:
-         node tools/crop-portrait.mjs images/doctors/dr-khalid-shukri-master.webp <out> 0 120 1113 1024
+       ⚠️⚠️ sy=120 CLIPPED HIS HAIR AND THE ROUND-6 NOTE THAT CHOSE IT WAS WRONG ON ITS OWN
+       TERMS — his call 2026-08-17, "his head is chopped off on the big pic". The note said
+       "120 keeps the arms AND the headroom"; MEASURED, IT KEPT NEITHER HEADROOM NOR HIS
+       HAIR. The topmost non-backdrop row of the master is 83, so a window opening at 120
+       started 37px INSIDE his hair, and the shipped square had a flat top where the
+       flyaways should be. Headroom above the subject, as a share of the frame:
+         Andrey 5.5%   ·   Nahla 7.4%   ·   Eslam 2.0%   ·   Khalid 0.0%
+       He was the only one of the four touching row zero, which is why he was the only one
+       who looked decapitated. THE AUDITION THAT PICKED 120 ONLY EVER COMPARED 0 / 120 /
+       150 — every one of those three cuts hair, because the answer was below 83 and none
+       of the candidates was.
+       ⚠️ IT IS sy=53 NOW: 30px of real backdrop above row 83, which lands at 2.6% and
+       sits with Eslam's 2.0%. THE 67px IT GIVES UP AT THE FOOT IS THE PRICE AND IT IS THE
+       RIGHT ONE — his crossed forearms still read; sy=0 was rejected in round 6 for
+       cutting them and that judgement stands, which is why this is 53 and not 0.
+       ⚠️ NO PIXEL IS INVENTED. Padding the frame with sampled backdrop rgb(217,214,219)
+       was tried and rejected twice over: a 1414² side-padded square holds the whole master
+       but drops him to a visibly smaller figure than the other three, and a 1361² one only
+       softens the same mismatch. The master has 1414 rows and a full-width square can show
+       1113 of them — something has to go, and 67px of forearm costs less than his hair.
+       ⚠️ NEW BASENAME, NOT AN OVERWRITE — BRAND.md: "new filename, never an overwrite, no
+       cache can serve a stale frame". `dr-khalid-shukri-square.webp` STAYS IN THE REPO at
+       sy=120 and is now referenced by nothing; it is the served file for anyone holding
+       the old HTML, and deleting it is a broken image on their screen, not a tidy-up.
+       Re-bake with:
+         node tools/crop-portrait.mjs images/doctors/dr-khalid-shukri-master.webp <out> 0 53 1113 1024
+       ⚠️ THE HEAD CROPS WERE NEVER AFFECTED and were checked before touching anything:
+       Khalid's …-head-400 opens at sy=60 and measures 3.3% headroom, with Andrey at 5.0%,
+       Eslam 3.0% and Nahla 6.5%. The bug was the big square only, exactly as he said.
        The four …-head-400.webp head crops the bio panel's header uses are all baked with
        the same tool; the two new ones were framed to match the two that shipped in round 5
        (hair near the top edge, shoulders filling the bottom):
@@ -3036,7 +3112,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
              and it is the client's call, not a tidy-up. -->
         <article class="doc" data-reveal>
           <div class="doc-photo">
-            <img src="../images/doctors/dr-khalid-shukri-square.webp" alt="Dr. Khalid Shukri"
+            <img src="../images/doctors/dr-khalid-shukri-square-v2.webp" alt="Dr. Khalid Shukri"
                  loading="lazy" decoding="async" width="1024" height="1024">
             <span class="doc-mono" aria-hidden="true">KS</span>
             <button type="button" class="doc-info" aria-haspopup="dialog"
@@ -3797,10 +3873,15 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
      if it is ever wanted back. */
 
   const INK=[46,34,40], IVORY=[250,247,241];       /* the page's white; warm again since round 14 */
-  /* ⚠️ BG_B IS --dawn — the stage rises to exactly the colour section 03 above it stands
-     on. Two copies of one colour in two languages; change one, change the other (the
-     token carries the same warning). THE ROSE DAWN AGAIN since round 14; it was the glacier
-     #E8EFF5 (B2, his letter) from round 9 until then. */
+  /* ⚠️⚠️ BG_B IS --ivory SINCE 2026-08-17 — it was --dawn from round 14 until then, and
+     the glacier #E8EFF5 (B2, his letter) from round 9 to 14. The stage rises to exactly
+     the colour the page stands on, and that is now ivory everywhere. Two copies of one
+     colour in two languages; change one, change the other — the --ivory token carries the
+     matching warning, and --dawn no longer carries it at all.
+     ⚠️ IF THIS EVER GOES BACK TO THE ROSE, IT IS TWO EDITS AND NOT ONE: this array and
+     every section ground. A stage that rises to a colour no section stands on is a seam
+     across the full width of the page, and the harness cannot see it — check 4 reads the
+     stage's own computed colour, never the chapter it hands to. */
   /* ⚠️ BG_A IS THE PLUM GROUND AGAIN — round 14. It was [20,32,42] #14202A from
      2026-08-16 on the client's "the burgundy is not approved… same value, in the blue",
      and that note is DIRECTLY CONTRADICTED by the reversal — the full argument, and the
@@ -3809,7 +3890,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
      #14202A, L* 11.83 → 11.61, chroma held, hue rotated. ⚠️ THE CSS PRE-FRAME GROUND IS
      BG_A'S SIBLING AND MUST MOVE WITH IT — it is `background:#2E2228` on .scene-stage,
      and it is what a reader sees for the frame before the script's first draw(). */
-  const BG_A=[42,27,32], BG_B=[246,231,225];
+  const BG_A=[42,27,32], BG_B=[250,247,241];
   /* an unwritten bead — dim rose-stone, and --rose is back in this scene with it (round
      14). It was [147,161,174] on the cool grade, L* 65.55 held exactly in both directions,
      so a drifting bead measures 6.23:1 on this stage against the 6.26 it measured cool. */

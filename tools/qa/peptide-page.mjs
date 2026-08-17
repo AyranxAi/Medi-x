@@ -355,30 +355,59 @@ async function checkDialogs() {
   if (dead.panel === 6) ok('the programme panel is the page\'s only sequence — six steps');
   else bad(`the panel's steps are wrong: ${dead.panel}`);
 
-  /* ⚠️⚠️ THE GROUNDS MUST ALTERNATE, AND THIS CHECK EXISTS BECAUSE THEY SILENTLY STOPPED.
-     Deleting section 05 (dawn) left .services and .incl both ivory — two identical bands
-     meeting, which reads as one section that has lost its heading, and NOTHING in this
-     harness said so. The fix moved .services to the dawn rather than flipping .incl and
-     the four grounds below it. Asserting the SEQUENCE rather than each colour means the
-     next chapter added or removed here fails loudly instead of quietly repeating a ground.
-     ⚠️⚠️ AND IT DID EXACTLY THAT IN ROUND 18 — THIS CHECK EARNING ITS KEEP A SECOND TIME.
-     Deleting 06 removed the IVORY BEAT between .services (dawn) and .docs (dawn); the two
-     dawns met and this went red on the first run after the deletion. The list is FIVE
-     chapters now, and the four below .services inverted — ivory · dawn · ivory · dawn —
-     which is the bill round 16 deferred by moving .services instead.
+  /* ⚠️⚠️ THIS CHECK ASSERTED AN ALTERNATION AND ITS SUBJECT LEFT ON 2026-08-17 — the page
+     went to ONE ground (his call, "making the background ivory not rose") and the chapters
+     are separated by a hairline now. THE GUARANTEE IS UNCHANGED AND THE MEASUREMENT MOVED
+     WITH IT: what it has always protected is that a reader can tell one chapter from the
+     next, and that used to be a colour step. It is a 1px rule now, so that is what gets
+     read. THE QA README'S OWN RULE — "deleting a check whose subject left is how a page
+     quietly loses a guarantee" — is why this was rewritten rather than dropped.
+     ⚠️ WHY THE HAIRLINE IS NOT A DOWNGRADE, MEASURED: --line #DED4C2 on --ivory #FAF7F1
+     is 1.373:1, where the rose/ivory step it replaces was 1.126:1. The separator got
+     STRONGER, which is the argument that carried the change.
+     ⚠️⚠️ THE HISTORY THIS CHECK EARNED IS WORTH KEEPING even though the colours are gone,
+     because the failure mode has not changed — only its shape. Twice a section was deleted
+     and the two chapters that met were left indistinguishable, with nothing reporting it:
+     round 16 (05 went, .services and .incl were both ivory) and round 18 (06 went, the
+     ivory beat between .services and .docs went with it). A missing hairline is that same
+     bug in the new vocabulary, and it is just as invisible in a console.
      ⚠️ DO NOT EVER GREEN A FAILURE HERE BY DELETING THE OFFENDING SELECTOR FROM THIS
-     ARRAY. The array IS the page's reading order; a name dropped from it is a ground that
-     silently stops being watched, and the check would still print in green. A chapter
-     leaving the page is the only reason a name may leave this list, and then the grounds
-     around the hole have to be re-read — which is the work this failure exists to force. */
-  const grounds = await page.evaluate(() =>
+     ARRAY. The array IS the page's reading order; a name dropped from it is a boundary
+     that silently stops being watched, and the check would still print in green. A chapter
+     leaving the page is the only reason a name may leave this list, and then the
+     boundaries around the hole have to be re-read — the work this failure exists to force.
+     ⚠️ .services IS EXEMPT FROM THE RULE AND THAT IS DELIBERATE, NOT A HOLE: it opens
+     directly under .turn, which is burgundy, so the ground change IS the boundary there
+     and a --line hairline on a dark edge would be invisible anyway. The exemption is
+     asserted rather than skipped — if .turn ever stops being burgundy this goes red. */
+  const chapters = await page.evaluate(() =>
     ['.services', '.docs', '.stories', '.faq', '.final'].map(s => {
       const el = document.querySelector(s);
-      return el ? getComputedStyle(el).backgroundColor : null;
+      if (!el) return { s, missing: true };
+      const cs = getComputedStyle(el);
+      const prev = el.previousElementSibling;
+      return { s, bg: cs.backgroundColor,
+               rule: cs.borderTopWidth, ruleColor: cs.borderTopColor,
+               above: prev ? getComputedStyle(prev).backgroundColor : null };
     }));
-  const alternates = grounds.every((g, i) => g && (i === 0 || g !== grounds[i - 1]));
-  if (alternates) ok(`the grounds alternate across the tail — dawn / ivory, ${grounds.length} chapters`);
-  else bad(`two neighbouring chapters share a ground: ${JSON.stringify(grounds)}`);
+  const turnIsDark = await page.evaluate(() => {
+    const t = document.querySelector('.turn');
+    if (!t) return false;
+    const [r, g, b] = getComputedStyle(t).backgroundColor.match(/\d+/g).map(Number);
+    return (0.2126 * r + 0.7152 * g + 0.0722 * b) < 110;
+  });
+  let separated = 0;
+  for (const c of chapters) {
+    if (c.missing) { bad(`${c.s} has left the page — re-read the boundaries around the hole`); continue; }
+    const stepped = c.above && c.above !== c.bg;
+    const ruled = parseFloat(c.rule) >= 1 && c.ruleColor !== 'rgba(0, 0, 0, 0)';
+    if (ruled || stepped) separated++;
+    else bad(`${c.s} has no boundary: no hairline, and the chapter above it shares its ground (${c.bg})`);
+  }
+  if (separated === chapters.length)
+    ok(`every chapter is separated from the one above it — hairline or ground step, ${chapters.length} chapters`);
+  if (turnIsDark) ok('.services is exempt because .turn above it is still dark — the ground change is the boundary');
+  else bad('.turn is no longer dark, so .services needs a hairline like the rest');
 
   /* ⚠️⚠️ THIS CHECK MEASURED THE IVORY TILES AGAINST THE DAWN GROUND AND ITS SUBJECT LEFT IN
      ROUND 18. It read `rgb('.services')` against `rgb('.px')` and required 8/255 of daylight
@@ -502,7 +531,7 @@ async function checkGrade() {
   const WANT = {
     '--ivory': '#FAF7F1', '--cream': '#F4EDE1', '--line': '#DED4C2',
     '--gold': '#C2A05E', '--gold-deep': '#8A6A34', '--gold-tint': '#F1E7D2',
-    '--dawn': '#F6E7E1', '--gold-gloss': '#7F6230',
+    '--dawn': '#F6E7E1',
     '--burgundy': '#5C1F31', '--rose': '#C79A92', '--ink': '#2E2228',
   };
   const got = await page.evaluate(names => {
@@ -519,16 +548,48 @@ async function checkGrade() {
 
   let drifted = [];
   for (const [k, v] of Object.entries(WANT)) if (got[k] !== v) drifted.push(`${k} ${got[k]}≠${v}`);
-  if (!drifted.length) ok(`all eleven tokens are the warm system — ivory ${got['--ivory']}, dawn ${got['--dawn']}, gold ${got['--gold']}`);
+  if (!drifted.length) ok(`all ten tokens are the warm system — ivory ${got['--ivory']}, dawn ${got['--dawn']}, gold ${got['--gold']}`);
   else bad(`the grade half-landed: ${drifted.join(' · ')}`);
 
-  /* ⚠️ --gold-gloss MUST NOT EQUAL --gold-deep ON THIS GRADE. They converged on glacier
-     and un-converge on plum, because #8A6A34 measures 4.16 on the rose dawn — under the
-     4.5 floor for .seg-gloss's size. "Tidying" the duplicate away is a silent a11y
-     regression, so it is asserted rather than trusted. */
-  if (got['--gold-gloss'] !== got['--gold-deep'])
-    ok(`gloss and deep stay split — ${got['--gold-gloss']} vs ${got['--gold-deep']}, the 4.5 floor on the rose dawn`);
-  else bad('--gold-gloss collapsed into --gold-deep: .seg-gloss now measures 4.16 on the dawn');
+  /* ⚠⚠ THIS CHECK USED TO ASSERT --gold-gloss ≠ --gold-deep, and on 2026-08-17 the move
+     to an ivory ground retired --gold-gloss: #8A6A34 measures 4.685 on ivory where it gave
+     4.16 on the rose, so the second token had no subject left.
+     ⚠⚠ IT IS REWRITTEN, NOT DELETED, AND NOT LEFT AS IT WAS — BOTH OF THOSE WERE WRONG.
+     Left alone it went red on a correct page. Deleted, the guarantee goes with it. Worse,
+     the old line PASSED VACUOUSLY the moment the token vanished: an undefined custom
+     property reads as the empty string, empty ≠ '#8A6A34' is true, and it printed
+     "gloss and deep stay split —  vs #8A6A34" in green while measuring nothing at all.
+     A check that scores a tick on a value that does not exist is worse than no check.
+     So what is asserted now is THE THING THAT ACTUALLY MATTERS, which was never the token:
+     .seg-gloss's rendered colour must clear 4.5 against the ground it really stands on. It
+     reads both off the page, so it survives any future re-grade in either direction — and
+     if this ground ever darkens again, this is the check that will demand --gold-gloss
+     back rather than letting the copy quietly drop under the floor. */
+  const gloss = await page.evaluate(() => {
+    const el = document.querySelector('.seg-gloss');
+    if (!el) return null;
+    const fg = getComputedStyle(el).color;
+    /* the nearest ancestor that actually paints — .seg-gloss itself is transparent */
+    let n = el, bg = null;
+    while (n && n !== document.documentElement) {
+      const c = getComputedStyle(n).backgroundColor;
+      if (c && c !== 'rgba(0, 0, 0, 0)' && c !== 'transparent') { bg = c; break; }
+      n = n.parentElement;
+    }
+    return { fg, bg, on: n ? (n.className || n.tagName.toLowerCase()) : null,
+             px: parseFloat(getComputedStyle(el).fontSize) };
+  });
+  if (!gloss || !gloss.bg) bad('.seg-gloss or its ground has gone missing — the 4.5 floor cannot be read');
+  else {
+    /* ratio() and hex() are this file's own module-scope helpers — the first draft of
+       this check called contrast()/nums(), which do not exist at this scope: nums is a
+       local inside one page.evaluate and contrast was never defined. It would have thrown
+       a ReferenceError rather than measuring anything. */
+    const r = ratio(hex(gloss.fg), hex(gloss.bg));
+    /* 19px regular is body text, not large text, so the floor is 4.5 and not 3.0 */
+    if (r >= 4.5) ok(`.seg-gloss clears the small-text floor — ${r.toFixed(2)}:1 at ${gloss.px}px on .${String(gloss.on).split(' ')[0]}`);
+    else bad(`.seg-gloss measures ${r.toFixed(2)}:1 at ${gloss.px}px, under the 4.5 floor — restore --gold-gloss #7F6230`);
+  }
 
   if (hex(got.stageCSS) === '#2E2228') ok('the stage\'s CSS pre-frame ground is the plum');
   else bad(`the stage's pre-frame ground did not revert: ${got.stageCSS}`);

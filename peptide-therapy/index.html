@@ -659,16 +659,40 @@ section{position:relative}
   transition:color .35s var(--ease),background .35s var(--ease)}
 .px:hover .px-mark{color:var(--gold-deep);background:var(--gold-tint)}
 
-/* chosen — ink, never the one red: red is this page's material for "this commits
-   you", and a lit tile is a choice, not a call to action */
-.px[data-picked="true"]{background:var(--ink);border-color:var(--ink)}
+/* ══ CHOSEN — BURGUNDY. His pick, letter D off selected-tile-lab.html ══════════════
+   It was `--ink` #2E2228 from round 12 on the rule "ink, never the one red — red is this
+   page's material for THIS COMMITS YOU, and a lit tile is a choice, not a call to action".
+   ⚠️ THAT RULE IS NOT BROKEN BY THIS: the one red is `--logo-red` #8E2D3A and it is still
+   nowhere near a tile. What his note fixed is that near-black was the coldest possible
+   dress for the section's ONE MOMENT OF REWARD — "too dark and not sexy or appetizing".
+   Burgundy is the same depth with the temperature the ink was missing.
+   ⚠️⚠️ THE REAL COST, FLAGGED BEFORE HE CHOSE IT AND ACCEPTED: --burgundy IS THIS PAGE'S
+   PRIMARY BUTTON MATERIAL. A chosen tile now wears the same colour as "Book a consultation".
+   THE DISTINCTION IS CARRIED BY SHAPE AND CONTENT, NOT BY COLOUR, so both must hold:
+     · a button is a PILL (--btn-radius 999px) in uppercase letterspaced sans;
+     · a tile is a 2px rectangle in title-case Megante with a mark and a tick.
+   If a future round ever rounds the tiles, or sets a button in Megante, the two materials
+   collapse into one and the page starts saying "book" where it means "chosen". Check 19
+   asserts the radii stay apart. */
+.px[data-picked="true"]{background:var(--burgundy);border-color:var(--burgundy)}
 .px[data-picked="true"] h3,.px[data-picked="true"]:hover h3{color:var(--ivory)}
-/* the plate inverts with the card — a --cream disc on an ink tile would be a hole in it.
-   The glyph goes to the full gold because --gold-deep does not survive this ground. */
+/* the plate inverts with the card — a --cream disc on a burgundy tile would be a hole in
+   it. The glyph takes the full gold, which measures 5.00:1 here. */
 .px[data-picked="true"] .px-mark,
-.px[data-picked="true"]:hover .px-mark{color:var(--gold);background:rgba(250,247,241,.07)}
+.px[data-picked="true"]:hover .px-mark{color:var(--gold);background:rgba(250,247,241,.10)}
 .px[data-picked="true"] .px-open{color:var(--ivory)}
 .px[data-picked="true"] .px-open::before{border-color:rgba(250,247,241,.42)}
+/* ⚠️⚠️ THE + HAD TO STOP FILLING BURGUNDY ON A CHOSEN TILE, AND THIS IS THE ONE BUG THE
+   colour change actually caused. `.px:hover .px-open::before` fills `--burgundy` — which
+   was a clear circle on an ink tile and is INVISIBLE on a burgundy one. The chosen tile
+   fills gold instead, so the + stays a legible door in both states.
+   ⚠️ ITS GLYPH FLIPS TO INK WITH IT: ivory-on-gold measures 1.9:1 and would have replaced
+   one invisible + with another. */
+.px[data-picked="true"]:hover .px-open::before,
+.px[data-picked="true"] .px-open:focus-visible::before{
+  background:var(--gold);border-color:var(--gold)}
+.px[data-picked="true"]:hover .px-open,
+.px[data-picked="true"] .px-open:focus-visible{color:var(--ink)}
 /* ⚠️ THE TICK IS A FILLED BADGE, NOT A LOOSE GLYPH. A bare ✦-sized tick in the corner of
    a dark card read as a rendering artefact at a glance — the one moment in this section
    that has to feel like a reward is the moment a tile is chosen, and it was the quietest

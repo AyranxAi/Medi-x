@@ -1,5 +1,90 @@
 # Peptide Therapy — `/peptide-therapy/` (first ship 2026-08-14)
 
+> # ▶ START HERE — STATE OF PLAY AT THE END OF ROUND 17
+>
+> **The page:** `/peptide-therapy/index.html` — single file, zero build, ~3,900 lines.
+> Open it with any static server; there is nothing to compile.
+> **QA:** `node tools/qa/peptide-page.mjs` (**50**) and `node tools/qa/services-choice.mjs`
+> (**72**). Both must be green before anything ships. They need
+> `npm install --no-save playwright gsap@3.13.0 lenis@1.3.4`.
+> **The page is on `main`** as of round 17.
+>
+> **THE FOUR THINGS A NEW CHAT SHOULD KNOW FIRST:**
+> 1. **The page is PLUM (warm), not glacier.** Round 14 reversed round 9. ⚠️ **It contradicts
+>    a recorded client note** — *"the burgundy is not approved… we have transitioned to
+>    blue"* — on his later instruction. **This is the likeliest thing to be sent back**, and
+>    the full mapping back to glacier is kept at `.scene-stage` in the stylesheet.
+> 2. **Section 05 does not exist.** Deleted twice: the client's chapter (round 14) and the
+>    programme band that briefly replaced it (round 15). ⚠️ **Everything about price and
+>    process lives in ONE place — the programme panel** (`<template id="prog-panel">`).
+>    Do not put a second copy on the page.
+> 3. **Section 04 is the whole commercial engine**: eight goal tiles on the rose dawn, a
+>    tray that follows the reader, and the panel. ⚠️ Its ground being `--dawn` is
+>    load-bearing twice over — page alternation *and* the tiles reading as objects.
+> 4. **Prices are settled.** AED 1,150 **VAT-exclusive**, +5% = 1,207.50. Home collection
+>    AED 1,950. ⚠️ **Never invent a figure** — see the AED 350 incident in round 12.
+>
+> **WHAT IS STILL OPEN (all his):**
+> · **PAYMENT** — the one thing asked for and not built. `Start your programme` lands on
+>   `#book`; the moment a provider exists that `href` is the only line that changes.
+> · **Wiring `#pxd-choose` to step 03.** The doctor-chooser template is complete and
+>   unrouted; "Choose your doctor" is now a named step. **This is the natural next round.**
+> · The **burgundy/blue conflict** in point 1.
+> · **Peptide delivery time** — step 05 says "8 weeks' supply", deliberately not a shipping
+>   estimate, because none has been given.
+> · Tile popup copy and the FAQ are **draft**, not client-approved.
+>
+> **THE LABS** (kept, each the record of a decision): `grade-lab` (glacier, judged A2·B2·C2)
+> · `goals-lab` (eight presentations) · `programme-lab` (intake in three shapes) ·
+> `bonds-lab` · `hero-lab` · `programme-band-lab` (round 15, answered "none") ·
+> `selected-tile-lab` (round 17, answered **D**).
+> ⚠️ **The first five are on the GLACIER grade and are deliberately not updated** — they
+> record decisions taken under the grade they were taken under.
+>
+> **HOW THIS PROJECT WORKS:** he replies in **letters** off a lab. Build the lab, letter the
+> variants, tag the shipped one, and ship what he names. Every ⚠️ in the source is there
+> because something already went wrong once — **read them before editing near them.**
+>
+> ---
+
+> ## ROUND 17 — 2026-08-16: the tile goes burgundy, and a contrast check is found to have
+> been measuring the wrong tile since round 12
+>
+> **1 · THE CHOSEN TILE IS `--burgundy` #5C1F31 — his pick, letter D.** It was `--ink`.
+> ⚠️ **HE TOOK IT WITH THE COST STATED AND THAT COST IS REAL: `--burgundy` IS THIS PAGE'S
+> PRIMARY BUTTON MATERIAL.** A chosen tile now wears the same fill as "Book a consultation".
+> ⚠️⚠️ **SO THE DISTINCTION IS CARRIED BY SHAPE AND CONTENT, NOT COLOUR** — a button is a
+> **pill** (999px) in uppercase letterspaced sans; a tile is a **2px rectangle** in
+> title-case Megante with a mark and a tick. **Round a tile or square a button and two
+> different meanings collapse into one material with no visible error anywhere.** Check 1j
+> asserts the radii stay apart; nothing was guarding it before.
+> ⚠️ **THE ONE BUG THE COLOUR CHANGE CAUSED, AND IT IS FIXED:** `.px:hover .px-open::before`
+> fills `--burgundy`, which was a clear circle on an ink tile and **invisible on a burgundy
+> one**. A chosen tile's + now fills **gold with an ink glyph** (ivory-on-gold is 1.9:1 and
+> would have swapped one invisible + for another).
+>
+> **2 · ⚠️⚠️ CHECK 16 HAD NEVER ONCE MEASURED A CHOSEN TILE — SINCE ROUND 12.** It read:
+> `document.querySelector('.px[data-picked="true"]') || document.querySelector('.px')`
+> and **the width sweep immediately above it calls `page.goto()` at eight viewports**, so by
+> the time it ran the page had been reloaded eight times and nothing was picked. The `||`
+> handed it an ordinary ivory tile and it reported **ink-on-ivory 14.28:1** under the label
+> *"chosen tile name"* — a comfortable pass, printed in green, for a state the page was
+> never in. It now picks a tile first and **the fallback is deleted**: a contrast check that
+> cannot find its subject must FAIL, because the whole value of the number is which two
+> colours produced it. Real numbers now: **11.58** name, **5.00** mark.
+> ⚠️ **THIS IS THE SECOND ASSERTION-THAT-COULD-NOT-FAIL FOUND IN TWO ROUNDS** (check 6 was
+> twelve hardcoded hexes and no browser). **When a check looks reassuring, verify it can
+> still fail.**
+> ⚠️ **AND IT CAUGHT ME OUT THE SAME WAY:** my first version of check 1k read the fill in
+> the same tick as the click and got `rgb(250,247,241)` — `.px` transitions `background`
+> over .35s, so `getComputedStyle` returned the START of the interpolation. Round 12 already
+> recorded "DO NOT SAMPLE MID-TRANSITION" and it still bit.
+>
+> **3 · QA — 122 checks, all green.** `peptide-page.mjs` **50** · `services-choice.mjs` **72**.
+>
+> **4 · MERGED TO `main`** at his instruction — the first time this arc has left the branch.
+
+
 > ## ROUND 16 — 2026-08-16: the VAT question closes after three rounds, and the lit tile
 > goes to a lab
 >

@@ -159,6 +159,33 @@ const run = async () => {
   plusDraw.ring === 6
     ? ok('1i and the ring it does draw is the 32px ::before', 'inset 6px of 44')
     : bad(`1i the ring moved off ::before: inset ${plusDraw.ring}`);
+
+  /* ⚠️⚠️ A CHOSEN TILE AND A PRIMARY BUTTON NOW SHARE A COLOUR, SO SHAPE IS THE ONLY THING
+     TELLING THEM APART. His pick — letter D, --burgundy — was taken with that cost stated:
+     `--burgundy` is this page's button material, so a lit tile wears the same fill as
+     "Book a consultation". What stops the page saying "book" where it means "chosen" is
+     that a button is a PILL and a tile is a 2px rectangle. That distinction is now
+     load-bearing and nothing else was guarding it: round a tile, or square a button, and
+     two different meanings collapse into one material with no visible error anywhere. */
+  /* ⚠️ THE CLICK AND THE READ ARE TWO STEPS WITH A WAIT BETWEEN THEM, and they have to be:
+     `.px` transitions `background` over .35s, so reading in the same tick as the click
+     returns the transition's STARTING colour — ivory — and this check failed exactly that
+     way on its first run, reporting the chosen fill as rgb(250,247,241). */
+  await page.evaluate(() => document.querySelector('.px-pick').click());
+  await page.waitForTimeout(600);
+  const shapes = await page.evaluate(() => {
+    const tile = document.querySelector('.px[data-picked="true"]');
+    return { tile: parseFloat(getComputedStyle(tile).borderTopLeftRadius),
+             btn:  parseFloat(getComputedStyle(document.querySelector('.btn')).borderTopLeftRadius),
+             fill: getComputedStyle(tile).backgroundColor };
+  });
+  shapes.tile <= 4 && shapes.btn >= 100
+    ? ok(`1j chosen tile and button share a fill but not a shape — ${shapes.tile}px vs ${shapes.btn}px`)
+    : bad(`1j the two materials are converging: tile ${shapes.tile}px, button ${shapes.btn}px`);
+  shapes.fill === 'rgb(92, 31, 49)'
+    ? ok('1k the chosen tile is the burgundy he picked', shapes.fill)
+    : bad(`1k the chosen fill moved: ${shapes.fill}`);
+  await page.evaluate(() => document.querySelector('.px-pick').click());   /* leave it unchosen */
   is('2  the teaser line is gone from the tiles', grid.teasers, 0);
   has('2  the heading asks rather than announces',
       await page.evaluate(() => document.querySelector('#services h2').textContent), 'Where would you like to begin');
@@ -361,9 +388,30 @@ const run = async () => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.waitForTimeout(200);
 
-  /* the chosen tile inverts to ivory-on-ink and has to clear the floor */
+  /* ══ ⚠️⚠️ THIS CHECK HAS NEVER MEASURED A CHOSEN TILE UNTIL NOW (found round 17) ══════
+     It read:
+         const t = document.querySelector('.px[data-picked="true"]') || document.querySelector('.px');
+     and the width sweep directly above it calls page.goto() at every viewport — so by the
+     time it ran, THE PAGE HAD BEEN RELOADED EIGHT TIMES AND NOTHING WAS PICKED. The `||`
+     fallback quietly handed it an ordinary ivory tile, and it reported ink-on-ivory 14.28:1
+     under the label "chosen tile name" — a comfortable pass, printed in green, for a state
+     the page was never in. It has been doing that since round 12.
+     ⚠️ THE FALLBACK IS GONE ON PURPOSE. A contrast check that cannot find its subject must
+     FAIL, not substitute a different subject: the whole value of the number is which two
+     colours it came from. This is the same fault class as the hardcoded check 6 in
+     peptide-page.mjs — an assertion that cannot fail is worse than no assertion, because it
+     occupies the space where a real one would go.
+     ⚠️ AND IT MUST WAIT FOR THE TRANSITION. `.px` animates `background` over .35s, so
+     reading getComputedStyle immediately after the click returns the START of the
+     interpolation — ivory — not the burgundy it is travelling to. Round 12 recorded this
+     exact lesson ("DO NOT SAMPLE MID-TRANSITION") and it caught this file out anyway. */
   await page.evaluate(() => document.querySelector('#services').scrollIntoView());
   await page.waitForTimeout(400);
+  await page.evaluate(() => document.querySelector('.px-pick').click());
+  await page.waitForTimeout(600);                       /* .35s background transition + slack */
+  const isPicked = await page.evaluate(() => !!document.querySelector('.px[data-picked="true"]'));
+  isPicked ? ok('16pre a tile is actually chosen before the chosen-state contrast is read')
+           : bad('16pre nothing is chosen — the contrast below would measure the wrong tile');
   const lin = c => { c /= 255; return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4; };
   const lum = ([r,g,b]) => 0.2126*lin(r) + 0.7152*lin(g) + 0.0722*lin(b);
   const parse = s => { const n = (s.match(/[\d.]+/g)||[]).map(Number); return { c:n.slice(0,3), a:n.length>3?n[3]:1 }; };
@@ -372,7 +420,9 @@ const run = async () => {
     const [x,y] = [lum(o), lum(b.c)].sort((m,n)=>n-m); return (x+0.05)/(y+0.05); };
   const pairs = await page.evaluate(() => {
     const g = el => getComputedStyle(el);
-    const t = document.querySelector('.px[data-picked="true"]') || document.querySelector('.px');
+    /* ⚠️ NO `|| document.querySelector('.px')` FALLBACK — see the note above. If nothing
+       is picked this throws, the harness exits non-zero, and that is the correct outcome. */
+    const t = document.querySelector('.px[data-picked="true"]');
     const tray = document.querySelector('#px-tray');
     return { 'chosen tile name': [g(t.querySelector('h3')).color, g(t).backgroundColor],
              'chosen tile mark': [g(t.querySelector('.px-mark')).color, g(t).backgroundColor],

@@ -333,6 +333,13 @@ img{display:block;max-width:100%}
      Any future accent inherits the fix instead of re-discovering the bug. */
   box-shadow:0 0 0 1.5px rgba(52,16,28,.55),0 3px 10px rgba(52,16,28,.42);
   transition:opacity .3s var(--ease),transform .45s var(--ease)}
+/* ⚠️ THE TICK MOVED TO THE TOP-LEFT ON 2026-08-17 and this lab moves with it. On the live
+   page it was landing on .pw-more's disc — both occupied the same top-right square, so
+   picking a card buried the control that flips it. ring-parity.mjs caught the divergence
+   the moment only one file had the fix: transform-origin lab 1.0/0.0 vs live 0.0/0.0.
+   That is the harness doing its job in the direction that is easy to forget. */
+.pw-tick{left:clamp(10px,1vw,14px);right:auto;transform-origin:top left}
+.pw[data-picked="true"] .pw-n{opacity:0;transition:opacity .3s var(--ease)}
 .pw[data-side="l"] .pw-tick{left:10px;right:auto;transform-origin:top left}
 .pw[data-picked="true"] .pw-tick{opacity:1;transform:scale(var(--tsc))}
 .pw[data-picked="true"]{box-shadow:0 0 0 2px var(--pick),0 0 0 3px rgba(52,16,28,.3),

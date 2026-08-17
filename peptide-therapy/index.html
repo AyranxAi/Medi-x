@@ -814,6 +814,18 @@ section{position:relative}
      Any future accent inherits the fix instead of re-discovering the bug. */
   box-shadow:0 0 0 1.5px rgba(52,16,28,.55),0 3px 10px rgba(52,16,28,.42);
   transition:opacity .3s var(--ease),transform .45s var(--ease)}
+/* ⚠️⚠️ THE TICK LIVES TOP-LEFT NOW — his call 2026-08-17, "the + button on the cards are
+   not showing properly", and it was a COLLISION rather than a rendering fault. .pw-more's
+   disc is inset 9px of a 46px box in the top-right corner and .pw-tick was 24×24 at
+   top:10 right:10 — the two occupied nearly the same square, so picking a card dropped the
+   badge straight onto the control that flips it. On a phone they were indistinguishable.
+   ⚠️ AND THE "01" STANDS DOWN WHILE PICKED, because top-left is where it lives. That is
+   the trade and it is the right way round: the number is decoration, the tick is state.
+   ⚠️ THE [data-side="l"] RULE BELOW IS NOW REDUNDANT AND IS KEPT DELIBERATELY — it says
+   the same thing, and if the tick is ever moved back to the right this is the rule that
+   has to move with it. Deleting it would leave the left-hand cards silently wrong. */
+.pw-tick{left:clamp(10px,1vw,14px);right:auto;transform-origin:top left}
+.pw[data-picked="true"] .pw-n{opacity:0;transition:opacity .3s var(--ease)}
 .pw[data-side="l"] .pw-tick{left:10px;right:auto;transform-origin:top left}
 .pw[data-picked="true"] .pw-tick{opacity:1;transform:scale(var(--tsc))}
 .pw[data-picked="true"]{box-shadow:0 0 0 2px var(--pick),0 0 0 3px rgba(52,16,28,.3),
@@ -995,6 +1007,14 @@ section{position:relative}
   display:grid;grid-template-columns:1fr auto;align-items:center;gap:14px}
 .hint{display:flex;align-items:center;gap:9px;color:var(--ink-soft);
   font-size:11px;letter-spacing:.13em;text-transform:uppercase;justify-self:start}
+/* ⚠️ THE POSITION, HIS CALL 2026-08-17 — "so that at least the customer still has an idea
+   of which number they are currently and how many there is". The dots already encode it,
+   but eight 12px dashes do not answer "which one am I on" at a glance, and on a phone they
+   are past the thumb. tabular-nums so 1/8 and 8/8 are the same width and the rule beside
+   them never shifts. */
+.hint-pos{font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.18em;
+  color:var(--gold-deep);font-variant-numeric:tabular-nums;
+  margin-left:5px;padding-left:14px;border-left:1px solid var(--line)}
 .hint svg{width:17px;height:17px;color:var(--gold-deep)}
 /* ⚠️ A TOUCH SCREEN IS NOT DRAGGED, IT IS SWIPED, and the instruction is the only thing
    telling a reader the ring turns at all. `hover:none` is the honest test — it asks what the
@@ -1138,6 +1158,20 @@ section{position:relative}
    IS the whole control. */
 .px-tray.mini .px-tray-go:hover{background:rgba(250,247,241,.14);color:var(--ivory)}
 @media(max-width:560px){
+  /* ⚠️⚠️ THE DESKTOP ENLARGEMENT WAS NOT SCOPED AND IT BROKE THE PHONE — 2026-08-17. The
+     tray went to 17/16.5/15px for him on a desktop; at 390 that made the count 94px and
+     the button 293px against 350px of room, so "See your consultation" ran off the screen
+     with its arrow cut off. Measured, at 390 with 350px of room:
+       17 / 15px (desktop)  94 + 293 = 387  ✗ over by 37
+       14px                 77 + 253 = 330  ✓
+       13 / 12px            72 + 239 = 310  ✓
+     14 is the largest that fits, so it is the one that ships — the point was legibility.
+     ⚠️ THE OPTICAL NUDGES COME OFF HERE. They are tuned to the 17/16.5px pair on the
+     desktop bar; at 14/14 the two runs sit together already and the nudge would introduce
+     the very step it was written to remove. */
+  .px-tray-n{font-size:14px;top:0}
+  .px-tray-l{font-size:14px;top:0}
+  .px-tray-go{font-size:14px;padding:13px 16px;letter-spacing:.04em}
   .px-tray-l{display:none}
   /* on a phone the full bar is already only count + action, so .mini would be a
      restyle with nothing to remove. It keeps the band and just stays put. */
@@ -1228,8 +1262,32 @@ section{position:relative}
      rail stood 85px taller than the tallest thing in it, and on a phone that empty band
      reads as the section having lost something — there is no second column for the eye to
      go to while it waits. */
-  .rail.is-ring{--cw:min(300px,66vw); --ch:min(400px,88vw);
-    height:clamp(360px,104vw,470px)}
+  /* ⚠️⚠️ RAISED 2026-08-17 SO THE FLIPPED CARD STOPS SCROLLING — his "if you flip the card
+     you have to scroll up to see the whole thing". Measured at 390: the back face needed
+     459px and had 343, so 116px of it sat below the fold INSIDE the card, and the pill on
+     the back was entirely out of view.
+     ⚠️ TYPE COULD NOT PAY FOR THIS. .pw-back p is clamp(12.5px,1.05vw,14.5px) and is
+     already pinned at its 12.5px floor on a phone — scaling the parent moved the content
+     height by 0px, because every child sets its own clamp. The only levers are the box and
+     the copy.
+     ⚠️ BOTH LEVERS ARE PULLED, AND NEITHER ALONE WAS ENOUGH: the card goes 88vw → 104vw
+     (343 → 406) AND the second paragraph stands down (see .pw-back below). Card alone
+     still scrolled 53px; the paragraph alone still scrolled 14px. Together: 406 needed,
+     406 available.
+     ⚠️ THE RAIL HAD TO MOVE WITH IT. The card is capped by the rail's own height, so
+     raising --ch alone does nothing — the first attempt at this changed the card and the
+     measurement did not move. 104vw → 116vw. */
+  .rail.is-ring{--cw:min(300px,66vw); --ch:min(430px,104vw);
+    height:clamp(380px,116vw,500px)}
+  /* ⚠️⚠️ THE SECOND PARAGRAPH IS HIDDEN ON PHONES ONLY — his call, "some words doesn't make
+     sense as it's kind of redundant". True of six of the eight: they are atmosphere.
+     ⚠️ IT IS NOT TRUE OF TWO, AND THIS IS THE NOTE THAT SAYS SO. Auto Immune's reads
+     "peptide support here works alongside your specialist care, never instead of it" — a
+     clinical caveat, not colour — and Weight Management's reads "this is medical weight
+     management, not a subscription". Both were flagged to him and the call stands.
+     ⚠️ TO KEEP ONE, GIVE ITS <p> data-keep AND THIS BECOMES p + p:not([data-keep]). That
+     card then scrolls again on a phone, which is the honest cost of keeping it. */
+  .pw-back p + p{display:none}
   /* ⚠️ THE ARROWS SIT OVER THE OUTERMOST SLIVER HERE, WHICH IS WHAT THEY ALREADY DO AT 1440
      — the far card runs under the arrow there too. A sliver is not a tap target; the arrow
      is. Swipe, the dots and the arrow keys all reach the same cards. */
@@ -2685,6 +2743,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
             <path d="M15 10.5V6.5a1.5 1.5 0 0 1 3 0V15c0 3.3-2.4 6-6 6s-6-2.7-6-6v-2"/>
             <path d="M9 11v2.5L7 12a1.5 1.5 0 0 0-2 2.2"/></svg>
           <span class="hint-drag">Drag to explore</span><span class="hint-swipe">Swipe to explore</span>
+          <span class="hint-pos" id="railPos" aria-hidden="true">1/8</span>
         </p>
         <div class="dots" id="railDots" role="tablist" aria-label="Jump to a pathway"></div>
       </div>
@@ -4911,6 +4970,24 @@ const focusOn = i => {
      the dots can both do — would otherwise stack bloom on bloom until the front card is a
      snowstorm, which is the "out of control" he saw in a different costume. */
   if (focus !== was && typeof dust !== 'undefined') dust.bloom(cards[focus]);
+  if (focus !== was) {
+    const pos = document.getElementById('railPos');
+    if (pos) pos.textContent = (focus + 1) + '/' + N;
+    /* ⚠️ HAPTICS ARE ANDROID-ONLY AND THAT IS NOT A BUG TO FIX — his call 2026-08-17.
+       navigator.vibrate is NOT IMPLEMENTED in iOS Safari at all: the property is
+       undefined, so the optional call below does nothing there — no error, no console
+       noise, no effect. There is no web API for iOS taptic feedback, so this is Android
+       or nothing; it is an enhancement for half the audience rather than a mechanism the
+       interaction depends on.
+       ⚠️ 8ms, ON THE SETTLE, NOT PER STEP. It fires once per real change of front card,
+       which the latch above now guarantees is once per gesture. Wired before the latch it
+       would have buzzed six times on one flick.
+       ⚠️ REDUCED MOTION OPTS OUT. A reader who has asked the system to calm things down
+       has not asked their phone to buzz. */
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      try { navigator.vibrate && navigator.vibrate(8); } catch (_) {}
+    }
+  }
 };
 
 /* ── the dots: position, and the second home of the chosen state ─────────────────── */
@@ -4983,23 +5060,40 @@ addEventListener('keydown', e => {
    all — so the arrows, the arrow keys, the dots and clicking a card all turn it too, and
    the drag is for people who try it. It must also not swallow a click: a pointer that
    travelled under 6px is a tap, and the card's own handler gets it. */
-let dragX = null, dragged = false;
+let dragX = null, dragged = false, stepped = false;
 rail.addEventListener('pointerdown', e => {
   if (e.button) return;
-  dragX = e.clientX; dragged = false; rail.classList.add('dragging');
+  dragX = e.clientX; dragged = false; stepped = false; rail.classList.add('dragging');
 });
 addEventListener('pointermove', e => {
-  if (dragX === null) return;
+  /* ⚠️⚠️ `stepped` IS THE LATCH, AND IT IS THE WHOLE FIX FOR THE THING HE CALLED
+     "possessed" — 2026-08-17. This handler used to fire a step AND reset dragX every time
+     the threshold was crossed, which made the gesture a RATCHET: steps = distance ÷
+     threshold, with no ceiling and no relation to the animation. Measured on real
+     gestures, before:
+       phone, one 260px thumb flick    6 cards, a step every ~47ms
+       phone, the same drag done slowly 6 cards, a step every ~160ms
+       desktop, a 400px mouse drag      5 cards, a step every ~60ms
+     The card transition is .8s. So a single flick started six 800ms animations, each
+     interrupting the last at about 6% — and with eight cards, advancing six lands two
+     short of a full loop, which is exactly why it read as random and why it felt worst
+     "after the 8th".
+     ⚠️ ONE GESTURE IS NOW ONE CARD. The latch closes on the first step and only pointerup
+     reopens it. The arrows, the dots and the keyboard are untouched, and they are how a
+     reader crosses several at once.
+     ⚠️ dragX IS NO LONGER RE-ANCHORED, deliberately: nothing reads it again this gesture,
+     and re-anchoring is what made the ratchet a ratchet. */
+  if (dragX === null || stepped) return;
   /* ⚠️ 68px IS A MOUSE'S TRAVEL AND A THUMB'S WHOLE SWIPE. On a 390px screen the front card
      is 257px wide, so 68 is a quarter of the card before anything moves and the ring feels
      stuck. 40 on a phone, and the 6px tap threshold below is unchanged — that one is about
      telling a tap from a drag, which does not depend on the screen. */
   const dx = e.clientX - dragX;
   if (Math.abs(dx) < (wide() ? 68 : 40)) { if (Math.abs(dx) > 6) dragged = true; return; }
-  dragged = true; dragX = e.clientX;
+  dragged = true; stepped = true;
   focusOn(focus + (dx < 0 ? 1 : -1));
 });
-addEventListener('pointerup', () => { dragX = null; rail.classList.remove('dragging');
+addEventListener('pointerup', () => { dragX = null; stepped = false; rail.classList.remove('dragging');
   setTimeout(() => { dragged = false; }, 0); }, true);
 rail.addEventListener('click', e => {
   if (dragged) { e.stopPropagation(); e.preventDefault(); } }, true);

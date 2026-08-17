@@ -136,6 +136,29 @@ const run = async () => {
     ? ok('1g the + sits in the top right corner', `${plusPos.fromTop}px / ${plusPos.fromRight}px`)
     : bad('1g the + sits in the top right corner', JSON.stringify(plusPos));
   is('1d the + survived on all eight', grid.opens, 8);
+
+  /* ⚠️⚠️ THE HIT AREA MUST DRAW NOTHING, AND THIS CHECK EXISTS BECAUSE IT DREW TWICE.
+     Round 12 grew the + from a 32px circle to a 44px thumb target and left a comment
+     saying "the circle still DRAWS at 32, via ::before". It did not: the base rule's
+     `border:1px solid var(--line)` and `border-radius:50%` came along with the box, so
+     every tile carried TWO concentric rings, and the hover fill landed on the 44px box
+     rather than the 32px circle. It shipped that way for two rounds.
+     ⚠️ WHY NOTHING CAUGHT IT: every assertion about this control measured its POSITION
+     (check 1g) or its BEHAVIOUR (checks 4–6), and both were correct the whole time. No
+     check ever asked what it LOOKED like. This one does — the drawn ring belongs to
+     ::before at 32px and the 44px box is a target, so the box must have no border and no
+     background in either state. */
+  const plusDraw = await page.evaluate(() => {
+    const btn = document.querySelector('.px-open');
+    const c = getComputedStyle(btn), b = getComputedStyle(btn, '::before');
+    return { bw: parseFloat(c.borderTopWidth), bg: c.backgroundColor, ring: parseFloat(b.inset) };
+  });
+  plusDraw.bw === 0 && /rgba\(0, 0, 0, 0\)|transparent/.test(plusDraw.bg)
+    ? ok('1h the 44px hit area draws nothing — one ring, not two')
+    : bad('1h the hit area is drawing again', JSON.stringify(plusDraw));
+  plusDraw.ring === 6
+    ? ok('1i and the ring it does draw is the 32px ::before', 'inset 6px of 44')
+    : bad(`1i the ring moved off ::before: inset ${plusDraw.ring}`);
   is('2  the teaser line is gone from the tiles', grid.teasers, 0);
   has('2  the heading asks rather than announces',
       await page.evaluate(() => document.querySelector('#services h2').textContent), 'Where would you like to begin');
@@ -240,7 +263,7 @@ const run = async () => {
   is('10 six steps', p1.steps, 6);
   is('10b the doctor is chosen before the file is read', p1.stepOrder.indexOf('Choose your doctor'), 2);
   is('10c and the peptides arrive before the aftercare',
-     p1.stepOrder.indexOf('Your peptides arrive') < p1.stepOrder.indexOf('Support while you begin'), true);
+     p1.stepOrder.indexOf('Your peptides arrive') < p1.stepOrder.indexOf('Aftercare'), true);
   is('10a six included lines', p1.incl, 6);
   const copy = await page.evaluate(() => document.querySelector('.pxd-body').textContent);
   has('11 the collection is a team at your home, not a kit', copy, 'comes to your home');
@@ -284,31 +307,15 @@ const run = async () => {
   is('12c and back again',
      await page.evaluate(() => document.querySelector('#pg-total').textContent.trim()), 'AED 1,207.50');
 
-  /* ══ THE SHOP WINDOW AND THE CART MUST AGREE — NEW ROUND 14 ═══════════════════════
-     ⚠️ THE PROGRAMME BAND RESTATES THE PANEL'S FIGURES AND ITS INCLUDED LIST ON THE OPEN
-     PAGE, and that duplication is deliberate — the page could not name a price at all once
-     section 05 was deleted, and a customer expects to see the contents again at the moment
-     of paying. What is NOT acceptable is the two drifting apart: a band quoting 1,150 over
-     a panel quoting something else is a dispute after payment, which is the exact failure
-     the VAT rows exist to prevent. So every figure that appears twice is COMPARED here.
-     ⚠️ THE BAND IS READ FROM OUTSIDE THE OVERLAY. It is ordinary page markup, so it is
-     still in the document while the panel is open — no need to close anything. */
-  const twice = await page.evaluate(() => {
-    const t = s => { const e = document.querySelector(s); return e ? e.textContent.trim() : null; };
-    const rows = [...document.querySelectorAll('.pgb-rows div')].map(d => d.lastElementChild.textContent.trim());
-    return {
-      bandBase:  rows[0], bandVat: rows[1], bandTotal: rows[2],
-      panelBase: t('#pg-sub'), panelVat: t('#pg-vat'), panelTotal: t('#pg-total'),
-      bandAddon:  /AED 1,950/.test(t('.pgb-ledger') || ''),
-      bandIncl:   document.querySelectorAll('.pgb-ledger .pgb-list:first-of-type li').length,
-      panelIncl:  document.querySelectorAll('.pg-blk:not(.pg-blk--soft) .pg-list li').length,
-    };
-  });
-  is('12d the band and the panel quote one programme price', twice.bandBase, twice.panelBase);
-  is('12e one VAT line',   twice.bandVat,   twice.panelVat);
-  is('12f one total',      twice.bandTotal, twice.panelTotal);
-  is('12g the add-on is his real figure in both', twice.bandAddon, true);
-  is('12h and the included list is the same length', twice.bandIncl, twice.panelIncl);
+  /* ⚠️ A "SHOP WINDOW vs CART" BLOCK STOOD HERE (checks 12d–12h) AND WENT WITH THE BAND.
+     It compared the programme band's restated price, add-on and included list against the
+     panel's, because two copies of one figure drift silently. His call removed the band, so
+     the panel is once again the ONLY place any price appears — which is why there is
+     nothing left to compare and why the checks are deleted rather than adapted.
+     ⚠️ IF A PRICE EVER APPEARS ON THE OPEN PAGE AGAIN, RESTORE THEM. `git log -S "12d the
+     band and the panel"` finds the block intact. A page quoting a different number from the
+     panel is a dispute after payment, and it is exactly the kind of fault that survives
+     review because both numbers look right on their own screen. */
 
   /* ⚠️ NOT A CHECKOUT: close, the one add-on, Start. Every extra control in there
      is another chance to hesitate at the last moment before payment. */

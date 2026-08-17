@@ -1,5 +1,95 @@
 # Peptide Therapy — `/peptide-therapy/` (first ship 2026-08-14)
 
+> ## ROUND 15 — 2026-08-16 (last): section 05 goes for good, section 04 takes the dawn,
+> and the + is found to have been drawing two rings for three rounds
+>
+> **1 · THE PROGRAMME BAND IS DELETED TOO — his call, and it settles three of the four
+> lettered questions at once.** Round 14 replaced the client's chapter with a dawn band
+> carrying the price, the ledger and the blood markers; he wanted section 05 gone *whole*.
+> **So A, B and C in `programme-band-lab.html` are all answered "none of them".** The
+> programme panel is once again the only place any price, any process or any marker appears.
+> ⚠️ **D2 IS CONFIRMED AND SHIPPED** — his *"i'm guessing it should move with the user right
+> if something is selected"*, which is exactly what D2 does.
+>
+> **2 · ⚠️⚠️ SECTION 04 IS THE DAWN NOW, AND THAT ONE LINE IS DOING TWO JOBS.**
+> Deleting the band put `.services` (ivory) straight against `.incl` (ivory) — two identical
+> grounds meeting, which reads as one section that lost its heading. **Moving section 04 to
+> the dawn fixes it by changing ONE ground** instead of flipping `.incl` and the four below
+> it, two of which carry photographs whose scrims are measured minimums.
+> **The second job is the one he actually asked for.** `.px` is filled `--ivory`; on an ivory
+> ground the tiles were the page colour on the page colour, held apart by a 1px hairline —
+> which is *why* the section read flat and unclickable. On the rose dawn the same fill
+> becomes a lifted card with no new decoration at all.
+> ⚠️ **SO `--dawn` AND `.px`'s FILL MUST NEVER CONVERGE.** A later grade could collapse the
+> distinction by moving either token and nothing would look broken in review. Check 18
+> measures the gap (currently 16/255 at the widest channel; the floor is 8).
+> ✅ **A free win: the chain scene rises to exactly `--dawn`, so the scene now hands off to
+> section 04 with no seam** — the same handoff section 03 already had.
+>
+> **3 · WHAT ELSE THE TILES GAINED, and it is deliberately almost nothing.**
+> · **a plate behind each mark** (`--cream`, `--gold-tint` on hover) so the glyph reads as an
+> emblem rather than a drawing loose in the corner of a card;
+> · **a floor** — `min-height` plus `margin-bottom:auto` on the mark, so every name sits on
+> the same baseline whatever its length. ⚠️ **THAT is what makes the eight read as a set**,
+> not the min-height alone: "Anti Ageing" against "Musculoskeletal Injury" is one line
+> against two, and without it each row sets two different card heights;
+> · **a gold tick badge** instead of a loose glyph — the moment a tile is chosen is the one
+> moment in this section that should feel like a reward, and it was the quietest thing on
+> the screen;
+> · ⚠️ **a "READ" label on the + , which fixes a real ambiguity rather than decorating.** A
+> "+" on a card means ADD everywhere else in the world — and on this card *adding is what
+> the tile does*, while the + opens reading. Round 12 gave them separate hit areas, which
+> stops the wrong thing happening but not the wrong thing being **expected**.
+> ⚠️ **HOVER-ONLY ON PURPOSE.** Eight permanent READ labels turn a calm grid into a page of
+> buttons. Phones get the 44px target and the aria-label.
+> ⚠️ **ON PHONES THE FLOOR AND THE PUSHED-DOWN NAME COME OFF** — both exist to align a ROW,
+> and in one column there is no row. Leaving them cost a screen and a half of extra
+> scrolling between the reader and the tray.
+>
+> **4 · ⚠️⚠️ A THREE-ROUND-OLD BUG SURFACED, AND THE WAY IT HID IS THE LESSON.**
+> Round 12 grew the + from a 32px circle to a 44px thumb target and left a comment saying
+> *"the circle still DRAWS at 32, via `::before`"*. **It did not.** The base rule's
+> `border:1px solid var(--line)` and `border-radius:50%` travelled with the box, so **every
+> tile carried two concentric rings**, and the hover fill landed on the 44px box rather than
+> the 32px circle — the burgundy disc a reader saw was 44px wide.
+> ⚠️ **WHY NOTHING CAUGHT IT: every assertion about that control measured its POSITION
+> (check 1g) or its BEHAVIOUR (checks 4–6). Both were correct the entire time. No check ever
+> asked what it LOOKED like.** Checks 1h and 1i do now.
+> ⚠️ **IT ALSO CARRIED `transform:rotate(90deg)` ON THE BUTTON**, which rotates everything
+> positioned inside it — the new READ label rendered on its side. The rotation is on the
+> `svg` now. (And a second CSS trap worth keeping: an absolutely positioned box with
+> `right:100%` and `left:auto` shrink-to-fits against **zero** available width and breaks
+> one character per line — `white-space:nowrap` does **not** save it, because "READ" has no
+> spaces to not-wrap at. It needs `width:max-content`.)
+>
+> **5 · THE PANEL'S STEPS 05 AND 06 ARE HIS ACCOUNT OF THE REAL SERVICE.**
+> **05 · Your peptides arrive** — prescribed at the consultation, quoted, and *"once payment
+> is reached the prescription will be sent to the location of the customer"*. ⚠️ **PAYING AND
+> DELIVERY ARE ONE STEP, NOT TWO** — his call; paying is the trigger for the despatch, not a
+> stage anyone waits through, and splitting it took the list to seven, which is the length
+> that got the client's own chapter deleted.
+> ⚠️ **ITS DURATION CELL IS A QUANTITY, NOT A SHIPPING TIME — "8 weeks' supply"**, his figure,
+> agreeing with "Your peptides — two months" above it. No delivery time has ever been given
+> and inventing one in a column that also holds "60 min" would read as a commitment.
+> **06 · Aftercare — one month of calls**, his *"they can still call us for the 1 month if
+> they have symptoms and any confusion"*.
+> ⚠️ **THAT IS NARROWER THAN THE CLIENT'S OWN INCLUDED LINE ("4-week | 8-week mentorship")
+> AND BOTH STAY ON THE PAGE ON PURPOSE.** They are not the same thing: the mentorship is
+> scheduled contact the clinic initiates, this is an open line the patient uses when they
+> like. **Do not "reconcile" them by deleting one** — that either drops a promise the client
+> made or invents one they did not.
+>
+> **6 · QA — 119 checks, all green.** `peptide-page.mjs` **50** · `services-choice.mjs` **69**.
+> The shop-window comparison checks (12d–12h) were **deleted with the band they compared
+> against** — ⚠️ **if a price ever appears on the open page again, restore them**;
+> `git log -S "12d the band and the panel"` finds the block intact.
+>
+> **7 · ⚠️ STILL HIS, UNCHANGED:** whether **AED 1,150 includes VAT** (back behind two clicks
+> now that the band is gone, which lowers the urgency but not the question) · **payment** ·
+> the **burgundy conflict** from round 14 · and **wiring `#pxd-choose` to step 03**, which is
+> the natural next round now that "choose your doctor" is a named step.
+
+
 > ## ROUND 14 — 2026-08-16 (later still): the glacier is reversed, section 05 is deleted
 > whole, and the chooser grows the band that carries the price
 >

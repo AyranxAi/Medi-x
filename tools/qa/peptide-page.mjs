@@ -322,43 +322,48 @@ async function checkDialogs() {
     aud:   document.querySelectorAll('.aud, .aud-open, .aud-detail').length,
     steps: document.querySelectorAll('.steps .step').length,
     lede:  document.body.textContent.includes('building blocks of proteins'),
-    /* ⚠️ #programme IS REUSED BY THE NEW BAND, so its presence proves nothing either way —
-       what proves the old section is gone is that the id now belongs to .pgb. */
-    band:  !!document.querySelector('section.pgb#programme'),
+    /* ⚠️ NOTHING MAY CLAIM #programme NOW. The band that briefly reused that id was
+       removed on his call too; the page's only statement of price and process is the
+       programme panel. */
+    band:  !!document.getElementById('programme'),
     /* the panel's six, and they are the page's ONLY sequence */
     panel: document.getElementById('prog-panel')
              ? document.getElementById('prog-panel').content.querySelectorAll('.pg-steps li').length : -1,
-    /* ⚠️ THE SHOP WINDOW AND THE CART MUST QUOTE THE SAME NUMBER. The band restates the
-       price the panel computes; two copies of one figure in two places is exactly the
-       duplication that goes wrong silently, so it is compared rather than trusted. */
-    bandTotal:  (document.querySelector('.pgb-tot span:last-child') || {}).textContent,
-    panelTotal: document.getElementById('prog-panel')
-             ? document.getElementById('prog-panel').content.querySelector('#pg-total').textContent : null,
   }));
-  if (!dead.aud && !dead.steps && !dead.lede)
-    ok('section 05 is gone — no audience rows, no seven steps, no client lede');
+  if (!dead.aud && !dead.steps && !dead.lede && !dead.band)
+    ok('section 05 is gone whole — no audience rows, no seven steps, no client lede, no #programme');
   else bad(`section 05 has come back: ${JSON.stringify(dead)}`);
-  if (dead.band) ok('#programme now names the programme band');
-  else bad('the programme band is missing, and with it the page\'s only price and the dawn ground');
   if (dead.panel === 6) ok('the programme panel is the page\'s only sequence — six steps');
   else bad(`the panel's steps are wrong: ${dead.panel}`);
-  if (dead.bandTotal && dead.bandTotal.trim() === (dead.panelTotal || '').trim())
-    ok(`the band and the panel quote one total — ${dead.bandTotal.trim()}`);
-  else bad(`shop window and cart disagree: band ${dead.bandTotal} vs panel ${dead.panelTotal}`);
 
-  /* ⚠️ THE GROUND MUST STILL ALTERNATE, and this is the check that would have caught the
-     fault deleting section 05 introduced: .services and .incl are both ivory, and .prog
-     (dawn) was the only thing keeping them apart. The band replaces it. Asserting the
-     SEQUENCE rather than each colour means the next chapter added or removed here fails
-     loudly instead of quietly putting two ivory bands together. */
+  /* ⚠️⚠️ THE GROUNDS MUST ALTERNATE, AND THIS CHECK EXISTS BECAUSE THEY SILENTLY STOPPED.
+     Deleting section 05 (dawn) left .services and .incl both ivory — two identical bands
+     meeting, which reads as one section that has lost its heading, and NOTHING in this
+     harness said so. The fix moved .services to the dawn rather than flipping .incl and
+     the four grounds below it. Asserting the SEQUENCE rather than each colour means the
+     next chapter added or removed here fails loudly instead of quietly repeating a ground. */
   const grounds = await page.evaluate(() =>
-    ['.services', '.pgb', '.incl', '.docs', '.stories', '.faq'].map(s => {
+    ['.services', '.incl', '.docs', '.stories', '.faq', '.final'].map(s => {
       const el = document.querySelector(s);
       return el ? getComputedStyle(el).backgroundColor : null;
     }));
   const alternates = grounds.every((g, i) => g && (i === 0 || g !== grounds[i - 1]));
-  if (alternates) ok('the grounds still alternate across the tail — ivory / dawn, six chapters');
+  if (alternates) ok('the grounds alternate across the tail — dawn / ivory, six chapters');
   else bad(`two neighbouring chapters share a ground: ${JSON.stringify(grounds)}`);
+
+  /* ⚠️ THE TILES MUST NOT BE THE COLOUR OF THE GROUND THEY STAND ON. `.px` is filled
+     --ivory and the section is now --dawn; that difference is the ONLY thing making the
+     tiles read as objects rather than as ruled-off regions of the page. It is a design
+     decision that lives in two separate tokens, so a future grade can collapse it by
+     moving either one and nothing else here would notice. Measured as a channel distance
+     rather than an equality so a near-miss fails too. */
+  const sep = await page.evaluate(() => {
+    const rgb = s => (getComputedStyle(document.querySelector(s)).backgroundColor.match(/\d+/g) || []).map(Number);
+    const a = rgb('.services'), b = rgb('.px');
+    return Math.max(...[0, 1, 2].map(i => Math.abs(a[i] - b[i])));
+  });
+  if (sep >= 8) ok(`the tiles stand off their ground by ${sep}/255 at the widest channel`);
+  else bad(`tile and ground have converged (${sep}/255) — the tiles stop reading as objects`);
 
   /* ⚠️ THE CHOOSER IS NO LONGER REACHABLE FROM THE PAGE, AND THAT IS DELIBERATE.
      Round 12 moved doctor selection to the moment the consultation is booked (his

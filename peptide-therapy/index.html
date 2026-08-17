@@ -499,12 +499,25 @@ section{position:relative}
    ⚠️ POPUP COPY IS DRAFT — clinical claims kept deliberately soft, no compound
    names on purpose (naming specific peptides invites specific claims). Route
    through him before real marketing. */
-/* ⚠️ ITS FOOT IS CUT because .pgb now butts against it — the two are one chapter in two
-   bands (the choice, then what the choice buys). Two full .sec-pad feet between the last
-   tile and the band's kicker read as two unrelated sections, which is the opposite of
-   what growing this section was for. The band carries the normal padding on its far side. */
-.services{background:var(--ivory)}
-.services.sec-pad{padding-bottom:clamp(52px,7vh,88px)}
+/* ⚠️⚠️ THIS SECTION IS THE DAWN NOW, AND IT IS LOAD-BEARING IN TWO DIRECTIONS.
+   1 · IT KEEPS THE PAGE ALTERNATING. Deleting the old section 05 (dawn) put .services
+       (ivory) directly against .incl (ivory) — two identical bands meeting, which reads
+       as one section that lost its heading. Moving THIS section to dawn fixes it by
+       changing ONE ground: ivory→dawn→ivory→dawn→ivory→dawn now runs services · incl ·
+       docs · stories · faq · final. The alternative was flipping .incl and everything
+       below it — five grounds, two of them carrying photographs whose scrims are
+       measured minimums. One section is the cheaper truth.
+   2 · IT IS ALSO WHY THE TILES READ AS OBJECTS AT ALL. `.px` is filled `--ivory`. On the
+       old ivory ground the tiles were the page colour on the page colour, held apart by
+       a 1px hairline and nothing else — which is exactly why the section looked flat and
+       unclickable. On the rose dawn the same ivory fill becomes a lifted card without a
+       single new decoration. ⚠️ SO --dawn AND `.px`'s FILL MUST NEVER CONVERGE: if a
+       later grade moves either one toward the other, the tiles stop being objects and no
+       assertion in the harness would notice. Check 18 measures the gap.
+   ⚠️ THE CHAIN SCENE RISES TO EXACTLY THIS COLOUR (BG_B === --dawn), so the scene now
+   hands off to this section with no seam at all — the same handoff section 03 already
+   had. That is a bonus of the fix, not the reason for it. */
+.services{background:var(--dawn)}
 .sec-lede{
   max-width:58ch;margin-top:18px;color:var(--ink-soft);
   font-size:clamp(15px,1.25vw,17px);line-height:1.62;
@@ -513,16 +526,29 @@ section{position:relative}
   display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
   gap:clamp(14px,1.6vw,24px);
 }
+/* ⚠️ THE TILE IS AN OBJECT ON A GROUND NOW, NOT A RULED-OFF REGION OF THE PAGE.
+   Its fill has not changed — it is still --ivory — but the SECTION moved to the dawn
+   (see the .services note), so the same ivory that used to be invisible against an ivory
+   ground is now a lifted card. Everything below is built on that one change, and it is
+   why "make this more appealing" cost geometry and almost no decoration.
+   ⚠️ min-height IS WHAT MAKES THE EIGHT A SET. Their names run from "Anti Ageing" to
+   "Musculoskeletal Injury" — one line against two — so without a floor the grid sets two
+   different card heights per row and reads as eight unrelated things. The h3 is pushed to
+   the bottom by the mark's auto margin, so every name sits on the same baseline whatever
+   its length. THAT is the alignment doing the work, not the min-height alone. */
 .px{
   position:relative;display:flex;flex-direction:column;align-items:flex-start;
-  gap:10px;padding:clamp(20px,2.2vw,30px);
+  gap:clamp(14px,1.6vw,20px);padding:clamp(22px,2.4vw,32px);
+  min-height:clamp(210px,20vw,268px);
   background:var(--ivory);border:1px solid var(--line);border-radius:2px;
   transition:border-color .35s var(--ease),transform .35s var(--ease),
-    box-shadow .35s var(--ease);
+    box-shadow .35s var(--ease),background .35s var(--ease);
 }
+/* the lift is deeper than it was because it now happens against a coloured ground —
+   the same 3px against ivory-on-ivory did almost nothing */
 .px:hover,.px:focus-within{
-  border-color:var(--gold);transform:translateY(-3px);
-  box-shadow:0 14px 30px rgba(71,24,38,.08);
+  border-color:var(--gold);transform:translateY(-4px);
+  box-shadow:0 18px 38px rgba(71,24,38,.10);
 }
 /* ⚠️ .px-num IS GONE FROM THE MARKUP — his call. On a list of eight the numerals
    were editorial furniture; on a MULTI-SELECT they implied a sequence that does not
@@ -564,12 +590,48 @@ section{position:relative}
    copy. The tile is a CHOICE now and the + is a secondary door on it — corners are
    where secondary controls live, and the top right is the one a thumb reaches for
    last, which is exactly right for the control that must not be hit by accident. */
+/* ⚠️⚠️ border:0 AND background:none ARE FIXES, NOT TIDYING — read before removing.
+   This rule enlarged the button from the 32px circle to a 44px thumb target and the note
+   below says "the circle still DRAWS at 32, via ::before". IT DID NOT. The base rule above
+   still carried `border:1px solid var(--line)` and `border-radius:50%`, so the 44px hit
+   area drew its OWN hairline ring around the ::before ring — two concentric circles on
+   every one of the eight tiles since round 12 — and the hover rule filled the 44px box, so
+   the burgundy disc a reader saw was 44px wide rather than the 32 the comment promised.
+   Nothing caught it because every assertion about the + measures its POSITION and its
+   BEHAVIOUR, and both were correct. The hit area is now what it claims to be: a target
+   that draws nothing at all. */
 .px-open{position:absolute;top:10px;right:10px;z-index:3;width:44px;height:44px;
-  margin:0;align-self:auto}
+  margin:0;align-self:auto;border:0;background:none}
 .px-open::before{content:"";position:absolute;inset:6px;border:1px solid var(--line);
   border-radius:50%;transition:background .4s var(--ease),border-color .4s var(--ease)}
 .px:hover .px-open::before,.px-open:focus-visible::before{
   background:var(--burgundy);border-color:var(--burgundy)}
+/* ⚠️ THIS LABEL EXISTS TO FIX A REAL AMBIGUITY, NOT TO DECORATE. A "+" on a card almost
+   universally means ADD — and on this card adding is what the TILE does, while the + opens
+   reading material. Two controls on one tile, and the one shaped like "add" is the one
+   that doesn't. Round 12 gave them separate hit areas, which stops the wrong thing
+   happening but does not stop the wrong thing being EXPECTED. The word does that.
+   ⚠️ IT IS HOVER-ONLY AND THAT IS ACCEPTED: it is an enhancement for pointers, and a
+   phone gets the + at its full 44px target with the aria-label carrying the same word.
+   Do not "fix" this by showing it always — eight permanent READ labels turn a calm grid
+   into a page of buttons, which is the opposite of what this section is for. */
+/* ⚠️ width:max-content IS NOT OPTIONAL AND IT IS NOT A TIDY-UP. An absolutely positioned
+   box with `right:100%` and `left:auto` shrink-to-fits against the space between its
+   containing block's LEFT edge and that right offset — which here is zero, because the
+   containing block is the 44px button and the box starts at its left edge. The result is
+   a one-character-per-line vertical stack, and white-space:nowrap does NOT prevent it:
+   nowrap stops wrapping at spaces, and "READ" has none, so the browser breaks it anyway
+   rather than overflow. It shipped that way for one render and looked like a font bug. */
+.px-open::after{
+  content:"Read";position:absolute;right:100%;top:50%;width:max-content;
+  transform:translateY(-50%) translateX(5px);margin-right:1px;
+  font-family:var(--sans);font-weight:500;font-size:9.5px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--gold-deep);white-space:nowrap;
+  opacity:0;pointer-events:none;
+  transition:opacity .3s var(--ease),transform .35s var(--ease)}
+.px:hover .px-open::after,.px-open:focus-visible::after{opacity:1;transform:translateY(-50%)}
+.px[data-picked="true"] .px-open::after{color:rgba(250,247,241,.72)}
+@media(hover:none){.px-open::after{content:none}}
 
 /* the select surface — the whole card, beneath the + */
 .px-pick{position:absolute;inset:0;z-index:2;border-radius:2px;background:none;
@@ -583,20 +645,41 @@ section{position:relative}
    joint · a spiral · two rings. Outline only, one stroke weight, no fills — the
    line held against medical clipart, which is the look this page's restraint buys
    distance from. Two of the eight are unresolved and flagged in HANDOVER. */
+/* ⚠️ THE MARK KEEPS ITS 58px GLYPH AND GAINS A PLATE. The size was settled in round 13
+   (46 → 58) and is not up for revisiting; what is new is the --cream disc behind it, which
+   does one job: it gives the mark a horizon so it reads as an emblem rather than as a
+   stray drawing floating in the corner of a card. box-sizing:content-box is load-bearing —
+   without it the padding eats the glyph and the eight marks silently shrink to 30px.
+   ⚠️ margin-bottom:auto IS WHAT PUTS THE NAME ON THE FLOOR OF THE TILE. Remove it and the
+   h3 rides up under the mark, every card sets its own height, and the row stops reading
+   as a set. It is doing layout work, not spacing work. */
 .px-mark{display:block;width:58px;height:58px;color:var(--gold-deep);
-  transition:color .35s var(--ease)}
-.px:hover .px-mark{color:var(--gold)}
+  padding:14px;box-sizing:content-box;margin-bottom:auto;
+  background:var(--cream);border-radius:50%;
+  transition:color .35s var(--ease),background .35s var(--ease)}
+.px:hover .px-mark{color:var(--gold-deep);background:var(--gold-tint)}
 
 /* chosen — ink, never the one red: red is this page's material for "this commits
    you", and a lit tile is a choice, not a call to action */
 .px[data-picked="true"]{background:var(--ink);border-color:var(--ink)}
 .px[data-picked="true"] h3,.px[data-picked="true"]:hover h3{color:var(--ivory)}
-.px[data-picked="true"] .px-mark{color:var(--gold)}
+/* the plate inverts with the card — a --cream disc on an ink tile would be a hole in it.
+   The glyph goes to the full gold because --gold-deep does not survive this ground. */
+.px[data-picked="true"] .px-mark,
+.px[data-picked="true"]:hover .px-mark{color:var(--gold);background:rgba(250,247,241,.07)}
 .px[data-picked="true"] .px-open{color:var(--ivory)}
 .px[data-picked="true"] .px-open::before{border-color:rgba(250,247,241,.42)}
-.px-tick{position:absolute;bottom:14px;right:16px;z-index:1;font-family:var(--accent);
-  font-size:13px;color:var(--gold);opacity:0;transition:opacity .3s var(--ease)}
-.px[data-picked="true"] .px-tick{opacity:1}
+/* ⚠️ THE TICK IS A FILLED BADGE, NOT A LOOSE GLYPH. A bare ✦-sized tick in the corner of
+   a dark card read as a rendering artefact at a glance — the one moment in this section
+   that has to feel like a reward is the moment a tile is chosen, and it was the quietest
+   thing on the screen. It draws at the corner the + vacated in round 13. */
+.px-tick{position:absolute;bottom:12px;right:12px;z-index:1;
+  width:26px;height:26px;border-radius:50%;display:grid;place-content:center;
+  background:var(--gold);color:var(--ink);
+  font-family:var(--sans);font-weight:500;font-size:12px;line-height:1;
+  opacity:0;transform:scale(.6);
+  transition:opacity .3s var(--ease),transform .4s var(--ease)}
+.px[data-picked="true"] .px-tick{opacity:1;transform:none}
 
 /* ══ THE TRAY — the programme, assembling ═══════════════════════════════════
    ⚠️⚠️ IT IS FIXED NOW AND FOLLOWS THE READER — round 14, his call: "the brown thingy
@@ -679,15 +762,31 @@ section{position:relative}
   .px-tray.mini .px-tray-go{border-color:rgba(250,247,241,.42);padding-left:22px}
   .px-tray.mini .px-tray-in{justify-content:space-between}
 }
-.px:hover .px-open,.px-open:focus-visible{
-  background:var(--burgundy);border-color:var(--burgundy);color:var(--ivory);
-  transform:rotate(90deg);
-}
+/* ⚠️ THE ROTATION MOVED OFF THE BUTTON AND ONTO THE GLYPH, AND THAT WAS A BUG FIX.
+   `transform:rotate(90deg)` on .px-open turns the BUTTON — and therefore everything
+   positioned inside it, including the "Read" label, which rendered on its side. A rotated
+   + is also indistinguishable from an unrotated one, so the transform was only ever doing
+   anything for the eye during the transition; rotating the svg keeps that motion and stops
+   it dragging the label around with it.
+   ⚠️ THE FILL AND THE BORDER ARE GONE FROM HERE TOO — they belong to ::before, which is
+   the thing that draws (see the note at .px-open). All that is left on the button is the
+   ink colour the glyph inherits, which is what a hit area is allowed to own. */
+.px:hover .px-open,.px-open:focus-visible{color:var(--ivory)}
+.px:hover .px-open svg,.px-open:focus-visible svg{transform:rotate(90deg)}
+.px-open svg{transition:transform .5s var(--ease)}
 @media(max-width:1104px){
   .px-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media(max-width:640px){
   .px-grid{grid-template-columns:1fr}
+  /* ⚠️ THE FLOOR AND THE PUSHED-DOWN NAME BOTH COME OFF HERE, AND FOR THE SAME REASON:
+     both exist to make the eight read as a SET ACROSS A ROW — a common card height and a
+     shared name baseline. In one column there is no row, so they buy nothing and cost a
+     great deal: a 210px card holding one line of text, eight times, is roughly a screen
+     and a half of extra scrolling between the reader and the tray.
+     The mark keeps its plate; only the empty space it was holding open goes. */
+  .px{min-height:0;gap:14px}
+  .px-mark{margin-bottom:0}
 }
 
 
@@ -795,139 +894,6 @@ section{position:relative}
 .pxd-goals .chip{font-size:clamp(13.5px,1.2vw,16px);padding:9px 20px}
 .pxd-cta{margin-top:26px}
 body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds still under the overlay */
-
-/* ═══════════════ 05 · THE PROGRAMME BAND — what the choice above buys ═══════════
-   NEW ROUND 14, and it exists for three reasons that all arrived at once.
-   1 · HIS ASK — "make the one where they can choose the program more appealing… if it
-       means making that section larger then we go for it". This is the larger part. The
-       chooser was eight tiles and nothing else; a reader who never pressed one saw no
-       price, no process and no proof that any of it was medicine.
-   2 · THE PAGE COULD NOT ANSWER "WHAT DOES IT COST" AT ALL. Deleting section 05 left the
-       price behind two clicks — pick a goal, open the panel. A page that asks for a
-       decision before it names a number is asking for the wrong decision first.
-   3 · ⚠️ THE GROUND ALTERNATION. .services is ivory and .incl is ivory; .prog (dawn) was
-       the only thing between them, so deleting it put two ivory bands against each other.
-       This band is dawn and it restores ivory→dawn→ivory→dawn to the foot of the page
-       WITHOUT re-grading anything below. That is why it is a sibling <section> and not a
-       div inside .services: a full-bleed ground inside a padded section leaves a strip of
-       the wrong colour under it.
-   ⚠️⚠️ WHAT THIS BAND MUST NEVER GROW: THE STEPS. The six "what happens next" steps live
-   in the programme panel and NOWHERE ELSE. Section 05 was deleted precisely because its
-   seven steps said the same thing as the panel's five on one page, and the fastest way to
-   rebuild that fault is to "helpfully" add the process here. The band carries the OFFER
-   (price, what is included, which markers are run); the panel carries the PERSONALISED
-   CART (your goals, the add-on, the total that moves, the button). If a reader wants the
-   sequence, the tray is one press away and it is on screen.
-   ⚠️ THE INCLUDED LIST DOES APPEAR TWICE — here and in the panel — AND THAT IS DELIBERATE,
-   not an oversight of the rule above. Six short lines in a shop window and the same six
-   confirmed in a cart is how any purchase works; a price and its contents are the two
-   things a customer expects to see restated at the moment of paying. It is the long
-   sequence, not the short ledger, that could not survive being said twice.
-   ⚠️ id="programme" IS REUSED FROM THE DELETED SECTION and that is intentional: nothing
-   links to it (checked at the time — no nav item, no in-page anchor, no cross-file href),
-   and the name now sits on the thing that is actually the programme. */
-.pgb{background:var(--dawn)}
-/* it butts against the chooser rather than standing apart from it — one chapter in two
-   bands, which is what "make that section larger" asked for. .services' own bottom padding
-   is cut to match below. */
-.pgb.sec-pad{padding-top:clamp(56px,8vh,104px)}
-.pgb-head{max-width:34rem}
-.pgb h2{font-size:clamp(30px,3.9vw,52px);line-height:1.08;letter-spacing:-.02em}
-.pgb-lede{margin-top:18px;color:var(--ink-soft);font-size:clamp(15px,1.3vw,17.5px);line-height:1.8}
-/* ⚠️ THE PRICE CARD LEADS AND THE LEDGER FOLLOWS, not the other way round. The number is
-   the thing the page could not say before this band existed; burying it under six lines of
-   inclusions makes the reader hunt for it, which is the feeling this band exists to remove. */
-.pgb-grid{
-  display:grid;grid-template-columns:minmax(0,22rem) minmax(0,1fr);
-  gap:clamp(24px,3.4vw,56px);align-items:start;
-  margin-top:clamp(38px,5.5vh,68px);max-width:74rem;
-}
-/* ⚠️ STICKY, SO THE NUMBER TRAVELS WITH THE LEDGER. The three ledger blocks are twice the
-   card's height, so a static card leaves the reader looking at "priced after your
-   consultation" with the price two screens above — which is the one moment they most want
-   it. It also fills what was otherwise dead ground under the card.
-   ⚠️ IT NEEDS align-items:start ON .pgb-grid TO WORK. A stretched grid item is already as
-   tall as its row, so it has nothing to travel through and sticky silently does nothing. */
-.pgb-price{
-  background:var(--ivory);border:1px solid var(--line);border-radius:2px;
-  padding:clamp(24px,2.6vw,34px);
-  position:sticky;top:clamp(84px,13vh,132px);
-}
-/* the header is fixed on this page and the tray is fixed at the foot, so a card that is
-   taller than the gap between them would sit under one of them and never scroll clear */
-@media(max-height:720px){.pgb-price{position:static}}
-.pgb-price .pgb-k{font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--gold-deep)}
-.pgb-fig{font-family:var(--accent);font-size:clamp(38px,5vw,62px);line-height:1;
-  color:var(--ink);margin-top:12px;font-variant-numeric:tabular-nums}
-.pgb-fig small{font-size:.42em;letter-spacing:.06em;padding-right:.28em;color:var(--ink-soft)}
-/* the tax rows, in the panel's own arithmetic and to the panel's own two decimals.
-   ⚠️ ALWAYS TWO DECIMALS, EVEN ON WHOLE FIGURES — round 13's finding: letting round numbers
-   drop their fils put "AED 1,207.50" and "AED 3,255" in one column and read as a bug. */
-.pgb-rows{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);
-  font-size:13.5px;color:var(--ink-soft)}
-.pgb-rows div{display:flex;justify-content:space-between;gap:16px}
-.pgb-rows div + div{margin-top:7px}
-.pgb-rows .pgb-tot{margin-top:12px;padding-top:12px;border-top:1px solid var(--line);
-  color:var(--ink);font-weight:500}
-.pgb-note{margin-top:16px;font-size:12.5px;line-height:1.6;color:var(--ink-soft)}
-.pgb-ledger .pgb-k{font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--gold-deep)}
-/* the second and third heads need air above them; the first must not have any, or it
-   stops aligning with the price card's own kicker across the gutter */
-.pgb-k--sep{margin-top:clamp(26px,3.2vh,38px);padding-top:clamp(20px,2.6vh,28px);
-  border-top:1px solid var(--line)}
-.pgb-list{margin:16px 0 0;padding:0;list-style:none;
-  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px clamp(20px,2.6vw,40px)}
-/* the add-on and the priced-after rows carry a <small> each, so two narrow columns would
-   set them four words to a line — they run full width instead */
-.pgb-list--wide{grid-template-columns:1fr;gap:14px}
-.pgb-list li{position:relative;padding-left:22px;color:var(--ink-soft);
-  font-size:clamp(14px,1.1vw,16px);line-height:1.6}
-.pgb-list li::before{content:"✦";position:absolute;left:0;top:.15em;color:var(--gold);font-size:.72em}
-.pgb-list li b{font-weight:500;color:var(--ink);white-space:nowrap}
-.pgb-list small{display:block;margin-top:4px;font-size:12.5px;line-height:1.55;
-  color:var(--ink-soft);opacity:.82}
-/* ── the markers, folded ────────────────────────────────────────────────────────
-   ⚠️ A <details>, NOT A DIALOG. Every other disclosure on this page opens the .pxd shell,
-   and this one deliberately does not: the shell locks the body, stops Lenis and traps
-   focus, which is the right price for a thousand words of client copy and much too high
-   for a list of eleven assay names. It is also the only control here that must work with
-   no JavaScript at all — the markers are the page's proof that this is medicine, and
-   proof should not depend on a script.
-   ⚠️ THESE ELEVEN ARE THE ONLY THING RESCUED FROM SECTION 05. Everything else in that
-   chapter was already said better in the panel; the blood panel was named nowhere else on
-   the page, and the panel's step 02 refers to "the exact panel we send you" without ever
-   saying what is in it. */
-.pgb-markers{margin-top:clamp(30px,4vh,48px);max-width:74rem;
-  border-top:1px solid var(--line);padding-top:18px}
-.pgb-markers summary{
-  cursor:pointer;list-style:none;display:inline-flex;align-items:center;gap:12px;
-  font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--gold-deep);
-  transition:color .3s var(--ease);
-}
-.pgb-markers summary::-webkit-details-marker{display:none}
-.pgb-markers summary:hover{color:var(--logo-red)}
-.pgb-markers summary::after{content:"+";font-family:var(--accent);font-size:17px;
-  letter-spacing:0;line-height:1;transition:transform .4s var(--ease)}
-.pgb-markers[open] summary::after{transform:rotate(45deg)}
-.pgb-cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:10px clamp(20px,2.6vw,44px);margin-top:20px}
-.pgb-cols p{grid-column:1/-1;font-family:var(--sans);font-weight:500;font-size:11px;
-  letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin-top:6px}
-.pgb-cols p:first-child{margin-top:0}
-.pgb-cols span{position:relative;padding-left:22px;color:var(--ink-soft);
-  font-size:clamp(13.5px,1.05vw,15.5px);line-height:1.55}
-.pgb-cols span::before{content:"✦";position:absolute;left:0;top:.15em;color:var(--gold);font-size:.72em}
-@media(max-width:900px){
-  .pgb-grid{grid-template-columns:1fr}
-  .pgb-cols{grid-template-columns:repeat(2,minmax(0,1fr))}
-}
-@media(max-width:560px){
-  .pgb-list{grid-template-columns:1fr}
-  .pgb-cols{grid-template-columns:1fr}
-}
 
 /* ═══════════════ 06 · WHAT'S INCLUDED / WHAT'S EXCLUDED ════════════════════════
    His "maybe a different section or not?" — answered: its own, and small. It is a
@@ -2299,14 +2265,25 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
            choice moved to the moment the consultation is booked". Step 03 IS that moment,
            and it is now named on the page. The template is still unrouted — wiring it here
            is a real candidate for the next round, and it is the natural home.
-           ⚠️ STEP 05 IS NEW AND IT IS THE STEP THE PANEL HAS NEVER HAD: the peptides
-           actually arriving. His words — "after that is where we deliver the peptides after
-           the payment and so on and the after care". Until now the panel priced the
-           peptides ("priced after your consultation") and then jumped to mentorship, so the
-           one thing the customer is buying never appeared in the sequence at all.
-           ⚠️ ITS DURATION CELL SAYS "after payment", NOT A NUMBER OF DAYS. No delivery time
-           has been given and inventing one here would be the AED 350 mistake again — a
-           figure that reads as a commitment because it is set in the same column as "60 min".
+           ⚠️ STEP 05 IS THE STEP THE PANEL HAD NEVER HAD: the peptides actually arriving.
+           Until round 14 the panel priced them ("priced after your consultation") and then
+           jumped straight to mentorship, so the one thing the customer is buying never
+           appeared in the sequence at all. His account of it: the doctor prescribes at the
+           consultation, the customer pays, and once payment is reached the prescription is
+           sent to the customer's location.
+           ⚠️ PAYING AND DELIVERY ARE ONE STEP, NOT TWO — his call. Paying is not a stage a
+           customer waits through, it is the trigger for the despatch, and splitting it took
+           the list to seven, which is the length that got the client's own chapter deleted.
+           ⚠️ ITS DURATION CELL IS A QUANTITY, NOT A DELIVERY TIME. "8 weeks' supply" is his
+           figure and it agrees with "Your peptides — two months" in the block above. NO
+           SHIPPING TIME HAS EVER BEEN GIVEN, and inventing one in a column that also holds
+           "60 min" would read as a commitment — the AED 350 mistake in a different costume.
+           ⚠️ STEP 06 IS ONE MONTH OF CALLS, and it is narrower than what the client's own
+           included copy promises ("4-week | 8-week mentorship support"). BOTH ARE ON THE
+           PAGE ON PURPOSE and they are not the same thing: the mentorship is scheduled
+           contact the clinic initiates, this is an open line the patient can use whenever
+           they like. Do not "reconcile" them by deleting one — that would either drop a
+           promise the client made or invent one they did not.
            ⚠️ SIX STEPS, NOT FIVE — services-choice.mjs check 10 and peptide-page.mjs both
            count them, and both were updated in this commit. -->
       <div class="pg-blk">
@@ -2316,8 +2293,8 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
           <li><span class="pg-n">02</span><span>Your blood work<small>At any laboratory, using the exact panel we send you — peptide work asks for markers a standard panel leaves out.</small></span><span class="pg-d">2–5 days</span></li>
           <li><span class="pg-n">03</span><span>Choose your doctor<small>You pick who you would like to see. They read your file first, then you choose a time with them.</small></span><span class="pg-d">same or next day</span></li>
           <li><span class="pg-n">04</span><span>Your consultation<small>Your doctor takes you through the findings, writes your prescription, and names the peptides you will be on.</small></span><span class="pg-d">60 min</span></li>
-          <li><span class="pg-n">05</span><span>Your peptides arrive<small>Quoted after your consultation. Once payment is settled they are dispensed and delivered to you.</small></span><span class="pg-d">after payment</span></li>
-          <li><span class="pg-n">06</span><span>Support while you begin<small>Four weeks close, then four weeks of follow-up.</small></span><span class="pg-d">8 weeks</span></li>
+          <li><span class="pg-n">05</span><span>Your peptides arrive<small>Your prescription is quoted to you, and once payment is settled it is sent to your address — eight weeks’ supply.</small></span><span class="pg-d">8 weeks’ supply</span></li>
+          <li><span class="pg-n">06</span><span>Aftercare<small>Call us any time for a month — symptoms, questions, anything that isn’t clear.</small></span><span class="pg-d">1 month</span></li>
         </ol>
       </div>
 
@@ -2357,115 +2334,6 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
            the same lie as a selector for it, and this file has enough real warnings. -->
       <div class="pxd-cta"><a class="btn" href="#book" data-pg-start>Start your programme <span class="arr">→</span></a></div>
     </template>
-  </section>
-
-  <!-- ══════════ 05 · THE PROGRAMME BAND — what the choice above buys ═══════════════════
-       NEW ROUND 14. His "make the one where they can choose the program more appealing…
-       if it means making that section larger then we go for it" — this is the larger part,
-       and it also carries the price the page could not state at all once section 05 went,
-       and the dawn ground that keeps ivory→dawn→ivory alternating to the foot of the page.
-       The full argument, including what this band must never grow into, is at .pgb in the
-       stylesheet. Read it before adding anything here.
-       ⚠️ EVERY FIGURE AND EVERY INCLUDED LINE BELOW IS THE CLIENT'S, and each one is
-       already asserted by services-choice.mjs against the panel's copy of it. THE TWO MUST
-       AGREE — a shop window quoting a different price from the cart is the one bug this
-       duplication can produce, so check 12 compares them rather than trusting them.
-       ⚠️ AED 1,150 IS TREATED AS THE VAT-EXCLUSIVE BASE, exactly as the panel treats it,
-       and WHETHER THAT IS RIGHT IS STILL NOT ON THE RECORD — it has been open since round
-       12. It now matters more than it did: the number is on the open page rather than
-       behind two clicks, so a wrong assumption is public. -->
-  <section class="pgb sec-pad" id="programme">
-    <div class="wrap">
-      <div class="pgb-head">
-        <p class="kicker" data-reveal>05 · The programme</p>
-        <h2 data-reveal>One programme,<br><em>whichever you choose.</em></h2>
-        <p class="pgb-lede" data-reveal>Every goal above runs the same way — the same
-        assessment, the same blood panel, the same doctor's hour, the same price. What
-        changes is what your doctor prescribes at the end of it.</p>
-      </div>
-
-      <div class="pgb-grid">
-        <div class="pgb-price" data-reveal>
-          <p class="pgb-k">The programme</p>
-          <p class="pgb-fig"><small>AED</small>1,150</p>
-          <div class="pgb-rows">
-            <div><span>Programme</span><span>AED 1,150.00</span></div>
-            <div><span>VAT 5%</span><span>AED 57.50</span></div>
-            <div class="pgb-tot"><span>Total today</span><span>AED 1,207.50</span></div>
-          </div>
-          <p class="pgb-note">One price for every goal above. Nothing is added to it
-          without being quoted to you first.</p>
-        </div>
-
-        <!-- ⚠️ THREE BLOCKS, IN THE PANEL'S OWN ORDER AND FOR THE PANEL'S OWN REASON —
-             INCLUDED · WHAT YOU CAN ADD · PRICED AFTER. That split is his reframe from
-             round 12 and it is the good part: "not included" and "what you can add" carry
-             identical facts and land in opposite directions. The band inherits the frame
-             rather than inventing a second way of saying it, so a reader who opens the
-             panel afterwards meets a shape they have already read.
-             ⚠️ THE ADD-ON IS A STATEMENT HERE, NOT A CONTROL. In the panel it is a real
-             toggle that moves the total; on the page it is a fact. A checkbox out here
-             would have to either carry state into the panel — which means two sources of
-             truth for one number — or reset when the panel opens, which reads as broken.
-             ⚠️ AED 1,950 IS HIS REAL FIGURE (2026-08-16) and it must equal the panel's.
-             services-choice.mjs compares the two rather than trusting them. -->
-        <div class="pgb-ledger" data-reveal>
-          <p class="pgb-k">What's included</p>
-          <ul class="pgb-list">
-            <li>Detailed symptom assessment</li>
-            <li>Analysis and interpretation of your blood test results</li>
-            <li>Issuance of Peptide Therapy Protocol and Prescription</li>
-            <li>Issuance of Science-based Supplementation Plan</li>
-            <li>Lifestyle Modifications Plan</li>
-            <li>4-week | 8-week mentorship support after starting your treatment</li>
-          </ul>
-
-          <p class="pgb-k pgb-k--sep">What you can add</p>
-          <ul class="pgb-list pgb-list--wide">
-            <li>Home blood sample collection · Dubai — <b>AED 1,950</b>
-              <small>A team or a nurse comes to your home and takes the sample for whichever
-              tests are required. Outside Dubai you use any laboratory near you and we send
-              the exact panel to ask for.</small></li>
-          </ul>
-
-          <p class="pgb-k pgb-k--sep">Priced after your consultation</p>
-          <ul class="pgb-list pgb-list--wide">
-            <li>Your peptides — two months
-              <small>Prescribed by your doctor once your blood work is read.</small></li>
-            <li>Supplementation products
-              <small>All products are charged separately. Pricing is shared with you before
-              payment.</small></li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- ⚠️ THE ONLY THING RESCUED FROM THE DELETED SECTION 05 — the client's own blood
-           panel, in their own order and their own spellings. The panel's step 02 says "the
-           exact panel we send you" and never says what is in it; these eleven are what
-           makes AED 1,150 read as medicine rather than a wellness package.
-           ⚠️ THE SOURCE PUT "IGF-1" ON ITS OWN LINE ABOVE THE REST AND "Hormones" ABOVE THE
-           LAST THREE. Read as two headed groups with IGF-1 as the panel's first assay —
-           the only reading that makes a list of it. Flagged in round 12, still unanswered,
-           and reproduced here unchanged rather than quietly re-grouped. -->
-      <details class="pgb-markers" data-reveal>
-        <summary>The markers we run</summary>
-        <div class="pgb-cols">
-          <p>Blood work</p>
-          <span>IGF-1 (Insulin-Like Growth Factor 1)</span>
-          <span>Fasting blood glucose</span>
-          <span>HbA1c</span>
-          <span>Liver function panel (ALT, AST)</span>
-          <span>Kidney function panel (Creatinine, eGFR)</span>
-          <span>Lipid panel (Cholesterol, LDL, HDL, Triglycerides)</span>
-          <span>TSH and Free T3 / Free T4</span>
-          <span>Vitamin D</span>
-          <p>Hormones</p>
-          <span>Total Testosterone</span>
-          <span>SHBG</span>
-          <span>Free Testosterone (calculated)</span>
-        </div>
-      </details>
-    </div>
   </section>
 
   <!-- ══════════ 06 · WHAT'S INCLUDED / WHAT'S EXCLUDED ═══════════════════════════════

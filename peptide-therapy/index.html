@@ -2305,7 +2305,14 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
              customer has not reached yet. The reasoning behind the reversal is
              sound: a number that grows after you have decided is the single most
              disputed thing in any purchase, and this panel exists to make the next
-             click feel safe. Three rows, and the third is what they pay. -->
+             click feel safe. Three rows, and the third is what they pay.
+             ✅ AND THE BASE IS NOW CONFIRMED — "1150 is exclusive so plus 5% tax is more"
+             (2026-08-16). These three rows are the whole answer to a question that had
+             been open since round 12; the arithmetic never changed, but until now the
+             page was assuming it. See the note at BASE in the tray script. -->
+        <!-- ⚠️ ALWAYS TWO DECIMALS IN THIS BLOCK, EVEN ON WHOLE FIGURES. Letting round
+             numbers drop their fils put "AED 1,207.50" and "AED 3,255" in one column,
+             which reads as a formatting fault rather than a total. -->
         <div class="pg-row"><span>Programme</span><span id="pg-sub">AED 1,150.00</span></div>
         <div class="pg-row"><span>VAT 5%</span><span id="pg-vat">AED 57.50</span></div>
         <div class="pg-row pg-row--total"><span>Total today</span><span id="pg-total">AED 1,207.50</span></div>
@@ -3881,10 +3888,15 @@ try{
   var tiles = [].slice.call(document.querySelectorAll(".px-pick"));
   if (!tray || !tiles.length) return;
 
-  /* ⚠️ VAT IS ADDED AT 5%, NOT ASSUMED INCLUSIVE — his instruction 2026-08-16.
-     If AED 1,150 is meant to be the VAT-INCLUSIVE figure this is one line, and it
-     is exactly the sort of thing a customer disputes after paying, so it wants
-     confirming before this is real marketing.
+  /* ✅ SETTLED, AND IT WAS OPEN FOR THREE ROUNDS — his confirmation, in his own words:
+     "1150 is exclusive so plus 5% tax is more." So AED 1,150 IS THE VAT-EXCLUSIVE BASE
+     and 5% is added on top: 1,150 → 57.50 → 1,207.50, or with the collection
+     3,100 → 155.00 → 3,255.00. The arithmetic below was already written that way, so
+     nothing changed here — what changed is that it is now a confirmed fact rather than
+     an assumption the page had quietly been making since round 12.
+     ⚠️ IT WAS THE RIGHT THING TO KEEP ASKING ABOUT. A base read as inclusive understates
+     every total by 5%, the error only surfaces at the moment money is taken, and it is
+     precisely what a customer disputes after paying.
      ⚠️ AED 1,950 IS HIS FIGURE, replacing the 350 I had invented. */
   var BASE = 1150, ADDON = 1950, VAT = 0.05;
   var picked = [], addon = false;

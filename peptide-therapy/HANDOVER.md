@@ -1,5 +1,60 @@
 # Peptide Therapy — `/peptide-therapy/` (first ship 2026-08-14)
 
+> ## ROUND 16 — 2026-08-16: the VAT question closes after three rounds, and the lit tile
+> goes to a lab
+>
+> **1 · ✅ AED 1,150 IS THE VAT-EXCLUSIVE BASE. CONFIRMED, IN HIS WORDS: *"1150 is exclusive
+> so plus 5% tax is more."*** This had been open since **round 12** and it is the longest-
+> running unknown on the page. **The arithmetic never changed** — the panel has computed
+> 1,150 → 57.50 → **1,207.50** (and 3,100 → 155.00 → **3,255.00** with the collection) the
+> whole time — so no figure on the page moves. What changed is that it is now a **confirmed
+> fact rather than an assumption the page was quietly making.**
+> ⚠️ **IT WAS WORTH ASKING THREE TIMES.** A base read as inclusive understates every total
+> by 5%, the error surfaces only at the moment money is taken, and it is exactly what a
+> customer disputes after paying. Recorded at the panel's summary and at `BASE` in the tray
+> script, not only here.
+>
+> **2 · THE SELECTED TILE IS TOO COLD — his note: *"it looks too dark and not sexy or
+> appetizing"*, and he is right.** It is `--ink` #2E2228, picked in round 12 on the rule
+> *"ink, never the one red — red is this page's material for THIS COMMITS YOU, and a lit
+> tile is a choice, not a call to action."* **That rule still holds.** What it did not
+> account for is that a chosen tile is the section's **one moment of reward**, and near-black
+> is the coldest possible reward.
+>
+> **3 · SIX CANDIDATES, IN A LAB: `selected-tile-lab.html`.** Live tiles at full scale on the
+> real dawn ground, two of four chosen, each row carrying its measured numbers.
+> **A champagne `#C2A05E`** · **C dusty rose `#C79A92`** · **H terracotta `#A8756B`** ·
+> **G bronze `#8A6A34`** · **D burgundy `#5C1F31`** · **F ink** (shipped, for comparison).
+> ⚠️⚠️ **THE NUMBER THAT DECIDES THIS IS NOT CONTRAST WITH ITS OWN TEXT — it is Δ FROM AN
+> UNCHOSEN TILE.** Every candidate clears 4.5:1 for its name; that was table stakes and none
+> failed it. What separates them is how far the fill travels from `--ivory`, because that is
+> what a reader actually uses to count their choices without reading a word.
+> ⚠️ **TWO OBVIOUS CANDIDATES WERE MEASURED AND CUT BEFORE THE LAB WAS WRITTEN**, and they
+> are the two anyone reaches for first when asked to make something lighter:
+> **gold-tint fill = 31/255** and **ivory + gold frame = 0/255** from an unchosen tile. Both
+> are lovely in isolation and **neither says anything**. Do not re-propose them without
+> solving that.
+> ⚠️ **D IS THE TRAP.** It looks the richest and it is this page's **primary button
+> material** — a chosen tile would wear the same colour as "Book a consultation", which is a
+> sentence the page does not mean to say.
+> ⚠️ **H IS THE ONLY CANDIDATE THAT IS NOT ALREADY A TOKEN.** Picking it adds a value to the
+> system; that is a real cost and should be a deliberate one.
+> **My pick: A.** It is the only option that makes a chosen tile the page's *own accent*
+> rather than a darker rectangle, and gold already dresses every other "yes" here — the
+> marks, the tick, the tray's count. **C is the safer pick** if the grid should stay quiet at
+> four or five selections.
+>
+> **4 · A BUG THE LAB CAUGHT IN ITSELF, worth keeping because it will recur:** the tick badge
+> was first drawn with its background and its glyph both taken from the same variable, so on
+> half the variants it rendered **dark-on-dark and the ✓ was invisible**. A badge needs
+> *two* colours chosen against *two* different neighbours — its own fill against the tile,
+> and its glyph against itself.
+>
+> **5 · NOTHING ON THE PAGE CHANGED THIS ROUND** beyond the two VAT comments. The lab is a
+> question, not an implementation — whichever letter he picks becomes a handful of values in
+> the `.px[data-picked="true"]` block. QA unchanged: **50 + 69, green.**
+
+
 > ## ROUND 15 — 2026-08-16 (last): section 05 goes for good, section 04 takes the dawn,
 > and the + is found to have been drawing two rings for three rounds
 >

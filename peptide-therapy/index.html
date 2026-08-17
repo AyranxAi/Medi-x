@@ -1323,7 +1323,11 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
    and 27rem — 432px against a 460px column at 1440, up from 336 (+29%). The wrap
    still gives 1150px of content there, so the pair sits in 936 with air either side.
    ⚠️ The phone is unaffected by the cap: one column at 390 gives ~350px and the
-   photo simply takes 100% of it, as it did before. */
+   photo simply takes 100% of it, as it did before.
+   ⚠️ SINCE 2026-08-17 THIS PAIR GOVERNS 701–1180 ONLY. Above 1180 the four sit in one
+   line, both caps are released there, and the picture is the column — see the block
+   below `.doc .btn`. Retuning either number here now moves the TABLET, not the page
+   he looks at. */
 .doc-grid{
   display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
   gap:clamp(28px,4.5vw,72px);max-width:62rem;margin-inline:auto;
@@ -1362,6 +1366,37 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
 }
 .doc-spec{margin-top:7px;color:var(--ink-soft);font-size:clamp(14px,1.2vw,16.5px);line-height:1.55;max-width:30ch}
 .doc .btn{margin-top:clamp(18px,2.4vh,26px)}
+/* ⚠️ THE FOUR SIT IN ONE LINE ABOVE 1180 — his call 2026-08-17, "just fit in 1 line not
+   two". THE COLUMN COUNT IS THE SMALLEST PART OF IT. Three other things bind at 4-up,
+   and repeat(2)→repeat(4) on its own is broken on all three:
+     · THE 62rem CAP WAS THE 2-UP COLUMN AND IS THE WRONG RULER FOR FOUR. Kept, it hands
+       each card 223px inside 992 while the wrap has 1150 to spend at 1440 — 158px of the
+       page's own measure left unspent, on a row that has no width to spare. Released to
+       the wrap, the column is 259–268 across desktop and 247 at the 1181 cliff.
+     · .btn IS `white-space:nowrap` AND WAS 285px WIDE — WIDER THAN EITHER COLUMN, and a
+       nowrap pill cannot wrap its way out of an overflow; it simply runs past the card.
+       So the pill's own padding and type step down HERE AND NOWHERE ELSE: 216px against
+       a 247px column at the worst width. DO NOT SHORTEN THE LABEL INSTEAD — the 2-up
+       pill below 1181 is the one every other pill on the page matches.
+     · THE FOUR SPECIALISATIONS ARE NOT THE SAME LENGTH — Dr. Khalid's takes three lines
+       where the other three take two — so nothing under the portrait aligns by itself.
+       `.doc-spec{flex:1 0 auto}` eats that difference and the pill sits on the card's
+       floor. Delete it and the four buttons step up and down across the line.
+   The name needed a SIZE, not a wrap: at 22px all four still hold one line, Dr. Nahla's
+   — the longest — included. It was 24px first, and hers took two lines at 1440 and above
+   while the other three did not, which is the one thing this row cannot carry.
+   ⚠️ 1180 IS THE PAGE'S OWN CLIFF, NOT A NEW NUMBER — section 04's ring already reflows
+   there. Below it the 2-up grid above is untouched and the phone still gets its single
+   column, because four portraits in a line stop being portraits around 1100: the column
+   passes back under the pill's 216 and the overflow returns. */
+@media(min-width:1181px){
+  .doc-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(22px,2.4vw,34px);max-width:none}
+  .doc-photo{width:100%}
+  .doc h3{margin-top:clamp(14px,1.8vh,20px);font-size:clamp(19px,1.5vw,22px);text-wrap:balance}
+  .doc-spec{margin-top:6px;font-size:clamp(12.5px,1vw,14px);line-height:1.5;max-width:none;flex:1 0 auto}
+  .doc .btn{margin-top:clamp(14px,1.8vh,20px);padding:15px 20px;font-size:11px;letter-spacing:.09em;gap:9px}
+  .doc-info{top:10px;right:10px;width:32px;height:32px;font-size:16px}
+}
 @media(max-width:700px){
   .doc-grid{grid-template-columns:1fr;gap:48px}
 }
@@ -2779,9 +2814,14 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
          · straight quotes → typographic, spaced hyphens → em dashes
        Unlike the tiles' draft copy these are his words — do not tighten in passing.
        ⚠️ FOUR DOCTORS SINCE 2026-08-16 — Dr. Nahla Ibrahim Elawady and Dr. Khalid
-       Shukri joined on his instruction. The grid is 2×2 at desktop with no change (it
-       was always repeat(2)), and the booking chooser gained the matching two rows —
-       KEEP THE FOUR AND THE CHOOSER'S FOUR IN THE SAME ORDER.
+       Shukri joined on his instruction, and the booking chooser gained the matching two
+       rows — KEEP THE FOUR AND THE CHOOSER'S FOUR IN THE SAME ORDER.
+       ⚠️ THEY LAND IN ONE LINE ABOVE 1180 SINCE 2026-08-17 — his call, and the 2×2 that
+       shipped with them on the 16th is now the tablet fallback only. The grid is the
+       only thing that changed: the markup, the order, the bios and the chooser are
+       untouched. What it costs and what holds it up is written over `.doc-grid` in the
+       stylesheet — READ THAT BLOCK BEFORE ADDING A FIFTH DOCTOR, because five in a line
+       is a column narrower than the pill and the row breaks rather than tightening.
        ✅ ALL FOUR PORTRAITS ARE IN — he uploaded the last two to main as `images/dr .webp`
        and `images/drr.webp` (2026-08-16) and they were git mv'd into place, round 4's
        precedent: the MASTERS ARE NEVER RE-ENCODED, only renamed.

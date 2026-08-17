@@ -914,9 +914,21 @@ section{position:relative}
    800ms flip rotating on its own axis in front of a turning card. Each face carries its own
    button now — + on the front, x inside the back — both with their backface hidden, so each
    simply appears when its side does and nothing has to be un-mirrored. */
+/* ⚠️⚠️ 15px/400, NOT 19px/300 — his "the + is not inside the circle, the + is not
+   visible", 2026-08-17, and he is describing the geometry rather than the colour.
+   MEASURED: the glyph is dead centre (offset 0.0/0.0 from the disc's centre) and its
+   CONTRAST IS FINE — ivory on the composited disc reads 4.52:1, past the 3:1 floor for a
+   control. What was wrong is that at 19px the glyph's box is 23px inside a 24px disc, so
+   the arms of the + run to the rim and it reads as sitting ON the circle rather than in
+   it. At 15px the box is 19px and the disc has a margin again; 400 rather than 300 keeps
+   it legible at the smaller size.
+   ⚠️ THE FIRST MEASUREMENT OF THIS SAID 2.25:1 AND WAS WRONG — the probe sampled a ring
+   at 0.28 of the crop, which for a 24px disc in a 54px crop lands OUTSIDE it, so it was
+   reading the photograph and reported the fill unchanged when the fill had changed.
+   Anything measuring a small control has to prove it sampled the control. */
 .pw-more{position:absolute;top:0;right:0;z-index:8;width:46px;height:46px;
   display:none;place-content:center;color:var(--ivory);
-  font-family:var(--sans);font-weight:300;font-size:19px;line-height:1;
+  font-family:var(--sans);font-weight:400;font-size:15px;line-height:1;
   transition:transform .6s var(--ease)}
 .pw-more::before{content:"";position:absolute;inset:9px;border-radius:50%;
   border:1px solid rgba(250,247,241,.5);background:rgba(52,16,28,.36);
@@ -1173,11 +1185,22 @@ section{position:relative}
   .px-tray-l{font-size:14px;top:0}
   .px-tray-go{font-size:14px;padding:13px 16px;letter-spacing:.04em}
   .px-tray-l{display:none}
-  /* on a phone the full bar is already only count + action, so .mini would be a
-     restyle with nothing to remove. It keeps the band and just stays put. */
-  .px-tray.mini{background:rgba(46,34,40,.95);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
-  .px-tray.mini .px-tray-n,.px-tray.mini .px-tray-go{background:none;backdrop-filter:none;border-radius:999px}
-  .px-tray.mini .px-tray-go{border-color:rgba(250,247,241,.42);padding-left:22px}
+  /* ⚠️⚠️ .mini DOES NOT EXIST ON A PHONE ANY MORE — his call 2026-08-17: "the rule on the
+     phone that when you leave the 'where would you like to begin' part shouldn't exist
+     anymore… on the desktop it makes sense but here nah".
+     WHAT IT USED TO DO, AND WHY IT READ AS A FAULT: on a desktop .mini shrinks the bar to
+     a small pill tucked at the right, which is polite. The phone had no room for that, so
+     the rule below kept the FULL-WIDTH DARK BAND and simply pinned it — meaning a band
+     across the bottom of a 390px screen followed the reader down every remaining section
+     of the page. On a phone that is not a bookmark, it is an obstruction.
+     ⚠️ IT LEAVES INSTEAD, using .done's own treatment so there is one exit animation and
+     not two. The tray is now part of the chooser on a phone: it rises when goals are
+     picked and it goes when the rail does. Scrolling back up brings it back — the
+     observer toggles both ways, so nothing is lost, only un-pinned.
+     ⚠️ THE ACTION IS NOT ORPHANED. #book carries the primary CTA at the foot of the page
+     and .done already hides the tray there for exactly that reason; this makes the phone
+     behave the way the bottom of the page always has. */
+  .px-tray.mini{transform:translateY(120%);opacity:0;pointer-events:none}
   /* ⚠️ THE DESKTOP PILL'S PAINT MUST COME OFF HERE OR THE PHONE GETS BOTH. .mini keeps
      the full band on a phone (see the note above), and the .px-tray-in rule that makes
      the desktop pill would sit a second opaque capsule on top of it. */

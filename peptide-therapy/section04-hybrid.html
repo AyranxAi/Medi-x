@@ -428,9 +428,21 @@ img{display:block;max-width:100%}
    800ms flip rotating on its own axis in front of a turning card. Each face carries its own
    button now — + on the front, x inside the back — both with their backface hidden, so each
    simply appears when its side does and nothing has to be un-mirrored. */
+/* ⚠️⚠️ 15px/400, NOT 19px/300 — his "the + is not inside the circle, the + is not
+   visible", 2026-08-17, and he is describing the geometry rather than the colour.
+   MEASURED: the glyph is dead centre (offset 0.0/0.0 from the disc's centre) and its
+   CONTRAST IS FINE — ivory on the composited disc reads 4.52:1, past the 3:1 floor for a
+   control. What was wrong is that at 19px the glyph's box is 23px inside a 24px disc, so
+   the arms of the + run to the rim and it reads as sitting ON the circle rather than in
+   it. At 15px the box is 19px and the disc has a margin again; 400 rather than 300 keeps
+   it legible at the smaller size.
+   ⚠️ THE FIRST MEASUREMENT OF THIS SAID 2.25:1 AND WAS WRONG — the probe sampled a ring
+   at 0.28 of the crop, which for a 24px disc in a 54px crop lands OUTSIDE it, so it was
+   reading the photograph and reported the fill unchanged when the fill had changed.
+   Anything measuring a small control has to prove it sampled the control. */
 .pw-more{position:absolute;top:0;right:0;z-index:8;width:46px;height:46px;
   display:none;place-content:center;color:var(--ivory);
-  font-family:var(--sans);font-weight:300;font-size:19px;line-height:1;
+  font-family:var(--sans);font-weight:400;font-size:15px;line-height:1;
   transition:transform .6s var(--ease)}
 .pw-more::before{content:"";position:absolute;inset:9px;border-radius:50%;
   border:1px solid rgba(250,247,241,.5);background:rgba(52,16,28,.36);

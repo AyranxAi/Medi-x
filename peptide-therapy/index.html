@@ -3902,8 +3902,26 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
      from round 9 (C2, his letter), judged in the grade lab as a COMPOSITION — chain plus
      key line together — rather than find-and-replaced. Reversing it is the same discipline:
      these two and .scene-beat.gold move together or the chain and the line it writes stop
-     agreeing. bonds-lab.html carries the gold/steel bar that judged it. */
-  const GOLD=[201,164,106], GOLD_DEEP=[138,106,52];
+     agreeing. bonds-lab.html carries the gold/steel bar that judged it.
+     ⚠️⚠️ THE PAIR IS SPLIT SINCE 2026-08-17 AND THAT IS THE WHOLE CHANGE: GOLD still runs
+     the DARK stage, GOLD_DEEP is now --logo-red #A33648 and runs the RISEN one. His pick
+     off a five-way board, against a recommendation — "the beads are lackluster".
+     WHY THE SPLIT IS SAFE: dw is 0 until p≈.790, so `mixC(GOLD,GOLD_DEEP,ss(.30,.90,dw))`
+     is pure GOLD for the whole dark act and only crosses to the red as the dawn rises.
+     The champagne-on-plum composition round 14 judged is untouched; what changed is the
+     colour the chain settles into once it has a light ground under it.
+     ⚠️ THE NAME IS NOW A LIE AND IS KEPT ANYWAY. `GOLD_DEEP` no longer holds a gold. It is
+     read at two sites and renaming it would touch the pulse as well, so the name stays and
+     this note is the correction — it means "the value the chain settles to", not "a darker
+     gold". If a later round reverts to #8A6A34, nothing but this constant needs to move.
+     ⚠️ MEASURED, ON THE RISEN DAWN #F6E7E1: the red gives 5.49:1 where #8A6A34 gave 4.16.
+     ⚠️⚠️ THE HERO IS THE WEAK HALF AND HE TOOK IT KNOWINGLY. The same hue over the hero's
+     near-white composites to #DAAEB1 at 1.85:1 — the WEAKEST of the five auditioned, and
+     lower than the #ABA0A1/2.39 it replaces, because #A33648 over a near-white goes pink
+     rather than dark. If the hero reads thin, the fix is NOT more alpha (that just makes it
+     pinker): it is the weight lever from variant 2 of the board — bead radius 1.5+1.3r →
+     2.4+2.0r and the lit-face ivory wash 30% → 10% — which is independent of hue. */
+  const GOLD=[201,164,106], GOLD_DEEP=[163,54,72];
   const ss=(a,b,x)=>{x=Math.max(0,Math.min(1,(x-a)/(b-a)));return x*x*(3-2*x)};
   const mix=(a,b,k)=>a+(b-a)*k;
   const mixC=(A,B,k)=>[Math.round(mix(A[0],B[0],k)),Math.round(mix(A[1],B[1],k)),Math.round(mix(A[2],B[2],k))];
@@ -4320,7 +4338,15 @@ try{
       for(let i=0;i<pts.length;i++){
         const gold = i===ch.gold, r = ch.r[i]+(gold?1.2:0);
         c.beginPath(); c.arc(pts[i].x,pts[i].y,r,0,6.2832);
-        c.fillStyle = gold ? "rgba(194,160,94,.82)" : "rgba(106,88,95,.55)";
+        /* ⚠️ THE FIELD IS --logo-red AT .38 SINCE 2026-08-17, matching the chain's risen
+           colour — it was rgba(106,88,95,.55), a plum-family value that composited to the
+           flat neutral #ABA0A1 he called lackluster. The ACTIVE SITE STAYS CHAMPAGNE and
+           that is the point of the pairing: with the field red, the single gold residue on
+           each chain is now the only warm mark in the hero rather than one of two.
+           ⚠️ .38 IS NOT A ROUNDED-DOWN .55. Above roughly .40 this hue stops reading as a
+           tint and starts reading as pink confetti behind the headline; the alpha carries
+           the restraint the hue does not. Raise it and the hero gets pinker, not stronger. */
+        c.fillStyle = gold ? "rgba(194,160,94,.82)" : "rgba(163,54,72,.38)";
         c.fill();
         if(gold){
           c.beginPath(); c.arc(pts[i].x,pts[i].y,r+3.5+Math.sin(t*2+i)*1.2,0,6.2832);
@@ -4339,7 +4365,7 @@ try{
       const x = wrap(fr.x0*W + fr.vx*t, W+40)-20 + Math.sin(t*.4+fr.ph)*6;
       const y = wrap(fr.y0*H + fr.vy*t, H+40)-20;
       c.beginPath(); c.arc(x,y,fr.r,0,6.2832);
-      c.fillStyle="rgba(106,88,95,.32)"; c.fill();
+      c.fillStyle="rgba(163,54,72,.22)"; c.fill();   /* the free molecules, same shift */
       for(const e of ends){
         const dx=e.x-x, dy=e.y-y, d=Math.hypot(dx,dy);
         if(d<52 && d>4){

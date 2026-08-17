@@ -3922,8 +3922,24 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
        re-learned: a slow ink→ivory sweep must at some point match whatever value
        the figure is drawn in, so the crossing is made brief instead (.045 of
        progress ≈ 19vh of scrolling on this track). */
+    /* ⚠️ THE FLAT GROUND ENDS ON BG_B EXACTLY, AND THE `*.72` THAT USED TO CAP IT IS GONE
+       — his call 2026-08-17, "after the maroon the part that's light is kinda dark", and
+       he is describing a measurable thing rather than a mood. At dw=1 the cap left the
+       stage on mix(BG_A,BG_B,.72) = #BDAEAB while the radial below still reached the full
+       dawn at its centre, so the finished frame was a blush spotlight on a mauve-taupe
+       field: MEASURED AT p=1, corners #BDAEAB against a centre of #F3E4DE, and section
+       03 underneath it standing on #F6E7E1. Fifty-seven RGB values of seam at the sides.
+       ⚠️ THIS CONTRADICTED THE PAGE'S OWN INVARIANT, WRITTEN IN THREE PLACES — `--dawn`,
+       `.peptides` and the round-16 alternation note all say the scene RISES TO EXACTLY
+       BG_B so the stage hands off with no seam. It did at the centre and nowhere else,
+       which is why every check passed: the harness samples the stage's computed colour,
+       and that is one value for a stage the eye reads as two.
+       ⚠️ THE RADIAL STAYS AND IS NOT REDUNDANT. Mid-crossing it is still what gives the
+       dawn a SOURCE at the chain's heart — at dw=.5 the centre reaches ~.75 while the
+       edges sit at .5. At dw=1 it lands on the ground's own colour and simply stops
+       showing, which is the correct end state, not a dead rule. */
     const dw=ss(.790,.835,p);
-    stage.style.backgroundColor=rgba(mixC(BG_A,BG_B,dw*.72),1);
+    stage.style.backgroundColor=rgba(mixC(BG_A,BG_B,dw),1);
     stage.style.backgroundImage = dw>.001
       ? `radial-gradient(circle at 50% ${mobile?52:55}%, ${rgba(BG_B,dw)} 0%, ${rgba(BG_B,dw*.62)} 42%, ${rgba(BG_B,0)} 100%)`
       : "none";

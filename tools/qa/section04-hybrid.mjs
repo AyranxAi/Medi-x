@@ -478,6 +478,107 @@ const run = async () => {
   else if (dust.a.lit > 200) bad('4l the dust is painted but frozen');
   else bad('4l the canvas is sized and empty', `${dust.a.lit} lit subpixels`);
 
+  /* ═══ 4o · THE DUST MEANS ONE THING, AND IT TRAVELS WITH WHAT IT MEANS ═════════
+     ⚠️⚠️ HIS WORDS: "the dust are out of control… they should only be out on the ones that
+     are SELECTED, and they should track the location of that card." Both halves are
+     assertions, and neither could be seen from the code:
+       · with nothing selected and no card recently brought forward, the canvas must be
+         EMPTY — dust that is always somewhere marks nothing;
+       · with a card selected and the ring TURNED AWAY from it, the dust must have gone with
+         it. Held in canvas pixels it stayed where it was born and scattered across the
+         section, which is exactly what he saw.
+     The second is measured by counting lit pixels inside that card's rect against every lit
+     pixel outside it. A percentage is the only way to tell "on the card" from "near it". */
+  head('4o · The dust marks a selection, and follows it');
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.evaluate(() => {
+    for (const c of document.querySelectorAll('.pw[data-picked="true"]'))
+      c.querySelector('.pw-body .pw-cta').click();
+  });
+  /* the bloom on the card in front lasts about 3.5s; wait it out so "empty" means empty */
+  await page.waitForTimeout(5200);
+  const quiet = await page.evaluate(() => {
+    const c = document.getElementById('dust');
+    const d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data;
+    let lit = 0; for (let i = 3; i < d.length; i += 4) if (d[i] > 6) lit++;
+    return { lit, picked: document.querySelectorAll('.pw[data-picked="true"]').length };
+  });
+  is('4o nothing is selected to begin with', quiet.picked, 0);
+  if (quiet.lit < 400) ok('4o2 and with nothing selected the dust is gone', `${quiet.lit} lit subpixels`);
+  else bad('4o2 dust is showing with nothing selected', `${quiet.lit} lit subpixels`);
+
+  /* choose the card in front, then turn the ring three places away from it */
+  await page.evaluate(() => document.querySelector('.pw[data-focus="true"] .pw-body .pw-cta').click());
+  await page.waitForTimeout(500);
+  const chosenIdx = await page.evaluate(() =>
+    [...document.querySelectorAll('.pw')].findIndex(c => c.dataset.picked === 'true'));
+  for (let i = 0; i < 3; i++) {
+    await page.evaluate(() => document.getElementById('next').click());
+    await page.waitForTimeout(950);
+  }
+  await page.waitForTimeout(4200);   /* let the blooms from those three turns expire */
+  const tracked = await page.evaluate(idx => {
+    const c = document.getElementById('dust');
+    const g = c.getContext('2d');
+    const d = g.getImageData(0, 0, c.width, c.height).data;
+    const sel = document.querySelectorAll('.pw')[idx];
+    const o = c.getBoundingClientRect(), b = sel.getBoundingClientRect();
+    const sx = c.width / o.width, sy = c.height / o.height;
+    const x0 = (b.left - o.left) * sx, x1 = (b.right - o.left) * sx;
+    const y0 = (b.top - o.top) * sy,  y1 = (b.bottom - o.top) * sy;
+    let inn = 0, out = 0;
+    for (let y = 0; y < c.height; y++) for (let x = 0; x < c.width; x++) {
+      if (d[(y * c.width + x) * 4 + 3] <= 6) continue;
+      if (x >= x0 && x <= x1 && y >= y0 && y <= y1) inn++; else out++;
+    }
+    return { inn, out, still: sel.dataset.picked === 'true' };
+  }, chosenIdx);
+  if (!tracked.still) bad('4o3 the chosen card lost its state while the ring turned');
+  /* ⚠️ THE COUNT FLOOR IS DELIBERATELY LOW. A chosen card three places round the ring is a
+     third of scale and its shimmer is a few dozen lit subpixels — the question this check
+     answers is WHERE they are, not how many. The "is there enough of it" question is 4o2's,
+     from the other direction. */
+  else if (tracked.inn > 10 && tracked.inn / (tracked.inn + tracked.out) > .8)
+    ok('4o3 the dust travelled with the card it marks',
+       `${Math.round(tracked.inn / (tracked.inn + tracked.out) * 100)}% of it is on that card, three places round`);
+  else if (tracked.inn + tracked.out < 10)
+    bad('4o3 the chosen card has no dust at all after the ring turned', JSON.stringify(tracked));
+  else bad('4o3 the dust stayed behind where the card used to be',
+           `only ${Math.round(tracked.inn / (tracked.inn + tracked.out) * 100)}% is on the card`);
+
+  /* ═══ 4p · THE CLIMB IS THE CASCADE'S, NOT ITS OWN NUMBER ══════════════════════
+     ⚠️ HE ASKED FOR "a climb that is proportional". Rise is derived from (1 - scale), so the
+     two are locked together — and this asserts the lock rather than the look. If the rise
+     ever gets its own hardcoded ladder again, the neighbours drift back toward looking
+     bottom-aligned with the middle card, which is what he drew on the screenshot. */
+  head('4p · The climb follows the cascade');
+  const freeze3 = await page.addStyleTag({ content: '.pw{animation:none !important}' });
+  await page.waitForTimeout(150);
+  const climb = await page.evaluate(() => {
+    const cs = [...document.querySelectorAll('.pw')], N = cs.length;
+    const f = cs.findIndex(c => c.dataset.focus === 'true');
+    const w = {}, ft = {};
+    cs.forEach((c, i) => { let d = (i - f + N) % N; if (d > N / 2) d -= N;
+      const r = c.getBoundingClientRect(); w[Math.abs(d)] = r.width; ft[Math.abs(d)] = r.bottom; });
+    return [0, 1, 2, 3, 4].map(a => ({ w: w[a], foot: ft[a] })).filter(v => v.w);
+  });
+  const base = climb[0].w, lastA = climb.length - 1;
+  const errs = climb.slice(1).map(v => {
+    const wantLift = (1 - v.w / base) / (1 - climb[lastA].w / base);
+    const gotLift = (climb[0].foot - v.foot) / (climb[0].foot - climb[lastA].foot);
+    return Math.abs(wantLift - gotLift);
+  });
+  const worst = Math.max(...errs);
+  if (worst <= .06)
+    ok('4p every card climbs in proportion to how much smaller it is',
+       climb.map(v => Math.round(climb[0].foot - v.foot) + 'px').join(' · '));
+  else bad('4p the climb has drifted off the size cascade', `worst step off by ${(worst * 100).toFixed(0)}%`);
+  /* the first neighbour must be VISIBLY lifted — this is the thing he circled */
+  const firstLift = climb[0].foot - climb[1].foot;
+  if (firstLift >= 14) ok('4p2 the cards beside the middle are clearly lifted off it', `${Math.round(firstLift)}px`);
+  else bad('4p2 the neighbours still look bottom-aligned with the middle card', `only ${Math.round(firstLift)}px`);
+  await freeze3.evaluate(n => n.remove());
+
   /* ═══ 5b · THE + TURNS THE CARD — HIS ADDITION, SO IT IS ASSERTED ══════════════
      ⚠️ THE + AND THE FACE MUST NEVER BOTH BE LIVE. The face adds the goal, the + opens the
      reading; a turned card whose face still takes clicks means one click doing two things,

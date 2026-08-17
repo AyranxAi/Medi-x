@@ -188,19 +188,22 @@ img{display:block;max-width:100%}
 .rail[data-pick="ivory"]{--pick:var(--ivory); --pick-ink:var(--burgundy)}
 .rail[data-pick="wine"]{--pick:var(--burgundy); --pick-ink:var(--ivory)}
 /* the ring line the cards stand on */
-/* ⚠️ A VERY WIDE ELLIPSE HAS NO VISIBLE CURVE. At 124% wide the only part on screen was
-   the top of the arc, which reads as a stray horizontal rule ruled across the section
-   rather than as a ring the cards are standing on. Narrower and shorter puts real
-   curvature inside the frame. */
+/* ⚠️⚠️ THE RING LINE IS DRAWN FROM THE SAME NUMBERS AS THE FEET, NOT TUNED TO LOOK RIGHT.
+   It was a CSS ellipse, and an ellipse's bottom arc is flat at the centre and steep at the
+   edges — which was a fair match for the old chord-based climb and became wrong the moment
+   the climb was re-derived from the size cascade (front-loaded instead). Two curves tuned
+   separately will always drift apart on the next change; one path built in layout() from
+   the very lift values the cards use cannot. ⚠️ THE CSS ELLIPSE IS GONE — do not put it
+   back as a "simpler" version, it is the thing that silently disagreed. */
 /* ⚠️ WHAT IS ON SCREEN IS THE ELLIPSE'S BOTTOM ARC, AND ITS HEIGHT IS THE RISE, NOT A
    LOOK. That arc is lowest at the middle and sweeps up at the sides, which is the curve the
    cards' feet now follow — so the two only agree if the ellipse's semi-minor axis is about
    twice RISE. At half-width the bottom arc has climbed B x 0.47; with RISE at 52px that
    puts B near 108, which is 44% of a 490px rail. Change RISE and this follows it, or the
    line stops being the thing the cards are standing on and becomes a decoration near them. */
-.rail::before{content:"";position:absolute;left:50%;bottom:2%;width:98%;height:44%;
-  transform:translateX(-50%);border:1px solid var(--gold);opacity:.32;
-  border-radius:50%;pointer-events:none}
+.ringline{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.ringline path{fill:none;stroke:var(--gold);stroke-width:1;opacity:.42;
+  vector-effect:non-scaling-stroke}
 /* ⚠️ ONE PROBE NOW, AND IT IS STILL NOT A CARD. The base box is the only measurement the
    arc needs, and it must not be read off a .pw: those transition, so a size taken mid-turn
    is true for no frame. */
@@ -527,7 +530,7 @@ img{display:block;max-width:100%}
 @media(max-width:1180px){
   .rail{height:auto;perspective:none;display:flex;flex-direction:column;
     gap:clamp(13px,2.2vw,18px);cursor:auto}
-  .rail::before{display:none}
+  .ringline{display:none}
   .pw{position:relative;left:auto;top:auto;width:100%;height:auto;
     aspect-ratio:16/10;min-height:232px;
     transform:none!important;opacity:1!important;z-index:1!important;
@@ -584,6 +587,7 @@ img{display:block;max-width:100%}
 
     <div class="rail" id="rail" data-shape="tall" data-pick="ivory" role="group" aria-label="Peptide therapy pathways">
       <i class="probe probe-f" id="probeF" aria-hidden="true"></i>
+      <svg class="ringline" id="ringline" aria-hidden="true" preserveAspectRatio="none"><path d=""/></svg>
       <button type="button" class="arrow arrow--prev" id="prev" aria-label="Previous pathway">
         <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"
              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.5 1.5 3 6l4.5 4.5"/></svg>
@@ -852,33 +856,44 @@ img{display:block;max-width:100%}
         was 0.39 and then the seven barely differed at all. That is a big card standing in
         front of a flat row.</p>
         <p>Every card is <b>the same box now</b>, and distance alone decides how big it
-        arrives: <b>1 &middot; 0.62 &middot; 0.47 &middot; 0.36 &middot; 0.27</b> &mdash; each
+        arrives: <b>1 &middot; 0.70 &middot; 0.55 &middot; 0.43 &middot; 0.33</b> &mdash; each
         step a fixed <em>proportion</em> of the one before it, which is the thing the eye
         reads as depth. A ladder that descends is not the same as one that descends by the
-        same ratio; the first reads as a row of different-sized cards. The type comes with
-        it, so a name is the same size <em>on its card</em> everywhere and simply arrives
-        smaller. <b>The price:</b> two steps out a name would render near 8px, so it fades
-        rather than printing type nobody can read &mdash; the photograph and the dot carry
-        those two, which is what the edge of a real ring does anyway.</p>
+        same ratio; the first reads as a row of different-sized cards. <b>The neighbours grew
+        on your note</b> &mdash; the cascade was 0.62/0.76 and they read small beside the
+        middle. That costs fan room, and the cost lands where it should: the outer pair tuck
+        further behind each other, and those two carry no name anyway.</p>
+        <p><b>And the climb is now the cascade&rsquo;s too, which is what you drew.</b> A real
+        ring&rsquo;s near cards sit almost level with the front one &mdash; the maths is flat
+        near the middle, so the card beside it was lifting three pixels and looked
+        bottom-aligned with it. Rise is taken from <em>how much smaller</em> a card is
+        instead: <b>0 &middot; 24 &middot; 37 &middot; 48 &middot; 56px</b>. One cascade drives
+        both size and height, so they can never disagree. <b>That is the one place this ring
+        deliberately stops being physical in order to be legible</b> &mdash; and the ring line
+        underneath is drawn from the very same numbers rather than tuned to look right, so it
+        cannot drift off the feet on the next change.</p>
       </article>
 
       <article class="note">
         <span class="note-k">New &mdash; your ask</span>
-        <h3>Fairy dust, kept minute</h3>
+        <h3>Fairy dust, and what it means</h3>
         <p>Sixty-four motes between half a pixel and two, drifting up and swaying, fading in
         and out on a sine so they were always there and you only just noticed them. <b>Minute
         is the whole discipline of it</b> &mdash; at three pixels this stops being motes in a
         shaft of light and becomes snow on a medical website.</p>
-        <p><b>It lives inside the card in front, not across the section.</b> Dust scattered
-        evenly says nothing; dust that follows whichever card you have brought forward says
-        <em>this one is alive</em>. And <b>choosing a goal throws a handful of champagne from
-        the tick</b> &mdash; the one moment here that should feel like a reward, made visible
-        for half a second.</p>
-        <p>You noticed the dust staying on the ones you had added. <b>That was an accident and
-        it is now on purpose</b>: every chosen card keeps <b>seven motes at two-thirds
-        strength</b> wherever it sits in the ring, so your picks never quite go quiet. It is
-        the multi-select&rsquo;s third home after the tick and the dot &mdash; and if you would
-        rather they went still, it is one line.</p>
+        <p><b>You were right that it was out of control, and it now means exactly one
+        thing: this is in your programme.</b> Two behaviours and no others. A <b>selected</b>
+        card carries a quiet permanent shimmer wherever it sits in the ring. A card you bring
+        <b>forward</b> gets a bloom &mdash; a handful that fade up, drift and are gone inside
+        three seconds. Arriving feels alive; staying does not keep sparkling. And choosing
+        throws a handful of champagne from the tick, which is the one moment here that should
+        feel like a reward.</p>
+        <p><b>And the dust travels with its card now.</b> That was the real fault: motes were
+        held in the section&rsquo;s coordinates, so a selected card sailed away when you turned
+        the ring and left its sparkle scattered behind it. Each mote now keeps its position as
+        a fraction <em>of its own card</em> &mdash; so it follows it round, shrinks with it,
+        and cannot be orphaned. Dust is the multi-select&rsquo;s third home, after the tick and
+        the dot.</p>
       </article>
 
       <article class="note">
@@ -1000,20 +1015,25 @@ const rail   = document.getElementById('rail');
 const cards  = [...rail.querySelectorAll('.pw')];
 const N      = cards.length;
 const probeF = document.getElementById('probeF');
+const ringPath = document.querySelector('#ringline path');
 const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const wide   = () => matchMedia('(min-width: 1181px)').matches;
 let focus = 0, depth = null;
 /* the ring's shape, in one place: how far round the arc the outermost card sits, how far a
    receding card climbs, and how much of its size it gives up getting there */
 const SPREAD = 1.06;   /* radians — about 61 degrees to the outermost card */
-const RISE   = 52;     /* px the outermost card's foot is above the front card's */
+const RISE   = 58;     /* px the outermost card's foot is above the front card's */
 /* ⚠️⚠️ THE SIZE CASCADE, AND IT IS GEOMETRIC RATHER THAN LINEAR BECAUSE THAT IS WHAT
    DISTANCE DOES. Each step out is a fixed PROPORTION of the step before it — 1 · .62 · .47
    · .36 · .27 — so the ratio between any two neighbours is the same wherever you stand in
    the ring, which is the thing the eye reads as depth. A linear ladder (1 · .8 · .6 · .4)
    has a shrinking ratio and reads as a row of different-sized cards instead. */
-const NEAR   = .62;    /* the first card either side, as a fraction of the front one */
-const RATIO  = .76;    /* and every step after that, of the one before it */
+/* ⚠️ .70 AND .78 ON HIS CALL — "keep the middle, grow the neighbours". The cascade was
+   .62/.76 and the two cards either side read small beside the front one. Growing them costs
+   fan room, and the cost lands where it should: the OUTER pair tuck further behind each
+   other (33% of each visible instead of 46%) — and those two carry no name anyway. */
+const NEAR   = .70;    /* the first card either side, as a fraction of the front one */
+const RATIO  = .78;    /* and every step after that, of the one before it */
 const scaleAt = a => a === 0 ? 1 : NEAR * Math.pow(RATIO, a - 1);
 
 /* ── the artwork, loaded defensively ──────────────────────────────────────────────
@@ -1082,8 +1102,18 @@ function layout(){
        climbs away from you, so a receding card RISES. His note caught it before a client
        ever saw it, and it is the one error here that made the whole thing read as a fan of
        cards rather than as a circle. */
+    /* ⚠️⚠️ THE CLIMB IS TIED TO THE SIZE CASCADE, NOT TO THE RING'S CHORD — HIS CALL, AND HE
+       DREW IT. A true ring's near cards sit almost level with the front one: the chord is
+       flat near zero, so a=1 rose 3px and the two cards beside the middle looked BOTTOM-
+       ALIGNED with it, which is what he circled. Rise is now proportional to how much
+       smaller a card is — (1 - scale), normalised — so the same one cascade drives size AND
+       height and the two cannot disagree: 0 · 30 · 42 · 50 · 58. That is a designed
+       proportion rather than a projection, and it is the one place this ring deliberately
+       stops being physical in order to be legible.
+       ⚠️ CHANGE NEAR OR RATIO AND THE CLIMB FOLLOWS AUTOMATICALLY. Do not re-hardcode it. */
     const t = a === 0 ? 0 : (1 - Math.cos(a / aMax * SPREAD)) / (1 - Math.cos(SPREAD));
-    c.style.setProperty('--y', on ? '0px' : (-t * RISE).toFixed(1) + 'px');
+    const lift = (1 - scaleAt(a)) / (1 - scaleAt(aMax));
+    c.style.setProperty('--y', on ? '0px' : (-lift * RISE).toFixed(1) + 'px');
     c.style.setProperty('--rot', on ? (c.dataset.open === 'true' ? '180deg' : '0deg')
                                     : (-Math.sign(d) * (8 + t * 13)).toFixed(1) + 'deg');
     c.style.setProperty('--sc', scaleAt(a).toFixed(3));
@@ -1101,9 +1131,45 @@ function layout(){
                                        : goal + ' — bring this pathway forward');
     face.setAttribute('aria-pressed', String(c.dataset.picked === 'true'));
   }
+  /* ⚠️ THE CURVE IS BUILT FROM xAt() AND THE SAME lift, WHICH IS THE ONLY REASON IT CANNOT
+     DISAGREE WITH THE CARDS. It runs from the outermost card on one side to the outermost on
+     the other and then a little past both, so the ring reads as continuing off-frame rather
+     than as an arc that happens to end where the cards do. */
+  const railH = rail.clientHeight || 460;
+  /* ⚠️ 11px BELOW THE FEET, NOT THROUGH THEM. Drawn exactly on the foot line the curve is
+     hidden by the cards it is describing and only shows in the gaps, which reads as a broken
+     line rather than as ground. Just under, it is the thing they are standing on. */
+  const foot = a => railH * .93 + 11 - (a === 0 ? 0 : (1 - scaleAt(a)) / (1 - scaleAt(aMax)) * RISE);
+  const pts = [];
+  for (let a = aMax; a >= 1; a--) pts.push([-xAt(a), foot(a)]);
+  pts.push([0, foot(0)]);
+  for (let a = 1; a <= aMax; a++) pts.push([xAt(a), foot(a)]);
+  const runOut = (xAt(aMax) - xAt(aMax - 1)) * 1.15;
+  const drop = foot(aMax - 1) - foot(aMax);
+  pts.unshift([-xAt(aMax) - runOut, foot(aMax) - drop * .8]);
+  pts.push([xAt(aMax) + runOut, foot(aMax) - drop * .8]);
+  const cx = (rail.clientWidth || innerWidth) / 2;
+  /* midpoint smoothing — a polyline through nine points reads as a folded line, and the
+     ring has to look like one continuous thing the cards are standing on */
+  let d = `M ${(cx + pts[0][0]).toFixed(1)} ${pts[0][1].toFixed(1)}`;
+  for (let i = 1; i < pts.length - 1; i++) {
+    const mx = (pts[i][0] + pts[i + 1][0]) / 2, my = (pts[i][1] + pts[i + 1][1]) / 2;
+    d += ` Q ${(cx + pts[i][0]).toFixed(1)} ${pts[i][1].toFixed(1)} ${(cx + mx).toFixed(1)} ${my.toFixed(1)}`;
+  }
+  const last = pts[pts.length - 1];
+  d += ` L ${(cx + last[0]).toFixed(1)} ${last[1].toFixed(1)}`;
+  ringPath.setAttribute('d', d);
   paintDots();
 }
-const focusOn = i => { focus = ((i % N) + N) % N; layout(); };
+const focusOn = i => {
+  const was = focus;
+  focus = ((i % N) + N) % N;
+  layout();
+  /* ⚠️ ONLY ON A REAL CHANGE. Re-focusing the card already in front — which the arrows and
+     the dots can both do — would otherwise stack bloom on bloom until the front card is a
+     snowstorm, which is the "out of control" he saw in a different costume. */
+  if (focus !== was && typeof dust !== 'undefined') dust.bloom(cards[focus]);
+};
 
 /* ── the dots: position, and the second home of the chosen state ─────────────────── */
 const dotWrap = document.getElementById('dots');
@@ -1209,35 +1275,35 @@ layout();
 /* ═══════════ THE DUST ═════════════════════════════════════════════════════════════
    His note: *"some fairy dust that are minute, like it's a magical card."* Minute is the
    operative word and the whole discipline of it — at 0.5 to 1.9px these read as motes in a
-   shaft of light, and at 3px they read as snow on a medical website.
+   shaft of light; at 3px they read as snow on a medical website.
 
-   ⚠️⚠️ IT IS CONFINED TO THE CARD IN FRONT, AND THAT IS WHAT KEEPS IT FROM BEING DECORATION.
-   Dust scattered evenly across the section says nothing; dust that lives inside whichever
-   card you have brought forward says THIS ONE IS ALIVE, and it moves with the ring. Motes
-   are born in the focused card's rect and are NOT killed when focus moves — they finish
-   their lives where they were, so turning the ring leaves a short trail behind it rather
-   than a hard cut.
+   ⚠️⚠️ IT MEANS ONE THING NOW: THIS IS IN YOUR PROGRAMME. The first build put permanent dust
+   on whichever card was in front, and he was right that it was out of control — dust that is
+   always somewhere says nothing, and the front card is already the loudest thing on screen.
+   Two behaviours, and only two:
+     · SELECTED cards carry a quiet, permanent shimmer — 8 motes at two-thirds strength,
+       wherever they sit in the ring.
+     · The card you bring FORWARD gets a BLOOM: a handful that fade up, drift and are gone
+       inside about three seconds. Arriving feels alive; staying does not keep sparkling.
+   ⚠️ SO DUST IS THE MULTI-SELECT'S THIRD HOME, after the tick and the dot. If it ever goes
+   back to marking the front card permanently, it stops carrying meaning and becomes texture.
 
-   ⚠️ AND CHOOSING THROWS A HANDFUL. The one moment in this section that should feel like a
-   reward is the moment a goal joins the programme; a burst of champagne from the tick is
-   that moment made visible, and it costs 26 particles that are gone in half a second.
+   ⚠️⚠️ MOTES ON A CARD ARE STORED IN THE CARD'S OWN COORDINATES, NOT THE CANVAS'S, AND THAT
+   IS THE FIX FOR WHAT HE SAW. Held in canvas pixels they stayed where they were born while
+   the ring turned underneath them — so a selected card sailed away and left its sparkle
+   behind, scattered across the section. Each mote keeps a (u,v) fraction of its host's rect
+   and is resolved to pixels every frame, so it TRACKS its card round the ring, shrinks with
+   it, and cannot be orphaned. Only the choose-burst is free-floating, because it is thrown
+   outward and is gone in half a second.
 
-   ⚠️ CANVAS 2D, NOT THREE.JS, AND NOT DOM. Fifty translucent DOM nodes with their own
-   animations would be fifty composited layers over a page that already has eight cards
-   transitioning; three.js would be 666KB for what is fundamentally fifty circles. Canvas 2D
-   is what the chain scene uses on the live page for the same reason.
+   ⚠️ CANVAS 2D, NOT DOM AND NOT THREE.JS. Fifty translucent nodes with their own animations
+   is fifty composited layers over eight already-transitioning cards; three.js is 666KB for
+   fifty circles. Same reasoning as the chain scene on the live page.
 
    ⚠️ THE CANVAS CARRIES width/height:100% IN CSS AS WELL AS A BACKING STORE. Same replaced-
    element trap as the sculpture: with width:auto an absolutely positioned <canvas> resolves
-   to its INTRINSIC size — the attribute last written — and the over-constrained `right` is
-   ignored, so it sizes itself to the last render and pushes the page sideways. */
-/* ⚠️⚠️ CHOSEN CARDS KEEP A QUIET SHIMMER, AND THAT IS NOW DELIBERATE RATHER THAN LEFTOVER.
-   He noticed dust staying on the ones added to the programme. It was an accident of motes
-   outliving the focus that made them — but it is the better behaviour, so it is built:
-   the card in front carries the full 60, and every CHOSEN card keeps 7 at two-thirds alpha
-   wherever it sits in the ring. ⚠️ IT IS ALSO THE MULTI-SELECT'S THIRD HOME — the tick, the
-   dot, and now a card that will not quite go quiet. Delete the CHOSEN line to undo it. */
-const AMBIENT = 60, CHOSEN = 7;
+   to its INTRINSIC size and the over-constrained `right` is ignored. */
+const CHOSEN = 11, BLOOM = 30;
 const dust = (() => {
   const cv = document.createElement('canvas');
   cv.id = 'dust'; cv.setAttribute('aria-hidden', 'true');
@@ -1247,7 +1313,8 @@ const dust = (() => {
   const g = cv.getContext('2d');
   const IVORY = '255,253,248', CHAMP = '233,206,152';
   const motes = [];
-  let W = 0, H = 0, raf = 0, dpr = Math.min(devicePixelRatio || 1, 2);
+  let W = 0, H = 0, raf = 0;
+  const dpr = Math.min(devicePixelRatio || 1, 2);
 
   function size(){
     const r = rail.getBoundingClientRect();
@@ -1255,84 +1322,113 @@ const dust = (() => {
     cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
     g.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
-  const facing = () => {
-    const b = cards[focus].getBoundingClientRect(), o = cv.getBoundingClientRect();
-    return { x: b.left - o.left, y: b.top - o.top, w: b.width, h: b.height };
-  };
-  function born(r, burst, ox, oy, host){
-    return {
-      host: host || null,
-      x: burst ? ox : r.x + Math.random() * r.w,
-      y: burst ? oy : r.y + Math.random() * r.h,
-      vx: (Math.random() - .5) * (burst ? 1.8 : .14),
-      vy: burst ? (Math.random() - .78) * 1.7 : -(.08 + Math.random() * .2),
-      rad: (burst ? .7 : .45) + Math.random() * (burst ? 1.3 : 1.45),
-      sway: Math.random() * 6.283,
-      life: 0, max: burst ? 34 + Math.random() * 34 : 150 + Math.random() * 230,
-      hue: Math.random() < (burst ? .85 : .4) ? CHAMP : IVORY,
-      dim: host && host !== cards[focus] ? .62 : 1,
-    };
-  }
-  /* the rect of any card, in canvas-local pixels — one getBoundingClientRect minus another,
-     which is why there is no scroll arithmetic anywhere in this file */
-  function rectOf(el){
+  const rectOf = el => {
     const b = el.getBoundingClientRect(), o = cv.getBoundingClientRect();
     return { x: b.left - o.left, y: b.top - o.top, w: b.width, h: b.height };
+  };
+  /* a mote that belongs to a card — position is a fraction of that card, so it travels */
+/* ⚠️⚠️ EVERY LIFETIME AND EVERY SPEED IS IN MILLISECONDS, NOT FRAMES, AND THAT IS A FIX.
+   Counting frames means a mote lives twice as long on a 120Hz screen as on a 60Hz one, and
+   many times longer in a throttled or software-rendered tab — the harness found it by
+   waiting four seconds for a three-second bloom and still measuring it alive. Dust that
+   outstays its welcome by a factor of the reader's refresh rate is not a subtle effect. */
+  function onCard(host, life, dim){
+    return { host, u: .08 + Math.random() * .84, v: .1 + Math.random() * .84,
+      du: (Math.random() - .5) * .0018, dv: -(.0007 + Math.random() * .0018),
+      rad: .45 + Math.random() * 1.45, sway: Math.random() * 6.283,
+      age: 0, max: life, hue: Math.random() < .4 ? CHAMP : IVORY, dim };
   }
-  function draw(){
+  /* and one thrown from the tick, which is free of any card because it is leaving */
+  function thrown(ox, oy){
+    return { host: null, x: ox, y: oy,
+      vx: (Math.random() - .5) * 1.8, vy: (Math.random() - .78) * 1.7,
+      rad: .7 + Math.random() * 1.3, sway: Math.random() * 6.283,
+      age: 0, max: 560 + Math.random() * 570,
+      hue: Math.random() < .85 ? CHAMP : IVORY, dim: 1 };
+  }
+
+  let last = 0;
+  function draw(now){
+    const t = now || performance.now();
+    /* ⚠️⚠️ AGEING AND MOVEMENT USE DIFFERENT CLOCKS, AND CONFLATING THEM WAS THE BUG. The
+       step has to be CLAMPED for movement — a backgrounded tab returns a gap of seconds on
+       wake and an unclamped step teleports every mote across the section in one frame. But
+       clamping the AGE too means that whenever frames run slower than 64ms, dust ages more
+       slowly than the clock and simply outstays its lifetime: a three-second bloom was still
+       on screen after six on a software renderer, and the tracking check failed intermittently
+       at 64% instead of 100% because of it. Age by the real elapsed time; move by the clamped
+       one. On wake everything ages at once and dies, which is exactly right — you come back
+       to a clean card, not to a four-minute-old bloom. */
+    const real = last ? (t - last) : 16.7;
+    last = t;
+    const dt = real;
+    const k = Math.min(64, real) / 16.7;
     g.clearRect(0, 0, W, H);
-    if (wide()) {
-      /* one pass per host — the card in front, and every chosen card wherever it sits */
-      for (const c of cards) {
-        const isFront = c === cards[focus];
-        if (!isFront && c.dataset.picked !== 'true') continue;
-        const want = isFront ? AMBIENT : CHOSEN;
-        let have = 0;
-        for (const m of motes) if (m.host === c) have++;
-        if (have >= want) continue;
-        const r = rectOf(c);
-        if (r.w < 8) continue;
-        for (let k = have; k < want; k++) motes.push(born(r, false, 0, 0, c));
+    /* top up the selected cards only — the bloom is spawned on arrival, never refilled */
+    if (wide()) for (const c of cards) {
+      if (c.dataset.picked !== 'true') continue;
+      let have = 0;
+      for (const m of motes) if (m.host === c && m.keep) have++;
+      for (let n = have; n < CHOSEN; n++) {
+        const m = onCard(c, 3200 + Math.random() * 4000, .82); m.keep = true; motes.push(m);
       }
     }
     for (let i = motes.length - 1; i >= 0; i--) {
       const m = motes[i];
-      if (++m.life > m.max) { motes.splice(i, 1); continue; }
-      m.x += m.vx + Math.sin(m.life * .021 + m.sway) * .11;
-      m.y += m.vy;
-      /* ⚠️ FADE IN AND OUT ON A SINE, NOT A LINEAR RAMP. A mote that appears at full alpha
-         and then dims is a mote you watched arrive; one that swells and fades was always
-         there and you only just noticed it — which is the difference between dust and
-         particles. */
-      const a = Math.sin((m.life / m.max) * Math.PI) * (m.rad > 1.25 ? .76 : .5) * m.dim;
+      m.age += dt;
+      if (m.age > m.max) { motes.splice(i, 1); continue; }
+      let x, y, scale = 1;
+      if (m.host) {
+        m.u += (m.du + Math.sin(m.age * .00126 + m.sway) * .0008) * k;
+        m.v += m.dv * k;
+        if (m.u < -.1 || m.u > 1.1 || m.v < -.1 || m.v > 1.1) { motes.splice(i, 1); continue; }
+        const r = rectOf(m.host);
+        if (r.w < 6) continue;
+        x = r.x + m.u * r.w; y = r.y + m.v * r.h;
+        /* ⚠️ THE MOTE SHRINKS WITH ITS CARD. A far card is a third of scale, and dust that
+           kept its own size on it would be dust sitting IN FRONT of the ring rather than on
+           a card in it — which is precisely how the first build read. */
+        /* ⚠️ THE FLOOR IS .58, NOT 0. A mote that shrank with the card in strict proportion
+           was 16 lit pixels on a card three places round — technically present, and no use
+           at all for spotting your picks. It shrinks, but not all the way down. */
+        scale = Math.max(.58, r.w / (probeF.offsetWidth || 340));
+      } else {
+        m.x += (m.vx + Math.sin(m.age * .00126 + m.sway) * .11) * k;
+        m.y += m.vy * k;
+        x = m.x; y = m.y;
+      }
+      const a = Math.sin((m.age / m.max) * Math.PI) * (m.rad > 1.25 ? .76 : .5) * m.dim;
       if (a <= .01) continue;
-      if (m.rad > 1.25) {
-        const gr = g.createRadialGradient(m.x, m.y, 0, m.x, m.y, m.rad * 3.4);
+      const rad = m.rad * scale;
+      if (rad > 1) {
+        const gr = g.createRadialGradient(x, y, 0, x, y, rad * 3.4);
         gr.addColorStop(0, `rgba(${m.hue},${a})`);
         gr.addColorStop(.4, `rgba(${m.hue},${a * .35})`);
         gr.addColorStop(1, `rgba(${m.hue},0)`);
         g.fillStyle = gr;
-        g.beginPath(); g.arc(m.x, m.y, m.rad * 3.4, 0, 6.283); g.fill();
+        g.beginPath(); g.arc(x, y, rad * 3.4, 0, 6.283); g.fill();
       }
       g.fillStyle = `rgba(${m.hue},${a})`;
-      g.beginPath(); g.arc(m.x, m.y, m.rad, 0, 6.283); g.fill();
+      g.beginPath(); g.arc(x, y, rad, 0, 6.283); g.fill();
     }
   }
-  function tick(){ draw(); raf = requestAnimationFrame(tick); }
+  function tick(t){ draw(t); raf = requestAnimationFrame(tick); }
   new ResizeObserver(() => { size(); if (REDUCE) draw(); }).observe(rail);
   size();
-  /* ⚠️ REDUCED MOTION GETS ONE SCATTER, NOT AN EMPTY CANVAS. Motion is what is unwanted, not
-     the texture — a card that loses its dust entirely loses the thing being judged. */
-  if (REDUCE) { const r = facing();
-    for (let i = 0; i < AMBIENT; i++) { const m = born(r, false, 0, 0, cards[focus]); m.life = m.max * .5; motes.push(m); }
-    draw();
-  } else raf = requestAnimationFrame(tick);
+  /* ⚠️ REDUCED MOTION GETS ONE SCATTER ON THE SELECTED CARDS, NOT AN EMPTY CANVAS. Motion is
+     what is unwanted, not the meaning — and the shimmer is carrying a state. */
+  if (REDUCE) draw(); else raf = requestAnimationFrame(tick);
   return {
+    /* the card arriving at the front blooms once and settles */
+    bloom(c){
+      if (REDUCE || !wide() || !c) return;
+      for (let i = 0; i < BLOOM; i++) motes.push(onCard(c, 2000 + Math.random() * 1500, .8));
+    },
     burst(el){
       if (REDUCE) return;
       const b = el.getBoundingClientRect(), o = cv.getBoundingClientRect();
       const x = b.left + b.width / 2 - o.left, y = b.top + b.height / 2 - o.top;
-      for (let i = 0; i < 26; i++) motes.push(born(null, true, x, y));
+      for (let i = 0; i < 26; i++) motes.push(thrown(x, y));
     }
   };
 })();

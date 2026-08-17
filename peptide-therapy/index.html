@@ -502,11 +502,13 @@ section{position:relative}
 /* ⚠️⚠️ THIS SECTION IS THE DAWN NOW, AND IT IS LOAD-BEARING IN TWO DIRECTIONS.
    1 · IT KEEPS THE PAGE ALTERNATING. Deleting the old section 05 (dawn) put .services
        (ivory) directly against .incl (ivory) — two identical bands meeting, which reads
-       as one section that lost its heading. Moving THIS section to dawn fixes it by
-       changing ONE ground: ivory→dawn→ivory→dawn→ivory→dawn now runs services · incl ·
-       docs · stories · faq · final. The alternative was flipping .incl and everything
-       below it — five grounds, two of them carrying photographs whose scrims are
-       measured minimums. One section is the cheaper truth.
+       as one section that lost its heading. Moving THIS section to dawn fixed it by
+       changing ONE ground rather than flipping .incl and everything below it.
+       ⚠️ ROUND 18 DELETED .incl TOO, AND THE BILL THAT WAS DEFERRED THEN CAME DUE: with
+       the ivory beat gone, the tail below had to invert after all. The run is now
+       dawn→ivory→dawn→ivory→dawn across services · docs · stories · faq · final, and the
+       full reasoning — including why moving THIS ground was still the wrong answer the
+       second time — is at the ⚠️⚠️ note on .docs. Five chapters, not six.
    2 · IT IS ALSO WHY THE TILES READ AS OBJECTS AT ALL. `.px` is filled `--ivory`. On the
        old ivory ground the tiles were the page colour on the page colour, held apart by
        a 1px hairline and nothing else — which is exactly why the section looked flat and
@@ -919,41 +921,18 @@ section{position:relative}
 .pxd-cta{margin-top:26px}
 body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds still under the overlay */
 
-/* ═══════════════ 06 · WHAT'S INCLUDED / WHAT'S EXCLUDED ════════════════════════
-   His "maybe a different section or not?" — answered: its own, and small. It is a
-   ledger, not a chapter: two columns, hairline heads, no headline scale and no CTA,
-   sitting between the seven steps and the doctors so the reader knows exactly what
-   they are buying before they are asked to choose a doctor.
-   ⚠️ THE EXCLUDED COLUMN IS NOT DRESSED AS A FAILURE. Same type, same rhythm, one
-   token of difference (the mark is a hairline dash, not the gold ✦) — a struck-out
-   or greyed column reads as a warning, and this list is a price note. */
-.incl{background:var(--ivory)}
-.incl-grid{
-  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:clamp(30px,5vw,84px);max-width:74rem;
-}
-.incl-col h3{
-  font-family:var(--accent);font-weight:400;color:var(--ink);
-  font-size:clamp(21px,2.1vw,30px);letter-spacing:-.02em;
-  padding-bottom:16px;border-bottom:1px solid var(--line);
-}
-.incl-list{list-style:none;margin:22px 0 0;padding:0;display:flex;flex-direction:column;gap:14px}
-.incl-list li{
-  position:relative;padding-left:30px;color:var(--ink-soft);
-  font-size:clamp(14.5px,1.15vw,16.5px);line-height:1.7;
-}
-.incl-list li::before{content:"✦";position:absolute;left:0;top:.1em;color:var(--gold);font-size:.78em}
-/* the verb the client capitalised — EVALUATE, ESTABLISH, UNDERSTAND … — is the list's
-   own emphasis, so it takes the Megante letter-spacing rather than a bold weight */
-.incl-list b{
-  font-family:var(--accent);font-weight:400;color:var(--ink);
-  letter-spacing:.1em;font-size:.96em;
-}
-.incl-col--out .incl-list li::before{
-  content:"";top:.72em;left:2px;width:16px;height:1px;background:var(--line)}
-.incl-list .incl-list{margin-top:12px;gap:10px}
-.incl-list .incl-list li{font-size:clamp(13.5px,1.05vw,15.5px)}
-@media(max-width:760px){ .incl-grid{grid-template-columns:1fr} }
+/* ═══════════════ 06 · WHAT'S INCLUDED / WHAT'S EXCLUDED — RULES DELETED, ROUND 18 ═══
+   Twelve rules went with the section on his 2026-08-17 "remove this": .incl, .incl-grid,
+   .incl-col h3, .incl-list and its four descendants, .incl-list b, .incl-col--out's
+   hairline dash, the nested-list sizes and the 760px collapse. They are recorded rather
+   than left in place, because a stylesheet that still dresses a deleted section is the
+   same lie as markup for a deleted rule — the sister note at .final says it about the
+   banner's four rules, and this is the same accounting.
+   ⚠️ THE ONE IDEA IN THAT BLOCK WORTH KEEPING IF THE LEDGER EVER RETURNS: the excluded
+   column was NOT dressed as a failure. Same type, same rhythm, one token of difference —
+   its mark was a hairline dash where the included column had the gold ✦. A struck-out or
+   greyed column reads as a warning, and an exclusions list is a price note.
+   ⚠️ .incl WAS ALSO A GROUND. See the ⚠️⚠️ note at .docs directly below. */
 
 /* ─────────────────────────── 05 · THE DOCTORS ───────────────────────────────
    HIS CALL 2026-08-14: pictures, specialization, "book consultation under their
@@ -973,7 +952,26 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
    exact files land, the script marks the card .no-photo and the band shows a
    Megante monogram on the gold tint instead of a broken image. Adding the photos
    is a file drop — no markup change. */
-.docs{background:var(--dawn)}
+/* ⚠️⚠️ THIS GROUND WAS DAWN UNTIL ROUND 18 AND IT MOVED FOR ONE REASON: 06 · WHAT'S
+   INCLUDED WAS DELETED, AND IT WAS THE IVORY BEAT THIS SECTION FOLLOWED. Take it out and
+   .services (dawn) meets .docs (dawn) — two identical bands, which is exactly the bug
+   round 16 was written to fix when deleting the programme band left .services and .incl
+   both ivory. Check 5's ground assertion catches it; nothing else would.
+   ⚠️ THE FOUR CHAPTERS BELOW INVERTED TOGETHER, AND THAT IS THE WHOLE FIX — .docs ivory ·
+   .stories dawn · .faq ivory · .final dawn. THE CHEAPER-LOOKING FIX WAS TRIED ON PAPER
+   AND IS WRONG: moving .services off the dawn is one declaration instead of four, but the
+   dawn is load-bearing there TWICE — the chain scene rises to exactly --dawn (BG_B) so
+   the scene hands off to section 04 with no seam, and the tiles are --ivory, so an ivory
+   section makes the eight stop reading as objects (check 5 measures that gap too). One
+   token that carries two invariants does not get moved to save three lines.
+   ⚠️ THE ALTERNATION CASCADES — THERE IS NO PARTIAL VERSION OF THIS. Flip .docs alone and
+   it collides with .stories; flip both and .stories collides with .faq. Removing one beat
+   from a two-colour run inverts everything after it or nothing.
+   ⚠️ WHAT IT COSTS, STATED: .final is now dawn against the cream footer — 6/255 at the
+   widest channel, where it used to be 16. Neither edge was ever visible as a field (.final's
+   own note measures ivory→cream at 1.088:1), so the footer's border-top was already the
+   only thing saying "new thing" there and still is. Do not remove it. */
+.docs{background:var(--ivory)}
 /* ⚠️ TWO CAPS GOVERN THE PORTRAIT SIZE AND BOTH HAD TO MOVE — his "make the images
    bigger", 2026-08-14. The grid's max-width sets the column, .doc-photo's own cap
    sets the picture inside it, and raising either alone does nothing: at 56rem the
@@ -1178,7 +1176,12 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
 /* back to IVORY (2026-08-14, round 3) — the doctors section now occupies the 05
    slot and carries the dawn, so the page runs the sister sequence exactly:
    dawn(03) → ivory(04) → dawn(05 doctors) → ivory(06) → dawn(07) → ivory(08). */
-.stories{background:var(--ivory)}
+/* ⚠️ DAWN SINCE ROUND 18 — it was ivory. This section did not change; the run it sits in
+   did. See the ⚠️⚠️ note at .docs: 06 was deleted, the tail inverted, and this is one of
+   the four. The one number worth re-checking was the quote, because it is PURE #000 and
+   its note recorded "17.7:1 on this ivory" — on the dawn it is 17.44:1. Nothing else here
+   is measured against the ground. */
+.stories{background:var(--dawn)}
 /* ⚠️ THE CARD IS GONE — cream ground, 1px border, 20px radius, hover lift, all deleted with
    the two quotes that used to sit beside this one. Nothing here is boxed any more. */
 .story-rail{display:grid}
@@ -1224,11 +1227,23 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
 .story .who span::before{content:"— "}
 
 /* ─────────────────────────── 07 · FAQ ─────────────────────────── */
-/* back to the sister page's DAWN (2026-08-14, round 3): with the doctors carrying
-   05, the alternation is the sister sequence again and 07 is once more the last
-   warm note before the hairlined ivory close. The sister page measured every
-   colour on this ground; nothing here differs. */
-.faq{background:var(--dawn)}
+/* ⚠️ IVORY SINCE ROUND 18, AND THIS ONE REVERSES A RECORDED DECISION — read it before
+   putting the dawn back. Round 3's note said: "back to the sister page's DAWN — with the
+   doctors carrying 05, the alternation is the sister sequence again and 07 is once more
+   the last warm note before the hairlined ivory close. The sister page measured every
+   colour on this ground; nothing here differs."
+   THE ARGUMENT WAS ABOUT THE ALTERNATION, and the alternation is what changed: deleting 06
+   inverted the tail (see the ⚠️⚠️ note at .docs), so 07 on the dawn would now sit against
+   a dawn .stories. The "last warm note before the ivory close" survives INVERTED — .final
+   is the dawn now, and it is the last warm note instead.
+   ⚠️ WHAT IT COSTS, STATED: THIS PAGE'S FAQ NO LONGER MATCHES THE SISTER PAGE'S, which is
+   still `.faq{background:var(--dawn)}` in hormone-balancing/index.html. Round 3 chose the
+   dawn to BE that match. The contrast side is safe in the direction it moved — ink,
+   ink-soft, --logo-red and the burgundy indicator all gain against a lighter ground, and
+   every value here is still the sister page's — but if the two pages are ever required to
+   agree section for section, this is the divergence, and the fix is the tail, not this
+   line on its own. */
+.faq{background:var(--ivory)}
 .faq-grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(40px,5vw,90px);align-items:start}
 .faq-side{position:sticky;top:120px;display:flex;flex-direction:column;gap:22px}
 .faq-side h2{font-size:clamp(32px,3.8vw,52px)}
@@ -1338,7 +1353,12 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
    1.126:1 and ivory → cream 1.088:1; neither edge is visible as a field, so border-top on
    this section and border-top on the footer are the only things saying "new thing". Do not
    remove either while the ground stays light. */
-.final{background:var(--ivory);border-top:1px solid var(--line);text-align:left}
+/* ⚠️ DAWN SINCE ROUND 18 — it was ivory, and the note directly above is now MORE
+   load-bearing, not less. The tail inverted when 06 was deleted (⚠️⚠️ at .docs), so this
+   section is the run's last warm note and it meets the cream footer at 6/255 rather than
+   16. Both were always invisible as fields; the two border-tops are still the only things
+   saying "new thing" and neither may go while the ground stays light. */
+.final{background:var(--dawn);border-top:1px solid var(--line);text-align:left}
 .cta-wrap{
   display:flex;align-items:center;justify-content:center;
   gap:clamp(18px,2.4vw,34px);padding-block:clamp(26px,4vh,40px);
@@ -2367,56 +2387,28 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
     </template>
   </section>
 
-  <!-- ══════════ 06 · WHAT'S INCLUDED / WHAT'S EXCLUDED ═══════════════════════════════
-       His "now for this maybe a different section or not?" — a different one, and a small
-       one. CLIENT COPY, both columns.
-       ⚠️ THE CAPITALISED VERBS ARE THEIRS (EVALUATE · ESTABLISH · UNDERSTAND · TEST ·
-       COLLATE · ANALYSE · INTERPRET · CREATE · HEAL) and they are the list's structure, not
-       shouting — they are set in Megante with letter-spacing rather than a bold weight.
-       ⚠️ ANALYSE AND INTERPRET ARE NESTED UNDER COLLATE ON PURPOSE. Their source reads
-       "COLLATE all the above information IN ORDER TO / ANALYSE findings / INTERPRET them" —
-       the two are what the collating is for, so they sit under it. Flat, "in order to"
-       dangles into white space. -->
-  <section class="incl sec-pad" id="included">
-    <div class="wrap">
-      <div class="incl-grid">
-        <div class="incl-col" data-reveal>
-          <h3>What’s included</h3>
-          <ul class="incl-list">
-            <li><b>EVALUATE</b> your health with a detailed medical and lifestyle history</li>
-            <li><b>ESTABLISH</b> a timeline of your story — the presenting symptoms, the contributory factors and your current state of health</li>
-            <li><b>UNDERSTAND</b> the root causes and drivers of your symptoms, and your own narrative</li>
-            <li><b>TEST</b> through a functional “The DUTCH Plus” test and “BOZAT” Health Assessment Technology scans, to analyse the precise reasons for illness and imbalance</li>
-            <li><b>COLLATE</b> all of the above, in order to
-              <ul class="incl-list">
-                <li><b>ANALYSE</b> the findings</li>
-                <li><b>INTERPRET</b> them for each and every patient</li>
-              </ul>
-            </li>
-            <li><b>CREATE</b> your own personalised protocol to restore your health</li>
-            <li><b>HEAL</b> the root cause of your symptoms, and not just the symptom</li>
-          </ul>
-        </div>
-        <div class="incl-col incl-col--out" data-reveal>
-          <h3>What’s excluded</h3>
-          <ul class="incl-list">
-            <li>Diagnostics — blood tests and functional tests
-              <ul class="incl-list">
-                <li>home blood sample collection, if you are based in Dubai, or</li>
-                <li>at any lab at your destination</li>
-              </ul>
-            </li>
-            <li>Peptide therapy
-              <ul class="incl-list">
-                <li>all prescriptions are personalised, so pricing may vary</li>
-                <li>the price of any prescription is shared with you before any payment is collected</li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
+  <!-- ══════════ 06 · WHAT'S INCLUDED / WHAT'S EXCLUDED — DELETED, ROUND 18 ════════════
+       His call, 2026-08-17: "remove this", quoting the section's own copy back.
+       It stood here from round 14 as a ledger — two columns, nine capitalised verbs on the
+       left, diagnostics and prescriptions on the right — and it was the THIRD place on this
+       page to describe what the programme is. Section 05 went for the same reason in round
+       14; the programme panel is the one statement of process and price, and this was the
+       last duplicate of it.
+       ⚠️ THE COPY WAS THE CLIENT'S, WHICH IS EXACTLY WHY THIS TOMBSTONE EXISTS AND WHY THE
+       HARNESS NOW ASSERTS THE ABSENCE. Client copy lives in his documents, in the git
+       history and in every handover — section 05's note calls that "one paste away from the
+       page", and this section is now the second proof of it. Restoring it silently gives
+       the page two answers to "what am I buying" again, and only check 5's inverted
+       assertion would say so. `git show 9bd43af:peptide-therapy/index.html` has it whole.
+       ⚠️ WHAT WAS IN IT IS NOT LOST — the excluded column's two facts are the only things
+       here the panel did not already carry, and they are live in the programme panel:
+       diagnostics-and-home-collection is step 02 + the AED 1,950 add-on, and
+       "prescriptions are personalised, priced before you pay" is the panel's own line.
+       If either ever leaves the panel, THAT is when this content has actually gone.
+       ⚠️⚠️ ITS GROUND DID NOT VANISH WITH IT — IT MOVED. This section was the IVORY BEAT
+       between .services (dawn) and .docs (dawn). Deleting it put two dawns face to face,
+       which is precisely the bug round 16 was written to fix, so the four chapters below
+       inverted. See the ⚠️⚠️ note at .docs in the stylesheet before touching any ground. -->
 
   <!-- ══════════ 05 · THE DOCTORS ══════════
        HIS CALL 2026-08-14 — picture + specialization + "book consultation under their

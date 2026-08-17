@@ -333,6 +333,25 @@ async function checkDialogs() {
   if (!dead.aud && !dead.steps && !dead.lede && !dead.band)
     ok('section 05 is gone whole — no audience rows, no seven steps, no client lede, no #programme');
   else bad(`section 05 has come back: ${JSON.stringify(dead)}`);
+
+  /* ⚠️ AND 06 · WHAT'S INCLUDED / WHAT'S EXCLUDED IS GONE THE SAME WAY — round 18, his
+     "remove this". SAME INVERTED ASSERTION, FOR EXACTLY THE REASON SECTION 05'S NOTE
+     GIVES: the ledger was ~150 words of CLIENT copy, so it lives in his documents, in the
+     git history and in every handover, and any of those is one paste away from the page.
+     If it comes back the page has two answers to "what am I buying" again — the programme
+     panel is the other — and nothing else in this harness would say so.
+     ⚠️ IT IS CHECKED THREE WAYS ON PURPOSE, because a paste can arrive stripped of its
+     classes: the container, the id it was reachable by, and a phrase from the copy that
+     appears nowhere else on the page. "BOZAT" is the safest of those — it is a scanner
+     brand named only in that list, so it cannot collide with the panel or the FAQ. */
+  const ledger = await page.evaluate(() => ({
+    sec:  document.querySelectorAll('.incl, .incl-grid, .incl-col, .incl-list').length,
+    id:   !!document.getElementById('included'),
+    copy: /BOZAT|DUTCH Plus/i.test(document.body.textContent),
+  }));
+  if (!ledger.sec && !ledger.id && !ledger.copy)
+    ok('section 06 · the included/excluded ledger is gone whole — no .incl markup, no #included, no client copy');
+  else bad(`the included/excluded ledger has come back: ${JSON.stringify(ledger)}`);
   if (dead.panel === 6) ok('the programme panel is the page\'s only sequence — six steps');
   else bad(`the panel's steps are wrong: ${dead.panel}`);
 
@@ -341,14 +360,24 @@ async function checkDialogs() {
      meeting, which reads as one section that has lost its heading, and NOTHING in this
      harness said so. The fix moved .services to the dawn rather than flipping .incl and
      the four grounds below it. Asserting the SEQUENCE rather than each colour means the
-     next chapter added or removed here fails loudly instead of quietly repeating a ground. */
+     next chapter added or removed here fails loudly instead of quietly repeating a ground.
+     ⚠️⚠️ AND IT DID EXACTLY THAT IN ROUND 18 — THIS CHECK EARNING ITS KEEP A SECOND TIME.
+     Deleting 06 removed the IVORY BEAT between .services (dawn) and .docs (dawn); the two
+     dawns met and this went red on the first run after the deletion. The list is FIVE
+     chapters now, and the four below .services inverted — ivory · dawn · ivory · dawn —
+     which is the bill round 16 deferred by moving .services instead.
+     ⚠️ DO NOT EVER GREEN A FAILURE HERE BY DELETING THE OFFENDING SELECTOR FROM THIS
+     ARRAY. The array IS the page's reading order; a name dropped from it is a ground that
+     silently stops being watched, and the check would still print in green. A chapter
+     leaving the page is the only reason a name may leave this list, and then the grounds
+     around the hole have to be re-read — which is the work this failure exists to force. */
   const grounds = await page.evaluate(() =>
-    ['.services', '.incl', '.docs', '.stories', '.faq', '.final'].map(s => {
+    ['.services', '.docs', '.stories', '.faq', '.final'].map(s => {
       const el = document.querySelector(s);
       return el ? getComputedStyle(el).backgroundColor : null;
     }));
   const alternates = grounds.every((g, i) => g && (i === 0 || g !== grounds[i - 1]));
-  if (alternates) ok('the grounds alternate across the tail — dawn / ivory, six chapters');
+  if (alternates) ok(`the grounds alternate across the tail — dawn / ivory, ${grounds.length} chapters`);
   else bad(`two neighbouring chapters share a ground: ${JSON.stringify(grounds)}`);
 
   /* ⚠️ THE TILES MUST NOT BE THE COLOUR OF THE GROUND THEY STAND ON. `.px` is filled

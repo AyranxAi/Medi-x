@@ -4280,9 +4280,18 @@ try{
     })();
   }
 }catch(e){
-  /* no canvas at all: a static gradient keeps the hero legible */
+  /* no canvas at all: a static gradient keeps the hero legible.
+     ⚠️ THIS WAS THE LAST GLACIER SURFACE ON THE PAGE and it survived round 14 by hiding
+     in a catch block — #F8FAFC / #EFF4F8 / #E9F0F5, the cool whites, on a hero whose
+     canvas has painted warm since the reversal. Nothing renders it unless the canvas
+     throws, so no screenshot and no computed-style sweep could ever have caught it; it
+     was found by reading the file for cool values rather than by looking at the page.
+     ⚠️ IT IS NOW THE CANVAS'S OWN TWO STOPS, PINNED TO THE SAME LITERALS (see `bg` in
+     the draw above). If those move, move these — a fallback that grades differently
+     from the thing it stands in for is a bug that only shows on the machines least able
+     to report it. 2026-08-17. */
   const c = document.getElementById("silk");
-  if (c) c.style.background = "linear-gradient(160deg,#F8FAFC 30%,#EFF4F8 70%,#E9F0F5 100%)";
+  if (c) c.style.background = "linear-gradient(160deg,#FBF8F2 30%,#F6F1E8 100%)";
 }
 </script>
 

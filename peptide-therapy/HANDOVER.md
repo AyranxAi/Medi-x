@@ -7,7 +7,8 @@
 > **QA:** `node tools/qa/peptide-page.mjs` (**51**) and `node tools/qa/services-choice.mjs`
 > (**72**). Both must be green before anything ships. They need
 > `npm install --no-save playwright gsap@3.13.0 lenis@1.3.4`.
-> The round-18 lab has its own: `node tools/qa/section04-lab.mjs` (**49**, playwright only).
+> The round-18 files have their own, playwright only: `node tools/qa/section04-lab.mjs`
+> (**49**) and `node tools/qa/section04-hybrid.mjs` (**35**).
 > **The page is on `main`** as of round 17; round 18 is on
 > `claude/whats-included-excluded-copy-04cohg`.
 >
@@ -34,9 +35,11 @@
 >    AED 1,950. ⚠️ **Never invent a figure** — see the AED 350 incident in round 12.
 >
 > **WHAT IS STILL OPEN (all his):**
-> · **A LETTER FOR SECTION 04** — `section04-lab.html`, nine variants in three chapters by
->   what they cost to adopt. ⚠️ **B re-opens round 17's letter D** and ⚠️ **H breaks a
->   measured invariant**; both are flagged on their own cards.
+> · **SECTION 04 — TWO QUESTIONS, NOT A LETTER ANY MORE.** He merged two of his own boards
+>   instead of picking, and `section04-hybrid.html` ("the focus rail") is that merge, built
+>   and published as an artifact. ⚠️ **What is open is: PHOTOGRAPHY OR THE BUILT
+>   SCULPTURES, and THREE.JS OR SPLINE.** Everything else on it is flagged on the page as
+>   reversible in a line. `section04-lab.html`'s nine variants stand as the alternatives.
 > · **PAYMENT** — the one thing asked for and not built. `Start your programme` lands on
 >   `#book`; the moment a provider exists that `href` is the only line that changes.
 > · **Wiring `#pxd-choose` to step 03.** The doctor-chooser template is complete and
@@ -49,7 +52,10 @@
 > **THE LABS** (kept, each the record of a decision): `grade-lab` (glacier, judged A2·B2·C2)
 > · `goals-lab` (eight presentations) · `programme-lab` (intake in three shapes) ·
 > `bonds-lab` · `hero-lab` · `programme-band-lab` (round 15, answered "none") ·
-> `selected-tile-lab` (round 17, answered **D**) · **`section04-lab` (round 18, OPEN)**.
+> `selected-tile-lab` (round 17, answered **D**) · **`section04-lab` (round 18, OPEN)** ·
+> **`section04-hybrid` (round 18 — his own two boards merged, OPEN)**. ⚠️ The hybrid is not
+> a lab: it is one proposal at full scale, and `tools/pack-artifact.mjs` builds its
+> artifact copy. That copy is derived and deliberately not committed.
 > ⚠️ **The first five are on the GLACIER grade and are deliberately not updated** — they
 > record decisions taken under the grade they were taken under.
 >
@@ -156,6 +162,67 @@
 > **7 · STILL HIS, UNCHANGED:** payment · wiring `#pxd-choose` to step 03 · the
 > burgundy/blue conflict · peptide delivery time · tile popup copy and the FAQ are draft.
 > **And now: a letter for section 04.**
+
+> **8 · AND THEN HE MERGED TWO OF HIS OWN BOARDS INSTEAD OF PICKING A LETTER —
+> `peptide-therapy/section04-hybrid.html`, "the focus rail".** His two references: an
+> *interactive 3D orbit* concept (an arc of pathway cards, one enlarged, "click or drag to
+> rotate") and an *editorial* concept (eight image-led cards, serif names, DISCOVER
+> PATHWAY). His instruction: **the mechanism of the first with the visual system of the
+> second.** ⚠️ **NEITHER BOARD USED HIS OWN EIGHT** — the orbit board invented eight names
+> of its own ("Weight Loss Support", "Sleep & Stress Support"), the editorial board
+> respelled two. Every word in the build is the project's already: names and outcomes from
+> index.html, one-line descriptors from goals-lab, and check 1 of its harness asserts it.
+>
+> **9 · ⚠️⚠️ THE CONSTRAINT THAT SHAPED THE WHOLE BUILD: SECTION 04 IS A MULTI-SELECT.**
+> A carousel answers *what am I looking at*; this section's reader is asking *what have I
+> picked*. Those fight, and the orbit only survives because **all eight stay on screen**.
+> So two rules, and they are the last things to break: every pathway visible at every
+> width, and **the chosen tick legible at the smallest scale a card is ever drawn at**.
+> ⚠️ **THE CTA IS "ADD TO YOUR PROGRAMME", NOT "EXPLORE".** Both boards said explore; round
+> 12 moved this section off browsing and onto building. ⚠️ **AND THE BOARDS' 01–08 ARE NOT
+> CARRIED OVER** — round 12 took numerals off these tiles because on a multi-select they
+> imply an order that does not exist. Both are flagged on the page as his to reverse.
+>
+> **10 · THE ARTWORK IS BUILT, NOT PHOTOGRAPHED, AND THAT IS AN OPEN QUESTION FOR HIM.**
+> The editorial board is ~65% photograph per card and **those eight photographs do not
+> exist**. The focused card carries a glass vessel with **that pathway's own mark suspended
+> inside it** — eight generic rotating molecules would say "peptide" eight times and
+> nothing about auto-immunity or sleep. If photography arrives the plate takes an `<img>`
+> and the layout does not move.
+>
+> **11 · FOUR BUGS, ALL FOUND BY MEASURING:**
+> · ⚠️⚠️ **`transform-style:preserve-3d` MAKES `z-index` INERT.** Children are sorted by
+>   position in 3D space instead, so the rotated side cards painted straight over the
+>   focused card's name, copy and button. The stacking order was declared, correct and
+>   ignored. `perspective` alone gives the same foreshortening and keeps normal painting.
+> · ⚠️ **PERSPECTIVE PULLS A RECEDING ELEMENT TOWARD THE VANISHING POINT.** A 52px-per-step
+>   `translateZ` for depth shortened every horizontal offset the script had computed, and
+>   the fan collapsed into a stack. The arithmetic was right and the picture was wrong.
+> · ⚠️ **WIDTH IS TRANSITIONED, SO A CARD CANNOT BE MEASURED FOR LAYOUT.** Reading
+>   `offsetWidth` mid-move returns a number partway between the old size and the new one.
+>   Two zero-height probes carry the same clamp values and never animate.
+> · ⚠️ **THE TICK SCALED WITH ITS CARD** — 24px one step out, 20px at the far end — while
+>   the page's own notes told the client it was constant. `1/--sc` on that one element.
+>   **The harness caught the difference between the promise and the pixel.**
+>
+> **12 · `tools/pack-artifact.mjs` — THE TWO-COPIES RULE, AUTOMATED.** Fonts to data: URIs,
+> three.js's single trailing `export{}` rewritten to `window.THREE={}` and emitted as a
+> classic script (so it runs before the deferred module), and the document scaffolding
+> stripped because the artifact host supplies its own. ⚠️ **EVERY SUBSTITUTION PASSES A
+> FUNCTION** — a replacement *string* treats `$&` and friends as insertion patterns and
+> corrupts 666KB of minified source in ways that do not throw until some unrelated geometry
+> is built. Round 10b hit that by hand; this is why it cannot happen again.
+> ⚠️ **THE PACKED COPY IS NOT COMMITTED.** bonds-lab committed its artifact copy because
+> its build rig was gitignored; this packer is in the repo and deterministic, so 1 MB of
+> derived bytes would be a second source of truth for no gain. Rebuild it, don't store it.
+>
+> **13 · `tools/qa/section04-hybrid.mjs`, 35 checks — IT ASSERTS THE PROMISES THE PAGE
+> MAKES IN WRITING.** The notes panel tells the client four specific things; all four are
+> measured. ⚠️ **AND ONE CHECK IS OF THE PACKER, NOT THE PAGE**: it aborts every request
+> that is not the document and asks whether the faces still loaded and the 3D still booted.
+> ⚠️ **A RESPONSIVE ASSERTION MUST NOT FIRE MID-TRANSITION** — measured 420ms after
+> crossing the breakpoint it reported 7/8 cards on a layout that was correct a third of a
+> second later. It measures the animation, not the page.
 
 > ---
 

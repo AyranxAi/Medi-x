@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>The Focus Rail</title>
+<!--
+  ══════════════════════════════════════════════════════════════════════════════════
+  THE FOCUS RAIL — section 04 as an arc with an editorial centre · round 18, 2026-08-17
+  ══════════════════════════════════════════════════════════════════════════════════
+  His two reference boards, merged on his instruction: the MECHANISM of the 3D orbit
+  concept (an arc of pathways, one in focus, click or drag to move) carrying the VISUAL
+  SYSTEM of the editorial card concept (large artwork, serif name, one line, a real CTA).
+
+  ⚠️⚠️ THE CONSTRAINT THAT SHAPED EVERY DECISION HERE: SECTION 04 IS A MULTI-SELECT.
+  Its own lede says "choose as many as apply — most people choose two or three", tiles
+  light burgundy, and a tray follows the reader down the page. A carousel answers "what
+  am I looking at"; this section's reader is constantly asking "what have I picked".
+  THOSE TWO QUESTIONS FIGHT, and the reference orbit only survives the fight because ALL
+  EIGHT STAY ON SCREEN. So the rule this file is built to, and the one to break last:
+     · every pathway is visible at every moment, at every width;
+     · the chosen state is legible at the SMALLEST scale a card is ever drawn at.
+  A design that hides pathway seven behind pathway six has stopped being this section.
+
+  ⚠️ THE CTA IS "ADD TO YOUR PROGRAMME", NOT "EXPLORE" OR "DISCOVER PATHWAY". Both
+  reference boards say explore. Round 12 deliberately moved this section off browsing and
+  onto building — the pill is the page's own, character for character. A section that
+  says "explore" is a brochure; this one assembles something.
+
+  ⚠️ THE NUMERALS FROM THE EDITORIAL BOARD ARE NOT CARRIED OVER, AND THAT IS A DECISION.
+  01–08 on the cards implies a sequence, and round 12 removed numerals from the tiles for
+  exactly that reason: a reader who picks 03 and 07 should not wonder what happened to the
+  ones between. The mark identifies the card instead. If he wants them back it is one
+  span — but it should be his call, not a detail inherited from a mood board.
+
+  ⚠️ THE EIGHT NAMES AND SPELLINGS ARE THE CLIENT'S, VERBATIM — "Auto Immune Disease" as
+  three words, "Anti Ageing" without the hyphen. NEITHER REFERENCE BOARD USED HIS NAMES:
+  the orbit board invented eight of its own ("Weight Loss Support", "Sleep & Stress
+  Support") and the editorial board respelled two. Names, one-line descriptors and
+  outcomes here all already exist in the project — index.html and goals-lab.html.
+
+  ⚠️ THE ARTWORK IS BUILT, NOT PHOTOGRAPHED, AND THAT IS THE HONEST ANSWER TO A GAP.
+  The editorial board's beauty is ~65% photograph per card and those eight photographs do
+  not exist — the section has eight hand-drawn line marks and no imagery at all. So the
+  focused card carries a GLASS VESSEL HOLDING THAT PATHWAY'S OWN MARK, in real light,
+  turning. Eight generic rotating molecules would say "peptide" eight times and say
+  nothing about auto-immunity or sleep; the mark is what carries the meaning, so the mark
+  is what goes inside the glass. If photography arrives later, the plate takes an <img>
+  and the sculpture becomes optional — the layout does not change.
+
+  ⚠️ THIS FILE IS THE REPO COPY. Fonts and three.js load from ../fonts and ../vendor. The
+  artifact copy is the same document with both inlined, because artifacts run under a
+  policy that blocks every external host — the two-copies rule bonds-lab already follows.
+  three.js is VENDORED (r166, MIT, LICENSES/MIT-threejs.txt). Never a CDN importmap.
+
+  ⚠️ NO WEBGL IS A SUPPORTED STATE, NOT A FAILURE. Any throw marks the stage .no-gl, the
+  flat mark stays on its plate, and the section is exactly the editorial card without a
+  sculpture in it. Nothing moves, nothing empties.
+-->
+<style>
+@font-face{font-family:"Playfair";src:url(../fonts/playfair-normal-var-latin.woff2) format("woff2");font-weight:300 900;font-display:swap}
+@font-face{font-family:"Playfair";font-style:italic;src:url(../fonts/playfair-italic-var-latin.woff2) format("woff2");font-weight:300 900;font-display:swap}
+@font-face{font-family:"MediGyn NOW";src:url(../fonts/medigyn-now-300.woff2) format("woff2");font-weight:300;font-display:swap}
+@font-face{font-family:"MediGyn NOW";src:url(../fonts/medigyn-now-500.woff2) format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"MediGyn Megante";src:url(../fonts/medigyn-megante-400.woff2) format("woff2");font-weight:400;font-display:swap}
+
+/* ⚠️ ONE COMMITTED LIGHT WORLD, NO THEME INVERSION — a decision, not an omission. This
+   page exists so a specific porcelain-and-burgundy palette can be judged; rendering it
+   dark because a viewer's system is dark would be showing him a colourway that does not
+   exist. Every ground and every colour is therefore painted explicitly, so the page holds
+   whatever the host paints behind it. */
+:root{
+  --ivory:#FAF7F1; --cream:#F4EDE1; --line:#DED4C2; --burgundy:#5C1F31; --rose:#C79A92;
+  --logo-red:#8E2D3A; --red-hover:#A33648; --gold:#C2A05E; --gold-deep:#8A6A34;
+  --gold-tint:#F1E7D2; --ink:#2E2228; --ink-soft:#6A585F; --dawn:#F6E7E1;
+  --serif:"Playfair",Didot,"Times New Roman",Georgia,serif;
+  --sans:"MediGyn NOW",Jost,ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --accent:"MediGyn Megante",Optima,Georgia,serif;
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --swing:cubic-bezier(.32,.72,.26,1);
+  --pad:clamp(20px,4.5vw,72px);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--sans);font-weight:300;background:var(--ivory);color:var(--ink);
+  line-height:1.6;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+h1,h2,h3{font-weight:400;text-wrap:balance}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:2px solid var(--logo-red);outline-offset:3px}
+
+/* ═══ THE NOTE ABOVE — small, ink, and out of the way ════════════════════════════ */
+.brief{background:var(--ink);color:var(--ivory);padding:26px var(--pad) 24px}
+.brief-in{max-width:1280px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:baseline;
+  gap:10px 26px}
+.brief .mark{font-family:var(--accent);font-size:15px;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--gold);white-space:nowrap}
+.brief h1{font-family:var(--accent);font-size:clamp(19px,2vw,25px);letter-spacing:-.01em}
+.brief p{flex:1 1 34ch;min-width:30ch;font-size:13px;line-height:1.7;
+  color:rgba(250,247,241,.72)}
+.brief b{color:var(--ivory);font-weight:400}
+
+/* ═══ THE SECTION ITSELF, AT REAL SCALE ══════════════════════════════════════════
+   ⚠️ overflow:hidden IS LOAD-BEARING. The far cards of the arc are meant to run past the
+   1280px measure into the section's own padding — that overhang is what makes it read as
+   a ring seen edge-on rather than a row. Without the clip the widest card pushes the
+   DOCUMENT sideways at every width below 1440, which is a horizontal scrollbar on a page
+   that has no horizontal content. */
+.stage{background:var(--dawn);padding:clamp(40px,6vh,74px) var(--pad) clamp(30px,4vh,52px);
+  overflow:hidden}
+.stage-in{max-width:1280px;margin:0 auto}
+.sec-head{display:flex;flex-direction:column;gap:16px;margin-bottom:clamp(24px,3.5vh,40px)}
+.sec-head h2{font-family:var(--serif);font-size:clamp(32px,4.4vw,58px);line-height:1.06;
+  letter-spacing:-.02em;max-width:14em}
+.sec-head h2 em{font-style:italic;color:var(--logo-red)}
+.sec-lede{max-width:56ch;color:var(--ink-soft);font-size:clamp(15px,1.25vw,17px);
+  line-height:1.62}
+
+/* ── the rail ──────────────────────────────────────────────────────────────────── */
+/* ⚠️⚠️ NO transform-style:preserve-3d HERE, AND ITS ABSENCE IS A FIX. With preserve-3d the
+   children are sorted by their position in 3D SPACE AND z-index IS IGNORED ENTIRELY — so
+   the rotated side cards, whose near edges sit in front of the focused card's plane, drew
+   straight over its name, its copy and its button. The stacking order was declared, correct
+   and inert. `perspective` alone gives the children exactly the same foreshortening while
+   leaving them in the normal painting order, which is all this arc ever needed.
+   ⚠️ --fw AND --sw ARE THE ONE PLACE THE TWO CARD WIDTHS ARE WRITTEN. The script needs them
+   to place the arc and MUST NOT read them off a card: width is transitioned, so measuring
+   during a move returns a number partway between the old size and the new one, the offsets
+   are computed from it, and the fan lands on top of the centre card for the length of the
+   animation. They are read off the probes below instead, which carry the same values and
+   never animate. */
+.rail{position:relative;height:clamp(450px,43vw,560px);
+  --fw:min(444px,40vw); --sw:clamp(120px,10.6vw,152px);
+  perspective:1700px;perspective-origin:50% 44%;touch-action:pan-y}
+.probe{position:absolute;top:0;left:0;height:0;visibility:hidden;pointer-events:none}
+.probe-f{width:var(--fw)}
+.probe-s{width:var(--sw)}
+/* the ring the cards sit on — a very flat ellipse, drawn once, in the gold at 20% */
+.rail::before{content:"";position:absolute;left:50%;bottom:0;width:134%;height:23%;
+  transform:translateX(-50%);border:1px solid var(--gold);opacity:.26;
+  border-radius:50%;pointer-events:none}
+
+.pw{position:absolute;left:50%;bottom:9%;
+  display:flex;flex-direction:column;align-items:flex-start;
+  width:var(--w);height:var(--h);padding:var(--p);gap:var(--g);
+  background:var(--ivory);border:1px solid var(--line);border-radius:2px;
+  transform:translateX(-50%) translate3d(var(--x,0px),var(--y,0px),0)
+    rotateY(var(--rot,0deg)) scale(var(--sc,1));
+  opacity:var(--op,1);z-index:var(--z,1);
+  transition:transform .78s var(--swing),width .78s var(--swing),height .78s var(--swing),
+    opacity .5s var(--ease),background .45s var(--ease),border-color .35s var(--ease),
+    box-shadow .5s var(--ease),padding .78s var(--swing);
+  /* the resting card */
+  --w:var(--sw); --h:clamp(178px,15.4vw,220px);
+  --p:clamp(13px,1.15vw,16px); --g:9px;
+  box-shadow:0 10px 26px rgba(71,24,38,.07);
+}
+.pw:hover{border-color:var(--gold);box-shadow:0 20px 44px rgba(71,24,38,.14)}
+/* ⚠️ THE HIT SURFACE IS THE WHOLE CARD AND IT MEANS TWO DIFFERENT THINGS BY POSITION —
+   which is allowed only because the two are never available at once. A card away from the
+   centre brings itself to the centre; the centre card adds itself to the programme. One
+   card, one meaning, at any given moment. The aria-label follows the meaning in script. */
+.pw-face{position:absolute;inset:0;z-index:3;border-radius:2px;
+  -webkit-tap-highlight-color:transparent}
+.pw-plate{position:relative;width:100%;flex:none;height:var(--plate);
+  --plate:clamp(68px,6.2vw,86px);
+  display:grid;place-content:center;border-radius:2px;
+  background:radial-gradient(120% 120% at 32% 22%,var(--cream),var(--gold-tint));
+  transition:height .78s var(--swing),background .5s var(--ease)}
+.pw-mark{display:block;width:clamp(36px,3.3vw,46px);height:clamp(36px,3.3vw,46px);
+  color:var(--gold-deep);transition:width .78s var(--swing),height .78s var(--swing),
+    color .4s var(--ease),opacity .4s var(--ease)}
+.pw h3,.pw-line,.pw-out{width:100%}
+/* ⚠️⚠️ A FAN COVERS EACH CARD FROM THE SIDE THE NEXT ONE SITS ON, so a name pinned to the
+   left of a card in the RIGHT half is printed underneath its neighbour — the first build
+   read "…exual Health" and "…o Immune Disease" and looked like broken text rather than
+   like depth. Each card's name is therefore set against its OUTER edge: the half of the
+   card that nothing overlaps. The tick moves with it for the same reason. This is the one
+   rule that lets eight cards overlap and stay readable, and it is why the script writes a
+   data-side rather than only an offset. */
+.pw[data-side="r"]{align-items:flex-end;text-align:right}
+/* ⚠️ AND THE TICK GOES TO THE OUTER EDGE TOO — the first pass put it on the covered one
+   and a CHOSEN CARD IN THE LEFT HALF SHOWED NO TICK AT ALL, because its neighbour was
+   sitting on exactly the corner the tick draws in. That is not a polish bug: "the chosen
+   state is legible at the smallest scale a card is drawn at" is the rule this whole layout
+   was built to keep, and it was quietly broken in three of the eight positions. */
+.pw[data-side="l"] .pw-tick{left:10px;right:auto}
+.pw[data-side="r"] .pw-tick,.pw[data-side="c"] .pw-tick{right:10px;left:auto}
+.pw h3{font-family:var(--accent);color:var(--ink);letter-spacing:-.015em;
+  font-size:clamp(13.5px,1.2vw,16.5px);line-height:1.18;transition:color .35s var(--ease),
+    font-size .78s var(--swing)}
+.pw:hover h3{color:var(--logo-red)}
+.pw-line,.pw-out,.pw-cta{display:none}
+/* ⚠️⚠️ THE COUNTER-SCALE IS THE CLAIM, NOT A DETAIL. The notes on this page tell the client
+   the chosen tick is drawn at the same 26px on every card at every position — and it was
+   not: the card's own scale() applies to its children, so the tick was 24px at the first
+   step out and 20px at the last, exactly where legibility matters most. The harness caught
+   the difference between the promise and the pixel. 1/--sc undoes the card's scale on this
+   one element, so the badge really is constant, and a chosen pathway at the far end of the
+   ring is as countable as one in the middle. */
+.pw-tick{position:absolute;bottom:10px;right:10px;z-index:4;width:26px;height:26px;
+  --tsc:calc(1 / var(--sc,1));
+  border-radius:50%;display:grid;place-content:center;background:var(--gold);color:var(--ink);
+  font-family:var(--sans);font-weight:500;font-size:12px;line-height:1;
+  opacity:0;transform:scale(calc(var(--tsc) * .55));
+  transition:opacity .3s var(--ease),transform .45s var(--ease)}
+
+/* ── the card in focus becomes the editorial card ─────────────────────────────── */
+.pw[data-focus="true"]{
+  --w:var(--fw); --h:clamp(396px,37.5vw,486px);
+  --p:clamp(24px,2.4vw,32px); --g:clamp(11px,1.1vw,15px);
+  --sc:1; --rot:0deg; --op:1;
+  z-index:30;box-shadow:0 34px 82px rgba(71,24,38,.20);border-color:var(--line);
+}
+.pw[data-focus="true"] .pw-plate{--plate:clamp(140px,13.4vw,182px)}
+.pw[data-focus="true"] .pw-mark{width:clamp(88px,8.6vw,116px);height:clamp(88px,8.6vw,116px)}
+.pw[data-focus="true"] h3{font-size:clamp(26px,2.7vw,37px);line-height:1.04}
+.pw[data-focus="true"] .pw-line{display:block;color:var(--ink-soft);
+  font-size:clamp(14.5px,1.15vw,16.5px);line-height:1.6;max-width:40ch}
+.pw[data-focus="true"] .pw-out{display:flex;flex-wrap:wrap;gap:7px;list-style:none}
+.pw[data-focus="true"] .pw-out li{font-size:12.5px;letter-spacing:.03em;
+  color:var(--gold-deep);border:1px solid var(--line);border-radius:999px;padding:5px 13px}
+.pw[data-focus="true"] .pw-cta{display:inline-flex;align-items:center;gap:11px;
+  margin-top:auto;flex:none;border-radius:999px;padding:13px 26px;
+  background:var(--burgundy);color:var(--ivory);
+  font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.19em;
+  text-transform:uppercase;transition:background .3s var(--ease),transform .3s var(--ease)}
+.pw[data-focus="true"] .pw-cta:hover{background:var(--red-hover);transform:translateX(3px)}
+.pw-cta .arr{font-size:14px;line-height:1;transition:transform .4s var(--ease)}
+.pw[data-focus="true"] .pw-cta:hover .arr{transform:rotate(90deg)}
+
+/* ── chosen ────────────────────────────────────────────────────────────────────
+   ⚠️ THE TICK NEVER SCALES WITH THE CARD, AND THAT IS THE MULTI-SELECT SURVIVING.
+   It is drawn at a fixed 26px on every card at every position, so counting your choices
+   costs a glance rather than a squint. The moment a smaller card shrinks its own tick,
+   this stops being a section you can choose several things in. */
+.pw[data-picked="true"]{background:var(--burgundy);border-color:var(--burgundy)}
+.pw[data-picked="true"] h3,.pw[data-picked="true"]:hover h3{color:var(--ivory)}
+.pw[data-picked="true"] .pw-plate{background:rgba(250,247,241,.09)}
+.pw[data-picked="true"] .pw-mark{color:var(--gold)}
+.pw[data-picked="true"] .pw-line{color:rgba(250,247,241,.76)}
+.pw[data-picked="true"] .pw-out li{color:var(--gold);border-color:rgba(250,247,241,.32)}
+.pw[data-picked="true"] .pw-cta{background:var(--gold);color:var(--ink)}
+.pw[data-picked="true"] .pw-cta:hover{background:var(--gold-tint)}
+.pw[data-picked="true"] .pw-tick{opacity:1;transform:scale(var(--tsc))}
+
+/* ⚠️ THE SCULPTURE DRAWS OVER THE PLATE, SO THE PLATE KEEPS ITS GROUND AND LOSES ONLY ITS
+   GLYPH. Hiding the whole .pw-plate would take the gradient with it and the focused card
+   would open onto a hole whenever WebGL is unavailable. */
+.gl-on .pw[data-focus="true"] .pw-mark{opacity:0}
+.depth{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;
+  display:none;z-index:31}
+.gl-on .depth{display:block}
+
+/* ── the count, and the way in ─────────────────────────────────────────────────── */
+.rail-foot{max-width:1280px;margin:clamp(20px,2.6vh,30px) auto 0;
+  display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.tally{display:flex;align-items:baseline;gap:10px;color:var(--ink-soft);font-size:13.5px}
+.tally b{font-family:var(--accent);font-weight:400;font-size:17px;color:var(--gold-deep)}
+.steer{margin-left:auto;display:flex;align-items:center;gap:8px}
+.steer span{font-size:10.5px;letter-spacing:.17em;text-transform:uppercase;
+  color:var(--ink-soft);opacity:.72;margin-right:6px}
+.steer button{width:38px;height:38px;border:1px solid var(--line);border-radius:50%;
+  display:grid;place-content:center;color:var(--burgundy);background:var(--ivory);
+  transition:background .3s var(--ease),color .3s var(--ease),border-color .3s var(--ease)}
+.steer button:hover{background:var(--burgundy);border-color:var(--burgundy);color:var(--ivory)}
+.steer svg{width:13px;height:13px;display:block}
+
+/* ═══ WHAT IT COSTS — the decisions still his ════════════════════════════════════ */
+.notes{background:var(--ivory);padding:clamp(46px,7vh,84px) var(--pad)}
+.notes-in{max-width:1280px;margin:0 auto}
+.notes h2{font-family:var(--serif);font-size:clamp(26px,3vw,40px);letter-spacing:-.02em;
+  max-width:18em}
+.notes-lede{margin-top:14px;max-width:66ch;color:var(--ink-soft);
+  font-size:clamp(14.5px,1.15vw,16.5px);line-height:1.75}
+.grid-notes{margin-top:clamp(30px,4vh,46px);display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));
+  gap:1px;background:var(--line);border:1px solid var(--line)}
+.note{background:var(--ivory);padding:clamp(22px,2.2vw,30px);display:flex;
+  flex-direction:column;gap:11px}
+.note-k{font-family:var(--sans);font-weight:500;font-size:10px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--gold-deep)}
+.note-k.open{color:var(--logo-red)}
+.note h3{font-family:var(--accent);font-size:clamp(18px,1.7vw,23px);letter-spacing:-.015em;
+  line-height:1.16}
+.note p{color:var(--ink-soft);font-size:14px;line-height:1.72}
+.note p b{color:var(--ink);font-weight:400}
+.note p em{font-style:italic;color:var(--logo-red)}
+.ask{margin-top:clamp(30px,4vh,46px);padding:clamp(22px,2.4vw,32px);
+  background:var(--dawn);border:1px solid var(--line);
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:12px 24px}
+.ask h3{font-family:var(--accent);font-size:clamp(19px,1.8vw,25px);letter-spacing:-.015em}
+.ask p{flex:1 1 32ch;color:var(--ink-soft);font-size:14px;line-height:1.7}
+
+/* ═══ BELOW 1180 THERE IS NO ARC — and that is the point, not a shortfall ═════════
+   ⚠️ THE MECHANISM IS A WIDE-SCREEN IDEA AND THE BREAKPOINT IS MEASURED, NOT TASTE. Eight
+   cards fanned either side of a 444px centre need about 1,180px before the outermost one
+   starts falling off the edge — at 960 it did exactly that, and the harness found it, not
+   the eye. A cramped arc with two cards hidden is strictly worse than a list, so below
+   that width the eight become the editorial card, stacked, every one open and every one a
+   full tap target. NOTHING about understanding the section depends on the arc having
+   existed, which is also what makes it safe to have. */
+@media(max-width:1180px){
+  .rail{height:auto;perspective:none;display:flex;flex-direction:column;
+    gap:clamp(14px,2.4vw,20px)}
+  .rail::before{display:none}
+  .pw{position:relative;left:auto;bottom:auto;width:100%;height:auto;
+    --w:100%; --h:auto; --p:clamp(20px,4.4vw,28px); --g:12px;
+    transform:none!important;opacity:1!important;z-index:1!important;
+    min-height:0}
+  .pw .pw-plate{--plate:clamp(120px,30vw,180px)}
+  .pw .pw-mark{width:clamp(64px,16vw,96px);height:clamp(64px,16vw,96px);opacity:1}
+  .pw h3{font-size:clamp(22px,5.4vw,28px);line-height:1.08}
+  .pw .pw-line{display:block;color:var(--ink-soft);font-size:15px;line-height:1.6}
+  .pw .pw-out{display:flex;flex-wrap:wrap;gap:7px;list-style:none}
+  .pw .pw-out li{font-size:12.5px;color:var(--gold-deep);border:1px solid var(--line);
+    border-radius:999px;padding:5px 13px}
+  .pw .pw-cta{display:inline-flex;align-items:center;gap:11px;margin-top:4px;
+    border-radius:999px;padding:13px 24px;background:var(--burgundy);color:var(--ivory);
+    font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.19em;
+    text-transform:uppercase;align-self:flex-start}
+  .pw[data-picked="true"] .pw-line{color:rgba(250,247,241,.76)}
+  .pw[data-picked="true"] .pw-out li{color:var(--gold);border-color:rgba(250,247,241,.32)}
+  .pw[data-picked="true"] .pw-cta{background:var(--gold);color:var(--ink)}
+  .depth{display:none!important}
+  .steer{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  /* ⚠️ THE END STATE, NOT NO STATE. The arc still moves a card to the centre — that is
+     the mechanism, not decoration — it simply arrives instead of travelling, and the
+     sculpture renders one frame and holds. */
+  *,*::before,*::after{transition-duration:.001s!important;animation-duration:.001s!important}
+}
+</style>
+</head>
+<body>
+
+<header class="brief">
+  <div class="brief-in">
+    <span class="mark">Medi &#10038; Gyn</span>
+    <h1>Section 04 &mdash; the focus rail</h1>
+    <p>Your two boards, merged: the <b>arc mechanism</b> from the first, the
+    <b>editorial card</b> from the second. All eight stay on screen. Click a pathway to
+    bring it forward, then add it &mdash; and add as many as you like, which is what this
+    section is actually for.</p>
+  </div>
+</header>
+
+<section class="stage" id="stage">
+  <div class="stage-in">
+    <div class="sec-head">
+      <h2>Where would you like to <em>begin?</em></h2>
+      <p class="sec-lede">Choose as many as apply &mdash; most people choose two or three.
+      They are eight goals, not eight programmes: the process, the panel and the price are
+      the same whichever you pick.</p>
+    </div>
+
+    <div class="rail" id="rail" role="group" aria-label="Peptide therapy pathways">
+      <canvas class="depth" id="depth" aria-hidden="true"></canvas>
+      <i class="probe probe-f" id="probeF" aria-hidden="true"></i>
+      <i class="probe probe-s" id="probeS" aria-hidden="true"></i>
+      <article class="pw" data-i="0">
+        <button type="button" class="pw-face" data-goal="Auto Immune Disease" aria-pressed="false"><span class="sr">Auto Immune Disease</span></button>
+        <span class="pw-tick" aria-hidden="true">&#10003;</span>
+        <div class="pw-plate"><svg class="pw-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 6 39 11v12c0 9-7 15-15 18-8-3-15-9-15-18V11z"/><path d="M17.5 17.5 21.5 21.5M30.5 17.5 26.5 21.5"/><circle cx="24" cy="25" r="2.7" fill="currentColor" stroke="none"/></svg></div>
+        <h3>Auto Immune Disease</h3>
+        <p class="pw-line">Inflammation, flares, and an immune system working against you.</p>
+        <ul class="pw-out" aria-label="Common goals"><li>Calmer flares</li><li>Steadier energy</li><li>Fewer bad days</li></ul>
+        <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+      </article>
+      <article class="pw" data-i="1">
+        <button type="button" class="pw-face" data-goal="Brain Health" aria-pressed="false"><span class="sr">Brain Health</span></button>
+        <span class="pw-tick" aria-hidden="true">&#10003;</span>
+        <div class="pw-plate"><svg class="pw-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 41v-6c-4-3-7-8-7-13 0-9 6-15 14-15s14 6 14 15c0 5-3 10-7 13v6z"/><path d="M24 15v11M24 19l-5 4M24 19l5 4"/><circle cx="24" cy="15" r="2.1" fill="currentColor" stroke="none"/><circle cx="19" cy="23" r="2.1" fill="currentColor" stroke="none"/><circle cx="29" cy="23" r="2.1" fill="currentColor" stroke="none"/></svg></div>
+        <h3>Brain Health</h3>
+        <p class="pw-line">Focus, memory, mood and mental stamina.</p>
+        <ul class="pw-out" aria-label="Common goals"><li>Sharper focus</li><li>Clearer memory</li><li>Mental stamina</li></ul>
+        <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+      </article>
+      <article class="pw" data-i="2">
+        <button type="button" class="pw-face" data-goal="Gut Health" aria-pressed="false"><span class="sr">Gut Health</span></button>
+        <span class="pw-tick" aria-hidden="true">&#10003;</span>
+        <div class="pw-plate"><svg class="pw-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 13h22c6 0 6 8 0 8H15c-6 0-6 8 0 8h18c6 0 6 8 0 8H11"/><circle cx="11" cy="13" r="2.1" fill="currentColor" stroke="none"/><circle cx="11" cy="37" r="2.1" fill="currentColor" stroke="none"/><circle cx="24" cy="21" r="2.1" fill="currentColor" stroke="none"/><circle cx="24" cy="29" r="2.1" fill="currentColor" stroke="none"/></svg></div>
+        <h3>Gut Health</h3>
+        <p class="pw-line">Digestion, bloating, and the barrier that governs both.</p>
+        <ul class="pw-out" aria-label="Common goals"><li>Settled digestion</li><li>Stronger barrier</li><li>Better absorption</li></ul>
+        <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+      </article>
+      <article class="pw" data-i="3">
+        <button type="button" class="pw-face" data-goal="Weight Management" aria-pressed="false"><span class="sr">Weight Management</span></button>
+        <span class="pw-tick" aria-hidden="true">&#10003;</span>
+        <div class="pw-plate"><svg class="pw-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 7v23"/><path d="M16 23 24 31 32 23"/><path d="M11 39h26"/><circle cx="24" cy="7" r="2.1" fill="currentColor" stroke="none"/></svg></div>
+        <h3>Weight Management</h3>
+        <p class="pw-line">Body composition, metabolism and how you handle sugar.</p>
+        <ul class="pw-out" aria-label="Common goals"><li>Appetite signalling</li><li>Fat, not muscle</li><li>Steady energy</li></ul>
+        <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+      </article>
+      <article class="pw" data-i="4">
+        <button type="button" class="pw-face" data-goal="Skin &amp; Hair Loss" aria-pressed="false"><span class="sr">Skin &amp; Hair Loss</span></button>
+        <span class="pw-tick" aria-hidden="true">&#10003;</span>
+        <div class="pw-plate"><svg class="pw-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 27h34M7 33h34"/><path d="M16 27c0-6 1-9 2-13M24 27c0-7-1-10-1-14M32 27c0-4 1-6 1-8"/><path d="M34 11.5 35.5 7.5" stroke-dasharray="1.6 2"/><circle cx="16" cy="30" r="2.1" fill="currentColor" stroke="none"/><circle cx="24" cy="30" r="2.1" fill="currentColor" stroke="none"/><circle cx="32" cy="30" r="2.1" fill="currentColor" stroke="none"/></svg></div>
+        <h3>Skin &amp; Hair Loss</h3>
+        <p class="pw-line">Collagen, thinning, texture and how quickly skin repairs.</p>
+        <ul class="pw-out" aria-label="Common goals"><li>Collagen renewal</li><li>Skin quality</li><li>Fuller hair</li></ul>
+        <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+      </article>
+      <article class="pw" data-i="5">
+        <button type="button" class="pw-face" data-goal="Musculoskeletal Injury" aria-pressed="false"><span class="sr">Musculoskeletal Injury</span></button>
+        <span class="pw-tick" aria-hidden="true">&#10003;</span>
+        <div class="pw-plate"><svg class="pw-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 7v11"/><circle cx="18" cy="23.5" r="5.6"/><path d="M22 27.5 33 39"/><circle cx="18" cy="7" r="2.1" fill="currentColor" stroke="none"/><circle cx="33" cy="39" r="2.1" fill="currentColor" stroke="none"/></svg></div>
+        <h3>Musculoskeletal Injury</h3>
+        <p class="pw-line">Joints, tendons, and the time it takes you to heal.</p>
+        <ul class="pw-out" aria-label="Common goals"><li>Tendon repair</li><li>Faster recovery</li><li>Old injuries</li></ul>
+        <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+      </article>
+      <article class="pw" data-i="6">
+        <button type="button" class="pw-face" data-goal="Anti Ageing" aria-pressed="false"><span class="sr">Anti Ageing</span></button>
+        <span class="pw-tick" aria-hidden="true">&#10003;</span>
+        <div class="pw-plate"><svg class="pw-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 7c10 0 17 8 17 17s-7 17-17 17c-8 0-14-6-14-13 0-6 5-11 11-11 5 0 9 4 9 9"/><path d="M20.5 4 24.5 7 20.5 10.5"/><circle cx="30" cy="26" r="2.1" fill="currentColor" stroke="none"/></svg></div>
+        <h3>Anti Ageing</h3>
+        <p class="pw-line">Cellular repair, energy, and the pace of decline.</p>
+        <ul class="pw-out" aria-label="Common goals"><li>Deep sleep</li><li>Cellular repair</li><li>Healthspan</li></ul>
+        <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+      </article>
+      <article class="pw" data-i="7">
+        <button type="button" class="pw-face" data-goal="Sexual Health" aria-pressed="false"><span class="sr">Sexual Health</span></button>
+        <span class="pw-tick" aria-hidden="true">&#10003;</span>
+        <div class="pw-plate"><svg class="pw-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 6c6.5 7.5 11 12 11 19.5 0 6.6-5 11.5-11 11.5s-11-4.9-11-11.5c0-5 2.2-8.4 5.4-11.4.2 3 1.6 5 3.6 6.2C20 16 22 10.5 24 6z"/><circle cx="24" cy="28" r="3" fill="currentColor" stroke="none"/></svg></div>
+        <h3>Sexual Health</h3>
+        <p class="pw-line">Libido, function, and the hormones underneath both.</p>
+        <ul class="pw-out" aria-label="Common goals"><li>Desire</li><li>Function</li><li>Confidence</li></ul>
+        <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+      </article>
+    </div>
+
+    <div class="rail-foot">
+      <p class="tally"><b id="tally">0</b> <span id="tallyLabel">nothing chosen yet</span></p>
+      <div class="steer">
+        <span>Click a card, or</span>
+        <button type="button" id="prev" aria-label="Previous pathway">
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.5 1.5 3 6l4.5 4.5"/></svg>
+        </button>
+        <button type="button" id="next" aria-label="Next pathway">
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 1.5 9 6l-4.5 4.5"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="notes">
+  <div class="notes-in">
+    <h2>What it does, what it costs, and what is still yours</h2>
+    <p class="notes-lede">Five things worth knowing before you say yes. Three are already
+    decided in the build above and can be reversed in a line; two need a word from you
+    before this can ship.</p>
+
+    <div class="grid-notes">
+      <article class="note">
+        <span class="note-k">Decided &mdash; reversible</span>
+        <h3>All eight, always</h3>
+        <p>A carousel answers <em>what am I looking at</em>. This section&rsquo;s reader is
+        asking <em>what have I picked</em> &mdash; it is a multi-select that builds a
+        programme, and most people choose two or three. So no pathway is ever hidden behind
+        another, and <b>the chosen tick is drawn at a constant size on every card
+        whatever that card's scale</b>, so counting your choices costs a glance rather than a squint. That
+        one rule is what lets the orbit and the multi-select live together.</p>
+      </article>
+
+      <article class="note">
+        <span class="note-k">Decided &mdash; reversible</span>
+        <h3>It says add, not explore</h3>
+        <p>Both boards put <b>Explore</b> or <b>Discover pathway</b> on the card. The pill
+        here is the page&rsquo;s own, character for character: <b>Add to your
+        programme</b>. Round 12 moved this section off browsing and onto building, and the
+        wording is the whole difference &mdash; a section that says explore is a brochure,
+        this one assembles something you then pay for.</p>
+      </article>
+
+      <article class="note">
+        <span class="note-k">Decided &mdash; reversible</span>
+        <h3>No 01&ndash;08</h3>
+        <p>The editorial board numbers the cards. Numerals were taken off these tiles
+        deliberately: on a list you pick several things from, <b>a number implies an order
+        that does not exist</b>, and someone who chooses the third and the seventh is left
+        wondering about the ones between. The mark identifies the card instead. Say the
+        word and they come back &mdash; it is one line.</p>
+      </article>
+
+      <article class="note">
+        <span class="note-k open">Open &mdash; needs you</span>
+        <h3>The artwork</h3>
+        <p>Your second board is roughly two-thirds photograph per card, and <b>those eight
+        photographs do not exist</b> &mdash; the section has eight drawn marks and no
+        imagery. So the focused card carries a glass vessel with <b>that pathway&rsquo;s own
+        mark suspended inside it</b>, in real light, turning. Eight generic molecules would
+        say &ldquo;peptide&rdquo; eight times and nothing about auto-immunity or sleep.
+        <b>If you would rather have photography, send it</b> &mdash; the plate takes a
+        picture instead and the layout does not move.</p>
+      </article>
+
+      <article class="note">
+        <span class="note-k open">Open &mdash; needs you</span>
+        <h3>Spline, or this</h3>
+        <p>The 3D here is <b>three.js, already vendored in the repository</b> under its
+        licence &mdash; nothing is fetched from anyone else&rsquo;s server. Spline would add
+        three dependencies at once: a player from a CDN, a scene file on Spline&rsquo;s
+        hosts, and an editor seat to keep it current, on a page that is one self-contained
+        file with no build step. <b>Perfectly doable if you want it</b> &mdash; send the
+        scene and it is about ninety lines &mdash; but that is the bill, stated before
+        rather than after.</p>
+      </article>
+
+      <article class="note">
+        <span class="note-k">Decided &mdash; reversible</span>
+        <h3>The phone has no arc</h3>
+        <p>Below <b>1,180px</b> the mechanism switches off entirely and the eight become
+        stacked editorial cards, every one open, every one a full tap target. That number is
+        measured, not taste: eight cards fanned either side of the centre need about that
+        much before the outermost falls off the edge. <b>A cramped arc with two pathways
+        hidden is strictly worse than a list.</b> Nothing about understanding the section
+        depends on the arc having existed &mdash; which is also why it is safe to have.</p>
+      </article>
+    </div>
+
+    <div class="ask">
+      <h3>What I need back</h3>
+      <p>Yes to the mechanism, or a change. Then the two open ones: <b>photography or the
+      built sculptures</b>, and <b>three.js or Spline</b>. Everything else above I can
+      flip in a line if you disagree.</p>
+    </div>
+  </div>
+</section>
+
+<script type="module">
+/* ═══════════ THE RAIL — behaviour only ════════════════════════════════════════════
+   ⚠️ EVERY WORD ON EVERY CARD IS IN THE HTML ABOVE. Script positions, focuses and counts;
+   it never writes a name, a line or an outcome. The programme lab shipped a build whose
+   content came from innerHTML and rendered four headings and nothing else wherever script
+   did not run — with script off this page is eight readable cards stacked in the arc's
+   box, which is ugly and complete rather than tidy and empty. */
+const stage = document.getElementById('stage');
+const rail  = document.getElementById('rail');
+const cards = [...rail.querySelectorAll('.pw')];
+const N = cards.length;
+const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const wide = () => matchMedia('(min-width: 1181px)').matches;
+let focus = 0, depth = null;
+const probeF = document.getElementById('probeF'), probeS = document.getElementById('probeS');
+
+/* ── where each card sits ────────────────────────────────────────────────────────
+   ⚠️ THE GEOMETRY IS MEASURED, NOT GUESSED. The first card out has to clear HALF THE
+   FOCUSED CARD plus half of itself, and both of those are clamp() values that change with
+   the viewport — so the offsets are read off the DOM after the CSS has resolved rather
+   than hardcoded. A hardcoded arc is correct at exactly one width.
+   ⚠️ THE STEP SHRINKS AS IT GOES (a-1 to the power .86). Eight equal steps put the last
+   card a long way outside the measure; a diminishing one fans them so the far pair overlap
+   like cards in a hand, which is also what makes it read as a ring rather than a row.
+   ⚠️⚠️ THERE IS NO translateZ, AND REMOVING IT WAS A FIX RATHER THAN A SIMPLIFICATION. The
+   first build pushed each card back by 52px per step for depth, and PERSPECTIVE PULLS A
+   RECEDING ELEMENT TOWARD THE VANISHING POINT — so every offset computed here arrived on
+   screen shortened, the fan collapsed into a stack behind the centre card, and the far
+   pair became unreadable. The measured arithmetic was right and the picture was wrong.
+   Depth is carried by scale, rotateY and opacity instead, none of which move a card
+   sideways. If depth is ever wanted back, x has to be divided by the foreshortening. */
+function layout(){
+  if (!wide()) return;
+  const fw = probeF.offsetWidth || 440, sw = probeS.offsetWidth || 150;
+  const x1 = fw / 2 + sw / 2 + 26;
+  /* ⚠️ THE STEP IS SOLVED FOR THE ROOM AVAILABLE, NOT CHOSEN. A fixed step is right at one
+     width and wrong at all the others — at 1440 it left the arc looking sparse and at 960
+     it put the outermost card past the edge of the clip, where it was still "visible" to
+     every count in the harness and invisible to a reader. So the far card is placed AT the
+     last usable pixel and everything between is interpolated back from it. The cap keeps a
+     very wide screen from spreading the fan into a row. */
+  const aMax = Math.floor(N / 2);
+  const room = innerWidth / 2 - 10 - (sw * (1 - aMax * .058)) / 2;
+  const unit = Math.min(sw * .86, Math.max(sw * .42, (room - x1) / Math.pow(aMax - 1, .86)));
+  cards.forEach((c, i) => {
+    let d = (i - focus + N) % N; if (d > N / 2) d -= N;
+    const a = Math.abs(d);
+    const on = a === 0;
+    c.dataset.focus = String(on);
+    const x = on ? 0 : Math.sign(d) * (x1 + unit * Math.pow(a - 1, .86));
+    c.style.setProperty('--x', x.toFixed(1) + 'px');
+    /* the outer cards dip BELOW the centre, which is the direction that reads as a ring
+       lying on a table. Lifting them instead makes it a hill and the centre a valley. */
+    c.style.setProperty('--y', on ? '0px' : (Math.pow(a, 1.25) * 5).toFixed(1) + 'px');
+    c.style.setProperty('--rot', on ? '0deg' : (-d * 9) + 'deg');
+    c.style.setProperty('--sc', on ? 1 : (1 - a * .058).toFixed(3));
+    c.style.setProperty('--op', on ? 1 : Math.max(.58, 1 - a * .092).toFixed(2));
+    c.dataset.side = on ? 'c' : (d > 0 ? 'r' : 'l');
+    c.style.setProperty('--z', on ? 30 : 20 - a);
+    /* ⚠️ THE LABEL FOLLOWS THE MEANING. The same button brings a card forward when it is
+       away from the centre and adds the goal when it is at it; a screen reader that is
+       told "choose this goal" on a card whose click merely rotates the arc has been lied
+       to by the markup. */
+    const face = c.querySelector('.pw-face'), goal = face.dataset.goal;
+    face.setAttribute('aria-label', on ? goal + ' — add this goal to your programme'
+                                       : goal + ' — bring this pathway forward');
+    face.setAttribute('aria-pressed', String(c.dataset.picked === 'true'));
+  });
+}
+
+function focusOn(i){
+  focus = ((i % N) + N) % N;
+  layout();
+}
+
+/* ── choosing ──────────────────────────────────────────────────────────────────── */
+const tally = document.getElementById('tally'), tallyLabel = document.getElementById('tallyLabel');
+function toggle(c){
+  const on = c.dataset.picked === 'true';
+  c.dataset.picked = on ? 'false' : 'true';
+  c.querySelector('.pw-face').setAttribute('aria-pressed', String(!on));
+  const n = cards.filter(x => x.dataset.picked === 'true').length;
+  tally.textContent = n;
+  tallyLabel.textContent = n === 0 ? 'nothing chosen yet'
+    : (n === 1 ? 'goal in your programme' : 'goals in your programme')
+      + ' — the price does not change';
+}
+
+cards.forEach((c, i) => {
+  c.querySelector('.pw-face').addEventListener('click', () => {
+    if (!wide() || c.dataset.focus === 'true') toggle(c);
+    else focusOn(i);
+  });
+  c.querySelector('.pw-cta').addEventListener('click', e => { e.stopPropagation(); toggle(c); });
+});
+
+document.getElementById('prev').addEventListener('click', () => focusOn(focus - 1));
+document.getElementById('next').addEventListener('click', () => focusOn(focus + 1));
+addEventListener('keydown', e => {
+  if (e.metaKey || e.ctrlKey || e.altKey || /^(INPUT|TEXTAREA)$/.test(e.target.tagName)) return;
+  if (e.key === 'ArrowLeft')  { focusOn(focus - 1); e.preventDefault(); }
+  if (e.key === 'ArrowRight') { focusOn(focus + 1); e.preventDefault(); }
+});
+
+/* ── drag ─────────────────────────────────────────────────────────────────────────
+   ⚠️ DRAG IS AN EXTRA AND NEVER THE ONLY WAY. The reference board's only instruction was
+   "click or drag to rotate", which is a mechanism a reader has to discover before the
+   section works at all. Here the arrows, the arrow keys and clicking a card all do it, and
+   the drag is for people who try it. It also must not swallow a click: a pointer that
+   travelled under 6px is a tap, and the card's own handler gets it. */
+let dragX = null, dragged = false;
+rail.addEventListener('pointerdown', e => {
+  if (!wide() || e.button) return;
+  dragX = e.clientX; dragged = false;
+});
+addEventListener('pointermove', e => {
+  if (dragX === null) return;
+  const dx = e.clientX - dragX;
+  if (Math.abs(dx) < 74) { if (Math.abs(dx) > 6) dragged = true; return; }
+  dragged = true; dragX = e.clientX;
+  focusOn(focus + (dx < 0 ? 1 : -1));
+});
+addEventListener('pointerup', e => {
+  if (dragX !== null && dragged) { e.preventDefault?.(); }
+  dragX = null;
+  setTimeout(() => { dragged = false; }, 0);
+}, true);
+rail.addEventListener('click', e => { if (dragged) { e.stopPropagation(); e.preventDefault(); } }, true);
+
+new ResizeObserver(() => layout()).observe(rail);
+layout();
+
+/* ═══════════ THE SCULPTURE ═══════════════════════════════════════════════════════
+   One renderer, one scissored viewport: the focused card's plate. The pathway's own mark
+   is serialised to a canvas texture through a data: URL and hangs square to the camera
+   while a glass vessel turns around it.
+
+   ⚠️ THE CANVAS IS A CHILD OF .rail AT inset:0 WITH width/height:100%. Both halves matter.
+   The inset makes every rectangle a difference of two getBoundingClientRects, so there is
+   no scroll arithmetic and no scroll listener anywhere below. The explicit 100% is because
+   a <canvas> is a REPLACED element: with width:auto it resolves to its INTRINSIC size —
+   the attribute the renderer wrote — and the over-constrained `right` is then ignored, so
+   it silently sizes itself to whatever the last render was and pushes the page sideways.
+
+   ⚠️ WEBGL Y IS MEASURED FROM THE BOTTOM. setViewport and setScissor both take a
+   lower-left origin while getBoundingClientRect gives upper-left. Getting it wrong does
+   not throw; it draws the sculpture in the mirrored half of the card.
+
+   ⚠️ currentColor DOES NOT RESOLVE INSIDE AN <img>. An SVG behind a data: URL is its own
+   document with no cascade from this page, so stroke="currentColor" renders BLACK — which
+   reads exactly like a lighting bug. Root stroke and every currentColor fill are rewritten
+   to the literal gold before serialising. */
+const GOLD_HEX = '#8A6A34';
+
+async function boot(){
+  try {
+    const THREE = window.THREE || await import('../vendor/three.module.min.js');
+    depth = engine(THREE);
+    document.body.classList.add('gl-on');
+    depth.start();
+  } catch (err) {
+    console.warn('[rail] sculpture unavailable:', err && err.message);
+    document.body.classList.remove('gl-on');
+    document.getElementById('depth').style.display = 'none';
+  }
+}
+
+function engine(THREE){
+  const canvas = document.getElementById('depth');
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true,
+    powerPreference:'low-power' });
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+  const GOLD = 0xC2A05E, ROSE = 0xC79A92, WINE = 0x5C1F31;
+
+  const emblems = cards.map(c => {
+    const cv = document.createElement('canvas'); cv.width = cv.height = 320;
+    const tex = new THREE.CanvasTexture(cv);
+    tex.colorSpace = THREE.SRGBColorSpace;
+    const n = c.querySelector('.pw-mark').cloneNode(true);
+    n.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    n.setAttribute('width', '320'); n.setAttribute('height', '320');
+    n.setAttribute('stroke', GOLD_HEX); n.removeAttribute('class');
+    for (const f of n.querySelectorAll('[fill="currentColor"]')) f.setAttribute('fill', GOLD_HEX);
+    const img = new Image();
+    img.onload = () => { const g = cv.getContext('2d');
+      g.clearRect(0, 0, 320, 320); g.drawImage(img, 0, 0, 320, 320); tex.needsUpdate = true; };
+    img.src = 'data:image/svg+xml;charset=utf-8,' +
+      encodeURIComponent(new XMLSerializer().serializeToString(n));
+    return tex;
+  });
+
+  const scene = new THREE.Scene();
+  const cam = new THREE.PerspectiveCamera(28, 1, .1, 60);
+  cam.position.set(0, 0, 5.15);
+  scene.add(new THREE.AmbientLight(0xffffff, .58));
+  const key = new THREE.DirectionalLight(0xFFF3E2, 1.55); key.position.set(2.4, 3.2, 3.4);
+  const fill = new THREE.DirectionalLight(ROSE, .9);      fill.position.set(-3, -1.4, 2);
+  const rim  = new THREE.DirectionalLight(GOLD, 1.1);     rim.position.set(-1.2, 2, -3);
+  scene.add(key, fill, rim);
+
+  /* ⚠️ 13% GLASS AND LOW KEY LIGHT. A first pass ran denser glass under a hard key and the
+     vessel came out an opaque milk bottle with the mark invisible inside it — and the mark
+     is the entire reason this variant exists rather than eight rotating molecules. */
+  const vessel = new THREE.Group();
+  const glass = new THREE.Mesh(new THREE.CapsuleGeometry(.6, 1.22, 6, 32),
+    new THREE.MeshPhysicalMaterial({ color:0xFFFDF8, transparent:true, opacity:.13,
+      roughness:.07, metalness:0, clearcoat:.55, clearcoatRoughness:.05,
+      side:THREE.DoubleSide, depthWrite:false }));
+  const fluid = new THREE.Mesh(new THREE.CapsuleGeometry(.52, 1.0, 6, 28),
+    new THREE.MeshPhysicalMaterial({ color:0xE0B3AB, transparent:true, opacity:.25,
+      roughness:.18, metalness:0, depthWrite:false }));
+  fluid.position.y = -.2;
+  /* ⚠️ THE HIGHLIGHT IS A PAINTED PLANE, NOT A REFLECTION, and it is the single thing that
+     makes this read as glass. There is no environment map in the scene — no world for a
+     real specular to catch — so at 13% the vessel was frosted plastic until one soft
+     streak started travelling round the body as it turned. */
+  const shine = new THREE.Mesh(new THREE.PlaneGeometry(.11, 1.0),
+    new THREE.MeshBasicMaterial({ color:0xffffff, transparent:true, opacity:.5,
+      depthWrite:false }));
+  shine.position.set(-.27, -.04, .6); shine.rotation.z = .06;
+  const collar = new THREE.Mesh(new THREE.TorusGeometry(.45, .062, 10, 32),
+    new THREE.MeshStandardMaterial({ color:GOLD, metalness:.95, roughness:.22 }));
+  collar.rotation.x = Math.PI / 2; collar.position.y = .96;
+  const cap = new THREE.Mesh(new THREE.CylinderGeometry(.38, .38, .2, 28),
+    new THREE.MeshStandardMaterial({ color:WINE, metalness:.3, roughness:.5 }));
+  cap.position.y = 1.11;
+  const MOTES = 11;
+  const motes = new THREE.InstancedMesh(new THREE.SphereGeometry(.035, 10, 8),
+    new THREE.MeshStandardMaterial({ color:GOLD, metalness:.9, roughness:.25 }), MOTES);
+  vessel.add(glass, fluid, shine, collar, cap, motes);
+
+  /* ⚠️ THE EMBLEM IS NOT A CHILD OF THE VESSEL. Turning with the glass it would go edge-on
+     twice a revolution and vanish; the mark has to stay square to the camera while the
+     vessel turns around it. depthTest:false plus a high renderOrder is what makes it read
+     as suspended INSIDE: sorted honestly, the transparent front wall drawn after it greys
+     it to mush, and drawn last the glass highlights fall around it instead. */
+  const emblem = new THREE.Mesh(new THREE.PlaneGeometry(1.02, 1.02),
+    new THREE.MeshBasicMaterial({ transparent:true, depthTest:false, depthWrite:false }));
+  emblem.position.set(0, -.04, .05);
+  emblem.renderOrder = 12;
+  scene.add(vessel, emblem);
+
+  let raf = 0, t0 = 0, W = 0, H = 0, px = 0, py = 0;
+  const dummy = new THREE.Object3D();
+  function size(){
+    const r = rail.getBoundingClientRect();
+    W = Math.max(1, Math.round(r.width)); H = Math.max(1, Math.round(r.height));
+    renderer.setSize(W, H, false);
+  }
+  rail.addEventListener('pointermove', e => {
+    const r = rail.getBoundingClientRect();
+    px = (e.clientX - r.left) / r.width - .5;
+    py = (e.clientY - r.top) / r.height - .5;
+  });
+  rail.addEventListener('pointerleave', () => { px = 0; py = 0; });
+
+  function draw(ms){
+    const s = ms / 1000;
+    const card = cards[focus];
+    const plate = card.querySelector('.pw-plate');
+    const box = canvas.getBoundingClientRect(), r = plate.getBoundingClientRect();
+    renderer.setScissorTest(false);
+    renderer.setViewport(0, 0, W, H);
+    renderer.clear();
+    if (!wide() || r.width < 8) return;
+    const x = Math.round(r.left - box.left), w = Math.round(r.width);
+    const h = Math.round(r.height), y = Math.round(H - (r.top - box.top) - h);
+    renderer.setScissorTest(true);
+    renderer.setViewport(x, y, w, h);
+    renderer.setScissor(x, y, w, h);
+    cam.aspect = w / h; cam.updateProjectionMatrix();
+    vessel.rotation.y = s * .32 + px * .8;
+    vessel.rotation.x = py * .3;
+    vessel.rotation.z = Math.sin(s * .45) * .04;
+    vessel.position.y = Math.sin(s * .6) * .04;
+    for (let b = 0; b < MOTES; b++){
+      const ph = b * 2.4;
+      dummy.position.set(Math.sin(ph + s * .45) * .33,
+        ((b / MOTES + s * .05) % 1 - .5) * 1.7, Math.cos(ph + s * .45) * .33);
+      dummy.updateMatrix(); motes.setMatrixAt(b, dummy.matrix);
+    }
+    motes.instanceMatrix.needsUpdate = true;
+    emblem.material.map = emblems[focus];
+    emblem.material.needsUpdate = true;
+    renderer.render(scene, cam);
+    renderer.setScissorTest(false);
+  }
+  function tick(t){ if (!t0) t0 = t; draw(t - t0); raf = requestAnimationFrame(tick); }
+  new ResizeObserver(() => { size(); if (REDUCE) draw(2400); }).observe(rail);
+  return { start(){ size(); cancelAnimationFrame(raf);
+    if (REDUCE) { draw(2400); return; } raf = requestAnimationFrame(tick); } };
+}
+boot();
+</script>
+</body>
+</html>

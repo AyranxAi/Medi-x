@@ -8,7 +8,7 @@
 > (**72**). Both must be green before anything ships. They need
 > `npm install --no-save playwright gsap@3.13.0 lenis@1.3.4`.
 > The round-18 files have their own, playwright only: `node tools/qa/section04-lab.mjs`
-> (**49**) and `node tools/qa/section04-hybrid.mjs` (**35**).
+> (**49**) and `node tools/qa/section04-hybrid.mjs` (**44**).
 > **The page is on `main`** as of round 17; round 18 is on
 > `claude/whats-included-excluded-copy-04cohg`.
 >
@@ -35,7 +35,10 @@
 >    AED 1,950. ⚠️ **Never invent a figure** — see the AED 350 incident in round 12.
 >
 > **WHAT IS STILL OPEN (all his):**
-> · **SECTION 04 — TWO QUESTIONS, NOT A LETTER ANY MORE.** He merged two of his own boards
+> · **SECTION 04 — ONE QUESTION LEFT: IVORY OR THE ROSE DAWN.** He sent a third reference
+>   and `section04-hybrid.html` is now a RING of his eight photographs with a + that turns
+>   a card over. The artwork question is closed — the eight landed 2026-08-17.
+> · *(superseded, kept for the reasoning)* **TWO QUESTIONS, NOT A LETTER ANY MORE.** He merged two of his own boards
 >   instead of picking, and `section04-hybrid.html` ("the focus rail") is that merge, built
 >   and published as an artifact. ⚠️ **What is open is: PHOTOGRAPHY OR THE BUILT
 >   SCULPTURES, and THREE.JS OR SPLINE.** Everything else on it is flagged on the page as
@@ -223,6 +226,61 @@
 > ⚠️ **A RESPONSIVE ASSERTION MUST NOT FIRE MID-TRANSITION** — measured 420ms after
 > crossing the breakpoint it reported 7/8 cards on a layout that was correct a third of a
 > second later. It measures the animation, not the page.
+
+> **14 · HE DID NOT PICK — HE SENT A THIRD REFERENCE AND THE HYBRID WAS REBUILT AS A RING.**
+> A shallow 3D arc of IMAGE-DOMINANT cards on warm ivory, numbered, one forward and larger,
+> arrows at either end, a dot per pathway, "drag to explore" — plus the one thing he added
+> in words rather than a picture: **a + in the top right that turns the card over for the
+> description.** The front is photograph + numeral + name + one line + the pill; the back is
+> the popup's own first paragraph and its outcome chips.
+> ⚠️ **THE + IS ONLY ON THE CARD IN FRONT.** A + on a 110px card at the far end of the ring
+> is a target nobody can hit and a decoration everybody can see. While a card is turned its
+> face stops taking clicks — round 12's finding in a new costume.
+> ⚠️ **AND TURNING THE RING CLOSES IT.** A card left turned as it rotates away is burgundy
+> where seven photographs are, with no reachable + any more. Check 5g asserts it.
+>
+> **15 · ✅ THE EIGHT PHOTOGRAPHS LANDED — his upload, 2026-08-17 09:02, straight to `main`.**
+> Eight 1122×1402 PNGs named by the tool that made them (`ChatGPT Image Aug 17 … (1)…(8)`),
+> and ⚠️ **THEY ARRIVED IN THE SECTION'S OWN ORDER** — antibodies, neurons, villi, lipid
+> droplets, follicles, muscle fibre, DNA, neurovascular, 1:1 against the eight goals as the
+> page lists them. `git mv`'d to `images/pathways/<slug>-master.png`; the cards eat
+> `<slug>.webp` encoded from them (**1.9 MB of PNG → 95 KB of card**, eight of them).
+> ⚠️ **THE MASTERS ARE RENAMED, NEVER RE-ENCODED** — round 4's precedent. They are what to
+> go back to when a crop or a size changes.
+> ⚠️ **I TOLD HIM TWICE THEY WERE NOT THERE BEFORE THEY WERE.** Checked every branch and
+> then GitHub's own API; both were right at the time. **Check the API, not just the fetch,
+> and say what was checked** — "I can't find them" is worth nothing without the evidence.
+> ⚠️ **A MISSING FILE IS STILL A SUPPORTED STATE AND THE CODE FOR IT IS NOT DEAD.** A probe
+> `Image()` decides, and a card that loses its file falls back to its gradient plate and its
+> own mark at identical geometry — which is exactly what the artifact packer produces when
+> it cannot inline a path.
+>
+> **16 · THE GLASS VESSEL IS NOW THE FALLBACK, NOT THE ARTWORK.** It draws only where a card
+> has no photograph. ⚠️ **A vessel hovering over a photograph of neurons is two pictures
+> fighting inside one card** — and the harness asserts the two never coexist, in both
+> directions, because the first version of that check asserted the opposite and failed a
+> correct page.
+>
+> **17 · THREE MORE BUGS, ALL FROM THE FAN:**
+> · ⚠️⚠️ **A FAN COVERS EACH CARD FROM THE SIDE ITS NEIGHBOUR SITS ON.** Names pinned left in
+>   the RIGHT half printed underneath the next card — "…exual ealth", "…to mune ease" —
+>   which reads as broken text rather than as depth. **Name AND tick are set against each
+>   card's OUTER edge**, which is why the script writes a `data-side` and not only an offset.
+> · ⚠️ **THE ARROWS WERE SOLVED FOR THE VIEWPORT AND LANDED ON THE CARDS.** The far card now
+>   stops 62px short of the rail edge — the arrow's 44 plus air — not at the edge of the clip.
+> · ⚠️ **A VERY WIDE ELLIPSE HAS NO VISIBLE CURVE.** At 124% only the top of the arc was on
+>   screen and the ring read as a stray horizontal rule. 96% × 52% puts curvature in frame.
+>
+> **18 · `tools/pack-artifact.mjs` NOW INLINES ARTWORK TOO**, and ⚠️ **STRIPS `data-art` FOR
+> ANY PATH IT CANNOT INLINE** — a path left in place is a request the artifact policy will
+> refuse, and the card would show a broken-image glyph instead of the fallback it was built
+> for. Packed: **2.04 MB**, nothing fetched, against a 16 MB ceiling.
+>
+> **19 · STILL OPEN, AND IT IS ONE QUESTION NOW: IVORY OR THE ROSE DAWN.** His reference is
+> ivory and this is built on it. ⚠️ **`--dawn` is load-bearing in section 04 twice** — the
+> chain scene rises to exactly it so the handoff has no seam, and the ivory tiles need it to
+> read as objects. **The second reason dies with photographs on the cards; the first does
+> not.** Either the scene's `BG_B` follows the ground, or this is re-graded onto the dawn.
 
 > ---
 

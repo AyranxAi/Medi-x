@@ -90,6 +90,27 @@ if (/vendor\/three\.module\.min\.js/.test(html)) {
   console.log(`  three.js  ${(src.length / 1024).toFixed(0)} KB · ${pairs.length} exports globalised`);
 }
 
+/* ── 2b · artwork ───────────────────────────────────────────────────────────────
+   ⚠️ AN ARTIFACT CANNOT FETCH A PICTURE ANY MORE THAN IT CAN FETCH A FONT. Every data-art
+   path that resolves becomes a data: URI on the card; every one that does NOT is REMOVED,
+   because a path left in place is a request the page will make and the policy will refuse,
+   and the card would show a broken-image glyph instead of the fallback it was built to
+   show. Stripping is the difference between a designed empty state and a broken one. */
+let art = 0, artBytes = 0, artMissing = 0;
+html = html.replace(/ data-art="([^"]+)"/g, (_m, rel) => {
+  const f = path.resolve(ROOT, 'peptide-therapy', rel);
+  if (!f.startsWith(ROOT) || !fs.existsSync(f)) { artMissing++; return ''; }
+  const b = fs.readFileSync(f);
+  const type = { '.webp':'image/webp', '.avif':'image/avif', '.png':'image/png',
+                 '.jpg':'image/jpeg', '.jpeg':'image/jpeg' }[path.extname(f).toLowerCase()];
+  if (!type) { artMissing++; return ''; }
+  art++; artBytes += b.length;
+  return ` data-art="data:${type};base64,${b.toString('base64')}"`;
+});
+if (art || artMissing)
+  console.log(`  artwork   ${art} inlined · ${(artBytes / 1024).toFixed(0)} KB raw` +
+              (artMissing ? ` · ${artMissing} missing, path stripped` : ''));
+
 /* ── 3 · strip the scaffolding the host supplies ────────────────────────────────── */
 const SCAFFOLD = [
   /<!DOCTYPE html>\s*/i, /<html[^>]*>\s*/i, /<\/html>\s*/i,

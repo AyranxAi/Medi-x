@@ -92,6 +92,8 @@ const run = async () => {
     name: c.querySelector('h3').textContent.trim(),
     line: c.querySelector('.pw-line').textContent.trim(),
     outs: [...c.querySelectorAll('.pw-out li')].map(l => l.textContent.trim()),
+    para: c.querySelector('.pw-back p').textContent.trim(),
+    art:  c.classList.contains('has-art'),
     cta:  c.querySelector('.pw-cta').textContent.replace(/\s+/g, ' ').trim(),
     mark: [...c.querySelectorAll('.pw-mark path, .pw-mark circle')]
       .map(e => e.getAttribute('d') || e.getAttribute('cx') + ',' + e.getAttribute('cy')).join(';'),
@@ -108,6 +110,14 @@ const run = async () => {
   const badOut = cards.flatMap(c => c.outs).find(o => !src.includes('>' + esc(o) + '<'));
   if (!badOut) ok('1d every outcome comes from that tile\'s own popup');
   else bad('1d an outcome was written here', badOut);
+  /* the turned face carries the popup's own first paragraph, verbatim */
+  const badPara = cards.find(c => !src.includes(esc(c.para)));
+  if (!badPara) ok('1f the turned face quotes the popup paragraph, verbatim');
+  else bad('1f the back of a card was written here', badPara.para.slice(0, 60));
+  /* ⚠️ HIS EIGHT PHOTOGRAPHS, ASSERTED. They arrived as tool-named PNGs and were mapped to
+     the eight goals by eye; if a rename or a re-encode ever drops one, the card silently
+     falls back to its plate and looks deliberate. Only a count says otherwise. */
+  is('1g all eight photographs load', cards.filter(c => c.art).length, 8);
   /* ⚠️ THE PILL IS THE PAGE'S, NOT THE MOOD BOARD'S. Both references said Explore or
      Discover pathway. Round 12 moved this section off browsing and onto building. */
   const ctas = new Set(cards.map(c => c.cta));
@@ -178,7 +188,12 @@ const run = async () => {
   const hidden = ticks.filter(t => !t.clear);
   if (!hidden.length) ok('3a every chosen tick is unobscured wherever it sits in the ring');
   else bad('3a a chosen pathway shows no tick', hidden.map(t => t.name).join(', '));
-  const shrunk = ticks.filter(t => t.size < 25);
+  /* ⚠️ 20, NOT 24, AND THE DIFFERENCE IS ROTATION RATHER THAN SLACK. The claim is that the
+     tick does not shrink with the card's SCALE, and 1/--sc holds that exactly. What the box
+     also carries is the fan's rotateY — the outermost card is turned 44 degrees, so its
+     axis-aligned rect measures about 22px for a 24px badge. Tightening this to 24 would
+     assert something the design never promised and fail on a correct page. */
+  const shrunk = ticks.filter(t => t.size < 20);
   if (!shrunk.length) ok('3b and none of them shrank with its card', `${[...new Set(ticks.map(t => t.size))].join('/')}px across the ring`);
   else bad('3b a tick scaled down with its card', shrunk.map(t => `${t.name} ${t.size}px`).join(', '));
   is('3c the tally agrees',
@@ -224,6 +239,50 @@ const run = async () => {
   if (!cover.length) ok('5  nothing paints over the focused card\'s name, line or button');
   else bad('5  a side card is drawing over the centre', cover.join(', '));
 
+  /* ═══ 5b · THE + TURNS THE CARD — HIS ADDITION, SO IT IS ASSERTED ══════════════
+     ⚠️ THE + AND THE FACE MUST NEVER BOTH BE LIVE. The face adds the goal, the + opens the
+     reading; a turned card whose face still takes clicks means one click doing two things,
+     which is round 12's finding in a new costume.
+     ⚠️ AND THE + HAS TO STAY IN THE TOP RIGHT OF WHAT THE READER SEES. rotateY mirrors
+     POSITIONS as well as faces, so a control pinned to right:10px lands on the visual left
+     of a turned card, on top of the first line of copy. */
+  head('5b · The turn');
+  await page.evaluate(() => document.querySelector('.pw[data-focus="true"] .pw-more').click());
+  await page.waitForTimeout(1000);
+  const turned = await page.evaluate(() => {
+    const c = document.querySelector('.pw[data-focus="true"]');
+    const r = c.getBoundingClientRect(), m = c.querySelector('.pw-more').getBoundingClientRect();
+    const back = c.querySelector('.pw-back');
+    const bb = back.getBoundingClientRect();
+    const hit = document.elementFromPoint(bb.x + bb.width / 2, bb.y + bb.height / 2);
+    return { open: c.dataset.open,
+             face: getComputedStyle(c.querySelector('.pw-face')).pointerEvents,
+             shown: getComputedStyle(back).display !== 'none' && +getComputedStyle(back).opacity > .5,
+             onTop: !!hit && hit.closest('.pw') === c,
+             plusRight: m.x + m.width / 2 > r.x + r.width / 2,
+             others: document.querySelectorAll('.pw:not([data-focus="true"]) .pw-more:not([style*="display: none"])').length };
+  });
+  is('5b the + turns the card', turned.open, 'true');
+  is('5c and its face stops taking clicks', turned.face, 'none');
+  if (turned.shown && turned.onTop) ok('5d the turned face is showing and on top');
+  else bad('5d the back face did not come forward', JSON.stringify(turned));
+  if (turned.plusRight) ok('5e the + stays top-right of the turned card');
+  else bad('5e the + landed on the left — the mirrored-position bug is back');
+  /* turning back, and leaving the card, must both close it */
+  await page.evaluate(() => document.querySelector('.pw[data-focus="true"] .pw-more').click());
+  await page.waitForTimeout(800);
+  is('5f pressing it again turns the card back',
+     await page.evaluate(() => document.querySelector('.pw[data-focus="true"]').dataset.open), 'false');
+  await page.evaluate(() => document.querySelector('.pw[data-focus="true"] .pw-more').click());
+  await page.waitForTimeout(700);
+  await page.evaluate(() => document.getElementById('next').click());
+  await page.waitForTimeout(900);
+  /* ⚠️ A CARD LEFT TURNED AS IT ROTATES AWAY IS A CARD SHOWING ITS BACK IN THE RING —
+     burgundy where seven photographs are, and no way to reach its + any more. */
+  is('5g and turning the ring closes it',
+     await page.evaluate(() =>
+       [...document.querySelectorAll('.pw')].filter(c => c.dataset.open === 'true').length), 0);
+
   /* ═══ 6 · THE ARTIFACT COPY IS ACTUALLY SELF-CONTAINED ══════════════════════════ */
   head('6 · The packed copy');
   const packed = path.join(OUT, '_hybrid-packed.html');
@@ -246,8 +305,9 @@ const run = async () => {
     await document.fonts.ready;
     const faces = [...document.fonts].map(f => f.family + '|' + f.status);
     return { three: typeof window.THREE === 'object' && !!window.THREE.WebGLRenderer,
-             gl: document.body.classList.contains('gl-on'),
+             gl: !!document.getElementById('depth'),
              cards: document.querySelectorAll('.pw').length,
+             art: document.querySelectorAll('.pw.has-art').length,
              faces: ['Playfair', 'MediGyn NOW', 'MediGyn Megante']
                .filter(w => faces.some(f => f.startsWith(w) && f.endsWith('|loaded'))).length,
              /* the host supplies the document; a second one nested inside the body is the
@@ -259,9 +319,18 @@ const run = async () => {
   is('6a all three faces load from inside the file', packedState.faces, 3);
   if (packedState.three) ok('6b three.js is present as a global');
   else bad('6b window.THREE never appeared — the export rewrite failed');
-  if (packedState.gl) ok('6c and the sculpture booted');
-  else bad('6c the sculpture did not boot in the packed copy');
+  /* ⚠️ THE SCULPTURE IS THE FALLBACK, SO WITH EIGHT PHOTOGRAPHS IT MUST NOT BOOT AT ALL —
+     a glass vessel hovering over a photograph of neurons is two pictures fighting inside one
+     card. The first version of this check asserted the opposite and failed a correct page,
+     which is the harness testing its own old assumption rather than the build. */
+  if (packedState.art === 8 && !packedState.gl)
+    ok('6c the sculpture stands down — every card has its photograph');
+  else if (packedState.art < 8 && packedState.gl)
+    ok('6c the sculpture stands in where a photograph is missing', `${8 - packedState.art} card(s)`);
+  else bad('6c sculpture and photographs disagree',
+           `art ${packedState.art}/8, sculpture ${packedState.gl}`);
   is('6d eight cards survived the pack', packedState.cards, 8);
+  is('6g and all eight photographs came with it', packedState.art, 8);
   is('6e no nested document', packedState.nested, 0);
   const mb = (fs.statSync(packed).size / 1048576);
   if (mb <= 16) ok(`6f under the 16 MB artifact ceiling`, `${mb.toFixed(2)} MB`);

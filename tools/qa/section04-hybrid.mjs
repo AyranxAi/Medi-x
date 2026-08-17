@@ -239,6 +239,73 @@ const run = async () => {
   if (!cover.length) ok('5  nothing paints over the focused card\'s name, line or button');
   else bad('5  a side card is drawing over the centre', cover.join(', '));
 
+  /* ═══ 4b · THE RING IS A RING — the physics he caught ═══════════════════════════
+     ⚠️ THESE THREE CHECKS EXIST BECAUSE THE CLIENT FOUND THE BUG, NOT THE HARNESS. The
+     first build had the front card HIGHEST and the outer cards dipping below it — a hill
+     with a valley in the middle rather than a circle — and nothing here would ever have
+     said so, because every assertion was about position, count and contrast and none about
+     whether the arrangement meant anything. A geometry that is claimed in prose ("cards
+     rise as they recede", "near is bigger") has to be measured like any other claim. */
+  head('4b · The ring reads as a ring');
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.waitForTimeout(900);
+  for (const shape of ['tall', 'wide']) {
+    await page.evaluate(sh => document.querySelector(`.shape button[data-shape="${sh}"]`).click(), shape);
+    await page.waitForTimeout(1300);
+    const ring = await page.evaluate(() => {
+      const N = document.querySelectorAll('.pw').length;
+      const f = [...document.querySelectorAll('.pw')].findIndex(c => c.dataset.focus === 'true');
+      /* by distance round the ring, not by DOM order */
+      const byA = [];
+      [...document.querySelectorAll('.pw')].forEach((c, i) => {
+        let d = (i - f + N) % N; if (d > N / 2) d -= N;
+        const r = c.getBoundingClientRect();
+        byA.push({ a: Math.abs(d), foot: r.bottom, w: r.width });
+      });
+      const at = a => byA.filter(x => x.a === a);
+      return { foot: [0, 1, 2, 3, 4].map(a => at(a).length ? Math.round(Math.max(...at(a).map(x => x.foot))) : null),
+               wide: [1, 2, 3, 4].map(a => at(a).length ? Math.round(Math.max(...at(a).map(x => x.w))) : null),
+               front: Math.round(byA.find(x => x.a === 0).w) };
+    });
+    /* ⚠️ A LARGER `bottom` IS LOWER ON SCREEN. The front card must have the largest of all,
+       and every step out must be strictly smaller — that IS "the ring climbs away from you",
+       and it is the assertion that would have caught the inversion. */
+    const feet = ring.foot.filter(v => v !== null);
+    const rises = feet.every((v, i) => i === 0 || v < feet[i - 1]);
+    if (rises) ok(`4e ${shape} — the feet rise away from the front`,
+                  feet.join(' > ') + `  (${feet[0] - feet[feet.length - 1]}px of climb)`);
+    else bad(`4e ${shape} — the ring is inverted or flat`, feet.join(' / '));
+    /* near is bigger, strictly, at every step */
+    const ws = ring.wide.filter(v => v !== null);
+    const shrinks = ws.every((v, i) => i === 0 || v < ws[i - 1]);
+    const spread = ws[ws.length - 1] / ws[0];
+    if (shrinks && spread < .82)
+      ok(`4f ${shape} — near cards are bigger, and by enough to read`,
+         ws.join(' > ') + `  (far is ${Math.round(spread * 100)}% of near)`);
+    else if (shrinks) bad(`4f ${shape} — the falloff is too flat to read as depth`,
+                          `far is ${Math.round(spread * 100)}% of near`);
+    else bad(`4f ${shape} — a far card is not smaller than a nearer one`, ws.join(' / '));
+    if (SHOTS) await (await page.$('#stage')).screenshot({ path: path.join(OUT, `hybrid-${shape}.png`) });
+  }
+  /* ⚠️ AND THE TALL FRONT CARD MUST ACTUALLY BE TALL. The toggle writes --fw/--fh on the
+     rail; if a future edit moves either onto the card itself, the probes stop seeing the
+     change and the ring lays itself out against the shape it just left. */
+  const shapes = await page.evaluate(async () => {
+    const read = () => { const r = document.querySelector('.pw[data-focus="true"]').getBoundingClientRect();
+      return { w: Math.round(r.width), h: Math.round(r.height) }; };
+    const wait = ms => new Promise(r => setTimeout(r, ms));
+    document.querySelector('.shape button[data-shape="tall"]').click(); await wait(1200);
+    const tall = read();
+    document.querySelector('.shape button[data-shape="wide"]').click(); await wait(1200);
+    return { tall, wide: read() };
+  });
+  if (shapes.tall.h > shapes.tall.w && shapes.wide.w > shapes.wide.h)
+    ok('4g the toggle really changes the front card\'s shape',
+       `tall ${shapes.tall.w}x${shapes.tall.h} · wide ${shapes.wide.w}x${shapes.wide.h}`);
+  else bad('4g a shape is not the orientation it claims', JSON.stringify(shapes));
+  await page.evaluate(() => document.querySelector('.shape button[data-shape="tall"]').click());
+  await page.waitForTimeout(1200);
+
   /* ═══ 5b · THE + TURNS THE CARD — HIS ADDITION, SO IT IS ASSERTED ══════════════
      ⚠️ THE + AND THE FACE MUST NEVER BOTH BE LIVE. The face adds the goal, the + opens the
      reading; a turned card whose face still takes clicks means one click doing two things,

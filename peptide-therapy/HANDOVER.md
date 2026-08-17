@@ -8,7 +8,7 @@
 > (**72**). Both must be green before anything ships. They need
 > `npm install --no-save playwright gsap@3.13.0 lenis@1.3.4`.
 > The round-18 files have their own, playwright only: `node tools/qa/section04-lab.mjs`
-> (**49**) and `node tools/qa/section04-hybrid.mjs` (**44**).
+> (**49**) and `node tools/qa/section04-hybrid.mjs` (**49**).
 > **The page is on `main`** as of round 17; round 18 is on
 > `claude/whats-included-excluded-copy-04cohg`.
 >
@@ -35,7 +35,9 @@
 >    AED 1,950. ⚠️ **Never invent a figure** — see the AED 350 incident in round 12.
 >
 > **WHAT IS STILL OPEN (all his):**
-> · **SECTION 04 — ONE QUESTION LEFT: IVORY OR THE ROSE DAWN.** He sent a third reference
+> · **SECTION 04 — TWO QUESTIONS: TALL OR WIDE, AND IVORY OR THE ROSE DAWN.** Both are live
+>   on the page; the shape is a toggle under the ring, defaulted to tall.
+> · *(superseded)* **ONE QUESTION LEFT: IVORY OR THE ROSE DAWN.** He sent a third reference
 >   and `section04-hybrid.html` is now a RING of his eight photographs with a + that turns
 >   a card over. The artwork question is closed — the eight landed 2026-08-17.
 > · *(superseded, kept for the reasoning)* **TWO QUESTIONS, NOT A LETTER ANY MORE.** He merged two of his own boards
@@ -281,6 +283,45 @@
 > chain scene rises to exactly it so the handoff has no seam, and the ivory tiles need it to
 > read as objects. **The second reason dies with photographs on the cards; the first does
 > not.** Either the scene's `BG_B` follows the ground, or this is re-graded onto the dawn.
+
+> **20 · ⚠️⚠️ HE CAUGHT THE RING RUNNING UPSIDE DOWN, AND HE WAS RIGHT.** *"By the logic of
+> our circle which rotates, going down to the point in the middle — should those cards be
+> going down as well?"* **Yes.** On a ring seen from above the NEAR point is the LOWEST on
+> screen and the ring climbs away as it recedes; the build had the front card HIGHEST with
+> the outer cards dipping below it — **a hill with a valley in the middle, not a circle.**
+> ⚠️ **NOTHING IN THE HARNESS WOULD EVER HAVE SAID SO.** Every assertion was about position,
+> count, contrast and overflow, and not one about whether the arrangement MEANT anything.
+> Checks 4e/4f now measure it: the feet must descend strictly from the front outward (51px
+> of climb), and each step out must be strictly smaller.
+> ⚠️ **THE FIX IS ANCHORING, NOT AN OFFSET.** Cards are bottom-anchored with
+> `transform-origin:50% 100%`, because what follows the ellipse is a card's FOOT — anchored
+> or scaled about its centre, a taller or smaller card's foot leaves the curve.
+> ⚠️ **AND RECESSION IS NOW ONE NUMBER.** `t = (1-cos(a/aMax·SPREAD))/(1-cos(SPREAD))` — the
+> chord of the arc, 0 at the front and 1 at the outermost. Height, size and opacity all read
+> it, so they cannot drift apart, and the falloff is slow near the front and quick at the
+> edges, which is what perspective does. Scale was a flat `1 − a×.05` (0.95→0.80, which the
+> eye reads as nothing); it is now 0.98 / 0.91 / 0.80 / 0.66.
+> ⚠️ **THE RING LINE'S HEIGHT IS DERIVED FROM `RISE`, NOT CHOSEN.** What is on screen is the
+> ellipse's BOTTOM arc; at half-width it has climbed B×0.47, so B ≈ 2×RISE or the line stops
+> being the thing the cards stand on. Change one, change the other.
+>
+> **21 · TALL OR WIDE — A TOGGLE UNDER THE RING, AND THE SECOND OPEN QUESTION.** His ask:
+> *"experiment on making the cards portrait sized to maximise their image, as the images are
+> portrait."* ⚠️ **HE IS RIGHT THREE TIMES OVER.** The photographs are 4:5 and a 452×338
+> landscape card **cropped about sixty per cent of each one away** before asking him to judge
+> it; tall hands the arc **a hundred pixels back**, so the fan's overlap falls 31% → 22% and
+> the outermost card stops being a sliver; and a ring of eight identical portrait cards with
+> one brought forward is a coherent object, where a ring whose front card CHANGES SHAPE is a
+> fan with a billboard in it. **Wide is kept, because it is what his reference showed.**
+> Default is tall. ⚠️ The toggle writes `--fw/--fh` **on the rail**, and layout is deferred
+> two frames — the probes report the new width on the next frame, not this one, so laying out
+> immediately places the ring against the shape it just left.
+>
+> **22 · THE 3/4 SPLIT WAS ALREADY THERE; WHAT HE SAW WAS THE FOURTH CARD LOOKING HIDDEN.**
+> Eight cards with one at the front leaves seven, so the arc is 3 + front + 4 and always was.
+> ⚠️ **SEVEN DOES NOT HALVE — the asymmetry is movable, not fixable**, and his own first
+> reference has the same split. The portrait card makes the fourth legible again, which is
+> the whole of what was wrong.
 
 > ---
 

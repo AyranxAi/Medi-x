@@ -138,29 +138,52 @@ img{display:block;max-width:100%}
    so measuring mid-turn returns a size partway between the old and the new, and the ring
    computes its geometry from a number true for no frame. The probes carry the same values
    and never animate. */
-.rail{position:relative;height:clamp(384px,32vw,436px);
-  --fw:min(452px,38vw); --fh:min(338px,28.4vw);
-  --sw:clamp(104px,8.7vw,126px); --sh:clamp(214px,17.8vw,258px);
+/* ⚠️⚠️ TWO FRONT-CARD SHAPES, AND THE TALL ONE IS NOT ONLY A TASTE. His eight photographs
+   are 4:5 PORTRAIT; a 452x338 landscape card crops about sixty per cent of each one away
+   and then asks the client to judge the picture. Tall also buys the ring a hundred pixels
+   back — the fan's overlap falls from 31% to 22%, which is what turns the outermost card
+   from a sliver into a card. And a ring of eight identical portrait cards with one brought
+   forward is a coherent object; a ring whose front card CHANGES SHAPE is a fan with a
+   billboard in it. The wide version is kept because it is what his reference showed, and
+   because a landscape front card carries a longer line more comfortably. */
+.rail{position:relative;height:clamp(420px,34vw,500px);
+  --fw:min(352px,29vw); --fh:min(468px,38.5vw);
+  --sw:clamp(112px,9.4vw,136px); --sh:clamp(206px,17vw,244px);
   perspective:2000px;perspective-origin:50% 50%;touch-action:pan-y;cursor:grab}
 .rail.dragging{cursor:grabbing}
 /* ⚠️ THE FRONT CARD MUST NOT INHERIT THE FAN'S ALIGNMENT. It is [data-side="c"], so the
    rule above cannot reach it — but a future edit that keys off d>0 instead would flip the
    whole editorial column to the right the moment the ring turned past halfway. */
+/* the wide front card — his reference's shape, kept as the alternative */
+.rail[data-shape="wide"]{--fw:min(452px,38vw); --fh:min(338px,28.4vw)}
 /* the ring line the cards stand on */
 /* ⚠️ A VERY WIDE ELLIPSE HAS NO VISIBLE CURVE. At 124% wide the only part on screen was
    the top of the arc, which reads as a stray horizontal rule ruled across the section
    rather than as a ring the cards are standing on. Narrower and shorter puts real
    curvature inside the frame. */
-.rail::before{content:"";position:absolute;left:50%;top:52%;width:96%;height:52%;
-  transform:translateX(-50%);border:1px solid var(--gold);opacity:.34;
+/* ⚠️ WHAT IS ON SCREEN IS THE ELLIPSE'S BOTTOM ARC, AND ITS HEIGHT IS THE RISE, NOT A
+   LOOK. That arc is lowest at the middle and sweeps up at the sides, which is the curve the
+   cards' feet now follow — so the two only agree if the ellipse's semi-minor axis is about
+   twice RISE. At half-width the bottom arc has climbed B x 0.47; with RISE at 52px that
+   puts B near 108, which is 44% of a 490px rail. Change RISE and this follows it, or the
+   line stops being the thing the cards are standing on and becomes a decoration near them. */
+.rail::before{content:"";position:absolute;left:50%;bottom:2%;width:98%;height:44%;
+  transform:translateX(-50%);border:1px solid var(--gold);opacity:.32;
   border-radius:50%;pointer-events:none}
 .probe{position:absolute;top:0;left:0;height:0;visibility:hidden;pointer-events:none}
 .probe-f{width:var(--fw)} .probe-s{width:var(--sw)}
 
-.pw{position:absolute;left:50%;top:50%;
+/* ⚠️⚠️ ANCHORED BY ITS BASE, AND transform-origin:bottom IS HALF OF WHY. A ring is a thing
+   cards STAND ON: what follows the ellipse is each card's foot, not its middle. Anchored by
+   the centre, a taller front card grows in both directions and its base leaves the ring;
+   scaled about the centre, a smaller card's base leaves it too. Bottom-anchored and
+   bottom-scaled, every foot stays on the curve no matter what size the card is — which is
+   the whole difference between a ring and a row of things at different heights. */
+.pw{position:absolute;left:50%;bottom:var(--floor,7%);
   width:var(--w);height:var(--h);--w:var(--sw);--h:var(--sh);
   border-radius:7px;background:var(--cream);
-  transform:translate(-50%,-50%) translate3d(var(--x,0px),var(--y,0px),0)
+  transform-origin:50% 100%;
+  transform:translateX(-50%) translate3d(var(--x,0px),var(--y,0px),0)
     rotateY(var(--rot,0deg)) scale(var(--sc,1));
   opacity:var(--op,1);z-index:var(--z,1);
   transform-style:preserve-3d;
@@ -232,20 +255,30 @@ img{display:block;max-width:100%}
    left to right and thins out before the subject of the image. */
 .pw[data-focus="true"]{--w:var(--fw);--h:var(--fh);--sc:1;--rot:0deg;--op:1;
   z-index:40;box-shadow:0 38px 84px rgba(71,24,38,.26)}
+/* ⚠️ THE SCRIM FOLLOWS THE COPY. A left-to-right gradient under a foot-aligned block
+   darkens the half nobody is reading and leaves the type on the bright half — the scrim has
+   to run the way the text is laid, or it is decoration that also happens to hurt. */
 .pw[data-focus="true"] .pw-art::after{
+  background:linear-gradient(to top,rgba(74,22,38,.96) 0%,rgba(74,22,38,.86) 26%,
+    rgba(74,22,38,.42) 56%,rgba(74,22,38,.08) 84%)}
+.rail[data-shape="wide"] .pw[data-focus="true"] .pw-art::after{
   background:linear-gradient(100deg,rgba(74,22,38,.95) 0%,rgba(74,22,38,.88) 32%,
     rgba(74,22,38,.5) 60%,rgba(74,22,38,.14) 100%)}
 .pw[data-focus="true"] .pw-n{top:clamp(18px,1.8vw,24px);left:clamp(20px,2vw,28px);
   font-size:clamp(12px,1.1vw,14px)}
-.pw[data-focus="true"] .pw-body{top:0;right:38%;bottom:0;justify-content:center;
-  padding:clamp(20px,2vw,28px);gap:clamp(9px,.9vw,13px)}
+/* TALL — the copy sits along the foot and the picture keeps the whole card */
+.pw[data-focus="true"] .pw-body{top:auto;right:0;left:0;bottom:0;justify-content:flex-end;
+  align-items:flex-start;padding:clamp(20px,2vw,28px);gap:clamp(9px,.9vw,13px)}
+/* WIDE — the copy takes a column and the picture keeps the rest */
+.rail[data-shape="wide"] .pw[data-focus="true"] .pw-body{top:0;right:38%;bottom:0;
+  justify-content:center}
 /* ⚠️ 29px, NOT 33. The column is 62% of a 452px card, and "Musculoskeletal Injury" is
    the name that decides the size — at 33px its first word alone broke to two lines and
    the longest of the eight became a three-line title beside seven one- and two-line
    ones. The set is sized by its worst case, not by its average. */
 .pw[data-focus="true"] .pw-body h3{font-size:clamp(21px,2.05vw,29px);line-height:1.06}
 .pw[data-focus="true"] .pw-line{display:block;color:rgba(250,247,241,.88);
-  font-size:clamp(12.5px,1.05vw,14.5px);line-height:1.55}
+  font-size:clamp(12.5px,1.05vw,14.5px);line-height:1.55;max-width:34ch}
 .pw[data-focus="true"] .pw-body .pw-cta{display:inline-flex}
 .pw-cta{align-items:center;gap:10px;flex:none;border-radius:999px;
   padding:11px 21px;background:var(--burgundy);color:var(--ivory);
@@ -316,6 +349,12 @@ img{display:block;max-width:100%}
   display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:14px}
 .tally{display:flex;align-items:baseline;gap:9px;color:var(--ink-soft);font-size:13px}
 .tally b{font-family:var(--accent);font-weight:400;font-size:16px;color:var(--gold-deep)}
+/* the experiment he asked for, left where he can reach it rather than decided for him */
+.shape{display:inline-flex;margin-left:14px;border:1px solid var(--line);border-radius:999px;
+  overflow:hidden}
+.shape button{padding:5px 13px;font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;
+  font-weight:500;color:var(--ink-soft);transition:background .3s var(--ease),color .3s var(--ease)}
+.shape button[aria-pressed="true"]{background:var(--burgundy);color:var(--ivory)}
 .hint{display:flex;align-items:center;gap:9px;color:var(--ink-soft);
   font-size:11px;letter-spacing:.13em;text-transform:uppercase;justify-self:center}
 .hint svg{width:17px;height:17px;color:var(--gold-deep)}
@@ -420,7 +459,7 @@ img{display:block;max-width:100%}
       the same whichever you pick.</p>
     </div>
 
-    <div class="rail" id="rail" role="group" aria-label="Peptide therapy pathways">
+    <div class="rail" id="rail" data-shape="tall" role="group" aria-label="Peptide therapy pathways">
       <i class="probe probe-f" id="probeF" aria-hidden="true"></i>
       <i class="probe probe-s" id="probeS" aria-hidden="true"></i>
       <button type="button" class="arrow arrow--prev" id="prev" aria-label="Previous pathway">
@@ -578,7 +617,11 @@ img{display:block;max-width:100%}
     </div>
 
     <div class="rail-foot">
-      <p class="tally"><b id="tally">0</b> <span id="tallyLabel">nothing chosen yet</span></p>
+      <p class="tally"><b id="tally">0</b> <span id="tallyLabel">nothing chosen yet</span>
+        <span class="shape" role="group" aria-label="Front card shape">
+          <button type="button" data-shape="tall" aria-pressed="true">Tall</button>
+          <button type="button" data-shape="wide" aria-pressed="false">Wide</button>
+        </span></p>
       <p class="hint">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"
              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -595,8 +638,8 @@ img{display:block;max-width:100%}
 <section class="notes">
   <div class="notes-in">
     <h2>What it does, what it costs, and what is still yours</h2>
-    <p class="notes-lede">Six things worth knowing before you say yes. Five are decided in
-    the build above and can be reversed in a line; one needs a word from you.</p>
+    <p class="notes-lede">Eight things worth knowing before you say yes. Six are decided in
+    the build above and can be reversed in a line; two need a word from you.</p>
 
     <div class="grid-notes">
       <article class="note">
@@ -621,6 +664,44 @@ img{display:block;max-width:100%}
         at the far end of the ring is a target nobody can hit and a decoration everybody can
         see. While a card is turned its face stops taking clicks, so a click never means two
         things at once.</p>
+      </article>
+
+      <article class="note">
+        <span class="note-k">Fixed &mdash; your catch</span>
+        <h3>The ring turns the right way now</h3>
+        <p><b>You were right, and it was a real error.</b> On a ring seen from above the
+        point nearest you is the <em>lowest</em> on screen and the ring climbs away as it
+        recedes. I had it inverted &mdash; the front card sat highest and the outer cards
+        dipped below it, which is a hill with a valley in the middle, not a circle. Now every
+        card&rsquo;s <b>foot</b> follows the ellipse: the front one is lowest and each card
+        rises 52px as it goes round. <b>Near is properly bigger too.</b> It always shrank,
+        but by a flat 5% a step, which the eye reads as nothing; size now comes off the same
+        arc as the height, so it falls slowly near the front and quickly at the edges &mdash;
+        0.98, 0.91, 0.80, 0.66 &mdash; which is what perspective actually does.</p>
+      </article>
+
+      <article class="note">
+        <span class="note-k open">Open &mdash; needs you</span>
+        <h3>Tall or wide</h3>
+        <p>Toggle it under the ring. <b>Your photographs are 4:5 portrait, and the landscape
+        card was cropping about sixty per cent of each one away</b> &mdash; then asking you to
+        judge the picture. Tall also hands the ring a hundred pixels back: the fan&rsquo;s
+        overlap drops from 31% to 22%, <b>which is what turns the eighth card from a sliver
+        into a card</b> &mdash; the thing that read to you as being &ldquo;on the back&rdquo;.
+        And a ring of eight identical portrait cards with one brought forward is a coherent
+        object; a ring whose front card also changes shape is a fan with a billboard in it.
+        <b>Wide is kept because it is what your reference showed</b>, and it carries a long
+        name on one line more comfortably. My vote is tall.</p>
+      </article>
+
+      <article class="note">
+        <span class="note-k">Decided &mdash; reversible</span>
+        <h3>Three one side, four the other</h3>
+        <p>Eight cards and one at the front leaves seven, so the arc is <b>3 + front + 4</b>
+        &mdash; it always was, but the fourth was so overlapped it read as hidden rather than
+        placed. With the portrait card it is a legible card again. <b>The asymmetry itself is
+        not fixable</b>, only movable: seven does not halve. Your own first reference has the
+        same 3/4 split. Say the word if you would rather the four sat on the left.</p>
       </article>
 
       <article class="note">
@@ -670,9 +751,9 @@ img{display:block;max-width:100%}
 
     <div class="ask">
       <h3>What I need back</h3>
-      <p>Yes to the mechanism, or a change &mdash; and the one open question: <b>ivory, or
-      the rose dawn the rest of the page hands it</b>. Everything else above I can flip in a
-      line if you disagree.</p>
+      <p>Yes to the mechanism, or a change &mdash; and the two open ones: <b>tall or
+      wide</b>, and <b>ivory or the rose dawn the rest of the page hands it</b>. Everything
+      else above I can flip in a line if you disagree.</p>
     </div>
   </div>
 </section>
@@ -690,6 +771,11 @@ const probeF = document.getElementById('probeF'), probeS = document.getElementBy
 const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const wide   = () => matchMedia('(min-width: 1181px)').matches;
 let focus = 0, depth = null;
+/* the ring's shape, in one place: how far round the arc the outermost card sits, how far a
+   receding card climbs, and how much of its size it gives up getting there */
+const SPREAD = 1.06;   /* radians — about 61 degrees to the outermost card */
+const RISE   = 52;     /* px the outermost card's foot is above the front card's */
+const SHRINK = .34;    /* the outermost card is 66% of a front-row one */
 
 /* ── the artwork, loaded defensively ──────────────────────────────────────────────
    ⚠️ THE SRC IS ONLY SET ONCE THE FILE HAS ACTUALLY LOADED. Assigning it straight to the
@@ -724,7 +810,7 @@ function layout(){
      the clip put the outermost card underneath the next/prev control — a card you cannot
      read behind a button you cannot see. 62px is the arrow's 44 plus air on both sides. */
   const railW = rail.clientWidth || innerWidth;
-  const room = railW / 2 - 62 - (sw * (1 - aMax * .05)) / 2;
+  const room = railW / 2 - 62 - (sw * (1 - SHRINK)) / 2;
   const unit = Math.min(sw * .95, Math.max(sw * .46, (room - x1) / Math.pow(aMax - 1, .88)));
   for (let i = 0; i < N; i++) {
     const c = cards[i];
@@ -736,13 +822,23 @@ function layout(){
       c.querySelector('.pw-more').setAttribute('aria-expanded', 'false');
     }
     c.style.setProperty('--x', (on ? 0 : Math.sign(d) * (x1 + unit * Math.pow(a - 1, .88))).toFixed(1) + 'px');
-    /* the outer cards dip below the front one, which is the direction that reads as a ring
-       lying on a table rather than a hill with a valley at its middle */
-    c.style.setProperty('--y', on ? '0px' : (Math.pow(a, 1.3) * 7).toFixed(1) + 'px');
+    /* ⚠️⚠️ RECESSION IS ONE NUMBER AND EVERYTHING ELSE IS DERIVED FROM IT. `t` is how far
+       round the ring a card has travelled, 0 at the front and 1 at the outermost, taken from
+       the CHORD of the arc rather than from `a` — which is why the falloff is slow near the
+       front and quick at the edges, exactly as perspective behaves. Height, size and
+       opacity all read the same t, so they cannot drift out of agreement with each other.
+       ⚠️ AND THE SIGN OF THE RISE IS THE BUG THIS REPLACED. It was `+`: the front card sat
+       HIGHEST and the outer cards dipped below it — a hill with a valley in the middle.
+       On a ring seen from above the NEAR point is the LOWEST point on screen and the ring
+       climbs away from you, so a receding card RISES. His note caught it before a client
+       ever saw it, and it is the one error here that made the whole thing read as a fan of
+       cards rather than as a circle. */
+    const t = a === 0 ? 0 : (1 - Math.cos(a / aMax * SPREAD)) / (1 - Math.cos(SPREAD));
+    c.style.setProperty('--y', on ? '0px' : (-t * RISE).toFixed(1) + 'px');
     c.style.setProperty('--rot', on ? (c.dataset.open === 'true' ? '180deg' : '0deg')
-                                    : (-d * 11) + 'deg');
-    c.style.setProperty('--sc', on ? 1 : (1 - a * .05).toFixed(3));
-    c.style.setProperty('--op', on ? 1 : Math.max(.62, 1 - a * .085).toFixed(2));
+                                    : (-Math.sign(d) * (8 + t * 13)).toFixed(1) + 'deg');
+    c.style.setProperty('--sc', on ? 1 : (1 - t * SHRINK).toFixed(3));
+    c.style.setProperty('--op', on ? 1 : (1 - t * .40).toFixed(2));
     c.style.setProperty('--z', on ? 40 : 30 - a);
     c.dataset.side = on ? 'c' : (d > 0 ? 'r' : 'l');
     /* ⚠️ THE LABEL FOLLOWS THE MEANING. The same button brings a card forward when it is
@@ -804,6 +900,16 @@ cards.forEach((c, i) => {
   });
 });
 
+for (const b of document.querySelectorAll('.shape button'))
+  b.addEventListener('click', () => {
+    rail.dataset.shape = b.dataset.shape;
+    for (const o of document.querySelectorAll('.shape button'))
+      o.setAttribute('aria-pressed', String(o === b));
+    /* ⚠️ THE PROBES HAVE TO SETTLE BEFORE THE ARC IS RECOMPUTED. --fw changes on the rail,
+       so probeF's width is the NEW value on the next frame, not this one — laying out
+       immediately places the whole ring against the shape it just left. */
+    requestAnimationFrame(() => requestAnimationFrame(layout));
+  });
 document.getElementById('prev').addEventListener('click', () => focusOn(focus - 1));
 document.getElementById('next').addEventListener('click', () => focusOn(focus + 1));
 addEventListener('keydown', e => {

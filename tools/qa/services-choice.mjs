@@ -200,8 +200,21 @@ const run = async () => {
 
   has('2  the heading asks rather than announces',
       await page.evaluate(() => document.querySelector('#services h2').textContent), 'Where would you like to begin');
-  has('2c the lede says you may pick more than one',
-      await page.evaluate(() => document.querySelector('.sec-lede').textContent), 'as many as apply');
+  /* ⚠️ THIS PINNED THE STRING "as many as apply" AND THE COPY MOVED UNDER IT — 2026-08-17.
+     The lede is now "Choose as many goals as you like to focus your consultation on."; the
+     old literal made this check fail on a page that is correct, which is the same trap
+     peptide-page.mjs's token checks fell into the same day.
+     ⚠️ WHAT IT GUARDS HAS NOT CHANGED and is the reason the lede exists at all: the eight
+     are a MULTI-SELECT and this sentence is the only thing on the page that says so. It
+     now asserts the meaning — an "as many …" construction — rather than one phrasing of
+     it, so the copy can be rewritten again without the check crying wolf, but a lede that
+     stops inviting more than one pick still fails. */
+  {
+    const lede = await page.evaluate(() => document.querySelector('.sec-lede').textContent.replace(/\s+/g, ' ').trim());
+    /^|.*/.test(lede) && (/as many/i.test(lede) && /goal|apply|like/i.test(lede)
+      ? ok('2c the lede says you may pick more than one', lede)
+      : bad('2c the lede no longer invites more than one pick', lede));
+  }
   has('2a the client\'s spellings survive', grid.names, 'Anti Ageing');
   has('2b and the ampersand one', grid.names, 'Skin & Hair Loss');
 

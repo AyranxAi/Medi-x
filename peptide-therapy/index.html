@@ -934,7 +934,23 @@ section{position:relative}
   border:1px solid rgba(250,247,241,.5);background:rgba(52,16,28,.36);
   backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
   transition:background .35s var(--ease),border-color .35s var(--ease)}
-.pw-more span{position:relative;transition:transform .5s var(--ease)}
+/* ⚠️⚠️ THE + IS AN SVG AND IS CENTRED ABSOLUTELY — 2026-08-17, his "on the phone the + is
+   not shown". IT COULD NOT BE REPRODUCED HERE and that is stated rather than glossed:
+   this environment has Chromium only, and under phone emulation the glyph measured
+   present, centred and 4.52:1. So this is not a fix by reproduction, it is the removal of
+   the two things the + depended on that the × beside it does not — which is the only
+   honest reading of why he sees one and not the other.
+     1 · IT WAS A TEXT NODE. Its box came from font metrics, so it needed --sans to have
+         loaded and to carry the glyph. The × has always been an SVG with explicit
+         width/height and has never been reported missing.
+     2 · IT RELIED ON display:grid + place-content ON A <button>. WebKit has never honoured
+         layout on a button box reliably; where it is ignored the child falls to the text
+         baseline of a 46px box — near the card's corner, under its radius and clip, which
+         is exactly "not inside the circle" AND "not shown" depending on where it lands.
+   Absolute centring inside the button needs neither. The stroke is currentColor so the
+   hover swap to --ink still works, and the JS only ever touched aria-expanded. */
+.pw-more svg{position:absolute;top:50%;left:50%;width:14px;height:14px;display:block;
+  transform:translate(-50%,-50%);transition:transform .5s var(--ease)}
 .pw-more:hover::before{background:var(--gold);border-color:var(--gold)}
 .pw-more:hover{color:var(--ink)}
 .pw[data-focus="true"] .pw-more{display:grid;top:clamp(10px,1vw,14px);right:clamp(10px,1vw,14px)}
@@ -947,7 +963,10 @@ section{position:relative}
    for the same reason; a brand face is not obliged to carry punctuation. */
 .pw-close{position:absolute;top:clamp(10px,1vw,14px);right:clamp(10px,1vw,14px);z-index:9;
   width:46px;height:46px;display:grid;place-content:center;color:var(--ivory)}
-.pw-close svg{position:relative;width:12px;height:12px;display:block}
+/* the × gets the same treatment for the same reason — it has not been reported, but it
+   is the same button box and the same grid assumption, so it is not left waiting */
+.pw-close svg{position:absolute;top:50%;left:50%;width:13px;height:13px;display:block;
+  transform:translate(-50%,-50%)}
 .pw-close::before{content:"";position:absolute;inset:9px;border-radius:50%;
   border:1px solid rgba(250,247,241,.42);
   transition:background .35s var(--ease),border-color .35s var(--ease)}
@@ -2606,7 +2625,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
             <p class="pw-line">Inflammation, flares, and an immune system working against you.</p>
             <button type="button" class="pw-cta">Add to consultation <span class="arr">+</span></button>
           </div>
-          <button type="button" class="pw-more" aria-label="Auto Immune Disease — read more" aria-expanded="false"><span aria-hidden="true">+</span></button>
+          <button type="button" class="pw-more" aria-label="Auto Immune Disease — read more" aria-expanded="false"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M7 1.7v10.6M1.7 7h10.6"/></svg></button>
           <div class="pw-back">
             <button type="button" class="pw-close" aria-label="Close"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.6 2.6 9.4 9.4M9.4 2.6 2.6 9.4"/></svg></button>
             <h3>Auto Immune Disease</h3>
@@ -2626,7 +2645,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
             <p class="pw-line">Focus, memory, mood and mental stamina.</p>
             <button type="button" class="pw-cta">Add to consultation <span class="arr">+</span></button>
           </div>
-          <button type="button" class="pw-more" aria-label="Brain Health — read more" aria-expanded="false"><span aria-hidden="true">+</span></button>
+          <button type="button" class="pw-more" aria-label="Brain Health — read more" aria-expanded="false"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M7 1.7v10.6M1.7 7h10.6"/></svg></button>
           <div class="pw-back">
             <button type="button" class="pw-close" aria-label="Close"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.6 2.6 9.4 9.4M9.4 2.6 2.6 9.4"/></svg></button>
             <h3>Brain Health</h3>
@@ -2646,7 +2665,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
             <p class="pw-line">Digestion, bloating, and the barrier that governs both.</p>
             <button type="button" class="pw-cta">Add to consultation <span class="arr">+</span></button>
           </div>
-          <button type="button" class="pw-more" aria-label="Gut Health — read more" aria-expanded="false"><span aria-hidden="true">+</span></button>
+          <button type="button" class="pw-more" aria-label="Gut Health — read more" aria-expanded="false"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M7 1.7v10.6M1.7 7h10.6"/></svg></button>
           <div class="pw-back">
             <button type="button" class="pw-close" aria-label="Close"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.6 2.6 9.4 9.4M9.4 2.6 2.6 9.4"/></svg></button>
             <h3>Gut Health</h3>
@@ -2666,7 +2685,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
             <p class="pw-line">Body composition, metabolism and how you handle sugar.</p>
             <button type="button" class="pw-cta">Add to consultation <span class="arr">+</span></button>
           </div>
-          <button type="button" class="pw-more" aria-label="Weight Management — read more" aria-expanded="false"><span aria-hidden="true">+</span></button>
+          <button type="button" class="pw-more" aria-label="Weight Management — read more" aria-expanded="false"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M7 1.7v10.6M1.7 7h10.6"/></svg></button>
           <div class="pw-back">
             <button type="button" class="pw-close" aria-label="Close"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.6 2.6 9.4 9.4M9.4 2.6 2.6 9.4"/></svg></button>
             <h3>Weight Management</h3>
@@ -2686,7 +2705,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
             <p class="pw-line">Collagen, thinning, texture and how quickly skin repairs.</p>
             <button type="button" class="pw-cta">Add to consultation <span class="arr">+</span></button>
           </div>
-          <button type="button" class="pw-more" aria-label="Skin &amp; Hair Loss — read more" aria-expanded="false"><span aria-hidden="true">+</span></button>
+          <button type="button" class="pw-more" aria-label="Skin &amp; Hair Loss — read more" aria-expanded="false"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M7 1.7v10.6M1.7 7h10.6"/></svg></button>
           <div class="pw-back">
             <button type="button" class="pw-close" aria-label="Close"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.6 2.6 9.4 9.4M9.4 2.6 2.6 9.4"/></svg></button>
             <h3>Skin &amp; Hair Loss</h3>
@@ -2706,7 +2725,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
             <p class="pw-line">Joints, tendons, and the time it takes you to heal.</p>
             <button type="button" class="pw-cta">Add to consultation <span class="arr">+</span></button>
           </div>
-          <button type="button" class="pw-more" aria-label="Musculoskeletal Injury — read more" aria-expanded="false"><span aria-hidden="true">+</span></button>
+          <button type="button" class="pw-more" aria-label="Musculoskeletal Injury — read more" aria-expanded="false"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M7 1.7v10.6M1.7 7h10.6"/></svg></button>
           <div class="pw-back">
             <button type="button" class="pw-close" aria-label="Close"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.6 2.6 9.4 9.4M9.4 2.6 2.6 9.4"/></svg></button>
             <h3>Musculoskeletal Injury</h3>
@@ -2726,7 +2745,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
             <p class="pw-line">Cellular repair, energy, and the pace of decline.</p>
             <button type="button" class="pw-cta">Add to consultation <span class="arr">+</span></button>
           </div>
-          <button type="button" class="pw-more" aria-label="Anti Ageing — read more" aria-expanded="false"><span aria-hidden="true">+</span></button>
+          <button type="button" class="pw-more" aria-label="Anti Ageing — read more" aria-expanded="false"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M7 1.7v10.6M1.7 7h10.6"/></svg></button>
           <div class="pw-back">
             <button type="button" class="pw-close" aria-label="Close"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.6 2.6 9.4 9.4M9.4 2.6 2.6 9.4"/></svg></button>
             <h3>Anti Ageing</h3>
@@ -2746,7 +2765,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
             <p class="pw-line">Libido, function, and the hormones underneath both.</p>
             <button type="button" class="pw-cta">Add to consultation <span class="arr">+</span></button>
           </div>
-          <button type="button" class="pw-more" aria-label="Sexual Health — read more" aria-expanded="false"><span aria-hidden="true">+</span></button>
+          <button type="button" class="pw-more" aria-label="Sexual Health — read more" aria-expanded="false"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M7 1.7v10.6M1.7 7h10.6"/></svg></button>
           <div class="pw-back">
             <button type="button" class="pw-close" aria-label="Close"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.6 2.6 9.4 9.4M9.4 2.6 2.6 9.4"/></svg></button>
             <h3>Sexual Health</h3>

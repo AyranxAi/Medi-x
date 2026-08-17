@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>The Living Grid</title>
+<!--
+  ══════════════════════════════════════════════════════════════════════════════════
+  THE LIVING GRID — eight ways section 04 could want touching · round 18, 2026-08-17
+  ══════════════════════════════════════════════════════════════════════════════════
+  His brief, verbatim: "make section 4 more beautiful… give me a diversity of ideas,
+  perhaps adding threejs for the cards, spline, new colour, animation, making them
+  bigger, having something interesting for the human to click it and be curious."
+
+  ⚠️ THE AXIS IS DELIBERATE, AND IT IS THE ROUND-10b LESSON APPLIED. The first Bond Lab
+  offered six answers to a question already settled and had to be rebuilt along the axis
+  that actually varied. So this lab does not offer eight arrangements of the same tile.
+  It runs three chapters, and each chapter costs something different to adopt:
+      I · THE CUT      geometry and ground. Nothing new on the page. Ships this week.
+      II · THE SURFACE motion, in CSS and a few lines of script. No dependency.
+      III · THE DEPTH  real 3D, vendored three.js. A new runtime on a page that has none.
+  A written note on Spline closes it, because Spline is not a design choice — it is a
+  hosting decision, and it is answered rather than mocked up. See variant I.
+
+  ⚠️⚠️ ONE SET OF EIGHT TILES, RESTYLED EIGHT WAYS — goals-lab's rule, and for its reason.
+  The eight <article class="px"> below are authored ONCE and every variant is a
+  data-v on their container. Authoring eight copies would have made the comparison a lie,
+  because the copies could drift; it would also have been eight times the markup for no
+  information. ⚠️ IT ALSO MEANS A VARIANT MAY ONLY CHANGE STYLE AND BEHAVIOUR, NEVER
+  CONTENT. If an idea needs different words on the tile, it does not belong in this file.
+
+  ⚠️ EVERY WORD ON EVERY TILE IS AUTHORED IN THIS HTML AND ALREADY EXISTS IN THE PROJECT.
+  Names and marks are lifted from index.html; the one-line descriptors are goals-lab's,
+  and the three chips per tile are that tile's own popup chips from index.html. NOTHING
+  HERE IS NEW COPY. Script supplies behaviour, never content — the programme lab's bug
+  (a build whose content came from innerHTML rendered four headings and nothing else
+  wherever script did not run) is the reason that rule exists.
+  With script off this page shows variant A, all eight tiles readable, and all nine
+  rationales — a degraded page rather than a broken one.
+
+  ⚠️ THE STAGE IS THE REAL SECTION AT REAL SCALE, not a swatch board. Same tokens, same
+  .px geometry, same rose-dawn ground, same 1280px measure. A tile judged at lab scale is
+  judged at the wrong size — that is how round 13's 46px mark got approved and then had to
+  be re-cut to 58 on the page.
+
+  ⚠️ WHAT THIS LAB DOES NOT REBUILD, ON PURPOSE: the popup, the tray and the programme
+  panel. selected-tile-lab's rule — a lab is not the page. The + here opens the tile's own
+  chips in place, which is enough to judge the gesture; on the page it opens the dialog.
+
+  ⚠️ NUMBERS ON EACH VARIANT ARE MEASURED, NOT ESTIMATED. tools/qa/section04-lab.mjs
+  reads them off this file in a real browser — tile area against the shipped tile, name
+  contrast on that variant's ground, and whether the WebGL variants actually got a
+  context. If a badge here and that harness ever disagree, the harness is right.
+-->
+<style>
+@font-face{font-family:"Playfair";src:url(../fonts/playfair-normal-var-latin.woff2) format("woff2");font-weight:300 900;font-display:swap}
+@font-face{font-family:"Playfair";font-style:italic;src:url(../fonts/playfair-italic-var-latin.woff2) format("woff2");font-weight:300 900;font-display:swap}
+@font-face{font-family:"MediGyn NOW";src:url(../fonts/medigyn-now-300.woff2) format("woff2");font-weight:300;font-display:swap}
+@font-face{font-family:"MediGyn NOW";src:url(../fonts/medigyn-now-500.woff2) format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"MediGyn Megante";src:url(../fonts/medigyn-megante-400.woff2) format("woff2");font-weight:400;font-display:swap}
+
+:root{
+  --ivory:#FAF7F1; --cream:#F4EDE1; --line:#DED4C2; --burgundy:#5C1F31; --rose:#C79A92;
+  --logo-red:#8E2D3A; --red-hover:#A33648; --gold:#C2A05E; --gold-deep:#8A6A34; --gold-tint:#F1E7D2;
+  --ink:#2E2228; --ink-soft:#6A585F; --dawn:#F6E7E1;
+  --serif:"Playfair",Georgia,serif; --sans:"MediGyn NOW",ui-sans-serif,system-ui,sans-serif;
+  --accent:"MediGyn Megante",Optima,Georgia,serif;
+  --ease:cubic-bezier(.22,.61,.36,1); --pad:clamp(20px,4.5vw,72px);
+  /* ⚠️ THE TILE COLOURWAY IS EIGHT TOKENS, NOT EIGHT RULESETS. Every variant that changes
+     colour re-points these and touches nothing else, so a colour idea and a geometry idea
+     can be read separately and combined later. That is the whole reason B is one block. */
+  --ground:var(--dawn); --tile:var(--ivory); --tile-line:var(--line);
+  --tile-ink:var(--ink); --tile-soft:var(--ink-soft);
+  --mark:var(--gold-deep); --mark-plate:var(--cream);
+  --lit:var(--burgundy); --lit-ink:var(--ivory); --lit-mark:var(--gold);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);font-weight:300;background:var(--ivory);color:var(--ink);line-height:1.6}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+h1,h2,h3{font-weight:400}
+
+/* ═══ THE BRIEF ═══════════════════════════════════════════════════════════════════ */
+.top{background:var(--ink);color:var(--ivory);padding:30px var(--pad) 26px}
+.top h1{font-family:var(--accent);font-size:clamp(22px,2.6vw,33px);letter-spacing:-.01em}
+.top p{max-width:70ch;margin-top:11px;font-size:13.5px;line-height:1.75;color:rgba(250,247,241,.76)}
+.top b{color:var(--gold);font-weight:400}
+.top em{font-style:italic;color:var(--ivory)}
+
+/* the letter rail — it is the lab's only control, so it is sticky and it stays legible
+   over every ground below it, including the ink one */
+.rail{position:sticky;top:0;z-index:40;background:rgba(46,34,40,.94);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border-top:1px solid rgba(250,247,241,.16);
+  display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:11px var(--pad)}
+.rail .ch{font-family:var(--sans);font-weight:500;font-size:9.5px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--gold);padding:0 10px 0 2px;white-space:nowrap}
+.rail .ch+.ch{padding-left:14px}
+.rail a{display:inline-flex;align-items:baseline;gap:7px;text-decoration:none;
+  color:rgba(250,247,241,.82);border:1px solid rgba(250,247,241,.28);border-radius:999px;
+  padding:7px 14px;transition:background .28s var(--ease),color .28s var(--ease),
+    border-color .28s var(--ease)}
+.rail a k{font-family:var(--accent);font-size:14px;line-height:1;color:var(--gold)}
+.rail a n{font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;font-weight:500}
+.rail a:hover{background:rgba(250,247,241,.12);border-color:rgba(250,247,241,.5)}
+.rail a[aria-current="true"]{background:var(--ivory);color:var(--ink);border-color:var(--ivory)}
+.rail a[aria-current="true"] k{color:var(--logo-red)}
+
+/* ═══ THE RATIONALE ═══════════════════════════════════════════════════════════════ */
+.why{padding:26px var(--pad) 0;max-width:96ch}
+.why-h{display:flex;align-items:baseline;gap:13px;flex-wrap:wrap}
+.why-k{font-family:var(--accent);font-size:29px;color:var(--logo-red);line-height:1}
+.why-n{font-family:var(--sans);font-weight:500;font-size:12px;letter-spacing:.2em;text-transform:uppercase}
+.why-tag{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--gold-deep);
+  background:var(--gold-tint);border-radius:999px;padding:4px 11px;font-variant-numeric:tabular-nums}
+.why-tag.cost{color:#7A2E38;background:#F4E2E2}
+.why p{margin-top:11px;font-size:13.5px;line-height:1.78;color:var(--ink-soft);max-width:88ch}
+.why p b{color:var(--logo-red);font-weight:500}
+.why p em{font-style:italic;color:var(--ink)}
+.why p code{font-family:ui-monospace,Menlo,monospace;font-size:.9em;color:var(--ink)}
+/* without script every rationale is readable; with script only the live one shows */
+body.js .why-item{display:none}
+body.js .why-item.on{display:block}
+
+/* ═══ THE STAGE — the real section, at the real measure ═══════════════════════════ */
+.stage{margin-top:24px;scroll-margin-top:74px;background:var(--ground);padding:clamp(34px,6vh,72px) var(--pad);
+  transition:background .5s var(--ease)}
+.stage-in{max-width:1280px;margin:0 auto}
+.sec-head{margin-bottom:clamp(30px,4.5vh,54px)}
+.sec-head h2{font-family:var(--serif);font-size:clamp(30px,4vw,54px);line-height:1.08;
+  letter-spacing:-.02em;color:var(--tile-ink);max-width:15em;transition:color .5s var(--ease)}
+.sec-head h2 em{font-style:italic;color:var(--logo-red)}
+.sec-lede{max-width:58ch;margin-top:16px;color:var(--tile-soft);
+  font-size:clamp(15px,1.25vw,17px);line-height:1.62;transition:color .5s var(--ease)}
+
+/* ⚠️ THE GRID IS THE CANVAS'S CONTAINING BLOCK — position:relative here is load-bearing
+   for chapter III. Both WebGL variants put their canvas at inset:0 inside this element,
+   which is what makes scroll and resize free: there is no page-coordinate arithmetic
+   anywhere in the depth engine, and there is no scroll listener. Remove the relative and
+   the canvas escapes to the viewport, which looks correct until the page scrolls. */
+.px-grid{position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:clamp(14px,1.6vw,24px)}
+
+.px{position:relative;z-index:1;display:flex;flex-direction:column;align-items:flex-start;
+  gap:clamp(14px,1.6vw,20px);padding:clamp(22px,2.4vw,32px);
+  min-height:clamp(210px,20vw,268px);
+  background:var(--tile);border:1px solid var(--tile-line);border-radius:2px;
+  transition:border-color .35s var(--ease),transform .35s var(--ease),
+    box-shadow .35s var(--ease),background .45s var(--ease),color .45s var(--ease)}
+.px:hover,.px:focus-within{border-color:var(--gold);transform:translateY(-4px);
+  box-shadow:0 18px 38px rgba(71,24,38,.10)}
+.px-pick{position:absolute;inset:0;z-index:2;border-radius:2px;
+  -webkit-tap-highlight-color:transparent}
+.px-pick:focus-visible{outline:2px solid var(--logo-red);outline-offset:-3px}
+.px-mark{display:block;width:58px;height:58px;color:var(--mark);
+  padding:14px;box-sizing:content-box;margin-bottom:auto;
+  background:var(--mark-plate);border-radius:50%;
+  transition:color .35s var(--ease),background .35s var(--ease),
+    width .4s var(--ease),height .4s var(--ease),opacity .35s var(--ease),
+    transform .5s var(--ease)}
+.px h3{font-family:var(--accent);color:var(--tile-ink);
+  font-size:clamp(20px,1.85vw,27px);line-height:1.15;letter-spacing:-.02em;
+  transition:color .3s var(--ease)}
+.px:hover h3{color:var(--logo-red)}
+/* the descriptor and the chips are authored on every tile and shown by the variants that
+   want them — never injected, so no-script still has them in the document */
+.px-teaser{display:none;color:var(--tile-soft);font-size:clamp(14px,1.1vw,16px);
+  line-height:1.6;max-width:32ch}
+.px-chips{display:none;flex-wrap:wrap;gap:7px}
+.px-chips span{font-family:var(--sans);font-size:11.5px;letter-spacing:.04em;
+  color:var(--gold-deep);border:1px solid var(--tile-line);border-radius:999px;padding:5px 12px}
+.px-n{display:none;font-family:var(--accent);font-size:12px;letter-spacing:.24em;
+  color:var(--gold-deep)}
+.px-open{position:absolute;top:10px;right:10px;z-index:3;width:44px;height:44px;
+  display:grid;place-content:center;color:var(--burgundy)}
+.px-open::before{content:"";position:absolute;inset:6px;border:1px solid var(--tile-line);
+  border-radius:50%;transition:background .4s var(--ease),border-color .4s var(--ease)}
+.px:hover .px-open::before,.px-open:focus-visible::before{background:var(--burgundy);
+  border-color:var(--burgundy)}
+.px:hover .px-open,.px-open:focus-visible{color:var(--ivory)}
+.px-open svg{width:11px;height:11px;display:block;position:relative;
+  transition:transform .5s var(--ease)}
+.px:hover .px-open svg{transform:rotate(90deg)}
+.px[data-open="true"] .px-open svg{transform:rotate(135deg)}
+.px-tick{position:absolute;bottom:12px;right:12px;z-index:3;width:26px;height:26px;
+  border-radius:50%;display:grid;place-content:center;background:var(--gold);color:var(--ink);
+  font-family:var(--sans);font-weight:500;font-size:12px;line-height:1;
+  opacity:0;transform:scale(.6);
+  transition:opacity .3s var(--ease),transform .4s var(--ease)}
+.px[data-picked="true"]{background:var(--lit);border-color:var(--lit)}
+.px[data-picked="true"] h3,.px[data-picked="true"]:hover h3{color:var(--lit-ink)}
+.px[data-picked="true"] .px-teaser{color:rgba(250,247,241,.76)}
+.px[data-picked="true"] .px-chips span{color:var(--lit-mark);border-color:rgba(250,247,241,.34)}
+.px[data-picked="true"] .px-mark{color:var(--lit-mark);background:rgba(250,247,241,.10)}
+.px[data-picked="true"] .px-open{color:var(--lit-ink)}
+.px[data-picked="true"] .px-open::before{border-color:rgba(250,247,241,.42)}
+.px[data-picked="true"]:hover .px-open::before{background:var(--gold);border-color:var(--gold)}
+.px[data-picked="true"]:hover .px-open{color:var(--ink)}
+.px[data-picked="true"] .px-tick{opacity:1;transform:none}
+
+/* the + always does something: it opens the tile's own chips in place. Variants that make
+   a feature of the gesture (F) override this; the rest inherit it, so no variant ships a
+   control that looks live and is not. */
+.px-drawer{display:grid;grid-template-rows:0fr;width:100%;
+  transition:grid-template-rows .5s var(--ease)}
+.px[data-open="true"] .px-drawer{grid-template-rows:1fr}
+.px-drawer>div{overflow:hidden;min-height:0}
+.px[data-open="true"] .px-chips{display:flex;padding-top:2px}
+
+.count{max-width:1280px;margin:clamp(22px,3vh,34px) auto 0;display:flex;align-items:baseline;
+  gap:12px;color:var(--tile-soft);font-size:13px;letter-spacing:.02em}
+.count b{font-family:var(--accent);font-weight:400;font-size:15px;color:var(--gold-deep)}
+.count .hint{margin-left:auto;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--tile-soft);opacity:.7}
+
+/* ─────────────────────────────────────────────────────────────────────────────────
+   CHAPTER I · THE CUT — geometry and ground, no dependency
+   ───────────────────────────────────────────────────────────────────────────────── */
+
+/* A · THREE UP. ⚠️ THE HOLE IN THE LAST ROW IS REAL AND IT IS NOT HIDDEN HERE: eight tiles
+   in three columns is 3 + 3 + 2, so the bottom right is empty. Two honest answers and both
+   are HIS, not mine — a ninth tile ("not sure yet — book the ten-minute call"), which is
+   new content and a new route; or four columns kept and only the height raised, which is
+   variant A with grid-template-columns deleted. Do not solve it by stretching the eighth
+   tile across two columns: that gives Sexual Health twice the weight of the other seven,
+   and the section's own lede says they are eight goals of equal standing. */
+[data-v="A"] .px-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(18px,2vw,28px)}
+[data-v="A"] .px{min-height:clamp(300px,27vw,378px);padding:clamp(28px,3vw,42px);
+  gap:clamp(16px,1.8vw,22px)}
+[data-v="A"] .px-mark{width:80px;height:80px;padding:19px}
+[data-v="A"] .px h3{font-size:clamp(23px,2.2vw,32px)}
+[data-v="A"] .px-teaser{display:block}
+
+/* B · THE DARK ROOM. Only the eight tokens move — no geometry, no motion, no dependency.
+   ⚠️⚠️ IT RE-OPENS ROUND 17'S LETTER D AND THAT IS THE POINT OF READING IT CAREFULLY.
+   --burgundy against --ink is 46/255 at the widest channel; on this ground a chosen tile
+   would be a shadow, so the lit state has to become --gold with ink type. He chose D
+   (burgundy) eight days ago with its cost stated. Picking B un-picks D. */
+[data-v="B"]{--ground:var(--ink); --tile:#3A2B32; --tile-line:#503B44;
+  --tile-ink:var(--ivory); --tile-soft:#C3AFB6; --mark:var(--gold); --mark-plate:#2A1F24;
+  --lit:var(--gold); --lit-ink:var(--ink); --lit-mark:var(--ink)}
+.stage[data-v="B"]{background:
+  radial-gradient(120% 90% at 50% 8%, #47323A 0%, rgba(71,50,58,0) 62%), var(--ink)}
+[data-v="B"] .px:hover{box-shadow:0 22px 50px rgba(0,0,0,.42)}
+[data-v="B"] .px-open{color:var(--gold)}
+[data-v="B"] .px:hover .px-open::before{background:var(--gold);border-color:var(--gold)}
+[data-v="B"] .px:hover .px-open{color:var(--ink)}
+[data-v="B"] .px:hover h3{color:var(--gold)}
+[data-v="B"] .px[data-picked="true"] .px-tick{background:var(--ink);color:var(--gold)}
+[data-v="B"] .px[data-picked="true"] .px-mark{background:rgba(46,34,40,.13)}
+[data-v="B"] .sec-head h2 em{color:var(--rose)}
+[data-v="B"] .px-chips span{border-color:#503B44}
+
+/* C · THE GALLERY — eight plates, 3:4, the mark blown up as the plate's own emblem.
+   ⚠️ THE BIG MARK IS THE SAME SVG AT THE SAME STROKE WIDTH, SCALED. That is why it thins
+   out: a 1.3 stroke drawn at 58px and shown at 230px is a quarter of the weight it was
+   designed at. It is legible because it is a watermark here, not a glyph. If C is picked,
+   the eight marks need re-drawing at plate weight — that is a real piece of work and it
+   is the honest price of this variant, not a detail. */
+[data-v="C"] .px{min-height:0;aspect-ratio:3/4;justify-content:flex-end;overflow:hidden;
+  padding:clamp(20px,2.2vw,30px)}
+[data-v="C"] .px-mark{position:absolute;top:50%;left:50%;width:230px;height:230px;padding:0;
+  margin:0;transform:translate(-50%,-58%);background:none;opacity:.17;pointer-events:none;
+  color:var(--mark)}
+[data-v="C"] .px:hover .px-mark{opacity:.3;transform:translate(-50%,-58%) scale(1.06)}
+[data-v="C"] .px h3{position:relative;padding-top:15px;width:100%}
+[data-v="C"] .px h3::before{content:"";position:absolute;top:0;left:0;width:34px;height:1px;
+  background:var(--gold);transition:width .5s var(--ease)}
+[data-v="C"] .px:hover h3::before{width:100%}
+[data-v="C"] .px-n{display:block;position:absolute;top:clamp(20px,2.2vw,30px);
+  left:clamp(20px,2.2vw,30px)}
+[data-v="C"] .px[data-picked="true"] .px-mark{opacity:.26;color:var(--lit-mark)}
+@media(min-width:1105px){[data-v="C"] .px-grid{gap:clamp(12px,1.3vw,20px)}}
+
+/* ─────────────────────────────────────────────────────────────────────────────────
+   CHAPTER II · THE SURFACE — motion. CSS, plus script that measures and never draws.
+   ───────────────────────────────────────────────────────────────────────────────── */
+
+/* D · THE MARK DRAWS ITSELF. Each stroke's own length is measured with getTotalLength()
+   and written to --len on the element; the CSS does the rest. ⚠️ THE FILLED BEADS CANNOT
+   DASH — a <circle fill> has no stroke to offset — so they fade and scale in on a delay
+   instead, which is also what makes the drawing read as bead-after-bond rather than as
+   one line unspooling. That is the chain scene's own grammar at tile scale. */
+[data-v="D"] .px-mark [data-len]{stroke-dasharray:var(--len);stroke-dashoffset:var(--len);
+  transition:stroke-dashoffset 1.05s var(--ease)}
+[data-v="D"] .px-mark [data-bead]{opacity:0;transform-box:fill-box;transform-origin:center;
+  transform:scale(.2);transition:opacity .4s var(--ease) .5s,transform .5s var(--ease) .5s}
+[data-v="D"] .px.drawn .px-mark [data-len]{stroke-dashoffset:0}
+[data-v="D"] .px.drawn .px-mark [data-bead]{opacity:1;transform:none}
+[data-v="D"] .px:hover .px-mark{transform:scale(1.07)}
+
+/* E · THE LENS — a gloss that follows the pointer, a 4.5 degree tilt, and the mark riding
+   8px ahead of the card. ⚠️ 4.5 DEGREES IS A CEILING, NOT A STARTING POINT. Past about six
+   the tile stops reading as a card on a table and starts reading as a web component, which
+   is the exact register this page spends its restraint staying out of.
+   ⚠️ IT IS POINTER-ONLY AND NOTHING DEPENDS ON IT. A phone gets the base tile untouched,
+   so this is an enhancement for a mouse — never the thing that makes the grid legible. */
+[data-v="E"] .px-grid{perspective:1100px}
+[data-v="E"] .px{transform-style:preserve-3d;
+  transform:perspective(1100px) rotateX(calc(var(--ty,0) * -4.5deg))
+    rotateY(calc(var(--tx,0) * 4.5deg)) translateY(var(--lift,0px));
+  transition:transform .45s var(--ease),box-shadow .35s var(--ease),
+    border-color .35s var(--ease)}
+[data-v="E"] .px::after{content:"";position:absolute;inset:0;z-index:2;border-radius:2px;
+  pointer-events:none;opacity:0;transition:opacity .4s var(--ease);
+  background:radial-gradient(240px circle at var(--gx,50%) var(--gy,50%),
+    rgba(255,255,255,.9) 0%, rgba(255,247,236,.42) 34%, rgba(255,247,236,0) 72%)}
+[data-v="E"] .px:hover::after{opacity:.85}
+[data-v="E"] .px:hover{--lift:-6px;box-shadow:0 26px 54px rgba(71,24,38,.16)}
+[data-v="E"] .px-mark,[data-v="E"] .px h3{transform:translateZ(28px)}
+[data-v="E"] .px:hover .px-mark{transform:translateZ(46px) scale(1.04)}
+[data-v="E"] .px[data-picked="true"]::after{
+  background:radial-gradient(240px circle at var(--gx,50%) var(--gy,50%),
+    rgba(194,160,94,.5) 0%, rgba(194,160,94,.16) 38%, rgba(194,160,94,0) 72%)}
+
+/* F · THE TURN — the + turns the tile over. The back is the tile's own chips, and it is
+   the only variant where the reader is shown that a tile HAS a back.
+   ⚠️ THE SELECT SURFACE AND THE FLIP CANNOT BOTH OWN THE CARD — index.html's round-12
+   note in a new costume. While a tile is turned, .px-pick is switched off and the back
+   carries its own Choose control, so a click on a face never means two things.
+   ⚠️ backface-visibility IS NOT ENOUGH ON ITS OWN in every engine; pointer-events on the
+   turned-away face is what actually stops the ghost clicks. Both are set. */
+[data-v="F"] .px-grid{perspective:1500px}
+[data-v="F"] .px{transform-style:preserve-3d;transition:transform .75s var(--ease),
+  border-color .35s var(--ease),box-shadow .35s var(--ease)}
+[data-v="F"] .px[data-open="true"]{transform:rotateY(180deg)}
+[data-v="F"] .px[data-open="true"]:hover{transform:rotateY(180deg) translateY(-4px)}
+[data-v="F"] .px>*:not(.px-open):not(.px-back){backface-visibility:hidden}
+[data-v="F"] .px[data-open="true"] .px-pick{pointer-events:none}
+[data-v="F"] .px-open{transform:translateZ(1px)}
+/* ⚠️ THE + HAS TO BE MOVED, NOT JUST COUNTER-ROTATED. rotateY on the tile mirrors its
+   children's POSITIONS as well as their faces, so a control pinned to right:10px lands on
+   the visual LEFT of a turned tile — on top of the first line of the descriptor, which is
+   what the first build did. Counter-rotating fixes the glyph and not the geometry; the
+   offset has to swap sides too. */
+[data-v="F"] .px[data-open="true"] .px-open{right:auto;left:10px;
+  transform:rotateY(180deg) translateZ(1px)}
+/* ⚠️ THE BACK FACE IS display:none EVERYWHERE BUT F, AND THAT LINE IS A FIX. Its whole
+   ruleset was scoped to [data-v="F"] on the first build, so in the other seven variants the
+   element had no rules at all — it fell into the flex column as an ordinary block and drew
+   a SECOND copy of the descriptor plus a live "Choose this goal" under every tile. It looked
+   like duplicated copy, which is the one thing this lab promises it does not have. Scope the
+   ruleset, but declare the OFF state unscoped. */
+.px-back{display:none}
+[data-v="F"] .px-back{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;
+  gap:14px;justify-content:center;padding:clamp(22px,2.4vw,32px);
+  background:var(--tile);border-radius:2px;
+  transform:rotateY(180deg);backface-visibility:hidden;pointer-events:none;opacity:0;
+  transition:opacity .2s linear .28s}
+[data-v="F"] .px[data-open="true"] .px-back{pointer-events:auto;opacity:1}
+[data-v="F"] .px-back .px-teaser{display:block;max-width:none}
+[data-v="F"] .px-back .px-chips{display:flex}
+[data-v="F"] .px-back .turn-pick{align-self:flex-start;margin-top:4px;
+  font-family:var(--sans);font-weight:500;font-size:10.5px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--ivory);background:var(--burgundy);
+  border-radius:999px;padding:10px 20px;transition:background .3s var(--ease)}
+[data-v="F"] .px-back .turn-pick:hover{background:var(--red-hover)}
+[data-v="F"] .px[data-picked="true"] .px-back{background:var(--lit)}
+[data-v="F"] .px[data-picked="true"] .px-back .turn-pick{background:var(--gold);color:var(--ink)}
+/* the drawer is F's job now, so the shared one is switched off here */
+[data-v="F"] .px[data-open="true"] .px-chips{padding-top:0}
+[data-v="F"] .px-drawer{display:none}
+
+/* ─────────────────────────────────────────────────────────────────────────────────
+   CHAPTER III · THE DEPTH — real 3D. three.js, vendored, r166.
+   ⚠️ THE SHIPPED PAGE HAS NO 3D RUNTIME. Round 10 removed the importmap with the silk
+   hero. Adopting G or H means ../vendor/three.module.min.js becomes a page dependency —
+   NOT a CDN importmap, which is the mistake the bonds-lab note exists to prevent.
+   ───────────────────────────────────────────────────────────────────────────────── */
+/* ⚠️⚠️ width/height:100% ARE NOT REDUNDANT WITH inset:0, AND LEAVING THEM OUT IS A REAL
+   BUG THAT ONLY APPEARS BELOW 1440. A <canvas> is a REPLACED element, so an absolutely
+   positioned one with width:auto resolves to its INTRINSIC size — the width attribute the
+   renderer wrote, 1280 — and the over-constrained `right` is then ignored rather than
+   honoured. It looks correct at exactly the width where the grid happens to be 1280 wide
+   and pushes the whole document sideways at every width below it. The lab harness caught
+   it at 1280, 1104, 900, 640 and 390 at once; nothing on screen looked wrong. */
+.depth{position:absolute;inset:0;width:100%;height:100%;display:none;pointer-events:none}
+[data-v="G"] .depth,[data-v="H"] .depth{display:block}
+/* G draws OVER the tiles — the vial stands on the card. H draws BEHIND them — the tiles
+   are frosted panes over a field. One canvas, one z-index, two completely different reads. */
+[data-v="G"] .depth{z-index:6}
+[data-v="H"] .depth{z-index:0}
+/* G · THE VIAL — the tile's own mark, suspended in glass, turning. The flat mark is hidden
+   and its plate is kept, so the composition does not move when WebGL is unavailable: the
+   fallback is the shipped tile exactly. */
+[data-v="G"] .px-mark{opacity:0}
+[data-v="G"] .px.no-webgl .px-mark{opacity:1}
+/* H · THE FROSTED FIELD. ⚠️⚠️ THE TILE STOPS BEING A FILL AND BECOMES AN ALPHA, AND THAT
+   BREAKS AN INVARIANT THE HARNESS MEASURES. peptide-page.mjs check 5 reads .px's computed
+   background against .services' and requires 8/255 between them — the one number keeping
+   the tiles reading as objects. A translucent tile has no fixed colour to read, so the
+   number it returns depends on what the chain happens to be doing behind it at that
+   instant. Adopting H means replacing that assertion with a rendered-pixel sample, not
+   deleting it. ⚠️ backdrop-filter also costs real frames on a mid-range phone, and this
+   grid can show eight of them at once. */
+[data-v="H"]{--tile:rgba(250,247,241,.58); --tile-line:rgba(255,255,255,.55)}
+[data-v="H"] .px{backdrop-filter:blur(17px) saturate(1.15);
+  -webkit-backdrop-filter:blur(17px) saturate(1.15);
+  box-shadow:0 12px 40px rgba(71,24,38,.10),inset 0 1px 0 rgba(255,255,255,.7)}
+[data-v="H"] .px:hover{background:rgba(250,247,241,.42);
+  backdrop-filter:blur(9px) saturate(1.2);-webkit-backdrop-filter:blur(9px) saturate(1.2)}
+[data-v="H"] .px-mark{background:rgba(255,255,255,.5)}
+[data-v="H"] .px[data-picked="true"]{background:rgba(92,31,49,.78);
+  border-color:rgba(255,255,255,.4)}
+
+/* I · SPLINE — a written answer. The stage stays on the shipped tile so the note is read
+   against what the page has now, rather than against a mock-up of something we would not
+   be building this way. */
+[data-v="I"] .px-grid{opacity:.45;filter:grayscale(.25)}
+
+/* ═══ RESPONSIVE — the lab's stage follows the page's own breakpoints ═════════════ */
+@media(max-width:1104px){
+  .px-grid,[data-v="A"] .px-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+/* ⚠️ THE RAIL SCROLLS SIDEWAYS ON A PHONE RATHER THAN WRAPPING. Nine pills and four
+   chapter labels wrap to five rows at 390px — about 200px of sticky furniture above a
+   stage that is the whole point of the file. A one-line scroller keeps the stage on
+   screen; scrollbar-width:none only hides the bar, the gesture is untouched. */
+@media(max-width:760px){
+  .rail{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .rail::-webkit-scrollbar{display:none}
+  .rail a,.rail .ch{flex:none}
+}
+@media(max-width:640px){
+  .px-grid,[data-v="A"] .px-grid{grid-template-columns:1fr}
+  .px,[data-v="A"] .px{min-height:0}
+  .px-mark{margin-bottom:0}
+  [data-v="C"] .px{aspect-ratio:4/3}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  /* ⚠️ REDUCED MOTION IS HONOURED BY SHOWING THE END STATE, NOT BY SHOWING NOTHING. D's
+     marks are drawn, E's tilt is flat, and the depth engine renders ONE frame and stops —
+     a blank card would be a worse answer than a still one. */
+  [data-v="D"] .px-mark [data-len]{stroke-dashoffset:0}
+  [data-v="D"] .px-mark [data-bead]{opacity:1;transform:none}
+  [data-v="E"] .px{transform:none}
+  *,*::before,*::after{transition-duration:.001s!important;animation-duration:.001s!important}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <h1>The living grid — eight ways section 04 could want touching</h1>
+  <p>Your note: <em>more beautiful — three.js on the cards, Spline, a new colour, animation,
+  bigger, something to click and be curious about.</em> Rather than eight arrangements of the
+  same tile, these run in <b>three chapters by what they cost to adopt</b>: <b>I · the cut</b>
+  is geometry and colour and ships this week; <b>II · the surface</b> is motion in CSS with no
+  dependency; <b>III · the depth</b> is real 3D and puts a runtime on a page that currently has
+  none. <b>I</b> is the Spline answer, and it is written rather than mocked up — because Spline
+  is a hosting decision, not a design one.</p>
+  <p>Every stage below is <b>the real section at the real size</b>, on the real rose-dawn
+  ground, with the real eight names and marks. <b>Pick tiles. Press the +.</b> They all work.
+  Reply with a letter — or with two, since a cut and a surface combine.</p>
+</header>
+
+<nav class="rail" aria-label="Variants">
+  <span class="ch">I · the cut</span>
+  <a href="#why-A" data-go="A"><k>A</k><n>Three up</n></a>
+  <a href="#why-B" data-go="B"><k>B</k><n>The dark room</n></a>
+  <a href="#why-C" data-go="C"><k>C</k><n>The gallery</n></a>
+  <span class="ch">II · the surface</span>
+  <a href="#why-D" data-go="D"><k>D</k><n>The mark draws</n></a>
+  <a href="#why-E" data-go="E"><k>E</k><n>The lens</n></a>
+  <a href="#why-F" data-go="F"><k>F</k><n>The turn</n></a>
+  <span class="ch">III · the depth</span>
+  <a href="#why-G" data-go="G"><k>G</k><n>The vial</n></a>
+  <a href="#why-H" data-go="H"><k>H</k><n>The frosted field</n></a>
+  <span class="ch">note</span>
+  <a href="#why-I" data-go="I"><k>I</k><n>On Spline</n></a>
+</nav>
+
+<div class="why" id="why">
+  <article class="why-item on" id="why-A" data-for="A">
+    <div class="why-h"><span class="why-k">A</span><span class="why-n">Three up</span>
+      <span class="why-tag">tile area &times;1.9 · four columns to three</span>
+      <span class="why-tag">ships as-is</span></div>
+    <p>The cheapest honest answer to <em>make them bigger</em>, and the only one here that adds
+    nothing to the page at all — three columns instead of four, a taller floor, the mark up from
+    58px to 80, and <b>the one-line descriptor comes out of the popup onto the face of the
+    tile</b>. That last part is what the extra room actually buys: today a reader has to open a
+    tile to learn anything beyond its name, and eight names alone is a menu rather than a
+    question. <b>⚠️ It leaves a hole.</b> Eight tiles in three columns is 3 + 3 + 2, so the
+    bottom right is empty. Two ways out and both are yours: a <em>ninth</em> tile — “not sure
+    yet, book the ten-minute call”, which is new copy and a new route — or keep four columns and
+    take only the height, which is this variant with one line deleted. Stretching the eighth
+    tile across the gap is the one thing I would not do: it hands Sexual Health twice the weight
+    of the other seven, and the section&rsquo;s own lede says they are eight goals of equal
+    standing.</p>
+  </article>
+
+  <article class="why-item" id="why-B" data-for="B">
+    <div class="why-h"><span class="why-k">B</span><span class="why-n">The dark room</span>
+      <span class="why-tag">ground #2E2228 · name 12.5:1 · mark 5.4:1</span>
+      <span class="why-tag cost">re-opens round 17</span></div>
+    <p>The new colour, and the biggest change in feel for the least code — <b>eight tokens move
+    and nothing else does</b>. The section becomes a lit room: an ink ground with a soft plum
+    glow behind the grid, tiles as warm dark objects, and the gold marks finally reading as
+    metal rather than as ink drawings. It is the register the chain scene already occupies, so
+    the page would run dark through the scene and stay dark through the choosing, then come back
+    up to the dawn at the doctors. <b>⚠️ Read this part before replying.</b> Eight days ago you
+    picked <em>letter D — burgundy</em> for the chosen tile. Burgundy against this ground is
+    46/255 at its widest channel: a chosen tile would be a shadow. <b>So on B the lit tile has to
+    become gold with ink type</b>, which is letter A from that lab. Picking B un-picks D. That is
+    not an objection — gold on ink is the more beautiful of the two — but it should be a decision
+    rather than a side effect. <b>⚠️ It also costs the alternation</b>: the page currently runs
+    dawn · ivory · dawn · ivory · dawn, and an ink chapter is a third ground. Cheap to fix, but
+    it is a fix.</p>
+  </article>
+
+  <article class="why-item" id="why-C" data-for="C">
+    <div class="why-h"><span class="why-k">C</span><span class="why-n">The gallery</span>
+      <span class="why-tag">3:4 plates · tile area &times;1.5 · mark at 230px</span>
+      <span class="why-tag cost">the eight marks need re-drawing</span></div>
+    <p>Eight tall plates, and the mark stops being a badge in the corner and becomes the plate
+    itself — a watermark at 230px with the name across the foot, a gold rule that runs the full
+    width as you approach. It is the most <em>expensive-looking</em> option here and the one that
+    reads least like a form. <b>⚠️ Its price is honest work, not a token.</b> These are the same
+    eight SVGs at the same 1.3 stroke, scaled four times up, so the line thins to a quarter of
+    the weight it was drawn at. It survives because a watermark is allowed to be faint — but if
+    you pick C, <b>the eight marks want re-drawing at plate weight</b>, and that is a real piece
+    of drawing, not a detail. The other thing to watch is length: eight 3:4 plates make section
+    04 roughly a screen and a half taller, which is a lot of scrolling before the doctors.</p>
+  </article>
+
+  <article class="why-item" id="why-D" data-for="D">
+    <div class="why-h"><span class="why-k">D</span><span class="why-n">The mark draws itself</span>
+      <span class="why-tag">~40 lines · no dependency · 0 KB</span>
+      <span class="why-tag">ships as-is</span></div>
+    <p>Each mark strokes itself on as its tile arrives, bond first and then the beads, staggered
+    across the grid — and re-draws when you hover it. <b>It is the page&rsquo;s own chain scene
+    spoken at tile scale</b>, which is why it feels made rather than applied: the hero spends
+    twelve seconds writing a peptide, and then eight small ones write themselves in the section
+    below it. The whole thing is <code>getTotalLength()</code> written into a CSS variable; there
+    is no library and nothing to download. <b>⚠️ The filled beads cannot dash</b> — a circle with
+    a fill has no stroke to offset — so they fade and scale in on a delay instead, which is
+    also what makes it read as bead-after-bond rather than one line unspooling. Of everything
+    here this is the highest ratio of <em>feels alive</em> to <em>costs anything</em>, and it
+    combines with A, B or C without a single conflict.</p>
+  </article>
+
+  <article class="why-item" id="why-E" data-for="E">
+    <div class="why-h"><span class="why-k">E</span><span class="why-n">The lens</span>
+      <span class="why-tag">tilt 4.5&deg; · mark at 46px of Z · pointer only</span>
+      <span class="why-tag">ships as-is</span></div>
+    <p>The card becomes a physical thing on a table: a soft gloss travels under the pointer, the
+    tile tilts up to four and a half degrees away from your hand, and the mark and the name ride
+    forward in front of the surface. This is the direct answer to <em>something interesting to
+    click</em> — the tile answers <b>before</b> the click, which is what makes a reader try one.
+    <b>⚠️ 4.5&deg; is a ceiling, not a starting point.</b> Past about six degrees a card stops
+    reading as an object on a table and starts reading as a web component, which is the exact
+    register this page&rsquo;s restraint is buying distance from. <b>⚠️ It is pointer-only and
+    nothing depends on it</b> — a phone gets the base tile, untouched. That is a feature: it can
+    never be the thing that makes the grid legible. Combines with everything except F, which
+    wants the same Z axis.</p>
+  </article>
+
+  <article class="why-item" id="why-F" data-for="F">
+    <div class="why-h"><span class="why-k">F</span><span class="why-n">The turn</span>
+      <span class="why-tag">750ms · the popup, in place</span>
+      <span class="why-tag cost">the dialog may become redundant</span></div>
+    <p>The + turns the tile over. On the back are that goal&rsquo;s own outcomes and a Choose
+    control, and you turn it back with the same +. <b>Curiosity made literal</b> — the reader is
+    shown that a tile <em>has</em> a back, which is a much stronger invitation than a small
+    circle that opens an overlay. It also keeps them inside the grid: no dimming, no scroll lock,
+    nothing to close. <b>⚠️ The select surface and the flip cannot both own the card.</b> Round
+    12 already fought this — the tile chooses, the + opens — and here the answer is that a turned
+    tile switches its select surface off and the back carries its own Choose. A click on a face
+    never means two things. <b>⚠️ The real question F asks is about the dialog</b>: if the back of
+    the tile carries the outcomes, what is the popup still for? Probably the two paragraphs and
+    the doctor route — but that is a decision about the section, not about an animation, and it
+    should be made deliberately rather than discovered later.</p>
+  </article>
+
+  <article class="why-item" id="why-G" data-for="G">
+    <div class="why-h"><span class="why-k">G</span><span class="why-n">The vial</span>
+      <span class="why-tag">three.js r166 · one canvas · 8 scissor viewports</span>
+      <span class="why-tag cost">+682 KB · a runtime the page does not have</span></div>
+    <p>Real 3D on the cards, and the version of it that <b>does not throw your eight marks
+    away</b>. Each tile gets a small glass vial turning slowly in studio light, and suspended
+    inside it is <em>that tile&rsquo;s own mark</em> — the shield, the head, the coil — rendered
+    from the same SVG the flat tile uses. A peptide clinic showing your goal in a vial is a
+    better idea than a generic molecule, and it is the reason to build it this way: the first
+    instinct is to replace the marks with eight rotating peptide chains, and eight rotating
+    peptide chains say “peptide” eight times and say nothing about auto-immunity or sleep.
+    <b>⚠️ It is one canvas, not eight.</b> A single renderer draws eight scissored viewports of
+    about 90px each, so the cost is one WebGL context and roughly a thousand triangles, not
+    eight of anything. <b>⚠️ The dependency is the real price</b> — 682 KB of vendored three.js
+    on a page that has carried no 3D runtime since round 10 removed the silk hero. It is a
+    <em>vendor</em> import, never a CDN importmap. <b>⚠️ And it must fall back silently</b>: with
+    no WebGL context the flat mark simply stays, which is the shipped tile exactly — the plate
+    is kept underneath for precisely that reason, so nothing moves when the 3D is absent.</p>
+  </article>
+
+  <article class="why-item" id="why-H" data-for="H">
+    <div class="why-h"><span class="why-k">H</span><span class="why-n">The frosted field</span>
+      <span class="why-tag">one scene · tiles at 58% alpha · blur 17px</span>
+      <span class="why-tag cost">breaks a measured invariant</span></div>
+    <p>The Spline look, built with the tools we already own. One continuous peptide chain drifts
+    behind the whole grid, and the tiles become <b>frosted panes over it</b> — the chain reads
+    softly through every card and sharpens where you hover, because the hovered tile drops its
+    blur. It is the most modern-feeling thing in this lab and the one that would date fastest.
+    <b>⚠️⚠️ It breaks something that is currently measured.</b> The harness asserts that a tile
+    and its ground stay at least 8/255 apart, which is the one number keeping the eight reading
+    as objects rather than as ruled-off regions of the page. A translucent tile has no fixed
+    colour, so that number becomes whatever the chain happens to be doing behind it at that
+    instant. Adopting H means <b>replacing that assertion with a rendered-pixel sample</b>, not
+    deleting it — an invariant that stops being checkable is an invariant that stops existing.
+    <b>⚠️ And the frames are real:</b> eight simultaneous <code>backdrop-filter</code> layers over
+    a live canvas is the most expensive thing either page would be doing, on the device class
+    least able to afford it.</p>
+  </article>
+
+  <article class="why-item" id="why-I" data-for="I">
+    <div class="why-h"><span class="why-k">I</span><span class="why-n">On Spline</span>
+      <span class="why-tag">a written answer, not a mock-up</span>
+      <span class="why-tag cost">the first externally-hosted runtime</span></div>
+    <p><b>Spline is a hosting decision wearing a design decision&rsquo;s clothes</b>, so it is
+    answered here rather than mocked up. A Spline scene on this page means three new things at
+    once: the <code>@splinetool/runtime</code> player fetched from a CDN, a
+    <code>.splinecode</code> scene file served from Spline&rsquo;s own hosts, and an editor seat
+    for whoever will keep the scene up to date. Every one of those is a dependency on somebody
+    else&rsquo;s uptime for a section that is currently a single self-contained HTML file with
+    zero build. <b>⚠️ It also would not run in our own labs</b>, which are opened as artifacts
+    under a policy that blocks every external host — so a Spline variant could be shown to you
+    in a browser tab and nowhere else in this workflow. <b>G and H are the vendored answers to
+    what Spline is usually wanted for:</b> G is the glossy object on the card, H is the ambient
+    3D field behind the layout, and both live in this repository with the licence recorded.
+    <b>If you want Spline itself anyway</b>, it is perfectly doable — send the scene link or the
+    exported <code>.splinecode</code>, and it becomes about ninety lines plus a decision about
+    what shows while it loads. It is not a technical objection; it is the bill, stated before
+    rather than after.</p>
+  </article>
+</div>
+
+<div class="stage" id="stage" data-v="A">
+  <div class="stage-in">
+    <div class="sec-head">
+      <h2>Where would you like to <em>begin?</em></h2>
+      <p class="sec-lede">Choose as many as apply — most people choose two or three. They are
+      eight goals, not eight programmes: the process, the panel and the price are the same
+      whichever you pick.</p>
+    </div>
+    <div class="px-grid" id="grid">
+      <canvas class="depth" id="depth" aria-hidden="true"></canvas>
+        <article class="px" data-k="auto">
+          <button type="button" class="px-pick" data-goal="Auto Immune Disease" aria-pressed="false" aria-label="Auto Immune Disease — choose this goal"></button>
+          <span class="px-tick" aria-hidden="true">&#10003;</span>
+          <span class="px-n" aria-hidden="true">01</span>
+          <svg class="px-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 6 39 11v12c0 9-7 15-15 18-8-3-15-9-15-18V11z"/><path d="M17.5 17.5 21.5 21.5M30.5 17.5 26.5 21.5"/><circle cx="24" cy="25" r="2.7" fill="currentColor" stroke="none"/></svg>
+          <h3>Auto Immune Disease</h3>
+          <p class="px-teaser">Inflammation, flares, and an immune system working against you.</p>
+          <div class="px-chips" aria-hidden="true"><span>Calmer flares</span><span>Steadier energy</span><span>Fewer bad days</span></div>
+          <button type="button" class="px-open" aria-label="Auto Immune Disease — read more"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 1v10M1 6h10"/></svg></button>
+        </article>
+        <article class="px" data-k="brain">
+          <button type="button" class="px-pick" data-goal="Brain Health" aria-pressed="false" aria-label="Brain Health — choose this goal"></button>
+          <span class="px-tick" aria-hidden="true">&#10003;</span>
+          <span class="px-n" aria-hidden="true">02</span>
+          <svg class="px-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 41v-6c-4-3-7-8-7-13 0-9 6-15 14-15s14 6 14 15c0 5-3 10-7 13v6z"/><path d="M24 15v11M24 19l-5 4M24 19l5 4"/><circle cx="24" cy="15" r="2.1" fill="currentColor" stroke="none"/><circle cx="19" cy="23" r="2.1" fill="currentColor" stroke="none"/><circle cx="29" cy="23" r="2.1" fill="currentColor" stroke="none"/></svg>
+          <h3>Brain Health</h3>
+          <p class="px-teaser">Focus, memory, mood and mental stamina.</p>
+          <div class="px-chips" aria-hidden="true"><span>Sharper focus</span><span>Clearer memory</span><span>Mental stamina</span></div>
+          <button type="button" class="px-open" aria-label="Brain Health — read more"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 1v10M1 6h10"/></svg></button>
+        </article>
+        <article class="px" data-k="gut">
+          <button type="button" class="px-pick" data-goal="Gut Health" aria-pressed="false" aria-label="Gut Health — choose this goal"></button>
+          <span class="px-tick" aria-hidden="true">&#10003;</span>
+          <span class="px-n" aria-hidden="true">03</span>
+          <svg class="px-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 13h22c6 0 6 8 0 8H15c-6 0-6 8 0 8h18c6 0 6 8 0 8H11"/><circle cx="11" cy="13" r="2.1" fill="currentColor" stroke="none"/><circle cx="11" cy="37" r="2.1" fill="currentColor" stroke="none"/><circle cx="24" cy="21" r="2.1" fill="currentColor" stroke="none"/><circle cx="24" cy="29" r="2.1" fill="currentColor" stroke="none"/></svg>
+          <h3>Gut Health</h3>
+          <p class="px-teaser">Digestion, bloating, and the barrier that governs both.</p>
+          <div class="px-chips" aria-hidden="true"><span>Settled digestion</span><span>Stronger barrier</span><span>Better absorption</span></div>
+          <button type="button" class="px-open" aria-label="Gut Health — read more"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 1v10M1 6h10"/></svg></button>
+        </article>
+        <article class="px" data-k="weight">
+          <button type="button" class="px-pick" data-goal="Weight Management" aria-pressed="false" aria-label="Weight Management — choose this goal"></button>
+          <span class="px-tick" aria-hidden="true">&#10003;</span>
+          <span class="px-n" aria-hidden="true">04</span>
+          <svg class="px-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 7v23"/><path d="M16 23 24 31 32 23"/><path d="M11 39h26"/><circle cx="24" cy="7" r="2.1" fill="currentColor" stroke="none"/></svg>
+          <h3>Weight Management</h3>
+          <p class="px-teaser">Body composition, metabolism and how you handle sugar.</p>
+          <div class="px-chips" aria-hidden="true"><span>Appetite signalling</span><span>Fat, not muscle</span><span>Steady energy</span></div>
+          <button type="button" class="px-open" aria-label="Weight Management — read more"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 1v10M1 6h10"/></svg></button>
+        </article>
+        <article class="px" data-k="skin">
+          <button type="button" class="px-pick" data-goal="Skin &amp; Hair Loss" aria-pressed="false" aria-label="Skin &amp; Hair Loss — choose this goal"></button>
+          <span class="px-tick" aria-hidden="true">&#10003;</span>
+          <span class="px-n" aria-hidden="true">05</span>
+          <svg class="px-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 27h34M7 33h34"/><path d="M16 27c0-6 1-9 2-13M24 27c0-7-1-10-1-14M32 27c0-4 1-6 1-8"/><path d="M34 11.5 35.5 7.5" stroke-dasharray="1.6 2"/><circle cx="16" cy="30" r="2.1" fill="currentColor" stroke="none"/><circle cx="24" cy="30" r="2.1" fill="currentColor" stroke="none"/><circle cx="32" cy="30" r="2.1" fill="currentColor" stroke="none"/></svg>
+          <h3>Skin &amp; Hair Loss</h3>
+          <p class="px-teaser">Collagen, thinning, texture and how quickly skin repairs.</p>
+          <div class="px-chips" aria-hidden="true"><span>Collagen renewal</span><span>Skin quality</span><span>Fuller hair</span></div>
+          <button type="button" class="px-open" aria-label="Skin &amp; Hair Loss — read more"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 1v10M1 6h10"/></svg></button>
+        </article>
+        <article class="px" data-k="msk">
+          <button type="button" class="px-pick" data-goal="Musculoskeletal Injury" aria-pressed="false" aria-label="Musculoskeletal Injury — choose this goal"></button>
+          <span class="px-tick" aria-hidden="true">&#10003;</span>
+          <span class="px-n" aria-hidden="true">06</span>
+          <svg class="px-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 7v11"/><circle cx="18" cy="23.5" r="5.6"/><path d="M22 27.5 33 39"/><circle cx="18" cy="7" r="2.1" fill="currentColor" stroke="none"/><circle cx="33" cy="39" r="2.1" fill="currentColor" stroke="none"/></svg>
+          <h3>Musculoskeletal Injury</h3>
+          <p class="px-teaser">Joints, tendons, and the time it takes you to heal.</p>
+          <div class="px-chips" aria-hidden="true"><span>Tendon repair</span><span>Faster recovery</span><span>Old injuries</span></div>
+          <button type="button" class="px-open" aria-label="Musculoskeletal Injury — read more"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 1v10M1 6h10"/></svg></button>
+        </article>
+        <article class="px" data-k="age">
+          <button type="button" class="px-pick" data-goal="Anti Ageing" aria-pressed="false" aria-label="Anti Ageing — choose this goal"></button>
+          <span class="px-tick" aria-hidden="true">&#10003;</span>
+          <span class="px-n" aria-hidden="true">07</span>
+          <svg class="px-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 7c10 0 17 8 17 17s-7 17-17 17c-8 0-14-6-14-13 0-6 5-11 11-11 5 0 9 4 9 9"/><path d="M20.5 4 24.5 7 20.5 10.5"/><circle cx="30" cy="26" r="2.1" fill="currentColor" stroke="none"/></svg>
+          <h3>Anti Ageing</h3>
+          <p class="px-teaser">Cellular repair, energy, and the pace of decline.</p>
+          <div class="px-chips" aria-hidden="true"><span>Deep sleep</span><span>Cellular repair</span><span>Healthspan</span></div>
+          <button type="button" class="px-open" aria-label="Anti Ageing — read more"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 1v10M1 6h10"/></svg></button>
+        </article>
+        <article class="px" data-k="sex">
+          <button type="button" class="px-pick" data-goal="Sexual Health" aria-pressed="false" aria-label="Sexual Health — choose this goal"></button>
+          <span class="px-tick" aria-hidden="true">&#10003;</span>
+          <span class="px-n" aria-hidden="true">08</span>
+          <svg class="px-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 6c6.5 7.5 11 12 11 19.5 0 6.6-5 11.5-11 11.5s-11-4.9-11-11.5c0-5 2.2-8.4 5.4-11.4.2 3 1.6 5 3.6 6.2C20 16 22 10.5 24 6z"/><circle cx="24" cy="28" r="3" fill="currentColor" stroke="none"/></svg>
+          <h3>Sexual Health</h3>
+          <p class="px-teaser">Libido, function, and the hormones underneath both.</p>
+          <div class="px-chips" aria-hidden="true"><span>Desire</span><span>Function</span><span>Confidence</span></div>
+          <button type="button" class="px-open" aria-label="Sexual Health — read more"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 1v10M1 6h10"/></svg></button>
+        </article>
+    </div>
+    <p class="count"><b id="count">0</b> <span id="countlabel">nothing chosen yet</span>
+      <span class="hint">tap a tile · press the +</span></p>
+  </div>
+</div>
+
+<script type="module">
+/* ═══════════ THE LAB'S OWN WIRING — behaviour only, never content ═══════════════════
+   ⚠️ EVERY VARIANT IS A data-v ON ONE STAGE. This file has no per-variant markup at all;
+   if a change here needs a new element on a tile, it needs it on ALL EIGHT tiles for
+   EVERY variant, and that is the signal the idea belongs in its own file instead. */
+const stage = document.getElementById('stage');
+const grid  = document.getElementById('grid');
+const tiles = [...grid.querySelectorAll('.px')];
+const rail  = [...document.querySelectorAll('.rail a[data-go]')];
+const whys  = [...document.querySelectorAll('.why-item')];
+const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
+document.body.classList.add('js');
+
+/* ── the eight tiles gain their drawer and their turned face ───────────────────────
+   ⚠️ THIS MOVES AUTHORED NODES, IT DOES NOT CREATE COPY. The teaser and the chips are
+   already in the document on every tile; all that happens here is that a wrapper is put
+   around them so two variants can animate them. Read the no-script state to check: the
+   words are all there before this script runs. */
+for (const px of tiles) {
+  const teaser = px.querySelector('.px-teaser');
+  const chips  = px.querySelector('.px-chips');
+  const drawer = document.createElement('div');
+  drawer.className = 'px-drawer';
+  const inner = document.createElement('div');
+  drawer.append(inner);
+  inner.append(chips);
+  px.append(drawer);
+
+  /* F's back face — the same teaser and chips, shown turned over. The teaser is CLONED
+     rather than moved because A and C want it on the front at the same time; a clone of an
+     authored node is still not new copy, and the QA harness asserts the two agree. */
+  const back = document.createElement('div');
+  back.className = 'px-back';
+  const t2 = teaser.cloneNode(true); t2.removeAttribute('style');
+  const c2 = chips.cloneNode(true);
+  const pick = document.createElement('button');
+  pick.type = 'button'; pick.className = 'turn-pick'; pick.textContent = 'Choose this goal';
+  pick.addEventListener('click', () => toggle(px));
+  back.append(t2, c2, pick);
+  px.append(back);
+}
+
+/* ── choosing ─────────────────────────────────────────────────────────────────────── */
+const count = document.getElementById('count');
+const label = document.getElementById('countlabel');
+function toggle(px){
+  const on = px.dataset.picked === 'true';
+  px.dataset.picked = on ? 'false' : 'true';
+  px.querySelector('.px-pick').setAttribute('aria-pressed', String(!on));
+  const n = tiles.filter(t => t.dataset.picked === 'true').length;
+  count.textContent = n;
+  label.textContent = n === 0 ? 'nothing chosen yet'
+    : n === 1 ? 'goal in your programme — the price does not change'
+    : 'goals in your programme — the price does not change';
+}
+for (const px of tiles) {
+  px.querySelector('.px-pick').addEventListener('click', () => toggle(px));
+  px.querySelector('.px-open').addEventListener('click', e => {
+    e.stopPropagation();
+    px.dataset.open = px.dataset.open === 'true' ? 'false' : 'true';
+  });
+}
+
+/* ── D · the marks measure themselves ──────────────────────────────────────────────
+   ⚠️ RUN ONCE, FOR EVERY VARIANT, NOT ONLY FOR D. getTotalLength() on a display:none or
+   zero-size element returns 0, and a dash array of 0 draws nothing — so measuring lazily
+   when D is selected would work on first paint and silently fail if D were ever selected
+   while the stage was hidden. Measured up front, the numbers are just sitting there. */
+for (const px of tiles) {
+  for (const node of px.querySelectorAll('.px-mark path, .px-mark circle')) {
+    const filled = node.getAttribute('fill') === 'currentColor';
+    if (filled) { node.setAttribute('data-bead', ''); continue; }
+    const len = Math.ceil(node.getTotalLength?.() || 0);
+    if (!len) continue;
+    node.setAttribute('data-len', '');
+    node.style.setProperty('--len', len);
+  }
+}
+const drawn = new IntersectionObserver(es => {
+  for (const e of es) if (e.isIntersecting) {
+    const i = tiles.indexOf(e.target);
+    setTimeout(() => e.target.classList.add('drawn'), REDUCE ? 0 : i * 90);
+  }
+}, { threshold: .35 });
+/* ⚠️ SELECTING D HAS TO REPLAY THE DRAWING, AND THAT IS NOT A FLOURISH. The observer runs
+   for every variant, so by the time a reader reaches D every mark is long since drawn and
+   the variant demonstrates itself as an ordinary grid — the first build shipped exactly
+   that, and D looked identical to the shipped tile. On the page the observer firing once is
+   correct; in a lab whose whole subject is the animation, arriving at D must show it. */
+function replayDraw(){
+  if (REDUCE) return;
+  for (const px of tiles) px.classList.remove('drawn');
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    tiles.forEach((px, i) => setTimeout(() => px.classList.add('drawn'), i * 90));
+  }));
+}
+for (const px of tiles) {
+  drawn.observe(px);
+  /* hovering re-runs it — the drawing is the reward for reaching the tile */
+  px.addEventListener('pointerenter', () => {
+    if (stage.dataset.v !== 'D' || REDUCE) return;
+    px.classList.remove('drawn');
+    requestAnimationFrame(() => requestAnimationFrame(() => px.classList.add('drawn')));
+  });
+}
+
+/* ── E · the lens ─────────────────────────────────────────────────────────────────── */
+grid.addEventListener('pointermove', e => {
+  if (stage.dataset.v !== 'E' || REDUCE) return;
+  const px = e.target.closest?.('.px'); if (!px) return;
+  const r = px.getBoundingClientRect();
+  const x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+  px.style.setProperty('--tx', (x - .5) * 2);
+  px.style.setProperty('--ty', (y - .5) * 2);
+  px.style.setProperty('--gx', (x * 100) + '%');
+  px.style.setProperty('--gy', (y * 100) + '%');
+});
+grid.addEventListener('pointerleave', () => {
+  for (const px of tiles) { px.style.removeProperty('--tx'); px.style.removeProperty('--ty'); }
+}, true);
+
+/* ── the rail ─────────────────────────────────────────────────────────────────────
+   ⚠️ THE ANCHORS ARE REAL. Each rail entry is an <a href="#why-X">, so with script off it
+   still jumps to that variant's reasoning — the page degrades to a readable document
+   rather than to a row of dead pills. The click handler only prevents the jump. */
+let depth = null;   /* chapter III's engine, booted on demand */
+/* ⚠️ THE HASH IS WRITTEN ON A CHOICE, NEVER ON THE FIRST CALL — and that is a fix, not a
+   nicety. Setting location's fragment during load hands the browser a fragment it has not
+   scrolled to yet, so it obligingly scrolled to it: the lab opened 468px down, with its own
+   brief already off the top of the screen and a rationale cut in half. `replaceState` looks
+   like it cannot cause a scroll, which is exactly why it took a measurement rather than a
+   look to find. */
+function show(v, mark){
+  if (!/^[A-I]$/.test(v)) v = 'A';
+  stage.dataset.v = v;
+  for (const a of rail) a.setAttribute('aria-current', String(a.dataset.go === v));
+  for (const w of whys) w.classList.toggle('on', w.dataset.for === v);
+  if (mark) history.replaceState(null, '', '#why-' + v);
+  if (v === 'G' || v === 'H') bootDepth(v);
+  else if (depth) depth.stop();
+  if (v === 'D') replayDraw();
+}
+for (const a of rail) a.addEventListener('click', e => {
+  e.preventDefault(); show(a.dataset.go, true);
+  document.getElementById('stage').scrollIntoView({ block: 'nearest' });
+});
+addEventListener('keydown', e => {
+  if (e.metaKey || e.ctrlKey || e.altKey || /^(INPUT|TEXTAREA)$/.test(e.target.tagName)) return;
+  const k = e.key.toUpperCase();
+  if (/^[A-I]$/.test(k)) show(k, true);
+});
+
+/* ── chapter III boots only when asked ────────────────────────────────────────────
+   ⚠️ THE IMPORT IS DYNAMIC ON PURPOSE. 682 KB must not be fetched by a reader who never
+   presses G or H — which is also exactly how it would be shipped on the page if a depth
+   variant is chosen: the section imports the runtime when the grid is near, not in <head>.
+   ⚠️ AND A FAILURE HERE IS NOT ALLOWED TO BREAK THE GRID. Any throw — no WebGL, a blocked
+   module, a driver bug — marks the tiles .no-webgl, which restores the flat marks, and the
+   variant degrades to the shipped section rather than to eight empty cards. */
+async function bootDepth(mode){
+  try {
+    if (!depth) {
+      const THREE = await import('../vendor/three.module.min.js');
+      depth = makeDepth(THREE);
+    }
+    depth.start(mode);
+  } catch (err) {
+    console.warn('[lab] depth unavailable:', err && err.message);
+    for (const px of tiles) px.classList.add('no-webgl');
+    document.getElementById('depth').style.display = 'none';
+  }
+}
+
+/* ═══════════ CHAPTER III · THE DEPTH ENGINE ════════════════════════════════════════
+   ONE renderer, ONE canvas, TWO completely different pictures. G scissors the canvas into
+   eight ~130px viewports and stands a glass vial on each tile; H throws the scissor away
+   and drifts one chain across the whole grid behind frosted panes.
+
+   ⚠️ THE CANVAS IS A CHILD OF .px-grid AT inset:0, WHICH IS WHY THERE IS NO SCROLL MATH
+   ANYWHERE BELOW. Every rectangle this engine needs is a getBoundingClientRect() minus the
+   canvas's own, so scrolling, sticky headers and zoom are all somebody else's problem. The
+   moment a rect is taken against the page instead, this file needs a scroll listener and
+   starts drifting a pixel at a time. Do not "simplify" it that way.
+
+   ⚠️ WEBGL Y IS MEASURED FROM THE BOTTOM. Both setViewport and setScissor take an origin at
+   the LOWER-left of the drawing buffer while getBoundingClientRect gives the upper-left, so
+   every y here is `H - top - size`. Getting this wrong does not throw — it draws the eight
+   vials in a mirrored column and looks like a layout bug.
+
+   ⚠️ THE EMBLEM IS THE TILE'S OWN MARK, SERIALISED. Each vial holds that tile's SVG drawn
+   into a canvas texture through a data: URL — no fetch, no external host, and no second
+   copy of the artwork to keep in sync. That is the entire argument for building G this way
+   rather than as eight generated molecules: the marks mean specific things, and a rotating
+   peptide chain means "peptide" eight times.  */
+function makeDepth(THREE){
+  const canvas = document.getElementById('depth');
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true,
+    powerPreference:'low-power' });
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+  const GOLD = 0xC2A05E, ROSE = 0xC79A92, WINE = 0x5C1F31;
+  /* ⚠️ THE EMBLEM IS DRAWN IN --gold-deep, WHICH IS THE FLAT MARK'S OWN COLOUR. Not a
+     brighter gold picked to look good through glass: if the 3D mark and the 2D mark are
+     different colours then the WebGL fallback is a visible change rather than an invisible
+     one, and the whole no-webgl story stops being free. */
+  const MARK_HEX = '#8A6A34', BEADS = 9;
+
+  /* ── the eight emblems ───────────────────────────────────────────────────────────
+     ⚠️ currentColor DOES NOT RESOLVE INSIDE AN <img>. An SVG loaded through a data: URL is
+     an independent document with no CSS cascade from this page, so stroke="currentColor"
+     renders as BLACK — which looked, on the first run, exactly like a lighting bug. Both
+     the root stroke and every fill="currentColor" bead are rewritten to the literal gold
+     before serialising. */
+  function emblem(svgEl){
+    const c = document.createElement('canvas'); c.width = c.height = 256;
+    const tex = new THREE.CanvasTexture(c);
+    tex.colorSpace = THREE.SRGBColorSpace;
+    const n = svgEl.cloneNode(true);
+    n.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    n.setAttribute('width', '256'); n.setAttribute('height', '256');
+    n.setAttribute('stroke', MARK_HEX); n.removeAttribute('class');
+    for (const f of n.querySelectorAll('[fill="currentColor"]')) f.setAttribute('fill', MARK_HEX);
+    const img = new Image();
+    img.onload = () => {
+      const g = c.getContext('2d');
+      g.clearRect(0, 0, 256, 256); g.drawImage(img, 0, 0, 256, 256);
+      tex.needsUpdate = true;
+    };
+    img.src = 'data:image/svg+xml;charset=utf-8,' +
+      encodeURIComponent(new XMLSerializer().serializeToString(n));
+    return tex;
+  }
+  const emblems = tiles.map(px => emblem(px.querySelector('.px-mark')));
+
+  /* ── G · one vial, rendered eight times ──────────────────────────────────────────
+     ⚠️ ONE SCENE, NOT EIGHT. The vial's texture and rotation are re-pointed between
+     renders, so eight tiles cost eight draw calls of a few hundred triangles rather than
+     eight scene graphs. That is the difference between this being affordable on the page
+     and being a reason not to ship it. */
+  const vialScene = new THREE.Scene();
+  const vialCam = new THREE.PerspectiveCamera(30, 1, .1, 50);
+  vialCam.position.set(0, 0, 5.4);
+  vialScene.add(new THREE.AmbientLight(0xffffff, .55));
+  const key = new THREE.DirectionalLight(0xFFF3E2, 1.5); key.position.set(2.4, 3.2, 3.4);
+  const fill = new THREE.DirectionalLight(ROSE, .85); fill.position.set(-3, -1.4, 2);
+  const rim  = new THREE.DirectionalLight(GOLD, 1.05); rim.position.set(-1.2, 2, -3);
+  vialScene.add(key, fill, rim);
+
+  const vial = new THREE.Group();
+  /* ⚠️ THE GLASS IS 13% OPACITY AND THE LIGHTS ARE DELIBERATELY LOW. The first build ran
+     opacity .19 with clearcoat 1 and a 2.2 key, and the eight vials came out as opaque
+     milk bottles with the mark invisible inside them — the emblem is the entire argument
+     for this variant, so anything that washes it out has failed, however good the glass
+     looks on its own. Specular is the enemy here, not the friend. */
+  const glass = new THREE.Mesh(
+    new THREE.CapsuleGeometry(.58, 1.18, 6, 30),
+    new THREE.MeshPhysicalMaterial({ color:0xFFFDF8, transparent:true, opacity:.13,
+      roughness:.08, metalness:0, clearcoat:.5, clearcoatRoughness:.06,
+      side:THREE.DoubleSide, depthWrite:false }));
+  /* the fluid fills most of the vessel rather than pooling at the bottom, because the
+     emblem is meant to read as SUSPENDED in it — a specimen, not a label stuck on a jar */
+  const liquid = new THREE.Mesh(
+    new THREE.CapsuleGeometry(.5, .98, 6, 26),
+    new THREE.MeshPhysicalMaterial({ color:0xE0B3AB, transparent:true, opacity:.26,
+      roughness:.18, metalness:0, depthWrite:false }));
+  liquid.position.y = -.2;
+  /* ⚠️ THE HIGHLIGHT IS A PAINTED PLANE, NOT A REFLECTION, AND IT IS THE ONE THING THAT
+     MAKES THIS READ AS GLASS. There is no environment map in this scene — nothing for a
+     real specular to catch — so at 13% opacity the vessel looked like frosted plastic. A
+     single soft vertical streak that travels round the body as it turns does the whole job
+     for one plane and no render target. */
+  const shine = new THREE.Mesh(new THREE.PlaneGeometry(.1, .95),
+    new THREE.MeshBasicMaterial({ color:0xffffff, transparent:true, opacity:.5,
+      depthWrite:false }));
+  shine.position.set(-.26, -.05, .585); shine.rotation.z = .06;
+  const collar = new THREE.Mesh(
+    new THREE.TorusGeometry(.44, .062, 10, 30),
+    new THREE.MeshStandardMaterial({ color:GOLD, metalness:.95, roughness:.24 }));
+  collar.rotation.x = Math.PI / 2; collar.position.y = .93;
+  const cap = new THREE.Mesh(
+    new THREE.CylinderGeometry(.37, .37, .19, 26),
+    new THREE.MeshStandardMaterial({ color:WINE, metalness:.3, roughness:.5 }));
+  cap.position.y = 1.07;
+  const beads = new THREE.InstancedMesh(new THREE.SphereGeometry(.034, 10, 8),
+    new THREE.MeshStandardMaterial({ color:GOLD, metalness:.9, roughness:.25 }), BEADS);
+  vial.add(glass, liquid, shine, collar, cap, beads);
+
+  /* ⚠️ THE EMBLEM IS NOT A CHILD OF THE VIAL, AND THAT IS THE WHOLE TRICK. If it turned
+     with the glass it would go edge-on twice a revolution and disappear — the mark has to
+     stay square to the camera while the vessel turns around it. So the glass rotates and
+     the emblem only breathes.
+     ⚠️ depthTest:false PLUS renderOrder IS WHAT MAKES IT READ AS "INSIDE". Depth-sorted
+     honestly, a transparent front wall drawn after the emblem greys it out and the mark
+     goes to mush; drawn last and unconditionally, the glass highlights fall AROUND it and
+     the eye assembles a mark suspended behind the front wall. It is a cheat, and it is the
+     cheat that makes the variant legible. */
+  const emblemMesh = new THREE.Mesh(new THREE.PlaneGeometry(.98, .98),
+    new THREE.MeshBasicMaterial({ transparent:true, depthTest:false, depthWrite:false }));
+  emblemMesh.position.set(0, -.04, .05);
+  emblemMesh.renderOrder = 12;
+  vialScene.add(vial, emblemMesh);
+
+  /* ── H · one chain across the whole grid ─────────────────────────────────────────
+     The page's own vocabulary at field scale: a tube backbone through a slow curve with a
+     bead at every control point. ⚠️ ORTHOGRAPHIC, not perspective — a perspective camera
+     over a 1280x600 box puts the near end of the chain twice the size of the far end, and
+     the tiles sitting on top then read as though they were lying on a hill. */
+  const fieldScene = new THREE.Scene();
+  const fieldCam = new THREE.OrthographicCamera(-1, 1, 1, -1, .1, 100);
+  fieldCam.position.set(0, 0, 10);
+  fieldScene.add(new THREE.AmbientLight(0xffffff, 1.5));
+  const fKey = new THREE.DirectionalLight(0xFFF3E2, 2.4); fKey.position.set(2, 3, 4);
+  const fRim = new THREE.DirectionalLight(ROSE, 1.6); fRim.position.set(-3, -2, 2);
+  fieldScene.add(fKey, fRim);
+  const chain = new THREE.Group();
+  /* ⚠️ THE CURVE IS AUTHORED WIDER THAN THE FRAME ON PURPOSE. The first build ran it from
+     -2.3 to 2.3 against a camera half-width of 5.4, so the chain sat in a knot in the
+     middle of a 1280px grid and read as a logo somebody had dropped behind the tiles. A
+     field has to leave the frame at both ends — what makes it a field rather than an object
+     is that you cannot see where it starts. x runs to +/-7 against a half-width of about
+     4.5, so roughly a third of it is always off-screen. */
+  const CTRL = 19;
+  const pts = Array.from({ length:CTRL }, (_, i) => {
+    const t = i / (CTRL - 1);
+    return new THREE.Vector3((t - .5) * 14, Math.sin(t * 7.4) * 1.55,
+      Math.cos(t * 5.1) * 1.1);
+  });
+  const curve = new THREE.CatmullRomCurve3(pts);
+  chain.add(new THREE.Mesh(new THREE.TubeGeometry(curve, 260, .075, 12, false),
+    new THREE.MeshStandardMaterial({ color:GOLD, metalness:.72, roughness:.3 })));
+  const nodes = new THREE.InstancedMesh(new THREE.SphereGeometry(.165, 18, 14),
+    new THREE.MeshStandardMaterial({ color:ROSE, metalness:.3, roughness:.42 }), CTRL);
+  const m4 = new THREE.Matrix4();
+  pts.forEach((p, i) => nodes.setMatrixAt(i, m4.makeTranslation(p.x, p.y, p.z)));
+  nodes.instanceMatrix.needsUpdate = true;
+  chain.add(nodes);
+  /* a second, thinner strand set back — depth for the price of one more tube, and it is
+     what stops the field looking like a single wire when a tile is hovered clear */
+  const far = new THREE.CatmullRomCurve3(pts.map((p, i) =>
+    new THREE.Vector3(p.x + 1.1, -p.y * .62 + .5 + Math.sin(i) * .12, p.z - 2.4)));
+  chain.add(new THREE.Mesh(new THREE.TubeGeometry(far, 200, .042, 10, false),
+    new THREE.MeshStandardMaterial({ color:ROSE, metalness:.4, roughness:.45,
+      transparent:true, opacity:.6 })));
+  fieldScene.add(chain);
+
+  /* ── the loop ───────────────────────────────────────────────────────────────────── */
+  let mode = null, raf = 0, t0 = 0, W = 0, H = 0;
+  const dummy = new THREE.Object3D();
+
+  function size(){
+    const r = grid.getBoundingClientRect();
+    W = Math.max(1, Math.round(r.width)); H = Math.max(1, Math.round(r.height));
+    renderer.setSize(W, H, false);
+    /* ⚠️ THE FRAME IS FIXED IN HEIGHT AND THE WIDTH FOLLOWS THE ASPECT — never the other
+       way round. Fixing the width instead makes the chain's thickness change every time the
+       grid reflows a row, which looks like a rendering bug and is a projection. */
+    const a = W / H;
+    fieldCam.left = -2.2 * a; fieldCam.right = 2.2 * a;
+    fieldCam.top = 2.2; fieldCam.bottom = -2.2; fieldCam.updateProjectionMatrix();
+  }
+  new ResizeObserver(() => { if (mode) { size(); if (REDUCE) draw(0); } }).observe(grid);
+
+  function draw(t){
+    const s = t / 1000;
+    if (mode === 'H'){
+      renderer.setScissorTest(false);
+      renderer.autoClear = true;
+      renderer.setViewport(0, 0, W, H);
+      chain.rotation.y = s * .1;
+      chain.rotation.z = Math.sin(s * .17) * .08;
+      chain.position.x = Math.sin(s * .09) * 1.1;
+      chain.position.y = Math.cos(s * .13) * .22;
+      renderer.render(fieldScene, fieldCam);
+      return;
+    }
+    /* G — clear once, then paint eight windows */
+    renderer.setScissorTest(false);
+    renderer.autoClear = true;
+    renderer.setViewport(0, 0, W, H);
+    renderer.clear();
+    renderer.autoClear = false;
+    renderer.setScissorTest(true);
+    const box = canvas.getBoundingClientRect();
+    tiles.forEach((px, i) => {
+      const m = px.querySelector('.px-mark').getBoundingClientRect();
+      const side = 130;
+      const cx = m.left + m.width / 2 - box.left, cy = m.top + m.height / 2 - box.top;
+      const x = Math.round(cx - side / 2), y = Math.round(H - (cy + side / 2));
+      if (x + side < 0 || x > W || y + side < 0 || y > H) return;   /* off-canvas: skip */
+      renderer.setViewport(x, y, side, side);
+      renderer.setScissor(x, y, side, side);
+      const hot = px.dataset.hot === 'true' ? 2.4 : 1;
+      vial.rotation.y = s * .42 * hot + i * .87;
+      vial.rotation.z = Math.sin(s * .5 + i) * .05;
+      vial.position.y = Math.sin(s * .7 + i * 1.3) * .045;
+      for (let b = 0; b < BEADS; b++){
+        const ph = b * 2.4 + i;
+        dummy.position.set(Math.sin(ph + s * .5) * .34,
+          ((b / BEADS + s * .06 + i * .1) % 1 - .5) * 1.6,
+          Math.cos(ph + s * .5) * .34);
+        dummy.updateMatrix(); beads.setMatrixAt(b, dummy.matrix);
+      }
+      beads.instanceMatrix.needsUpdate = true;
+      emblemMesh.material.map = emblems[i];
+      emblemMesh.scale.setScalar(px.dataset.hot === 'true' ? 1.1 : 1);
+      emblemMesh.material.needsUpdate = true;
+      renderer.render(vialScene, vialCam);
+    });
+    renderer.setScissorTest(false);
+    renderer.autoClear = true;
+  }
+
+  function tick(t){ if (!t0) t0 = t; draw(t - t0); raf = requestAnimationFrame(tick); }
+
+  /* ⚠️ REDUCED MOTION GETS ONE FRAME, NOT A BLANK CANVAS. An empty card is a worse answer
+     to "I do not want movement" than a still object is. */
+  return {
+    start(m){
+      /* ⚠️ NO INLINE display HERE. The CSS already turns the canvas on for G and H and
+         off for everything else; writing display:block inline out-ranks that rule, so the
+         canvas stayed in the layout after the reader moved on to another variant — which
+         is how the replaced-element sizing bug above got a chance to be visible at all. */
+      mode = m; size();
+      cancelAnimationFrame(raf);
+      if (REDUCE) { draw(2400); return; }
+      raf = requestAnimationFrame(tick);
+    },
+    stop(){ cancelAnimationFrame(raf); raf = 0; mode = null; }
+  };
+}
+
+/* the hover signal the vials read — set here rather than in the engine so the engine never
+   touches the DOM's state, only reads it */
+for (const px of tiles){
+  px.addEventListener('pointerenter', () => { px.dataset.hot = 'true'; });
+  px.addEventListener('pointerleave', () => { px.dataset.hot = 'false'; });
+}
+
+/* ── open on whatever the URL asked for ──────────────────────────────────────────── */
+show((location.hash.match(/^#why-([A-I])$/) || [])[1] || 'A');
+</script>
+</body>
+</html>

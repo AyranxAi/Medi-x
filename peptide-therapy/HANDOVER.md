@@ -1,30 +1,42 @@
 # Peptide Therapy — `/peptide-therapy/` (first ship 2026-08-14)
 
-> # ▶ START HERE — STATE OF PLAY AT THE END OF ROUND 17
+> # ▶ START HERE — STATE OF PLAY AT THE END OF ROUND 18
 >
 > **The page:** `/peptide-therapy/index.html` — single file, zero build, ~3,900 lines.
 > Open it with any static server; there is nothing to compile.
-> **QA:** `node tools/qa/peptide-page.mjs` (**50**) and `node tools/qa/services-choice.mjs`
+> **QA:** `node tools/qa/peptide-page.mjs` (**51**) and `node tools/qa/services-choice.mjs`
 > (**72**). Both must be green before anything ships. They need
 > `npm install --no-save playwright gsap@3.13.0 lenis@1.3.4`.
-> **The page is on `main`** as of round 17.
+> The round-18 lab has its own: `node tools/qa/section04-lab.mjs` (**49**, playwright only).
+> **The page is on `main`** as of round 17; round 18 is on
+> `claude/whats-included-excluded-copy-04cohg`.
 >
 > **THE FOUR THINGS A NEW CHAT SHOULD KNOW FIRST:**
 > 1. **The page is PLUM (warm), not glacier.** Round 14 reversed round 9. ⚠️ **It contradicts
 >    a recorded client note** — *"the burgundy is not approved… we have transitioned to
 >    blue"* — on his later instruction. **This is the likeliest thing to be sent back**, and
 >    the full mapping back to glacier is kept at `.scene-stage` in the stylesheet.
-> 2. **Section 05 does not exist.** Deleted twice: the client's chapter (round 14) and the
->    programme band that briefly replaced it (round 15). ⚠️ **Everything about price and
->    process lives in ONE place — the programme panel** (`<template id="prog-panel">`).
->    Do not put a second copy on the page.
+> 2. **Section 05 does not exist, and as of round 18 nor does 06.** Deleted three times
+>    over: the client's chapter (round 14), the programme band that replaced it (round 15),
+>    and the included/excluded ledger (round 18, his "remove this"). ⚠️ **Everything about
+>    price and process lives in ONE place — the programme panel**
+>    (`<template id="prog-panel">`). Do not put a second copy on the page; `peptide-page.mjs`
+>    now asserts the absence of both deleted chapters, because both were client copy.
+>    ⚠️ **THE PAGE IS FIVE CHAPTERS AFTER THE SCENE AND THE GROUNDS INVERTED IN ROUND 18** —
+>    services dawn · docs ivory · stories dawn · faq ivory · final dawn. Read the ⚠️⚠️ note
+>    at `.docs` before touching any ground.
 > 3. **Section 04 is the whole commercial engine**: eight goal tiles on the rose dawn, a
 >    tray that follows the reader, and the panel. ⚠️ Its ground being `--dawn` is
->    load-bearing twice over — page alternation *and* the tiles reading as objects.
+>    load-bearing twice over — the chain scene's seamless handoff (`BG_B === --dawn`) *and*
+>    the tiles reading as objects. **Round 18 put nine ways of making it more beautiful in
+>    `section04-lab.html` and it is waiting on a letter.**
 > 4. **Prices are settled.** AED 1,150 **VAT-exclusive**, +5% = 1,207.50. Home collection
 >    AED 1,950. ⚠️ **Never invent a figure** — see the AED 350 incident in round 12.
 >
 > **WHAT IS STILL OPEN (all his):**
+> · **A LETTER FOR SECTION 04** — `section04-lab.html`, nine variants in three chapters by
+>   what they cost to adopt. ⚠️ **B re-opens round 17's letter D** and ⚠️ **H breaks a
+>   measured invariant**; both are flagged on their own cards.
 > · **PAYMENT** — the one thing asked for and not built. `Start your programme` lands on
 >   `#book`; the moment a provider exists that `href` is the only line that changes.
 > · **Wiring `#pxd-choose` to step 03.** The doctor-chooser template is complete and
@@ -37,7 +49,7 @@
 > **THE LABS** (kept, each the record of a decision): `grade-lab` (glacier, judged A2·B2·C2)
 > · `goals-lab` (eight presentations) · `programme-lab` (intake in three shapes) ·
 > `bonds-lab` · `hero-lab` · `programme-band-lab` (round 15, answered "none") ·
-> `selected-tile-lab` (round 17, answered **D**).
+> `selected-tile-lab` (round 17, answered **D**) · **`section04-lab` (round 18, OPEN)**.
 > ⚠️ **The first five are on the GLACIER grade and are deliberately not updated** — they
 > record decisions taken under the grade they were taken under.
 >
@@ -45,6 +57,106 @@
 > variants, tag the shipped one, and ship what he names. Every ⚠️ in the source is there
 > because something already went wrong once — **read them before editing near them.**
 >
+> ---
+
+> ## ROUND 18 — 2026-08-17: the ledger goes, the tail inverts, and section 04 gets a lab
+>
+> **1 · 06 · WHAT'S INCLUDED / WHAT'S EXCLUDED IS DELETED WHOLE — his "remove this".**
+> Markup, twelve CSS rules and the `#included` id nothing linked to. It stood from round 14
+> and was the **third** place on the page describing what the programme is; section 05 went
+> in round 14 for the same reason, and the programme panel is the one that stays.
+> ⚠️ **NOTHING FACTUAL WAS LOST AND THAT WAS CHECKED, NOT ASSUMED.** The excluded column's
+> two facts are both live in the panel — diagnostics-and-home-collection is **step 02 plus
+> the AED 1,950 add-on**, and *"prescriptions are personalised, priced before you pay"* is
+> the "Priced after your consultation" block in the client's own words. If either ever
+> leaves the panel, **that** is when this content has actually gone.
+> ⚠️ **peptide-page.mjs NOW ASSERTS THE ABSENCE**, three ways: no `.incl` markup, no
+> `#included`, and no `BOZAT`/`DUTCH Plus` in the body text. Same reason section 05 has an
+> inverted check — **~150 words of CLIENT copy is one paste away from the page**, and a
+> paste can arrive stripped of its classes. `git show 9bd43af:peptide-therapy/index.html`
+> has the section whole.
+>
+> **2 · ⚠️⚠️ THE BILL ROUND 16 DEFERRED CAME DUE: THE TAIL INVERTED.** 06 was the **ivory
+> beat** between `.services` (dawn) and `.docs` (dawn). Deleting it put two dawns face to
+> face — the exact bug round 16's ground check was written for — and **that check went red
+> on the first run after the deletion.** The four chapters below `.services` are now
+> **`.docs` ivory · `.stories` dawn · `.faq` ivory · `.final` dawn**.
+> ⚠️ **MOVING `.services` INSTEAD WAS RECONSIDERED AND REFUSED A SECOND TIME.** It is one
+> declaration against four, and it is wrong both times: the dawn is load-bearing there
+> **twice** — the chain scene rises to exactly `--dawn` (`BG_B`) so the scene hands off with
+> no seam, and `.px` is `--ivory`, so an ivory section stops the eight reading as objects.
+> ⚠️ **THE ALTERNATION CASCADES — THERE IS NO PARTIAL VERSION.** Flip `.docs` alone and it
+> collides with `.stories`; flip both and `.stories` collides with `.faq`. Removing one beat
+> from a two-colour run inverts everything after it or nothing.
+> ⚠️ **TWO COSTS, STATED AT THE SITES THEY LAND:** `.faq` no longer matches the sister
+> page's dawn (round 3 chose the dawn to *be* that match), and `.final` meets the cream
+> footer at **6/255** where it used to be 16 — both edges were always invisible as fields,
+> so the two `border-top`s are still the only things saying "new thing" and neither may go.
+>
+> **3 · SECTION 04 HAS A LAB — `peptide-therapy/section04-lab.html`, nine letters.** His
+> brief: *"more beautiful… threejs for the cards, spline, new colour, animation, making them
+> bigger, something interesting for the human to click it and be curious."*
+> ⚠️ **THE AXIS IS COST TO ADOPT, NOT ARRANGEMENT** — round 10b's lesson applied, because
+> eight arrangements of one tile would be eight answers to a question the tile already
+> settled. Three chapters: **I · THE CUT** (A three up · B the dark room · C the gallery —
+> geometry and ground, ships as-is) · **II · THE SURFACE** (D the mark draws itself · E the
+> lens · F the turn — motion, zero dependency) · **III · THE DEPTH** (G the vial · H the
+> frosted field — vendored three.js) · **I · on Spline**, written rather than mocked up.
+> ⚠️ **B RE-OPENS ROUND 17'S LETTER D AND THE LAB SAYS SO IN BOLD.** `--burgundy` against an
+> ink ground is **46/255** — a chosen tile would be a shadow — so on B the lit tile has to
+> become gold with ink type, which is letter A from that lab. **Picking B un-picks D.**
+> ⚠️ **G KEEPS THE EIGHT MARKS AND THAT IS THE WHOLE ARGUMENT FOR BUILDING IT THAT WAY.**
+> The first instinct is eight rotating peptide chains; eight rotating peptide chains say
+> "peptide" eight times and say nothing about auto-immunity or sleep. So each vial holds
+> **that tile's own SVG**, serialised to a canvas texture through a `data:` URL, drawn in
+> `--gold-deep` — the flat mark's own colour, so the no-WebGL fallback is invisible.
+> ⚠️ **H BREAKS A MEASURED INVARIANT AND THE CARD SAYS SO.** A translucent tile has no fixed
+> colour, so peptide-page.mjs's 8/255 tile-vs-ground assertion stops meaning anything.
+> Adopting H means **replacing that check with a rendered-pixel sample, not deleting it**.
+> ⚠️ **SPLINE IS ANSWERED, NOT MOCKED.** It is a CDN runtime plus a scene on Spline's hosts
+> plus an editor seat — the first externally-hosted dependency on a zero-build page, and it
+> would not run in our own labs, which open under a CSP that blocks every external host. G
+> and H are the vendored answers to what Spline is usually wanted for. If he wants Spline
+> anyway it is ~90 lines and a loading state; the bill is stated before, not after.
+>
+> **4 · THE LAB HAS ITS OWN HARNESS — `tools/qa/section04-lab.mjs`, 49 checks.** A lab
+> exists to be replied to, so **every badge on it is re-derived in a real browser** and if a
+> badge and the harness disagree, the harness is right. The two checks that matter most are
+> about honesty rather than pixels: **check 2** — every name, descriptor and chip must
+> already exist in `index.html` or `goals-lab.html`, so the lab cannot launder new marketing
+> past him by letter; **check 4** — all nine variants must show the same eight names, or the
+> comparison being asked for is not a comparison.
+>
+> **5 · FOUR BUGS THE HARNESS FOUND THAT LOOKING DID NOT**, all worth not repeating:
+> · ⚠️⚠️ **A `<canvas>` IS A REPLACED ELEMENT, SO `position:absolute;inset:0` DOES NOT SIZE
+>   IT.** `width:auto` resolves to the **intrinsic** width — the attribute the renderer
+>   wrote, 1280 — and the over-constrained `right` is ignored. It is correct at exactly the
+>   width where the grid is 1280 and pushes the document sideways at 1280, 1104, 900, 640
+>   and 390. Nothing on screen looked wrong. `width:100%;height:100%` is the fix.
+> · ⚠️ **`gl.readPixels` CANNOT PROVE A CANVAS DREW** — the back buffer is undefined after
+>   compositing without `preserveDrawingBuffer`, so it returns all zeroes, which is
+>   indistinguishable from a canvas that never drew. **Round 10b already recorded this and
+>   it caught me again.** The honest test is the one a person does: screenshot, hide the
+>   canvas, screenshot, diff.
+> · ⚠️ **F's back face leaked into seven variants.** Its whole ruleset was scoped to
+>   `[data-v="F"]`, including the `display` — so everywhere else the element had no rules at
+>   all, fell into the flex column, and drew a **second descriptor and a live Choose button
+>   under every tile**. Scope the ruleset; declare the OFF state unscoped.
+> · ⚠️ **`rotateY(180deg)` MIRRORS POSITIONS, NOT JUST FACES.** The `+` pinned to
+>   `right:10px` landed on the visual **left** of a turned tile, on top of the first line of
+>   copy. Counter-rotating fixes the glyph and not the geometry — the offset has to swap
+>   sides too.
+>
+> **6 · ⚠️ SELECTING D HAS TO REPLAY THE DRAWING.** The IntersectionObserver runs for every
+> variant, so by the time a reader reaches D every mark is long drawn and the variant
+> demonstrates itself as an ordinary grid — which is what the first build shipped. On the
+> page firing once is correct; in a lab whose subject *is* the animation, arriving must show
+> it.
+>
+> **7 · STILL HIS, UNCHANGED:** payment · wiring `#pxd-choose` to step 03 · the
+> burgundy/blue conflict · peptide delivery time · tile popup copy and the FAQ are draft.
+> **And now: a letter for section 04.**
+
 > ---
 
 > ## ROUND 17 — 2026-08-16: the tile goes burgundy, and a contrast check is found to have

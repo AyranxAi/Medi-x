@@ -114,6 +114,43 @@ scroll settled. The harness flags it inline rather than letting you chase a colo
 ⚠️ **A skip exits non-zero.** Same rule `door-contrast.mjs` learned expensively: a silent
 skip that reads as a pass is worse than a fail.
 
+## The section 04 lab — `section04-lab.mjs`
+
+```bash
+npm install --no-save playwright
+node tools/qa/section04-lab.mjs [--shots]
+```
+
+49 checks over `peptide-therapy/section04-lab.html` (round 18): the nine letters all take
+the stage, one rationale is visible at a time, every proposed ground clears 4.5:1 for a tile
+name, the two WebGL chapters actually put pixels on screen, and the two risky gestures — F's
+turn and D's replay — do what their cards claim.
+
+⚠️ **A lab exists to be REPLIED TO, so its badges are load-bearing.** Every arithmetic claim
+printed on a variant card is re-derived here in a real browser. **If a badge and this file
+disagree, this file is right and the badge is the bug.**
+
+⚠️ **The two most important checks are about honesty, not pixels.** Check 2 asserts the lab
+invents no copy — every name, descriptor and chip on a tile must already exist in
+`index.html` or `goals-lab.html`, because a lab that quietly writes new marketing and is
+then approved by letter has laundered copy past the client. Check 4 asserts all nine
+variants show the same eight names: a variant may change style and behaviour, never content,
+or the comparison being asked for is not a comparison.
+
+⚠️ **`gl.readPixels` CANNOT PROVE A CANVAS DREW, and this harness shipped that mistake for
+one run.** Without `preserveDrawingBuffer` the back buffer is undefined once the frame is
+composited, so reading it returns all zeroes — identical to a canvas that never drew, and it
+failed both depth variants while they were visibly working. Round 10b had already recorded
+this for `bonds-lab.mjs`. The honest test is the one a person does: screenshot the grid, hide
+the canvas, screenshot again, diff the two.
+
+⚠️ **SwiftShader is requested, not required.** CI has no GPU; where no context appears the
+depth checks report a **gap** rather than a pass, because a green tick for a canvas that
+never drew is worse than a hole in the coverage.
+
+⚠️ **Check 9a reads the stylesheet as text**, for the same reason `peptide-page.mjs` check 1
+does: an unbalanced CSS comment eats the rule below it and the console stays clean.
+
 ## Encoding a new plate — `tools/encode-plate.mjs`
 
 ```bash

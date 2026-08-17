@@ -9,12 +9,18 @@
 
    THE THREE THINGS THIS EXISTS FOR:
 
-   1 · THE HIT-AREA SWAP. Until 2026-08-16 `.px-open::after{inset:0}` made the whole
-       tile the + button — tap anywhere, read more. The tile is now a CHOICE, and
-       both cannot own the same pixels. Checks 4–6 assert the swap happened in BOTH
-       directions: tapping the body selects and does NOT open the dialog, and the +
-       still opens it. Restoring the stretch would leave the goal unselectable and
-       every content assertion would still pass.
+   1 · THE HIT-AREA SWAP, NOW IN ITS THIRD COSTUME. Until 2026-08-16 the whole tile
+       was the + button. Then the tile became a CHOICE and the + moved to a corner.
+       Round 18 replaced the grid with the RING, and the same rule had to survive the
+       move: the card's face chooses, the + turns the card over, and neither may own
+       the other's pixels. Checks 4–6 assert it in every direction, including the one
+       the ring adds — a card that is NOT at the front takes a click as "bring me
+       forward" and must not quietly select a goal the reader cannot even read yet.
+
+   1b · WHAT THIS FILE DOES *NOT* COVER. The ring's own geometry — the size cascade,
+       the climb, the arc, the dust, the flip — is section04-hybrid.mjs's job, against
+       the lab. This file owns the SEAM: that the ring is on the live page, that the
+       tray hears it, and that the page still holds around it.
 
    2 · THE ARITHMETIC. VAT is added at 5% on his instruction. A price a customer can
        dispute after paying deserves an assertion, not a glance.
@@ -22,7 +28,13 @@
    3 · THE PANEL DOES NOT EXIST UNTIL IT IS OPENED. Its markup is cloned into the
        .pxd shell, so every check against it has to open it first — and the binding
        has to be delegated, which is the trap the mock-booking guard and the
-       chooser's portraits both fell into. */
+       chooser's portraits both fell into.
+
+   ⚠️⚠️ THE FLOAT WILL TIME OUT EVERY CLICK YOU DO NOT GUARD. Each card carries a 2.5px
+   16s breathing animation, and Playwright waits for an element to be STABLE before it
+   clicks — which a permanently animating element never is. The fix, used at every
+   interaction below: page.addStyleTag('.pw{animation:none!important}') once, up front.
+   That is a harness measure and not a page one; the animation ships. */
 import { chromium } from 'playwright';
 import path from 'path';
 import fs from 'fs';
@@ -97,96 +109,95 @@ const run = async () => {
   await page.evaluate(() => document.fonts.ready);
   await page.waitForTimeout(600);
 
-  console.log('\n\x1b[1mA · the eight, rebuilt\x1b[0m');
+  /* WCAG's own arithmetic, shared by every contrast check below — hoisted here because the
+     back face is measured in section B, long before the chosen-state block at the end. */
+  const lin = c => { c /= 255; return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4; };
+  const lum = ([r,g,b]) => 0.2126*lin(r) + 0.7152*lin(g) + 0.0722*lin(b);
+  const parse = s => { const n = (s.match(/[\d.]+/g)||[]).map(Number); return { c:n.slice(0,3), a:n.length>3?n[3]:1 }; };
+  const contrast = (fg,bg) => { const f = parse(fg), b = parse(bg);
+    const o = f.c.map((v,i)=> v*f.a + b.c[i]*(1-f.a));
+    const [x,y] = [lum(o), lum(b.c)].sort((m,n)=>n-m); return (x+0.05)/(y+0.05); };
+  console.log('\n\x1b[1mA · the eight, on the ring\x1b[0m');
+  /* ⚠️ ONCE, UP FRONT — see the note at the top of this file. Every click below would
+     otherwise wait thirty seconds for a card that never stops breathing. */
+  await page.addStyleTag({ content: '.pw{animation:none!important}' });
   const grid = await page.evaluate(() => ({
-    tiles: document.querySelectorAll('.px').length,
-    picks: document.querySelectorAll('.px-pick').length,
-    marks: document.querySelectorAll('.px-mark').length,
-    opens: document.querySelectorAll('.px-open').length,
-    teasers: document.querySelectorAll('.px > p').length,
-    nums: document.querySelectorAll('.px-num').length,
-    kickers: [...document.querySelectorAll('.px-detail')]
-      .filter(t => t.content.querySelector('.pxd-kicker')).length,
-    names: [...document.querySelectorAll('.px h3')].map(h => h.textContent.trim()).join('|'),
+    cards: document.querySelectorAll('.pw').length,
+    faces: document.querySelectorAll('.pw-face').length,
+    marks: document.querySelectorAll('.pw-mark').length,
+    mores: document.querySelectorAll('.pw-more').length,
+    backs: document.querySelectorAll('.pw-back').length,
+    art:   document.querySelectorAll('.pw.has-art').length,
+    dots:  document.querySelectorAll('#railDots button').length,
+    nums:  [...document.querySelectorAll('.pw-n')].map(n => n.textContent.trim()).join(','),
+    names: [...document.querySelectorAll('.pw-body h3')].map(h => h.textContent.trim()).join('|'),
     /* eight <svg>s all drawing the same figure would pass every count ever written */
-    uniqueMarks: new Set([...document.querySelectorAll('.px-mark')]
+    uniqueMarks: new Set([...document.querySelectorAll('.pw-mark')]
       .map(s => [...s.querySelectorAll('path,circle')]
-        .map(e => e.getAttribute('d') || e.getAttribute('cx') + ',' + e.getAttribute('cy')).join(';'))).size
+        .map(e => e.getAttribute('d') || e.getAttribute('cx') + ',' + e.getAttribute('cy')).join(';'))).size,
+    /* the tiles and their popups are gone — assert their ABSENCE, or they drift back */
+    oldTiles: document.querySelectorAll('.px, .px-pick, .px-open, .px-detail').length,
+    oldGrid: !!document.querySelector('.px-grid')
   }));
-  is('1  eight tiles', grid.tiles, 8);
-  is('1a eight select surfaces', grid.picks, 8);
+  is('1  eight cards', grid.cards, 8);
+  is('1a eight faces to choose with', grid.faces, 8);
   is('1b eight marks', grid.marks, 8);
   is('1c eight DIFFERENT marks', grid.uniqueMarks, 8);
-  /* ⚠️ THE NUMERALS ARE GONE ON PURPOSE — on a multi-select they implied a sequence
-     that does not exist. They survive in the popup kicker, which is a reference. */
-  is('1e no numerals on the tiles', grid.nums, 0);
-  /* ⚠️ THE POPUP KICKER WENT TOO — his call. "01 · Peptide Therapy" told a reader
-     of this page nothing they did not already know, and the numerals had just left
-     the tiles for implying a sequence that does not exist. */
-  is('1f and none left in the popups either', grid.kickers, 0);
-
-  /* the + moved to the top right corner — it is a secondary door on a tile that is
-     now primarily a choice, and corners are where secondary controls belong */
-  const plusPos = await page.evaluate(() => {
-    const t = document.querySelector('.px').getBoundingClientRect();
-    const b = document.querySelector('.px-open').getBoundingClientRect();
-    return { fromTop: Math.round(b.top - t.top), fromRight: Math.round(t.right - b.right) };
+  is('1d the + survived on all eight', grid.mores, 8);
+  is('1e eight back faces', grid.backs, 8);
+  /* ⚠️⚠️ THE ARTWORK IS ASSERTED, NOT ASSUMED, AND THE CARD IS BUILT TO SURVIVE ITS ABSENCE.
+     A card only gains .has-art once a probe Image() has actually LOADED its file — so this
+     is the check that a rename, a bad path or a missing webp cannot pass. Without it the
+     eight fall back to their gradient plate and their line mark, which looks deliberate
+     enough that nobody would report it. */
+  is('1f all eight photographs actually loaded', grid.art, 8);
+  is('1g a dot for every card', grid.dots, 8);
+  /* ⚠️⚠️ THE DOTS' POSITION IS ASSERTED BECAUSE THEY SILENTLY MOVED. The foot is a grid, and
+     dropping the lab's tally left two items auto-placing into three columns — so the dots,
+     still faithfully `justify-self:end`, ended at the end of the MIDDLE column, sitting in
+     the centre of the row with the right-hand third empty. Nothing errored and every count
+     passed. A row's arrangement needs an assertion about where things ARE, not how many. */
+  const footRow = await page.evaluate(() => {
+    const foot = document.querySelector('.rail-foot').getBoundingClientRect();
+    const hint = document.querySelector('.hint').getBoundingClientRect();
+    const dots = document.querySelector('#railDots').getBoundingClientRect();
+    return { hintLeft: Math.round(hint.left - foot.left),
+             dotsRight: Math.round(foot.right - dots.right),
+             apart: Math.round(dots.left - hint.right) };
   });
-  plusPos.fromTop < 30 && plusPos.fromRight < 30
-    ? ok('1g the + sits in the top right corner', `${plusPos.fromTop}px / ${plusPos.fromRight}px`)
-    : bad('1g the + sits in the top right corner', JSON.stringify(plusPos));
-  is('1d the + survived on all eight', grid.opens, 8);
+  footRow.hintLeft < 4 && footRow.dotsRight < 4
+    ? ok('1k the hint sits left and the dots right', `${footRow.hintLeft}px / ${footRow.dotsRight}px, ${footRow.apart}px apart`)
+    : bad('1k the foot row has drifted', JSON.stringify(footRow));
+  /* ⚠️⚠️ THE NUMERALS CAME BACK IN ROUND 18, REVERSING ROUND 12, AND THAT IS WRITTEN DOWN
+     RATHER THAN QUIETLY DONE. Round 12 removed them from the grid with this reasoning: on
+     a MULTI-SELECT they imply a sequence that does not exist, and check 1e asserted zero.
+     On the ring they are doing a different job — at the far end a card is a third of scale
+     and its NAME has faded out entirely, so the numeral is the only thing identifying it,
+     and in a thing you turn through, a number reads as a position rather than a step.
+     ⚠️ SO THE CHECK IS INVERTED, NOT DELETED: it now pins the numerals to the CARD ORDER,
+     which is the fault that would actually hurt — a reordering that leaves 03 on the fourth
+     card is a page that contradicts itself and nothing else would notice. */
+  is('1h the numerals run in card order', grid.nums, '01,02,03,04,05,06,07,08');
+  is('1i the old tiles are gone', grid.oldTiles, 0);
+  is('1j and so is their grid', grid.oldGrid, false);
+  /* ⚠️⚠️ EVERY SCREEN-READER-ONLY SPAN ON THE PAGE, MEASURED — because one of them shipped
+     VISIBLE. The ring's card faces carry their accessible name in <span class="sr">, and the
+     rule that hides it was not part of what came over from the lab: the goal's name rendered
+     in the browser's default face across the middle of all eight photographs, which looked
+     enough like part of the artwork to be mistaken for the client's own images.
+     ⚠️ MEASURED, NOT ASSERTED BY SELECTOR. `.sr` existing in the stylesheet proves nothing —
+     a later rule, a different class name, or one span that missed the class all put readable
+     text back on the page. A hidden thing has a box of about a pixel; that is the test. */
+  const bare = await page.evaluate(() => [...document.querySelectorAll('.sr')]
+    .map(el => { const b = el.getBoundingClientRect();
+                 return { w: Math.round(b.width), h: Math.round(b.height),
+                          text: el.textContent.trim().slice(0, 32) }; })
+    .filter(x => x.w > 4 || x.h > 4));
+  bare.length === 0
+    ? ok('1l no screen-reader-only text is rendering visibly',
+         `${await page.evaluate(() => document.querySelectorAll('.sr').length)} spans, all hidden`)
+    : bad('1l screen-reader-only text is on the page', JSON.stringify(bare.slice(0, 3)));
 
-  /* ⚠️⚠️ THE HIT AREA MUST DRAW NOTHING, AND THIS CHECK EXISTS BECAUSE IT DREW TWICE.
-     Round 12 grew the + from a 32px circle to a 44px thumb target and left a comment
-     saying "the circle still DRAWS at 32, via ::before". It did not: the base rule's
-     `border:1px solid var(--line)` and `border-radius:50%` came along with the box, so
-     every tile carried TWO concentric rings, and the hover fill landed on the 44px box
-     rather than the 32px circle. It shipped that way for two rounds.
-     ⚠️ WHY NOTHING CAUGHT IT: every assertion about this control measured its POSITION
-     (check 1g) or its BEHAVIOUR (checks 4–6), and both were correct the whole time. No
-     check ever asked what it LOOKED like. This one does — the drawn ring belongs to
-     ::before at 32px and the 44px box is a target, so the box must have no border and no
-     background in either state. */
-  const plusDraw = await page.evaluate(() => {
-    const btn = document.querySelector('.px-open');
-    const c = getComputedStyle(btn), b = getComputedStyle(btn, '::before');
-    return { bw: parseFloat(c.borderTopWidth), bg: c.backgroundColor, ring: parseFloat(b.inset) };
-  });
-  plusDraw.bw === 0 && /rgba\(0, 0, 0, 0\)|transparent/.test(plusDraw.bg)
-    ? ok('1h the 44px hit area draws nothing — one ring, not two')
-    : bad('1h the hit area is drawing again', JSON.stringify(plusDraw));
-  plusDraw.ring === 6
-    ? ok('1i and the ring it does draw is the 32px ::before', 'inset 6px of 44')
-    : bad(`1i the ring moved off ::before: inset ${plusDraw.ring}`);
-
-  /* ⚠️⚠️ A CHOSEN TILE AND A PRIMARY BUTTON NOW SHARE A COLOUR, SO SHAPE IS THE ONLY THING
-     TELLING THEM APART. His pick — letter D, --burgundy — was taken with that cost stated:
-     `--burgundy` is this page's button material, so a lit tile wears the same fill as
-     "Book a consultation". What stops the page saying "book" where it means "chosen" is
-     that a button is a PILL and a tile is a 2px rectangle. That distinction is now
-     load-bearing and nothing else was guarding it: round a tile, or square a button, and
-     two different meanings collapse into one material with no visible error anywhere. */
-  /* ⚠️ THE CLICK AND THE READ ARE TWO STEPS WITH A WAIT BETWEEN THEM, and they have to be:
-     `.px` transitions `background` over .35s, so reading in the same tick as the click
-     returns the transition's STARTING colour — ivory — and this check failed exactly that
-     way on its first run, reporting the chosen fill as rgb(250,247,241). */
-  await page.evaluate(() => document.querySelector('.px-pick').click());
-  await page.waitForTimeout(600);
-  const shapes = await page.evaluate(() => {
-    const tile = document.querySelector('.px[data-picked="true"]');
-    return { tile: parseFloat(getComputedStyle(tile).borderTopLeftRadius),
-             btn:  parseFloat(getComputedStyle(document.querySelector('.btn')).borderTopLeftRadius),
-             fill: getComputedStyle(tile).backgroundColor };
-  });
-  shapes.tile <= 4 && shapes.btn >= 100
-    ? ok(`1j chosen tile and button share a fill but not a shape — ${shapes.tile}px vs ${shapes.btn}px`)
-    : bad(`1j the two materials are converging: tile ${shapes.tile}px, button ${shapes.btn}px`);
-  shapes.fill === 'rgb(92, 31, 49)'
-    ? ok('1k the chosen tile is the burgundy he picked', shapes.fill)
-    : bad(`1k the chosen fill moved: ${shapes.fill}`);
-  await page.evaluate(() => document.querySelector('.px-pick').click());   /* leave it unchosen */
-  is('2  the teaser line is gone from the tiles', grid.teasers, 0);
   has('2  the heading asks rather than announces',
       await page.evaluate(() => document.querySelector('#services h2').textContent), 'Where would you like to begin');
   has('2c the lede says you may pick more than one',
@@ -194,51 +205,144 @@ const run = async () => {
   has('2a the client\'s spellings survive', grid.names, 'Anti Ageing');
   has('2b and the ampersand one', grid.names, 'Skin & Hair Loss');
 
-  /* the teaser was removed because the popup already says it, longer — prove the
-     popup is still there rather than trusting that it was */
-  const tplWords = await page.evaluate(() =>
-    [...document.querySelectorAll('.px-detail')].map(t => t.content.textContent.trim().length));
-  is('3  eight detail templates survive', tplWords.length, 8);
-  tplWords.every(n => n > 300) ? ok('3a and none was emptied', `min ${Math.min(...tplWords)} chars`)
-                               : bad('3a and none was emptied', tplWords.join('/'));
+  /* ⚠️⚠️ BOTH OF THE CLIENT'S PARAGRAPHS, ON EVERY CARD. The lab's card printed only the
+     first — it was built to show a mechanism, and the second paragraph did not fit. Bringing
+     the ring across without noticing would have deleted a paragraph of his copy from all
+     eight pathways, silently, in a commit about layout. This is the check that says it did
+     not happen, and it is the reason .pw-back scrolls. */
+  const backs = await page.evaluate(() =>
+    [...document.querySelectorAll('.pw-back')].map(b => ({
+      paras: b.querySelectorAll('p').length,
+      chars: b.textContent.trim().length,
+      outs: b.querySelectorAll('.pw-out li').length })));
+  is('3  every back face carries both paragraphs', backs.every(b => b.paras === 2), true);
+  backs.every(b => b.chars > 300) ? ok('3a and none was emptied', `min ${Math.min(...backs.map(b=>b.chars))} chars`)
+                                  : bad('3a and none was emptied', backs.map(b=>b.chars).join('/'));
+  is('3b and its outcomes', backs.every(b => b.outs === 4), true);
 
-  console.log('\n\x1b[1mB · the hit-area swap, in both directions\x1b[0m');
+  console.log('\n\x1b[1mB · the hit-area swap, in every direction\x1b[0m');
   await page.evaluate(() => document.querySelector('#services').scrollIntoView());
   await page.waitForTimeout(500);
-  await page.click('.px:nth-child(3) .px-pick');
+
+  /* ⚠️⚠️ THE RING ADDS A THIRD MEANING TO A CLICK AND THIS IS THE CHECK FOR IT. On the grid
+     a tile only ever chose. On the ring a card that is NOT at the front is largely hidden
+     behind its neighbours and its name may have faded out entirely — so a click there means
+     "bring this forward", and if it ALSO chose, the reader would be adding goals they have
+     not read to a programme they are still browsing. */
+  const away = await page.evaluate(() => {
+    const c = [...document.querySelectorAll('.pw')].find(c => c.dataset.focus !== 'true');
+    return c.dataset.i;
+  });
+  await page.click(`.pw[data-i="${away}"] .pw-face`);
+  await page.waitForTimeout(700);
+  is('4  clicking a card away from the front brings it forward',
+     await page.evaluate(i => document.querySelector(`.pw[data-i="${i}"]`).dataset.focus, away), 'true');
+  is('4a and chooses nothing',
+     await page.evaluate(() => document.querySelectorAll('.pw[data-picked="true"]').length), 0);
+  await page.click(`.pw[data-i="${away}"] .pw-face`);
   await page.waitForTimeout(300);
-  is('4  tapping the tile selects it',
-     await page.evaluate(() => document.querySelector('.px:nth-child(3)').dataset.picked), 'true');
-  is('4a and does NOT open the dialog',
+  is('4b clicking the front card chooses it',
+     await page.evaluate(i => document.querySelector(`.pw[data-i="${i}"]`).dataset.picked, away), 'true');
+  is('4c and does NOT open the dialog',
      await page.evaluate(() => document.querySelector('#pxd').hidden), true);
-  await page.click('.px:nth-child(3) .px-pick');
-  await page.waitForTimeout(250);
-  is('4b tapping again deselects',
-     await page.evaluate(() => document.querySelector('.px:nth-child(3)').dataset.picked), 'false');
+  await page.click(`.pw[data-i="${away}"] .pw-face`);
+  await page.waitForTimeout(300);
+  is('4d clicking again deselects',
+     await page.evaluate(i => document.querySelector(`.pw[data-i="${i}"]`).dataset.picked, away), 'false');
 
   const plus = await page.evaluate(() => {
-    const b = document.querySelector('.px-open').getBoundingClientRect();
-    return { w: Math.round(b.width), h: Math.round(b.height) };
+    const card = document.querySelector('.pw[data-focus="true"]');
+    const b = card.querySelector('.pw-more').getBoundingClientRect(), t = card.getBoundingClientRect();
+    return { w: Math.round(b.width), h: Math.round(b.height),
+             fromTop: Math.round(b.top - t.top), fromRight: Math.round(t.right - b.right) };
   });
   plus.w >= 44 && plus.h >= 44 ? ok('5  the + has a thumb-sized target', `${plus.w}×${plus.h}`)
                                : bad('5  the + has a thumb-sized target', `${plus.w}×${plus.h}`);
-  await page.click('.px:nth-child(1) .px-open');
-  await page.waitForTimeout(500);
-  is('6  the + still opens the detail',
-     await page.evaluate(() => !document.querySelector('#pxd').hidden), true);
-  has('6a with its own copy',
-      await page.evaluate(() => document.querySelector('.pxd-body').textContent), 'Auto Immune Disease');
-  is('6b and opening it selected nothing',
-     await page.evaluate(() => document.querySelectorAll('.px[data-picked="true"]').length), 0);
-  await page.keyboard.press('Escape');
-  await page.waitForTimeout(500);
+  plus.fromTop < 30 && plus.fromRight < 30
+    ? ok('5a and sits in the top right corner', `${plus.fromTop}px / ${plus.fromRight}px`)
+    : bad('5a and sits in the top right corner', JSON.stringify(plus));
+  /* ⚠️ ONLY ON THE CARD IN FRONT. A + on a card at a third of scale is a target nobody can
+     hit and a decoration everybody can see — and it would sit on top of the neighbour it
+     overlaps, so the click would land on the wrong card entirely. */
+  is('5b and only on the card in front',
+     await page.evaluate(() => [...document.querySelectorAll('.pw')]
+       .filter(c => getComputedStyle(c.querySelector('.pw-more')).display !== 'none').length), 1);
+
+  /* ⚠️⚠️ HIT-TESTED, NOT JUST PRESENT — AND THIS CHECK EXISTS BECAUSE THE PILL FAILED IT.
+     The card's face covers the whole card, and the body sat underneath it: the primary
+     "Add to your programme" pill was a picture of a button sitting on top of a different
+     button that happened to do the same thing. Every count and every content assertion
+     passed the whole time, and the hover state simply never fired. elementFromPoint is the
+     only assertion that can tell a control apart from a drawing of one. */
+  const onTop = await page.evaluate(() => {
+    const test = el => {
+      const b = el.getBoundingClientRect();
+      const hit = document.elementFromPoint(b.left + b.width/2, b.top + b.height/2);
+      return !!hit && (hit === el || el.contains(hit));
+    };
+    const card = document.querySelector('.pw[data-focus="true"]');
+    return { pill: test(card.querySelector('.pw-body .pw-cta')),
+             plus: test(card.querySelector('.pw-more')) };
+  });
+  is('5c the front card\'s pill is the topmost thing at its own centre', onTop.pill, true);
+  is('5d and so is the +', onTop.plus, true);
+
+  await page.click('.pw[data-focus="true"] .pw-more');
+  await page.waitForTimeout(900);
+  is('6  the + turns the card over',
+     await page.evaluate(() => document.querySelector('.pw[data-focus="true"]').dataset.open), 'true');
+  is('6a and shows the back',
+     await page.evaluate(() => getComputedStyle(
+       document.querySelector('.pw[data-focus="true"] .pw-back')).opacity), '1');
+  /* ⚠️ THE DIALOG IS NOT INVOLVED ANY MORE. The eight .px-detail templates went with the
+     grid; if the shell ever opens from a card again, something has been rebound to markup
+     that no longer exists. */
+  is('6b and the dialog stays shut',
+     await page.evaluate(() => document.querySelector('#pxd').hidden), true);
+  is('6c and turning it chose nothing',
+     await page.evaluate(() => document.querySelectorAll('.pw[data-picked="true"]').length), 0);
+  /* ⚠️ WHILE A CARD IS TURNED ITS FACE STOPS TAKING CLICKS, so one click never means two
+     things. The x is inside the back and inherits the turn — see the note in the page. */
+  is('6d the turned card\'s face is inert',
+     await page.evaluate(() => getComputedStyle(
+       document.querySelector('.pw[data-open="true"] .pw-face')).pointerEvents), 'none');
+  /* ⚠️⚠️ THE BACK'S OWN COLOURS, MEASURED — because its heading shipped dark-on-burgundy.
+     .pw-back sets ivory text and the h3 took it by inheritance, which the live page's global
+     `h1,h2,h3{color:var(--ink)}` overrides. A lifted component cannot rely on what its new
+     host page does not say, and the failure is invisible to every structural assertion. */
+  const backInk = await page.evaluate(() => {
+    const b = document.querySelector('.pw[data-open="true"] .pw-back');
+    const bg = getComputedStyle(b).backgroundColor;
+    return { h3: [getComputedStyle(b.querySelector('h3')).color, bg],
+             p:  [getComputedStyle(b.querySelector('p')).color, bg],
+             chip:[getComputedStyle(b.querySelector('.pw-out li')).color, bg] };
+  });
+  for (const [k,[fg,bg]] of Object.entries(backInk)) {
+    const r = contrast(fg, bg);
+    r >= 4.5 ? ok(`6f the back's ${k} clears 4.5:1`, r.toFixed(2))
+             : bad(`6f the back's ${k} clears 4.5:1`, `${r.toFixed(2)} — ${fg} on ${bg}`);
+  }
+
+  await page.click('.pw[data-focus="true"] .pw-close');
+  await page.waitForTimeout(900);
+  is('6e the x turns it back',
+     await page.evaluate(() => document.querySelector('.pw[data-focus="true"]').dataset.open), 'false');
 
   console.log('\n\x1b[1mC · the tray\x1b[0m');
   is('7  down before anything is chosen',
      await page.evaluate(() => document.querySelector('#px-tray').classList.contains('on')), false);
-  await page.click('.px:nth-child(3) .px-pick');
-  await page.click('.px:nth-child(2) .px-pick');
-  await page.waitForTimeout(600);
+  /* ⚠️ TWO CLICKS PER CARD, AND THAT IS THE MECHANISM RATHER THAN A WORKAROUND: the first
+     brings the card to the front, the second chooses it. Gut Health is picked BEFORE Brain
+     Health so that check 7c is actually testing something — see the note there. */
+  const choose = async i => {
+    await page.click(`.pw[data-i="${i}"] .pw-face`);
+    await page.waitForTimeout(650);
+    await page.click(`.pw[data-i="${i}"] .pw-face`);
+    await page.waitForTimeout(250);
+  };
+  await choose(2);            /* Gut Health */
+  await choose(1);            /* Brain Health */
+  await page.waitForTimeout(400);
   const tray = await page.evaluate(() => ({
     on: document.querySelector('#px-tray').classList.contains('on'),
     n: document.querySelector('#px-tray-n').textContent.trim(),
@@ -247,8 +351,18 @@ const run = async () => {
   }));
   is('7a it arrives on the first pick', tray.on, true);
   is('7b and counts', tray.n, '2 chosen');
-  /* grid order, never click order — the same two picks must read one way */
-  is('7c and reads in grid order, not tap order', tray.l, 'Brain Health · Gut Health');
+  /* ⚠️ RING ORDER, NEVER CLICK ORDER — and the picks above are made in the OPPOSITE order
+     on purpose, so a regression to tap order reads "Gut Health · Brain Health" and fails
+     here. Read back in tap order the same two goals render two different ways. */
+  is('7c and reads in ring order, not tap order', tray.l, 'Brain Health · Gut Health');
+  /* ⚠️⚠️ THE CHOSEN STATE HAS THREE HOMES AND THEY ARE ONE FACT. The tick on the card, the
+     dot under the ring and the tray all read `data-picked` off the same eight cards — round
+     18 deleted the tray's own `picked` array precisely so they could not disagree. If this
+     count ever diverges from the tray's, two scripts are keeping score again. */
+  is('7e the dots carry the same two',
+     await page.evaluate(() => document.querySelectorAll('#railDots button[data-picked="true"]').length), 2);
+  is('7f and so do the cards',
+     await page.evaluate(() => document.querySelectorAll('.pw[data-picked="true"]').length), 2);
   is('7d and is on screen', tray.onScreen, true);
 
   console.log('\n\x1b[1mD · the panel and the arithmetic\x1b[0m');
@@ -378,7 +492,11 @@ const run = async () => {
      them on a bare resize — so setViewportSize alone measured the PREVIOUS width's
      stale pin and reported 1440 at a 1280 viewport. It is also the honest test:
      a visitor arrives at their width, they do not drag the window to it. */
-  for (const w of [1600, 1440, 1280, 1104, 900, 640, 430, 390]) {
+  /* ⚠️ 1181 AND 1180 ARE THE RING'S OWN CLIFF and are in this list for that reason: above
+     it the eight fan out in 3D, below it they become a stacked list. A ring that overflows
+     by four pixels at the widest width it is allowed to run is exactly the fault that
+     reaches a phone-less reviewer last. */
+  for (const w of [1600, 1440, 1280, 1181, 1180, 1104, 900, 640, 430, 390]) {
     await page.setViewportSize({ width: w, height: 900 });
     await page.goto(base, { waitUntil: 'load' });
     await page.waitForTimeout(500);
@@ -405,35 +523,93 @@ const run = async () => {
      reading getComputedStyle immediately after the click returns the START of the
      interpolation — ivory — not the burgundy it is travelling to. Round 12 recorded this
      exact lesson ("DO NOT SAMPLE MID-TRANSITION") and it caught this file out anyway. */
+  await page.addStyleTag({ content: '.pw{animation:none!important}' });
   await page.evaluate(() => document.querySelector('#services').scrollIntoView());
   await page.waitForTimeout(400);
-  await page.evaluate(() => document.querySelector('.px-pick').click());
-  await page.waitForTimeout(600);                       /* .35s background transition + slack */
-  const isPicked = await page.evaluate(() => !!document.querySelector('.px[data-picked="true"]'));
-  isPicked ? ok('16pre a tile is actually chosen before the chosen-state contrast is read')
-           : bad('16pre nothing is chosen — the contrast below would measure the wrong tile');
-  const lin = c => { c /= 255; return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4; };
-  const lum = ([r,g,b]) => 0.2126*lin(r) + 0.7152*lin(g) + 0.0722*lin(b);
-  const parse = s => { const n = (s.match(/[\d.]+/g)||[]).map(Number); return { c:n.slice(0,3), a:n.length>3?n[3]:1 }; };
-  const contrast = (fg,bg) => { const f = parse(fg), b = parse(bg);
-    const o = f.c.map((v,i)=> v*f.a + b.c[i]*(1-f.a));
-    const [x,y] = [lum(o), lum(b.c)].sort((m,n)=>n-m); return (x+0.05)/(y+0.05); };
-  const pairs = await page.evaluate(() => {
-    const g = el => getComputedStyle(el);
-    /* ⚠️ NO `|| document.querySelector('.px')` FALLBACK — see the note above. If nothing
-       is picked this throws, the harness exits non-zero, and that is the correct outcome. */
-    const t = document.querySelector('.px[data-picked="true"]');
+  await page.click('.pw[data-focus="true"] .pw-face');
+  await page.waitForTimeout(600);
+  const isPicked = await page.evaluate(() => !!document.querySelector('.pw[data-picked="true"]'));
+  isPicked ? ok('16pre a card is actually chosen before the chosen-state contrast is read')
+           : bad('16pre nothing is chosen — the contrast below would measure the wrong card');
+  /* ══ ⚠️⚠️ THE BACKGROUND IS A PHOTOGRAPH NOW, SO getComputedStyle CANNOT ANSWER THIS ═════
+     On the grid the name sat on a flat --burgundy fill and one computed colour was the whole
+     truth. On the ring it sits on eight different photographs under a gradient scrim, and
+     `getComputedStyle(card).backgroundColor` returns TRANSPARENT — a check written that way
+     would compare ivory against rgba(0,0,0,0), score a perfect ratio and mean nothing.
+     ⚠️ SO THE PIXELS ARE ACTUALLY SAMPLED. The photograph is same-origin (the harness serves
+     it), so it can be drawn to a canvas and read back: this takes the mean colour of the
+     region the name occupies, composites the scrim's own stop over it exactly as the browser
+     does, and measures against that. It is the same measurement the accent colour was chosen
+     by, and it is the only one that stays true when a photograph is re-cropped.
+     ⚠️ AND IT IS THE WORST OF THE EIGHT, not the first. One pale photograph is all it takes,
+     and the first card is not reliably the worst. */
+  const pairs = await page.evaluate(async () => {
+    /* ⚠️⚠️ THE PSEUDO ARGUMENT IS THE WHOLE CHECK, AND LEAVING IT OFF SCORED 1.09 IN GREEN-
+       LOOKING ARITHMETIC. `el => getComputedStyle(el)` silently DROPS a second argument, so
+       `g(art, '::after')` returned the style of .pw-art ITSELF — whose background is the
+       pale cream-and-gold plate the card falls back to when a photograph is missing. The
+       check then measured ivory text against a near-white plate, reported a real failure,
+       and was wrong about which surface it had even looked at. A helper that quietly ignores
+       an argument is worse than one that throws. */
+    const g = (el, pseudo) => getComputedStyle(el, pseudo || null);
+    const rgba = s => (s.match(/[\d.]+/g) || []).map(Number);
+    /* ⚠️ NO FALLBACK TO AN UNPICKED CARD — see the note above. If nothing is picked this
+       throws, the harness exits non-zero, and that is the correct outcome. */
+    const picked = document.querySelector('.pw[data-picked="true"]');
+    if (!picked) throw new Error('nothing is chosen');
+
+    /* the scrim's darkest stop, read off the rule rather than hardcoded */
+    const scrim = g(document.querySelector('.pw[data-focus="true"] .pw-art'), '::after').backgroundImage;
+    const stops = scrim.match(/rgba?\([^)]+\)/g);
+    /* ⚠️ NO SILENT FALLBACK EITHER. If the scrim cannot be read, the number this check
+       produces is meaningless — so it stops rather than inventing a plausible one. */
+    if (!stops) throw new Error('could not read the scrim off .pw-art::after: ' + scrim);
+    const [sr, sg, sb, sa = 1] = rgba(stops[0]);
+
+    let worst = null;
+    for (const card of document.querySelectorAll('.pw')) {
+      const img = card.querySelector('.pw-art img');
+      if (!img || !img.naturalWidth) continue;
+      /* the name lives in the bottom third; sample that band of the photograph */
+      const cv = document.createElement('canvas');
+      cv.width = 24; cv.height = 8;
+      const cx = cv.getContext('2d');
+      cx.drawImage(img, 0, img.naturalHeight * 0.72, img.naturalWidth, img.naturalHeight * 0.28,
+                       0, 0, 24, 8);
+      const d = cx.getImageData(0, 0, 24, 8).data;
+      let r = 0, gg = 0, b = 0;
+      for (let i = 0; i < d.length; i += 4) { r += d[i]; gg += d[i+1]; b += d[i+2]; }
+      const n = d.length / 4;
+      /* composite the scrim over the photograph, which is what the eye actually sees */
+      const eff = [sr * sa + (r/n) * (1-sa), sg * sa + (gg/n) * (1-sa), sb * sa + (b/n) * (1-sa)];
+      const L = c => { c /= 255; return c <= 0.04045 ? c/12.92 : ((c+0.055)/1.055) ** 2.4; };
+      const lum = 0.2126*L(eff[0]) + 0.7152*L(eff[1]) + 0.0722*L(eff[2]);
+      if (!worst || lum > worst.lum) worst = { lum, eff, name: card.querySelector('.pw-body h3').textContent.trim() };
+    }
     const tray = document.querySelector('#px-tray');
-    return { 'chosen tile name': [g(t.querySelector('h3')).color, g(t).backgroundColor],
-             'chosen tile mark': [g(t.querySelector('.px-mark')).color, g(t).backgroundColor],
-             'tray answer': [g(document.querySelector('#px-tray-l')).color, g(tray).backgroundColor] };
+    return {
+      'card name over the palest photograph':
+        [g(picked.querySelector('.pw-body h3')).color, `rgb(${worst.eff.map(Math.round).join(',')})`, worst.name],
+      'tray answer':
+        [g(document.querySelector('#px-tray-l')).color, g(tray).backgroundColor, ''] };
   });
-  for (const [k,[fg,bg]] of Object.entries(pairs)) {
+  for (const [k,[fg,bg,which]] of Object.entries(pairs)) {
     const r = contrast(fg, bg);
-    r >= 4.5 ? ok(`16 ${k} clears 4.5:1`, r.toFixed(2)) : bad(`16 ${k} clears 4.5:1`, r.toFixed(2));
+    const note = r.toFixed(2) + (which ? ` (${which})` : '');
+    r >= 4.5 ? ok(`16 ${k} clears 4.5:1`, note) : bad(`16 ${k} clears 4.5:1`, note);
   }
+  /* ⚠️ THE CHOSEN RING IS THE THIRD HOME OF THE STATE AND IT IS A SHADOW, NOT A FILL — a
+     card that is both chosen AND in front took two rules at equal specificity once and lost
+     its ring to the focus one. Assert it survives the combination, not just on its own. */
+  const ringOn = await page.evaluate(() => {
+    const c = document.querySelector('.pw[data-picked="true"][data-focus="true"]')
+           || document.querySelector('.pw[data-picked="true"]');
+    return getComputedStyle(c).boxShadow;
+  });
+  ringOn && ringOn !== 'none' ? ok('16a a chosen card keeps its ring when it is also in front')
+                              : bad('16a the chosen ring is gone', String(ringOn));
   if (SHOTS) {
-    await page.screenshot({ path: path.join(OUT, 'sv-grid.png') });
+    await page.screenshot({ path: path.join(OUT, 'sv-ring.png') });
     await page.setViewportSize({ width: 390, height: 844 });
     await page.waitForTimeout(300);
     await page.evaluate(() => document.querySelector('#services').scrollIntoView());

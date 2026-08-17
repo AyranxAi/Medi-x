@@ -1,3 +1,50 @@
+# Handoff addendum — 2026-08-17, round 19 (the ring is on the live page)
+
+His words: *"hey push it to the website now dudes."* `main` auto-deploys via Vercel, so the
+round-18 handover commit was already on the site. What was not on the site was the ring —
+so this round is the graft, and **section 04 is no longer eight tiles in a grid.**
+
+**What a visitor sees now:** eight photographs on a turning ring, one forward and larger, a
+`+` in its corner that turns the card over for the description and its outcomes. Choosing is
+still additive, the price still does not change, and the tray still follows down the page.
+Below 1181px the ring becomes a stack of full-bleed editorial cards — the mechanism is a
+wide-screen idea and the breakpoint is measured, not taste.
+
+**The seam, which is the thing to understand first.** The ring owns the chosen state on the
+cards as `data-picked`; its dots, tick and dust all read it there. When it changes it fires
+`pathways:change` on `#rail` and the tray re-reads the DOM. ⚠️ **The tray's own `picked`
+array was deleted on purpose** — two owners of one fact meant the version a reader saw
+depended on which script ran last.
+
+**What did not ship, and is still in the lab:** the tall/wide and gold/ivory/wine switches (a
+shipped page does not carry its own colour picker) and the three.js sculpture that stood in
+for a missing photograph (all eight are committed, and a card without one still has its
+gradient plate and line mark — 666KB of WebGL for a state that should not occur is a cost
+with no buyer).
+
+**⚠️ FOUR BUGS, ALL OF WHICH RENDERED SOMETHING RATHER THAN ERRORING**, and all of which
+passed every structural assertion while broken: `.sr` was never defined on this page, so the
+card names printed across the photographs; `.pw-back h3` took its colour by inheritance and
+came out dark plum on burgundy; every button the ring brought lost its type; and the front
+card's pill sat *underneath* its own card's click surface, working only by coincidence.
+**`tools/qa/ring-parity.mjs` is the round's real deliverable** — it renders lab and live and
+fails on any difference in colour, type, layer or visibility, two-way.
+
+**⚠️ A PARAGRAPH OF CLIENT COPY WAS ABOUT TO GO IN A LAYOUT COMMIT.** The old popups each had
+two paragraphs; the lab's back face printed one. Both are on the back now, in the page and in
+the lab, and the card scrolls rather than clipping.
+
+**Five suites, 290 checks, all green:** `peptide-page.mjs` 52 · `services-choice.mjs` 89 ·
+`section04-lab.mjs` 49 · `section04-hybrid.mjs` 77 · `ring-parity.mjs` 23.
+
+**Open, and his to answer:** the ground behind the ring — it shipped on the **dawn** because
+the alternation and the chain scene's handoff both want it there, but it was designed and
+judged on **ivory** in the lab, and the argument that used to settle it (ivory tiles needing a
+rose ground) expired with the tiles. Also worth a glance: the numerals `01`–`08` are back,
+reversing round 12's decision to drop them.
+
+---
+
 # Handoff addendum — 2026-08-17, round 18 (section 06 is deleted, and section 04 gets a ring of his own photographs)
 
 Scope: **the live page changed** — `peptide-therapy/index.html` lost section 06 and the four

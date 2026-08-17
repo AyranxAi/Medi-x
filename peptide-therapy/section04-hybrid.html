@@ -281,7 +281,19 @@ img{display:block;max-width:100%}
      near-white up there. A shadow is the cheap fix that works on all eight without
      darkening the picture the way a second scrim would. */
   text-shadow:0 1px 6px rgba(52,16,28,.55)}
-.pw-body{position:absolute;left:0;right:0;bottom:0;z-index:5;
+/* ⚠️⚠️ z-index:7 AND pointer-events, AND THIS IS A FIX RATHER THAN A CHOICE. The body sat
+   at 5 and .pw-face covers the whole card at 6 — so the front card's "Add to your
+   programme" pill was UNDERNEATH its own card's click surface. It still added the goal,
+   because the face's handler on the focused card does the same thing, so nothing looked
+   broken: the pill's hover never fired, its :hover translate never ran, and the primary
+   call to action on the card was a picture of a button that happened to sit over a
+   different button doing the same job. Playwright found it by refusing to click it.
+   ⚠️ THE BODY IS pointer-events:none AND ONLY THE PILL TAKES THEM BACK. Raising the whole
+   block above the face would have the name and the line swallowing clicks meant for the
+   card — and the card's face is what turns the ring, so those pixels matter.
+   ⚠️ 7 IS SHARED WITH .pw-back ON PURPOSE: the back comes later in the markup, so it still
+   paints over the body when the card is turned, without a second number to keep in step. */
+.pw-body{position:absolute;left:0;right:0;bottom:0;z-index:7;pointer-events:none;
   padding:clamp(20px,2vw,28px);display:flex;flex-direction:column;
   align-items:flex-start;gap:clamp(9px,.9vw,13px)}
 /* ⚠️⚠️ THE NAME IS SET AGAINST THE CARD'S OUTER EDGE, and this is the same rule as the
@@ -387,6 +399,7 @@ img{display:block;max-width:100%}
   font-family:var(--sans);font-weight:500;font-size:9.5px;letter-spacing:.14em;
   text-transform:uppercase;white-space:nowrap;overflow:hidden;
   transition:background .3s var(--ease),transform .3s var(--ease),color .3s var(--ease)}
+.pw-body .pw-cta{pointer-events:auto}
 .pw-cta:hover{background:var(--red-hover);transform:translateX(3px)}
 .pw-cta .arr{font-size:13px;line-height:1;transition:transform .4s var(--ease)}
 .pw-cta:hover .arr{transform:rotate(90deg)}
@@ -435,15 +448,30 @@ img{display:block;max-width:100%}
   transition:background .35s var(--ease),border-color .35s var(--ease)}
 .pw-close:hover::before{background:var(--gold);border-color:var(--gold)}
 .pw-close:hover{color:var(--ink)}
+/* ⚠️ overflow-y:auto AND overscroll-behavior:contain BECAUSE THE BACK CARRIES BOTH OF THE
+   CLIENT'S PARAGRAPHS. This card printed only the first until 2026-08-17 — it was built to
+   show a mechanism and the second did not fit. That is fine in a lab and NOT fine on the
+   page, so both are here and the card scrolls on the rare width where they do not fit.
+   ⚠️ AND THE LAB CARRIES THEM SO THAT IT STILL SHOWS WHAT SHIPS. tools/qa/ring-parity.mjs
+   fails when this file and the live page disagree, which is the only thing keeping the lab
+   worth prototyping in. */
 .pw-back{position:absolute;inset:0;z-index:7;display:none;flex-direction:column;
   justify-content:center;gap:clamp(9px,.9vw,13px);border-radius:7px;
+  overflow-y:auto;overscroll-behavior:contain;
   padding:clamp(20px,2vw,30px);background:var(--burgundy);color:var(--ivory);
   transform:rotateY(180deg);backface-visibility:hidden;
   opacity:0;transition:opacity .18s linear .3s}
 .pw[data-focus="true"] .pw-back{display:flex}
 .pw[data-open="true"] .pw-back{opacity:1}
+/* ⚠️⚠️ THE COLOUR IS DECLARED RATHER THAN INHERITED, AND THAT IS A FIX. .pw-back sets
+   color:var(--ivory) and this heading used to take it by inheritance — which works in the
+   lab, whose reset gives h1,h2,h3 no colour at all, and FAILS on the live page, where the
+   global `h1,h2,h3{color:var(--ink)}` beats inheritance and printed the pathway's name in
+   dark plum on a burgundy card. Nothing errored; the name was simply almost invisible.
+   ⚠️ SO EVERY RULE THE RING OWNS STATES ITS OWN COLOUR. A component lifted between two
+   stylesheets cannot rely on what the host page does NOT say. */
 .pw-back h3{font-family:var(--accent);font-size:clamp(19px,1.9vw,26px);line-height:1.06;
-  letter-spacing:-.01em}
+  letter-spacing:-.01em;color:var(--ivory)}
 .pw-back p{color:rgba(250,247,241,.84);font-size:clamp(12.5px,1.05vw,14.5px);
   line-height:1.62;max-width:46ch}
 .pw-out{display:flex;flex-wrap:wrap;gap:6px;list-style:none}
@@ -611,6 +639,7 @@ img{display:block;max-width:100%}
           <button type="button" class="pw-close" aria-label="Close"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.6 2.6 9.4 9.4M9.4 2.6 2.6 9.4"/></svg></button>
           <h3>Auto Immune Disease</h3>
           <p>When the immune system turns on the body it is meant to protect, the goal is regulation — not blanket suppression. Immune-modulating peptides support the signalling that helps an overactive response find its level.</p>
+          <p>Protocols are chosen from your history, your labs and your current treatment — peptide support here works alongside your specialist care, never instead of it.</p>
           <ul class="pw-out" aria-label="Common goals"><li>Calmer flares</li><li>Steadier energy</li><li>Fewer bad days</li><li>Long-term regulation</li></ul>
           <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
         </div>
@@ -630,6 +659,7 @@ img{display:block;max-width:100%}
           <button type="button" class="pw-close" aria-label="Close"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.6 2.6 9.4 9.4M9.4 2.6 2.6 9.4"/></svg></button>
           <h3>Brain Health</h3>
           <p>Focus, memory and mental stamina ride on how well the brain repairs, perfuses and protects itself. Cognitive peptides support those housekeeping systems — the ones that keep thinking sharp.</p>
+          <p>Often paired with sleep and stress work, because a brain that recovers at night is a brain that performs by day.</p>
           <ul class="pw-out" aria-label="Common goals"><li>Sharper focus</li><li>Clearer memory</li><li>Mental stamina</li><li>Calmer stress response</li></ul>
           <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
         </div>
@@ -649,6 +679,7 @@ img{display:block;max-width:100%}
           <button type="button" class="pw-close" aria-label="Close"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.6 2.6 9.4 9.4M9.4 2.6 2.6 9.4"/></svg></button>
           <h3>Gut Health</h3>
           <p>The gut lining is where nutrition, immunity and resilience begin — and it is one of the fastest-renewing tissues in the body. Gut-repair peptides support that renewal: calming irritation, helping the barrier rebuild.</p>
+          <p>A rebuilt gut is also where every other protocol lands better — what you absorb is what your body can actually use.</p>
           <ul class="pw-out" aria-label="Common goals"><li>Settled digestion</li><li>Stronger barrier</li><li>Better absorption</li><li>Less bloating</li></ul>
           <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
         </div>
@@ -668,6 +699,7 @@ img{display:block;max-width:100%}
           <button type="button" class="pw-close" aria-label="Close"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.6 2.6 9.4 9.4M9.4 2.6 2.6 9.4"/></svg></button>
           <h3>Weight Management</h3>
           <p>Metabolic peptides work with your body’s own appetite and energy signalling, so weight comes off the way it should — as fat, not muscle, and without the white-knuckle willpower.</p>
+          <p>Dosing, labs and follow-up all run through the clinic: this is medical weight management, not a subscription.</p>
           <ul class="pw-out" aria-label="Common goals"><li>Appetite signalling</li><li>Fat, not muscle</li><li>Steady energy</li><li>Medical monitoring</li></ul>
           <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
         </div>
@@ -687,6 +719,7 @@ img{display:block;max-width:100%}
           <button type="button" class="pw-close" aria-label="Close"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.6 2.6 9.4 9.4M9.4 2.6 2.6 9.4"/></svg></button>
           <h3>Skin &amp; Hair Loss</h3>
           <p>Collagen, elasticity and the follicle itself all answer to signalling that slows with age. Skin and hair peptides prompt that renewal from within — repair, not concealment.</p>
+          <p>Often paired with the hormone side of the clinic, because skin and hair are where imbalance shows first.</p>
           <ul class="pw-out" aria-label="Common goals"><li>Collagen renewal</li><li>Skin quality</li><li>Fuller hair</li><li>Elasticity back</li></ul>
           <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
         </div>
@@ -706,6 +739,7 @@ img{display:block;max-width:100%}
           <button type="button" class="pw-close" aria-label="Close"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.6 2.6 9.4 9.4M9.4 2.6 2.6 9.4"/></svg></button>
           <h3>Musculoskeletal Injury</h3>
           <p>Tendon, ligament and muscle heal slowly because they see little blood flow — and repair peptides exist for exactly that reason. They support the tissue’s own rebuilding, so recovery keeps pace with how you live and train.</p>
+          <p>For the injury that will not close, the strain that keeps returning, and the training block you want to actually finish.</p>
           <ul class="pw-out" aria-label="Common goals"><li>Tendon repair</li><li>Faster recovery</li><li>Old injuries</li><li>Back to training</li></ul>
           <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
         </div>
@@ -725,6 +759,7 @@ img{display:block;max-width:100%}
           <button type="button" class="pw-close" aria-label="Close"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.6 2.6 9.4 9.4M9.4 2.6 2.6 9.4"/></svg></button>
           <h3>Anti Ageing</h3>
           <p>Ageing is, in part, housekeeping falling behind — repair signals that thin out year by year. Longevity peptides support cellular repair, deep sleep and recovery: healthspan first, so the years you add are years you can use.</p>
+          <p>Built as a long-game protocol, reviewed on your labs, alongside everything else you do here.</p>
           <ul class="pw-out" aria-label="Common goals"><li>Deep sleep</li><li>Cellular repair</li><li>Healthspan</li><li>Sustained energy</li></ul>
           <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
         </div>
@@ -744,6 +779,7 @@ img{display:block;max-width:100%}
           <button type="button" class="pw-close" aria-label="Close"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.6 2.6 9.4 9.4M9.4 2.6 2.6 9.4"/></svg></button>
           <h3>Sexual Health</h3>
           <p>Desire and function run on signalling — vascular, hormonal and neurological at once. Sexual-health peptides work on those pathways directly, for women and for men.</p>
+          <p>And it is a subject raised far more easily in a ten-minute private call than in a waiting room — which is exactly what the discovery call is for.</p>
           <ul class="pw-out" aria-label="Common goals"><li>Desire</li><li>Function</li><li>Confidence</li><li>For women and men</li></ul>
           <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
         </div>

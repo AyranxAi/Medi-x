@@ -114,6 +114,43 @@ scroll settled. The harness flags it inline rather than letting you chase a colo
 ⚠️ **A skip exits non-zero.** Same rule `door-contrast.mjs` learned expensively: a silent
 skip that reads as a pass is worse than a fail.
 
+## Section 04 on the live page — `services-choice.mjs`
+
+```bash
+node tools/qa/services-choice.mjs [--shots]    # 89 checks
+```
+
+Rewritten in round 19 when the ring replaced the grid. It owns **the seam**, not the ring's
+geometry — that is `section04-hybrid.mjs`'s job against the lab. What it asserts here: the
+ring is on the page, the artwork actually loaded, the tray hears a choice, the arithmetic
+still works, and the page holds at ten widths including 1181/1180, the ring's own cliff.
+
+**⚠️⚠️ PLAYWRIGHT WILL NEVER CLICK A CARD UNTIL THE FLOAT IS STOPPED.** Each card breathes
+2.5px over 16s, and Playwright waits for an element to be *stable*, which a permanently
+animating element never is. One `page.addStyleTag({content:'.pw{animation:none!important}'})`
+up front. That is a harness measure; the animation ships.
+
+**⚠️ A CARD TWO STEPS OUT CANNOT BE CLICKED AT ITS CENTRE** — its neighbour overlaps it, which
+is the ring working. Turn with `#railNext` or click a card one step out, the way a reader
+would.
+
+**⚠️ THE CHOSEN-STATE CONTRAST SAMPLES REAL PIXELS**, because the background is a photograph
+and `getComputedStyle(card).backgroundColor` is `transparent` — a check written that way
+scores a perfect ratio and means nothing. The photograph is same-origin, so it is drawn to a
+canvas, the scrim's own stop composited over it, and the **worst of the eight** measured.
+⚠️ The first version of that check reported 1.09 and was wrong about which surface it had
+looked at: `el => getComputedStyle(el)` silently drops a second argument, so `g(art,'::after')`
+returned `.pw-art` itself — whose background is the pale fallback plate. **A helper that
+quietly ignores an argument is worse than one that throws.**
+
+**⚠️ TWO CHECKS LOST THEIR SUBJECT AND NEITHER WAS DELETED.** The chosen-tile contrast became
+the pixel sample above; `peptide-page.mjs`'s tile-versus-ground separation became **the ring
+line versus its ground** (gold at 42% on the dawn — the weakest pairing in the section, and
+what the cards are seen to stand on). Deleting a check whose subject left is how a page
+quietly loses a guarantee.
+
+---
+
 ## The section 04 lab — `section04-lab.mjs`
 
 ```bash
@@ -195,6 +232,44 @@ is worth nothing if it fetches.
 ⚠️ **An intermittent check is a check that has not finished being written.** 4o3 passed at
 100% and then failed at 64% on the next run; the cause was mote lifetimes counted in frames
 rather than milliseconds. Three consecutive clean runs is the bar.
+
+## Lab vs live — `ring-parity.mjs`
+
+```bash
+node tools/qa/ring-parity.mjs [--verbose]      # 23 elements, all agree
+```
+
+The ring is built in `peptide-therapy/section04-hybrid.html` and **lifted** into
+`peptide-therapy/index.html`. This harness renders both, walks 23 of the ring's elements in
+each, and fails on any difference in colour, type, layer, visibility or stroke.
+
+**⚠️⚠️ IT EXISTS BECAUSE MARKUP CARRIES DEPENDENCIES ON RULES THAT ARE NOWHERE NEAR IT, AND A
+MISSING RULE FAILS BY RENDERING SOMETHING RATHER THAN BY ERRORING.** Round 19's graft proved
+it four times, and every one passed every structural check in `services-choice.mjs` while it
+was broken:
+
+| what | how it failed | why nothing caught it |
+|---|---|---|
+| `.sr` was not defined on the live page | every pathway's name printed across its photograph in the browser's default face | it looked like part of the artwork |
+| `.pw-back h3` took its colour by inheritance | dark plum on burgundy — the live page's `h1,h2,h3{color:var(--ink)}` beats inheritance | the element was present and its text was right |
+| the ring's buttons lost their type | the lab resets `button{font:inherit}`, this page passes only `font-family` | those buttons hold SVGs and hidden text, so nothing showed |
+| `.pw-body` sat under `.pw-face` | the front card's pill was a picture of a button over another button doing the same job | the goal still got added; only the hover was dead |
+
+**It is two-way.** A fix applied to the live page and not to the lab fails just as loudly,
+which is what keeps the lab worth prototyping in.
+
+**⚠️ GEOMETRY IS EXCLUDED ON PURPOSE.** The lab's stage and the page's `.wrap` are different
+widths. Everything carrying a *design decision* is compared; width and spacing are not.
+`transform-origin` is compared as a **fraction of the layout box** — `getBoundingClientRect`
+returns the *scaled* rect while `transform-origin` resolves against the unscaled one, and
+dividing one by the other reported the tick's `top right` as 2.01 in one file and 2.00 in the
+other. One decimal place, because what it guards is foot-anchoring (`0.5 1.0`) against centre
+(`0.5 0.5`).
+
+**⚠️ ADDING A PROPERTY IS CHEAP; REMOVING ONE TO GREEN A FAILURE IS HOW THIS FILE STOPS BEING
+WORTH RUNNING.**
+
+---
 
 ## Encoding a new plate — `tools/encode-plate.mjs`
 

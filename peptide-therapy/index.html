@@ -116,6 +116,7 @@
      collapsing it drops .seg-gloss below the floor on the one ground it sits on. */
   --gold-gloss:#7F6230;
   --ease:cubic-bezier(.22,.61,.36,1);
+  --swing:cubic-bezier(.34,.75,.24,1);  /* the dots’ width, round 18 */
   --pad:clamp(20px,4.5vw,72px);
   /* landing-page header geometry (ported from medi-x BRAND system) */
   --logo-h:clamp(36px,3.6vw,50px);
@@ -137,6 +138,17 @@ h1,h2,h3{font-family:var(--serif);font-weight:450;font-variation-settings:"opsz"
 h1 em,h2 em,h3 em,.hl em{font-style:italic;color:var(--logo-red);font-weight:430}
 a{color:inherit;text-decoration:none}
 button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+/* ⚠️⚠️ VISUALLY HIDDEN, AND THIS PAGE HAD NO SUCH CLASS UNTIL ROUND 18. The ring's eight
+   card faces are bare <button>s whose accessible name lives in a <span class="sr">, and the
+   rule that hides it lived in the LAB's stylesheet — which is not the part that was lifted.
+   The result was the goal's name printed across the middle of every photograph in the
+   browser's default face, looking so much like part of the artwork that the first read of
+   the screenshot was "the client baked text into their images".
+   ⚠️ THE LESSON IS ABOUT GRAFTING, NOT ABOUT CSS: markup carries its dependencies on rules
+   that may be nowhere near it, and a missing rule fails by RENDERING SOMETHING, not by
+   erroring. Check 1l in services-choice.mjs measures it now. */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);
+  clip-path:inset(50%);white-space:nowrap}
 img{max-width:100%}
 ::selection{background:var(--gold-tint);color:var(--burgundy)}
 
@@ -479,26 +491,6 @@ section{position:relative}
 }
 .seg-def em{color:var(--logo-red);font-style:italic}
 
-/* ─────────────────────────── 04 · WHERE PEPTIDES HELP ───────────────────────
-   EIGHT TILES THAT OPEN — HIS CALL 2026-08-14 ("having the 8 as tiles and if they
-   click it there will be like a pop up"), replacing the first ship's ruled rows the
-   same day. The card material is the sister page's boost card — ivory fill, --line
-   hairline, 2px radius — and the open/gold state is the FAQ's grammar: gold edge,
-   a circled + that the open dialog answers.
-   ⚠️ THE NAMES ARE THE CLIENT'S OWN, from the live site's Peptide Therapy menu,
-   reproduced exactly — "Auto Immune Disease" as two words, "Anti Ageing" in the
-   British spelling. His service names, not ours to tidy.
-   ⚠️ THE TILE IS AN <article> WITH A STRETCHED <button>, not a button with content:
-   a <button> may only hold phrasing content, so the h3 would be invalid inside it —
-   the .px-open button covers the card via ::after (the sister doors' whole-panel
-   trick) and carries the accessible name. One control per tile, reaching the whole
-   tile, still a real button a keyboard can find.
-   ⚠️ THE POPUP CONTENT LIVES IN A <template> INSIDE EACH TILE — inert until opened,
-   so no-JS visitors simply have tiles that state their one line (nothing dangles),
-   and the dialog shell at the section's foot is [hidden] until the script arms it.
-   ⚠️ POPUP COPY IS DRAFT — clinical claims kept deliberately soft, no compound
-   names on purpose (naming specific peptides invites specific claims). Route
-   through him before real marketing. */
 /* ⚠️⚠️ THIS SECTION IS THE DAWN NOW, AND IT IS LOAD-BEARING IN TWO DIRECTIONS.
    1 · IT KEEPS THE PAGE ALTERNATING. Deleting the old section 05 (dawn) put .services
        (ivory) directly against .incl (ivory) — two identical bands meeting, which reads
@@ -509,13 +501,18 @@ section{position:relative}
        dawn→ivory→dawn→ivory→dawn across services · docs · stories · faq · final, and the
        full reasoning — including why moving THIS ground was still the wrong answer the
        second time — is at the ⚠️⚠️ note on .docs. Five chapters, not six.
-   2 · IT IS ALSO WHY THE TILES READ AS OBJECTS AT ALL. `.px` is filled `--ivory`. On the
-       old ivory ground the tiles were the page colour on the page colour, held apart by
-       a 1px hairline and nothing else — which is exactly why the section looked flat and
-       unclickable. On the rose dawn the same ivory fill becomes a lifted card without a
-       single new decoration. ⚠️ SO --dawn AND `.px`'s FILL MUST NEVER CONVERGE: if a
-       later grade moves either one toward the other, the tiles stop being objects and no
-       assertion in the harness would notice. Check 18 measures the gap.
+   2 · ⚠️⚠️ THE SECOND REASON EXPIRED IN ROUND 18 AND IS WRITTEN DOWN RATHER THAN DELETED.
+       It used to read: the tiles are filled `--ivory`, so on an ivory ground they were the
+       page colour on the page colour and the section looked flat — the dawn is what made
+       them lifted cards. THAT ARGUMENT NO LONGER APPLIES: the ring's cards are
+       PHOTOGRAPHS, and a photograph is an object on any ground. The measured gap between
+       --dawn and a tile fill went with the tiles, and so did the check that guarded it.
+       ⚠️ SO THE GROUND NOW RESTS ON REASON 1 AND THE HANDOFF BELOW, WHICH IS THINNER THAN
+       WHAT IT RESTED ON BEFORE. It is still enough — the alternation is real and the chain
+       scene genuinely ends on this colour — but IVORY VS DAWN BEHIND THE RING IS AN OPEN
+       QUESTION rather than a settled one, and the lab has always shown it on ivory. If it
+       moves, the cost is the whole tail inverting again (see the note on .docs) and the
+       scene's BG_B, not a one-line change.
    ⚠️ THE CHAIN SCENE RISES TO EXACTLY THIS COLOUR (BG_B === --dawn), so the scene now
    hands off to this section with no seam at all — the same handoff section 03 already
    had. That is a bonus of the fix, not the reason for it. */
@@ -524,188 +521,439 @@ section{position:relative}
   max-width:58ch;margin-top:18px;color:var(--ink-soft);
   font-size:clamp(15px,1.25vw,17px);line-height:1.62;
 }
-.px-grid{
-  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:clamp(14px,1.6vw,24px);
-}
-/* ⚠️ THE TILE IS AN OBJECT ON A GROUND NOW, NOT A RULED-OFF REGION OF THE PAGE.
-   Its fill has not changed — it is still --ivory — but the SECTION moved to the dawn
-   (see the .services note), so the same ivory that used to be invisible against an ivory
-   ground is now a lifted card. Everything below is built on that one change, and it is
-   why "make this more appealing" cost geometry and almost no decoration.
-   ⚠️ min-height IS WHAT MAKES THE EIGHT A SET. Their names run from "Anti Ageing" to
-   "Musculoskeletal Injury" — one line against two — so without a floor the grid sets two
-   different card heights per row and reads as eight unrelated things. The h3 is pushed to
-   the bottom by the mark's auto margin, so every name sits on the same baseline whatever
-   its length. THAT is the alignment doing the work, not the min-height alone. */
-.px{
-  position:relative;display:flex;flex-direction:column;align-items:flex-start;
-  gap:clamp(14px,1.6vw,20px);padding:clamp(22px,2.4vw,32px);
-  min-height:clamp(210px,20vw,268px);
-  background:var(--ivory);border:1px solid var(--line);border-radius:2px;
-  transition:border-color .35s var(--ease),transform .35s var(--ease),
-    box-shadow .35s var(--ease),background .35s var(--ease);
-}
-/* the lift is deeper than it was because it now happens against a coloured ground —
-   the same 3px against ivory-on-ivory did almost nothing */
-.px:hover,.px:focus-within{
-  border-color:var(--gold);transform:translateY(-4px);
-  box-shadow:0 18px 38px rgba(71,24,38,.10);
-}
-/* ⚠️ .px-num IS GONE FROM THE MARKUP — his call. On a list of eight the numerals
-   were editorial furniture; on a MULTI-SELECT they implied a sequence that does not
-   exist, and a reader who picks 03 and 07 should not wonder what happened to the
-   ones between. The numeral survives where it is still true: the popup kicker
-   ("01 · Peptide Therapy"), which is a reference, not an instruction. */
-/* Megante — an explicit family also keeps the global h1–h3 "opsz" 30 rule inert
-   here, same note as the sister page's door titles. */
-.px h3{
-  font-family:var(--accent);font-weight:400;color:var(--ink);
-  font-size:clamp(20px,1.85vw,27px);line-height:1.15;letter-spacing:-.02em;
-  transition:color .3s var(--ease);
-}
-.px:hover h3{color:var(--logo-red)}
-.px p{
-  color:var(--ink-soft);
-  font-size:clamp(14.5px,1.15vw,16.5px);line-height:1.65;max-width:34ch;
-}
-/* the way in — the FAQ indicator at tile scale. ::after is the stretched hit area:
-   the whole card is the button, the circle is only where it says so. */
-.px-open{
-  margin-top:auto;padding:0;flex:none;align-self:flex-end;
-  width:32px;height:32px;border:1px solid var(--line);border-radius:50%;
-  display:grid;place-content:center;color:var(--burgundy);
-  transition:background .4s var(--ease),border-color .4s var(--ease),
-    color .3s var(--ease),transform .5s var(--ease);
-}
-.px-open svg{width:11px;height:11px;display:block}
-/* ⚠️ THE STRETCH IS GONE, AND THAT REVERSES A DELIBERATE DECISION — read this
-   before restoring it. Until 2026-08-16 `.px-open::after{inset:0}` made the WHOLE
-   tile the + button: tap anywhere, read more. The tile is now a CHOICE as well as
-   a door, and both cannot own the same pixels. His call (a): the tile selects, and
-   the + keeps its own target — enlarged from the 32px circle to a 44px box, which
-   is the smallest a thumb should be asked to find. The circle still draws at 32.
-   Restoring the stretch silently makes the goal unselectable everywhere except the
-   few pixels the pick button is not covered by it. */
-/* ⚠️ TOP RIGHT, HIS CALL 2026-08-16. It sat bottom-right because it used to BE the
-   whole tile's affordance and wanted to read as a "more" control at the foot of the
-   copy. The tile is a CHOICE now and the + is a secondary door on it — corners are
-   where secondary controls live, and the top right is the one a thumb reaches for
-   last, which is exactly right for the control that must not be hit by accident. */
-/* ⚠️⚠️ border:0 AND background:none ARE FIXES, NOT TIDYING — read before removing.
-   This rule enlarged the button from the 32px circle to a 44px thumb target and the note
-   below says "the circle still DRAWS at 32, via ::before". IT DID NOT. The base rule above
-   still carried `border:1px solid var(--line)` and `border-radius:50%`, so the 44px hit
-   area drew its OWN hairline ring around the ::before ring — two concentric circles on
-   every one of the eight tiles since round 12 — and the hover rule filled the 44px box, so
-   the burgundy disc a reader saw was 44px wide rather than the 32 the comment promised.
-   Nothing caught it because every assertion about the + measures its POSITION and its
-   BEHAVIOUR, and both were correct. The hit area is now what it claims to be: a target
-   that draws nothing at all. */
-.px-open{position:absolute;top:10px;right:10px;z-index:3;width:44px;height:44px;
-  margin:0;align-self:auto;border:0;background:none}
-.px-open::before{content:"";position:absolute;inset:6px;border:1px solid var(--line);
-  border-radius:50%;transition:background .4s var(--ease),border-color .4s var(--ease)}
-.px:hover .px-open::before,.px-open:focus-visible::before{
-  background:var(--burgundy);border-color:var(--burgundy)}
-/* ⚠️ THIS LABEL EXISTS TO FIX A REAL AMBIGUITY, NOT TO DECORATE. A "+" on a card almost
-   universally means ADD — and on this card adding is what the TILE does, while the + opens
-   reading material. Two controls on one tile, and the one shaped like "add" is the one
-   that doesn't. Round 12 gave them separate hit areas, which stops the wrong thing
-   happening but does not stop the wrong thing being EXPECTED. The word does that.
-   ⚠️ IT IS HOVER-ONLY AND THAT IS ACCEPTED: it is an enhancement for pointers, and a
-   phone gets the + at its full 44px target with the aria-label carrying the same word.
-   Do not "fix" this by showing it always — eight permanent READ labels turn a calm grid
-   into a page of buttons, which is the opposite of what this section is for. */
-/* ⚠️ width:max-content IS NOT OPTIONAL AND IT IS NOT A TIDY-UP. An absolutely positioned
-   box with `right:100%` and `left:auto` shrink-to-fits against the space between its
-   containing block's LEFT edge and that right offset — which here is zero, because the
-   containing block is the 44px button and the box starts at its left edge. The result is
-   a one-character-per-line vertical stack, and white-space:nowrap does NOT prevent it:
-   nowrap stops wrapping at spaces, and "READ" has none, so the browser breaks it anyway
-   rather than overflow. It shipped that way for one render and looked like a font bug. */
-.px-open::after{
-  content:"Read";position:absolute;right:100%;top:50%;width:max-content;
-  transform:translateY(-50%) translateX(5px);margin-right:1px;
-  font-family:var(--sans);font-weight:500;font-size:9.5px;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--gold-deep);white-space:nowrap;
-  opacity:0;pointer-events:none;
-  transition:opacity .3s var(--ease),transform .35s var(--ease)}
-.px:hover .px-open::after,.px-open:focus-visible::after{opacity:1;transform:translateY(-50%)}
-.px[data-picked="true"] .px-open::after{color:rgba(250,247,241,.72)}
-@media(hover:none){.px-open::after{content:none}}
+/* ─────────────────────────── 04 · WHERE PEPTIDES HELP ───────────────────────
+   THE RING — HIS CALL 2026-08-17, replacing the four-across grid of tiles that had
+   stood here since 2026-08-14. Eight photographs on a turning ring, one forward and
+   larger, the + in its corner turning that card over for the description.
+   ⚠️⚠️ THIS SECTION WAS PROTOTYPED IN peptide-therapy/section04-hybrid.html AND THAT
+   FILE IS STILL THE LAB. It carries the shape and colour switches (tall/wide,
+   gold/ivory/wine) that are deliberately NOT shipped here, and the written notes
+   behind every number below. Change the ring there first, judge it, then bring it
+   across — the lab is where a variant costs nothing.
+   ⚠️ THE NAMES ARE THE CLIENT'S OWN, from the live site's Peptide Therapy menu,
+   reproduced exactly — "Auto Immune Disease" as two words, "Anti Ageing" in the
+   British spelling. His service names, not ours to tidy.
+   ⚠️ COPY IS DRAFT — clinical claims kept deliberately soft, no compound names on
+   purpose (naming specific peptides invites specific claims).
+   ⚠️⚠️ WHAT THE OLD GRID OWNED AND THE RING NOW INHERITS: the multi-select and the
+   tray. A card is still a goal, choosing is still additive, the price still does not
+   change, and .px-tray below is UNTOUCHED — it reads the ring instead of the grid.
+   The eight <template class="px-detail"> popups are GONE: the card's own back face
+   carries that copy now, which is why the .pxd dialog shell below serves only the
+   doctor cards. If a ninth family ever needs it, that shell is still there.
+   ⚠️ THE SECOND PARAGRAPH OF EACH POPUP CAME WITH THE COPY — the back face carries
+   both, and it scrolls rather than clipping. Nothing the client wrote was dropped to
+   make the card fit. */
 
-/* the select surface — the whole card, beneath the + */
-.px-pick{position:absolute;inset:0;z-index:2;border-radius:2px;background:none;
-  border:0;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
-.px-pick:focus-visible{outline:2px solid var(--logo-red);outline-offset:-3px}
+/* ── the ring ─────────────────────────────────────────────────────────────────────
+   ⚠️ perspective WITHOUT transform-style:preserve-3d ON THE CONTAINER, AND THAT PAIRING
+   IS DELIBERATE. preserve-3d sorts children by their position in 3D SPACE AND IGNORES
+   z-index — with the cards angled toward the viewer, the near edge of a side card sits in
+   front of the front card's plane and paints straight over its name and its button.
+   perspective alone gives identical foreshortening and leaves the normal painting order
+   intact, which is the only thing this ring ever wanted from 3D. (Each CARD still carries
+   preserve-3d, because its own two faces do need sorting against each other.)
+   ⚠️ --fw/--sw/--fh/--sh ARE THE ONE PLACE THE CARD SIZES ARE WRITTEN. The script needs
+   them to lay out the arc and MUST NOT read them off a card: those boxes are transitioned,
+   so measuring mid-turn returns a size partway between the old and the new, and the ring
+   computes its geometry from a number true for no frame. The probes carry the same values
+   and never animate. */
+/* ⚠️⚠️ TWO FRONT-CARD SHAPES, AND THE TALL ONE IS NOT ONLY A TASTE. His eight photographs
+   are 4:5 PORTRAIT; a 452x338 landscape card crops about sixty per cent of each one away
+   and then asks the client to judge the picture. Tall also buys the ring a hundred pixels
+   back — the fan's overlap falls from 31% to 22%, which is what turns the outermost card
+   from a sliver into a card. And a ring of eight identical portrait cards with one brought
+   forward is a coherent object; a ring whose front card CHANGES SHAPE is a fan with a
+   billboard in it. The wide version is kept because it is what his reference showed, and
+   because a landscape front card carries a longer line more comfortably. */
+/* ⚠️⚠️ ONE CARD SIZE FOR ALL EIGHT — HIS CALL, AND IT IS THE HONEST VERSION OF THE RING.
+   Until now the front card had its own box and the seven others shared a second, smaller
+   one; the jump between them was 0.39 and the falloff among the seven was a gentle
+   0.98/0.91/0.80/0.66. That is a big card standing in front of a flat row, not a ring.
+   Every card is the SAME BOX now and distance alone decides its apparent size, so each step
+   out is a fixed proportion of the one before it — which is what a 3D view actually does.
+   The type comes with it: a name is the same size ON ITS CARD at every position and simply
+   arrives smaller, rather than being re-specified per distance.
+   ⚠️ THE PRICE, STATED: at the far end a card is about a quarter scale, so its name would
+   render near 8px. Names fade past |d|=2 rather than print type nobody can read — the
+   photograph and the dot carry those cards, which is what happens at the edge of a real
+   ring too. */
+/* ⚠️⚠️ THE RING'S BUTTONS INHERIT TYPE, WHICH ON THIS PAGE THEY OTHERWISE DO NOT. The lab
+   resets `button{font:inherit}`; this page's reset only passes font-FAMILY, so every button
+   the ring brought with it fell back to the browser's 13.33px/400 for size, weight and
+   line-height. Nothing shows today — those buttons hold SVGs and hidden text — which is
+   exactly what makes it a trap: the first label ever added to an arrow or a dot would come
+   out in the wrong face and nobody would look for a cause in a reset.
+   ⚠️ :where() SO IT CANNOT WIN AN ARGUMENT. At zero specificity every component rule below
+   still beats it — .pw-cta keeps its own 11px — while an element that declares nothing gets
+   the page's type instead of the browser's. A plain `.rail button` would outrank .pw-cta and
+   silently resize the pill. */
+:where(.rail,.rail-foot) button{font-size:inherit;font-weight:inherit;line-height:inherit}
+.rail{position:relative;height:clamp(420px,34vw,500px);
+  --cw:min(352px,29vw); --ch:min(468px,38.5vw);
+  /* ⚠️⚠️ THE CHOSEN SIGNAL IS A TOKEN BECAUSE THE ANSWER TURNED OUT NOT TO BE A COLOUR.
+     Measured against his own eight photographs, at the corner the badge sits in:
+       gold  1.03 at worst (gut-health) · ivory 1.50 · burgundy 4.84 · ink 5.96
+     BOTH LIGHT ACCENTS FAIL — every one of the eight is pale rose in that corner, so it is
+     not gold-versus-ivory, it is light-versus-dark. And on the IVORY GROUND the reverse
+     holds: gold 2.31, ivory 1.00 — an ivory line on ivory is not a line.
+     ⚠️ SO THE SIGNALS ARE SPLIT AND MUST STAY SPLIT. What sits ON A CARD follows --pick;
+     what sits ON THE GROUND (the ring line, the unpicked dots) stays gold, whichever --pick
+     is set, because no light accent survives the ivory and no dark one belongs there. */
+  --pick:var(--gold); --pick-ink:var(--ink);
+  perspective:2000px;perspective-origin:50% 50%;touch-action:pan-y;cursor:grab}
+.rail.dragging{cursor:grabbing}
+/* ⚠️ THE FRONT CARD MUST NOT INHERIT THE FAN'S ALIGNMENT. It is [data-side="c"], so the
+   rule above cannot reach it — but a future edit that keys off d>0 instead would flip the
+   whole editorial column to the right the moment the ring turned past halfway. */
+/* ⚠️ WIDE IS THE DEFAULT ON HIS PICK (2026-08-17), AND IT IS 372 TALL RATHER THAN 338.
+   A landscape card crops a 4:5 photograph to its middle band whatever you do; 372 is the
+   tallest the card can be while still reading as landscape beside a ring of portrait ones,
+   and it buys back about a tenth of each picture for nothing. The TALL alternative stays a
+   click away — it is one attribute, and it is the shape that throws none of the image away. */
+/* wide is the alternative now — he is going back to tall */
+.rail[data-shape="wide"]{--cw:min(452px,38vw); --ch:min(372px,31vw)}
+/* ⚠️ NOTE WHAT IVORY DOES TO THE GLYPH: burgundy-on-ivory measures 11.58 against gold's
+   ink-on-gold 6.17, so the TICK ITSELF is sharper in ivory even though the DISC is weaker.
+   That split is why the badge gained an edge rather than a different fill — see .pw-tick. */
+.rail[data-pick="ivory"]{--pick:var(--ivory); --pick-ink:var(--burgundy)}
+.rail[data-pick="wine"]{--pick:var(--burgundy); --pick-ink:var(--ivory)}
+/* the ring line the cards stand on */
+/* ⚠️⚠️ THE RING LINE IS DRAWN FROM THE SAME NUMBERS AS THE FEET, NOT TUNED TO LOOK RIGHT.
+   It was a CSS ellipse, and an ellipse's bottom arc is flat at the centre and steep at the
+   edges — which was a fair match for the old chord-based climb and became wrong the moment
+   the climb was re-derived from the size cascade (front-loaded instead). Two curves tuned
+   separately will always drift apart on the next change; one path built in layout() from
+   the very lift values the cards use cannot. ⚠️ THE CSS ELLIPSE IS GONE — do not put it
+   back as a "simpler" version, it is the thing that silently disagreed. */
+/* ⚠️ WHAT IS ON SCREEN IS THE ELLIPSE'S BOTTOM ARC, AND ITS HEIGHT IS THE RISE, NOT A
+   LOOK. That arc is lowest at the middle and sweeps up at the sides, which is the curve the
+   cards' feet now follow — so the two only agree if the ellipse's semi-minor axis is about
+   twice RISE. At half-width the bottom arc has climbed B x 0.47; with RISE at 52px that
+   puts B near 108, which is 44% of a 490px rail. Change RISE and this follows it, or the
+   line stops being the thing the cards are standing on and becomes a decoration near them. */
+.ringline{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.ringline path{fill:none;stroke:var(--gold);stroke-width:1;opacity:.42;
+  vector-effect:non-scaling-stroke}
+/* ⚠️ ONE PROBE NOW, AND IT IS STILL NOT A CARD. The base box is the only measurement the
+   arc needs, and it must not be read off a .pw: those transition, so a size taken mid-turn
+   is true for no frame. */
+.probe{position:absolute;top:0;left:0;height:0;visibility:hidden;pointer-events:none}
+.probe-f{width:var(--cw)}
 
-/* the mark — the page's own chain, saying eight different things.
-   ⚠️ DRAFT, AND MINE. Eight figures drawn in the bead-and-bond vocabulary of the
-   chain scene: a shield turned inward · a network inside a head · a coil · a
-   descent to a line · strands rooted through skin · a shaft interrupted by its
-   joint · a spiral · two rings. Outline only, one stroke weight, no fills — the
-   line held against medical clipart, which is the look this page's restraint buys
-   distance from. Two of the eight are unresolved and flagged in HANDOVER. */
-/* ⚠️ THE MARK KEEPS ITS 58px GLYPH AND GAINS A PLATE. The size was settled in round 13
-   (46 → 58) and is not up for revisiting; what is new is the --cream disc behind it, which
-   does one job: it gives the mark a horizon so it reads as an emblem rather than as a
-   stray drawing floating in the corner of a card. box-sizing:content-box is load-bearing —
-   without it the padding eats the glyph and the eight marks silently shrink to 30px.
-   ⚠️ margin-bottom:auto IS WHAT PUTS THE NAME ON THE FLOOR OF THE TILE. Remove it and the
-   h3 rides up under the mark, every card sets its own height, and the row stops reading
-   as a set. It is doing layout work, not spacing work. */
-.px-mark{display:block;width:58px;height:58px;color:var(--gold-deep);
-  padding:14px;box-sizing:content-box;margin-bottom:auto;
-  background:var(--cream);border-radius:50%;
-  transition:color .35s var(--ease),background .35s var(--ease)}
-.px:hover .px-mark{color:var(--gold-deep);background:var(--gold-tint)}
+/* ⚠️⚠️ ANCHORED BY ITS BASE, AND transform-origin:bottom IS HALF OF WHY. A ring is a thing
+   cards STAND ON: what follows the ellipse is each card's foot, not its middle. Anchored by
+   the centre, a taller front card grows in both directions and its base leaves the ring;
+   scaled about the centre, a smaller card's base leaves it too. Bottom-anchored and
+   bottom-scaled, every foot stays on the curve no matter what size the card is — which is
+   the whole difference between a ring and a row of things at different heights. */
+.pw{position:absolute;left:50%;bottom:var(--floor,7%);
+  width:var(--cw);height:var(--ch);
+  border-radius:7px;background:var(--cream);
+  transform-origin:50% 100%;
+  transform:translateX(-50%) translate3d(var(--x,0px),var(--y,0px),0)
+    rotateY(var(--rot,0deg)) scale(var(--sc,1));
+  opacity:var(--op,1);z-index:var(--z,1);
+  transform-style:preserve-3d;
+  /* ⚠️ NO width/height TRANSITION ANY MORE — a simplification the new geometry buys. The
+     boxes are identical, so only the transform moves: one animated property instead of
+     three, and nothing left for a mid-flight measurement to catch. */
+  transition:transform .8s var(--swing),
+    opacity .55s var(--ease),box-shadow .6s var(--ease);
+  box-shadow:0 14px 34px rgba(71,24,38,.13);
+  /* ⚠️⚠️ THE FLOAT USES `translate`, NOT `transform`, AND THAT IS THE WHOLE TRICK. The layout
+     already owns transform — a keyframe there would fight the arc every time the ring turned
+     and the two would overwrite each other. `translate` is an INDEPENDENT property that
+     composes before transform, so the bob rides on top of whatever the arc is doing and
+     neither has to know about the other. It also sits outside the card's scale, so a far
+     card bobs by the same few pixels as a near one rather than a fraction of them.
+     ⚠️ --i IS THE CARD'S INDEX AND IT IS WHAT STOPS THIS LOOKING MECHANICAL. Eight cards
+     rising and falling in step is a lift, not a float; staggered, it is a ring breathing.
+     ⚠️⚠️ 2.5px OVER 16 SECONDS — HIS CALL, AND THE REASON IS THE AUDIENCE, NOT THE TASTE.
+     It was 7px over 7s and he called it trippy: *"the ones reading this are grandmas and
+     grandpas, can't afford to lose them."* He is right, and it is an accessibility point
+     rather than a preference — persistent drift in the periphery is exactly what provokes
+     vestibular discomfort in older readers, and a clinic page that makes someone feel
+     unwell has lost more than a visitor. At 2.5px the ring is ALIVE rather than MOVING:
+     you cannot catch it happening, only notice it is not still. ⚠️ If this is ever raised
+     again, raise the DURATION first and the distance last. */
+  animation:pw-float calc(16s + var(--i,0) * 900ms) ease-in-out infinite;
+  animation-delay:calc(var(--i,0) * -2100ms)}
+@keyframes pw-float{0%,100%{translate:0 0}50%{translate:0 -2.5px}}
+/* the card in front barely moves at all — it is the thing the eye is resting on */
+.pw[data-focus="true"]{animation-duration:22s}
 
-/* ══ CHOSEN — BURGUNDY. His pick, letter D off selected-tile-lab.html ══════════════
-   It was `--ink` #2E2228 from round 12 on the rule "ink, never the one red — red is this
-   page's material for THIS COMMITS YOU, and a lit tile is a choice, not a call to action".
-   ⚠️ THAT RULE IS NOT BROKEN BY THIS: the one red is `--logo-red` #8E2D3A and it is still
-   nowhere near a tile. What his note fixed is that near-black was the coldest possible
-   dress for the section's ONE MOMENT OF REWARD — "too dark and not sexy or appetizing".
-   Burgundy is the same depth with the temperature the ink was missing.
-   ⚠️⚠️ THE REAL COST, FLAGGED BEFORE HE CHOSE IT AND ACCEPTED: --burgundy IS THIS PAGE'S
-   PRIMARY BUTTON MATERIAL. A chosen tile now wears the same colour as "Book a consultation".
-   THE DISTINCTION IS CARRIED BY SHAPE AND CONTENT, NOT BY COLOUR, so both must hold:
-     · a button is a PILL (--btn-radius 999px) in uppercase letterspaced sans;
-     · a tile is a 2px rectangle in title-case Megante with a mark and a tick.
-   If a future round ever rounds the tiles, or sets a button in Megante, the two materials
-   collapse into one and the page starts saying "book" where it means "chosen". Check 19
-   asserts the radii stay apart. */
-.px[data-picked="true"]{background:var(--burgundy);border-color:var(--burgundy)}
-.px[data-picked="true"] h3,.px[data-picked="true"]:hover h3{color:var(--ivory)}
-/* the plate inverts with the card — a --cream disc on a burgundy tile would be a hole in
-   it. The glyph takes the full gold, which measures 5.00:1 here. */
-.px[data-picked="true"] .px-mark,
-.px[data-picked="true"]:hover .px-mark{color:var(--gold);background:rgba(250,247,241,.10)}
-.px[data-picked="true"] .px-open{color:var(--ivory)}
-.px[data-picked="true"] .px-open::before{border-color:rgba(250,247,241,.42)}
-/* ⚠️⚠️ THE + HAD TO STOP FILLING BURGUNDY ON A CHOSEN TILE, AND THIS IS THE ONE BUG THE
-   colour change actually caused. `.px:hover .px-open::before` fills `--burgundy` — which
-   was a clear circle on an ink tile and is INVISIBLE on a burgundy one. The chosen tile
-   fills gold instead, so the + stays a legible door in both states.
-   ⚠️ ITS GLYPH FLIPS TO INK WITH IT: ivory-on-gold measures 1.9:1 and would have replaced
-   one invisible + with another. */
-.px[data-picked="true"]:hover .px-open::before,
-.px[data-picked="true"] .px-open:focus-visible::before{
-  background:var(--gold);border-color:var(--gold)}
-.px[data-picked="true"]:hover .px-open,
-.px[data-picked="true"] .px-open:focus-visible{color:var(--ink)}
-/* ⚠️ THE TICK IS A FILLED BADGE, NOT A LOOSE GLYPH. A bare ✦-sized tick in the corner of
-   a dark card read as a rendering artefact at a glance — the one moment in this section
-   that has to feel like a reward is the moment a tile is chosen, and it was the quietest
-   thing on the screen. It draws at the corner the + vacated in round 13. */
-.px-tick{position:absolute;bottom:12px;right:12px;z-index:1;
-  width:26px;height:26px;border-radius:50%;display:grid;place-content:center;
-  background:var(--gold);color:var(--ink);
-  font-family:var(--sans);font-weight:500;font-size:12px;line-height:1;
-  opacity:0;transform:scale(.6);
-  transition:opacity .3s var(--ease),transform .4s var(--ease)}
-.px[data-picked="true"] .px-tick{opacity:1;transform:none}
+/* ── the artwork ──────────────────────────────────────────────────────────────────
+   ⚠️ THE SCRIM IS A SEPARATE LAYER FROM THE PICTURE, NOT A FILTER ON IT. Eight
+   photographs of unknown brightness have to carry ivory type, and darkening the image
+   itself would also darken the half nobody is reading. A wine gradient rising from the
+   foot holds the name whatever arrives in the file. */
+.pw-art{position:absolute;inset:0;border-radius:7px;overflow:hidden;
+  background:radial-gradient(120% 110% at 30% 18%,var(--cream) 0%,var(--gold-tint) 52%,#E8CFC6 100%);
+  display:grid;place-content:center}
+.pw-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;
+  transition:opacity .8s var(--ease)}
+.pw.has-art .pw-art img{opacity:1}
+.pw-mark{width:clamp(72px,7vw,96px);height:clamp(72px,7vw,96px);color:var(--gold-deep);
+  opacity:.6;transition:width .8s var(--swing),height .8s var(--swing),opacity .5s var(--ease)}
+.pw.has-art .pw-mark{opacity:0}
+
+.pw-art::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(52,16,28,.88) 0%,rgba(52,16,28,.54) 30%,
+    rgba(52,16,28,.14) 60%,rgba(52,16,28,.04) 100%)}
+
+.pw-face{position:absolute;inset:0;z-index:6;border-radius:7px;
+  -webkit-tap-highlight-color:transparent}
+.pw-n{position:absolute;top:clamp(18px,1.8vw,24px);left:clamp(20px,2vw,28px);z-index:5;
+  font-family:var(--accent);font-size:clamp(12px,1.1vw,14px);letter-spacing:.16em;
+  color:rgba(250,247,241,.9);transition:opacity .5s var(--ease);
+  /* ⚠️ THE NUMERAL SITS WHERE THE SCRIM IS WEAKEST. The gradient rises from the foot, so at
+     the top of a card it is doing almost nothing — and two of the eight photographs are
+     near-white up there. A shadow is the cheap fix that works on all eight without
+     darkening the picture the way a second scrim would. */
+  text-shadow:0 1px 6px rgba(52,16,28,.55)}
+/* ⚠️⚠️ z-index:7 AND pointer-events, AND THIS IS A FIX RATHER THAN A CHOICE. The body sat
+   at 5 and .pw-face covers the whole card at 6 — so the front card's "Add to your
+   programme" pill was UNDERNEATH its own card's click surface. It still added the goal,
+   because the face's handler on the focused card does the same thing, so nothing looked
+   broken: the pill's hover never fired, its :hover translate never ran, and the primary
+   call to action on the card was a picture of a button that happened to sit over a
+   different button doing the same job. Playwright found it by refusing to click it.
+   ⚠️ THE BODY IS pointer-events:none AND ONLY THE PILL TAKES THEM BACK. Raising the whole
+   block above the face would have the name and the line swallowing clicks meant for the
+   card — and the card's face is what turns the ring, so those pixels matter.
+   ⚠️ 7 IS SHARED WITH .pw-back ON PURPOSE: the back comes later in the markup, so it still
+   paints over the body when the card is turned, without a second number to keep in step. */
+.pw-body{position:absolute;left:0;right:0;bottom:0;z-index:7;pointer-events:none;
+  padding:clamp(20px,2vw,28px);display:flex;flex-direction:column;
+  align-items:flex-start;gap:clamp(9px,.9vw,13px)}
+/* ⚠️⚠️ THE NAME IS SET AGAINST THE CARD'S OUTER EDGE, and this is the same rule as the
+   tick for the same reason: a fan covers each card from the side its neighbour sits on, so
+   a name pinned left in the RIGHT half is printed underneath the next card. The first build
+   read "exual ealth" and "to mune ease" — which looks like broken text rather than like
+   depth, and is the one thing that decides whether eight overlapping cards stay readable. */
+.pw[data-side="r"] .pw-body{align-items:flex-end;text-align:right}
+.pw-body h3{font-family:var(--accent);font-weight:400;color:var(--ivory);letter-spacing:-.015em;
+  font-size:clamp(21px,2.05vw,29px);line-height:1.06;width:100%;
+  transition:opacity .5s var(--ease)}
+/* ⚠️ THE NAME LEAVES BEFORE IT BECOMES UNREADABLE. Past two steps out a card is around a
+   third of scale and its name would render near 8px — type that is present, illegible and
+   therefore worse than absent. Those two cards are carried by the photograph and the dot. */
+.pw[data-far="true"] .pw-body h3{opacity:0}
+.pw[data-far="true"] .pw-n{opacity:.45}
+.pw-line,.pw-body .pw-cta{display:none}
+/* ⚠️⚠️ A FAN COVERS EACH CARD FROM THE SIDE ITS NEIGHBOUR SITS ON, so a badge pinned to
+   one corner is printed underneath the next card for half the ring. The tick moves to the
+   card's OUTER edge — the half nothing overlaps — which is why the script writes a
+   data-side and not only an offset. It is the same fix the name alignment needed in the
+   flat version, and it is the difference between "the chosen state is legible everywhere"
+   being a promise and being true.
+   ⚠️ THE TICK COUNTER-SCALES AND THAT IS THE CLAIM, NOT A DETAIL. The card's own scale()
+   applies to its children, so without 1/--sc the badge is 24px one step out and 20px at
+   the far end — smallest exactly where legibility matters most, on a page whose notes
+   promise the opposite. transform-origin pins it to the corner it lives in. */
+.pw-tick{position:absolute;top:10px;right:10px;z-index:7;width:24px;height:24px;
+  --tsc:calc(1 / var(--sc,1));
+  border-radius:50%;display:grid;place-content:center;background:var(--pick);color:var(--pick-ink);
+  font-family:var(--sans);font-weight:500;font-size:11px;line-height:1;
+  opacity:0;transform:scale(calc(var(--tsc) * .5));transform-origin:top right;
+  /* ⚠️ THE EDGE IS A FIX AND IT APPLIES TO EVERY SETTING, NOT AN OPTION AMONG THEM. A light
+     disc on a pale photograph has nothing to separate it — gold measured 1.03 on gut-health,
+     which is invisible, not weak. A wine hairline plus a soft drop means the badge is found
+     by its EDGE rather than by its fill, so it reads on all eight whatever colour is chosen.
+     Any future accent inherits the fix instead of re-discovering the bug. */
+  box-shadow:0 0 0 1.5px rgba(52,16,28,.55),0 3px 10px rgba(52,16,28,.42);
+  transition:opacity .3s var(--ease),transform .45s var(--ease)}
+.pw[data-side="l"] .pw-tick{left:10px;right:auto;transform-origin:top left}
+.pw[data-picked="true"] .pw-tick{opacity:1;transform:scale(var(--tsc))}
+.pw[data-picked="true"]{box-shadow:0 0 0 2px var(--pick),0 0 0 3px rgba(52,16,28,.3),
+  0 18px 40px rgba(71,24,38,.2)}
+
+/* ── the card in front ────────────────────────────────────────────────────────────
+   ⚠️ THE TEXT COLUMN IS A GRADIENT, NOT A PANEL. His reference lays the copy over the left
+   of the photograph with the picture still reading through it; a solid half would turn a
+   photographic card into a card with a picture stuck on the side. The wine gradient runs
+   left to right and thins out before the subject of the image. */
+.pw[data-focus="true"]{--sc:1;--rot:0deg;--op:1;
+  z-index:40;box-shadow:0 38px 84px rgba(71,24,38,.26)}
+/* ⚠️ A PICKED CARD KEEPS ITS RING WHEN IT COMES TO THE FRONT. Both states set box-shadow at
+   the same specificity, so the later rule simply won and the front card silently lost the
+   one mark that says it is in the programme — the tick and the pill still said so, but the
+   card itself stopped. Chosen and focused are not alternatives; they are both true. */
+.pw[data-picked="true"][data-focus="true"]{box-shadow:0 0 0 2px var(--pick),
+  0 0 0 3px rgba(52,16,28,.3),0 38px 84px rgba(71,24,38,.26)}
+/* ⚠️ THE SCRIM FOLLOWS THE COPY. A left-to-right gradient under a foot-aligned block
+   darkens the half nobody is reading and leaves the type on the bright half — the scrim has
+   to run the way the text is laid, or it is decoration that also happens to hurt. */
+.pw[data-focus="true"] .pw-art::after{
+  background:linear-gradient(100deg,rgba(74,22,38,.95) 0%,rgba(74,22,38,.88) 32%,
+    rgba(74,22,38,.5) 60%,rgba(74,22,38,.14) 100%)}
+.rail[data-shape="tall"] .pw[data-focus="true"] .pw-art::after{
+  background:linear-gradient(to top,rgba(74,22,38,.96) 0%,rgba(74,22,38,.86) 26%,
+    rgba(74,22,38,.42) 56%,rgba(74,22,38,.08) 84%)}
+.pw[data-focus="true"] .pw-n{top:clamp(18px,1.8vw,24px);left:clamp(20px,2vw,28px);
+  font-size:clamp(12px,1.1vw,14px)}
+/* WIDE — the copy takes a column and the picture keeps the rest */
+.pw[data-focus="true"] .pw-body{top:0;right:34%;bottom:0;justify-content:center;
+  align-items:flex-start;padding:clamp(20px,2vw,28px);gap:clamp(9px,.9vw,13px)}
+/* TALL — the copy sits along the foot and the picture keeps the whole card */
+.rail[data-shape="tall"] .pw[data-focus="true"] .pw-body{top:auto;right:0;left:0;bottom:0;
+  justify-content:flex-end}
+/* ⚠️ 29px IS NOW THE SIZE FOR EVERY CARD, NOT ONLY THE FRONT ONE. The column is 62% of a
+   452px card and "Musculoskeletal Injury" is the name that decides it — at 33px its first
+   word alone broke to two lines and the longest of the eight became a three-line title
+   beside seven one- and two-line ones. A set is sized by its worst case. */
+.pw[data-focus="true"] .pw-line{display:block;color:rgba(250,247,241,.88);
+  font-size:clamp(12.5px,1.05vw,14.5px);line-height:1.55;max-width:34ch}
+/* ⚠️⚠️ display CANNOT TRANSITION, SO THE LINE AND THE PILL USED TO POP. They switched from
+   none to shown on the same frame the card began an 800ms grow, so for most of that
+   animation a full-size button sat inside a card still on its way there — which is exactly
+   the "lagging or glitching" he saw. An ANIMATION does what a transition cannot: it restarts
+   when display changes, so both fade up AFTER the card has most of its size, and the card
+   arrives before its contents do rather than the other way round. */
+@keyframes pw-rise{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+.pw[data-focus="true"] .pw-body .pw-cta{display:inline-flex;
+  animation:pw-rise .46s var(--ease) .34s both}
+.pw[data-focus="true"] .pw-line{animation:pw-rise .46s var(--ease) .26s both}
+/* ⚠️⚠️ MEASURED, NOT EYEBALLED — THE PILL WAS 19px WIDER THAN THE COLUMN IT SITS IN. At
+   10px/.17em it drew 243px inside a 224px text column and simply overflowed onto the
+   photograph, which reads as a button that has slipped off its card. nowrap plus flex:none
+   means it will never wrap and never shrink, so it CANNOT be left to fit by luck: the type
+   came down to 9.5/.14em, the padding to 18, and the column went 38% -> 34%. That is 219 in
+   242, with 23px of slack for a longer label. max-width is the hard stop if one ever
+   arrives — better a clipped pill than one sitting on the picture.
+   ⚠️ The harness measures this at four widths in both shapes; it is not a look, it is an
+   inequality, and inequalities are checkable. */
+.pw-cta{align-items:center;gap:9px;flex:none;border-radius:999px;max-width:100%;
+  padding:11px 18px;background:var(--burgundy);color:var(--ivory);
+  border:1px solid rgba(250,247,241,.3);
+  font-family:var(--sans);font-weight:500;font-size:9.5px;letter-spacing:.14em;
+  text-transform:uppercase;white-space:nowrap;overflow:hidden;
+  transition:background .3s var(--ease),transform .3s var(--ease),color .3s var(--ease)}
+.pw-body .pw-cta{pointer-events:auto}
+.pw-cta:hover{background:var(--red-hover);transform:translateX(3px)}
+.pw-cta .arr{font-size:13px;line-height:1;transition:transform .4s var(--ease)}
+.pw-cta:hover .arr{transform:rotate(90deg)}
+.pw[data-picked="true"] .pw-cta{background:var(--pick);color:var(--pick-ink);
+  border-color:rgba(52,16,28,.34)}
+.pw[data-picked="true"] .pw-cta:hover{filter:brightness(1.08)}
+
+/* ── the + and the turn ──────────────────────────────────────────────────────────
+   HIS ASK, IN WORDS RATHER THAN A PICTURE: a + in the top right that turns the card over
+   for the description. It is only on the card in front — a + on a 110px card at the far
+   end of the ring is a target nobody can hit and a decoration everybody can see.
+   ⚠️ THE + AND THE CARD FACE CANNOT BOTH OWN THE SAME PIXELS, which is round 12's finding
+   in a new costume: the face adds the goal, the + opens the reading. Separate targets, and
+   while a card is turned its face stops taking clicks entirely.
+   ⚠️⚠️ ONE CONTROL PER FACE, AND THE COUNTER-ROTATION IS GONE. The first build kept a single
+   + and, when the card turned, counter-rotated it AND swapped it from right to left. Both
+   halves were correct arithmetic and the result was still wrong: `left`/`right` do not
+   transition, so the button JUMPED across the card on frame one and then spent the whole
+   800ms flip rotating on its own axis in front of a turning card. Each face carries its own
+   button now — + on the front, x inside the back — both with their backface hidden, so each
+   simply appears when its side does and nothing has to be un-mirrored. */
+.pw-more{position:absolute;top:0;right:0;z-index:8;width:46px;height:46px;
+  display:none;place-content:center;color:var(--ivory);
+  font-family:var(--sans);font-weight:300;font-size:19px;line-height:1;
+  transition:transform .6s var(--ease)}
+.pw-more::before{content:"";position:absolute;inset:9px;border-radius:50%;
+  border:1px solid rgba(250,247,241,.5);background:rgba(52,16,28,.36);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  transition:background .35s var(--ease),border-color .35s var(--ease)}
+.pw-more span{position:relative;transition:transform .5s var(--ease)}
+.pw-more:hover::before{background:var(--gold);border-color:var(--gold)}
+.pw-more:hover{color:var(--ink)}
+.pw[data-focus="true"] .pw-more{display:grid;top:clamp(10px,1vw,14px);right:clamp(10px,1vw,14px)}
+.pw[data-open="true"] .pw-face{pointer-events:none}
+.pw>*:not(.pw-back){backface-visibility:hidden}
+/* the back's own control — inside .pw-back, so it inherits the turn and needs no correction */
+/* ⚠️ THE CROSS IS DRAWN, NOT TYPED. `&times;` is not in MediGyn NOW, so it fell through to
+   a fallback face and rendered as a small filled blob inside the ring — which read as a
+   loading dot, not a close. Every other glyph-shaped control on this page is an SVG path
+   for the same reason; a brand face is not obliged to carry punctuation. */
+.pw-close{position:absolute;top:clamp(10px,1vw,14px);right:clamp(10px,1vw,14px);z-index:9;
+  width:46px;height:46px;display:grid;place-content:center;color:var(--ivory)}
+.pw-close svg{position:relative;width:12px;height:12px;display:block}
+.pw-close::before{content:"";position:absolute;inset:9px;border-radius:50%;
+  border:1px solid rgba(250,247,241,.42);
+  transition:background .35s var(--ease),border-color .35s var(--ease)}
+.pw-close:hover::before{background:var(--gold);border-color:var(--gold)}
+.pw-close:hover{color:var(--ink)}
+/* ⚠️ overflow-y:auto AND overscroll-behavior:contain BECAUSE THE BACK CARRIES BOTH OF THE
+   CLIENT'S PARAGRAPHS. The lab's card printed only the first; dropping a paragraph of his
+   copy to make a card fit is not a layout decision to take quietly, so the card scrolls on
+   the rare width where two paragraphs plus the outcomes do not fit. `contain` stops that
+   scroll chaining into Lenis and dragging the whole page. */
+.pw-back{position:absolute;inset:0;z-index:7;display:none;flex-direction:column;
+  justify-content:center;gap:clamp(9px,.9vw,13px);border-radius:7px;
+  overflow-y:auto;overscroll-behavior:contain;
+  padding:clamp(20px,2vw,30px);background:var(--burgundy);color:var(--ivory);
+  transform:rotateY(180deg);backface-visibility:hidden;
+  opacity:0;transition:opacity .18s linear .3s}
+.pw[data-focus="true"] .pw-back{display:flex}
+.pw[data-open="true"] .pw-back{opacity:1}
+/* ⚠️⚠️ THE COLOUR IS DECLARED RATHER THAN INHERITED, AND THAT IS A FIX. .pw-back sets
+   color:var(--ivory) and this heading used to take it by inheritance — which works in the
+   lab, whose reset gives h1,h2,h3 no colour at all, and FAILS on the live page, where the
+   global `h1,h2,h3{color:var(--ink)}` beats inheritance and printed the pathway's name in
+   dark plum on a burgundy card. Nothing errored; the name was simply almost invisible.
+   ⚠️ SO EVERY RULE THE RING OWNS STATES ITS OWN COLOUR. A component lifted between two
+   stylesheets cannot rely on what the host page does NOT say. */
+.pw-back h3{font-family:var(--accent);font-weight:400;font-size:clamp(19px,1.9vw,26px);line-height:1.06;
+  letter-spacing:-.01em;color:var(--ivory)}
+.pw-back p{color:rgba(250,247,241,.84);font-size:clamp(12.5px,1.05vw,14.5px);
+  line-height:1.62;max-width:46ch}
+.pw-out{display:flex;flex-wrap:wrap;gap:6px;list-style:none}
+.pw-out li{font-size:11.5px;letter-spacing:.03em;color:var(--gold);
+  border:1px solid rgba(250,247,241,.3);border-radius:999px;padding:4px 11px}
+.pw-back .pw-cta{align-self:flex-start;margin-top:3px;background:var(--gold);color:var(--ink);
+  border-color:transparent}
+.pw-back .pw-cta:hover{background:var(--gold-tint)}
+
+/* ── the way round the ring ──────────────────────────────────────────────────── */
+.arrow{position:absolute;top:50%;z-index:45;width:44px;height:44px;
+  transform:translateY(-50%);border:1px solid var(--line);border-radius:50%;
+  display:grid;place-content:center;color:var(--burgundy);background:rgba(250,247,241,.88);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  transition:background .3s var(--ease),color .3s var(--ease),border-color .3s var(--ease)}
+.arrow:hover{background:var(--burgundy);border-color:var(--burgundy);color:var(--ivory)}
+.arrow svg{width:13px;height:13px;display:block}
+.arrow--prev{left:0} .arrow--next{right:0}
+/* ⚠️ TWO COLUMNS HERE, THREE IN THE LAB, AND THE DIFFERENCE IS THE TALLY. The lab prints
+   its own "n chosen" in a left-hand column because it has no tray; this page does not, so
+   the same three-column rule left only two items to auto-place — the hint fell into
+   column 1 and the DOTS INTO COLUMN 2, which put them in the middle of the row with the
+   whole right-hand third empty. `justify-self:end` was doing exactly what it was told
+   inside a column that was no longer where it looked. Hint left, dots right, two columns.
+   ⚠️ max-width IS GONE TOO: .wrap already caps this at 1280 and the 1320 was inert — a
+   number that looks like it is doing something is worse than no number. */
+.rail-foot{margin:clamp(16px,2.2vh,26px) auto 0;
+  display:grid;grid-template-columns:1fr auto;align-items:center;gap:14px}
+.hint{display:flex;align-items:center;gap:9px;color:var(--ink-soft);
+  font-size:11px;letter-spacing:.13em;text-transform:uppercase;justify-self:start}
+.hint svg{width:17px;height:17px;color:var(--gold-deep)}
+/* ⚠️ THE DOTS CARRY THE CHOSEN STATE TOO, AND THAT IS NOT DECORATION. At the far end of
+   the ring a card is about 110px wide; the dot is the thing a reader can actually count.
+   It is the multi-select's second, smaller home. */
+.dots{justify-self:end;display:flex;align-items:center;gap:7px}
+.dots button{width:18px;height:14px;display:grid;place-content:center}
+.dots i{display:block;width:9px;height:2px;border-radius:2px;background:var(--line);
+  transition:width .5s var(--swing),background .35s var(--ease)}
+.dots button[aria-current="true"] i{width:22px;background:var(--burgundy)}
+/* ⚠️ GOLD, NOT --pick, AND DELIBERATELY. These sit on the IVORY GROUND, where ivory
+   measures 1.00 and gold 2.31 — a chosen dot that followed an ivory accent would vanish
+   exactly where the multi-select needs it most. The card carries the accent; the ground
+   keeps the gold. */
+.dots button[data-picked="true"] i{background:var(--gold)}
+.dots button[data-picked="true"][aria-current="true"] i{background:var(--burgundy)}
+
+/* ⚠️ THE FLOAT IS AN ANIMATION, AND THE PAGE'S REDUCED-MOTION BLOCK ONLY KILLS
+   TRANSITIONS. Left alone the ring would keep breathing for a reader who asked the
+   whole system for stillness — so the float is stopped here explicitly rather than by
+   widening that global rule, which would reach every other animation on the page. */
+@media (prefers-reduced-motion:reduce){
+  .pw{animation:none!important}
+}
 
 /* ══ THE TRAY — the programme, assembling ═══════════════════════════════════
    ⚠️⚠️ IT IS FIXED NOW AND FOLLOWS THE READER — round 14, his call: "the brown thingy
@@ -788,31 +1036,31 @@ section{position:relative}
   .px-tray.mini .px-tray-go{border-color:rgba(250,247,241,.42);padding-left:22px}
   .px-tray.mini .px-tray-in{justify-content:space-between}
 }
-/* ⚠️ THE ROTATION MOVED OFF THE BUTTON AND ONTO THE GLYPH, AND THAT WAS A BUG FIX.
-   `transform:rotate(90deg)` on .px-open turns the BUTTON — and therefore everything
-   positioned inside it, including the "Read" label, which rendered on its side. A rotated
-   + is also indistinguishable from an unrotated one, so the transform was only ever doing
-   anything for the eye during the transition; rotating the svg keeps that motion and stops
-   it dragging the label around with it.
-   ⚠️ THE FILL AND THE BORDER ARE GONE FROM HERE TOO — they belong to ::before, which is
-   the thing that draws (see the note at .px-open). All that is left on the button is the
-   ink colour the glyph inherits, which is what a hit area is allowed to own. */
-.px:hover .px-open,.px-open:focus-visible{color:var(--ivory)}
-.px:hover .px-open svg,.px-open:focus-visible svg{transform:rotate(90deg)}
-.px-open svg{transition:transform .5s var(--ease)}
-@media(max-width:1104px){
-  .px-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-}
-@media(max-width:640px){
-  .px-grid{grid-template-columns:1fr}
-  /* ⚠️ THE FLOOR AND THE PUSHED-DOWN NAME BOTH COME OFF HERE, AND FOR THE SAME REASON:
-     both exist to make the eight read as a SET ACROSS A ROW — a common card height and a
-     shared name baseline. In one column there is no row, so they buy nothing and cost a
-     great deal: a 210px card holding one line of text, eight times, is roughly a screen
-     and a half of extra scrolling between the reader and the tray.
-     The mark keeps its plate; only the empty space it was holding open goes. */
-  .px{min-height:0;gap:14px}
-  .px-mark{margin-bottom:0}
+@media(max-width:1180px){
+  .rail{height:auto;perspective:none;display:flex;flex-direction:column;
+    gap:clamp(13px,2.2vw,18px);cursor:auto}
+  .ringline{display:none}
+  .pw{position:relative;left:auto;top:auto;width:100%;height:auto;
+    aspect-ratio:16/10;min-height:232px;
+    transform:none!important;opacity:1!important;z-index:1!important;
+    transform-style:flat}
+  .pw .pw-mark{width:clamp(56px,14vw,84px);height:clamp(56px,14vw,84px)}
+  .pw .pw-art::after{background:linear-gradient(100deg,rgba(74,22,38,.95) 0%,
+    rgba(74,22,38,.86) 36%,rgba(74,22,38,.46) 64%,rgba(74,22,38,.1) 100%)}
+  .pw .pw-body{top:0;right:36%;bottom:0;justify-content:center;
+    padding:clamp(18px,4.4vw,26px);gap:11px}
+  .pw .pw-body h3{font-size:clamp(21px,5vw,28px);line-height:1.06}
+  .pw .pw-line{display:block;color:rgba(250,247,241,.88);font-size:14px;line-height:1.55}
+  .pw .pw-body .pw-cta{display:inline-flex}
+  .pw .pw-n{top:14px;left:16px;font-size:12px}
+  .pw .pw-more{display:grid;top:10px;right:10px}
+  .pw .pw-back{display:flex}
+  /* ⚠️ THE TURN STILL WORKS IN THE STACK, so the + is not a control that only exists on a
+     laptop — but the card's own rotateY has to be written by CSS here, because the script
+     writes --rot only while the ring is running. */
+  .pw[data-open="true"]{transform:rotateY(180deg)!important}
+  .arrow,.hint{display:none}
+  .rail-foot{grid-template-columns:1fr auto}
 }
 
 
@@ -1948,9 +2196,9 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
        the British spelling. His names, not ours to tidy.
        ⚠️ THE ONE-LINE DESCRIPTIONS ARE DRAFT COPY — kept deliberately soft of clinical
        claims, but still not client copy. Route them through him before real marketing.
-       ⚠️ NO ROW ROUTES YET — see the .px-grid note in the stylesheet for the rule and
+       ⚠️ NO CARD ROUTES YET — see the ring's note in the stylesheet for the rule and
        the day-one wiring plan. id="services" is load-bearing: the scene's Skip control
-       lands here, as do nothing else (no header menu item points at it on this page). -->
+       lands here, and nothing else does (no header menu item points at it on this page). -->
   <section class="services sec-pad" id="services">
     <div class="wrap">
       <div class="sec-head">
@@ -1964,194 +2212,201 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
         two or three. They are eight goals, not eight programmes: the process, the
         panel and the price are the same whichever you pick.</p>
       </div>
-      <!-- ⚠️ EACH TILE'S POPUP COPY IS DRAFT — see the .px-grid note in the stylesheet.
-           The one-line teasers and the panel paragraphs are both written for this
-           mock-up; no peptide compounds are named on purpose. -->
-      <div class="px-grid">
-        <article class="px" data-reveal>
-          <!-- the select surface: the whole tile, under the + -->
-          <button type="button" class="px-pick" data-goal="Auto Immune Disease" aria-pressed="false"
-                  aria-label="Auto Immune Disease — choose this goal"></button>
-          <span class="px-tick" aria-hidden="true">✓</span>
-          <svg class="px-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 6 39 11v12c0 9-7 15-15 18-8-3-15-9-15-18V11z"/><path d="M17.5 17.5 21.5 21.5M30.5 17.5 26.5 21.5"/><circle cx="24" cy="25" r="2.7" fill="currentColor" stroke="none"/></svg>
-          <h3>Auto Immune Disease</h3>
-<button type="button" class="px-open" aria-haspopup="dialog" aria-label="Auto Immune Disease — read more">
-            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 1v10M1 6h10"/></svg>
-          </button>
-          <template class="px-detail">
+      <!-- ⚠️⚠️ THE RING REPLACED THE FOUR-ACROSS GRID OF TILES ON 2026-08-17, and the
+           eight <template class="px-detail"> popups went with it — a card's own BACK FACE
+           carries that copy now, both paragraphs of it, reached by the + in its corner.
+           ⚠️ THE .pxd DIALOG SHELL AT THE FOOT OF THIS FILE THEREFORE SERVES ONLY THE
+           DOCTOR CARDS. It is kept because it is still the page's one modal grammar, not
+           because anything here needs it.
+           ⚠️ NO data-reveal ON A CARD, AND THAT IS NOT AN OVERSIGHT. The reveal is
+           `gsap.from(el,{y:44})`, which writes an inline transform — and a .pw's transform
+           is the ring's own placement, rewritten every frame by layout(). One would fight
+           the other and the card would land in the wrong place. The heading and the lede
+           above still reveal; the ring arrives by its own transitions.
+           ⚠️ THE MECHANISM IS BUILT IN section04-hybrid.html. Change it there first. -->
+      <div class="rail" id="rail" data-shape="tall" data-pick="ivory" role="group" aria-label="Peptide therapy pathways">
+        <i class="probe probe-f" id="probeF" aria-hidden="true"></i>
+        <svg class="ringline" id="ringline" aria-hidden="true" preserveAspectRatio="none"><path d=""/></svg>
+        <button type="button" class="arrow arrow--prev" id="railPrev" aria-label="Previous pathway">
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.5 1.5 3 6l4.5 4.5"/></svg>
+        </button>
+        <button type="button" class="arrow arrow--next" id="railNext" aria-label="Next pathway">
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 1.5 9 6l-4.5 4.5"/></svg>
+        </button>
+        <article class="pw" data-i="0" data-art="../images/pathways/auto-immune-disease.webp">
+          <div class="pw-art"><img alt="" loading="lazy" decoding="async"><svg class="pw-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 6 39 11v12c0 9-7 15-15 18-8-3-15-9-15-18V11z"/><path d="M17.5 17.5 21.5 21.5M30.5 17.5 26.5 21.5"/><circle cx="24" cy="25" r="2.7" fill="currentColor" stroke="none"/></svg></div>
+          <button type="button" class="pw-face" data-goal="Auto Immune Disease"><span class="sr">Auto Immune Disease</span></button>
+          <span class="pw-n" aria-hidden="true">01</span>
+          <span class="pw-tick" aria-hidden="true">&#10003;</span>
+          <div class="pw-body">
+            <h3>Auto Immune Disease</h3>
+            <p class="pw-line">Inflammation, flares, and an immune system working against you.</p>
+            <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+          </div>
+          <button type="button" class="pw-more" aria-label="Auto Immune Disease — read more" aria-expanded="false"><span aria-hidden="true">+</span></button>
+          <div class="pw-back">
+            <button type="button" class="pw-close" aria-label="Close"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.6 2.6 9.4 9.4M9.4 2.6 2.6 9.4"/></svg></button>
             <h3>Auto Immune Disease</h3>
             <p>When the immune system turns on the body it is meant to protect, the goal is regulation — not blanket suppression. Immune-modulating peptides support the signalling that helps an overactive response find its level.</p>
             <p>Protocols are chosen from your history, your labs and your current treatment — peptide support here works alongside your specialist care, never instead of it.</p>
-            <div class="pxd-goals" aria-label="Common goals">
-              <span class="chip">Calmer flares</span>
-              <span class="chip">Steadier energy</span>
-              <span class="chip">Fewer bad days</span>
-              <span class="chip">Long-term regulation</span>
-            </div>
-            <div class="pxd-cta"><button type="button" class="btn" data-add-goal>Add to your programme <span class="arr">+</span></button></div>
-          </template>
+            <ul class="pw-out" aria-label="Common goals"><li>Calmer flares</li><li>Steadier energy</li><li>Fewer bad days</li><li>Long-term regulation</li></ul>
+            <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+          </div>
         </article>
-        <article class="px" data-reveal>
-          <!-- the select surface: the whole tile, under the + -->
-          <button type="button" class="px-pick" data-goal="Brain Health" aria-pressed="false"
-                  aria-label="Brain Health — choose this goal"></button>
-          <span class="px-tick" aria-hidden="true">✓</span>
-          <svg class="px-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 41v-6c-4-3-7-8-7-13 0-9 6-15 14-15s14 6 14 15c0 5-3 10-7 13v6z"/><path d="M24 15v11M24 19l-5 4M24 19l5 4"/><circle cx="24" cy="15" r="2.1" fill="currentColor" stroke="none"/><circle cx="19" cy="23" r="2.1" fill="currentColor" stroke="none"/><circle cx="29" cy="23" r="2.1" fill="currentColor" stroke="none"/></svg>
-          <h3>Brain Health</h3>
-<button type="button" class="px-open" aria-haspopup="dialog" aria-label="Brain Health — read more">
-            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 1v10M1 6h10"/></svg>
-          </button>
-          <template class="px-detail">
+        <article class="pw" data-i="1" data-art="../images/pathways/brain-health.webp">
+          <div class="pw-art"><img alt="" loading="lazy" decoding="async"><svg class="pw-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 41v-6c-4-3-7-8-7-13 0-9 6-15 14-15s14 6 14 15c0 5-3 10-7 13v6z"/><path d="M24 15v11M24 19l-5 4M24 19l5 4"/><circle cx="24" cy="15" r="2.1" fill="currentColor" stroke="none"/><circle cx="19" cy="23" r="2.1" fill="currentColor" stroke="none"/><circle cx="29" cy="23" r="2.1" fill="currentColor" stroke="none"/></svg></div>
+          <button type="button" class="pw-face" data-goal="Brain Health"><span class="sr">Brain Health</span></button>
+          <span class="pw-n" aria-hidden="true">02</span>
+          <span class="pw-tick" aria-hidden="true">&#10003;</span>
+          <div class="pw-body">
+            <h3>Brain Health</h3>
+            <p class="pw-line">Focus, memory, mood and mental stamina.</p>
+            <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+          </div>
+          <button type="button" class="pw-more" aria-label="Brain Health — read more" aria-expanded="false"><span aria-hidden="true">+</span></button>
+          <div class="pw-back">
+            <button type="button" class="pw-close" aria-label="Close"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.6 2.6 9.4 9.4M9.4 2.6 2.6 9.4"/></svg></button>
             <h3>Brain Health</h3>
             <p>Focus, memory and mental stamina ride on how well the brain repairs, perfuses and protects itself. Cognitive peptides support those housekeeping systems — the ones that keep thinking sharp.</p>
             <p>Often paired with sleep and stress work, because a brain that recovers at night is a brain that performs by day.</p>
-            <div class="pxd-goals" aria-label="Common goals">
-              <span class="chip">Sharper focus</span>
-              <span class="chip">Clearer memory</span>
-              <span class="chip">Mental stamina</span>
-              <span class="chip">Calmer stress response</span>
-            </div>
-            <div class="pxd-cta"><button type="button" class="btn" data-add-goal>Add to your programme <span class="arr">+</span></button></div>
-          </template>
+            <ul class="pw-out" aria-label="Common goals"><li>Sharper focus</li><li>Clearer memory</li><li>Mental stamina</li><li>Calmer stress response</li></ul>
+            <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+          </div>
         </article>
-        <article class="px" data-reveal>
-          <!-- the select surface: the whole tile, under the + -->
-          <button type="button" class="px-pick" data-goal="Gut Health" aria-pressed="false"
-                  aria-label="Gut Health — choose this goal"></button>
-          <span class="px-tick" aria-hidden="true">✓</span>
-          <svg class="px-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 13h22c6 0 6 8 0 8H15c-6 0-6 8 0 8h18c6 0 6 8 0 8H11"/><circle cx="11" cy="13" r="2.1" fill="currentColor" stroke="none"/><circle cx="11" cy="37" r="2.1" fill="currentColor" stroke="none"/><circle cx="24" cy="21" r="2.1" fill="currentColor" stroke="none"/><circle cx="24" cy="29" r="2.1" fill="currentColor" stroke="none"/></svg>
-          <h3>Gut Health</h3>
-<button type="button" class="px-open" aria-haspopup="dialog" aria-label="Gut Health — read more">
-            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 1v10M1 6h10"/></svg>
-          </button>
-          <template class="px-detail">
+        <article class="pw" data-i="2" data-art="../images/pathways/gut-health.webp">
+          <div class="pw-art"><img alt="" loading="lazy" decoding="async"><svg class="pw-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 13h22c6 0 6 8 0 8H15c-6 0-6 8 0 8h18c6 0 6 8 0 8H11"/><circle cx="11" cy="13" r="2.1" fill="currentColor" stroke="none"/><circle cx="11" cy="37" r="2.1" fill="currentColor" stroke="none"/><circle cx="24" cy="21" r="2.1" fill="currentColor" stroke="none"/><circle cx="24" cy="29" r="2.1" fill="currentColor" stroke="none"/></svg></div>
+          <button type="button" class="pw-face" data-goal="Gut Health"><span class="sr">Gut Health</span></button>
+          <span class="pw-n" aria-hidden="true">03</span>
+          <span class="pw-tick" aria-hidden="true">&#10003;</span>
+          <div class="pw-body">
+            <h3>Gut Health</h3>
+            <p class="pw-line">Digestion, bloating, and the barrier that governs both.</p>
+            <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+          </div>
+          <button type="button" class="pw-more" aria-label="Gut Health — read more" aria-expanded="false"><span aria-hidden="true">+</span></button>
+          <div class="pw-back">
+            <button type="button" class="pw-close" aria-label="Close"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.6 2.6 9.4 9.4M9.4 2.6 2.6 9.4"/></svg></button>
             <h3>Gut Health</h3>
             <p>The gut lining is where nutrition, immunity and resilience begin — and it is one of the fastest-renewing tissues in the body. Gut-repair peptides support that renewal: calming irritation, helping the barrier rebuild.</p>
             <p>A rebuilt gut is also where every other protocol lands better — what you absorb is what your body can actually use.</p>
-            <div class="pxd-goals" aria-label="Common goals">
-              <span class="chip">Settled digestion</span>
-              <span class="chip">Stronger barrier</span>
-              <span class="chip">Better absorption</span>
-              <span class="chip">Less bloating</span>
-            </div>
-            <div class="pxd-cta"><button type="button" class="btn" data-add-goal>Add to your programme <span class="arr">+</span></button></div>
-          </template>
+            <ul class="pw-out" aria-label="Common goals"><li>Settled digestion</li><li>Stronger barrier</li><li>Better absorption</li><li>Less bloating</li></ul>
+            <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+          </div>
         </article>
-        <article class="px" data-reveal>
-          <!-- the select surface: the whole tile, under the + -->
-          <button type="button" class="px-pick" data-goal="Weight Management" aria-pressed="false"
-                  aria-label="Weight Management — choose this goal"></button>
-          <span class="px-tick" aria-hidden="true">✓</span>
-          <svg class="px-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 7v23"/><path d="M16 23 24 31 32 23"/><path d="M11 39h26"/><circle cx="24" cy="7" r="2.1" fill="currentColor" stroke="none"/></svg>
-          <h3>Weight Management</h3>
-<button type="button" class="px-open" aria-haspopup="dialog" aria-label="Weight Management — read more">
-            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 1v10M1 6h10"/></svg>
-          </button>
-          <template class="px-detail">
+        <article class="pw" data-i="3" data-art="../images/pathways/weight-management.webp">
+          <div class="pw-art"><img alt="" loading="lazy" decoding="async"><svg class="pw-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 7v23"/><path d="M16 23 24 31 32 23"/><path d="M11 39h26"/><circle cx="24" cy="7" r="2.1" fill="currentColor" stroke="none"/></svg></div>
+          <button type="button" class="pw-face" data-goal="Weight Management"><span class="sr">Weight Management</span></button>
+          <span class="pw-n" aria-hidden="true">04</span>
+          <span class="pw-tick" aria-hidden="true">&#10003;</span>
+          <div class="pw-body">
+            <h3>Weight Management</h3>
+            <p class="pw-line">Body composition, metabolism and how you handle sugar.</p>
+            <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+          </div>
+          <button type="button" class="pw-more" aria-label="Weight Management — read more" aria-expanded="false"><span aria-hidden="true">+</span></button>
+          <div class="pw-back">
+            <button type="button" class="pw-close" aria-label="Close"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.6 2.6 9.4 9.4M9.4 2.6 2.6 9.4"/></svg></button>
             <h3>Weight Management</h3>
             <p>Metabolic peptides work with your body’s own appetite and energy signalling, so weight comes off the way it should — as fat, not muscle, and without the white-knuckle willpower.</p>
             <p>Dosing, labs and follow-up all run through the clinic: this is medical weight management, not a subscription.</p>
-            <div class="pxd-goals" aria-label="Common goals">
-              <span class="chip">Appetite signalling</span>
-              <span class="chip">Fat, not muscle</span>
-              <span class="chip">Steady energy</span>
-              <span class="chip">Medical monitoring</span>
-            </div>
-            <div class="pxd-cta"><button type="button" class="btn" data-add-goal>Add to your programme <span class="arr">+</span></button></div>
-          </template>
+            <ul class="pw-out" aria-label="Common goals"><li>Appetite signalling</li><li>Fat, not muscle</li><li>Steady energy</li><li>Medical monitoring</li></ul>
+            <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+          </div>
         </article>
-        <article class="px" data-reveal>
-          <!-- the select surface: the whole tile, under the + -->
-          <button type="button" class="px-pick" data-goal="Skin &amp; Hair Loss" aria-pressed="false"
-                  aria-label="Skin &amp; Hair Loss — choose this goal"></button>
-          <span class="px-tick" aria-hidden="true">✓</span>
-          <svg class="px-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 27h34M7 33h34"/><path d="M16 27c0-6 1-9 2-13M24 27c0-7-1-10-1-14M32 27c0-4 1-6 1-8"/><path d="M34 11.5 35.5 7.5" stroke-dasharray="1.6 2"/><circle cx="16" cy="30" r="2.1" fill="currentColor" stroke="none"/><circle cx="24" cy="30" r="2.1" fill="currentColor" stroke="none"/><circle cx="32" cy="30" r="2.1" fill="currentColor" stroke="none"/></svg>
-          <h3>Skin &amp; Hair Loss</h3>
-<button type="button" class="px-open" aria-haspopup="dialog" aria-label="Skin & Hair Loss — read more">
-            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 1v10M1 6h10"/></svg>
-          </button>
-          <template class="px-detail">
+        <article class="pw" data-i="4" data-art="../images/pathways/skin-and-hair-loss.webp">
+          <div class="pw-art"><img alt="" loading="lazy" decoding="async"><svg class="pw-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 27h34M7 33h34"/><path d="M16 27c0-6 1-9 2-13M24 27c0-7-1-10-1-14M32 27c0-4 1-6 1-8"/><path d="M34 11.5 35.5 7.5" stroke-dasharray="1.6 2"/><circle cx="16" cy="30" r="2.1" fill="currentColor" stroke="none"/><circle cx="24" cy="30" r="2.1" fill="currentColor" stroke="none"/><circle cx="32" cy="30" r="2.1" fill="currentColor" stroke="none"/></svg></div>
+          <button type="button" class="pw-face" data-goal="Skin &amp; Hair Loss"><span class="sr">Skin &amp; Hair Loss</span></button>
+          <span class="pw-n" aria-hidden="true">05</span>
+          <span class="pw-tick" aria-hidden="true">&#10003;</span>
+          <div class="pw-body">
+            <h3>Skin &amp; Hair Loss</h3>
+            <p class="pw-line">Collagen, thinning, texture and how quickly skin repairs.</p>
+            <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+          </div>
+          <button type="button" class="pw-more" aria-label="Skin &amp; Hair Loss — read more" aria-expanded="false"><span aria-hidden="true">+</span></button>
+          <div class="pw-back">
+            <button type="button" class="pw-close" aria-label="Close"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.6 2.6 9.4 9.4M9.4 2.6 2.6 9.4"/></svg></button>
             <h3>Skin &amp; Hair Loss</h3>
             <p>Collagen, elasticity and the follicle itself all answer to signalling that slows with age. Skin and hair peptides prompt that renewal from within — repair, not concealment.</p>
             <p>Often paired with the hormone side of the clinic, because skin and hair are where imbalance shows first.</p>
-            <div class="pxd-goals" aria-label="Common goals">
-              <span class="chip">Collagen renewal</span>
-              <span class="chip">Skin quality</span>
-              <span class="chip">Fuller hair</span>
-              <span class="chip">Elasticity back</span>
-            </div>
-            <div class="pxd-cta"><button type="button" class="btn" data-add-goal>Add to your programme <span class="arr">+</span></button></div>
-          </template>
+            <ul class="pw-out" aria-label="Common goals"><li>Collagen renewal</li><li>Skin quality</li><li>Fuller hair</li><li>Elasticity back</li></ul>
+            <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+          </div>
         </article>
-        <article class="px" data-reveal>
-          <!-- the select surface: the whole tile, under the + -->
-          <button type="button" class="px-pick" data-goal="Musculoskeletal Injury" aria-pressed="false"
-                  aria-label="Musculoskeletal Injury — choose this goal"></button>
-          <span class="px-tick" aria-hidden="true">✓</span>
-          <svg class="px-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 7v11"/><circle cx="18" cy="23.5" r="5.6"/><path d="M22 27.5 33 39"/><circle cx="18" cy="7" r="2.1" fill="currentColor" stroke="none"/><circle cx="33" cy="39" r="2.1" fill="currentColor" stroke="none"/></svg>
-          <h3>Musculoskeletal Injury</h3>
-<button type="button" class="px-open" aria-haspopup="dialog" aria-label="Musculoskeletal Injury — read more">
-            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 1v10M1 6h10"/></svg>
-          </button>
-          <template class="px-detail">
+        <article class="pw" data-i="5" data-art="../images/pathways/musculoskeletal-injury.webp">
+          <div class="pw-art"><img alt="" loading="lazy" decoding="async"><svg class="pw-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 7v11"/><circle cx="18" cy="23.5" r="5.6"/><path d="M22 27.5 33 39"/><circle cx="18" cy="7" r="2.1" fill="currentColor" stroke="none"/><circle cx="33" cy="39" r="2.1" fill="currentColor" stroke="none"/></svg></div>
+          <button type="button" class="pw-face" data-goal="Musculoskeletal Injury"><span class="sr">Musculoskeletal Injury</span></button>
+          <span class="pw-n" aria-hidden="true">06</span>
+          <span class="pw-tick" aria-hidden="true">&#10003;</span>
+          <div class="pw-body">
+            <h3>Musculoskeletal Injury</h3>
+            <p class="pw-line">Joints, tendons, and the time it takes you to heal.</p>
+            <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+          </div>
+          <button type="button" class="pw-more" aria-label="Musculoskeletal Injury — read more" aria-expanded="false"><span aria-hidden="true">+</span></button>
+          <div class="pw-back">
+            <button type="button" class="pw-close" aria-label="Close"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.6 2.6 9.4 9.4M9.4 2.6 2.6 9.4"/></svg></button>
             <h3>Musculoskeletal Injury</h3>
             <p>Tendon, ligament and muscle heal slowly because they see little blood flow — and repair peptides exist for exactly that reason. They support the tissue’s own rebuilding, so recovery keeps pace with how you live and train.</p>
             <p>For the injury that will not close, the strain that keeps returning, and the training block you want to actually finish.</p>
-            <div class="pxd-goals" aria-label="Common goals">
-              <span class="chip">Tendon repair</span>
-              <span class="chip">Faster recovery</span>
-              <span class="chip">Old injuries</span>
-              <span class="chip">Back to training</span>
-            </div>
-            <div class="pxd-cta"><button type="button" class="btn" data-add-goal>Add to your programme <span class="arr">+</span></button></div>
-          </template>
+            <ul class="pw-out" aria-label="Common goals"><li>Tendon repair</li><li>Faster recovery</li><li>Old injuries</li><li>Back to training</li></ul>
+            <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+          </div>
         </article>
-        <article class="px" data-reveal>
-          <!-- the select surface: the whole tile, under the + -->
-          <button type="button" class="px-pick" data-goal="Anti Ageing" aria-pressed="false"
-                  aria-label="Anti Ageing — choose this goal"></button>
-          <span class="px-tick" aria-hidden="true">✓</span>
-          <svg class="px-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 7c10 0 17 8 17 17s-7 17-17 17c-8 0-14-6-14-13 0-6 5-11 11-11 5 0 9 4 9 9"/><path d="M20.5 4 24.5 7 20.5 10.5"/><circle cx="30" cy="26" r="2.1" fill="currentColor" stroke="none"/></svg>
-          <h3>Anti Ageing</h3>
-<button type="button" class="px-open" aria-haspopup="dialog" aria-label="Anti Ageing — read more">
-            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 1v10M1 6h10"/></svg>
-          </button>
-          <template class="px-detail">
+        <article class="pw" data-i="6" data-art="../images/pathways/anti-ageing.webp">
+          <div class="pw-art"><img alt="" loading="lazy" decoding="async"><svg class="pw-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 7c10 0 17 8 17 17s-7 17-17 17c-8 0-14-6-14-13 0-6 5-11 11-11 5 0 9 4 9 9"/><path d="M20.5 4 24.5 7 20.5 10.5"/><circle cx="30" cy="26" r="2.1" fill="currentColor" stroke="none"/></svg></div>
+          <button type="button" class="pw-face" data-goal="Anti Ageing"><span class="sr">Anti Ageing</span></button>
+          <span class="pw-n" aria-hidden="true">07</span>
+          <span class="pw-tick" aria-hidden="true">&#10003;</span>
+          <div class="pw-body">
+            <h3>Anti Ageing</h3>
+            <p class="pw-line">Cellular repair, energy, and the pace of decline.</p>
+            <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+          </div>
+          <button type="button" class="pw-more" aria-label="Anti Ageing — read more" aria-expanded="false"><span aria-hidden="true">+</span></button>
+          <div class="pw-back">
+            <button type="button" class="pw-close" aria-label="Close"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.6 2.6 9.4 9.4M9.4 2.6 2.6 9.4"/></svg></button>
             <h3>Anti Ageing</h3>
             <p>Ageing is, in part, housekeeping falling behind — repair signals that thin out year by year. Longevity peptides support cellular repair, deep sleep and recovery: healthspan first, so the years you add are years you can use.</p>
             <p>Built as a long-game protocol, reviewed on your labs, alongside everything else you do here.</p>
-            <div class="pxd-goals" aria-label="Common goals">
-              <span class="chip">Deep sleep</span>
-              <span class="chip">Cellular repair</span>
-              <span class="chip">Healthspan</span>
-              <span class="chip">Sustained energy</span>
-            </div>
-            <div class="pxd-cta"><button type="button" class="btn" data-add-goal>Add to your programme <span class="arr">+</span></button></div>
-          </template>
+            <ul class="pw-out" aria-label="Common goals"><li>Deep sleep</li><li>Cellular repair</li><li>Healthspan</li><li>Sustained energy</li></ul>
+            <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+          </div>
         </article>
-        <article class="px" data-reveal>
-          <!-- the select surface: the whole tile, under the + -->
-          <button type="button" class="px-pick" data-goal="Sexual Health" aria-pressed="false"
-                  aria-label="Sexual Health — choose this goal"></button>
-          <span class="px-tick" aria-hidden="true">✓</span>
-          <svg class="px-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 6c6.5 7.5 11 12 11 19.5 0 6.6-5 11.5-11 11.5s-11-4.9-11-11.5c0-5 2.2-8.4 5.4-11.4.2 3 1.6 5 3.6 6.2C20 16 22 10.5 24 6z"/><circle cx="24" cy="28" r="3" fill="currentColor" stroke="none"/></svg>
-          <h3>Sexual Health</h3>
-<button type="button" class="px-open" aria-haspopup="dialog" aria-label="Sexual Health — read more">
-            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 1v10M1 6h10"/></svg>
-          </button>
-          <template class="px-detail">
+        <article class="pw" data-i="7" data-art="../images/pathways/sexual-health.webp">
+          <div class="pw-art"><img alt="" loading="lazy" decoding="async"><svg class="pw-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 6c6.5 7.5 11 12 11 19.5 0 6.6-5 11.5-11 11.5s-11-4.9-11-11.5c0-5 2.2-8.4 5.4-11.4.2 3 1.6 5 3.6 6.2C20 16 22 10.5 24 6z"/><circle cx="24" cy="28" r="3" fill="currentColor" stroke="none"/></svg></div>
+          <button type="button" class="pw-face" data-goal="Sexual Health"><span class="sr">Sexual Health</span></button>
+          <span class="pw-n" aria-hidden="true">08</span>
+          <span class="pw-tick" aria-hidden="true">&#10003;</span>
+          <div class="pw-body">
+            <h3>Sexual Health</h3>
+            <p class="pw-line">Libido, function, and the hormones underneath both.</p>
+            <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+          </div>
+          <button type="button" class="pw-more" aria-label="Sexual Health — read more" aria-expanded="false"><span aria-hidden="true">+</span></button>
+          <div class="pw-back">
+            <button type="button" class="pw-close" aria-label="Close"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.6 2.6 9.4 9.4M9.4 2.6 2.6 9.4"/></svg></button>
             <h3>Sexual Health</h3>
             <p>Desire and function run on signalling — vascular, hormonal and neurological at once. Sexual-health peptides work on those pathways directly, for women and for men.</p>
             <p>And it is a subject raised far more easily in a ten-minute private call than in a waiting room — which is exactly what the discovery call is for.</p>
-            <div class="pxd-goals" aria-label="Common goals">
-              <span class="chip">Desire</span>
-              <span class="chip">Function</span>
-              <span class="chip">Confidence</span>
-              <span class="chip">For women and men</span>
-            </div>
-            <div class="pxd-cta"><button type="button" class="btn" data-add-goal>Add to your programme <span class="arr">+</span></button></div>
-          </template>
+            <ul class="pw-out" aria-label="Common goals"><li>Desire</li><li>Function</li><li>Confidence</li><li>For women and men</li></ul>
+            <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+          </div>
         </article>
+      </div>
+
+      <div class="rail-foot">
+        <p class="hint">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V11"/><path d="M12 10V4.5a1.5 1.5 0 0 1 3 0V11"/>
+            <path d="M15 10.5V6.5a1.5 1.5 0 0 1 3 0V15c0 3.3-2.4 6-6 6s-6-2.7-6-6v-2"/>
+            <path d="M9 11v2.5L7 12a1.5 1.5 0 0 0-2 2.2"/></svg>
+          Drag to explore
+        </p>
+        <div class="dots" id="railDots" role="tablist" aria-label="Jump to a pathway"></div>
       </div>
       <!-- ══ THE POPUP SHELL — [hidden] until a tile arms it; the content is cloned
            from that tile's own <template>, so tile and panel can never disagree.
@@ -2989,8 +3244,11 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
       if (window.__lenis) window.__lenis.start();
       if (lastBtn) lastBtn.focus();
     }
-    /* one shell serves TWO families: the eight service tiles and the doctor cards —
-       same open grammar, same close grammar, no second dialog to drift.
+    /* ⚠️ ONE FAMILY LEFT: THE DOCTOR CARDS. This shell served the eight service tiles too
+       until round 18, when the ring gave each card a back face and the .px-detail templates
+       went with the grid. The shell is kept because it is still the page's one modal
+       grammar and the tray opens the programme panel through it (see __openPxd below) —
+       not because anything in section 04 still needs a dialog.
        ⚠️ .aud WAS THE THIRD AND IT LEFT WITH SECTION 05 (round 14). The selectors are
        dropped rather than left "harmlessly unmatched", because a selector for markup
        that no longer exists is a claim about the page that is no longer true — the next
@@ -3002,9 +3260,9 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
        `tile.querySelector("h3")` below safe: it finds the row's own visible heading and
        never the h3 inside the panel markup. That is load-bearing for the aria-label and
        for the chooser's kicker. */
-    document.querySelectorAll(".px,.doc").forEach(tile => {
-      const btn = tile.querySelector(".px-open,.doc-info");
-      const tpl = tile.querySelector(".px-detail,.doc-detail");
+    document.querySelectorAll(".doc").forEach(tile => {
+      const btn = tile.querySelector(".doc-info");
+      const tpl = tile.querySelector(".doc-detail");
       if (!btn || !tpl) return;
       btn.addEventListener("click", () => {
         lastBtn = btn;
@@ -3901,7 +4159,7 @@ try{
 <script>
 (function(){
   var tray = document.getElementById("px-tray");
-  var tiles = [].slice.call(document.querySelectorAll(".px-pick"));
+  var tiles = [].slice.call(document.querySelectorAll(".pw-face"));
   if (!tray || !tiles.length) return;
 
   /* ✅ SETTLED, AND IT WAS OPEN FOR THREE ROUNDS — his confirmation, in his own words:
@@ -3915,7 +4173,7 @@ try{
      precisely what a customer disputes after paying.
      ⚠️ AED 1,950 IS HIS FIGURE, replacing the 350 I had invented. */
   var BASE = 1150, ADDON = 1950, VAT = 0.05;
-  var picked = [], addon = false;
+  var addon = false;
 
   /* ⚠️ ALWAYS TWO DECIMALS IN THE SUMMARY, even when the figure is whole. Letting
      round numbers drop their fils put "AED 1,207.50" and "AED 3,255" in the same
@@ -3928,8 +4186,8 @@ try{
      three goals render three different ways; keyed off the DOM it is stable and it
      matches what the reader is looking at. */
   function inOrder(){
-    return tiles.map(function(b){ return b.dataset.goal; })
-                .filter(function(g){ return picked.indexOf(g) > -1; });
+    return tiles.filter(function(b){ return b.closest(".pw").dataset.picked === "true"; })
+                .map(function(b){ return b.dataset.goal; });
   }
   function phrase(a){
     if (a.length === 1) return "<b>" + a[0] + "</b>";
@@ -3949,12 +4207,13 @@ try{
     var a = document.getElementById("pg-addon");
     if (a) a.setAttribute("aria-pressed", addon);
   }
+  /* ⚠️⚠️ THIS FUNCTION READS AND NO LONGER WRITES — round 18, and it is the whole point
+     of the seam. Until the ring landed, this script kept the chosen goals in an array and
+     wrote data-picked onto each tile from it. The ring keeps the same state ON THE CARDS,
+     because its dots, its tick and its dust all read it there — so leaving the array here
+     would be two owners of one fact, and which one a reader saw would depend on which
+     script ran last. The cards are the truth; this is a view of them. */
   function sync(){
-    tiles.forEach(function(b){
-      var on = picked.indexOf(b.dataset.goal) > -1;
-      b.setAttribute("aria-pressed", on);
-      b.closest(".px").setAttribute("data-picked", on);
-    });
     var names = inOrder();
     tray.classList.toggle("on", names.length > 0);
     document.getElementById("px-tray-n").textContent = names.length + " chosen";
@@ -3968,14 +4227,14 @@ try{
      ⚠️ OBSERVERS, NOT A SCROLL LISTENER. This page runs Lenis, so a scroll handler fires
      on every interpolated frame and would be doing getBoundingClientRect() against a
      smoothed scroll position sixty times a second for a boolean that changes twice.
-     ⚠️ .mini IS DRIVEN BY THE GRID, NOT BY .services. The section is taller than the
+     ⚠️ .mini IS DRIVEN BY THE RAIL, NOT BY .services. The section is taller than the
      viewport, so watching the SECTION would keep the bar full-width long after the last
-     tile had gone — the reader would be looking at the programme band with a bar that
-     still thinks it is over the chooser. The grid is the thing the bar is the answer to.
+     card had gone — the reader would be looking at the programme band with a bar that
+     still thinks it is over the chooser. The rail is the thing the bar is the answer to.
      ⚠️ THE FALLBACK IS "FULL BAR, NEVER HIDDEN", not "no tray". On a browser without
      IntersectionObserver the tray behaves exactly as it did in round 12 plus the fixed
      position — the degradation loses the polish and keeps the function. */
-  var grid = document.querySelector(".px-grid");
+  var grid = document.getElementById("rail");
   var book = document.getElementById("book");
   if (window.IntersectionObserver && grid){
     new IntersectionObserver(function(es){
@@ -3990,30 +4249,15 @@ try{
     }, { threshold: 0.12 }).observe(book);
   }
 
-  /* ⚠️ THE POPUP CANNOT SAY WHICH GOAL IT IS. Its markup is cloned out of a
-     <template> that carries no identity, so the tile is remembered at the moment
-     its + is pressed and the panel's button reads that back. */
-  var openGoal = null;
+  /* ⚠️⚠️ CHOOSING IS NOT HANDLED HERE ANY MORE. Three branches used to live at the top of
+     this listener — the tile's +, the popup's "Add to your programme", and the tile itself.
+     The ring owns all three now (its face, its pill on both sides of the card), because it
+     has to: the same click also has to bloom the dust and repaint the dot. What is left
+     below is the part that was never about a card — the panel's add-on, the tray's own
+     button, and the panel's start. */
+  document.addEventListener("pathways:change", sync);
 
   document.addEventListener("click", function(e){
-    var plus = e.target.closest(".px-open");
-    if (plus){
-      var host = plus.closest(".px").querySelector(".px-pick");
-      openGoal = host ? host.dataset.goal : null;
-      return;                       /* the shell's own handler opens the panel */
-    }
-    if (e.target.closest("[data-add-goal]")){
-      if (openGoal && picked.indexOf(openGoal) === -1) picked.push(openGoal);
-      sync();
-      if (window.__closePxd) window.__closePxd();
-      return;
-    }
-    var pick = e.target.closest(".px-pick");
-    if (pick){
-      var g = pick.dataset.goal, i = picked.indexOf(g);
-      if (i > -1) picked.splice(i, 1); else picked.push(g);
-      return sync();
-    }
     if (e.target.closest("#pg-addon")){ addon = !addon; return syncPanel(); }
     if (e.target.closest("#px-tray-go")){
       var tpl = document.getElementById("prog-panel");
@@ -4031,5 +4275,437 @@ try{
   });
 
   sync();
+})();
+</script>
+
+<!-- ══ SECTION 04 · THE RING ═══════════════════════════════════════════════════
+     ⚠️⚠️ THIS IS A LIFT FROM peptide-therapy/section04-hybrid.html AND THAT FILE IS STILL
+     THE LAB. Two things are deliberately NOT here, and both are in the lab if they are
+     ever wanted: the tall/wide and gold/ivory/wine SWITCHES (a shipped page does not carry
+     its own colour picker), and the three.js SCULPTURE that stood in for a missing
+     photograph. All eight photographs are committed under images/pathways/, and a card
+     without one still has a designed empty state — the gradient plate and its own line
+     mark — so 666KB of WebGL for a state that should not occur is a cost with no buyer.
+     ⚠️ IT IS A MODULE, SO IT RUNS AFTER THE TRAY'S CLASSIC SCRIPT ABOVE. That ordering is
+     what lets the tray have its 'pathways:change' listener attached before the first card
+     can be clicked. Do not turn either one into the other kind of script.
+     ⚠️ EVERY WORD ON EVERY CARD IS IN THE HTML. Script positions, focuses, turns and
+     counts; it never writes a name, a line or an outcome. With script off the section is
+     eight readable cards stacked in the rail's box — ugly and complete. -->
+<script type="module">
+/* ═══════════ THE RING ═════════════════════════════════════════════════════════════
+   ⚠️ EVERY WORD ON EVERY CARD IS IN THE HTML ABOVE. Script positions, focuses, turns and
+   counts; it never writes a name, a line or an outcome. With script off this page is eight
+   readable cards stacked in the ring's box — ugly and complete, rather than tidy and
+   empty, which is the failure the programme lab shipped once. */
+const rail   = document.getElementById('rail');
+const cards  = [...rail.querySelectorAll('.pw')];
+const N      = cards.length;
+const probeF = document.getElementById('probeF');
+const ringPath = document.querySelector('#ringline path');
+const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const wide   = () => matchMedia('(min-width: 1181px)').matches;
+let focus = 0, depth = null;
+/* the ring's shape, in one place: how far round the arc the outermost card sits, how far a
+   receding card climbs, and how much of its size it gives up getting there */
+const SPREAD = 1.06;   /* radians — about 61 degrees to the outermost card */
+const RISE   = 58;     /* px the outermost card's foot is above the front card's */
+/* ⚠️⚠️ THE SIZE CASCADE, AND IT IS GEOMETRIC RATHER THAN LINEAR BECAUSE THAT IS WHAT
+   DISTANCE DOES. Each step out is a fixed PROPORTION of the step before it — 1 · .62 · .47
+   · .36 · .27 — so the ratio between any two neighbours is the same wherever you stand in
+   the ring, which is the thing the eye reads as depth. A linear ladder (1 · .8 · .6 · .4)
+   has a shrinking ratio and reads as a row of different-sized cards instead. */
+/* ⚠️ .70 AND .78 ON HIS CALL — "keep the middle, grow the neighbours". The cascade was
+   .62/.76 and the two cards either side read small beside the front one. Growing them costs
+   fan room, and the cost lands where it should: the OUTER pair tuck further behind each
+   other (33% of each visible instead of 46%) — and those two carry no name anyway. */
+const NEAR   = .70;    /* the first card either side, as a fraction of the front one */
+const RATIO  = .78;    /* and every step after that, of the one before it */
+const scaleAt = a => a === 0 ? 1 : NEAR * Math.pow(RATIO, a - 1);
+
+/* ── the artwork, loaded defensively ──────────────────────────────────────────────
+   ⚠️ THE SRC IS ONLY SET ONCE THE FILE HAS ACTUALLY LOADED. Assigning it straight to the
+   <img> and hoping means a missing or renamed file renders the browser's broken-image
+   glyph inside the card — the exact trap the doctor chooser fell into in round 6, where a
+   standalone template had no card guard behind it. A probe Image() decides, and the card
+   keeps its plate and its mark until the answer is yes. */
+for (const c of cards) {
+  const src = c.dataset.art;
+  if (!src) continue;
+  const probe = new Image();
+  probe.onload = () => { c.querySelector('.pw-art img').src = src; c.classList.add('has-art'); };
+  probe.src = src;
+}
+
+/* ── where each card sits ────────────────────────────────────────────────────────
+   ⚠️ THE STEP IS SOLVED FOR THE ROOM AVAILABLE, NOT CHOSEN. A fixed step is right at one
+   width and wrong at every other — at 1440 it leaves the ring sparse and at 960 it puts the
+   outermost card past the edge of the clip, where it is still "visible" to every count and
+   invisible to a reader. The far card is placed AT the last usable pixel and everything
+   between is interpolated back from it.
+   ⚠️ AND THERE IS NO translateZ. Perspective pulls a receding element toward the vanishing
+   point, so a Z push for depth shortens every offset computed here and the fan collapses
+   into a stack behind the front card — arithmetic right, picture wrong. Depth is carried by
+   scale, rotateY and opacity, none of which move a card sideways. */
+function layout(){
+  if (!wide()) { paintDots(); return; }
+  const base = probeF.offsetWidth || 340;
+  const aMax = Math.floor(N / 2);
+  const half = a => base * scaleAt(a) / 2;
+  /* ⚠️ THE FRONT CARD IS NEVER OVERLAPPED AND EVERY STEP AFTER IT IS. The first gap is laid
+     out in full — two half-widths plus air — and the remaining gaps SHARE whatever room is
+     left, which is what makes the outer cards fan like a hand rather than sit in a row.
+     ⚠️ THE FAR CARD STOPS SHORT OF THE ARROW, NOT OF THE VIEWPORT: 62px in from the rail
+     edge, the arrow's 44 plus air. Solving for the clip put the outermost card underneath a
+     button; a fixed step made the ring sparse at 1600 and clipped it at 1200. */
+  const railW = rail.clientWidth || innerWidth;
+  const room = railW / 2 - 62;
+  const x1 = half(0) + half(1) + 14;
+  const steps = [];
+  for (let a = 2; a <= aMax; a++) steps.push(half(a - 1) + half(a));
+  const total = steps.reduce((s, v) => s + v, 0) || 1;
+  const k = Math.max(.34, Math.min(1, (room - half(aMax) - x1) / total));
+  const xAt = a => { let x = a === 0 ? 0 : x1;
+    for (let i = 2; i <= a; i++) x += steps[i - 2] * k;
+    return x; };
+  for (let i = 0; i < N; i++) {
+    const c = cards[i];
+    let d = (i - focus + N) % N; if (d > N / 2) d -= N;
+    const a = Math.abs(d), on = a === 0;
+    c.dataset.focus = String(on);
+    if (!on && c.dataset.open === 'true') {
+      c.dataset.open = 'false';
+      c.querySelector('.pw-more').setAttribute('aria-expanded', 'false');
+    }
+    c.style.setProperty('--x', (Math.sign(d) * xAt(a)).toFixed(1) + 'px');
+    /* ⚠️⚠️ RECESSION IS ONE NUMBER AND EVERYTHING ELSE IS DERIVED FROM IT. `t` is how far
+       round the ring a card has travelled, 0 at the front and 1 at the outermost, taken from
+       the CHORD of the arc rather than from `a` — which is why the falloff is slow near the
+       front and quick at the edges, exactly as perspective behaves. Height, size and
+       opacity all read the same t, so they cannot drift out of agreement with each other.
+       ⚠️ AND THE SIGN OF THE RISE IS THE BUG THIS REPLACED. It was `+`: the front card sat
+       HIGHEST and the outer cards dipped below it — a hill with a valley in the middle.
+       On a ring seen from above the NEAR point is the LOWEST point on screen and the ring
+       climbs away from you, so a receding card RISES. His note caught it before a client
+       ever saw it, and it is the one error here that made the whole thing read as a fan of
+       cards rather than as a circle. */
+    /* ⚠️⚠️ THE CLIMB IS TIED TO THE SIZE CASCADE, NOT TO THE RING'S CHORD — HIS CALL, AND HE
+       DREW IT. A true ring's near cards sit almost level with the front one: the chord is
+       flat near zero, so a=1 rose 3px and the two cards beside the middle looked BOTTOM-
+       ALIGNED with it, which is what he circled. Rise is now proportional to how much
+       smaller a card is — (1 - scale), normalised — so the same one cascade drives size AND
+       height and the two cannot disagree: 0 · 30 · 42 · 50 · 58. That is a designed
+       proportion rather than a projection, and it is the one place this ring deliberately
+       stops being physical in order to be legible.
+       ⚠️ CHANGE NEAR OR RATIO AND THE CLIMB FOLLOWS AUTOMATICALLY. Do not re-hardcode it. */
+    const t = a === 0 ? 0 : (1 - Math.cos(a / aMax * SPREAD)) / (1 - Math.cos(SPREAD));
+    const lift = (1 - scaleAt(a)) / (1 - scaleAt(aMax));
+    c.style.setProperty('--y', on ? '0px' : (-lift * RISE).toFixed(1) + 'px');
+    c.style.setProperty('--rot', on ? (c.dataset.open === 'true' ? '180deg' : '0deg')
+                                    : (-Math.sign(d) * (8 + t * 13)).toFixed(1) + 'deg');
+    c.style.setProperty('--sc', scaleAt(a).toFixed(3));
+    c.style.setProperty('--op', on ? 1 : (1 - t * .34).toFixed(2));
+    /* past two steps out the name would render near 8px — it leaves instead */
+    c.dataset.far = String(a >= 3);
+    c.style.setProperty('--z', on ? 40 : 30 - a);
+    c.dataset.side = on ? 'c' : (d > 0 ? 'r' : 'l');
+    /* ⚠️ THE LABEL FOLLOWS THE MEANING. The same button brings a card forward when it is
+       away from the front and adds the goal when it is at it; a screen reader told "add
+       this goal" on a card whose click merely turns the ring has been lied to by the
+       markup. */
+    const face = c.querySelector('.pw-face'), goal = face.dataset.goal;
+    face.setAttribute('aria-label', on ? goal + ' — add this goal to your programme'
+                                       : goal + ' — bring this pathway forward');
+    face.setAttribute('aria-pressed', String(c.dataset.picked === 'true'));
+  }
+  /* ⚠️ THE CURVE IS BUILT FROM xAt() AND THE SAME lift, WHICH IS THE ONLY REASON IT CANNOT
+     DISAGREE WITH THE CARDS. It runs from the outermost card on one side to the outermost on
+     the other and then a little past both, so the ring reads as continuing off-frame rather
+     than as an arc that happens to end where the cards do. */
+  const railH = rail.clientHeight || 460;
+  /* ⚠️ 11px BELOW THE FEET, NOT THROUGH THEM. Drawn exactly on the foot line the curve is
+     hidden by the cards it is describing and only shows in the gaps, which reads as a broken
+     line rather than as ground. Just under, it is the thing they are standing on. */
+  const foot = a => railH * .93 + 11 - (a === 0 ? 0 : (1 - scaleAt(a)) / (1 - scaleAt(aMax)) * RISE);
+  const pts = [];
+  for (let a = aMax; a >= 1; a--) pts.push([-xAt(a), foot(a)]);
+  pts.push([0, foot(0)]);
+  for (let a = 1; a <= aMax; a++) pts.push([xAt(a), foot(a)]);
+  const runOut = (xAt(aMax) - xAt(aMax - 1)) * 1.15;
+  const drop = foot(aMax - 1) - foot(aMax);
+  pts.unshift([-xAt(aMax) - runOut, foot(aMax) - drop * .8]);
+  pts.push([xAt(aMax) + runOut, foot(aMax) - drop * .8]);
+  const cx = (rail.clientWidth || innerWidth) / 2;
+  /* midpoint smoothing — a polyline through nine points reads as a folded line, and the
+     ring has to look like one continuous thing the cards are standing on */
+  let d = `M ${(cx + pts[0][0]).toFixed(1)} ${pts[0][1].toFixed(1)}`;
+  for (let i = 1; i < pts.length - 1; i++) {
+    const mx = (pts[i][0] + pts[i + 1][0]) / 2, my = (pts[i][1] + pts[i + 1][1]) / 2;
+    d += ` Q ${(cx + pts[i][0]).toFixed(1)} ${pts[i][1].toFixed(1)} ${(cx + mx).toFixed(1)} ${my.toFixed(1)}`;
+  }
+  const last = pts[pts.length - 1];
+  d += ` L ${(cx + last[0]).toFixed(1)} ${last[1].toFixed(1)}`;
+  ringPath.setAttribute('d', d);
+  paintDots();
+}
+const focusOn = i => {
+  const was = focus;
+  focus = ((i % N) + N) % N;
+  layout();
+  /* ⚠️ ONLY ON A REAL CHANGE. Re-focusing the card already in front — which the arrows and
+     the dots can both do — would otherwise stack bloom on bloom until the front card is a
+     snowstorm, which is the "out of control" he saw in a different costume. */
+  if (focus !== was && typeof dust !== 'undefined') dust.bloom(cards[focus]);
+};
+
+/* ── the dots: position, and the second home of the chosen state ─────────────────── */
+const dotWrap = document.getElementById('railDots');
+const dots = cards.map((c, i) => {
+  const b = document.createElement('button');
+  b.type = 'button'; b.setAttribute('role', 'tab'); b.innerHTML = '<i></i>';
+  b.addEventListener('click', () => focusOn(i));
+  dotWrap.append(b);
+  return b;
+});
+function paintDots(){
+  cards.forEach((c, i) => {
+    dots[i].setAttribute('aria-current', String(wide() && i === focus));
+    dots[i].dataset.picked = c.dataset.picked === 'true' ? 'true' : 'false';
+    dots[i].setAttribute('aria-label', c.querySelector('.pw-body h3').textContent.trim() +
+      (c.dataset.picked === 'true' ? ' — chosen' : ''));
+  });
+}
+
+/* ── choosing ──────────────────────────────────────────────────────────────────── */
+function toggle(c){
+  const on = c.dataset.picked === 'true';
+  c.dataset.picked = on ? 'false' : 'true';
+  c.querySelector('.pw-face').setAttribute('aria-pressed', String(!on));
+  if (!on && typeof dust !== 'undefined') dust.burst(c.querySelector('.pw-tick'));
+  paintDots();
+  /* ⚠️⚠️ THE COUNT LIVES IN THE TRAY ON THIS PAGE, NOT UNDER THE RING. The lab prints its
+     own tally because it has no tray; here that would be the same number twice on one
+     screen, and the tray is the one that also carries the action. This event is the whole
+     seam between the two — the ring owns the state, the tray is told it changed. Anything
+     else that ever needs to know goes on this event rather than reading `picked` out of a
+     second script, which is how the two came to disagree in the first place. */
+  rail.dispatchEvent(new CustomEvent('pathways:change', { bubbles: true }));
+}
+cards.forEach((c, i) => {
+  c.querySelector('.pw-face').addEventListener('click', () => {
+    if (!wide() || c.dataset.focus === 'true') toggle(c); else focusOn(i);
+  });
+  for (const b of c.querySelectorAll('.pw-cta'))
+    b.addEventListener('click', e => { e.stopPropagation(); toggle(c); });
+  /* ⚠️ TWO BUTTONS, ONE STATE. The + lives on the front face and the x on the back; each is
+     only reachable when its own side is showing, so they cannot disagree — but they must
+     write the SAME attribute, or closing from the back would leave data-open true and the
+     ring would carry a card that is turned and has no way back. */
+  const turn = e => {
+    e.stopPropagation();
+    const open = c.dataset.open === 'true';
+    c.dataset.open = open ? 'false' : 'true';
+    c.querySelector('.pw-more').setAttribute('aria-expanded', String(!open));
+    if (wide()) c.style.setProperty('--rot', open ? '0deg' : '180deg');
+  };
+  c.querySelector('.pw-more').addEventListener('click', turn);
+  c.querySelector('.pw-close').addEventListener('click', turn);
+  /* the float's stagger, written once — the CSS reads it as --i */
+  c.style.setProperty('--i', i);
+});
+
+document.getElementById('railPrev').addEventListener('click', () => focusOn(focus - 1));
+document.getElementById('railNext').addEventListener('click', () => focusOn(focus + 1));
+addEventListener('keydown', e => {
+  if (e.metaKey || e.ctrlKey || e.altKey || /^(INPUT|TEXTAREA)$/.test(e.target.tagName)) return;
+  if (e.key === 'ArrowLeft')  { focusOn(focus - 1); e.preventDefault(); }
+  if (e.key === 'ArrowRight') { focusOn(focus + 1); e.preventDefault(); }
+});
+
+/* ── drag ────────────────────────────────────────────────────────────────────────
+   ⚠️ DRAG IS AN EXTRA AND NEVER THE ONLY WAY IN. His reference's only instruction is "drag
+   to explore", which is a mechanism a reader has to discover before the section works at
+   all — so the arrows, the arrow keys, the dots and clicking a card all turn it too, and
+   the drag is for people who try it. It must also not swallow a click: a pointer that
+   travelled under 6px is a tap, and the card's own handler gets it. */
+let dragX = null, dragged = false;
+rail.addEventListener('pointerdown', e => {
+  if (!wide() || e.button) return;
+  dragX = e.clientX; dragged = false; rail.classList.add('dragging');
+});
+addEventListener('pointermove', e => {
+  if (dragX === null) return;
+  const dx = e.clientX - dragX;
+  if (Math.abs(dx) < 68) { if (Math.abs(dx) > 6) dragged = true; return; }
+  dragged = true; dragX = e.clientX;
+  focusOn(focus + (dx < 0 ? 1 : -1));
+});
+addEventListener('pointerup', () => { dragX = null; rail.classList.remove('dragging');
+  setTimeout(() => { dragged = false; }, 0); }, true);
+rail.addEventListener('click', e => {
+  if (dragged) { e.stopPropagation(); e.preventDefault(); } }, true);
+
+new ResizeObserver(() => layout()).observe(rail);
+layout();
+
+/* ═══════════ THE DUST ═════════════════════════════════════════════════════════════
+   His note: *"some fairy dust that are minute, like it's a magical card."* Minute is the
+   operative word and the whole discipline of it — at 0.5 to 1.9px these read as motes in a
+   shaft of light; at 3px they read as snow on a medical website.
+
+   ⚠️⚠️ IT MEANS ONE THING NOW: THIS IS IN YOUR PROGRAMME. The first build put permanent dust
+   on whichever card was in front, and he was right that it was out of control — dust that is
+   always somewhere says nothing, and the front card is already the loudest thing on screen.
+   Two behaviours, and only two:
+     · SELECTED cards carry a quiet, permanent shimmer — 8 motes at two-thirds strength,
+       wherever they sit in the ring.
+     · The card you bring FORWARD gets a BLOOM: a handful that fade up, drift and are gone
+       inside about three seconds. Arriving feels alive; staying does not keep sparkling.
+   ⚠️ SO DUST IS THE MULTI-SELECT'S THIRD HOME, after the tick and the dot. If it ever goes
+   back to marking the front card permanently, it stops carrying meaning and becomes texture.
+
+   ⚠️⚠️ MOTES ON A CARD ARE STORED IN THE CARD'S OWN COORDINATES, NOT THE CANVAS'S, AND THAT
+   IS THE FIX FOR WHAT HE SAW. Held in canvas pixels they stayed where they were born while
+   the ring turned underneath them — so a selected card sailed away and left its sparkle
+   behind, scattered across the section. Each mote keeps a (u,v) fraction of its host's rect
+   and is resolved to pixels every frame, so it TRACKS its card round the ring, shrinks with
+   it, and cannot be orphaned. Only the choose-burst is free-floating, because it is thrown
+   outward and is gone in half a second.
+
+   ⚠️ CANVAS 2D, NOT DOM AND NOT THREE.JS. Fifty translucent nodes with their own animations
+   is fifty composited layers over eight already-transitioning cards; three.js is 666KB for
+   fifty circles. Same reasoning as the chain scene on the live page.
+
+   ⚠️ THE CANVAS CARRIES width/height:100% IN CSS AS WELL AS A BACKING STORE. Same replaced-
+   element trap as the sculpture: with width:auto an absolutely positioned <canvas> resolves
+   to its INTRINSIC size and the over-constrained `right` is ignored. */
+const CHOSEN = 11, BLOOM = 30;
+const dust = (() => {
+  const cv = document.createElement('canvas');
+  cv.id = 'dust'; cv.setAttribute('aria-hidden', 'true');
+  Object.assign(cv.style, { position:'absolute', inset:'0', width:'100%', height:'100%',
+    pointerEvents:'none', zIndex:'42' });
+  rail.append(cv);
+  const g = cv.getContext('2d');
+  const IVORY = '255,253,248', CHAMP = '233,206,152';
+  const motes = [];
+  let W = 0, H = 0, raf = 0;
+  const dpr = Math.min(devicePixelRatio || 1, 2);
+
+  function size(){
+    const r = rail.getBoundingClientRect();
+    W = Math.max(1, Math.round(r.width)); H = Math.max(1, Math.round(r.height));
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+    g.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  const rectOf = el => {
+    const b = el.getBoundingClientRect(), o = cv.getBoundingClientRect();
+    return { x: b.left - o.left, y: b.top - o.top, w: b.width, h: b.height };
+  };
+  /* a mote that belongs to a card — position is a fraction of that card, so it travels */
+/* ⚠️⚠️ EVERY LIFETIME AND EVERY SPEED IS IN MILLISECONDS, NOT FRAMES, AND THAT IS A FIX.
+   Counting frames means a mote lives twice as long on a 120Hz screen as on a 60Hz one, and
+   many times longer in a throttled or software-rendered tab — the harness found it by
+   waiting four seconds for a three-second bloom and still measuring it alive. Dust that
+   outstays its welcome by a factor of the reader's refresh rate is not a subtle effect. */
+  function onCard(host, life, dim){
+    return { host, u: .08 + Math.random() * .84, v: .1 + Math.random() * .84,
+      du: (Math.random() - .5) * .0018, dv: -(.0007 + Math.random() * .0018),
+      rad: .45 + Math.random() * 1.45, sway: Math.random() * 6.283,
+      age: 0, max: life, hue: Math.random() < .4 ? CHAMP : IVORY, dim };
+  }
+  /* and one thrown from the tick, which is free of any card because it is leaving */
+  function thrown(ox, oy){
+    return { host: null, x: ox, y: oy,
+      vx: (Math.random() - .5) * 1.8, vy: (Math.random() - .78) * 1.7,
+      rad: .7 + Math.random() * 1.3, sway: Math.random() * 6.283,
+      age: 0, max: 560 + Math.random() * 570,
+      hue: Math.random() < .85 ? CHAMP : IVORY, dim: 1 };
+  }
+
+  let last = 0;
+  function draw(now){
+    const t = now || performance.now();
+    /* ⚠️⚠️ AGEING AND MOVEMENT USE DIFFERENT CLOCKS, AND CONFLATING THEM WAS THE BUG. The
+       step has to be CLAMPED for movement — a backgrounded tab returns a gap of seconds on
+       wake and an unclamped step teleports every mote across the section in one frame. But
+       clamping the AGE too means that whenever frames run slower than 64ms, dust ages more
+       slowly than the clock and simply outstays its lifetime: a three-second bloom was still
+       on screen after six on a software renderer, and the tracking check failed intermittently
+       at 64% instead of 100% because of it. Age by the real elapsed time; move by the clamped
+       one. On wake everything ages at once and dies, which is exactly right — you come back
+       to a clean card, not to a four-minute-old bloom. */
+    const real = last ? (t - last) : 16.7;
+    last = t;
+    const dt = real;
+    const k = Math.min(64, real) / 16.7;
+    g.clearRect(0, 0, W, H);
+    /* top up the selected cards only — the bloom is spawned on arrival, never refilled */
+    if (wide()) for (const c of cards) {
+      if (c.dataset.picked !== 'true') continue;
+      let have = 0;
+      for (const m of motes) if (m.host === c && m.keep) have++;
+      for (let n = have; n < CHOSEN; n++) {
+        const m = onCard(c, 3200 + Math.random() * 4000, .82); m.keep = true; motes.push(m);
+      }
+    }
+    for (let i = motes.length - 1; i >= 0; i--) {
+      const m = motes[i];
+      m.age += dt;
+      if (m.age > m.max) { motes.splice(i, 1); continue; }
+      let x, y, scale = 1;
+      if (m.host) {
+        m.u += (m.du + Math.sin(m.age * .00126 + m.sway) * .0008) * k;
+        m.v += m.dv * k;
+        if (m.u < -.1 || m.u > 1.1 || m.v < -.1 || m.v > 1.1) { motes.splice(i, 1); continue; }
+        const r = rectOf(m.host);
+        if (r.w < 6) continue;
+        x = r.x + m.u * r.w; y = r.y + m.v * r.h;
+        /* ⚠️ THE MOTE SHRINKS WITH ITS CARD. A far card is a third of scale, and dust that
+           kept its own size on it would be dust sitting IN FRONT of the ring rather than on
+           a card in it — which is precisely how the first build read. */
+        /* ⚠️ THE FLOOR IS .58, NOT 0. A mote that shrank with the card in strict proportion
+           was 16 lit pixels on a card three places round — technically present, and no use
+           at all for spotting your picks. It shrinks, but not all the way down. */
+        scale = Math.max(.58, r.w / (probeF.offsetWidth || 340));
+      } else {
+        m.x += (m.vx + Math.sin(m.age * .00126 + m.sway) * .11) * k;
+        m.y += m.vy * k;
+        x = m.x; y = m.y;
+      }
+      const a = Math.sin((m.age / m.max) * Math.PI) * (m.rad > 1.25 ? .76 : .5) * m.dim;
+      if (a <= .01) continue;
+      const rad = m.rad * scale;
+      if (rad > 1) {
+        const gr = g.createRadialGradient(x, y, 0, x, y, rad * 3.4);
+        gr.addColorStop(0, `rgba(${m.hue},${a})`);
+        gr.addColorStop(.4, `rgba(${m.hue},${a * .35})`);
+        gr.addColorStop(1, `rgba(${m.hue},0)`);
+        g.fillStyle = gr;
+        g.beginPath(); g.arc(x, y, rad * 3.4, 0, 6.283); g.fill();
+      }
+      g.fillStyle = `rgba(${m.hue},${a})`;
+      g.beginPath(); g.arc(x, y, rad, 0, 6.283); g.fill();
+    }
+  }
+  function tick(t){ draw(t); raf = requestAnimationFrame(tick); }
+  new ResizeObserver(() => { size(); if (REDUCE) draw(); }).observe(rail);
+  size();
+  /* ⚠️ REDUCED MOTION GETS ONE SCATTER ON THE SELECTED CARDS, NOT AN EMPTY CANVAS. Motion is
+     what is unwanted, not the meaning — and the shimmer is carrying a state. */
+  if (REDUCE) draw(); else raf = requestAnimationFrame(tick);
+  return {
+    /* the card arriving at the front blooms once and settles */
+    bloom(c){
+      if (REDUCE || !wide() || !c) return;
+      for (let i = 0; i < BLOOM; i++) motes.push(onCard(c, 2000 + Math.random() * 1500, .8));
+    },
+    burst(el){
+      if (REDUCE) return;
+      const b = el.getBoundingClientRect(), o = cv.getBoundingClientRect();
+      const x = b.left + b.width / 2 - o.left, y = b.top + b.height / 2 - o.top;
+      for (let i = 0; i < 26; i++) motes.push(thrown(x, y));
+    }
+  };
 })();
 </script>

@@ -380,19 +380,31 @@ async function checkDialogs() {
   if (alternates) ok(`the grounds alternate across the tail — dawn / ivory, ${grounds.length} chapters`);
   else bad(`two neighbouring chapters share a ground: ${JSON.stringify(grounds)}`);
 
-  /* ⚠️ THE TILES MUST NOT BE THE COLOUR OF THE GROUND THEY STAND ON. `.px` is filled
-     --ivory and the section is now --dawn; that difference is the ONLY thing making the
-     tiles read as objects rather than as ruled-off regions of the page. It is a design
-     decision that lives in two separate tokens, so a future grade can collapse it by
-     moving either one and nothing else here would notice. Measured as a channel distance
-     rather than an equality so a near-miss fails too. */
+  /* ⚠️⚠️ THIS CHECK MEASURED THE IVORY TILES AGAINST THE DAWN GROUND AND ITS SUBJECT LEFT IN
+     ROUND 18. It read `rgb('.services')` against `rgb('.px')` and required 8/255 of daylight
+     between them, because the tiles' ivory fill was the only thing making them read as
+     objects rather than as ruled-off regions of the page. The ring's cards are PHOTOGRAPHS,
+     which are objects on any ground, so the invariant it guarded no longer exists.
+     ⚠️ IT IS REPLACED RATHER THAN DELETED, AND BY THE THING THAT IS NOW LOAD-BEARING: the
+     ring line and the unpicked dots are drawn in gold ON THE GROUND, and gold on a pale
+     ground is the weakest pairing in this section — measured at 2.31 against ivory when the
+     accent was chosen. If a later grade lightens the ground or softens the gold, the ring
+     the cards stand on quietly stops being visible and nothing else here would notice. */
   const sep = await page.evaluate(() => {
-    const rgb = s => (getComputedStyle(document.querySelector(s)).backgroundColor.match(/\d+/g) || []).map(Number);
-    const a = rgb('.services'), b = rgb('.px');
-    return Math.max(...[0, 1, 2].map(i => Math.abs(a[i] - b[i])));
+    const lin = c => { c /= 255; return c <= 0.04045 ? c/12.92 : ((c+0.055)/1.055) ** 2.4; };
+    const lum = ([r,g,b]) => 0.2126*lin(r) + 0.7152*lin(g) + 0.0722*lin(b);
+    const nums = s => (s.match(/[\d.]+/g) || []).map(Number);
+    const ground = nums(getComputedStyle(document.querySelector('.services')).backgroundColor).slice(0,3);
+    const line = getComputedStyle(document.querySelector('#ringline path'));
+    const stroke = nums(line.stroke).slice(0,3);
+    const a = parseFloat(line.opacity);
+    /* the line is drawn at 42% over the ground, so that is the colour the eye gets */
+    const eff = stroke.map((v,i) => v*a + ground[i]*(1-a));
+    const [x,y] = [lum(eff), lum(ground)].sort((m,n)=>n-m);
+    return +((x+0.05)/(y+0.05)).toFixed(2);
   });
-  if (sep >= 8) ok(`the tiles stand off their ground by ${sep}/255 at the widest channel`);
-  else bad(`tile and ground have converged (${sep}/255) — the tiles stop reading as objects`);
+  if (sep >= 1.2) ok(`the ring line stands off its ground at ${sep}:1`);
+  else bad(`the ring line and its ground have converged (${sep}:1) — the cards stand on nothing`);
 
   /* ⚠️ THE CHOOSER IS NO LONGER REACHABLE FROM THE PAGE, AND THAT IS DELIBERATE.
      Round 12 moved doctor selection to the moment the consultation is booked (his
@@ -417,28 +429,37 @@ async function checkDialogs() {
   else bad(`chooser and band disagree:\n      band    ${JSON.stringify(cards)}\n      chooser ${JSON.stringify(chooser.rows)}`);
   if (chooser) note(`portraits: ${chooser.mono.join(' · ')} (template, unrouted)`);
 
-  /* the eight tiles' pill now BUILDS THE PROGRAMME instead of sending people to a
-     doctor — assert the swap, and that pressing it actually adds the goal */
-  await page.evaluate(() => document.querySelector('.px .px-open').click());
-  await page.waitForTimeout(600);
+  /* ⚠️⚠️ THE PILL MOVED OUT OF THE DIALOG AND ONTO THE CARD IN ROUND 18. It used to live in
+     a cloned .px-detail popup and carry [data-add-goal]; the ring puts one on each side of
+     the card instead — the front's, under the name, and the back's, under the description —
+     so this walks the card rather than the overlay. The invariant is unchanged and is the
+     one worth keeping: the pill BUILDS THE PROGRAMME, it does not route to the doctor
+     chooser, and pressing it actually raises the tray.
+     ⚠️ THE FLOAT HAS TO BE STOPPED FIRST or the click waits for a card that never settles —
+     see the same note in services-choice.mjs. */
+  await page.addStyleTag({ content: '.pw{animation:none!important}' });
+  await page.evaluate(() => document.querySelector('#services').scrollIntoView());
+  await page.waitForTimeout(400);
   const pill = await page.evaluate(() => {
-    const b = document.querySelector('#pxd [data-add-goal]');
+    const b = document.querySelector('.pw[data-focus="true"] .pw-body .pw-cta');
     return { text: b ? b.textContent.trim() : null,
-             stale: !!document.querySelector('#pxd [data-choose]') };
+             stale: !!document.querySelector('.pw [data-choose]'),
+             onBoth: document.querySelectorAll('.pw[data-focus="true"] .pw-cta').length };
   });
-  if (pill.text && /add to your programme/i.test(pill.text)) ok(`the tile pill reads "${pill.text}"`);
-  else bad(`the tile pill reads ${JSON.stringify(pill.text)}`);
-  if (!pill.stale) ok('and no tile still routes to the chooser');
-  else bad('a tile pill still carries data-choose');
-  const added = await page.evaluate(() => {
-    document.querySelector('#pxd [data-add-goal]').click();
-    return { picked: document.querySelectorAll('.px[data-picked="true"]').length,
-             closed: !document.getElementById('pxd').classList.contains('on'),
-             tray: document.getElementById('px-tray').classList.contains('on') };
-  });
+  if (pill.text && /add to your programme/i.test(pill.text)) ok(`the card pill reads "${pill.text}"`);
+  else bad(`the card pill reads ${JSON.stringify(pill.text)}`);
+  if (!pill.stale) ok('and no card still routes to the chooser');
+  else bad('a card pill still carries data-choose');
+  if (pill.onBoth === 2) ok('a pill on each face of the card — front and back');
+  else bad(`the card carries ${pill.onBoth} pills, want 2`);
+  await page.click('.pw[data-focus="true"] .pw-body .pw-cta');
   await page.waitForTimeout(600);
-  if (added.picked === 1 && added.closed && added.tray)
-    ok('pressing it adds the goal, closes the panel and raises the tray');
+  const added = await page.evaluate(() => ({
+    picked: document.querySelectorAll('.pw[data-picked="true"]').length,
+    tray: document.getElementById('px-tray').classList.contains('on'),
+    dot: document.querySelectorAll('#railDots button[data-picked="true"]').length }));
+  if (added.picked === 1 && added.tray && added.dot === 1)
+    ok('pressing it adds the goal, raises the tray and lights the dot');
   else bad(`add-to-programme misbehaved: ${JSON.stringify(added)}`);
 
   await page.keyboard.press('Escape'); await page.waitForTimeout(500);

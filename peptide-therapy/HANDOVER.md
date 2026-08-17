@@ -1,25 +1,41 @@
 # Peptide Therapy — `/peptide-therapy/` (first ship 2026-08-14)
 
-> # ▶ START HERE — STATE OF PLAY AT THE END OF ROUND 18
+> # ▶ START HERE — STATE OF PLAY AT THE END OF ROUND 19
 >
-> **The page:** `/peptide-therapy/index.html` — single file, zero build, ~3,900 lines.
+> **The page:** `/peptide-therapy/index.html` — single file, zero build, ~4,300 lines.
 > Open it with any static server; there is nothing to compile.
-> **QA:** `node tools/qa/peptide-page.mjs` (**51**) and `node tools/qa/services-choice.mjs`
-> (**72**). Both must be green before anything ships. They need
-> `npm install --no-save playwright gsap@3.13.0 lenis@1.3.4`.
-> The round-18 files have their own, playwright only: `node tools/qa/section04-lab.mjs`
-> (**49**) and `node tools/qa/section04-hybrid.mjs` (**77**).
-> **Round 18 is on `main`** — his call, 2026-08-17. ⚠️ **The live section 04 is UNCHANGED by
-> it**: `section04-hybrid.html` is a standalone proposal, not wired into the page. What round
-> 18 changed on the live page is the DELETION of 06 and the inverted tail grounds.
+> **QA — five suites, 290 checks, all green:**
+> `peptide-page.mjs` (**52**) · `services-choice.mjs` (**89**) · `section04-lab.mjs` (**49**)
+> · `section04-hybrid.mjs` (**77**) · `ring-parity.mjs` (**23**).
+> The first two need `npm install --no-save playwright gsap@3.13.0 lenis@1.3.4`; the rest
+> need playwright only.
 >
-> **⚠️ ROUND 18 IS TWO SEPARATE THINGS AND CONFUSING THEM WILL WASTE A DAY:**
-> **(a) THE LIVE PAGE CHANGED** — section 06 was deleted and the tail grounds inverted. That
-> is on `main` and it is what a visitor sees.
-> **(b) `section04-hybrid.html` IS A PROPOSAL AND IS NOT WIRED IN.** The live section 04 is
-> still the eight `.px` tiles. ⚠️ **ADOPTING THE RING IS ITS OWN ROUND**: the tray, the
-> programme panel and the popup all have to meet it, and the ground question below has to be
-> answered first. Nothing on the live page imports it.
+> **⚠️⚠️ ROUND 19 PUT THE RING ON THE LIVE PAGE — his call, 2026-08-17, "push it to the
+> website". Section 04 is no longer eight tiles in a grid.** It is the ring: eight
+> photographs on a turning arc, one forward and larger, a `+` in its corner that turns the
+> card over for the description. Pushing to `main` auto-deploys via Vercel, so this IS the
+> website.
+>
+> **WHAT THE GRAFT CHANGED, IN ONE LIST:**
+> · `.px-grid` and its eight `.px` tiles → `.rail` and eight `.pw` cards.
+> · The eight `<template class="px-detail">` popups → each card's **back face**. ⚠️ **The
+>   `.pxd` dialog shell now serves ONLY the doctor cards.**
+> · The tray is **untouched and now READS the ring** — see the seam below.
+> · The lab keeps the tall/wide and gold/ivory/wine **switches, which did not ship**, and
+>   the three.js **sculpture fallback, which did not ship either** (all eight photographs
+>   are committed; a card without one still has its gradient plate and line mark).
+>
+> **⚠️⚠️ THE SEAM IS ONE EVENT AND IT IS THE THING TO UNDERSTAND FIRST.** The ring owns the
+> chosen state, on the cards, as `data-picked`. Its dots, its tick and its dust all read it
+> there. When it changes, the ring fires `pathways:change` on `#rail` and the tray's script
+> re-reads the DOM. ⚠️ **The tray's own `picked` array is GONE — deleted on purpose.** Two
+> owners of one fact meant the version a reader saw depended on which script ran last.
+> **Anything that ever needs to know a goal was chosen listens to that event.**
+>
+> **⚠️ THE LAB IS STILL THE LAB.** `section04-hybrid.html` remains where the ring is
+> prototyped, and `tools/qa/ring-parity.mjs` now FAILS when it and the live page disagree
+> about any colour, type, layer or visibility. Change the ring there first, judge it, bring
+> it across, run parity.
 >
 > **THE FOUR THINGS A NEW CHAT SHOULD KNOW FIRST:**
 > 1. **The page is PLUM (warm), not glacier.** Round 14 reversed round 9. ⚠️ **It contradicts
@@ -35,20 +51,31 @@
 >    ⚠️ **THE PAGE IS FIVE CHAPTERS AFTER THE SCENE AND THE GROUNDS INVERTED IN ROUND 18** —
 >    services dawn · docs ivory · stories dawn · faq ivory · final dawn. Read the ⚠️⚠️ note
 >    at `.docs` before touching any ground.
-> 3. **Section 04 is the whole commercial engine**: eight goal tiles on the rose dawn, a
->    tray that follows the reader, and the panel. ⚠️ Its ground being `--dawn` is
->    load-bearing twice over — the chain scene's seamless handoff (`BG_B === --dawn`) *and*
->    the tiles reading as objects. **Round 18 put nine ways of making it more beautiful in
->    `section04-lab.html` and it is waiting on a letter.**
+> 3. **Section 04 is the whole commercial engine**: the ring of eight goals on the rose
+>    dawn, a tray that follows the reader, and the panel. ⚠️ **Its ground being `--dawn` is
+>    now load-bearing ONCE, not twice.** The chain scene's seamless handoff
+>    (`BG_B === --dawn`) still holds. The other half — *"the ivory tiles need the dawn to
+>    read as objects"* — **expired in round 19**: the cards are photographs, and a
+>    photograph is an object on any ground. ⚠️ **So IVORY VS DAWN BEHIND THE RING IS AN OPEN
+>    QUESTION again**, and the lab has always shown it on ivory. Moving it costs the whole
+>    tail inverting (see `.docs`) and the scene's `BG_B`.
 > 4. **Prices are settled.** AED 1,150 **VAT-exclusive**, +5% = 1,207.50. Home collection
 >    AED 1,950. ⚠️ **Never invent a figure** — see the AED 350 incident in round 12.
 >
 > **WHAT IS STILL OPEN (all his):**
 > · **SECTION 04 — ONE QUESTION: IVORY OR THE ROSE DAWN, THE GROUND.** Shape is settled
->   (**tall**, once the cascade made it work) and so is the chosen state (**ivory**). ⚠️ **Gold's 1.03 on gut-health is why
->   the badge has an edge**, and that fix stands whichever colour is set. ⚠️ **AND THE RING IS NOT WIRED INTO THE LIVE PAGE** — it is
->   a proposal file. Adopting it is a separate round: the tray, the programme panel and the
->   popup all have to meet it.
+>   (**tall**, once the cascade made it work) and so is the chosen state (**ivory**).
+>   ⚠️ **Gold's 1.03 on gut-health is why the badge has an edge**, and that fix stands
+>   whichever colour is set. ⚠️ **THE RING IS LIVE AS OF ROUND 19** and it shipped on the
+>   DAWN, because the alternation and the scene handoff both want it there — but it was
+>   designed and judged on IVORY in the lab, and the argument that used to settle this
+>   (ivory tiles needing a rose ground) no longer applies. **This is the one open design
+>   question on the section.**
+> · **THE NUMERALS CAME BACK, REVERSING ROUND 12.** The grid dropped `01`–`08` because on a
+>   multi-select they implied a sequence. The ring carries them again: at the far end a card
+>   is a third of scale with its name faded out, so the numeral is all that identifies it,
+>   and in a thing you turn through a number reads as a position rather than a step.
+>   **Worth a glance from him** — check 1h pins them to card order either way.
 > · *(superseded)* **ONE QUESTION LEFT: IVORY OR THE ROSE DAWN.** He sent a third reference
 >   and `section04-hybrid.html` is now a RING of his eight photographs with a + that turns
 >   a card over. The artwork question is closed — the eight landed 2026-08-17.
@@ -75,9 +102,12 @@
 > · `goals-lab` (eight presentations) · `programme-lab` (intake in three shapes) ·
 > `bonds-lab` · `hero-lab` · `programme-band-lab` (round 15, answered "none") ·
 > `selected-tile-lab` (round 17, answered **D**) · **`section04-lab` (round 18, OPEN)** ·
-> **`section04-hybrid` (round 18 — his own two boards merged, OPEN)**. ⚠️ The hybrid is not
-> a lab: it is one proposal at full scale, and `tools/pack-artifact.mjs` builds its
-> artifact copy. That copy is derived and deliberately not committed.
+> **`section04-hybrid` (round 18 — his own two boards merged; SHIPPED in round 19)**.
+> ⚠️ **The hybrid is not a lab and it is not finished business either** — it is the ring
+> that is now on the live page, kept as the place the ring is prototyped.
+> `tools/qa/ring-parity.mjs` fails when it and the page disagree, so it cannot rot into a
+> stale copy. `tools/pack-artifact.mjs` builds its artifact copy, which is derived and
+> deliberately not committed.
 > ⚠️ **The first five are on the GLACIER grade and are deliberately not updated** — they
 > record decisions taken under the grade they were taken under.
 >
@@ -86,6 +116,82 @@
 > because something already went wrong once — **read them before editing near them.**
 >
 > ---
+
+## Round 19 — the ring goes live (2026-08-17)
+
+His words: *"hey push it to the website now dudes."* `main` auto-deploys via Vercel, so the
+handover commit was already on the site; what was not on the site was the ring. This round
+is the graft.
+
+**39 · THE GRAFT IS A CONTRACT, NOT A COPY-PASTE, AND THE CONTRACT WAS THE TRAY.** The old
+grid and the new ring both had to satisfy one script: `.px-pick` buttons carrying
+`data-goal`, in DOM order, whose `data-picked` the tray read back. The ring already kept the
+same state for its own dots, tick and dust — so the graft's real work was deciding **who
+owns it**. The ring won, the tray's `picked` array was deleted, and `pathways:change` is the
+seam. ⚠️ **Do not reintroduce a second copy of the chosen set anywhere.**
+
+**40 · ⚠️⚠️ FOUR BUGS, AND ALL FOUR RENDERED SOMETHING RATHER THAN ERRORING.** This is the
+lesson of the round, and it is a lesson about grafting between stylesheets, not about CSS:
+
+  1. **`.sr` did not exist on the live page.** The card faces keep their accessible name in
+     `<span class="sr">`, and the rule that hides it lived in the lab's reset — which was
+     not part of what was lifted. Every pathway's name printed across the middle of its
+     photograph in the browser's default face. It looked so much like part of the artwork
+     that the first reading of the screenshot was *"the client baked text into their
+     images"* — I checked a master to be sure before believing the page.
+  2. **`.pw-back h3` took its colour by inheritance.** That works in the lab, whose reset
+     gives headings no colour, and fails here, where `h1,h2,h3{color:var(--ink)}` beats
+     inheritance — so the name on the back of the card was dark plum on burgundy.
+  3. **Every button the ring brought lost its type.** The lab resets `button{font:inherit}`;
+     this page passes only `font-family`. Nothing showed, because those buttons hold SVGs
+     and hidden text — which makes it the worst of the four, not the mildest.
+  4. **The front card's pill was underneath its own card's click surface.** `.pw-face`
+     covers the card at `z-index:6` and `.pw-body` sat at 5. It still added the goal,
+     because the face's handler does the same thing — so the primary call to action was a
+     picture of a button sitting on top of a different button doing its job. Its hover never
+     fired. **Playwright found it by refusing to click it.**
+
+⚠️ **EVERY ONE OF THE FOUR PASSED EVERY STRUCTURAL ASSERTION WHILE IT WAS BROKEN.** Counting
+elements, reading text and checking attributes cannot see any of them.
+
+**41 · SO `tools/qa/ring-parity.mjs` EXISTS, AND IT IS THE ROUND'S REAL DELIVERABLE.** It
+renders the lab and the live page, walks 23 of the ring's elements in both, and fails on any
+difference in colour, type, layer, visibility or stroke. It found bugs 2 and 3 after bug 1
+had already been fixed by eye. ⚠️ **It is two-way**: a fix applied to the page and not to the
+lab fails just as loudly, which is what keeps the lab worth prototyping in. ⚠️ **Geometry is
+excluded on purpose** (the lab's stage and the page's `.wrap` are different widths), and
+`transform-origin` is compared as a FRACTION of the layout box — the painted box is scaled,
+and dividing by it reported the tick's `top right` as 2.01 in one file and 2.00 in the other.
+
+**42 · THE CLIENT'S SECOND PARAGRAPH WAS ABOUT TO BE DELETED BY A LAYOUT COMMIT.** Each old
+popup had two paragraphs; the lab's back face printed one, because it was built to show a
+mechanism and the second did not fit. Grafting as-built would have dropped a paragraph of
+his copy from all eight pathways, silently, in a commit about layout. **Both are on the back
+now**, in the page *and* in the lab, and `.pw-back` scrolls rather than clipping. Measured:
+they fit at 1440 without scrolling. ⚠️ **Check 3 asserts two paragraphs on every card.**
+
+**43 · THE FOOT ROW'S DOTS ENDED UP IN THE MIDDLE OF THE PAGE.** The lab's foot is
+`1fr auto 1fr` — tally, hint, dots. This page has no tally (the tray is the counter), so two
+items auto-placed into three columns and the dots, still faithfully `justify-self:end`,
+ended at the end of the MIDDLE column. Nothing errored. ⚠️ **A row's arrangement needs an
+assertion about where things ARE**, which is check 1k.
+
+**44 · WHAT THE HARNESSES LOST AND WHAT REPLACED IT.** Two checks measured the ivory tiles
+and had no subject any more. Neither was deleted: `peptide-page.mjs`'s tile-versus-ground
+separation became **the ring line versus its ground** (gold at 42% on the dawn — the weakest
+pairing in the section, and the thing the cards are seen to stand on), and
+`services-choice.mjs`'s chosen-tile contrast became **a real pixel sample**: the photograph
+is drawn to a canvas, the scrim's own stop composited over it, and the WORST of the eight
+measured. ⚠️ **The first version of that check scored 1.09 and was wrong about which surface
+it had looked at** — `el => getComputedStyle(el)` silently drops a second argument, so
+`g(art,'::after')` returned `.pw-art` itself, whose background is the pale fallback plate.
+
+**45 · A CARD TWO STEPS OUT CANNOT BE CLICKED AT ITS CENTRE, AND THAT IS THE RING.** Its
+neighbour overlaps it. The visible part is clickable, and the arrows, the dots, the arrow
+keys and the drag all reach it. ⚠️ **Harnesses and scripts must turn the ring rather than aim
+at a hidden centre** — and Playwright will never click a `.pw` at all until
+`.pw{animation:none}` is added, because the float means no card is ever "stable".
+
 
 > ## ROUND 18 — 2026-08-17: the ledger goes, the tail inverts, and section 04 gets a lab
 >

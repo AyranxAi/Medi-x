@@ -134,6 +134,20 @@ up front. That is a harness measure; the animation ships.
 is the ring working. Turn with `#railNext` or click a card one step out, the way a reader
 would.
 
+**⚠️⚠️ THE PHONE BLOCK (A2) ASKS THE SAME QUESTIONS AS THE DESKTOP ONE, ON PURPOSE.** Until
+round 19b everything below 1181 was a flat stacked list, and the flip went down with it —
+a stacked card is `transform-style:flat` in a rail with `perspective:none`, so
+`rotateY(180deg)` mirrors it rather than turning it. The back face was present, lit and
+painted *behind* a mirrored front, and every structural check passed. So A2b asserts the rail
+still has perspective and A2l asks what the reader actually touches at the card's centre —
+presence and opacity were both true while it was broken.
+
+**⚠️ THE FAN IS A WINDOW, AND `seen` MUST EQUAL `fan`.** Five cards on a phone, seven on a
+tablet, eight on a laptop; the rest wait one step off the edge at zero opacity. A card the
+script thinks it placed but the clip has eaten is the failure these checks exist for — it has
+simply stopped being "eight" and started being "the window". All eight stay in the DOM at
+every width, which `2a` asserts separately.
+
 **⚠️ THE CHOSEN-STATE CONTRAST SAMPLES REAL PIXELS**, because the background is a photograph
 and `getComputedStyle(card).backgroundColor` is `transparent` — a check written that way
 scores a perfect ratio and means nothing. The photograph is same-origin, so it is drawn to a

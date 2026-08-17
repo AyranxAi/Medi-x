@@ -4,9 +4,9 @@
 >
 > **The page:** `/peptide-therapy/index.html` — single file, zero build, ~4,300 lines.
 > Open it with any static server; there is nothing to compile.
-> **QA — five suites, 290 checks, all green:**
-> `peptide-page.mjs` (**52**) · `services-choice.mjs` (**89**) · `section04-lab.mjs` (**49**)
-> · `section04-hybrid.mjs` (**77**) · `ring-parity.mjs` (**23**).
+> **QA — five suites, 325 checks, all green:**
+> `peptide-page.mjs` (**52**) · `services-choice.mjs` (**108**) · `section04-lab.mjs` (**49**)
+> · `section04-hybrid.mjs` (**93**) · `ring-parity.mjs` (**23**).
 > The first two need `npm install --no-save playwright gsap@3.13.0 lenis@1.3.4`; the rest
 > need playwright only.
 >
@@ -31,6 +31,26 @@
 > re-reads the DOM. ⚠️ **The tray's own `picked` array is GONE — deleted on purpose.** Two
 > owners of one fact meant the version a reader saw depended on which script ran last.
 > **Anything that ever needs to know a goal was chosen listens to that event.**
+>
+> **⚠️⚠️ THE RING RUNS AT EVERY WIDTH — 2026-08-17, his second call: "its only 2d and if you
+> flip it its nothing."** Below 1181 the eight used to become a flat stacked list, and the
+> FLIP went down with it: a stacked card is `transform-style:flat` in a rail with
+> `perspective:none`, so `rotateY(180deg)` does not turn it, it MIRRORS it. He pressed + and
+> got his own card back with the type running backwards. **One bug, not two — the 2D
+> fallback was the cause of both halves of his report.**
+>
+> **⚠️⚠️ WHAT CHANGES WITH WIDTH IS THE WINDOW, NOT THE MECHANISM.** Eight cards do not fit on
+> a 390px phone by arithmetic, not by tuning — the front card alone is two-thirds of the
+> screen. So the fan is a **window on to the ring: five on a phone, seven on a tablet, all
+> eight on a laptop.** Cards outside it wait one step off the edge at zero opacity and slide
+> in as the ring turns. ⚠️ **All eight are always in the DOM and always countable** — the
+> window is a placement rule, never a filter, and the dots, the tally and the tray see eight
+> at every width. `data-fan` in the LAB forces either answer so they can be judged on a real
+> phone; **the live page never sets it.**
+>
+> **⚠️ THE STACK IS NOW A STATE, NOT A WIDTH.** Everything absolute lives behind `.is-ring`,
+> which the script adds — so a page whose script never ran is eight readable cards in a
+> column at **every** width. On a laptop that used to be a heap.
 >
 > **⚠️ THE LAB IS STILL THE LAB.** `section04-hybrid.html` remains where the ring is
 > prototyped, and `tools/qa/ring-parity.mjs` now FAILS when it and the live page disagree
@@ -116,6 +136,66 @@
 > because something already went wrong once — **read them before editing near them.**
 >
 > ---
+
+---
+
+## Round 19b — the ring on a phone (2026-08-17)
+
+His report, in two halves that turned out to be one bug: *"its only 2d and if you flip it
+its nothing"*, and *"port the exact same thing to be compatible to mobile phone use."*
+
+**46 · ⚠️⚠️ THE FLIP WAS MIRRORING, NOT FAILING, AND THE 2D FALLBACK WAS WHY.** Below 1181
+the cards were `transform-style:flat` in a rail with `perspective:none`. `rotateY(180deg)`
+in a flat context does not turn a card through a third dimension — it reflects it. The back
+face was there, lit, `opacity:1`, and painted *behind* a mirrored front. Every structural
+assertion about the flip passed. **There is no fix for that inside a 2D fallback**: a turn
+needs a dimension to turn through, which is why the answer was to run the real ring on the
+phone rather than to patch the stack.
+
+**47 · EIGHT CARDS DO NOT FIT ON A PHONE, AND THAT IS ARITHMETIC.** At 390px the rail is
+390 full-bleed and the front card is 257 — the smallest that still holds the pill, which
+measures 221px. Forcing all eight leaves the outer three showing **10, 16 and 21px**: the
+eye reads a stack of paper edges, and the arrows sit on top of two of them. With five, the
+neighbours are 178 and 134 showing **32 and 22px** — cards behind a card. ⚠️ **He asked to
+see both and picked five;** `data-fan` in the lab keeps the comparison reproducible.
+
+**48 · ⚠️ TWO WAYS TO PLACE THE FAN, AND THE ROOM DECIDES — NOT A BREAKPOINT.** The GAP rule
+(desktop) lays the first gap out in full and shares what is left, which assumes the front
+card is never overlapped. On a phone that assumption is unaffordable. When the gap rule's
+own reach crosses the rail edge, placement switches to the PEEK rule: each card shows a
+fixed, **shrinking** sliver past the one in front. ⚠️ **A constant peek puts MORE of a far
+card on screen than of a near one** — the first version did exactly that and inverted the
+depth reading, because the eye takes the widest sliver for the nearest card.
+
+**49 · ⚠️⚠️ A CENTRED FLEX COLUMN OVERFLOWS IN BOTH DIRECTIONS AND THE TOP HALF IS
+UNREACHABLE.** `.pw-back` was `justify-content:center`. On a laptop the copy fits exactly, so
+it never showed; on a phone it is half again as tall as the card, and the pathway's **name
+was gone above the fold with no way to scroll up to it**. Fixed with `margin-top:auto` on the
+first child and `margin-bottom:auto` on the last — identical centring when there is room,
+and start-aligned when there is not. `justify-content:safe center` says it in one line and
+is too new for the Safari these readers are on.
+
+**50 · ⚠️ INVISIBLE IS NOT ABSENT.** Parked cards sit one step past the fan at zero opacity —
+and still counted toward the document's width, so the page scrolled sideways at 1180, 430,
+390 and 360. The lab never showed it because `.stage` has clipped since round 18. `.services`
+now clips too: `overflow-x:clip` where the browser has it, `hidden` as the fallback, because
+`overflow-x:hidden` forces the other axis to `auto` and makes the section a scroll container.
+
+**51 · A BUG OLDER THAN THE RING, FOUND BY MEASURING AT 360.** `.f-grid` used
+`grid-template-columns:1fr`, and a `1fr` track has an automatic minimum of min-content — so
+the newsletter's `width:22rem` forced the footer column to 352px whatever the screen was.
+**Every 360px Android has been able to drag this page sideways for many rounds.** The width
+sweep stopped at 390, which is the narrowest iPhone and not the narrowest phone; it runs to
+320 now.
+
+**52 · ⚠️⚠️ A CANVAS SHOWS THE LAST FRAME PAINTED, NOT THE CURRENT STATE.** Check 4o3 read
+64%, then 37%, then 100% with nothing changed. Motes age on the wall clock, so after a wait
+they are correctly dead — but if `requestAnimationFrame` has been starved, `draw()` has not
+run and the pixels on the canvas are old. **The harness was measuring a frame the page had
+already moved on from.** It now waits for two real frames before reading. Round 18 blamed
+this on the frame-vs-millisecond bug and was only half right.
+
+---
 
 ## Round 19 — the ring goes live (2026-08-17)
 

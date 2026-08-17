@@ -516,7 +516,18 @@ section{position:relative}
    ⚠️ THE CHAIN SCENE RISES TO EXACTLY THIS COLOUR (BG_B === --dawn), so the scene now
    hands off to this section with no seam at all — the same handoff section 03 already
    had. That is a bonus of the fix, not the reason for it. */
-.services{background:var(--dawn)}
+/* ⚠️⚠️ THE RING IS SEEN THROUGH A WINDOW, AND THE SECTION IS THE WINDOW. Cards outside the
+   fan wait one step past its edge at zero opacity so they slide in rather than pop — which
+   means they are, correctly, outside the rail. Invisible is not the same as absent: they
+   still counted toward the document's width, and the page scrolled sideways at 1180, 430,
+   390 and 360. The lab never showed it because its .stage has clipped since round 18.
+   ⚠️ CLIP RATHER THAN HIDDEN WHERE THE BROWSER HAS IT. `overflow-x:hidden` forces the OTHER
+   axis to `auto`, making the section a scroll container — which clips shadows vertically and
+   would break any sticky child a later round puts here. `clip` clips and creates nothing.
+   The hidden is the fallback for Safari before 16, where the cost is a container nobody
+   scrolls rather than a page that slides. */
+.services{background:var(--dawn);overflow-x:hidden}
+@supports (overflow-x:clip){ .services{overflow-x:clip} }
 .sec-lede{
   max-width:58ch;margin-top:18px;color:var(--ink-soft);
   font-size:clamp(15px,1.25vw,17px);line-height:1.62;
@@ -884,8 +895,19 @@ section{position:relative}
    copy to make a card fit is not a layout decision to take quietly, so the card scrolls on
    the rare width where two paragraphs plus the outcomes do not fit. `contain` stops that
    scroll chaining into Lenis and dragging the whole page. */
+/* ⚠️⚠️ AUTO MARGINS AND NOT justify-content:center, AND THE DIFFERENCE IS WHETHER THE TOP OF
+   THE COPY EXISTS. A centred flex column whose content is TALLER than its box overflows in
+   BOTH directions, and the overflow above the start edge is unreachable — no scrollbar can
+   get to it. On a laptop the back fits exactly, so it never showed; on a 390px phone the two
+   paragraphs and four outcomes are half as tall again as the card, and the pathway's NAME
+   was simply gone above the fold with no way to scroll up to it.
+   ⚠️ `margin-top:auto` on the first child and `margin-bottom:auto` on the last do the same
+   centring when there is room to spare — the two autos split it — and resolve to zero when
+   there is not, so the content starts at the top and every pixel of it can be scrolled to.
+   `justify-content:safe center` says this in one line and is too new for the Safari these
+   readers are on. */
 .pw-back{position:absolute;inset:0;z-index:7;display:none;flex-direction:column;
-  justify-content:center;gap:clamp(9px,.9vw,13px);border-radius:7px;
+  justify-content:flex-start;gap:clamp(9px,.9vw,13px);border-radius:7px;
   overflow-y:auto;overscroll-behavior:contain;
   padding:clamp(20px,2vw,30px);background:var(--burgundy);color:var(--ivory);
   transform:rotateY(180deg);backface-visibility:hidden;
@@ -900,7 +922,10 @@ section{position:relative}
    ⚠️ SO EVERY RULE THE RING OWNS STATES ITS OWN COLOUR. A component lifted between two
    stylesheets cannot rely on what the host page does NOT say. */
 .pw-back h3{font-family:var(--accent);font-weight:400;font-size:clamp(19px,1.9vw,26px);line-height:1.06;
-  letter-spacing:-.01em;color:var(--ivory)}
+  letter-spacing:-.01em;color:var(--ivory);margin-top:auto;padding-right:42px}
+/* ⚠️ padding-right CLEARS THE x, which is absolutely positioned over this corner. Centred,
+   the name never reached it; started at the top, it ran straight under it. */
+.pw-back .pw-cta{margin-bottom:auto}
 .pw-back p{color:rgba(250,247,241,.84);font-size:clamp(12.5px,1.05vw,14.5px);
   line-height:1.62;max-width:46ch}
 .pw-out{display:flex;flex-wrap:wrap;gap:6px;list-style:none}
@@ -932,6 +957,16 @@ section{position:relative}
 .hint{display:flex;align-items:center;gap:9px;color:var(--ink-soft);
   font-size:11px;letter-spacing:.13em;text-transform:uppercase;justify-self:start}
 .hint svg{width:17px;height:17px;color:var(--gold-deep)}
+/* ⚠️ A TOUCH SCREEN IS NOT DRAGGED, IT IS SWIPED, and the instruction is the only thing
+   telling a reader the ring turns at all. `hover:none` is the honest test — it asks what the
+   INPUT is, where a width only asks how big the screen is, and a laptop at 900px still has a
+   mouse. Both words are in the markup so neither depends on script. */
+.hint-swipe{display:none}
+@media(hover:none){
+  .hint-drag{display:none}
+  .hint-swipe{display:inline}
+}
+@media(max-width:699px){ .hint{font-size:10px;letter-spacing:.1em;white-space:nowrap} }
 /* ⚠️ THE DOTS CARRY THE CHOSEN STATE TOO, AND THAT IS NOT DECORATION. At the far end of
    the ring a card is about 110px wide; the dot is the thing a reader can actually count.
    It is the multi-select's second, smaller home. */
@@ -1036,32 +1071,92 @@ section{position:relative}
   .px-tray.mini .px-tray-go{border-color:rgba(250,247,241,.42);padding-left:22px}
   .px-tray.mini .px-tray-in{justify-content:space-between}
 }
+/* ══ WITHOUT SCRIPT, AT EVERY WIDTH, THE EIGHT ARE A LIST ═══════════════════════════
+   ⚠️⚠️ THIS USED TO BE THE BELOW-1180 LAYOUT AND IT IS NOW THE NO-SCRIPT ONE. Two things
+   changed on 2026-08-17 and they are the same change: the ring runs on a phone, and the
+   stack stopped being a width and started being a STATE. `.is-ring` is added by one line at
+   the end of the ring's script, so a page whose script never ran shows eight readable cards
+   in a column — on a laptop too, where until now it showed eight cards piled on top of one
+   another because .pw was absolutely positioned unconditionally.
+   ⚠️⚠️ AND THE FLIP IS WHY THE STACK COULD NOT STAY THE PHONE LAYOUT. A stacked card is
+   `transform-style:flat` in a rail with `perspective:none`, so `rotateY(180deg)` does not
+   turn it over — it MIRRORS it. His report was "if you flip it its nothing"; what he was
+   actually being shown was his own card with the type running backwards. There is no fix
+   for that inside a 2D fallback: a turn needs a third dimension to turn through.
+   ⚠️ SO THE STACK DOES NOT OFFER THE TURN AT ALL. The + is hidden here and both faces are
+   laid out one after the other, which is the honest no-script answer: all the copy, no
+   mechanism. Do not put `rotateY` back into this block. */
+.rail:not(.is-ring){height:auto;perspective:none;display:flex;flex-direction:column;
+  gap:clamp(13px,2.2vw,18px);cursor:auto}
+.rail:not(.is-ring) .ringline,
+.rail:not(.is-ring) .arrow,
+.rail:not(.is-ring) .hint,
+.rail:not(.is-ring) .pw-more,
+.rail:not(.is-ring) .pw-close{display:none}
+.rail:not(.is-ring) .pw{position:relative;left:auto;top:auto;bottom:auto;
+  width:100%;height:auto;aspect-ratio:16/10;min-height:232px;
+  transform:none;opacity:1;z-index:1;transform-style:flat;animation:none}
+.rail:not(.is-ring) .pw-mark{width:clamp(56px,14vw,84px);height:clamp(56px,14vw,84px)}
+.rail:not(.is-ring) .pw-art::after{background:linear-gradient(100deg,rgba(74,22,38,.95) 0%,
+  rgba(74,22,38,.86) 36%,rgba(74,22,38,.46) 64%,rgba(74,22,38,.1) 100%)}
+.rail:not(.is-ring) .pw-body{top:0;right:36%;bottom:0;justify-content:center;
+  padding:clamp(18px,4.4vw,26px);gap:11px}
+.rail:not(.is-ring) .pw-body h3{font-size:clamp(21px,5vw,28px);line-height:1.06}
+.rail:not(.is-ring) .pw-line{display:block;color:rgba(250,247,241,.88);
+  font-size:14px;line-height:1.55}
+.rail:not(.is-ring) .pw-body .pw-cta{display:inline-flex}
+.rail:not(.is-ring) .pw-n{top:14px;left:16px;font-size:12px}
+/* the back's copy is not lost, it simply stops being a back — it reads under the front */
+.rail:not(.is-ring) .pw-back{position:relative;inset:auto;display:flex;opacity:1;
+  transform:none;border-radius:0 0 7px 7px}
+
+/* ══ THE RING ON A PHONE AND A TABLET ═══════════════════════════════════════════════
+   ⚠️⚠️ WHAT CHANGES IS THE CARD AND THE ROOM, NEVER THE MECHANISM. The script narrows the
+   FAN with width (five cards on a phone, seven on a tablet, eight on a laptop) and switches
+   how it places them once the gap rule would cross the rail edge — both of those are in
+   layout(). All this block does is give the ring a card the screen can hold and the width
+   to hold it in.
+   ⚠️ FULL BLEED, AND IT IS NOT A FLOURISH. .wrap's padding is the only reason a 390px phone
+   has 350px of rail, and 40px of gutter is a card and a half of fan at that scale. The ring
+   takes the whole screen; the heading, the lede and the foot stay in the column. */
 @media(max-width:1180px){
-  .rail{height:auto;perspective:none;display:flex;flex-direction:column;
-    gap:clamp(13px,2.2vw,18px);cursor:auto}
-  .ringline{display:none}
-  .pw{position:relative;left:auto;top:auto;width:100%;height:auto;
-    aspect-ratio:16/10;min-height:232px;
-    transform:none!important;opacity:1!important;z-index:1!important;
-    transform-style:flat}
-  .pw .pw-mark{width:clamp(56px,14vw,84px);height:clamp(56px,14vw,84px)}
-  .pw .pw-art::after{background:linear-gradient(100deg,rgba(74,22,38,.95) 0%,
-    rgba(74,22,38,.86) 36%,rgba(74,22,38,.46) 64%,rgba(74,22,38,.1) 100%)}
-  .pw .pw-body{top:0;right:36%;bottom:0;justify-content:center;
-    padding:clamp(18px,4.4vw,26px);gap:11px}
-  .pw .pw-body h3{font-size:clamp(21px,5vw,28px);line-height:1.06}
-  .pw .pw-line{display:block;color:rgba(250,247,241,.88);font-size:14px;line-height:1.55}
-  .pw .pw-body .pw-cta{display:inline-flex}
-  .pw .pw-n{top:14px;left:16px;font-size:12px}
-  .pw .pw-more{display:grid;top:10px;right:10px}
-  .pw .pw-back{display:flex}
-  /* ⚠️ THE TURN STILL WORKS IN THE STACK, so the + is not a control that only exists on a
-     laptop — but the card's own rotateY has to be written by CSS here, because the script
-     writes --rot only while the ring is running. */
-  .pw[data-open="true"]{transform:rotateY(180deg)!important}
-  .arrow,.hint{display:none}
-  .rail-foot{grid-template-columns:1fr auto}
+  .rail.is-ring{--cw:min(300px,58vw); --ch:min(400px,77vw);
+    height:clamp(392px,64vw,520px);
+    margin-inline:calc(var(--pad) * -1)}
+  .rail.is-ring .arrow{width:40px;height:40px}
+  .rail.is-ring .arrow--prev{left:6px} .rail.is-ring .arrow--next{right:6px}
 }
+@media(max-width:699px){
+  /* ⚠️ 66vw IS THE LARGEST FRONT CARD THAT STILL LEAVES THE FAN SOMEWHERE TO GO, and it is
+     also the smallest that still fits the pill: "Add to your programme" measures 221px, and
+     a card under about 250 pushes it out of its own column. Both ends are measured. */
+  /* ⚠️ THE HEIGHT IS THE CARD PLUS THE CLIMB PLUS THE FLOOR AND NOTHING ELSE. At 118vw the
+     rail stood 85px taller than the tallest thing in it, and on a phone that empty band
+     reads as the section having lost something — there is no second column for the eye to
+     go to while it waits. */
+  .rail.is-ring{--cw:min(300px,66vw); --ch:min(400px,88vw);
+    height:clamp(360px,104vw,470px)}
+  /* ⚠️ THE ARROWS SIT OVER THE OUTERMOST SLIVER HERE, WHICH IS WHAT THEY ALREADY DO AT 1440
+     — the far card runs under the arrow there too. A sliver is not a tap target; the arrow
+     is. Swipe, the dots and the arrow keys all reach the same cards. */
+  .rail.is-ring .arrow{width:36px;height:36px}
+  .rail.is-ring .arrow svg{width:11px;height:11px}
+  .rail.is-ring .pw-more{width:42px;height:42px}
+  /* ⚠️ THE BACK IS TIGHTER HERE BECAUSE THE CARD IS SMALLER, NOT BECAUSE PHONES DESERVE
+     LESS. Both of the client's paragraphs and all four outcomes stay; at this size they run
+     about a card and a half, so the card scrolls — and the tighter type is what keeps that
+     scroll to a flick rather than a journey. The chips drop from four rows to two. */
+  .rail.is-ring .pw-back{padding:clamp(16px,4.2vw,22px);gap:8px}
+  .rail.is-ring .pw-back h3{font-size:20px;padding-right:38px}
+  .rail.is-ring .pw-back p{font-size:12.5px;line-height:1.5}
+  .rail.is-ring .pw-out{gap:5px}
+  .rail.is-ring .pw-out li{font-size:10.5px;padding:3px 9px}
+}
+/* ⚠️ A PARKED CARD IS OUT OF THE WINDOW, NOT OUT OF THE RING — see layout(). It is at zero
+   opacity one step past the fan's edge so that it slides in rather than popping, and it must
+   not take a click on its way: a reader aiming at the outermost visible card would otherwise
+   hit an invisible one stacked on it. */
+.pw[data-park="true"]{pointer-events:none}
 
 
 /* ══ THE PROGRAMME PANEL — inside the .pxd shell, in the page's own dress ══════ */
@@ -1697,7 +1792,15 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
   display:grid;grid-template-columns:auto auto auto;justify-content:start;
   column-gap:clamp(3rem,7vw,6.5rem);row-gap:1.5rem;align-items:start;
 }
-@media (max-width:899px){ .f-grid{grid-template-columns:1fr} }
+/* ⚠️⚠️ minmax(0,1fr) AND NOT 1fr, AND THE DIFFERENCE IS A SIDEWAYS-SCROLLING PAGE. A `1fr`
+   track has an automatic MINIMUM of min-content, so .f-news's `width:22rem` (352px) forced
+   the column to 352 whatever the screen was — its own `max-width:100%` cannot help, because
+   the track had already been sized by it. Below about 392px the footer pushed the whole
+   document wider than the viewport and every section on the page could be dragged sideways.
+   ⚠️ IT PREDATES THE RING BY MANY ROUNDS and was found while measuring the ring at 360:
+   the width sweep in services-choice.mjs stopped at 390, which is the narrowest iPhone and
+   not the narrowest phone. 360 is in that sweep now. */
+@media (max-width:899px){ .f-grid{grid-template-columns:minmax(0,1fr)} }
 .f-mark img{display:block;height:64px;width:auto}
 .f-brand{align-self:stretch;display:flex;align-items:center}
 @media (max-width:899px){ .f-brand{align-self:start;align-items:flex-start} }
@@ -2404,7 +2507,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
             <path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V11"/><path d="M12 10V4.5a1.5 1.5 0 0 1 3 0V11"/>
             <path d="M15 10.5V6.5a1.5 1.5 0 0 1 3 0V15c0 3.3-2.4 6-6 6s-6-2.7-6-6v-2"/>
             <path d="M9 11v2.5L7 12a1.5 1.5 0 0 0-2 2.2"/></svg>
-          Drag to explore
+          <span class="hint-drag">Drag to explore</span><span class="hint-swipe">Swipe to explore</span>
         </p>
         <div class="dots" id="railDots" role="tablist" aria-label="Jump to a pathway"></div>
       </div>
@@ -4305,6 +4408,30 @@ const probeF = document.getElementById('probeF');
 const ringPath = document.querySelector('#ringline path');
 const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const wide   = () => matchMedia('(min-width: 1181px)').matches;
+/* ⚠️⚠️ THE RING RUNS AT EVERY WIDTH NOW — 2026-08-17, his call: "its only 2d and if you flip
+   it its nothing". Below 1181 the eight used to become a flat stacked list, and the flip
+   went with it: a stacked card is `transform-style:flat` inside a rail with `perspective:
+   none`, so rotateY(180deg) does not TURN it, it MIRRORS it. The reader pressed + and got
+   their own card back with the type running backwards. That is one bug with the 2D fallback,
+   not two bugs.
+   ⚠️⚠️ WHAT CHANGES WITH WIDTH IS HOW MANY CARDS ARE IN THE FAN, NOT WHETHER THERE IS ONE.
+   Eight cards eleven-hundred pixels wide do not fit on a 390px phone — not by tuning, by
+   arithmetic: the front card alone is two-thirds of the screen. So the fan is a WINDOW onto
+   the ring. Five cards on a phone, seven on a tablet, all eight on a laptop; the ones
+   outside it wait one step off the edge at zero opacity and slide in as the ring turns,
+   which is why turning a phone ring feels like cards arriving rather than a list scrolling.
+   ⚠️ ALL EIGHT ARE ALWAYS IN THE DOM AND ALWAYS COUNTABLE. The window is a placement rule,
+   never a filter — the dots, the tally and the tray see eight at every width. */
+const WIN = () => {
+  /* ⚠️ THE LAB SETS data-fan TO SHOW TWO ANSWERS SIDE BY SIDE; THE LIVE PAGE NEVER SETS IT.
+     Keep it that way — a shipped page does not carry its own switches, and this one exists
+     so the five-card fan and the all-eight fan can be judged on a real phone rather than
+     argued about. */
+  const forced = +rail.dataset.fan;
+  if (forced) return Math.min(forced, Math.floor(N / 2));
+  return wide() ? Math.floor(N / 2)
+       : matchMedia('(min-width: 700px)').matches ? 3 : 2;
+};
 let focus = 0, depth = null;
 /* the ring's shape, in one place: how far round the arc the outermost card sits, how far a
    receding card climbs, and how much of its size it gives up getting there */
@@ -4348,9 +4475,9 @@ for (const c of cards) {
    into a stack behind the front card — arithmetic right, picture wrong. Depth is carried by
    scale, rotateY and opacity, none of which move a card sideways. */
 function layout(){
-  if (!wide()) { paintDots(); return; }
   const base = probeF.offsetWidth || 340;
-  const aMax = Math.floor(N / 2);
+  const aMax = WIN();              /* the last card IN the fan */
+  const park = aMax + 1;           /* and the slot the rest wait in, just off it */
   const half = a => base * scaleAt(a) / 2;
   /* ⚠️ THE FRONT CARD IS NEVER OVERLAPPED AND EVERY STEP AFTER IT IS. The first gap is laid
      out in full — two half-widths plus air — and the remaining gaps SHARE whatever room is
@@ -4359,25 +4486,57 @@ function layout(){
      edge, the arrow's 44 plus air. Solving for the clip put the outermost card underneath a
      button; a fixed step made the ring sparse at 1600 and clipped it at 1200. */
   const railW = rail.clientWidth || innerWidth;
-  const room = railW / 2 - 62;
+  /* the arrow is 44 and it only sits over the fan where there is room to spare for it */
+  const room = railW / 2 - (wide() ? 62 : 10);
+  const hard = railW / 2 - 6;      /* the rail's actual edge — nothing may cross this */
   const x1 = half(0) + half(1) + 14;
   const steps = [];
-  for (let a = 2; a <= aMax; a++) steps.push(half(a - 1) + half(a));
-  const total = steps.reduce((s, v) => s + v, 0) || 1;
+  for (let a = 2; a <= park; a++) steps.push(half(a - 1) + half(a));
+  const total = steps.slice(0, Math.max(1, aMax - 1)).reduce((s, v) => s + v, 0) || 1;
   const k = Math.max(.34, Math.min(1, (room - half(aMax) - x1) / total));
-  const xAt = a => { let x = a === 0 ? 0 : x1;
+
+  /* ⚠️⚠️ TWO WAYS TO PLACE THE FAN, AND THE ROOM DECIDES WHICH — not a breakpoint, a
+     measurement. The GAP rule below lays the first gap out in full and shares what is left
+     among the rest, which is what makes a wide ring fan like a hand. It assumes the front
+     card is never overlapped, and on a phone that assumption is unaffordable: the front card
+     is two-thirds of the screen, so a neighbour that does not overlap it is a neighbour off
+     the edge. When the gap rule's own reach crosses the rail edge, placement switches to the
+     PEEK rule — each card shows a fixed, shrinking sliver past the one in front of it, which
+     is what a coverflow is and what reads correctly at phone scale.
+     ⚠️ THE PEEK SHRINKS AND THAT IS THE WHOLE POINT. A constant peek puts MORE of a far card
+     on screen than of a near one — the first thing I built did exactly that, and it inverts
+     the depth reading: the eye takes the widest sliver for the nearest card. */
+  const gapAt = a => { let x = a === 0 ? 0 : x1;
     for (let i = 2; i <= a; i++) x += steps[i - 2] * k;
     return x; };
+  let xAt = gapAt;
+  if (gapAt(aMax) + half(aMax) > hard) {
+    const FALL = .72;
+    let span = 0;
+    for (let a = 1; a <= aMax; a++) span += Math.pow(FALL, a - 1);
+    /* as big a sliver as the rail can carry, capped so it never becomes a second fan */
+    const peek = Math.min(base * .22, Math.max(12, (room - half(0)) / span));
+    const edge = [half(0)];
+    for (let a = 1; a <= park; a++) edge.push(edge[a - 1] + peek * Math.pow(FALL, a - 1));
+    xAt = a => a === 0 ? 0 : edge[a] - half(a);
+  }
   for (let i = 0; i < N; i++) {
     const c = cards[i];
     let d = (i - focus + N) % N; if (d > N / 2) d -= N;
     const a = Math.abs(d), on = a === 0;
+    /* ⚠️ OUTSIDE THE WINDOW A CARD IS PLACED AT THE PARK SLOT, NOT HIDDEN. display:none
+       cannot transition, so a card appearing at the fan's edge would POP; parked one step
+       further out at zero opacity, it slides and fades in on the same transition every other
+       card is using, and the ring reads as continuing past the frame. */
+    const av = Math.min(a, park);
+    const off = a > aMax;
+    c.dataset.park = String(off);
     c.dataset.focus = String(on);
     if (!on && c.dataset.open === 'true') {
       c.dataset.open = 'false';
       c.querySelector('.pw-more').setAttribute('aria-expanded', 'false');
     }
-    c.style.setProperty('--x', (Math.sign(d) * xAt(a)).toFixed(1) + 'px');
+    c.style.setProperty('--x', (Math.sign(d) * xAt(av)).toFixed(1) + 'px');
     /* ⚠️⚠️ RECESSION IS ONE NUMBER AND EVERYTHING ELSE IS DERIVED FROM IT. `t` is how far
        round the ring a card has travelled, 0 at the front and 1 at the outermost, taken from
        the CHORD of the arc rather than from `a` — which is why the falloff is slow near the
@@ -4398,16 +4557,18 @@ function layout(){
        proportion rather than a projection, and it is the one place this ring deliberately
        stops being physical in order to be legible.
        ⚠️ CHANGE NEAR OR RATIO AND THE CLIMB FOLLOWS AUTOMATICALLY. Do not re-hardcode it. */
-    const t = a === 0 ? 0 : (1 - Math.cos(a / aMax * SPREAD)) / (1 - Math.cos(SPREAD));
-    const lift = (1 - scaleAt(a)) / (1 - scaleAt(aMax));
+    const t = a === 0 ? 0 : (1 - Math.cos(Math.min(av, aMax) / aMax * SPREAD)) / (1 - Math.cos(SPREAD));
+    const lift = (1 - scaleAt(av)) / (1 - scaleAt(aMax));
     c.style.setProperty('--y', on ? '0px' : (-lift * RISE).toFixed(1) + 'px');
     c.style.setProperty('--rot', on ? (c.dataset.open === 'true' ? '180deg' : '0deg')
                                     : (-Math.sign(d) * (8 + t * 13)).toFixed(1) + 'deg');
-    c.style.setProperty('--sc', scaleAt(a).toFixed(3));
-    c.style.setProperty('--op', on ? 1 : (1 - t * .34).toFixed(2));
-    /* past two steps out the name would render near 8px — it leaves instead */
-    c.dataset.far = String(a >= 3);
-    c.style.setProperty('--z', on ? 40 : 30 - a);
+    c.style.setProperty('--sc', scaleAt(av).toFixed(3));
+    c.style.setProperty('--op', off ? 0 : on ? 1 : (1 - t * .34).toFixed(2));
+    /* ⚠️ THE NAME LEAVES AT THE SECOND STEP OR THE THIRD, WHICHEVER THE WINDOW ALLOWS. On a
+       phone the fan is only two deep, so a name that waited until the third step would never
+       fade at all and would print at 8px on a sliver. */
+    c.dataset.far = String(a >= Math.min(3, aMax));
+    c.style.setProperty('--z', on ? 40 : 30 - av);
     c.dataset.side = on ? 'c' : (d > 0 ? 'r' : 'l');
     /* ⚠️ THE LABEL FOLLOWS THE MEANING. The same button brings a card forward when it is
        away from the front and adds the goal when it is at it; a screen reader told "add
@@ -4469,7 +4630,7 @@ const dots = cards.map((c, i) => {
 });
 function paintDots(){
   cards.forEach((c, i) => {
-    dots[i].setAttribute('aria-current', String(wide() && i === focus));
+    dots[i].setAttribute('aria-current', String(i === focus));
     dots[i].dataset.picked = c.dataset.picked === 'true' ? 'true' : 'false';
     dots[i].setAttribute('aria-label', c.querySelector('.pw-body h3').textContent.trim() +
       (c.dataset.picked === 'true' ? ' — chosen' : ''));
@@ -4493,7 +4654,7 @@ function toggle(c){
 }
 cards.forEach((c, i) => {
   c.querySelector('.pw-face').addEventListener('click', () => {
-    if (!wide() || c.dataset.focus === 'true') toggle(c); else focusOn(i);
+    if (c.dataset.focus === 'true') toggle(c); else focusOn(i);
   });
   for (const b of c.querySelectorAll('.pw-cta'))
     b.addEventListener('click', e => { e.stopPropagation(); toggle(c); });
@@ -4506,7 +4667,7 @@ cards.forEach((c, i) => {
     const open = c.dataset.open === 'true';
     c.dataset.open = open ? 'false' : 'true';
     c.querySelector('.pw-more').setAttribute('aria-expanded', String(!open));
-    if (wide()) c.style.setProperty('--rot', open ? '0deg' : '180deg');
+    c.style.setProperty('--rot', open ? '0deg' : '180deg');
   };
   c.querySelector('.pw-more').addEventListener('click', turn);
   c.querySelector('.pw-close').addEventListener('click', turn);
@@ -4530,13 +4691,17 @@ addEventListener('keydown', e => {
    travelled under 6px is a tap, and the card's own handler gets it. */
 let dragX = null, dragged = false;
 rail.addEventListener('pointerdown', e => {
-  if (!wide() || e.button) return;
+  if (e.button) return;
   dragX = e.clientX; dragged = false; rail.classList.add('dragging');
 });
 addEventListener('pointermove', e => {
   if (dragX === null) return;
+  /* ⚠️ 68px IS A MOUSE'S TRAVEL AND A THUMB'S WHOLE SWIPE. On a 390px screen the front card
+     is 257px wide, so 68 is a quarter of the card before anything moves and the ring feels
+     stuck. 40 on a phone, and the 6px tap threshold below is unchanged — that one is about
+     telling a tap from a drag, which does not depend on the screen. */
   const dx = e.clientX - dragX;
-  if (Math.abs(dx) < 68) { if (Math.abs(dx) > 6) dragged = true; return; }
+  if (Math.abs(dx) < (wide() ? 68 : 40)) { if (Math.abs(dx) > 6) dragged = true; return; }
   dragged = true; dragX = e.clientX;
   focusOn(focus + (dx < 0 ? 1 : -1));
 });
@@ -4545,6 +4710,13 @@ addEventListener('pointerup', () => { dragX = null; rail.classList.remove('dragg
 rail.addEventListener('click', e => {
   if (dragged) { e.stopPropagation(); e.preventDefault(); } }, true);
 
+/* ⚠️⚠️ THE CLASS IS WHAT TURNS THE STACK INTO A RING, AND THE STACK IS THE DEFAULT. Every
+   absolute position, the perspective and the arrows live behind `.is-ring`, which only this
+   line adds — so a page whose script never ran shows eight readable cards in a column at
+   EVERY width instead of eight cards piled on one another. Until now that fallback existed
+   below 1180 only, as a side effect of the breakpoint; on a laptop with script off the ring
+   was a heap. It is a real state and it is now designed at both ends. */
+rail.classList.add('is-ring');
 new ResizeObserver(() => layout()).observe(rail);
 layout();
 
@@ -4579,7 +4751,12 @@ layout();
    ⚠️ THE CANVAS CARRIES width/height:100% IN CSS AS WELL AS A BACKING STORE. Same replaced-
    element trap as the sculpture: with width:auto an absolutely positioned <canvas> resolves
    to its INTRINSIC size and the over-constrained `right` is ignored. */
+/* ⚠️ FEWER MOTES ON A PHONE, AND IT IS THE CARD THAT SHRANK RATHER THAN THE BUDGET. Eleven
+   motes read as a shimmer across a 352px card and as a swarm across a 257px one — the
+   density is what carries "minute", not the count. */
 const CHOSEN = 11, BLOOM = 30;
+const chosenN = () => wide() ? CHOSEN : 7;
+const bloomN  = () => wide() ? BLOOM  : 18;
 const dust = (() => {
   const cv = document.createElement('canvas');
   cv.id = 'dust'; cv.setAttribute('aria-hidden', 'true');
@@ -4641,11 +4818,11 @@ const dust = (() => {
     const k = Math.min(64, real) / 16.7;
     g.clearRect(0, 0, W, H);
     /* top up the selected cards only — the bloom is spawned on arrival, never refilled */
-    if (wide()) for (const c of cards) {
+    for (const c of cards) {
       if (c.dataset.picked !== 'true') continue;
       let have = 0;
       for (const m of motes) if (m.host === c && m.keep) have++;
-      for (let n = have; n < CHOSEN; n++) {
+      for (let n = have; n < chosenN(); n++) {
         const m = onCard(c, 3200 + Math.random() * 4000, .82); m.keep = true; motes.push(m);
       }
     }
@@ -4697,8 +4874,8 @@ const dust = (() => {
   return {
     /* the card arriving at the front blooms once and settles */
     bloom(c){
-      if (REDUCE || !wide() || !c) return;
-      for (let i = 0; i < BLOOM; i++) motes.push(onCard(c, 2000 + Math.random() * 1500, .8));
+      if (REDUCE || !c) return;
+      for (let i = 0; i < bloomN(); i++) motes.push(onCard(c, 2000 + Math.random() * 1500, .8));
     },
     burst(el){
       if (REDUCE) return;

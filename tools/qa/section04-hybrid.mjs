@@ -125,11 +125,25 @@ const run = async () => {
     ok('1e the CTA is the shipped wording', [...ctas][0]);
   else bad('1e the CTA drifted', [...ctas].join(' / '));
 
-  /* ═══ 2 · EVERY PATHWAY ON SCREEN, AT EVERY WIDTH ════════════════════════════════
-     The promise the whole layout is built to keep. A card that is in the DOM but outside
-     the clip is not on screen, and a count of elements cannot tell the difference. */
-  head('2 · All eight visible, every width');
-  for (const w of [1600, 1440, 1366, 1280, 1181, 1180, 1104, 900, 760, 430, 390]) {
+  /* ═══ 2 · THE RING AT EVERY WIDTH ═══════════════════════════════════════════════
+     ⚠️⚠️ THIS BLOCK USED TO ASSERT THAT ALL EIGHT WERE ON SCREEN AT EVERY WIDTH, AND THAT
+     PROMISE WAS RETIRED ON 2026-08-17 RATHER THAN BROKEN QUIETLY. It could only ever be kept
+     by giving up the ring below 1181 and showing a flat stacked list instead — and the list
+     took the FLIP down with it, because a stacked card is transform-style:flat in a rail
+     with perspective:none, so the + mirrored the card rather than turning it. His words:
+     "its only 2d and if you flip it its nothing."
+     ⚠️ EIGHT CARDS ELEVEN HUNDRED PIXELS WIDE DO NOT FIT ON A 390px PHONE — that is
+     arithmetic, not tuning: the front card alone is two-thirds of the screen, and forcing
+     all eight leaves the outer three showing 10px each, which reads as the edges of a stack
+     of paper rather than as cards. So the fan is a WINDOW on to the ring — five on a phone,
+     seven on a tablet, eight on a laptop — and the promise that replaced the old one is
+     below: all eight are always IN the ring and reachable, whatever the window shows.
+     ⚠️ THE OLD ASSERTION IS THE FIRST THING TO RESTORE IF THE WINDOW IS EVER ABANDONED.
+     `git log -S "eight on screen, no sideways scroll"` finds it intact. */
+  head('2 · The ring at every width, and what the window shows');
+  const WINDOW = { 1600: 8, 1440: 8, 1366: 8, 1280: 8, 1181: 8,
+                   1180: 7, 1104: 7, 900: 7, 760: 7, 699: 5, 430: 5, 390: 5, 360: 5 };
+  for (const w of [1600, 1440, 1366, 1280, 1181, 1180, 1104, 900, 760, 699, 430, 390, 360]) {
     await page.setViewportSize({ width: w, height: 900 });
     /* ⚠️ 900ms, NOT 420. Crossing the breakpoint swaps the arc for the stack and the cards'
        width transition runs for .78s — measured at 420ms one card was still partway between
@@ -144,17 +158,32 @@ const run = async () => {
         return b.width > 4 && b.left > -1 && b.right < vw + 1 && +getComputedStyle(c).opacity > .3;
       }).length;
       return { seen, over: document.documentElement.scrollWidth - vw,
-               arc: getComputedStyle(document.querySelector('.pw')).position === 'absolute' };
+               total: document.querySelectorAll('.pw').length,
+               fan: [...document.querySelectorAll('.pw')].filter(c => c.dataset.park !== 'true').length,
+               arc: getComputedStyle(document.querySelector('.pw')).position === 'absolute',
+               flat: getComputedStyle(document.querySelector('.rail')).perspective === 'none' };
     });
-    const mode = r.arc ? 'arc' : 'stack';
-    if (r.seen === 8 && r.over <= 1) ok(`2  ${w}px — eight on screen, no sideways scroll`, mode);
-    else bad(`2  ${w}px — ${r.seen}/8 on screen, ${r.over}px of overflow`, mode);
-    /* ⚠️ THE BREAKPOINT IS ASSERTED FROM BOTH SIDES. A stack that starts one pixel early
-       is a mechanism that quietly stopped existing on the most common laptop width. */
-    if (w === 1181 && !r.arc) bad('2a the arc is gone at 1181, one pixel above its breakpoint');
-    if (w === 1180 && r.arc)  bad('2b the arc is still running at 1180, below its breakpoint');
+    const want = WINDOW[w];
+    /* ⚠️ `seen` COUNTS WHAT IS ACTUALLY ON SCREEN AND `fan` COUNTS WHAT THE WINDOW PLACED.
+       They have to agree: a card the script thinks it placed but the clip has eaten is the
+       exact failure the old version of this check existed to catch, and it is still the one
+       that matters — it has simply stopped being "eight" and started being "the window". */
+    r.seen === want && r.fan === want && r.over <= 1
+      ? ok(`2  ${w}px — ${want} in the fan, no sideways scroll`)
+      : bad(`2  ${w}px — ${r.seen} on screen and ${r.fan} placed, want ${want}; ${r.over}px of overflow`);
+    /* ⚠️ ALL EIGHT ARE ALWAYS IN THE RING. The window is a placement rule, never a filter —
+       the dots, the tally and the tray must see eight at every width or a reader on a phone
+       has been shown a shorter menu than a reader on a laptop. */
+    is(`2a ${w}px — all eight are still in the ring`, r.total, 8);
   }
-  ok('2c the arc gives way to the stack exactly at 1180');
+  /* ⚠️⚠️ THE RING NEVER GIVES WAY TO A STACK NOW, AND THESE TWO ARE THE FINGERPRINT OF THE
+     BUG THAT USED TO. `position:static` on a card or `perspective:none` on the rail means the
+     2D fallback is back, and the flip will mirror the card instead of turning it. */
+  const narrow = await page.evaluate(() => ({
+    arc: getComputedStyle(document.querySelector('.pw')).position === 'absolute',
+    flat: getComputedStyle(document.querySelector('.rail')).perspective === 'none' }));
+  is('2b the ring is still a ring at 360px', narrow.arc, true);
+  is('2c and the rail still has depth to turn a card through', narrow.flat, false);
 
   /* ═══ 3 · A CHOSEN PATHWAY IS LEGIBLE FROM ANYWHERE IN THE RING ══════════════════ */
   head('3 · The multi-select survives the mechanism');
@@ -497,6 +526,9 @@ const run = async () => {
   });
   /* the bloom on the card in front lasts about 3.5s; wait it out so "empty" means empty */
   await page.waitForTimeout(5200);
+  const painted = () => page.evaluate(() =>
+    new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r))));
+  await painted();
   const quiet = await page.evaluate(() => {
     const c = document.getElementById('dust');
     const d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data;
@@ -506,6 +538,15 @@ const run = async () => {
   is('4o nothing is selected to begin with', quiet.picked, 0);
   if (quiet.lit < 400) ok('4o2 and with nothing selected the dust is gone', `${quiet.lit} lit subpixels`);
   else bad('4o2 dust is showing with nothing selected', `${quiet.lit} lit subpixels`);
+
+  /* ⚠️⚠️ A CANVAS SHOWS THE LAST FRAME THAT WAS PAINTED, NOT THE CURRENT STATE, AND THAT IS
+     WHAT MADE THIS BLOCK FLAKY RATHER THAN ANY BUG IN THE DUST. Motes age on the wall clock,
+     so after a wait they are correctly dead — but if requestAnimationFrame has been starved
+     (headless, an offscreen tab, a slow renderer) draw() has not run since, and the pixels
+     still on the canvas are minutes old. The harness then measures a frame the page has
+     already moved on from: 4o3 reported 64% once and 37% another time, and 100% on the very
+     next run with nothing changed. Waiting for two real frames is the difference between
+     reading the page and reading its history. */
 
   /* choose the card in front, then turn the ring three places away from it */
   await page.evaluate(() => document.querySelector('.pw[data-focus="true"] .pw-body .pw-cta').click());
@@ -517,6 +558,7 @@ const run = async () => {
     await page.waitForTimeout(950);
   }
   await page.waitForTimeout(4200);   /* let the blooms from those three turns expire */
+  await painted();                   /* and let a frame actually be drawn without them */
   const tracked = await page.evaluate(idx => {
     const c = document.getElementById('dust');
     const g = c.getContext('2d');

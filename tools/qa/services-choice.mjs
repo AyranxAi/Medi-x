@@ -220,6 +220,104 @@ const run = async () => {
                                   : bad('3a and none was emptied', backs.map(b=>b.chars).join('/'));
   is('3b and its outcomes', backs.every(b => b.outs === 4), true);
 
+  console.log('\n\x1b[1mA2 · the ring on a phone\x1b[0m');
+  /* ⚠️⚠️ THE WHOLE POINT OF THIS BLOCK IS THAT THE MECHANISM IS THE SAME ONE. Until
+     2026-08-17 everything below 1181 was a flat stacked list, and the flip went with it: a
+     stacked card is transform-style:flat inside a rail with perspective:none, so
+     rotateY(180deg) MIRRORS it instead of turning it. His report was "its only 2d and if you
+     flip it its nothing" — what he was shown was his own card with the type backwards.
+     ⚠️ SO THESE CHECKS ARE DELIBERATELY THE SAME QUESTIONS AS THE DESKTOP ONES. If the phone
+     ever quietly falls back to a 2D list again, they are what says so. */
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(base, { waitUntil: 'load' });
+  await page.waitForTimeout(1000);
+  await page.addStyleTag({ content: '.pw{animation:none!important}' });
+  await page.evaluate(() => document.querySelector('#services').scrollIntoView());
+  await page.waitForTimeout(600);
+
+  const phone = await page.evaluate(() => {
+    const rail = document.querySelector('.rail'), cs = getComputedStyle(rail);
+    const cards = [...document.querySelectorAll('.pw')];
+    const vis = cards.filter(c => c.dataset.park !== 'true');
+    const rr = rail.getBoundingClientRect();
+    return {
+      isRing: rail.classList.contains('is-ring'),
+      perspective: cs.perspective,
+      fan: vis.length, parked: cards.length - vis.length, total: cards.length,
+      fullBleed: Math.round(rr.width) >= innerWidth - 1,
+      front: Math.round(document.querySelector('.pw[data-focus="true"]').getBoundingClientRect().width),
+      /* ⚠️ THE FAN IS SYMMETRIC, so five cards give THREE distinct widths and not five —
+         the first version of this check wanted five and was simply wrong about the shape it
+         was measuring. What actually matters is that the widths fall away from the middle:
+         a stack has one width, a ring has a cascade. This reads them left to right. */
+      widths: vis.map(c => ({ x: c.getBoundingClientRect().left,
+                              w: Math.round(c.getBoundingClientRect().width) }))
+                 .sort((a, b) => a.x - b.x).map(o => o.w),
+      parkedInert: cards.filter(c => c.dataset.park === 'true')
+        .every(c => getComputedStyle(c).pointerEvents === 'none')
+    };
+  });
+  is('A2a the ring is running, not the stack', phone.isRing, true);
+  /* ⚠️ perspective:none IS EXACTLY THE OLD BUG'S FINGERPRINT — without it a turn is a mirror */
+  phone.perspective !== 'none' ? ok('A2b and it has perspective', phone.perspective)
+                               : bad('A2b the rail is flat again — the flip will mirror, not turn');
+  is('A2c five cards in the fan', phone.fan, 5);
+  is('A2d and the other three wait off it', phone.parked, 3);
+  is('A2e all eight are still in the ring', phone.total, 8);
+  is('A2f the rail takes the whole screen', phone.fullBleed, true);
+  phone.front >= 240 ? ok('A2g the front card is big enough for its pill', phone.front + 'px')
+                     : bad('A2g the front card is too small for its pill', phone.front + 'px');
+  const w = phone.widths, mid = (w.length - 1) / 2;
+  const falls = w.every((v, i) => i === mid || v < w[Math.round(mid)]) &&
+                w[0] < w[1] && w[w.length - 1] < w[w.length - 2];
+  const symmetric = w.every((v, i) => Math.abs(v - w[w.length - 1 - i]) <= 1);
+  falls && symmetric
+    ? ok('A2h the fan is a cascade, not a stack', w.join(' · '))
+    : bad('A2h the fan is flat or lopsided', w.join(' · '));
+  is('A2i a parked card cannot be clicked', phone.parkedInert, true);
+
+  /* ⚠️⚠️ AND THE FLIP, WHICH IS THE BUG HE REPORTED. Turning must show the BACK — the card's
+     own description — and not a mirrored copy of its front. Reading the back's opacity is not
+     enough on its own: in the broken version the back was present and lit, and the front was
+     painted over it, so this also asks what is actually on top at the card's centre. */
+  await page.click('.pw[data-focus="true"] .pw-more');
+  await page.waitForTimeout(1100);
+  const flip = await page.evaluate(() => {
+    const c = document.querySelector('.pw[data-open="true"]');
+    if (!c) return { open: false };
+    const back = c.querySelector('.pw-back'), r = c.getBoundingClientRect();
+    const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+    return { open: true, opacity: getComputedStyle(back).opacity,
+             onBack: !!hit && back.contains(hit),
+             paras: back.querySelectorAll('p').length };
+  });
+  is('A2j the + turns the card on a phone', flip.open, true);
+  is('A2k the back is lit', flip.opacity, '1');
+  is('A2l and the back is what the reader touches — not a mirrored front', flip.onBack, true);
+  is('A2m carrying both paragraphs', flip.paras, 2);
+  await page.click('.pw[data-focus="true"] .pw-close');
+  await page.waitForTimeout(900);
+
+  /* the ring turns by thumb; the arrows are the discoverable way and must still be reachable */
+  const before = await page.evaluate(() => document.querySelector('.pw[data-focus="true"]').dataset.i);
+  await page.click('#railNext');
+  await page.waitForTimeout(800);
+  const after = await page.evaluate(() => document.querySelector('.pw[data-focus="true"]').dataset.i);
+  after !== before ? ok('A2n the arrows turn the ring on a phone', `${before} → ${after}`)
+                   : bad('A2n the arrows do nothing on a phone', before);
+  has('A2o and the instruction says swipe, not drag',
+      await page.evaluate(() => {
+        const s = document.querySelector('.hint-swipe');
+        return s ? s.textContent : '';
+      }), 'Swipe');
+
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(base, { waitUntil: 'load' });
+  await page.waitForTimeout(900);
+  await page.addStyleTag({ content: '.pw{animation:none!important}' });
+  await page.evaluate(() => document.querySelector('#services').scrollIntoView());
+  await page.waitForTimeout(500);
+
   console.log('\n\x1b[1mB · the hit-area swap, in every direction\x1b[0m');
   await page.evaluate(() => document.querySelector('#services').scrollIntoView());
   await page.waitForTimeout(500);
@@ -496,7 +594,11 @@ const run = async () => {
      it the eight fan out in 3D, below it they become a stacked list. A ring that overflows
      by four pixels at the widest width it is allowed to run is exactly the fault that
      reaches a phone-less reviewer last. */
-  for (const w of [1600, 1440, 1280, 1181, 1180, 1104, 900, 640, 430, 390]) {
+  /* ⚠️ 360 AND 320 ARE IN THIS LIST BECAUSE 390 IS THE NARROWEST iPHONE, NOT THE NARROWEST
+     PHONE. The sweep stopped at 390 and the footer had been pushing the whole document 14px
+     wider than the viewport on every 360px Android since long before the ring — a `1fr`
+     grid track sized by a 22rem child, which no assertion was looking at. */
+  for (const w of [1600, 1440, 1280, 1181, 1180, 1104, 900, 700, 699, 640, 430, 390, 360, 320]) {
     await page.setViewportSize({ width: w, height: 900 });
     await page.goto(base, { waitUntil: 'load' });
     await page.waitForTimeout(500);

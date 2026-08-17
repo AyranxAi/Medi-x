@@ -1,3 +1,38 @@
+# Handoff addendum — 2026-08-17, round 19b (the ring runs on a phone)
+
+His report was two sentences and one bug: *"its only 2d and if you flip it its nothing"*,
+and *"port the exact same thing to be compatible to mobile phone use."*
+
+**Below 1181 the eight had been a flat stacked list, and the flip went down with it.** A
+stacked card is `transform-style:flat` in a rail with `perspective:none`, so
+`rotateY(180deg)` does not turn it — it mirrors it. He pressed + and got his own card back
+with the type running backwards. The back face was present, lit and painted behind it, so
+every structural check passed. A turn needs a dimension to turn through: the fix was to run
+the real ring on the phone, not to patch the stack.
+
+**Eight cards do not fit on a 390px phone by arithmetic.** The front card is 257px — the
+smallest that still holds its 221px pill — in a 390px rail. So the fan is a **window on to
+the ring: five on a phone, seven on a tablet, eight on a laptop.** Cards outside it wait one
+step off the edge at zero opacity and slide in as the ring turns. All eight stay in the DOM
+and countable at every width; the window is a placement rule, never a filter. He was shown
+both options and chose five — forced all eight, the outer three show 10–21px each.
+
+**The stack is now a state rather than a width.** Everything absolute lives behind
+`.is-ring`, which the script adds, so a page whose script never ran is a readable column at
+every width — on a laptop that used to be a heap.
+
+**Three other bugs came out of it.** `.pw-back` was a centred flex column, which overflows in
+both directions with the top half unreachable — on a phone the pathway's name was gone above
+the fold with no way to scroll to it. Parked cards, though invisible, still widened the
+document, so the page scrolled sideways at four widths. And `.f-grid`'s `1fr` track, sized by
+a 22rem child, has let every 360px Android drag this page sideways for many rounds — found
+only because the width sweep now runs to 320 instead of stopping at 390.
+
+**Five suites, 325 checks, green:** `peptide-page.mjs` 52 · `services-choice.mjs` 108 ·
+`section04-lab.mjs` 49 · `section04-hybrid.mjs` 93 · `ring-parity.mjs` 23.
+
+---
+
 # Handoff addendum — 2026-08-17, round 19 (the ring is on the live page)
 
 His words: *"hey push it to the website now dudes."* `main` auto-deploys via Vercel, so the

@@ -318,6 +318,66 @@ const run = async () => {
   await freeze.evaluate(n => n.remove());   /* the float goes back on */
   await page.waitForTimeout(200);
 
+  /* ═══ 4m · THE CASCADE IS GEOMETRIC, NOT JUST DESCENDING ═══════════════════════
+     ⚠️ "EACH ONE SMALLER" AND "EACH ONE SMALLER BY THE SAME PROPORTION" ARE DIFFERENT
+     CLAIMS, AND ONLY THE SECOND READS AS DEPTH. A linear ladder — 1, .8, .6, .4 — descends
+     perfectly and has a ratio that shrinks at every step, which the eye reads as a row of
+     different-sized cards. A constant ratio is what distance actually does. Check 4f already
+     asserts descending; this asserts the RATIO holds, which is the thing he asked for. */
+  head('4m · The cascade');
+  const freeze2 = await page.addStyleTag({ content: '.pw{animation:none !important}' });
+  await page.waitForTimeout(150);
+  for (const shape of ['tall', 'wide']) {
+    await page.evaluate(sh => document.querySelector(`.shape button[data-shape="${sh}"]`).click(), shape);
+    await page.waitForTimeout(1200);
+    const w = await page.evaluate(() => {
+      const cs = [...document.querySelectorAll('.pw')], N = cs.length;
+      const f = cs.findIndex(c => c.dataset.focus === 'true');
+      const by = {};
+      cs.forEach((c, i) => { let d = (i - f + N) % N; if (d > N / 2) d -= N;
+        by[Math.abs(d)] = c.getBoundingClientRect().width; });
+      return [0, 1, 2, 3, 4].map(a => by[a]).filter(v => v);
+    });
+    /* the ratio between neighbours, from the first side card outward */
+    const r = [];
+    for (let i = 2; i < w.length; i++) r.push(w[i] / w[i - 1]);
+    const spread = Math.max(...r) - Math.min(...r);
+    if (spread <= .05)
+      ok(`4m ${shape} — every step out is the same proportion`,
+         r.map(v => v.toFixed(2)).join(' · ') + `  (${w.map(v => Math.round(v)).join(' > ')})`);
+    else bad(`4m ${shape} — the ratio drifts, so it reads as a row not a ring`,
+             r.map(v => v.toFixed(2)).join(' / '));
+    /* and the front card has to be visibly the nearest thing, not first among equals */
+    if (w[0] / w[1] >= 1.35) ok(`4m2 ${shape} — the front card is clearly nearest`,
+      `x${(w[0] / w[1]).toFixed(2)} the next one`);
+    else bad(`4m2 ${shape} — the front card does not stand out of the ring`,
+      `only x${(w[0] / w[1]).toFixed(2)}`);
+  }
+  await freeze2.evaluate(n => n.remove());
+  await page.evaluate(() => document.querySelector('.shape button[data-shape="tall"]').click());
+  await page.waitForTimeout(1100);
+
+  /* ═══ 4n · THE FLOAT IS SMALL ENOUGH TO BE SAFE ════════════════════════════════
+     ⚠️⚠️ THIS IS AN ACCESSIBILITY ASSERTION WEARING A GEOMETRY ONE. His note: the readers
+     are grandmothers and grandfathers, and persistent drift in the periphery is what
+     provokes vestibular discomfort in exactly that audience. The first float was 7px over
+     7s and he called it trippy. A number that is a promise to a reader belongs in a check,
+     not only in a comment — so the amplitude is sampled, and it has to be BOTH non-zero
+     (the float exists) and under about 3px (it cannot be felt). */
+  head('4n · The float');
+  const amp = await page.evaluate(() => new Promise(res => {
+    const c = document.querySelectorAll('.pw')[3];
+    let lo = Infinity, hi = -Infinity, n = 0;
+    const id = setInterval(() => {
+      const y = c.getBoundingClientRect().top;
+      lo = Math.min(lo, y); hi = Math.max(hi, y);
+      if (++n > 34) { clearInterval(id); res(+(hi - lo).toFixed(2)); }
+    }, 150);
+  }));
+  if (amp > .2 && amp <= 3.2) ok('4n the float is present and barely there', `${amp}px observed`);
+  else if (amp <= .2) bad('4n the float is not running', `${amp}px`);
+  else bad('4n the float is big enough to be felt', `${amp}px observed, ceiling 3.2`);
+
   /* ═══ 4h · THE ACCENT REALLY RE-POINTS ═════════════════════════════════════════
      ⚠️ THIS CHECK EXISTS BECAUSE THE RULES WERE WRITTEN AND NEVER LANDED. The two
      [data-pick] blocks were inserted against an anchor comment an earlier edit had already

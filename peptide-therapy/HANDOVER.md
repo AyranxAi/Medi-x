@@ -8,7 +8,7 @@
 > (**72**). Both must be green before anything ships. They need
 > `npm install --no-save playwright gsap@3.13.0 lenis@1.3.4`.
 > The round-18 files have their own, playwright only: `node tools/qa/section04-lab.mjs`
-> (**49**) and `node tools/qa/section04-hybrid.mjs` (**67**).
+> (**49**) and `node tools/qa/section04-hybrid.mjs` (**72**).
 > **Round 18 is on `main`** — his call, 2026-08-17. ⚠️ **The live section 04 is UNCHANGED by
 > it**: `section04-hybrid.html` is a standalone proposal, not wired into the page. What round
 > 18 changed on the live page is the DELETION of 06 and the inverted tail grounds.
@@ -37,7 +37,7 @@
 >
 > **WHAT IS STILL OPEN (all his):**
 > · **SECTION 04 — ONE QUESTION: IVORY OR THE ROSE DAWN, THE GROUND.** Shape is settled
->   (**wide**) and so is the chosen state (**ivory**). ⚠️ **Gold's 1.03 on gut-health is why
+>   (**tall**, once the cascade made it work) and so is the chosen state (**ivory**). ⚠️ **Gold's 1.03 on gut-health is why
 >   the badge has an edge**, and that fix stands whichever colour is set. ⚠️ **AND THE RING IS NOT WIRED INTO THE LIVE PAGE** — it is
 >   a proposal file. Adopting it is a separate round: the tray, the programme panel and the
 >   popup all have to meet it.
@@ -420,6 +420,46 @@
 > inversion too.** The fix is to stop the motion: `addStyleTag('.pw{animation:none}')`,
 > measure, remove. **A float is motion; a ring is geometry; measure the geometry with the
 > motion stopped.**
+
+> **30 · ✅ BACK TO TALL, AND THE CONDITION HE SET FOR IT: ONE CARD SIZE, EIGHT DISTANCES.**
+> *"Make the size of the other cards proportional to the middle… as if there is a 3D view."*
+> ⚠️⚠️ **HE WAS RIGHT THAT IT WAS NOT REALLY A RING.** The front card had its own box and the
+> other seven shared a second, smaller one — a 0.39 jump, then a nearly flat 0.98/0.91/0.80/
+> 0.66 among the seven. **That is a big card standing in front of a row.** Every card is now
+> the SAME BOX and distance alone decides its apparent size: **1 · 0.62 · 0.47 · 0.36 · 0.27**.
+> ⚠️ **"DESCENDING" AND "DESCENDING BY THE SAME RATIO" ARE DIFFERENT CLAIMS AND ONLY THE
+> SECOND READS AS DEPTH.** A linear ladder (1, .8, .6, .4) descends perfectly and its ratio
+> shrinks at every step, which the eye reads as a row of different-sized cards. Check 4m
+> asserts the RATIO holds (0.77 · 0.77 · 0.76) and 4m2 that the front card is ≥1.35× its
+> neighbour — descending alone was already covered by 4f and was not enough.
+> ⚠️ **THE TYPE COMES WITH IT**, which is the point: a name is the same size ON ITS CARD
+> everywhere and simply arrives smaller. **THE PRICE, STATED:** two steps out a name renders
+> near 8px, so it FADES rather than printing type nobody can read. Those two cards are
+> carried by the photograph and the dot — which is what the edge of a real ring does anyway.
+> ⚠️ **AND THE width/height TRANSITION IS GONE** — identical boxes mean only the transform
+> moves. One animated property instead of three, and nothing left for a mid-flight
+> measurement to catch.
+>
+> **31 · ⚠️⚠️ THE FLOAT CAME DOWN TO 2.5px OVER 16s, AND IT IS AN ACCESSIBILITY DECISION.**
+> His words: *"the movement on that float is trippy… the ones reading this are grandmas and
+> grandpas, can't afford to lose them."* **He is right and it is not a taste note.**
+> Persistent drift in the periphery is precisely what provokes vestibular discomfort in that
+> audience, and a clinic page that makes a reader feel unwell has lost more than a visitor.
+> At 2.5px the ring is ALIVE rather than MOVING — you cannot catch it happening, only notice
+> it is not still. ⚠️ **IF IT IS EVER RAISED AGAIN, RAISE THE DURATION FIRST AND THE DISTANCE
+> LAST.** Check 4n samples the amplitude and fails above 3.2px: **a number that is a promise
+> to a reader belongs in a check, not only in a comment.**
+>
+> **32 · THE DUST STAYING ON CHOSEN CARDS WAS AN ACCIDENT; IT IS NOW ON PURPOSE.** He noticed
+> it. It was motes outliving the focus that made them — but it is the better behaviour, so it
+> is built: the front card carries 60, and **every chosen card keeps 7 at two-thirds alpha**
+> wherever it sits in the ring. ⚠️ **IT IS THE MULTI-SELECT'S THIRD HOME** after the tick and
+> the dot. One line (`CHOSEN`) to undo.
+>
+> **33 · TWO SMALL ONES:** the numeral gained a text-shadow, because the scrim rises from the
+> foot and is doing almost nothing at the top of a card while two of the eight photographs
+> are near-white up there. And the harness froze the float a SECOND time (check 4m), for the
+> same reason as 4e — **geometry is measured with motion stopped.**
 
 > ---
 

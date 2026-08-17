@@ -146,9 +146,20 @@ img{display:block;max-width:100%}
    forward is a coherent object; a ring whose front card CHANGES SHAPE is a fan with a
    billboard in it. The wide version is kept because it is what his reference showed, and
    because a landscape front card carries a longer line more comfortably. */
+/* ⚠️⚠️ ONE CARD SIZE FOR ALL EIGHT — HIS CALL, AND IT IS THE HONEST VERSION OF THE RING.
+   Until now the front card had its own box and the seven others shared a second, smaller
+   one; the jump between them was 0.39 and the falloff among the seven was a gentle
+   0.98/0.91/0.80/0.66. That is a big card standing in front of a flat row, not a ring.
+   Every card is the SAME BOX now and distance alone decides its apparent size, so each step
+   out is a fixed proportion of the one before it — which is what a 3D view actually does.
+   The type comes with it: a name is the same size ON ITS CARD at every position and simply
+   arrives smaller, rather than being re-specified per distance.
+   ⚠️ THE PRICE, STATED: at the far end a card is about a quarter scale, so its name would
+   render near 8px. Names fade past |d|=2 rather than print type nobody can read — the
+   photograph and the dot carry those cards, which is what happens at the edge of a real
+   ring too. */
 .rail{position:relative;height:clamp(420px,34vw,500px);
-  --fw:min(452px,38vw); --fh:min(372px,31vw);
-  --sw:clamp(112px,9.4vw,136px); --sh:clamp(206px,17vw,244px);
+  --cw:min(352px,29vw); --ch:min(468px,38.5vw);
   /* ⚠️⚠️ THE CHOSEN SIGNAL IS A TOKEN BECAUSE THE ANSWER TURNED OUT NOT TO BE A COLOUR.
      Measured against his own eight photographs, at the corner the badge sits in:
        gold  1.03 at worst (gut-health) · ivory 1.50 · burgundy 4.84 · ink 5.96
@@ -169,7 +180,8 @@ img{display:block;max-width:100%}
    tallest the card can be while still reading as landscape beside a ring of portrait ones,
    and it buys back about a tenth of each picture for nothing. The TALL alternative stays a
    click away — it is one attribute, and it is the shape that throws none of the image away. */
-.rail[data-shape="tall"]{--fw:min(352px,29vw); --fh:min(468px,38.5vw)}
+/* wide is the alternative now — he is going back to tall */
+.rail[data-shape="wide"]{--cw:min(452px,38vw); --ch:min(372px,31vw)}
 /* ⚠️ NOTE WHAT IVORY DOES TO THE GLYPH: burgundy-on-ivory measures 11.58 against gold's
    ink-on-gold 6.17, so the TICK ITSELF is sharper in ivory even though the DISC is weaker.
    That split is why the badge gained an edge rather than a different fill — see .pw-tick. */
@@ -189,8 +201,11 @@ img{display:block;max-width:100%}
 .rail::before{content:"";position:absolute;left:50%;bottom:2%;width:98%;height:44%;
   transform:translateX(-50%);border:1px solid var(--gold);opacity:.32;
   border-radius:50%;pointer-events:none}
+/* ⚠️ ONE PROBE NOW, AND IT IS STILL NOT A CARD. The base box is the only measurement the
+   arc needs, and it must not be read off a .pw: those transition, so a size taken mid-turn
+   is true for no frame. */
 .probe{position:absolute;top:0;left:0;height:0;visibility:hidden;pointer-events:none}
-.probe-f{width:var(--fw)} .probe-s{width:var(--sw)}
+.probe-f{width:var(--cw)}
 
 /* ⚠️⚠️ ANCHORED BY ITS BASE, AND transform-origin:bottom IS HALF OF WHY. A ring is a thing
    cards STAND ON: what follows the ellipse is each card's foot, not its middle. Anchored by
@@ -199,14 +214,17 @@ img{display:block;max-width:100%}
    bottom-scaled, every foot stays on the curve no matter what size the card is — which is
    the whole difference between a ring and a row of things at different heights. */
 .pw{position:absolute;left:50%;bottom:var(--floor,7%);
-  width:var(--w);height:var(--h);--w:var(--sw);--h:var(--sh);
+  width:var(--cw);height:var(--ch);
   border-radius:7px;background:var(--cream);
   transform-origin:50% 100%;
   transform:translateX(-50%) translate3d(var(--x,0px),var(--y,0px),0)
     rotateY(var(--rot,0deg)) scale(var(--sc,1));
   opacity:var(--op,1);z-index:var(--z,1);
   transform-style:preserve-3d;
-  transition:transform .8s var(--swing),width .8s var(--swing),height .8s var(--swing),
+  /* ⚠️ NO width/height TRANSITION ANY MORE — a simplification the new geometry buys. The
+     boxes are identical, so only the transform moves: one animated property instead of
+     three, and nothing left for a mid-flight measurement to catch. */
+  transition:transform .8s var(--swing),
     opacity .55s var(--ease),box-shadow .6s var(--ease);
   box-shadow:0 14px 34px rgba(71,24,38,.13);
   /* ⚠️⚠️ THE FLOAT USES `translate`, NOT `transform`, AND THAT IS THE WHOLE TRICK. The layout
@@ -216,12 +234,20 @@ img{display:block;max-width:100%}
      neither has to know about the other. It also sits outside the card's scale, so a far
      card bobs by the same few pixels as a near one rather than a fraction of them.
      ⚠️ --i IS THE CARD'S INDEX AND IT IS WHAT STOPS THIS LOOKING MECHANICAL. Eight cards
-     rising and falling in step is a lift, not a float; staggered, it is a ring breathing. */
-  animation:pw-float calc(7s + var(--i,0) * 340ms) ease-in-out infinite;
-  animation-delay:calc(var(--i,0) * -820ms)}
-@keyframes pw-float{0%,100%{translate:0 0}50%{translate:0 -7px}}
-/* the card in front floats too, but slower and shallower — it is what the eye rests on */
-.pw[data-focus="true"]{animation-duration:9.5s}
+     rising and falling in step is a lift, not a float; staggered, it is a ring breathing.
+     ⚠️⚠️ 2.5px OVER 16 SECONDS — HIS CALL, AND THE REASON IS THE AUDIENCE, NOT THE TASTE.
+     It was 7px over 7s and he called it trippy: *"the ones reading this are grandmas and
+     grandpas, can't afford to lose them."* He is right, and it is an accessibility point
+     rather than a preference — persistent drift in the periphery is exactly what provokes
+     vestibular discomfort in older readers, and a clinic page that makes someone feel
+     unwell has lost more than a visitor. At 2.5px the ring is ALIVE rather than MOVING:
+     you cannot catch it happening, only notice it is not still. ⚠️ If this is ever raised
+     again, raise the DURATION first and the distance last. */
+  animation:pw-float calc(16s + var(--i,0) * 900ms) ease-in-out infinite;
+  animation-delay:calc(var(--i,0) * -2100ms)}
+@keyframes pw-float{0%,100%{translate:0 0}50%{translate:0 -2.5px}}
+/* the card in front barely moves at all — it is the thing the eye is resting on */
+.pw[data-focus="true"]{animation-duration:22s}
 
 /* ── the artwork ──────────────────────────────────────────────────────────────────
    ⚠️ THE SCRIM IS A SEPARATE LAYER FROM THE PICTURE, NOT A FILTER ON IT. Eight
@@ -234,31 +260,41 @@ img{display:block;max-width:100%}
 .pw-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;
   transition:opacity .8s var(--ease)}
 .pw.has-art .pw-art img{opacity:1}
-.pw-mark{width:clamp(34px,3.2vw,44px);height:clamp(34px,3.2vw,44px);color:var(--gold-deep);
+.pw-mark{width:clamp(72px,7vw,96px);height:clamp(72px,7vw,96px);color:var(--gold-deep);
   opacity:.6;transition:width .8s var(--swing),height .8s var(--swing),opacity .5s var(--ease)}
 .pw.has-art .pw-mark{opacity:0}
-.pw[data-focus="true"] .pw-mark{width:clamp(72px,7vw,96px);height:clamp(72px,7vw,96px)}
+
 .pw-art::after{content:"";position:absolute;inset:0;
   background:linear-gradient(to top,rgba(52,16,28,.88) 0%,rgba(52,16,28,.54) 30%,
     rgba(52,16,28,.14) 60%,rgba(52,16,28,.04) 100%)}
 
 .pw-face{position:absolute;inset:0;z-index:6;border-radius:7px;
   -webkit-tap-highlight-color:transparent}
-.pw-n{position:absolute;top:11px;left:13px;z-index:5;
-  font-family:var(--accent);font-size:clamp(11px,1vw,13px);letter-spacing:.16em;
-  color:rgba(250,247,241,.84)}
+.pw-n{position:absolute;top:clamp(18px,1.8vw,24px);left:clamp(20px,2vw,28px);z-index:5;
+  font-family:var(--accent);font-size:clamp(12px,1.1vw,14px);letter-spacing:.16em;
+  color:rgba(250,247,241,.9);transition:opacity .5s var(--ease);
+  /* ⚠️ THE NUMERAL SITS WHERE THE SCRIM IS WEAKEST. The gradient rises from the foot, so at
+     the top of a card it is doing almost nothing — and two of the eight photographs are
+     near-white up there. A shadow is the cheap fix that works on all eight without
+     darkening the picture the way a second scrim would. */
+  text-shadow:0 1px 6px rgba(52,16,28,.55)}
 .pw-body{position:absolute;left:0;right:0;bottom:0;z-index:5;
-  padding:clamp(11px,1.1vw,15px);display:flex;flex-direction:column;
-  align-items:flex-start;gap:9px}
+  padding:clamp(20px,2vw,28px);display:flex;flex-direction:column;
+  align-items:flex-start;gap:clamp(9px,.9vw,13px)}
 /* ⚠️⚠️ THE NAME IS SET AGAINST THE CARD'S OUTER EDGE, and this is the same rule as the
    tick for the same reason: a fan covers each card from the side its neighbour sits on, so
    a name pinned left in the RIGHT half is printed underneath the next card. The first build
    read "exual ealth" and "to mune ease" — which looks like broken text rather than like
    depth, and is the one thing that decides whether eight overlapping cards stay readable. */
 .pw[data-side="r"] .pw-body{align-items:flex-end;text-align:right}
-.pw-body h3{font-family:var(--accent);color:var(--ivory);letter-spacing:-.01em;
-  font-size:clamp(12.5px,1.06vw,14.5px);line-height:1.16;width:100%;
-  transition:font-size .8s var(--swing)}
+.pw-body h3{font-family:var(--accent);color:var(--ivory);letter-spacing:-.015em;
+  font-size:clamp(21px,2.05vw,29px);line-height:1.06;width:100%;
+  transition:opacity .5s var(--ease)}
+/* ⚠️ THE NAME LEAVES BEFORE IT BECOMES UNREADABLE. Past two steps out a card is around a
+   third of scale and its name would render near 8px — type that is present, illegible and
+   therefore worse than absent. Those two cards are carried by the photograph and the dot. */
+.pw[data-far="true"] .pw-body h3{opacity:0}
+.pw[data-far="true"] .pw-n{opacity:.45}
 .pw-line,.pw-body .pw-cta{display:none}
 /* ⚠️⚠️ A FAN COVERS EACH CARD FROM THE SIDE ITS NEIGHBOUR SITS ON, so a badge pinned to
    one corner is printed underneath the next card for half the ring. The tick moves to the
@@ -292,7 +328,7 @@ img{display:block;max-width:100%}
    of the photograph with the picture still reading through it; a solid half would turn a
    photographic card into a card with a picture stuck on the side. The wine gradient runs
    left to right and thins out before the subject of the image. */
-.pw[data-focus="true"]{--w:var(--fw);--h:var(--fh);--sc:1;--rot:0deg;--op:1;
+.pw[data-focus="true"]{--sc:1;--rot:0deg;--op:1;
   z-index:40;box-shadow:0 38px 84px rgba(71,24,38,.26)}
 /* ⚠️ A PICKED CARD KEEPS ITS RING WHEN IT COMES TO THE FRONT. Both states set box-shadow at
    the same specificity, so the later rule simply won and the front card silently lost the
@@ -317,11 +353,10 @@ img{display:block;max-width:100%}
 /* TALL — the copy sits along the foot and the picture keeps the whole card */
 .rail[data-shape="tall"] .pw[data-focus="true"] .pw-body{top:auto;right:0;left:0;bottom:0;
   justify-content:flex-end}
-/* ⚠️ 29px, NOT 33. The column is 62% of a 452px card, and "Musculoskeletal Injury" is
-   the name that decides the size — at 33px its first word alone broke to two lines and
-   the longest of the eight became a three-line title beside seven one- and two-line
-   ones. The set is sized by its worst case, not by its average. */
-.pw[data-focus="true"] .pw-body h3{font-size:clamp(21px,2.05vw,29px);line-height:1.06}
+/* ⚠️ 29px IS NOW THE SIZE FOR EVERY CARD, NOT ONLY THE FRONT ONE. The column is 62% of a
+   452px card and "Musculoskeletal Injury" is the name that decides it — at 33px its first
+   word alone broke to two lines and the longest of the eight became a three-line title
+   beside seven one- and two-line ones. A set is sized by its worst case. */
 .pw[data-focus="true"] .pw-line{display:block;color:rgba(250,247,241,.88);
   font-size:clamp(12.5px,1.05vw,14.5px);line-height:1.55;max-width:34ch}
 /* ⚠️⚠️ display CANNOT TRANSITION, SO THE LINE AND THE PILL USED TO POP. They switched from
@@ -547,9 +582,8 @@ img{display:block;max-width:100%}
       the same whichever you pick.</p>
     </div>
 
-    <div class="rail" id="rail" data-shape="wide" data-pick="ivory" role="group" aria-label="Peptide therapy pathways">
+    <div class="rail" id="rail" data-shape="tall" data-pick="ivory" role="group" aria-label="Peptide therapy pathways">
       <i class="probe probe-f" id="probeF" aria-hidden="true"></i>
-      <i class="probe probe-s" id="probeS" aria-hidden="true"></i>
       <button type="button" class="arrow arrow--prev" id="prev" aria-label="Previous pathway">
         <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"
              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.5 1.5 3 6l4.5 4.5"/></svg>
@@ -732,8 +766,8 @@ img{display:block;max-width:100%}
     <div class="knobs">
       <span class="knobs-k">Still deciding</span>
       <span class="shape" role="group" aria-label="Front card shape">
-        <button type="button" data-shape="wide" aria-pressed="true">Wide</button>
-        <button type="button" data-shape="tall" aria-pressed="false">Tall</button>
+        <button type="button" data-shape="tall" aria-pressed="true">Tall</button>
+        <button type="button" data-shape="wide" aria-pressed="false">Wide</button>
       </span>
       <span class="shape" role="group" aria-label="Chosen colour">
         <button type="button" data-pick="gold" aria-pressed="false">Gold</button>
@@ -747,8 +781,8 @@ img{display:block;max-width:100%}
 <section class="notes">
   <div class="notes-in">
     <h2>What it does, what it costs, and what is still yours</h2>
-    <p class="notes-lede">Twelve things worth knowing. Eleven are decided in the build above
-    and can be reversed in a line; one still needs a word from you.</p>
+    <p class="notes-lede">Thirteen things worth knowing. Twelve are decided in the build
+    above and can be reversed in a line; one still needs a word from you.</p>
 
     <div class="grid-notes">
       <article class="note">
@@ -791,16 +825,13 @@ img{display:block;max-width:100%}
 
       <article class="note">
         <span class="note-k">Decided &mdash; your pick</span>
-        <h3>Wide, with the crop stated</h3>
-        <p><b>Wide is the default now, on your call.</b> One thing to have on the record
-        rather than discover later: your photographs are 4:5 portrait, so a landscape card
-        shows <b>roughly the middle half of each one</b> and the rest is cropped away. I have
-        taken the card from 338px to 372 tall, which is as landscape as it can stay beside a
-        ring of portrait cards and buys back about a tenth of every picture for nothing.
-        <b>Tall is still one click away</b> under the ring &mdash; it throws none of the image
-        away and gives the arc a hundred more pixels &mdash; but wide is what ships unless you
-        say otherwise. If you ever re-generate the eight, <b>ask for 3:2 landscape masters</b>
-        and this cost disappears entirely.</p>
+        <h3>Tall, and the crop that goes with wide</h3>
+        <p><b>Tall is the default again</b>, now that the cascade below makes it work.
+        Worth keeping on the record: your photographs are 4:5, so the <b>wide</b> card shows
+        roughly the middle half of each and crops the rest &mdash; it is still one click away
+        and I have kept it at 372px rather than 338, which is as landscape as it can stay
+        beside a ring of portrait cards. If you ever re-generate the eight, <b>ask for 3:2
+        landscape masters</b> and that cost disappears entirely.</p>
       </article>
 
       <article class="note">
@@ -814,6 +845,24 @@ img{display:block;max-width:100%}
       </article>
 
       <article class="note">
+        <span class="note-k">Fixed &mdash; your catch</span>
+        <h3>One card, eight distances</h3>
+        <p><b>You were right that it was not really a ring.</b> The front card had its own
+        box and the seven others shared a second, smaller one &mdash; so the jump between them
+        was 0.39 and then the seven barely differed at all. That is a big card standing in
+        front of a flat row.</p>
+        <p>Every card is <b>the same box now</b>, and distance alone decides how big it
+        arrives: <b>1 &middot; 0.62 &middot; 0.47 &middot; 0.36 &middot; 0.27</b> &mdash; each
+        step a fixed <em>proportion</em> of the one before it, which is the thing the eye
+        reads as depth. A ladder that descends is not the same as one that descends by the
+        same ratio; the first reads as a row of different-sized cards. The type comes with
+        it, so a name is the same size <em>on its card</em> everywhere and simply arrives
+        smaller. <b>The price:</b> two steps out a name would render near 8px, so it fades
+        rather than printing type nobody can read &mdash; the photograph and the dot carry
+        those two, which is what the edge of a real ring does anyway.</p>
+      </article>
+
+      <article class="note">
         <span class="note-k">New &mdash; your ask</span>
         <h3>Fairy dust, kept minute</h3>
         <p>Sixty-four motes between half a pixel and two, drifting up and swaying, fading in
@@ -822,11 +871,14 @@ img{display:block;max-width:100%}
         shaft of light and becomes snow on a medical website.</p>
         <p><b>It lives inside the card in front, not across the section.</b> Dust scattered
         evenly says nothing; dust that follows whichever card you have brought forward says
-        <em>this one is alive</em>. Motes are not killed when you turn the ring &mdash; they
-        finish their lives where they were, so turning leaves a short trail rather than a hard
-        cut. And <b>choosing a goal throws a handful of champagne from the tick</b>: the one
-        moment in this section that should feel like a reward, made visible for half a second.
-        Canvas, not fifty animated elements &mdash; it costs the page almost nothing.</p>
+        <em>this one is alive</em>. And <b>choosing a goal throws a handful of champagne from
+        the tick</b> &mdash; the one moment here that should feel like a reward, made visible
+        for half a second.</p>
+        <p>You noticed the dust staying on the ones you had added. <b>That was an accident and
+        it is now on purpose</b>: every chosen card keeps <b>seven motes at two-thirds
+        strength</b> wherever it sits in the ring, so your picks never quite go quiet. It is
+        the multi-select&rsquo;s third home after the tick and the dot &mdash; and if you would
+        rather they went still, it is one line.</p>
       </article>
 
       <article class="note">
@@ -847,14 +899,19 @@ img{display:block;max-width:100%}
 
       <article class="note">
         <span class="note-k">New &mdash; your ask</span>
-        <h3>A little float</h3>
-        <p>Seven pixels, seven to ten seconds, and every card on <b>its own phase</b> &mdash;
-        eight cards rising and falling in step is a lift, not a float. The card in front
-        breathes slowest, because it is the thing the eye rests on.</p>
+        <h3>A float you can barely catch</h3>
+        <p><b>Two and a half pixels over sixteen seconds</b>, every card on its own phase, the
+        front one slowest of all. It was seven over seven and you called it trippy &mdash;
+        <b>you were right, and it is an accessibility point rather than a preference</b>.
+        Persistent drift in the corner of the eye is exactly what unsettles older readers, and
+        a clinic page that makes someone feel unwell has lost more than a visitor. At this
+        amplitude the ring is <em>alive</em> rather than <em>moving</em>: you cannot catch it
+        happening, only notice it is not still. It is also switched off entirely for anyone
+        whose device asks for reduced motion, and the harness now fails if it ever creeps back
+        above three pixels.</p>
         <p>It rides on the CSS <code>translate</code> property rather than
-        <code>transform</code>, which the ring&rsquo;s own layout already owns &mdash; so the
-        bob and the arc compose without either knowing about the other, and a far card floats
-        by the same few pixels as a near one instead of a fraction of them.</p>
+        <code>transform</code>, which the ring&rsquo;s layout already owns &mdash; so the bob
+        and the arc compose without either knowing about the other.</p>
       </article>
 
       <article class="note">
@@ -942,7 +999,7 @@ img{display:block;max-width:100%}
 const rail   = document.getElementById('rail');
 const cards  = [...rail.querySelectorAll('.pw')];
 const N      = cards.length;
-const probeF = document.getElementById('probeF'), probeS = document.getElementById('probeS');
+const probeF = document.getElementById('probeF');
 const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const wide   = () => matchMedia('(min-width: 1181px)').matches;
 let focus = 0, depth = null;
@@ -950,7 +1007,14 @@ let focus = 0, depth = null;
    receding card climbs, and how much of its size it gives up getting there */
 const SPREAD = 1.06;   /* radians — about 61 degrees to the outermost card */
 const RISE   = 52;     /* px the outermost card's foot is above the front card's */
-const SHRINK = .34;    /* the outermost card is 66% of a front-row one */
+/* ⚠️⚠️ THE SIZE CASCADE, AND IT IS GEOMETRIC RATHER THAN LINEAR BECAUSE THAT IS WHAT
+   DISTANCE DOES. Each step out is a fixed PROPORTION of the step before it — 1 · .62 · .47
+   · .36 · .27 — so the ratio between any two neighbours is the same wherever you stand in
+   the ring, which is the thing the eye reads as depth. A linear ladder (1 · .8 · .6 · .4)
+   has a shrinking ratio and reads as a row of different-sized cards instead. */
+const NEAR   = .62;    /* the first card either side, as a fraction of the front one */
+const RATIO  = .76;    /* and every step after that, of the one before it */
+const scaleAt = a => a === 0 ? 1 : NEAR * Math.pow(RATIO, a - 1);
 
 /* ── the artwork, loaded defensively ──────────────────────────────────────────────
    ⚠️ THE SRC IS ONLY SET ONCE THE FILE HAS ACTUALLY LOADED. Assigning it straight to the
@@ -978,15 +1042,25 @@ for (const c of cards) {
    scale, rotateY and opacity, none of which move a card sideways. */
 function layout(){
   if (!wide()) { paintDots(); return; }
-  const fw = probeF.offsetWidth || 440, sw = probeS.offsetWidth || 120;
-  const x1 = fw / 2 + sw / 2 + 16;
+  const base = probeF.offsetWidth || 340;
   const aMax = Math.floor(N / 2);
-  /* ⚠️ THE FAR CARD STOPS SHORT OF THE ARROW, NOT OF THE VIEWPORT. Solving for the edge of
-     the clip put the outermost card underneath the next/prev control — a card you cannot
-     read behind a button you cannot see. 62px is the arrow's 44 plus air on both sides. */
+  const half = a => base * scaleAt(a) / 2;
+  /* ⚠️ THE FRONT CARD IS NEVER OVERLAPPED AND EVERY STEP AFTER IT IS. The first gap is laid
+     out in full — two half-widths plus air — and the remaining gaps SHARE whatever room is
+     left, which is what makes the outer cards fan like a hand rather than sit in a row.
+     ⚠️ THE FAR CARD STOPS SHORT OF THE ARROW, NOT OF THE VIEWPORT: 62px in from the rail
+     edge, the arrow's 44 plus air. Solving for the clip put the outermost card underneath a
+     button; a fixed step made the ring sparse at 1600 and clipped it at 1200. */
   const railW = rail.clientWidth || innerWidth;
-  const room = railW / 2 - 62 - (sw * (1 - SHRINK)) / 2;
-  const unit = Math.min(sw * .95, Math.max(sw * .46, (room - x1) / Math.pow(aMax - 1, .88)));
+  const room = railW / 2 - 62;
+  const x1 = half(0) + half(1) + 14;
+  const steps = [];
+  for (let a = 2; a <= aMax; a++) steps.push(half(a - 1) + half(a));
+  const total = steps.reduce((s, v) => s + v, 0) || 1;
+  const k = Math.max(.34, Math.min(1, (room - half(aMax) - x1) / total));
+  const xAt = a => { let x = a === 0 ? 0 : x1;
+    for (let i = 2; i <= a; i++) x += steps[i - 2] * k;
+    return x; };
   for (let i = 0; i < N; i++) {
     const c = cards[i];
     let d = (i - focus + N) % N; if (d > N / 2) d -= N;
@@ -996,7 +1070,7 @@ function layout(){
       c.dataset.open = 'false';
       c.querySelector('.pw-more').setAttribute('aria-expanded', 'false');
     }
-    c.style.setProperty('--x', (on ? 0 : Math.sign(d) * (x1 + unit * Math.pow(a - 1, .88))).toFixed(1) + 'px');
+    c.style.setProperty('--x', (Math.sign(d) * xAt(a)).toFixed(1) + 'px');
     /* ⚠️⚠️ RECESSION IS ONE NUMBER AND EVERYTHING ELSE IS DERIVED FROM IT. `t` is how far
        round the ring a card has travelled, 0 at the front and 1 at the outermost, taken from
        the CHORD of the arc rather than from `a` — which is why the falloff is slow near the
@@ -1012,8 +1086,10 @@ function layout(){
     c.style.setProperty('--y', on ? '0px' : (-t * RISE).toFixed(1) + 'px');
     c.style.setProperty('--rot', on ? (c.dataset.open === 'true' ? '180deg' : '0deg')
                                     : (-Math.sign(d) * (8 + t * 13)).toFixed(1) + 'deg');
-    c.style.setProperty('--sc', on ? 1 : (1 - t * SHRINK).toFixed(3));
-    c.style.setProperty('--op', on ? 1 : (1 - t * .40).toFixed(2));
+    c.style.setProperty('--sc', scaleAt(a).toFixed(3));
+    c.style.setProperty('--op', on ? 1 : (1 - t * .34).toFixed(2));
+    /* past two steps out the name would render near 8px — it leaves instead */
+    c.dataset.far = String(a >= 3);
     c.style.setProperty('--z', on ? 40 : 30 - a);
     c.dataset.side = on ? 'c' : (d > 0 ? 'r' : 'l');
     /* ⚠️ THE LABEL FOLLOWS THE MEANING. The same button brings a card forward when it is
@@ -1155,7 +1231,13 @@ layout();
    element trap as the sculpture: with width:auto an absolutely positioned <canvas> resolves
    to its INTRINSIC size — the attribute last written — and the over-constrained `right` is
    ignored, so it sizes itself to the last render and pushes the page sideways. */
-const AMBIENT = 64;
+/* ⚠️⚠️ CHOSEN CARDS KEEP A QUIET SHIMMER, AND THAT IS NOW DELIBERATE RATHER THAN LEFTOVER.
+   He noticed dust staying on the ones added to the programme. It was an accident of motes
+   outliving the focus that made them — but it is the better behaviour, so it is built:
+   the card in front carries the full 60, and every CHOSEN card keeps 7 at two-thirds alpha
+   wherever it sits in the ring. ⚠️ IT IS ALSO THE MULTI-SELECT'S THIRD HOME — the tick, the
+   dot, and now a card that will not quite go quiet. Delete the CHOSEN line to undo it. */
+const AMBIENT = 60, CHOSEN = 7;
 const dust = (() => {
   const cv = document.createElement('canvas');
   cv.id = 'dust'; cv.setAttribute('aria-hidden', 'true');
@@ -1177,8 +1259,9 @@ const dust = (() => {
     const b = cards[focus].getBoundingClientRect(), o = cv.getBoundingClientRect();
     return { x: b.left - o.left, y: b.top - o.top, w: b.width, h: b.height };
   };
-  function born(r, burst, ox, oy){
+  function born(r, burst, ox, oy, host){
     return {
+      host: host || null,
       x: burst ? ox : r.x + Math.random() * r.w,
       y: burst ? oy : r.y + Math.random() * r.h,
       vx: (Math.random() - .5) * (burst ? 1.8 : .14),
@@ -1187,12 +1270,31 @@ const dust = (() => {
       sway: Math.random() * 6.283,
       life: 0, max: burst ? 34 + Math.random() * 34 : 150 + Math.random() * 230,
       hue: Math.random() < (burst ? .85 : .4) ? CHAMP : IVORY,
+      dim: host && host !== cards[focus] ? .62 : 1,
     };
+  }
+  /* the rect of any card, in canvas-local pixels — one getBoundingClientRect minus another,
+     which is why there is no scroll arithmetic anywhere in this file */
+  function rectOf(el){
+    const b = el.getBoundingClientRect(), o = cv.getBoundingClientRect();
+    return { x: b.left - o.left, y: b.top - o.top, w: b.width, h: b.height };
   }
   function draw(){
     g.clearRect(0, 0, W, H);
-    const r = facing();
-    if (wide() && r.w > 8) while (motes.length < AMBIENT) motes.push(born(r, false));
+    if (wide()) {
+      /* one pass per host — the card in front, and every chosen card wherever it sits */
+      for (const c of cards) {
+        const isFront = c === cards[focus];
+        if (!isFront && c.dataset.picked !== 'true') continue;
+        const want = isFront ? AMBIENT : CHOSEN;
+        let have = 0;
+        for (const m of motes) if (m.host === c) have++;
+        if (have >= want) continue;
+        const r = rectOf(c);
+        if (r.w < 8) continue;
+        for (let k = have; k < want; k++) motes.push(born(r, false, 0, 0, c));
+      }
+    }
     for (let i = motes.length - 1; i >= 0; i--) {
       const m = motes[i];
       if (++m.life > m.max) { motes.splice(i, 1); continue; }
@@ -1202,7 +1304,7 @@ const dust = (() => {
          and then dims is a mote you watched arrive; one that swells and fades was always
          there and you only just noticed it — which is the difference between dust and
          particles. */
-      const a = Math.sin((m.life / m.max) * Math.PI) * (m.rad > 1.25 ? .76 : .5);
+      const a = Math.sin((m.life / m.max) * Math.PI) * (m.rad > 1.25 ? .76 : .5) * m.dim;
       if (a <= .01) continue;
       if (m.rad > 1.25) {
         const gr = g.createRadialGradient(m.x, m.y, 0, m.x, m.y, m.rad * 3.4);
@@ -1222,7 +1324,7 @@ const dust = (() => {
   /* ⚠️ REDUCED MOTION GETS ONE SCATTER, NOT AN EMPTY CANVAS. Motion is what is unwanted, not
      the texture — a card that loses its dust entirely loses the thing being judged. */
   if (REDUCE) { const r = facing();
-    for (let i = 0; i < AMBIENT; i++) { const m = born(r, false); m.life = m.max * .5; motes.push(m); }
+    for (let i = 0; i < AMBIENT; i++) { const m = born(r, false, 0, 0, cards[focus]); m.life = m.max * .5; motes.push(m); }
     draw();
   } else raf = requestAnimationFrame(tick);
   return {

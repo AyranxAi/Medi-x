@@ -926,7 +926,23 @@ section{position:relative}
    at 0.28 of the crop, which for a 24px disc in a 54px crop lands OUTSIDE it, so it was
    reading the photograph and reported the fill unchanged when the fill had changed.
    Anything measuring a small control has to prove it sampled the control. */
+/* ⚠️⚠️ translateZ(1px) IS NOT DECORATION — IT IS THE THIRD CAUSE REMOVED for his "on the
+   phone the + is not shown", and it is the one z-index cannot cover. .pw carries
+   transform-style:preserve-3d for the flip, and INSIDE A preserve-3d CONTEXT CHILDREN ARE
+   SORTED BY THEIR POSITION IN 3D SPACE, NOT BY z-index — WebKit has always done this and
+   it is not a bug. This button had NO transform, so it sat coplanar at z=0 with .pw-back,
+   which is display:flex on the focused card and comes AFTER it in the DOM. Its z-index:8
+   bought it nothing in that sort; whichever way the engine broke the tie decided whether
+   the + was on top of the card or under it.
+   1px of Z ends the tie in every engine, in any order. backface-visibility:visible is the
+   belt to that brace: the back face beside it sets hidden, and an element that inherits
+   hidden while its parent is rotated is invisible for a reason nothing in the CSS names.
+   ⚠️ STILL UNREPRODUCED HERE — Chromium is the only engine in this environment and the
+   WebKit build will not download through the egress policy. This is the third dependency
+   the + had that the × does not, after the font metrics and the grid-on-a-button. If it is
+   STILL missing on his phone, stop removing causes and get a screenshot of that corner. */
 .pw-more{position:absolute;top:0;right:0;z-index:8;width:46px;height:46px;
+  transform:translateZ(1px);backface-visibility:visible;
   display:none;place-content:center;color:var(--ivory);
   font-family:var(--sans);font-weight:400;font-size:15px;line-height:1;
   transition:transform .6s var(--ease)}
@@ -1442,7 +1458,16 @@ section{position:relative}
 .pxd-scrim{position:absolute;inset:0;background:rgba(46,34,40,.55);
   backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 .pxd-panel{position:relative;background:var(--ivory);border:1px solid var(--line);
-  border-radius:2px;width:min(620px,94vw);max-height:min(84svh,760px);overflow-y:auto;
+  border-radius:2px;width:min(620px,100%);max-height:min(84svh,760px);overflow-y:auto;
+  /* ⚠️⚠️ 100%, NOT 94vw — his "when I open see your consultation the pop up is not in the
+     middle, it's more on one side", 2026-08-17, and it is arithmetic rather than taste.
+     .pxd pads 18px and centres with place-items:center. At a 390 viewport 94vw is 367px
+     while the padded content box is 390-36 = 354 — the panel was WIDER THAN THE BOX THAT
+     WAS CENTRING IT. Grid centring uses SAFE alignment when an item overflows: rather than
+     spill equally and lose the left edge off-screen, it falls back to start. Measured: a
+     gap of 18px on the left and 5px on the right, 13px off centre, vertically perfect.
+     100% is 100% OF THAT CONTENT BOX, so it can never exceed it at any width and the safe
+     fallback can never fire. Desktop is untouched — at 1280 the min() still returns 620. */
   /* ⚠️ A FIXED OVERLAY'S INNER SCROLLER NEEDS TELLING. His "the cards are not
      swipeable": overflow:auto alone lets a phone chain the drag to the locked body,
      which reads as a panel that will not move. overscroll-behavior:contain keeps the

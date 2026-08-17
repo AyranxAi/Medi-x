@@ -475,8 +475,23 @@ async function checkDialogs() {
              stale: !!document.querySelector('.pw [data-choose]'),
              onBoth: document.querySelectorAll('.pw[data-focus="true"] .pw-cta').length };
   });
-  if (pill.text && /add to your programme/i.test(pill.text)) ok(`the card pill reads "${pill.text}"`);
-  else bad(`the card pill reads ${JSON.stringify(pill.text)}`);
+  /* ⚠️ THE LABEL BECAME "Add to consultation" ON 2026-08-17 and this assertion moved with
+     it. What it guards has NOT changed: the pill must name the thing the reader is adding
+     to, so a card that quietly goes back to "Learn more" or "Select" fails here.
+     ⚠️ IT ALSO ASSERTS THE LENGTH NOW, AND THAT IS NOT PEDANTRY. The pill is capped at
+     100% of a 257px column at a 390 viewport, and the label is the binding term: measured
+     there, "Add to your consultation" clips 19px and even the old "Add to your programme"
+     clipped 4px and had done since the ring shipped, unnoticed, because nobody measured it
+     on a phone. 24 characters is the ceiling this pill can render whole. A desktop run
+     cannot see that failure, so the guard lives here rather than in anyone's eye. */
+  const LABEL_MAX = 24;
+  const bare = (pill.text || '').replace(/\s*\+\s*$/, '').trim();
+  if (!bare) bad(`the card pill reads ${JSON.stringify(pill.text)}`);
+  else if (!/consultation|programme/i.test(bare))
+    bad(`the card pill no longer names what it adds to: ${JSON.stringify(bare)}`);
+  else if (bare.length > LABEL_MAX)
+    bad(`the card pill label is ${bare.length} chars ("${bare}") — over ${LABEL_MAX}, it will clip at 390`);
+  else ok(`the card pill reads "${pill.text}" — ${bare.length}/${LABEL_MAX} chars`);
   if (!pill.stale) ok('and no card still routes to the chooser');
   else bad('a card pill still carries data-choose');
   if (pill.onBoth === 2) ok('a pill on each face of the card — front and back');

@@ -1208,8 +1208,22 @@ section{position:relative}
 }
 @media(max-width:699px){
   /* ⚠️ 66vw IS THE LARGEST FRONT CARD THAT STILL LEAVES THE FAN SOMEWHERE TO GO, and it is
-     also the smallest that still fits the pill: "Add to your programme" measures 221px, and
-     a card under about 250 pushes it out of its own column. Both ends are measured. */
+     also the smallest that still fits the pill. Both ends are measured.
+     ⚠️⚠️ RE-MEASURED 2026-08-17 WHEN THE PILL BECAME "Add to consultation", AND THE OLD
+     LABEL WAS ALREADY FAILING HERE. At a 390 viewport the card is 257 and the pill's own
+     column is 257, so the numbers in the previous note were the DESKTOP ones: on a phone
+     "Add to your programme" rendered 217px of pill with 4px of its text clipped off the
+     end, and had done since the ring shipped. Nobody had measured it at 390.
+     ⚠️ THAT IS WHY THE LABEL IS "Add to consultation" AND NOT "Add to your consultation",
+     which was the literal instruction. Measured at 390, in a pill capped at 100% of a
+     257px column:
+       Add to your consultation  217px  — 19px CLIPPED
+       Add to my consultation    217px  —  4px clipped
+       Add to consultation       199px  — clean, and 18px narrower than what shipped
+       Add this goal             150px  — clean, but drops the word he asked for
+     The chosen label is the only one carrying "consultation" that fits, and it also
+     retires the 4px clip the old copy had. DO NOT LENGTHEN IT BACK without re-running
+     that measurement at 390 — the desktop cannot show you this failure. */
   /* ⚠️ THE HEIGHT IS THE CARD PLUS THE CLIMB PLUS THE FLOOR AND NOTHING ELSE. At 118vw the
      rail stood 85px taller than the tallest thing in it, and on a phone that empty band
      reads as the section having lost something — there is no second column for the eye to
@@ -1282,6 +1296,9 @@ section{position:relative}
 .pg-t{flex:1;font-size:14px;line-height:1.35;color:var(--ink)}
 .pg-p{font-size:13.5px;font-variant-numeric:tabular-nums;white-space:nowrap;
   color:var(--ink);align-self:center}
+/* the same rider the headline figure carries, at the same weight relative to it */
+.pg-p small{font-family:var(--sans);font-weight:500;font-size:10px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-soft);margin-left:4px}
 .pg-tag{display:inline-block;font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;
   color:var(--logo-red);border:1px solid currentColor;padding:1px 5px;margin-left:7px;
   vertical-align:middle}
@@ -2454,22 +2471,23 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
              line that tells a reader they may pick more than one, and that picking
              three does not cost more than picking one. Without it the grid reads as
              eight products to choose between.
-             ⚠️⚠️ IT ALSO SAID SOMETHING UNTRUE UNTIL 2026-08-17, and the client caught
-             it: "the process, the panel and THE PRICE are the same whichever you pick."
-             The price is not. AED 1,150 buys the CONSULTATION, and the peptides that
-             follow are prescribed per person and priced after the blood work — so a
-             reader who picked three goals could fairly have expected one bill and met
-             another. THE PROMISE THE LINE EXISTS TO MAKE SURVIVES INTACT, because it was
-             never really about the total: choosing three costs no more than choosing one,
-             which is still true of the only figure the page quotes.
-             ⚠️ DO NOT SHORTEN THIS BACK BY DROPPING THE LAST SENTENCE. The peptide caveat
-             is the half that makes the first half honest; without it the paragraph is the
-             same claim in politer words. -->
-        <p class="sec-lede" data-reveal>Choose as many as apply — most people choose
-        two or three. They are eight goals, not eight programmes: it is the same
-        consultation whichever you pick, and choosing three costs no more than choosing
-        one. Your peptides are prescribed and priced separately, after your blood work
-        is read.</p>
+             ⚠️⚠️ IT SAID SOMETHING UNTRUE UNTIL 2026-08-17 and the client caught it:
+             "the process, the panel and THE PRICE are the same whichever you pick." The
+             price is not — AED 1,150 buys the CONSULTATION, and the peptides that follow
+             are prescribed per person and priced after the blood work, so a reader who
+             picked three goals could fairly have expected one bill and met another.
+             ⚠️ THE FIX IS "THE SAME CONSULTATION", AND THE WORD `SAME` IS THE WHOLE LINE.
+             It carries the promise this paragraph exists for — pick three, pay for one —
+             without making a claim about a total the page cannot honour. Do not trade it
+             for "your consultation": the singular-plus-same is what says three goals do
+             not become three bills.
+             ⚠️ THE PEPTIDE CAVEAT MOVED RATHER THAN VANISHED. A first pass carried it
+             here and he cut it as too complex, which is right: it now lives where a
+             reader meets money, under "What's not included" in the panel. If that block
+             is ever trimmed, this line becomes the only warning again and has to grow
+             back. -->
+        <p class="sec-lede" data-reveal>Choose as many goals as you like — most people
+        choose two or three. They all shape the same consultation.</p>
       </div>
       <!-- ⚠️⚠️ THE RING REPLACED THE FOUR-ACROSS GRID OF TILES ON 2026-08-17, and the
            eight <template class="px-detail"> popups went with it — a card's own BACK FACE
@@ -2502,7 +2520,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
           <div class="pw-body">
             <h3>Auto Immune Disease</h3>
             <p class="pw-line">Inflammation, flares, and an immune system working against you.</p>
-            <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+            <button type="button" class="pw-cta">Add to consultation <span class="arr">+</span></button>
           </div>
           <button type="button" class="pw-more" aria-label="Auto Immune Disease — read more" aria-expanded="false"><span aria-hidden="true">+</span></button>
           <div class="pw-back">
@@ -2511,7 +2529,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
             <p>When the immune system turns on the body it is meant to protect, the goal is regulation — not blanket suppression. Immune-modulating peptides support the signalling that helps an overactive response find its level.</p>
             <p>Protocols are chosen from your history, your labs and your current treatment — peptide support here works alongside your specialist care, never instead of it.</p>
             <ul class="pw-out" aria-label="Common goals"><li>Calmer flares</li><li>Steadier energy</li><li>Fewer bad days</li><li>Long-term regulation</li></ul>
-            <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+            <button type="button" class="pw-cta">Add to consultation <span class="arr">+</span></button>
           </div>
         </article>
         <article class="pw" data-i="1" data-art="../images/pathways/brain-health.webp">
@@ -2522,7 +2540,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
           <div class="pw-body">
             <h3>Brain Health</h3>
             <p class="pw-line">Focus, memory, mood and mental stamina.</p>
-            <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+            <button type="button" class="pw-cta">Add to consultation <span class="arr">+</span></button>
           </div>
           <button type="button" class="pw-more" aria-label="Brain Health — read more" aria-expanded="false"><span aria-hidden="true">+</span></button>
           <div class="pw-back">
@@ -2531,7 +2549,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
             <p>Focus, memory and mental stamina ride on how well the brain repairs, perfuses and protects itself. Cognitive peptides support those housekeeping systems — the ones that keep thinking sharp.</p>
             <p>Often paired with sleep and stress work, because a brain that recovers at night is a brain that performs by day.</p>
             <ul class="pw-out" aria-label="Common goals"><li>Sharper focus</li><li>Clearer memory</li><li>Mental stamina</li><li>Calmer stress response</li></ul>
-            <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+            <button type="button" class="pw-cta">Add to consultation <span class="arr">+</span></button>
           </div>
         </article>
         <article class="pw" data-i="2" data-art="../images/pathways/gut-health.webp">
@@ -2542,7 +2560,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
           <div class="pw-body">
             <h3>Gut Health</h3>
             <p class="pw-line">Digestion, bloating, and the barrier that governs both.</p>
-            <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+            <button type="button" class="pw-cta">Add to consultation <span class="arr">+</span></button>
           </div>
           <button type="button" class="pw-more" aria-label="Gut Health — read more" aria-expanded="false"><span aria-hidden="true">+</span></button>
           <div class="pw-back">
@@ -2551,7 +2569,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
             <p>The gut lining is where nutrition, immunity and resilience begin — and it is one of the fastest-renewing tissues in the body. Gut-repair peptides support that renewal: calming irritation, helping the barrier rebuild.</p>
             <p>A rebuilt gut is also where every other protocol lands better — what you absorb is what your body can actually use.</p>
             <ul class="pw-out" aria-label="Common goals"><li>Settled digestion</li><li>Stronger barrier</li><li>Better absorption</li><li>Less bloating</li></ul>
-            <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+            <button type="button" class="pw-cta">Add to consultation <span class="arr">+</span></button>
           </div>
         </article>
         <article class="pw" data-i="3" data-art="../images/pathways/weight-management.webp">
@@ -2562,7 +2580,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
           <div class="pw-body">
             <h3>Weight Management</h3>
             <p class="pw-line">Body composition, metabolism and how you handle sugar.</p>
-            <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+            <button type="button" class="pw-cta">Add to consultation <span class="arr">+</span></button>
           </div>
           <button type="button" class="pw-more" aria-label="Weight Management — read more" aria-expanded="false"><span aria-hidden="true">+</span></button>
           <div class="pw-back">
@@ -2571,7 +2589,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
             <p>Metabolic peptides work with your body’s own appetite and energy signalling, so weight comes off the way it should — as fat, not muscle, and without the white-knuckle willpower.</p>
             <p>Dosing, labs and follow-up all run through the clinic: this is medical weight management, not a subscription.</p>
             <ul class="pw-out" aria-label="Common goals"><li>Appetite signalling</li><li>Fat, not muscle</li><li>Steady energy</li><li>Medical monitoring</li></ul>
-            <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+            <button type="button" class="pw-cta">Add to consultation <span class="arr">+</span></button>
           </div>
         </article>
         <article class="pw" data-i="4" data-art="../images/pathways/skin-and-hair-loss.webp">
@@ -2582,7 +2600,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
           <div class="pw-body">
             <h3>Skin &amp; Hair Loss</h3>
             <p class="pw-line">Collagen, thinning, texture and how quickly skin repairs.</p>
-            <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+            <button type="button" class="pw-cta">Add to consultation <span class="arr">+</span></button>
           </div>
           <button type="button" class="pw-more" aria-label="Skin &amp; Hair Loss — read more" aria-expanded="false"><span aria-hidden="true">+</span></button>
           <div class="pw-back">
@@ -2591,7 +2609,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
             <p>Collagen, elasticity and the follicle itself all answer to signalling that slows with age. Skin and hair peptides prompt that renewal from within — repair, not concealment.</p>
             <p>Often paired with the hormone side of the clinic, because skin and hair are where imbalance shows first.</p>
             <ul class="pw-out" aria-label="Common goals"><li>Collagen renewal</li><li>Skin quality</li><li>Fuller hair</li><li>Elasticity back</li></ul>
-            <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+            <button type="button" class="pw-cta">Add to consultation <span class="arr">+</span></button>
           </div>
         </article>
         <article class="pw" data-i="5" data-art="../images/pathways/musculoskeletal-injury.webp">
@@ -2602,7 +2620,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
           <div class="pw-body">
             <h3>Musculoskeletal Injury</h3>
             <p class="pw-line">Joints, tendons, and the time it takes you to heal.</p>
-            <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+            <button type="button" class="pw-cta">Add to consultation <span class="arr">+</span></button>
           </div>
           <button type="button" class="pw-more" aria-label="Musculoskeletal Injury — read more" aria-expanded="false"><span aria-hidden="true">+</span></button>
           <div class="pw-back">
@@ -2611,7 +2629,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
             <p>Tendon, ligament and muscle heal slowly because they see little blood flow — and repair peptides exist for exactly that reason. They support the tissue’s own rebuilding, so recovery keeps pace with how you live and train.</p>
             <p>For the injury that will not close, the strain that keeps returning, and the training block you want to actually finish.</p>
             <ul class="pw-out" aria-label="Common goals"><li>Tendon repair</li><li>Faster recovery</li><li>Old injuries</li><li>Back to training</li></ul>
-            <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+            <button type="button" class="pw-cta">Add to consultation <span class="arr">+</span></button>
           </div>
         </article>
         <article class="pw" data-i="6" data-art="../images/pathways/anti-ageing.webp">
@@ -2622,7 +2640,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
           <div class="pw-body">
             <h3>Anti Ageing</h3>
             <p class="pw-line">Cellular repair, energy, and the pace of decline.</p>
-            <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+            <button type="button" class="pw-cta">Add to consultation <span class="arr">+</span></button>
           </div>
           <button type="button" class="pw-more" aria-label="Anti Ageing — read more" aria-expanded="false"><span aria-hidden="true">+</span></button>
           <div class="pw-back">
@@ -2631,7 +2649,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
             <p>Ageing is, in part, housekeeping falling behind — repair signals that thin out year by year. Longevity peptides support cellular repair, deep sleep and recovery: healthspan first, so the years you add are years you can use.</p>
             <p>Built as a long-game protocol, reviewed on your labs, alongside everything else you do here.</p>
             <ul class="pw-out" aria-label="Common goals"><li>Deep sleep</li><li>Cellular repair</li><li>Healthspan</li><li>Sustained energy</li></ul>
-            <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+            <button type="button" class="pw-cta">Add to consultation <span class="arr">+</span></button>
           </div>
         </article>
         <article class="pw" data-i="7" data-art="../images/pathways/sexual-health.webp">
@@ -2642,7 +2660,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
           <div class="pw-body">
             <h3>Sexual Health</h3>
             <p class="pw-line">Libido, function, and the hormones underneath both.</p>
-            <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+            <button type="button" class="pw-cta">Add to consultation <span class="arr">+</span></button>
           </div>
           <button type="button" class="pw-more" aria-label="Sexual Health — read more" aria-expanded="false"><span aria-hidden="true">+</span></button>
           <div class="pw-back">
@@ -2651,7 +2669,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
             <p>Desire and function run on signalling — vascular, hormonal and neurological at once. Sexual-health peptides work on those pathways directly, for women and for men.</p>
             <p>And it is a subject raised far more easily in a ten-minute private call than in a waiting room — which is exactly what the discovery call is for.</p>
             <ul class="pw-out" aria-label="Common goals"><li>Desire</li><li>Function</li><li>Confidence</li><li>For women and men</li></ul>
-            <button type="button" class="pw-cta">Add to your programme <span class="arr">+</span></button>
+            <button type="button" class="pw-cta">Add to consultation <span class="arr">+</span></button>
           </div>
         </article>
       </div>
@@ -2811,7 +2829,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
             <small>A team or a nurse comes to your home anywhere in the UAE and takes the sample
             for whichever tests are required. Outside the UAE you use any laboratory near you and
             we send the exact panel to ask for.</small></span>
-          <span class="pg-p">AED 1,950</span>
+          <span class="pg-p">AED 1,950 <small>+ VAT</small></span>
         </button>
       </div>
 
@@ -4848,7 +4866,7 @@ function layout(){
        this goal" on a card whose click merely turns the ring has been lied to by the
        markup. */
     const face = c.querySelector('.pw-face'), goal = face.dataset.goal;
-    face.setAttribute('aria-label', on ? goal + ' — add this goal to your programme'
+    face.setAttribute('aria-label', on ? goal + ' — add this goal to your consultation'
                                        : goal + ' — bring this pathway forward');
     face.setAttribute('aria-pressed', String(c.dataset.picked === 'true'));
   }

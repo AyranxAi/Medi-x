@@ -9,8 +9,9 @@
 > `npm install --no-save playwright gsap@3.13.0 lenis@1.3.4`.
 > The round-18 files have their own, playwright only: `node tools/qa/section04-lab.mjs`
 > (**49**) and `node tools/qa/section04-hybrid.mjs` (**49**).
-> **The page is on `main`** as of round 17; round 18 is on
-> `claude/whats-included-excluded-copy-04cohg`.
+> **Round 18 is on `main`** — his call, 2026-08-17. ⚠️ **The live section 04 is UNCHANGED by
+> it**: `section04-hybrid.html` is a standalone proposal, not wired into the page. What round
+> 18 changed on the live page is the DELETION of 06 and the inverted tail grounds.
 >
 > **THE FOUR THINGS A NEW CHAT SHOULD KNOW FIRST:**
 > 1. **The page is PLUM (warm), not glacier.** Round 14 reversed round 9. ⚠️ **It contradicts
@@ -35,8 +36,10 @@
 >    AED 1,950. ⚠️ **Never invent a figure** — see the AED 350 incident in round 12.
 >
 > **WHAT IS STILL OPEN (all his):**
-> · **SECTION 04 — TWO QUESTIONS: TALL OR WIDE, AND IVORY OR THE ROSE DAWN.** Both are live
->   on the page; the shape is a toggle under the ring, defaulted to tall.
+> · **SECTION 04 — ONE QUESTION: IVORY OR THE ROSE DAWN.** Shape is settled: **he picked
+>   wide**, and the toggle stays. ⚠️ **AND THE RING IS NOT WIRED INTO THE LIVE PAGE** — it is
+>   a proposal file. Adopting it is a separate round: the tray, the programme panel and the
+>   popup all have to meet it.
 > · *(superseded)* **ONE QUESTION LEFT: IVORY OR THE ROSE DAWN.** He sent a third reference
 >   and `section04-hybrid.html` is now a RING of his eight photographs with a + that turns
 >   a card over. The artwork question is closed — the eight landed 2026-08-17.
@@ -304,6 +307,13 @@
 > ⚠️ **THE RING LINE'S HEIGHT IS DERIVED FROM `RISE`, NOT CHOSEN.** What is on screen is the
 > ellipse's BOTTOM arc; at half-width it has climbed B×0.47, so B ≈ 2×RISE or the line stops
 > being the thing the cards stand on. Change one, change the other.
+>
+> **21a · ✅ HE PICKED WIDE (2026-08-17) — it is the default and the toggle stays.** ⚠️ **THE
+> CROP IS ON THE RECORD RATHER THAN DISCOVERED LATER**: a landscape card shows roughly the
+> middle half of a 4:5 photograph. The card went 338 → **372px tall**, which is as landscape
+> as it can stay beside a ring of portrait cards and buys back about a tenth of every picture
+> for nothing. **If the eight are ever re-generated, ask for 3:2 landscape masters** and the
+> cost disappears.
 >
 > **21 · TALL OR WIDE — A TOGGLE UNDER THE RING, AND THE SECOND OPEN QUESTION.** His ask:
 > *"experiment on making the cards portrait sized to maximise their image, as the images are

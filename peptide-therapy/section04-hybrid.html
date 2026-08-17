@@ -147,15 +147,19 @@ img{display:block;max-width:100%}
    billboard in it. The wide version is kept because it is what his reference showed, and
    because a landscape front card carries a longer line more comfortably. */
 .rail{position:relative;height:clamp(420px,34vw,500px);
-  --fw:min(352px,29vw); --fh:min(468px,38.5vw);
+  --fw:min(452px,38vw); --fh:min(372px,31vw);
   --sw:clamp(112px,9.4vw,136px); --sh:clamp(206px,17vw,244px);
   perspective:2000px;perspective-origin:50% 50%;touch-action:pan-y;cursor:grab}
 .rail.dragging{cursor:grabbing}
 /* ⚠️ THE FRONT CARD MUST NOT INHERIT THE FAN'S ALIGNMENT. It is [data-side="c"], so the
    rule above cannot reach it — but a future edit that keys off d>0 instead would flip the
    whole editorial column to the right the moment the ring turned past halfway. */
-/* the wide front card — his reference's shape, kept as the alternative */
-.rail[data-shape="wide"]{--fw:min(452px,38vw); --fh:min(338px,28.4vw)}
+/* ⚠️ WIDE IS THE DEFAULT ON HIS PICK (2026-08-17), AND IT IS 372 TALL RATHER THAN 338.
+   A landscape card crops a 4:5 photograph to its middle band whatever you do; 372 is the
+   tallest the card can be while still reading as landscape beside a ring of portrait ones,
+   and it buys back about a tenth of each picture for nothing. The TALL alternative stays a
+   click away — it is one attribute, and it is the shape that throws none of the image away. */
+.rail[data-shape="tall"]{--fw:min(352px,29vw); --fh:min(468px,38.5vw)}
 /* the ring line the cards stand on */
 /* ⚠️ A VERY WIDE ELLIPSE HAS NO VISIBLE CURVE. At 124% wide the only part on screen was
    the top of the arc, which reads as a stray horizontal rule ruled across the section
@@ -259,19 +263,19 @@ img{display:block;max-width:100%}
    darkens the half nobody is reading and leaves the type on the bright half — the scrim has
    to run the way the text is laid, or it is decoration that also happens to hurt. */
 .pw[data-focus="true"] .pw-art::after{
-  background:linear-gradient(to top,rgba(74,22,38,.96) 0%,rgba(74,22,38,.86) 26%,
-    rgba(74,22,38,.42) 56%,rgba(74,22,38,.08) 84%)}
-.rail[data-shape="wide"] .pw[data-focus="true"] .pw-art::after{
   background:linear-gradient(100deg,rgba(74,22,38,.95) 0%,rgba(74,22,38,.88) 32%,
     rgba(74,22,38,.5) 60%,rgba(74,22,38,.14) 100%)}
+.rail[data-shape="tall"] .pw[data-focus="true"] .pw-art::after{
+  background:linear-gradient(to top,rgba(74,22,38,.96) 0%,rgba(74,22,38,.86) 26%,
+    rgba(74,22,38,.42) 56%,rgba(74,22,38,.08) 84%)}
 .pw[data-focus="true"] .pw-n{top:clamp(18px,1.8vw,24px);left:clamp(20px,2vw,28px);
   font-size:clamp(12px,1.1vw,14px)}
-/* TALL — the copy sits along the foot and the picture keeps the whole card */
-.pw[data-focus="true"] .pw-body{top:auto;right:0;left:0;bottom:0;justify-content:flex-end;
-  align-items:flex-start;padding:clamp(20px,2vw,28px);gap:clamp(9px,.9vw,13px)}
 /* WIDE — the copy takes a column and the picture keeps the rest */
-.rail[data-shape="wide"] .pw[data-focus="true"] .pw-body{top:0;right:38%;bottom:0;
-  justify-content:center}
+.pw[data-focus="true"] .pw-body{top:0;right:38%;bottom:0;justify-content:center;
+  align-items:flex-start;padding:clamp(20px,2vw,28px);gap:clamp(9px,.9vw,13px)}
+/* TALL — the copy sits along the foot and the picture keeps the whole card */
+.rail[data-shape="tall"] .pw[data-focus="true"] .pw-body{top:auto;right:0;left:0;bottom:0;
+  justify-content:flex-end}
 /* ⚠️ 29px, NOT 33. The column is 62% of a 452px card, and "Musculoskeletal Injury" is
    the name that decides the size — at 33px its first word alone broke to two lines and
    the longest of the eight became a three-line title beside seven one- and two-line
@@ -459,7 +463,7 @@ img{display:block;max-width:100%}
       the same whichever you pick.</p>
     </div>
 
-    <div class="rail" id="rail" data-shape="tall" role="group" aria-label="Peptide therapy pathways">
+    <div class="rail" id="rail" data-shape="wide" role="group" aria-label="Peptide therapy pathways">
       <i class="probe probe-f" id="probeF" aria-hidden="true"></i>
       <i class="probe probe-s" id="probeS" aria-hidden="true"></i>
       <button type="button" class="arrow arrow--prev" id="prev" aria-label="Previous pathway">
@@ -619,8 +623,8 @@ img{display:block;max-width:100%}
     <div class="rail-foot">
       <p class="tally"><b id="tally">0</b> <span id="tallyLabel">nothing chosen yet</span>
         <span class="shape" role="group" aria-label="Front card shape">
-          <button type="button" data-shape="tall" aria-pressed="true">Tall</button>
-          <button type="button" data-shape="wide" aria-pressed="false">Wide</button>
+          <button type="button" data-shape="wide" aria-pressed="true">Wide</button>
+          <button type="button" data-shape="tall" aria-pressed="false">Tall</button>
         </span></p>
       <p class="hint">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"
@@ -638,8 +642,8 @@ img{display:block;max-width:100%}
 <section class="notes">
   <div class="notes-in">
     <h2>What it does, what it costs, and what is still yours</h2>
-    <p class="notes-lede">Eight things worth knowing before you say yes. Six are decided in
-    the build above and can be reversed in a line; two need a word from you.</p>
+    <p class="notes-lede">Eight things worth knowing. Seven are decided in the build above
+    and can be reversed in a line; one still needs a word from you.</p>
 
     <div class="grid-notes">
       <article class="note">
@@ -681,17 +685,17 @@ img{display:block;max-width:100%}
       </article>
 
       <article class="note">
-        <span class="note-k open">Open &mdash; needs you</span>
-        <h3>Tall or wide</h3>
-        <p>Toggle it under the ring. <b>Your photographs are 4:5 portrait, and the landscape
-        card was cropping about sixty per cent of each one away</b> &mdash; then asking you to
-        judge the picture. Tall also hands the ring a hundred pixels back: the fan&rsquo;s
-        overlap drops from 31% to 22%, <b>which is what turns the eighth card from a sliver
-        into a card</b> &mdash; the thing that read to you as being &ldquo;on the back&rdquo;.
-        And a ring of eight identical portrait cards with one brought forward is a coherent
-        object; a ring whose front card also changes shape is a fan with a billboard in it.
-        <b>Wide is kept because it is what your reference showed</b>, and it carries a long
-        name on one line more comfortably. My vote is tall.</p>
+        <span class="note-k">Decided &mdash; your pick</span>
+        <h3>Wide, with the crop stated</h3>
+        <p><b>Wide is the default now, on your call.</b> One thing to have on the record
+        rather than discover later: your photographs are 4:5 portrait, so a landscape card
+        shows <b>roughly the middle half of each one</b> and the rest is cropped away. I have
+        taken the card from 338px to 372 tall, which is as landscape as it can stay beside a
+        ring of portrait cards and buys back about a tenth of every picture for nothing.
+        <b>Tall is still one click away</b> under the ring &mdash; it throws none of the image
+        away and gives the arc a hundred more pixels &mdash; but wide is what ships unless you
+        say otherwise. If you ever re-generate the eight, <b>ask for 3:2 landscape masters</b>
+        and this cost disappears entirely.</p>
       </article>
 
       <article class="note">
@@ -751,9 +755,8 @@ img{display:block;max-width:100%}
 
     <div class="ask">
       <h3>What I need back</h3>
-      <p>Yes to the mechanism, or a change &mdash; and the two open ones: <b>tall or
-      wide</b>, and <b>ivory or the rose dawn the rest of the page hands it</b>. Everything
-      else above I can flip in a line if you disagree.</p>
+      <p>One question left: <b>ivory, or the rose dawn the rest of the page hands it</b>.
+      Everything else above I can flip in a line if you disagree.</p>
     </div>
   </div>
 </section>

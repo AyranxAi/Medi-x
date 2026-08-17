@@ -8,7 +8,7 @@
 > (**72**). Both must be green before anything ships. They need
 > `npm install --no-save playwright gsap@3.13.0 lenis@1.3.4`.
 > The round-18 files have their own, playwright only: `node tools/qa/section04-lab.mjs`
-> (**49**) and `node tools/qa/section04-hybrid.mjs` (**49**).
+> (**49**) and `node tools/qa/section04-hybrid.mjs` (**58**).
 > **Round 18 is on `main`** — his call, 2026-08-17. ⚠️ **The live section 04 is UNCHANGED by
 > it**: `section04-hybrid.html` is a standalone proposal, not wired into the page. What round
 > 18 changed on the live page is the DELETION of 06 and the inverted tail grounds.
@@ -36,8 +36,10 @@
 >    AED 1,950. ⚠️ **Never invent a figure** — see the AED 350 incident in round 12.
 >
 > **WHAT IS STILL OPEN (all his):**
-> · **SECTION 04 — ONE QUESTION: IVORY OR THE ROSE DAWN.** Shape is settled: **he picked
->   wide**, and the toggle stays. ⚠️ **AND THE RING IS NOT WIRED INTO THE LIVE PAGE** — it is
+> · **SECTION 04 — TWO QUESTIONS: THE CHOSEN COLOUR, AND IVORY OR THE ROSE DAWN.** Shape is
+>   settled — **he picked wide**. The chosen colour is a three-way toggle under the ring
+>   (gold / ivory / wine) with the measurements on the page; ⚠️ **gold's 1.03 on gut-health
+>   is why the badge now has an edge**, and that fix stands whichever he picks. ⚠️ **AND THE RING IS NOT WIRED INTO THE LIVE PAGE** — it is
 >   a proposal file. Adopting it is a separate round: the tray, the programme panel and the
 >   popup all have to meet it.
 > · *(superseded)* **ONE QUESTION LEFT: IVORY OR THE ROSE DAWN.** He sent a third reference
@@ -332,6 +334,41 @@
 > ⚠️ **SEVEN DOES NOT HALVE — the asymmetry is movable, not fixable**, and his own first
 > reference has the same split. The portrait card makes the fourth legible again, which is
 > the whole of what was wrong.
+
+> **23 · ⚠️⚠️ "IS GOLD REALLY RIGHT, OR THE SUPER-WHITE FROM THE BHRT STAR?" — MEASURED, AND
+> THE ANSWER IS NEITHER.** Sampled at the corner the chosen badge actually sits in, against
+> HIS OWN EIGHT PHOTOGRAPHS: **gold 1.03 at worst (gut-health — invisible, not weak), ivory
+> 1.50, burgundy 4.84, ink 5.96.** Every one of the eight is pale rose in that corner, so
+> **it is not gold-versus-ivory, it is light-versus-dark.**
+> ⚠️ **AND ON THE IVORY GROUND THE REVERSE HOLDS: gold 2.31, ivory 1.00.** An ivory line on
+> ivory is not a line. **This is the BHRT star board's finding a second time** — ivory is
+> loudest on the dark and quietest on the pale, gold is the only one alive at both ends —
+> and that board is the precedent for *taste outranks the meter*, so the numbers are put to
+> him rather than applied over him.
+> ⚠️ **THE REAL FIX WAS NOT A COLOUR: THE BADGE GAINED AN EDGE.** A wine hairline plus a soft
+> drop means it is found by its OUTLINE rather than its fill, so it reads on all eight
+> whatever accent is set. **Any future accent inherits the fix instead of re-finding the bug.**
+> ⚠️ **THE SIGNALS ARE SPLIT AND MUST STAY SPLIT.** What sits ON A CARD follows `--pick`;
+> what sits ON THE GROUND (the ring line, the unpicked dots) stays gold whatever `--pick` is,
+> because no light accent survives the ivory and no dark one belongs there.
+> Three settings live under the ring: **Gold** (default, what he approved) · **Ivory** ·
+> **Wine**. My recommendation is wine for the badge and gold everywhere else.
+>
+> **24 · TWO MORE BUGS, AND BOTH ARE ABOUT CHECKS RATHER THAN CSS:**
+> · ⚠️⚠️ **THE `[data-pick]` RULES WERE WRITTEN AND NEVER LANDED.** They were inserted against
+>   an anchor comment an earlier edit had already consumed, so the substitution **matched
+>   nothing and did nothing, silently**. The toggle moved the attribute, the attribute
+>   selected no rule, and all three settings rendered gold. **Everything looked wired and
+>   nothing was.** Check 4h asserts the COMPUTED colour, which is the only thing that can
+>   tell a token apart from a token-shaped comment. **Every scripted substitution in this
+>   file's history should assert its anchor.**
+> · ⚠️ **A PICKED CARD LOST ITS RING AT THE FRONT.** `[data-picked]` and `[data-focus]` set
+>   box-shadow at the same specificity, so the later rule simply won. **Chosen and focused
+>   are not alternatives; they are both true.**
+> · ⚠️ **AND THE HARNESS MEASURED AN ANIMATION FOR THE THIRD TIME.** box-shadow transitions
+>   for 600ms and the check read it at 500 — partway between the old accent and the new, so
+>   it matched neither. **The tell is always a check that passes for exactly the one case
+>   that did not change**: gold passed because gold was the value it started from.
 
 > ---
 

@@ -306,6 +306,50 @@ const run = async () => {
   await page.evaluate(() => document.querySelector('.shape button[data-shape="tall"]').click());
   await page.waitForTimeout(1200);
 
+  /* ═══ 4h · THE ACCENT REALLY RE-POINTS ═════════════════════════════════════════
+     ⚠️ THIS CHECK EXISTS BECAUSE THE RULES WERE WRITTEN AND NEVER LANDED. The two
+     [data-pick] blocks were inserted against an anchor comment an earlier edit had already
+     consumed, so the substitution matched nothing and did nothing — silently. The toggle
+     moved the attribute, the attribute selected no rule, and all three settings rendered
+     gold. Everything looked wired and nothing was. Asserting the COMPUTED colour is the only
+     thing that can tell a token apart from a token-shaped comment.
+     ⚠️ AND THE GLYPH IS CHECKED WITH THE FILL. A badge whose disc changes and whose tick
+     does not is a badge that reads ink-on-ivory or ivory-on-gold at some setting. */
+  head('4h · The chosen colour');
+  await page.evaluate(() => document.querySelector('.pw[data-focus="true"] .pw-cta').click());
+  await page.waitForTimeout(500);
+  const WANT = { gold:  ['rgb(194, 160, 94)', 'rgb(46, 34, 40)'],
+                 ivory: ['rgb(250, 247, 241)', 'rgb(92, 31, 49)'],
+                 wine:  ['rgb(92, 31, 49)', 'rgb(250, 247, 241)'] };
+  for (const [k, [fill, glyph]] of Object.entries(WANT)) {
+    await page.evaluate(v => document.querySelector(`.shape button[data-pick="${v}"]`).click(), k);
+    /* ⚠️ 800ms, BECAUSE box-shadow IS TRANSITIONED FOR 600. Read at 500 the ring's colour is
+       PARTWAY BETWEEN the old accent and the new one — it matches neither, and the check
+       failed for ivory and wine while passing for gold purely because gold was the value it
+       started from and therefore never animated. Third time this harness has measured an
+       animation instead of a page; the tell is always a check that passes for exactly the
+       one case that did not change. */
+    await page.waitForTimeout(800);
+    const got = await page.evaluate(() => {
+      const t = document.querySelector('.pw[data-picked="true"] .pw-tick');
+      const cs = getComputedStyle(t);
+      return { fill: cs.backgroundColor, glyph: cs.color,
+               /* the badge must never depend on its fill alone — the edge is the fix */
+               edge: /rgba?\(52, 16, 28/.test(cs.boxShadow),
+               /* and a picked card keeps its ring even at the front */
+               ring: getComputedStyle(t.closest('.pw')).boxShadow.includes(cs.backgroundColor) };
+    });
+    if (got.fill === fill && got.glyph === glyph)
+      ok(`4h ${k} — the badge really re-points`, `${got.fill} on ${got.glyph.replace('rgb', '')}`);
+    else bad(`4h ${k} — the token did not take`, `got ${got.fill} / ${got.glyph}`);
+    if (got.edge) ok(`4i ${k} — and it keeps its edge, so it does not rely on the fill`);
+    else bad(`4i ${k} — the badge has no edge; on gut-health its fill measures 1.03`);
+    if (got.ring) ok(`4j ${k} — a picked card keeps its ring at the front`);
+    else bad(`4j ${k} — chosen and focused are fighting over box-shadow again`);
+  }
+  await page.evaluate(() => document.querySelector('.shape button[data-pick="gold"]').click());
+  await page.waitForTimeout(400);
+
   /* ═══ 5b · THE + TURNS THE CARD — HIS ADDITION, SO IT IS ASSERTED ══════════════
      ⚠️ THE + AND THE FACE MUST NEVER BOTH BE LIVE. The face adds the goal, the + opens the
      reading; a turned card whose face still takes clicks means one click doing two things,

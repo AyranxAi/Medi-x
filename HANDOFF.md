@@ -1,3 +1,35 @@
+# Handoff addendum — 2026-08-18, round 3 (letter O, and Ms. Richa Puri)
+
+**He read the river and killed it, correctly: *"that looks like a pandemic."*** Branching
+channels with travelling particles converging on one node is the grammar of a transmission
+map, and no harness on this estate could have caught it — every check measures position,
+contrast and overflow, and none asks what the picture RESEMBLES. ⚠️ **Add that question to
+every figure before it is built.** His fix was the better half of the note: reuse the
+hero's language.
+
+**So the functional-medicine scene is now THE ALIGNMENT (letter O), drawn on the hero's own
+universe** — same generator, same seed, same five tilts. The systems arrive scattered, the
+gold beat names the failure, then orbit by orbit they swing into one shared plane and their
+five lights slide onto one shared ray pointing at the nucleus; the dawn rises from exactly
+that point. ⚠️ **Nothing is eliminated — all five systems are on screen at the end**, which
+is why O beat the subtractive letters: a scene that deletes four systems argues against the
+page's own definition of the discipline. ⚠️ **The hero's `RINGS` block and the scene's are
+two copies of one fact — change one, change the other.**
+
+**Ms. Richa Puri replaced Dr. Nahla Ibrahim Elawady on the functional-medicine page only**
+(the sibling keeps Dr. Nahla). ⚠️ **She is a prescribing pharmacist, not a physician — "Ms."
+— so five user-facing strings stopped saying "doctor"**, including the section heading and
+the chooser. Calling a pharmacist a doctor in clinic marketing is a regulatory
+misstatement, not a style slip. Her upload arrived square and head-and-shoulders, so the
+card takes it untouched and only the panel head crop is baked.
+
+Smoke suite green (`tools/qa/fm-shots.mjs`). Both concept boards stay as the record of the
+sixteen roads not taken.
+
+Full record: [`functional-medicine/HANDOVER.md`](functional-medicine/HANDOVER.md).
+
+---
+
 # Handoff addendum — 2026-08-18, round 2 (letters F and G: the orrery and the river)
 
 He replied to the concept board ("Twelve Ways In") with two letters, and his reading of F

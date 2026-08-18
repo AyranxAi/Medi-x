@@ -1,6 +1,6 @@
 # Functional Medicine — `/functional-medicine/` (first ship 2026-08-18)
 
-> # ▶ START HERE — STATE OF PLAY AT THE END OF ROUND 2
+> # ▶ START HERE — STATE OF PLAY AT THE END OF ROUND 3
 >
 > **The page:** `/functional-medicine/index.html` — single file, zero build, ~5,250 lines,
 > adapted whole from `/peptide-therapy/index.html` at its round-19b state. Open it with any
@@ -47,6 +47,73 @@
 >    **If the sibling's ring changes, this ring should follow** — there is no parity
 >    harness between the two yet, and that is a real gap worth closing.
 >
+> **⚠️⚠️ ROUND 3 (2026-08-18) — TWO CALLS: LETTER O, AND MS. RICHA PURI.**
+>
+> **1 · THE SCENE IS THE ALIGNMENT NOW (letter O), AND THE RIVER IS GONE — HE READ IT AND
+> HE WAS RIGHT: *"that looks like a pandemic."*** Branching channels with travelling
+> particles converging on one node is the visual grammar of a TRANSMISSION MAP — flight
+> paths, spread diagrams, contact tracing. The mechanism was sound; the association is
+> fatal on a clinic page. ⚠️ **RECORD THIS AS A TEST, NOT AN ANECDOTE: every figure on this
+> estate should be asked what ELSE it resembles before it is built.** Nothing in any
+> harness could have caught it — every check was about position, contrast and overflow, and
+> not one about what the picture reminds a person of. (It is the same class of miss as the
+> peptide ring running upside down: the geometry was right and the meaning was wrong.)
+> ⚠️ **AND HIS FIX WAS BETTER THAN THE CATCH.** His instruction was to reuse the hero's
+> language — *"the same idea from the system in the hero where in the center is the root"* —
+> which was also the first concept board's own recommendation (*pick one language and speak
+> it twice*). So:
+> · **THE SCENE IS NOW THE HERO'S OWN UNIVERSE.** Same generator, same seed (424242), same
+>   five tilts and speeds. ⚠️⚠️ **TWO COPIES OF ONE FACT IN ONE FILE — if the hero's `RINGS`
+>   block is ever re-seeded or re-tuned, THE SCENE'S MOVES WITH IT**, or the page silently
+>   stops telling one story twice. Cross-referenced at both sites, the arrangement `--dawn`
+>   and `BG_B` already live under.
+> · **WHAT HAPPENS:** the five systems arrive one at a time on scattered tilts, each with a
+>   travelling light; the gold beat names the failure while they are still scattered (*"read
+>   alone, every result looks normal"*); then orbit by orbit each swings into ONE SHARED
+>   PLANE and each light slides onto ONE SHARED RAY — disorder resolving into a line that
+>   points at the nucleus. The dawn rises from that point; "The source" lands inside the ring.
+> · ⚠️ **NOTHING IS ELIMINATED AND NOTHING SHRINKS — all five systems are on screen at the
+>   end.** That is *why* O was picked over the subtractive letters (M/P/R on the second
+>   board): functional medicine's own claim is that everything is connected, so a scene that
+>   deletes four systems argues against the definition two screens above it. **Do not
+>   "improve" it by fading the four** — that is letter Q and a different claim.
+> · ⚠️ **THE ALIGNED ASPECT IS .30, NOT 0.** Edge-on collapses five orbits into one flat
+>   line and the picture stops being a universe. At .30 it still reads as rings at a shallow
+>   angle — a photograph, not a diagram.
+> · ⚠️ **THE GOLD BEAT CLOSES AT .335 AND THE FIRST ORBIT SWINGS AT .34.** A beat reading
+>   "read alone, every result looks normal" must not still be lit while the rings visibly
+>   begin to agree. That ordering is the causality.
+> · **It is the most reversible scene on the estate** — every term is a lerp of pin
+>   progress, so scrubbing back genuinely un-aligns the orrery frame by frame.
+>
+> **2 · MS. RICHA PURI REPLACED DR. NAHLA IBRAHIM ELAWADY — HIS CALL, THIS PAGE ONLY.**
+> ⚠️⚠️ **SHE IS NOT A PHYSICIAN AND THE PAGE HAD TO STOP SAYING "DOCTORS".** Richa is a
+> UK-trained prescribing **pharmacist** and nutritional therapist — **"Ms.", not "Dr."** —
+> so five user-facing strings moved in the same commit: the section heading (*"The doctors
+> you'll meet"* → *"The specialists you'll meet"*), the chooser dialog (*"Choose your
+> doctor"* → *"Choose who you'll see"*), programme step 03 (same), step 04's *"Your doctor"*
+> → *"Your clinician"*, and her panel kicker (*"The specialist · Medi-Gyn"*; the three MDs
+> keep *"The doctor"*). **Calling a pharmacist a doctor in clinic marketing is a regulatory
+> misstatement, not a style slip** — it is exactly what a DHA review picks up.
+> ⚠️ **DR. NAHLA IS NOT DELETED FROM THE ESTATE** — she is off THIS page only. Her card, bio
+> and chooser row stand unchanged on `/peptide-therapy/`, and both her portraits stay in
+> `images/doctors/`. Do not tidy them away.
+> ⚠️ **HER PORTRAIT ARRIVED ALREADY SQUARE AND ALREADY HEAD-AND-SHOULDERS** (1200×1200, his
+> upload to `main` as `images/Richa-Purinew.webp`), unlike the three full-body masters — so
+> the card takes it **untouched** (git mv'd to `ms-richa-puri-square.webp`, never
+> re-encoded, round 4's precedent) and only the panel head crop is baked:
+> `node tools/crop-portrait.mjs images/doctors/ms-richa-puri-square.webp <out> 240 34 700 400`
+> — 3.0% headroom, sitting with Eslam's 3.0% and Khalid's 3.3%.
+> ⚠️ **HER COPY IS THE CLIENT'S, with three typographic corrections recorded at the card**
+> (colon dropped from "Core Expertise:", unspaced em dashes spaced, "Richa's Story" →
+> sentence case). Do not tighten it in passing — it has the same standing as the doctors'.
+> ⚠️ **SHE IS THIRD BECAUSE THAT IS THE SLOT SHE REPLACED.** On a functional-medicine page,
+> a functional-medicine specialist leading the row is an argument worth putting to him — two
+> `<article>` blocks and two chooser rows swapped, and it is his call.
+> ⚠️ **THE 4-UP ROW GOT EASIER, NOT HARDER:** 22px was solved for Dr. Nahla's name, the
+> longest in the sibling's set; "Ms. Richa Puri" is far shorter, so the row keeps its margin
+> and Dr. Andrey Komissarov is the worst case now.
+>
 > **⚠️⚠️ ROUND 2 (2026-08-18) REPLACED THE HERO AND THE SCENE — HIS LETTERS, F AND G,
 > off the concept board ("Twelve Ways In", the published artifact). His words on F,
 > recorded: *"it's a universe which has a center which is like the root and axis of
@@ -59,7 +126,7 @@
 > below describe them in past tense now; everything else in this file still stands.**
 >
 > **WHAT IS NEW ON THIS PAGE, IN ONE LIST (round 2 state):**
-> · **THE SCENE — "the river runs backward" (letter G).** Same engine grammar as both
+> · *(round 2, SUPERSEDED BY LETTER O IN ROUND 3 — read the pandemic note above)* **THE SCENE — "the river runs backward" (letter G).** Same engine grammar as both
 >   siblings (pure function of pin progress, latch, seeded geometry, Replay/Skip, the
 >   dawn to BG_B): act one shows only the DOWNSTREAM reaches of a watershed — streams
 >   surfacing from the dark and flowing to their mouths, upstream hidden; the gold beat

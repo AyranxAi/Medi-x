@@ -1,0 +1,830 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Functional Medicine — Orrery Hero Lab</title>
+
+<!-- ══════════════════════════════════════════════════════════════════════════════════
+     ORRERY HERO LAB · round 4 · 2026-08-18
+     ═══════════════════════════════════════════════════════════════════════════════════
+     WHY THIS EXISTS. His note on the shipped hero, verbatim in spirit: "it looks dead,
+     grey circles, the one around looks like it's written by pencil." He is right, and the
+     diagnosis is not the concept — the orrery (letter F, his own pick) is sound. It is
+     the RENDERING, which never left wireframe stage:
+
+       1 · EVERY STROKE IS lineWidth = 1. Depth is carried by alpha alone (.14 → .30).
+           A curve of uniform hairline weight is the definition of a technical drawing.
+           Weight-varies-with-depth is the strongest 2.5D cue there is, and it is unused.
+       2 · THE RING COLOUR IS GREY. rgba(106,88,95,·) is --ink-soft, and at 14–30% over
+           ivory it computes to roughly #E4DDDA–#CFC4C4 — desaturated warm grey, i.e.
+           graphite. It is also the only non-gold hue in the scene, so it belongs to no
+           part of the palette. That is the pencil.
+       3 · NOTHING OCCLUDES ANYTHING. Rings are drawn ring-by-ring, so they cross without
+           any of them passing in front — five ellipses printed on one plane. A spirograph,
+           not a system.
+       4 · ⚠️ THE ONE THAT MATTERS MOST — ON IVORY, GOLD CANNOT GET BRIGHTER, ONLY MORE
+           SATURATED. The ground sits at ~97% luminance, so every attempt to render LIGHT
+           on it fails by arithmetic: there is no headroom above the paper. This is the
+           real reason the hero reads dead. A light source needs somewhere darker to be
+           bright against — so the fix is either a warm pool that deepens the ground under
+           the orrery (B, E, F, H below) or a dark plate outright (G).
+
+     ⚠️ THE MOTION DISCIPLINE IS NOT UP FOR REVIEW. Every variant here keeps the shipped
+     70–120s orbits and the un-catchable nucleus breath — the vestibular note in the live
+     file is the audience's, not a taste. Presence is bought with WEIGHT, HUE, OCCLUSION
+     and LIGHT, none of which translate anything across the screen. The one motion added
+     is pointer parallax, which is response, not drift, and is off under reduced motion.
+
+     ⚠️ EVERY VARIANT RUNS THE SAME SEEDED UNIVERSE (424242, five tilts, five speeds,
+     the live file's RINGS block verbatim) so this is an honest comparison of RENDERING.
+     Where a variant changes geometry it says so in its own note and overrides `radii`.
+
+     ⚠️ IF ONE OF THESE IS PICKED, IT LANDS IN TWO PLACES, NOT ONE. The scene below the
+     fold is the hero's own universe by design (round 3, his call: "speak the hero's
+     language twice"). Re-render the hero and the scene must follow, or the page stops
+     telling one story twice.
+     ═════════════════════════════════════════════════════════════════════════════════ -->
+
+<style>
+/* ─── Medi✦X brand faces — the live files, not stand-ins ─── */
+@font-face{font-family:"Playfair";src:url(../fonts/playfair-normal-var-latin.woff2) format("woff2-variations");font-weight:300 900;font-style:normal;font-display:swap}
+@font-face{font-family:"Playfair";src:url(../fonts/playfair-italic-var-latin.woff2) format("woff2-variations");font-weight:300 900;font-style:italic;font-display:swap}
+@font-face{font-family:"MediGyn NOW";src:url(../fonts/medigyn-now-300.woff2) format("woff2");font-weight:300;font-display:swap}
+@font-face{font-family:"MediGyn NOW";src:url(../fonts/medigyn-now-500.woff2) format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"MediGyn Megante";src:url(../fonts/medigyn-megante-400.woff2) format("woff2");font-weight:400;font-display:swap}
+
+/* ─── design constants, verbatim from BRAND.md ─── */
+:root{
+  --ivory:#FAF7F1; --cream:#F4EDE1; --line:#DED4C2;
+  --burgundy:#5C1F31; --rose:#C79A92; --logo-red:#8E2D3A;
+  --gold:#C2A05E; --gold-deep:#8A6A34; --gold-tint:#F1E7D2;
+  --ink:#2E2228; --ink-soft:#6A585F;
+  --serif:"Playfair","Playfair Display",Didot,"Times New Roman",Georgia,serif;
+  --sans:"MediGyn NOW",Jost,ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --accent-face:"MediGyn Megante",Optima,Georgia,serif;
+  --ease:cubic-bezier(.22,.61,.36,1);
+  color-scheme:light;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);font-weight:300;background:var(--ivory);color:var(--ink);
+     -webkit-font-smoothing:antialiased;line-height:1.6}
+h1,h2{font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30;
+      color:var(--ink);line-height:1.05;letter-spacing:-.01em;text-wrap:balance}
+h1 em{font-style:italic;color:var(--rose);font-weight:430}
+a{color:inherit}
+.wrap{width:min(1180px,calc(100% - clamp(40px,8vw,120px)));margin-inline:auto}
+
+/* ─── masthead ─── */
+.mast{padding:clamp(64px,9vh,104px) 0 clamp(40px,6vh,60px);border-bottom:1px solid var(--line)}
+.chapter-mark{font-family:var(--accent-face);font-size:13px;letter-spacing:.24em;color:var(--gold-deep);text-transform:uppercase}
+.mast h1{font-size:clamp(36px,4.6vw,60px);margin-top:18px}
+.mast .lede{margin-top:18px;max-width:46em;font-size:clamp(15px,1.25vw,17px);color:var(--ink-soft);line-height:1.75}
+.mast .lede + .lede{margin-top:14px}
+.mast .lede b{font-weight:500;color:var(--burgundy)}
+.index{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px;list-style:none}
+.index a{display:inline-flex;align-items:baseline;gap:9px;text-decoration:none;
+  border:1px solid var(--line);border-radius:999px;padding:9px 18px;
+  font-size:12.5px;letter-spacing:.06em;
+  transition:border-color .3s var(--ease),background .3s var(--ease)}
+.index a:hover,.index a:focus-visible{border-color:var(--gold);background:var(--cream);outline:none}
+.index .lt{font-family:var(--accent-face);font-size:12px;letter-spacing:.2em;color:var(--gold-deep)}
+.index .tag{color:var(--ink-soft)}
+
+/* ─── the diagnosis table ─── */
+.diag{padding:clamp(40px,6vh,64px) 0;border-bottom:1px solid var(--line);background:var(--cream)}
+.diag h2{font-size:clamp(24px,2.6vw,32px)}
+.diag ol{margin-top:22px;max-width:52em;list-style:none;counter-reset:d}
+.diag li{counter-increment:d;position:relative;padding-left:40px;margin-top:16px;font-size:15px;color:var(--ink-soft);line-height:1.7}
+.diag li::before{content:counter(d,decimal-leading-zero);position:absolute;left:0;top:.1em;
+  font-family:var(--accent-face);font-size:12px;letter-spacing:.16em;color:var(--gold-deep)}
+.diag li b{font-weight:500;color:var(--ink)}
+
+/* ─── plates ─── */
+.plate{position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden}
+.plate canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+/* the legibility geometry the live hero ships: foot fade + a quiet wash behind the copy */
+.veil{position:absolute;inset:0;pointer-events:none;z-index:1;background:
+  linear-gradient(180deg,rgba(250,247,241,0) 55%,var(--ivory) 97%),
+  radial-gradient(85% 115% at 20% 44%,rgba(250,247,241,.55) 0%,rgba(250,247,241,.22) 46%,rgba(250,247,241,0) 70%)}
+.plate[data-key="G"] .veil{background:
+  linear-gradient(180deg,rgba(32,26,30,0) 55%,#201A1E 97%),
+  radial-gradient(85% 115% at 20% 44%,rgba(32,26,30,.62) 0%,rgba(32,26,30,.26) 46%,rgba(32,26,30,0) 70%)}
+.plate[data-key="G"]{color:var(--ivory)}
+.plate[data-key="G"] h2,.plate[data-key="G"] .hero-sub{color:var(--ivory)}
+.plate[data-key="G"] .hero-sub{color:#D9CEC9}
+.plate[data-key="G"] .hero-sub strong{color:var(--gold)}
+.plate[data-key="G"] .kicker{color:var(--gold)}
+.plate[data-key="G"] .btn.ghost{color:var(--ivory);border-color:rgba(250,247,241,.34)}
+.plate[data-key="G"] .spec{background:rgba(32,26,30,.72);border-color:rgba(250,247,241,.16);color:#D9CEC9}
+.plate[data-key="G"] .spec b{color:var(--ivory)}
+
+.hero-inner{position:relative;z-index:2;width:100%;padding-top:11vh;padding-bottom:clamp(190px,26vh,290px)}
+.kicker{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-deep);
+        margin-bottom:clamp(22px,3.4vh,38px)}
+/* the plate title takes the live h1's ramp so type/figure balance is judged truthfully */
+.plate h2{font-size:clamp(42px,7vw,100px);max-width:11em}
+.plate h2 .line{display:block}
+.hero-sub{margin-top:clamp(24px,3.6vh,40px);max-width:34em;
+  font-size:clamp(18px,1.6vw,23px);font-weight:300;color:var(--ink-soft);line-height:1.75}
+.hero-sub strong{font-weight:500;color:var(--burgundy)}
+.hero-ctas{display:flex;gap:16px;margin-top:clamp(30px,4.4vh,48px);flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:12px;text-decoration:none;
+  font-family:var(--sans);font-weight:500;font-size:13px;letter-spacing:.12em;text-transform:uppercase;
+  padding:18px 34px;border-radius:999px;background:rgba(142,45,58,.85);color:var(--ivory);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:1px solid transparent;white-space:nowrap;transition:background .35s var(--ease)}
+.btn:hover{background:rgba(163,54,72,.94)}
+.btn.ghost{background:transparent;border-color:var(--line);color:var(--ink)}
+.btn.ghost:hover{background:var(--cream);border-color:var(--gold)}
+
+/* ─── the per-plate spec card ─── */
+.spec{position:absolute;left:0;bottom:0;z-index:3;width:min(560px,calc(100% - 32px));
+  margin:0 0 22px clamp(20px,4vw,60px);padding:16px 20px;border-radius:14px;
+  background:rgba(250,247,241,.80);border:1px solid var(--line);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  font-size:12.5px;line-height:1.65;color:var(--ink-soft)}
+.spec .lt{font-family:var(--accent-face);font-size:12px;letter-spacing:.2em;color:var(--gold-deep);
+  display:block;margin-bottom:6px}
+.spec b{font-weight:500;color:var(--ink)}
+
+/* ─── the control bar ─── */
+.bar{position:fixed;z-index:40;right:clamp(14px,2.4vw,28px);bottom:clamp(14px,2.4vw,28px);
+  display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;max-width:calc(100% - 28px)}
+.bar button,.bar a{font-family:var(--sans);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  padding:11px 16px;border-radius:999px;border:1px solid var(--line);background:rgba(250,247,241,.9);
+  color:var(--ink);cursor:pointer;text-decoration:none;
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  transition:border-color .3s var(--ease),background .3s var(--ease)}
+.bar button[aria-pressed="true"]{border-color:var(--gold);background:var(--gold-tint)}
+.bar button:hover,.bar a:hover{border-color:var(--gold)}
+
+.foot{padding:clamp(56px,8vh,90px) 0;border-top:1px solid var(--line);background:var(--cream)}
+.foot h2{font-size:clamp(22px,2.4vw,30px)}
+.foot p{margin-top:16px;max-width:50em;font-size:15px;color:var(--ink-soft);line-height:1.75}
+.foot p b{font-weight:500;color:var(--ink)}
+
+@media (max-width:900px){
+  /* ⚠️ .plate IS A FLEX ROW. A `position:static` spec card does not fall BELOW the copy on a
+     phone — it becomes a SECOND FLEX ITEM beside it and runs off the right edge. So the plate
+     becomes a block here, the hero keeps its full screen through .hero-inner's own min-height,
+     and the card follows in normal flow underneath. The canvas is inset:0 on the now-taller
+     plate, so the figure still fills everything behind both. */
+  .plate{display:block;min-height:auto}
+  .plate h2{font-size:clamp(28px,9.2vw,44px)}
+  .hero-inner{min-height:100svh;display:flex;flex-direction:column;justify-content:center;
+              padding-top:12vh;padding-bottom:8vh}
+  /* ⚠️ AND THE CANVAS MUST STOP AT THE HERO, NOT AT THE PLATE. Once the card is in flow the
+     plate is taller than a screen, and an inset:0 canvas stretches with it — which drags the
+     figure's own cy (H*.30 on a phone) down out of the headline's air and straight through
+     the copy. Pinning both canvas and veil to 100svh restores the live page's exact framing. */
+  .plate canvas,.veil{height:100svh;bottom:auto}
+  /* position:relative, NOT static — z-index does nothing on an unpositioned element, and a
+     static card renders UNDER the veil that is still painting its ivory fade over it. */
+  .spec{position:relative;z-index:3;width:auto;margin:0 clamp(20px,4vw,60px) 34px;font-size:12px}
+}
+</style>
+</head>
+<body>
+
+<header class="mast">
+  <div class="wrap">
+    <p class="chapter-mark">Functional Medicine · Hero Lab · Round 4</p>
+    <h1>The orrery, <em>rendered</em>.</h1>
+    <p class="lede">The concept stays — five systems on five tilts around one nucleus, letter F,
+    his own pick. What is on trial here is the <b>rendering</b>, which never left wireframe:
+    flat 1px strokes, a grey that belongs to no part of the palette, and no ring passing in
+    front of any other. Nine plates, one seeded universe (424242), the live file's tilts and
+    speeds throughout.</p>
+    <p class="lede">⚠️ <b>Every plate keeps the 70–120s orbits.</b> Presence here is bought with
+    weight, hue, occlusion and light — never with speed. Scroll a plate into view and only that
+    plate animates.</p>
+    <ul class="index">
+      <li><a href="#p0"><span class="lt">00</span><span>Now</span><span class="tag">shipped</span></a></li>
+      <li><a href="#pA"><span class="lt">A</span><span>Weight</span><span class="tag">taper + occlusion</span></a></li>
+      <li><a href="#pB"><span class="lt">B</span><span>Ember</span><span class="tag">burgundy → gold</span></a></li>
+      <li><a href="#pC"><span class="lt">C</span><span>Champagne</span><span class="tag">gold monochrome</span></a></li>
+      <li><a href="#pD"><span class="lt">D</span><span>Rose Gold</span><span class="tag">rose → gold</span></a></li>
+      <li><a href="#pE"><span class="lt">E</span><span>Aperture</span><span class="tag">depth of field</span></a></li>
+      <li><a href="#pF"><span class="lt">F</span><span>Ecliptic</span><span class="tag">cropped, with a plane</span></a></li>
+      <li><a href="#pG"><span class="lt">G</span><span>Ink</span><span class="tag">dark ground</span></a></li>
+      <li><a href="#pH"><span class="lt">H</span><span>Aurum</span><span class="tag">everything</span></a></li>
+    </ul>
+  </div>
+</header>
+
+<section class="diag">
+  <div class="wrap">
+    <h2>Why it reads as pencil</h2>
+    <ol>
+      <li><b>Every stroke is <code>lineWidth = 1</code>.</b> Depth is carried by alpha alone
+      (.14 → .30). Uniform hairline weight is the definition of a technical drawing —
+      weight-varies-with-depth is the strongest 2.5D cue available and it is unused.</li>
+      <li><b>The ring colour is grey.</b> <code>rgba(106,88,95,·)</code> is <code>--ink-soft</code>;
+      at 14–30% over ivory it lands near #E4DDDA–#CFC4C4 — desaturated warm grey, which is
+      graphite. It is also the only hue in the hero that belongs to no part of the palette.</li>
+      <li><b>Nothing occludes anything.</b> Rings are drawn one whole ring at a time, so none
+      of them ever passes in front of another or in front of the nucleus. Five ellipses printed
+      on one plane read as a spirograph, not as a system.</li>
+      <li><b>On ivory, gold cannot get brighter — only more saturated.</b> The ground is at ~97%
+      luminance, so there is no headroom above the paper for a light source to occupy. This is
+      the arithmetic reason the hero reads dead, and it is why the plates that work all either
+      deepen the ground under the orrery or move it onto a dark plate.</li>
+      <li><b>The composition is polite.</b> The whole universe fits inside the canvas with room
+      to spare, centred at 70% width and 48% height. Nothing crops, so nothing implies it
+      continues past the frame.</li>
+      <li><b>The lights are 1.8–2.9px dots.</b> Against a 100px headline there is no accent at
+      the right-hand end of the composition with enough mass to answer it.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ══════════ THE PLATES ═══════════════════════════════════════════════════════════
+     Each plate carries the live hero's own copy, its own type ramp and its own veil, so
+     the figure is judged against the words it actually has to share a screen with — not
+     as a swatch. `data-key` selects the config in ORRERY.CFG at the foot of this file. -->
+
+<section class="plate" id="p0" data-key="0">
+  <canvas aria-hidden="true"></canvas><div class="veil"></div>
+  <div class="hero-inner wrap">
+    <p class="kicker">Preventative · Precision · Personalised</p>
+    <h2><span class="line">Functional</span><span class="line"><em>medicine.</em></span></h2>
+    <p class="hero-sub">Medically supervised <strong>functional medicine</strong> — a deeper
+    investigation into your metabolism, digestion, thyroid health and inflammation, tracing
+    your symptoms to their root cause.</p>
+    <div class="hero-ctas"><a class="btn" href="#p0">Book a consultation <span class="arr">→</span></a><a class="btn ghost" href="#pA">How it works</a></div>
+  </div>
+  <div class="spec"><span class="lt">00 · Now — shipped</span>
+  The reference. <b>1px everywhere</b>, ring hue <code>rgba(106,88,95,.14–.30)</code>, no
+  occlusion, no pool, hairline axis. Everything below is measured against this frame.</div>
+</section>
+
+<section class="plate" id="pA" data-key="A">
+  <canvas aria-hidden="true"></canvas><div class="veil"></div>
+  <div class="hero-inner wrap">
+    <p class="kicker">Preventative · Precision · Personalised</p>
+    <h2><span class="line">Functional</span><span class="line"><em>medicine.</em></span></h2>
+    <p class="hero-sub">Medically supervised <strong>functional medicine</strong> — a deeper
+    investigation into your metabolism, digestion, thyroid health and inflammation, tracing
+    your symptoms to their root cause.</p>
+    <div class="hero-ctas"><a class="btn" href="#pA">Book a consultation <span class="arr">→</span></a><a class="btn ghost" href="#pB">How it works</a></div>
+  </div>
+  <div class="spec"><span class="lt">A · Weight — the control experiment</span>
+  <b>Identical palette to 00.</b> Two changes only: stroke width ramps <b>0.45px far → 2.6px
+  near</b>, and every segment of every ring is <b>z-sorted into one list</b> so near arcs cross
+  in front of far ones and of the nucleus. Nothing else moved. This plate exists to show how
+  much of "dead and grey" was actually just <b>weight</b>.</div>
+</section>
+
+<section class="plate" id="pB" data-key="B">
+  <canvas aria-hidden="true"></canvas><div class="veil"></div>
+  <div class="hero-inner wrap">
+    <p class="kicker">Preventative · Precision · Personalised</p>
+    <h2><span class="line">Functional</span><span class="line"><em>medicine.</em></span></h2>
+    <p class="hero-sub">Medically supervised <strong>functional medicine</strong> — a deeper
+    investigation into your metabolism, digestion, thyroid health and inflammation, tracing
+    your symptoms to their root cause.</p>
+    <div class="hero-ctas"><a class="btn" href="#pB">Book a consultation <span class="arr">→</span></a><a class="btn ghost" href="#pC">How it works</a></div>
+  </div>
+  <div class="spec"><span class="lt">B · Ember — the recommendation</span>
+  The grey is gone. Far arcs are <b>--burgundy</b>, near arcs warm to <b>--gold-deep</b>: the
+  ring <b>heats up as it comes toward you</b>, which is what a body lit from the centre does —
+  so the nucleus reads as the <b>cause</b> of the ring's colour, not just a dot inside it. Plus
+  a <b>warm pool</b> that deepens the ground so gold has something to be bright against, a
+  <b>light shaft</b> for the axis instead of a crop mark, and comet lights with a 1.25rad wake.</div>
+</section>
+
+<section class="plate" id="pC" data-key="C">
+  <canvas aria-hidden="true"></canvas><div class="veil"></div>
+  <div class="hero-inner wrap">
+    <p class="kicker">Preventative · Precision · Personalised</p>
+    <h2><span class="line">Functional</span><span class="line"><em>medicine.</em></span></h2>
+    <p class="hero-sub">Medically supervised <strong>functional medicine</strong> — a deeper
+    investigation into your metabolism, digestion, thyroid health and inflammation, tracing
+    your symptoms to their root cause.</p>
+    <div class="hero-ctas"><a class="btn" href="#pC">Book a consultation <span class="arr">→</span></a><a class="btn ghost" href="#pD">How it works</a></div>
+  </div>
+  <div class="spec"><span class="lt">C · Champagne — one metal, no second hue</span>
+  <b>Gold monochrome throughout</b> — --gold at the far edge, --gold-deep at the near. The
+  cleanest answer to "grey circles": there is no second colour left to go grey. Carries a
+  faint <b>dust plate</b> on the mean plane so the rings sit <b>in</b> something. Reads as
+  jewellery; the risk is that it is warmer than the estate's usual restraint.</div>
+</section>
+
+<section class="plate" id="pD" data-key="D">
+  <canvas aria-hidden="true"></canvas><div class="veil"></div>
+  <div class="hero-inner wrap">
+    <p class="kicker">Preventative · Precision · Personalised</p>
+    <h2><span class="line">Functional</span><span class="line"><em>medicine.</em></span></h2>
+    <p class="hero-sub">Medically supervised <strong>functional medicine</strong> — a deeper
+    investigation into your metabolism, digestion, thyroid health and inflammation, tracing
+    your symptoms to their root cause.</p>
+    <div class="hero-ctas"><a class="btn" href="#pD">Book a consultation <span class="arr">→</span></a><a class="btn ghost" href="#pE">How it works</a></div>
+  </div>
+  <div class="spec"><span class="lt">D · Rose Gold — the softest ask</span>
+  Far arcs in <b>--rose</b>, near in <b>--gold-deep</b>. Same mechanism as Ember but the cool
+  end is a real hue the brand already owns rather than a deep wine — quieter, more Medi-Gyn,
+  and the least likely to be called "dramatic" by anyone reviewing it. The trade is that the
+  rings sit closer in value to the ivory, so it holds less at small sizes.</div>
+</section>
+
+<section class="plate" id="pE" data-key="E">
+  <canvas aria-hidden="true"></canvas><div class="veil"></div>
+  <div class="hero-inner wrap">
+    <p class="kicker">Preventative · Precision · Personalised</p>
+    <h2><span class="line">Functional</span><span class="line"><em>medicine.</em></span></h2>
+    <p class="hero-sub">Medically supervised <strong>functional medicine</strong> — a deeper
+    investigation into your metabolism, digestion, thyroid health and inflammation, tracing
+    your symptoms to their root cause.</p>
+    <div class="hero-ctas"><a class="btn" href="#pE">Book a consultation <span class="arr">→</span></a><a class="btn ghost" href="#pF">How it works</a></div>
+  </div>
+  <div class="spec"><span class="lt">E · Aperture — depth of field</span>
+  Ember's palette, plus the cue no diagram ever has: <b>the far side is out of focus.</b> Far
+  arcs get a second wide, very transparent pass (bokeh) under a thinner one; near arcs stay
+  crisp and hard. A photographic reading rather than a drawn one — the fastest way to stop a
+  figure looking like a figure. Costs one extra stroke per far segment.</div>
+</section>
+
+<section class="plate" id="pF" data-key="F">
+  <canvas aria-hidden="true"></canvas><div class="veil"></div>
+  <div class="hero-inner wrap">
+    <p class="kicker">Preventative · Precision · Personalised</p>
+    <h2><span class="line">Functional</span><span class="line"><em>medicine.</em></span></h2>
+    <p class="hero-sub">Medically supervised <strong>functional medicine</strong> — a deeper
+    investigation into your metabolism, digestion, thyroid health and inflammation, tracing
+    your symptoms to their root cause.</p>
+    <div class="hero-ctas"><a class="btn" href="#pF">Book a consultation <span class="arr">→</span></a><a class="btn ghost" href="#pG">How it works</a></div>
+  </div>
+  <div class="spec"><span class="lt">F · Ecliptic — the only geometry change</span>
+  ⚠️ <b>This one moves the radii</b>: .30 / .54 / .80 / 1.10 / 1.46 instead of the even .155
+  ladder, at 1.34× scale — so <b>the outer two rings run off the canvas.</b> A universe that
+  crops implies it continues; one that fits inside its box is a diagram of a universe. Adds
+  the dust plate. ⚠️ <b>All five systems are still on screen</b> — the round-3 rule holds
+  (nothing is eliminated); they are cropped, not removed.</div>
+</section>
+
+<section class="plate" id="pG" data-key="G">
+  <canvas aria-hidden="true"></canvas><div class="veil"></div>
+  <div class="hero-inner wrap">
+    <p class="kicker">Preventative · Precision · Personalised</p>
+    <h2><span class="line">Functional</span><span class="line"><em>medicine.</em></span></h2>
+    <p class="hero-sub">Medically supervised <strong>functional medicine</strong> — a deeper
+    investigation into your metabolism, digestion, thyroid health and inflammation, tracing
+    your symptoms to their root cause.</p>
+    <div class="hero-ctas"><a class="btn" href="#pG">Book a consultation <span class="arr">→</span></a><a class="btn ghost" href="#pH">How it works</a></div>
+  </div>
+  <div class="spec"><span class="lt">G · Ink — the honest answer to the arithmetic</span>
+  <b>Dark ground</b> (#241D21 → #2E2228, the brand's own --ink). Suddenly gold has 90% of the
+  luminance range to move in, additive blending actually blooms, and the fourteen stars become
+  visible for the first time. This is the plate where the orrery stops being a drawing of light
+  and becomes light. ⚠️ <b>It is a page-level decision, not a hero one</b> — the estate's
+  grounds alternation (dawn · ivory · dawn · ivory) starts at this hero, and a dark hero
+  changes what section 03 has to do next. Worth having on the table anyway.</div>
+</section>
+
+<section class="plate" id="pH" data-key="H">
+  <canvas aria-hidden="true"></canvas><div class="veil"></div>
+  <div class="hero-inner wrap">
+    <p class="kicker">Preventative · Precision · Personalised</p>
+    <h2><span class="line">Functional</span><span class="line"><em>medicine.</em></span></h2>
+    <p class="hero-sub">Medically supervised <strong>functional medicine</strong> — a deeper
+    investigation into your metabolism, digestion, thyroid health and inflammation, tracing
+    your symptoms to their root cause.</p>
+    <div class="hero-ctas"><a class="btn" href="#pH">Book a consultation <span class="arr">→</span></a><a class="btn ghost" href="#top">Back to the top</a></div>
+  </div>
+  <div class="spec"><span class="lt">H · Aurum — everything at once, on ivory</span>
+  Ember's palette + Aperture's defocus + Ecliptic's crop and dust plate + a <b>specular
+  highlight</b> on the nucleus + the widest warm pool. If a single plate is going to be called
+  award-grade it is this one — and it is also the one to argue with, because it spends every
+  device at once. <b>Move the pointer</b>: the whole universe answers by 14px. That parallax is
+  on every plate here, and it is off under reduced motion.</div>
+</section>
+
+<section class="foot">
+  <div class="wrap">
+    <h2>What to do with this</h2>
+    <p><b>The cheapest real fix is A.</b> Two changes — a depth-ramped stroke width and one
+    global z-sort — and the pencil is gone without a single hue moving. If nothing else is
+    agreed, that one lands.</p>
+    <p><b>The recommendation is B, with E's defocus folded in.</b> Ember gives the hero a
+    reason for its own colour: the ring warms as it approaches because the light is at the
+    centre. That is an argument, not a decoration, and it is the same argument the page makes
+    in words two screens down.</p>
+    <p>⚠️ <b>Whichever plate is picked lands in two places.</b> The scroll scene below the fold
+    is the hero's own universe by design (round 3 — "speak the hero's language twice"). Its
+    generator, seed and tilts are a second copy of the hero's. Re-render one and the other
+    must follow in the same commit.</p>
+    <p>⚠️ <b>Ask the round-3 question of every plate before it ships:</b> what else does this
+    look like? The river scene passed every geometric check and still had to go, because
+    branching channels with travelling particles is the grammar of a transmission map. An
+    orrery's own nearest wrong reading is <i>an atom</i> — which is why the tilts stay
+    irregular and the radii stay uneven on every plate here. Regularise them and it becomes
+    a nuclear-industry logo.</p>
+  </div>
+</section>
+
+<nav class="bar" aria-label="Lab controls">
+  <button id="tg-par" aria-pressed="true">Parallax</button>
+  <button id="tg-freeze" aria-pressed="false">Freeze</button>
+  <a href="#top">Top</a>
+</nav>
+
+<script>
+/* ══════════ ONE ENGINE, NINE CONFIGS ═══════════════════════════════════════════════════
+   ⚠️ THE UNIVERSE IS BUILT ONCE AND SHARED. Same seed, same five tilts, same five speeds
+   as the live hero's RINGS block — so every difference visible on this page is a difference
+   in RENDERING, which is the only thing on trial. A variant that wants different geometry
+   overrides `radii` and `scale` and says so on its own card (only F and H do).
+   ⚠️ ONLY THE PLATE IN VIEW ANIMATES. Nine full-bleed canvases at 60fps would tell you more
+   about the machine than about the design. */
+(function(){
+  var TAU = Math.PI*2;
+  var REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var STILL = 21.7;              /* the estate's shared still — all heroes judged at one frame */
+  var SEG = 64;
+
+  /* the live file's generator, verbatim */
+  var seed = 424242;
+  function rnd(){ return (seed = (seed*16807)%2147483647)/2147483647; }
+  var RINGS = Array.from({length:5},function(_,i){ return {
+    r:.34+i*.155, asp:.22+rnd()*.5, rot:(rnd()-.5)*1.9,
+    sp:(.055+rnd()*.05)*(i%2?1:-1), off:rnd()*TAU
+  };});
+  var STARS = Array.from({length:14},function(){ return {x:rnd(),y:rnd(),r:.7+rnd()*.9,ph:rnd()*TAU}; });
+
+  /* BRAND.md, as numbers */
+  var CO = {
+    plum:[106,88,95], burgundy:[92,31,49], rose:[199,154,146],
+    gold:[194,160,94], goldDeep:[138,106,52], hot:[255,244,222], warm:[120,86,58]
+  };
+  function mix(a,b,t){ return [a[0]+(b[0]-a[0])*t, a[1]+(b[1]-a[1])*t, a[2]+(b[2]-a[2])*t]; }
+  /* the ramp's cool end — never cooler than the ground it sits on. See the note at CFG.B. */
+  CO.wine = null;
+  function rgba(c,a){ return "rgba("+(c[0]|0)+","+(c[1]|0)+","+(c[2]|0)+","+(a<0?0:a>1?1:a).toFixed(3)+")"; }
+
+  /* ── the shipped rendering, as a config. Everything else is a diff against this. ── */
+  function base(){ return {
+    ground:["#FBF8F2","#F6F1E8"],
+    pool:null, vig:0, radii:null, scale:1, sort:false, defocus:0, dust:0,
+    stars:.12, starCol:CO.gold, axis:"hairline", additive:false,
+    width:function(d){ return 1; },
+    col:function(d){ return [CO.plum, .14+.16*d]; },
+    wake:{arc:.55, w:1.1, a0:.08, a1:.30, col:CO.gold, pow:1},
+    light:{core:1.8, coreV:1.1, glow:7, glowV:4, a:.45, aV:.25, outer:0, outerA:0, spec:0,
+           col:CO.goldDeep, glowCol:CO.gold},
+    nuc:{bloom:0, bloomA:0, glow:26, a:.5, ring:9.5, ringA:.4, ringW:1, ring2:0, ring2A:0,
+         core:4, spec:0, col:CO.goldDeep, glowCol:CO.gold}
+  };}
+
+  /* a warm pool that DEEPENS the ground under the orrery. ⚠️ the transparent stop carries the
+     SAME rgb as the opaque one — canvas interpolates gradients in non-premultiplied sRGB, so a
+     0-alpha stop of a different hue leaves a visible grey band halfway out. */
+  function pool(r,a){ return {r:r, stops:[[0,rgba(CO.warm,a)],[.38,rgba(CO.warm,a*.60)],[.72,rgba(CO.warm,a*.20)],[1,rgba(CO.warm,0)]]}; }
+
+  CO.wine = mix(CO.burgundy, CO.warm, .45);   /* ≈ [105,55,53] — deep, and warm of ivory */
+
+  var CFG = {};
+
+  /* 00 · NOW — the shipped frame, untouched */
+  CFG["0"] = base();
+
+  /* A · WEIGHT — palette frozen, two changes only: taper + one global z-sort */
+  CFG["A"] = Object.assign(base(), {
+    sort:true,
+    width:function(d){ return .45 + 2.15*d*d; },
+    col:function(d){ return [CO.plum, .09+.30*d]; }
+  });
+
+  /* B · EMBER — the ring warms as it comes toward you, because the light is at the centre */
+  CFG["B"] = Object.assign(base(), {
+    sort:true, axis:"shaft", pool:pool(1.62,.225),
+    width:function(d){ return .78 + 2.6*d*d; },
+    col:function(d){ return [mix(CO.wine, CO.goldDeep, d*d*.82+d*.18), .18+.50*d]; },
+    wake:{arc:1.25, w:2.0, a0:.02, a1:.36, col:CO.gold, pow:2.4},
+    light:{core:3.0, coreV:1.6, glow:11, glowV:7, a:.50, aV:.28, outer:27, outerA:.16, spec:1.15,
+           col:CO.goldDeep, glowCol:CO.gold},
+    nuc:{bloom:.44, bloomA:.15, glow:34, a:.50, ring:12.5, ringA:.46, ringW:1.5, ring2:20, ring2A:.18,
+         core:6, spec:2.1, col:CO.goldDeep, glowCol:CO.gold}
+  });
+
+  /* C · CHAMPAGNE — one metal, so there is no second colour left to go grey */
+  CFG["C"] = Object.assign(base(), {
+    sort:true, axis:"shaft", pool:pool(1.66,.16), dust:.075,
+    width:function(d){ return .76 + 2.5*d*d; },
+    col:function(d){ return [mix(CO.gold, CO.goldDeep, d), .19+.50*d]; },
+    wake:{arc:1.05, w:1.8, a0:.02, a1:.32, col:CO.gold, pow:2.2},
+    light:{core:2.9, coreV:1.5, glow:10, glowV:6, a:.46, aV:.26, outer:25, outerA:.14, spec:1.1,
+           col:CO.goldDeep, glowCol:CO.gold},
+    nuc:{bloom:.42, bloomA:.13, glow:32, a:.48, ring:12, ringA:.44, ringW:1.4, ring2:19, ring2A:.17,
+         core:5.8, spec:2, col:CO.goldDeep, glowCol:CO.gold}
+  });
+
+  /* D · ROSE GOLD — the cool end is a hue the brand already owns */
+  CFG["D"] = Object.assign(base(), {
+    sort:true, axis:"shaft", pool:pool(1.66,.17),
+    width:function(d){ return .76 + 2.5*d*d; },
+    col:function(d){ return [mix(CO.rose, CO.goldDeep, d*d*.78+d*.22), .24+.44*d]; },
+    wake:{arc:1.15, w:1.9, a0:.02, a1:.33, col:CO.gold, pow:2.3},
+    light:{core:2.9, coreV:1.5, glow:10, glowV:6, a:.46, aV:.26, outer:25, outerA:.15, spec:1.1,
+           col:CO.goldDeep, glowCol:CO.gold},
+    nuc:{bloom:.42, bloomA:.13, glow:32, a:.48, ring:12, ringA:.44, ringW:1.4, ring2:19, ring2A:.17,
+         core:5.8, spec:2, col:CO.goldDeep, glowCol:CO.gold}
+  });
+
+  /* E · APERTURE — the far side is out of focus. The one cue no diagram has. */
+  CFG["E"] = Object.assign({}, CFG["B"], {
+    defocus:3.8, vig:.09, pool:pool(1.72,.25),
+    width:function(d){ return .70 + 2.8*d*d; },
+    col:function(d){ return [mix(CO.wine, CO.goldDeep, d*d*.82+d*.18), .15+.55*d]; }
+  });
+
+  /* F · ECLIPTIC — ⚠️ the only plate that moves the geometry. The outer two crop off canvas;
+     all five systems are still on screen, which is the round-3 rule. */
+  CFG["F"] = Object.assign({}, CFG["B"], {
+    radii:[.30,.54,.80,1.10,1.46], scale:1.34, dust:.08, pool:pool(1.48,.235)
+  });
+
+  /* G · INK — where gold finally has luminance range to move in */
+  CFG["G"] = Object.assign(base(), {
+    ground:["#241D21","#2E2228"], sort:true, axis:"shaft", additive:true,
+    stars:.30, dust:.05,
+    pool:{r:1.9, stops:[[0,rgba(CO.gold,.10)],[.45,rgba(CO.gold,.045)],[1,rgba(CO.gold,0)]]},
+    width:function(d){ return .5 + 2.6*d*d; },
+    col:function(d){ return [mix(CO.wine, CO.gold, d*d*.72+d*.28), .20+.62*d]; },
+    wake:{arc:1.3, w:2.0, a0:.02, a1:.44, col:CO.gold, pow:2.4},
+    light:{core:2.2, coreV:1.4, glow:11, glowV:7, a:.50, aV:.30, outer:26, outerA:.17, spec:1.1,
+           col:CO.gold, glowCol:CO.gold},
+    nuc:{bloom:.52, bloomA:.16, glow:36, a:.55, ring:11.5, ringA:.55, ringW:1.4, ring2:19, ring2A:.22,
+         core:5.2, spec:2, col:CO.gold, glowCol:CO.gold}
+  });
+
+  /* H · AURUM — every device at once, on ivory. The one to argue with. */
+  CFG["H"] = Object.assign({}, CFG["B"], {
+    radii:[.31,.55,.81,1.11,1.44], scale:1.30, defocus:3.4, dust:.078, vig:.10,
+    pool:pool(1.80,.265),
+    width:function(d){ return .70 + 2.95*d*d; },
+    col:function(d){ return [mix(CO.wine, CO.goldDeep, d*d*.84+d*.16), .15+.56*d]; },
+    wake:{arc:1.4, w:2.2, a0:.015, a1:.40, col:CO.gold, pow:2.6},
+    light:{core:3.2, coreV:1.7, glow:12, glowV:8, a:.50, aV:.28, outer:32, outerA:.17, spec:1.25,
+           col:CO.goldDeep, glowCol:CO.gold},
+    nuc:{bloom:.50, bloomA:.17, glow:38, a:.54, ring:13, ringA:.50, ringW:1.6, ring2:21, ring2A:.20,
+         core:6.4, spec:2.3, col:CO.goldDeep, glowCol:CO.gold}
+  });
+
+  /* ── the shared state the bar drives ── */
+  var PARALLAX = !REDUCE, FROZEN = REDUCE;
+
+  function mount(plate){
+    var cfg = CFG[plate.dataset.key] || CFG["0"];
+    var canvas = plate.querySelector("canvas");
+    var ctx = canvas.getContext("2d");
+    if(!ctx) return null;
+    var DPR = Math.min(devicePixelRatio || 1, 1.5);
+    var W=0, H=0;
+    /* the item pool — allocated once. 5 rings × 64 segments + 5 lights + 1 nucleus. */
+    var ITEMS = [], n = RINGS.length*SEG + RINGS.length + 1;
+    for(var i=0;i<n;i++) ITEMS.push({d:0,k:0,x0:0,y0:0,x1:0,y1:0,g:null,rad:0,th:0});
+    var tx=0, ty=0, px=0, py=0;          /* parallax target and current */
+
+    function size(){
+      W = canvas.clientWidth; H = canvas.clientHeight;
+      var w = Math.round(W*DPR), h = Math.round(H*DPR);
+      if(canvas.width!==w || canvas.height!==h){ canvas.width=w; canvas.height=h; }
+      ctx.setTransform(DPR,0,0,DPR,0,0);
+    }
+    /* the live hero's placement, with a scale hook for the cropped plates */
+    function frame(){
+      if(W<640)  return {cx:W*.74, cy:H*.30, R:Math.min(W,H)*.30*cfg.scale};
+      if(W<1024) return {cx:W*.72, cy:H*.42, R:Math.min(W,H)*.36*cfg.scale};
+      return {cx:W*.70, cy:H*.48, R:Math.min(H*.40, W*.26)*cfg.scale};
+    }
+    function pt(g,rad,a,cx,cy,R){
+      var ex=Math.cos(a)*R*rad, ey=Math.sin(a)*R*rad*g.asp;
+      var c=Math.cos(g.rot), s=Math.sin(g.rot);
+      return [cx+ex*c-ey*s, cy+ex*s+ey*c];
+    }
+    function glow(x,y,r,a,col){
+      if(r<=0||a<=0) return;
+      var g = ctx.createRadialGradient(x,y,0,x,y,r);
+      g.addColorStop(0,rgba(col,a)); g.addColorStop(1,rgba(col,0));
+      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,TAU); ctx.fill();
+    }
+
+    function draw(t){
+      var c = ctx;
+      c.globalCompositeOperation = "source-over";
+
+      var bg = c.createLinearGradient(0,0,0,H);
+      bg.addColorStop(0,cfg.ground[0]); bg.addColorStop(1,cfg.ground[1]);
+      c.fillStyle=bg; c.fillRect(0,0,W,H);
+
+      var f = frame(), cx = f.cx + px, cy = f.cy + py, R = f.R;
+
+      if(cfg.pool){
+        var pg = c.createRadialGradient(cx,cy,0,cx,cy,R*cfg.pool.r);
+        for(var s=0;s<cfg.pool.stops.length;s++) pg.addColorStop(cfg.pool.stops[s][0], cfg.pool.stops[s][1]);
+        c.fillStyle=pg; c.fillRect(0,0,W,H);
+      }
+
+      for(var si=0; si<STARS.length; si++){
+        var st = STARS[si];
+        c.fillStyle = rgba(cfg.starCol, cfg.stars + cfg.stars*.5*Math.sin(t*.5+st.ph));
+        c.beginPath(); c.arc(st.x*W, st.y*H, st.r, 0, TAU); c.fill();
+      }
+
+      /* the dust plate — the mean plane, so the rings sit IN something rather than on nothing */
+      if(cfg.dust>0){
+        var mr=0, ma=0;
+        for(var di=0; di<RINGS.length; di++){ mr += RINGS[di].rot; ma += RINGS[di].asp; }
+        mr/=RINGS.length; ma/=RINGS.length;
+        c.save(); c.translate(cx,cy); c.rotate(mr); c.scale(1, ma);
+        var dg = c.createRadialGradient(0,0,R*.18,0,0,R*1.2);
+        dg.addColorStop(0, rgba(CO.gold,0));
+        dg.addColorStop(.52, rgba(CO.gold,cfg.dust));
+        dg.addColorStop(1, rgba(CO.gold,0));
+        c.fillStyle=dg; c.beginPath(); c.arc(0,0,R*1.2,0,TAU); c.fill(); c.restore();
+      }
+
+      /* the axis — his word. A crop mark at 1px; a shaft of light when it is gradient-ended. */
+      if(cfg.axis === "hairline"){
+        c.strokeStyle = rgba(CO.goldDeep,.13); c.lineWidth = 1;
+        c.beginPath(); c.moveTo(cx,cy-R*1.14); c.lineTo(cx,cy+R*1.14); c.stroke();
+      } else if(cfg.axis === "shaft"){
+        /* ⚠️ THE FALLOFF IS THE WHOLE POINT. A linear 0→.3→0 over the full span leaves the
+           shaft still faintly inked where it meets the canvas edge, and a hairline that
+           reaches an edge reads as a SEAM — a stray rule, a div border, a rendering fault.
+           It is what made the shipped axis look like a crop mark. Both ends now reach true
+           zero well inside the frame, and the span is R*1.12, not R*1.32. */
+        var L0 = cy - R*1.12, L1 = cy + R*1.12;
+        var ag = c.createLinearGradient(cx,L0,cx,L1);
+        ag.addColorStop(0,   rgba(CO.goldDeep,0));
+        ag.addColorStop(.24, rgba(CO.goldDeep,.05));
+        ag.addColorStop(.5,  rgba(CO.goldDeep,.34));
+        ag.addColorStop(.76, rgba(CO.goldDeep,.05));
+        ag.addColorStop(1,   rgba(CO.goldDeep,0));
+        c.strokeStyle=ag; c.lineWidth=9; c.globalAlpha=.20;
+        c.beginPath(); c.moveTo(cx,L0); c.lineTo(cx,L1); c.stroke();
+        c.globalAlpha=1; c.lineWidth=1.2;
+        c.beginPath(); c.moveTo(cx,L0); c.lineTo(cx,L1); c.stroke();
+      }
+
+      /* the nucleus's wide bloom sits UNDER the universe; its body is z-sorted into it */
+      if(cfg.nuc.bloom>0) glow(cx,cy, R*cfg.nuc.bloom, cfg.nuc.bloomA, cfg.nuc.glowCol);
+
+      /* ── build one list of everything, then sort it far → near ──────────────────────
+         ⚠️ THIS IS THE WHOLE OF THE 3D. Drawing ring-by-ring is what makes five orbits
+         read as five ellipses printed on one plane; sorting every segment of every ring
+         into a single depth order is what lets a near arc pass in front of a far one and
+         in front of the nucleus. The nucleus enters the list at depth .5 — the centre of
+         the system, so half the universe is genuinely in front of it. */
+      var m = 0;
+      for(var gi=0; gi<RINGS.length; gi++){
+        var g = RINGS[gi];
+        var rad = cfg.radii ? cfg.radii[gi] : g.r;
+        var th = t*g.sp + g.off;
+        for(var i=0;i<SEG;i++){
+          var a0 = i/SEG*TAU, a1 = (i+1)/SEG*TAU;
+          var d = (Math.sin((a0+a1)/2)+1)/2;
+          var p0 = pt(g,rad,a0,cx,cy,R), p1 = pt(g,rad,a1,cx,cy,R);
+          var it = ITEMS[m++];
+          it.d=d; it.k=0; it.x0=p0[0]; it.y0=p0[1]; it.x1=p1[0]; it.y1=p1[1];
+        }
+        var lit = ITEMS[m++];
+        lit.d=(Math.sin(th)+1)/2; lit.k=1; lit.g=g; lit.rad=rad; lit.th=th;
+      }
+      var nit = ITEMS[m++]; nit.d=.5; nit.k=2;
+      var list = ITEMS.slice(0,m);
+      if(cfg.sort) list.sort(function(a,b){ return a.d-b.d; });
+
+      c.lineCap = "round";
+      for(var li=0; li<list.length; li++){
+        var o = list[li];
+        if(o.k===0){
+          var cw = cfg.col(o.d), col = cw[0], al = cw[1];
+          /* defocus: the far half gets a wide, near-transparent pass under a thinner one */
+          if(cfg.defocus>0 && o.d<.5){
+            var soft = 1 - o.d*2;
+            c.strokeStyle = rgba(col, al*.40);
+            c.lineWidth = cfg.width(o.d) + cfg.defocus*soft;
+            c.beginPath(); c.moveTo(o.x0,o.y0); c.lineTo(o.x1,o.y1); c.stroke();
+          }
+          c.strokeStyle = rgba(col, al);
+          c.lineWidth = cfg.width(o.d);
+          c.beginPath(); c.moveTo(o.x0,o.y0); c.lineTo(o.x1,o.y1); c.stroke();
+        } else if(o.k===1){
+          drawLight(o,cx,cy,R);
+        } else {
+          drawNucleus(t,cx,cy);
+        }
+      }
+
+      if(cfg.vig){
+        var vg = c.createRadialGradient(W*.5,H*.5,Math.min(W,H)*.26,W*.5,H*.5,Math.max(W,H)*.80);
+        vg.addColorStop(0, rgba(CO.warm,0));
+        vg.addColorStop(1, rgba(CO.warm,cfg.vig));
+        c.fillStyle=vg; c.fillRect(0,0,W,H);
+      }
+    }
+
+    function drawLight(o,cx,cy,R){
+      var c = ctx, wk = cfg.wake, L = cfg.light, nd = o.d, N = 18;
+      for(var i=0;i<N;i++){
+        var a0 = o.th - wk.arc + i/N*wk.arc, a1 = o.th - wk.arc + (i+1)/N*wk.arc;
+        var p0 = pt(o.g,o.rad,a0,cx,cy,R), p1 = pt(o.g,o.rad,a1,cx,cy,R);
+        var ff = Math.pow(i/N, wk.pow);
+        c.strokeStyle = rgba(wk.col, (wk.a0 + (wk.a1-wk.a0)*ff) * (.4+.6*nd));
+        c.lineWidth = wk.w*(.45+.75*ff);
+        c.beginPath(); c.moveTo(p0[0],p0[1]); c.lineTo(p1[0],p1[1]); c.stroke();
+      }
+      var P = pt(o.g,o.rad,o.th,cx,cy,R);
+      if(cfg.additive) c.globalCompositeOperation = "lighter";
+      if(L.outer>0) glow(P[0],P[1], L.outer*(1+.35*nd), L.outerA*(.45+.55*nd), L.glowCol);
+      glow(P[0],P[1], L.glow + L.glowV*nd, L.a + L.aV*nd, L.glowCol);
+      c.globalCompositeOperation = "source-over";
+      c.fillStyle = rgba(L.col, .75+.25*nd);
+      c.beginPath(); c.arc(P[0],P[1], L.core + L.coreV*nd, 0, TAU); c.fill();
+      if(L.spec>0){
+        c.fillStyle = rgba(CO.hot, .55+.35*nd);
+        c.beginPath(); c.arc(P[0]-L.spec*.5, P[1]-L.spec*.55, L.spec, 0, TAU); c.fill();
+      }
+    }
+
+    /* the nucleus — the root and axis of everything. It does not move; it breathes on a
+       sine slow enough that you cannot catch it. */
+    function drawNucleus(t,cx,cy){
+      var c = ctx, N = cfg.nuc;
+      if(cfg.additive) c.globalCompositeOperation = "lighter";
+      glow(cx,cy, N.glow + Math.sin(t*.5)*4, N.a, N.glowCol);
+      c.globalCompositeOperation = "source-over";
+      if(N.ring2>0){
+        c.strokeStyle = rgba(N.glowCol, N.ring2A); c.lineWidth = 1;
+        c.beginPath(); c.arc(cx,cy,N.ring2,0,TAU); c.stroke();
+      }
+      c.strokeStyle = rgba(N.glowCol, N.ringA); c.lineWidth = N.ringW;
+      c.beginPath(); c.arc(cx,cy,N.ring,0,TAU); c.stroke();
+      c.fillStyle = rgba(N.col,1);
+      c.beginPath(); c.arc(cx,cy,N.core,0,TAU); c.fill();
+      if(N.spec>0){
+        c.fillStyle = rgba(CO.hot,.92);
+        c.beginPath(); c.arc(cx - N.core*.30, cy - N.core*.34, N.spec, 0, TAU); c.fill();
+      }
+    }
+
+    /* ⚠️ PARALLAX IS RESPONSE, NOT DRIFT. It moves only while the pointer moves, so it is not
+       the persistent peripheral motion the live file's discipline is written against — and it
+       is off entirely under prefers-reduced-motion. */
+    plate.addEventListener("pointermove", function(e){
+      if(!PARALLAX) return;
+      var b = plate.getBoundingClientRect();
+      tx = ((e.clientX-b.left)/b.width - .5) * -28;
+      ty = ((e.clientY-b.top)/b.height - .5) * -18;
+    });
+    plate.addEventListener("pointerleave", function(){ tx=0; ty=0; });
+
+    var api = {
+      inView:false,
+      resize:function(){ size(); api.paint(); },
+      paint:function(){ draw(FROZEN ? STILL : (performance.now()-T0)/1000); },
+      tick:function(){
+        if(!PARALLAX){ tx=0; ty=0; }
+        px += (tx-px)*.06; py += (ty-py)*.06;
+        api.paint();
+      }
+    };
+    size(); px=py=0; draw(STILL);
+    return api;
+  }
+
+  var T0 = performance.now();
+  var live = [];
+  document.querySelectorAll(".plate").forEach(function(p){
+    var a = mount(p); if(!a) return;
+    live.push(a);
+    new IntersectionObserver(function(e){ a.inView = e[0].isIntersecting; },{threshold:0})
+      .observe(p);
+  });
+
+  addEventListener("resize", function(){ live.forEach(function(a){ a.resize(); }); });
+
+  (function loop(){
+    requestAnimationFrame(loop);
+    if(document.hidden) return;
+    for(var i=0;i<live.length;i++) if(live[i].inView) live[i].tick();
+  })();
+
+  var bp = document.getElementById("tg-par"), bf = document.getElementById("tg-freeze");
+  bp.setAttribute("aria-pressed", String(PARALLAX));
+  bf.setAttribute("aria-pressed", String(FROZEN));
+  bp.addEventListener("click", function(){
+    PARALLAX = !PARALLAX; bp.setAttribute("aria-pressed", String(PARALLAX));
+  });
+  bf.addEventListener("click", function(){
+    FROZEN = !FROZEN; bf.setAttribute("aria-pressed", String(FROZEN));
+    live.forEach(function(a){ a.paint(); });
+  });
+})();
+</script>
+</body>
+</html>

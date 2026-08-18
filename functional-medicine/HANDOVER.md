@@ -1,6 +1,6 @@
 # Functional Medicine — `/functional-medicine/` (first ship 2026-08-18)
 
-> # ▶ START HERE — STATE OF PLAY AT THE END OF ROUND 3
+> # ▶ START HERE — STATE OF PLAY AT THE END OF ROUND 4
 >
 > **The page:** `/functional-medicine/index.html` — single file, zero build, ~5,250 lines,
 > adapted whole from `/peptide-therapy/index.html` at its round-19b state. Open it with any
@@ -46,6 +46,68 @@
 >    governs here; where a comment became untrue on this page it was corrected in place.
 >    **If the sibling's ring changes, this ring should follow** — there is no parity
 >    harness between the two yet, and that is a real gap worth closing.
+>
+> **⚠️⚠️ ROUND 4 (2026-08-18) — THE HERO'S RENDERING IS ON TRIAL, AND NOTHING SHIPPED YET.**
+>
+> **His note, verbatim in spirit:** *"it looks dead, grey circles, the one around looks like
+> it's written by pencil."* **He is right, and the concept is not the problem.** The orrery is
+> his own pick (letter F) and it stays. What never left wireframe stage is the RENDERING, and
+> the deliverable is **`/functional-medicine/hero-lab.html`** — nine full-bleed plates, the
+> live hero's own copy and type ramp on every one, judged in situ rather than as swatches.
+> **NOTHING IN `index.html` CHANGED THIS ROUND.** The lab is a proposal awaiting his pick.
+>
+> **THE DIAGNOSIS, WHICH IS THE REUSABLE PART:**
+> 1. **Every stroke was `lineWidth = 1`.** Depth was carried by alpha alone (.14 → .30).
+>    Uniform hairline weight IS a technical drawing — weight-varies-with-depth is the strongest
+>    2.5D cue available and it was unused. This alone accounts for most of "pencil".
+> 2. **The ring hue was grey.** `rgba(106,88,95,·)` is `--ink-soft`; at 14–30% over ivory it
+>    lands near #E4DDDA–#CFC4C4 — desaturated warm grey, i.e. graphite. It was also the only
+>    hue in the hero belonging to no part of BRAND.md.
+> 3. **Nothing occluded anything.** Rings were drawn one whole ring at a time, so no arc ever
+>    passed in front of another or of the nucleus. Five ellipses on one plane read as a
+>    spirograph, not a system.
+> 4. ⚠️⚠️ **AND THE ONE WORTH CARRYING TO EVERY OTHER PAGE: ON IVORY, GOLD CANNOT GET BRIGHTER
+>    — ONLY MORE SATURATED.** The ground sits at ~97% luminance, so there is no headroom above
+>    the paper for a light source to occupy. **This is the arithmetic reason the hero read
+>    dead**, and it is why every plate that works either deepens the ground under the orrery
+>    with a warm pool or moves the figure onto a dark plate. Any future "add a glow" note on a
+>    light-key chapter runs into the same wall.
+>
+> **THE NINE PLATES.** ⚠️ All nine run the SAME seeded universe (424242, the live `RINGS` block
+> verbatim) so the comparison is honest — only F and H change geometry, and they say so on
+> their own cards. **00 Now** (reference) · **A Weight** (taper + one global z-sort, palette
+> frozen — the control experiment) · **B Ember** (far arcs deep wine warming to `--gold-deep`
+> at the near side: the ring heats up as it approaches, so the nucleus reads as the CAUSE of
+> the ring's colour) · **C Champagne** (gold monochrome) · **D Rose Gold** · **E Aperture**
+> (Ember + the far side genuinely out of focus) · **F Ecliptic** (radii respread so the outer
+> two crop off canvas) · **G Ink** (dark ground — where gold finally has range) · **H Aurum**
+> (everything at once).
+>
+> **THE RECOMMENDATION: B with E's defocus folded in.** A is the floor — if nothing else is
+> agreed, the taper and the z-sort land, because they cost two lines and remove the complaint.
+>
+> ⚠️ **WHATEVER HE PICKS LANDS IN TWO PLACES, NOT ONE.** The scroll scene below the fold is the
+> hero's own universe by round-3 design ("speak the hero's language twice") and holds a second
+> copy of the generator, seed and tilts. **Re-render the hero and the scene must follow in the
+> same commit**, or the page silently stops telling one story twice.
+>
+> ⚠️ **THE MOTION DISCIPLINE WAS NOT TOUCHED AND IS NOT ON THE TABLE.** Every plate keeps the
+> 70–120s orbits and the un-catchable nucleus breath. Presence was bought with weight, hue,
+> occlusion and light — none of which translate anything across the screen. The one motion
+> added is **pointer parallax**, which is response rather than drift, and is off under
+> `prefers-reduced-motion`.
+>
+> ⚠️ **THE ROUND-3 TEST WAS APPLIED TO EVERY PLATE: what ELSE does this look like?** An orrery's
+> nearest wrong reading is **an atom** — a nuclear-industry mark. That is why the tilts stay
+> irregular and the radii stay uneven on all nine. **Regularise them and the clinic acquires a
+> reactor logo.** (Same class as the river reading as a transmission map.)
+>
+> **QA:** rendered and eyeballed at 1440 (all nine plates), plus an overflow sweep at
+> 1440/1024/768/390/360 — zero horizontal overflow, zero console errors. ⚠️ Two real bugs were
+> caught only by looking at a phone, both recorded in the CSS: `.plate` is a flex row, so a
+> `position:static` spec card became a SECOND FLEX ITEM beside the copy instead of falling
+> below it; and `z-index` does nothing on an unpositioned element, so that card then rendered
+> UNDER the veil still painting its ivory fade across it.
 >
 > **⚠️⚠️ ROUND 3 (2026-08-18) — TWO CALLS: LETTER O, AND MS. RICHA PURI.**
 >

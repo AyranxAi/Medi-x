@@ -1,3 +1,31 @@
+# Handoff addendum — 2026-08-18, round 2 (letters F and G: the orrery and the river)
+
+He replied to the concept board ("Twelve Ways In") with two letters, and his reading of F
+is on the record: *"it's a universe which has a center which is like the root and axis of
+everything."*
+
+**The functional-medicine hero is now THE ORRERY** — five tilted rings in Canvas 2.5D,
+one travelling light each, a gold nucleus that never moves, a hairline axis; orbits take
+70–120 seconds (the vestibular discipline is the spec, not a preference). **The scene is
+now THE RIVER RUNS BACKWARD** — a delta seen only downstream, the turn where the water
+stands still for a scroll-beat and reverses (flow direction is a function of pin
+progress, so the turn is the reader's own scroll), the upstream travel, one spring
+igniting exactly where the dawn rises, "The source" landing inside the opening ring.
+
+⚠️ **The two-tier layout is now a recorded RULE, learned twice:** plain Prim over a
+uniform scatter chains into peripheral strings with an empty middle — the web's first
+draft failed that way in round 1 and the river's first draft failed the same way in
+round 2. Hub/spring at the radial centre, five seeded intermediates, everything else
+attaching through them.
+
+The round-1 plexus hero and web scene live whole in git history; one revert each brings
+them back. Smoke suite green (`tools/qa/fm-shots.mjs`); the concept board artifact stays
+the record of the eleven roads not taken.
+
+Full record: [`functional-medicine/HANDOVER.md`](functional-medicine/HANDOVER.md).
+
+---
+
 # Handoff addendum — 2026-08-18 (a new page: /functional-medicine/)
 
 His brief: *"understand the peptide therapy page and based on that create a version for

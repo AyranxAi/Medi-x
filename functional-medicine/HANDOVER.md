@@ -1,6 +1,6 @@
 # Functional Medicine — `/functional-medicine/` (first ship 2026-08-18)
 
-> # ▶ START HERE — STATE OF PLAY AT THE END OF ROUND 1
+> # ▶ START HERE — STATE OF PLAY AT THE END OF ROUND 2
 >
 > **The page:** `/functional-medicine/index.html` — single file, zero build, ~5,250 lines,
 > adapted whole from `/peptide-therapy/index.html` at its round-19b state. Open it with any
@@ -47,8 +47,44 @@
 >    **If the sibling's ring changes, this ring should follow** — there is no parity
 >    harness between the two yet, and that is a real gap worth closing.
 >
-> **WHAT IS NEW ON THIS PAGE, IN ONE LIST:**
-> · **THE SCENE — "the web → the root".** Same engine grammar as both siblings (pure
+> **⚠️⚠️ ROUND 2 (2026-08-18) REPLACED THE HERO AND THE SCENE — HIS LETTERS, F AND G,
+> off the concept board ("Twelve Ways In", the published artifact). His words on F,
+> recorded: *"it's a universe which has a center which is like the root and axis of
+> everything."* The hero is now THE ORRERY (five tilted rings, five travelling lights,
+> one gold nucleus that never moves, a hairline axis); the scene is now THE RIVER RUNS
+> BACKWARD (a delta seen only downstream, the turn where the water stands still and
+> reverses, the upstream travel, one spring igniting with the dawn, the phrase "The
+> source" inside the opening ring). The round-1 plexus hero and web scene live whole in
+> git history (round-1 ship commit) — one revert each resurrects them. Round 1's notes
+> below describe them in past tense now; everything else in this file still stands.**
+>
+> **WHAT IS NEW ON THIS PAGE, IN ONE LIST (round 2 state):**
+> · **THE SCENE — "the river runs backward" (letter G).** Same engine grammar as both
+>   siblings (pure function of pin progress, latch, seeded geometry, Replay/Skip, the
+>   dawn to BG_B): act one shows only the DOWNSTREAM reaches of a watershed — streams
+>   surfacing from the dark and flowing to their mouths, upstream hidden; the gold beat
+>   names the failure ("Treated downstream, they come back"); then THE TURN — flow
+>   direction is `1-2*ss(.38,.44,p)`, so at the window's middle the river STANDS STILL
+>   for a scroll-beat (the water brightens while it holds) and reverses — the map extends
+>   upstream reach by reach as `qMin` falls .55→0, tributaries merging, until the SPRING
+>   is revealed at the dawn's radial centre and ignites with it. Payoff phrase: "The
+>   source", inside the same opening ring.
+>   ⚠️ **THE WATERSHED IS TWO-TIER BY DESIGN AND THAT WAS THE WEB'S OWN LESSON RE-APPLIED
+>   — TWICE NOW, SO TREAT IT AS A RULE: plain Prim over a uniform scatter draws long
+>   peripheral chains and an empty middle.** Spring → five seeded CONFLUENCES → sixteen
+>   branch points (Prim, never attaching straight to the spring). Meandered edges,
+>   Chaikin-smoothed paths, trunk hierarchy from deliberate overdraw (shared reaches
+>   brighten with their own traffic).
+>   ⚠️ **THE TURN IS DRIVEN BY p, NOT TIME** — it is the reader's own scroll, latch-safe
+>   and scrub-exact. A time-driven turn would fire without them.
+> · **THE HERO — the orrery (letter F).** Canvas 2.5D, zero deps: five rings (tilt =
+>   aspect × rotation, depth = per-segment alpha), one travelling champagne light per
+>   ring with a wake-arc, a nucleus that never moves, a faint plumb-line axis — his
+>   "root and axis of everything". One orbit takes 70–120s; the vestibular rule is the
+>   spec. Right of the copy on desktop (cx .70W), in the headline's air on a phone
+>   (cx .74W, cy .30H). Same #silk contract, same ground stops, same catch fallback,
+>   same 21.7s reduced-motion still.
+> · *(round 1, superseded)* **THE SCENE — "the web → the root".** Same engine grammar as both siblings (pure
 >   function of pin progress, latch, seeded geometry, Replay/Skip, the dawn to BG_B):
 >   scattered symptom points drift; the gold beat names the failure of symptom-chasing;
 >   the web draws itself (nodes glide home, bowed edges appear in shuffled order); a light
@@ -67,11 +103,9 @@
 >   ⚠️ **THE PAYOFF PHRASE IS "The root cause", NOT "Functional Medicine"** — the segment
 >   above already names the discipline, and the long title overruns a 390px stage at the
 >   title's own floor. Measured before chosen.
-> · **THE HERO — the plexus field.** Canvas 2D on the sibling's restraint palette: signal
->   nodes drifting upward, links forming within 118px and dissolving (alpha by distance,
->   no state), roughly one node in six champagne — the root, already lit; links touching
->   it draw gold. Deterministic (seed 424242), same STILL frame (21.7s), same counts-fall
->   art direction at narrow widths, same catch-block fallback pinned to the same stops.
+> · *(round 1, superseded)* **THE HERO — the plexus field.** Canvas 2D signal nodes with
+>   distance-faded links and champagne roots. Replaced by the orrery in round 2; in git
+>   history whole.
 > · **COPY.** Hero sub, definition, fallback sections, six FAQ answers, three stories and
 >   all sixteen card paragraphs are **draft in his register** — route through him before
 >   real marketing. Sentences that are the client's own and must stay his: "Root causes,
@@ -86,6 +120,12 @@
 >   standard), trimmed three times to get Gut Health from 56px over to 0.
 >
 > **WHAT IS STILL OPEN (all his):**
+> · **The river's beat copy is DRAFT like all copy here** — the six beats now speak the
+>   river's vocabulary ("streams", "upstream", "the source"); the fallback sections
+>   followed. Same sign-off rule as everything else.
+> · **The scene-title is "The source" now** — if the client prefers the clinical term,
+>   "The root cause" fits the stage at every width (measured in round 1) and is a
+>   one-line swap plus this note.
 > · **The eight service names** — point 1. The single most likely thing to be sent back.
 > · **The consultation price** — point 2.
 > · **Photographs for Thyroid Health and Fatigue & Energy** — point 3. If the eight are

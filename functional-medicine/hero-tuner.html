@@ -1,0 +1,1062 @@
+<title>Orrery Tuner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..600&family=Jost:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+<style>
+/* ═══════════════════════════════════════════════════════════════════════════════════════
+   ORRERY TUNER — a live instrument for the functional-medicine hero.
+   ─────────────────────────────────────────────────────────────────────────────────────
+   ⚠️ SINGLE-THEME BY DECISION, NOT OMISSION. The whole point of this page is judging an
+   IVORY figure. If the chrome followed the viewer's theme the preview's surround would
+   change with it, and two people would be looking at different pictures while agreeing on
+   a number. So the bench is always dark warm ink and the plate is always the page's own
+   ivory. Every colour below is painted explicitly for that reason.
+   ⚠️ THE BRAND FACES ARE DECLARED FIRST AND FALL BACK CLEANLY. MediGyn NOW is a
+   proprietary Medi-Gyn asset and is NOT embedded here; opened from the repo it loads from
+   ../fonts and wins, and anywhere else it 404s silently and Jost — the estate's own
+   declared fallback — takes over. Same for Playfair. The preview is therefore honest about
+   composition everywhere and pixel-exact on the metal it ships from.
+   ═════════════════════════════════════════════════════════════════════════════════════ */
+@font-face{font-family:"MediGyn NOW";src:url(../fonts/medigyn-now-300.woff2) format("woff2");font-weight:300;font-display:swap}
+@font-face{font-family:"MediGyn NOW";src:url(../fonts/medigyn-now-500.woff2) format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"Playfair";src:url(../fonts/playfair-normal-var-latin.woff2) format("woff2-variations");font-weight:300 900;font-style:normal;font-display:swap}
+@font-face{font-family:"Playfair";src:url(../fonts/playfair-italic-var-latin.woff2) format("woff2-variations");font-weight:300 900;font-style:italic;font-display:swap}
+
+:root{
+  /* the bench — warm ink, pulled from the brand's own --ink #2E2228 rather than a neutral */
+  --bench:#171316; --panel:#221C20; --panel-2:#2B242A; --edge:#3B3239; --edge-soft:#2F272D;
+  --text:#EDE5DF; --dim:#A2938F; --faint:#6E6167;
+  --brass:#C2A05E; --brass-dim:#8A6A34; --brass-lit:#E4C88A;
+  --wine:#8E2D3A;
+  --ui:"Jost",ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --brand:"MediGyn NOW","Jost",ui-sans-serif,system-ui,sans-serif;
+  --serif:"Playfair","Playfair Display",Didot,Georgia,serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --ease:cubic-bezier(.22,.61,.36,1);
+  color-scheme:dark;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  background:var(--bench);color:var(--text);font-family:var(--ui);font-weight:300;
+  -webkit-font-smoothing:antialiased;line-height:1.5;overflow:hidden;
+}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--brass);outline-offset:2px;border-radius:3px}
+
+/* ─── the bench: stage left, instrument panel right ─── */
+.bench{display:grid;grid-template-columns:1fr 372px;height:100svh}
+
+/* ─── stage ─── */
+.stage{position:relative;overflow:hidden;background:var(--bench);
+       display:flex;align-items:center;justify-content:center;padding:22px}
+.plate{position:relative;width:100%;height:100%;border-radius:6px;overflow:hidden;
+       box-shadow:0 30px 90px -30px rgba(0,0,0,.85),0 0 0 1px var(--edge-soft)}
+.plate canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+/* the live hero's own legibility geometry — foot fade + a wash behind the copy */
+.veil{position:absolute;inset:0;pointer-events:none;z-index:1}
+.copy{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;
+      justify-content:center;padding:0 clamp(28px,5.2%,72px)}
+.copy .kicker{font-family:var(--brand);font-size:11px;letter-spacing:.3em;text-transform:uppercase;
+      color:#8A6A34;margin-bottom:clamp(16px,3vh,34px)}
+.copy h1{font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30;
+      line-height:1.05;letter-spacing:-.01em;color:#2E2228;font-size:clamp(34px,5.4vw,84px);max-width:11em}
+/* ⚠️ TWO DELIBERATE LINES, exactly as the live H1 sets them — the same words share a line on
+   every display over there, and a figure judged against a single long line is judged against
+   a composition the page does not have. */
+.copy h1 span{display:block}
+.copy h1 em{font-style:italic;color:#C79A92;font-weight:430}
+.copy p{font-family:var(--brand);margin-top:clamp(16px,3vh,34px);max-width:34em;
+      font-size:clamp(14px,1.25vw,20px);font-weight:300;color:#6A585F;line-height:1.75}
+.copy p strong{font-weight:500;color:#5C1F31}
+.ctas{display:flex;gap:14px;margin-top:clamp(20px,3.6vh,42px);flex-wrap:wrap}
+.pill{font-family:var(--brand);font-weight:500;font-size:12px;letter-spacing:.12em;
+      text-transform:uppercase;padding:15px 28px;border-radius:999px;
+      background:rgba(142,45,58,.85);color:#FAF7F1;border:1px solid transparent;white-space:nowrap}
+.pill.ghost{background:transparent;border-color:#DED4C2;color:#2E2228}
+/* the plate goes ink when a preset says so — the copy has to follow or it vanishes */
+.plate[data-key-dark="1"] .copy h1{color:#FAF7F1}
+.plate[data-key-dark="1"] .copy h1 em{color:#C79A92}
+.plate[data-key-dark="1"] .copy p{color:#D3C7C2}
+.plate[data-key-dark="1"] .copy p strong{color:#C2A05E}
+.plate[data-key-dark="1"] .copy .kicker{color:#C2A05E}
+.plate[data-key-dark="1"] .pill.ghost{border-color:rgba(250,247,241,.34);color:#FAF7F1}
+
+/* the stage's own furniture */
+.stagebar{position:absolute;left:32px;top:32px;z-index:4;display:flex;gap:8px;align-items:center}
+.tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+     padding:6px 11px;border-radius:999px;background:rgba(23,19,22,.72);border:1px solid var(--edge);
+     color:var(--dim);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.tag b{color:var(--brass);font-weight:500}
+.holdbar{position:absolute;right:32px;bottom:28px;z-index:4;display:flex;gap:8px}
+.ghostbtn{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+     padding:9px 15px;border-radius:999px;background:rgba(23,19,22,.72);border:1px solid var(--edge);
+     color:var(--text);cursor:pointer;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+     transition:border-color .25s var(--ease),color .25s var(--ease)}
+.ghostbtn:hover{border-color:var(--brass);color:var(--brass-lit)}
+.ghostbtn:active{background:var(--brass);color:#171316;border-color:var(--brass)}
+
+/* ─── instrument panel ─── */
+.panel{background:var(--panel);border-left:1px solid var(--edge);
+       display:flex;flex-direction:column;min-height:0}
+.phead{padding:20px 22px 16px;border-bottom:1px solid var(--edge)}
+.phead h2{font-family:var(--serif);font-weight:500;font-size:21px;letter-spacing:-.01em}
+.phead .sub{margin-top:5px;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--faint)}
+.pbody{flex:1;overflow-y:auto;overscroll-behavior:contain;min-height:0}
+.pbody::-webkit-scrollbar{width:9px}
+.pbody::-webkit-scrollbar-thumb{background:var(--edge);border-radius:9px;border:3px solid var(--panel)}
+
+/* preset gallery — each chip draws its own orrery, which is the only honest label for a look */
+.presets{padding:16px 22px 18px;border-bottom:1px solid var(--edge)}
+.legend{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+        color:var(--faint);margin-bottom:11px;display:flex;justify-content:space-between;align-items:center}
+.pgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.preset{background:var(--panel-2);border:1px solid var(--edge-soft);border-radius:7px;
+        padding:7px 7px 8px;cursor:pointer;display:flex;flex-direction:column;gap:6px;align-items:center;
+        transition:border-color .25s var(--ease),transform .25s var(--ease)}
+.preset:hover{border-color:var(--brass-dim);transform:translateY(-1px)}
+.preset[aria-pressed="true"]{border-color:var(--brass);background:#332A2C}
+.preset canvas{width:100%;aspect-ratio:16/10;border-radius:4px;display:block}
+.preset span{font-family:var(--ui);font-size:11.5px;font-weight:400;letter-spacing:.02em;
+             color:var(--dim);text-align:center;line-height:1.25}
+.preset[aria-pressed="true"] span{color:var(--brass-lit);font-weight:500}
+
+/* control groups */
+.group{border-bottom:1px solid var(--edge-soft)}
+.group > summary{list-style:none;cursor:pointer;padding:13px 22px;display:flex;
+        justify-content:space-between;align-items:center;
+        font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.group > summary::-webkit-details-marker{display:none}
+.group > summary:hover{color:var(--brass-lit)}
+.group > summary .chev{transition:transform .25s var(--ease);color:var(--faint)}
+.group[open] > summary .chev{transform:rotate(90deg)}
+.group[open] > summary{color:var(--text)}
+.fields{padding:2px 22px 18px;display:flex;flex-direction:column;gap:13px}
+
+.row{display:grid;grid-template-columns:1fr auto;gap:6px 10px;align-items:center}
+.row label{font-size:12.5px;color:var(--dim);font-weight:300}
+.row .val{font-family:var(--mono);font-size:11px;color:var(--brass);font-variant-numeric:tabular-nums}
+.row input[type=range]{grid-column:1/-1;-webkit-appearance:none;appearance:none;width:100%;height:18px;background:transparent;cursor:pointer}
+.row input[type=range]::-webkit-slider-runnable-track{height:2px;background:var(--edge);border-radius:2px}
+.row input[type=range]::-moz-range-track{height:2px;background:var(--edge);border-radius:2px}
+.row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;border-radius:50%;
+   background:var(--brass);margin-top:-5.5px;border:none;transition:transform .18s var(--ease)}
+.row input[type=range]::-moz-range-thumb{width:13px;height:13px;border-radius:50%;background:var(--brass);border:none}
+.row input[type=range]:hover::-webkit-slider-thumb{transform:scale(1.22)}
+
+.swatchrow{display:flex;align-items:center;gap:10px}
+.swatchrow label{flex:1;font-size:12.5px;color:var(--dim)}
+.swatchrow input[type=color]{-webkit-appearance:none;appearance:none;width:34px;height:22px;
+   border:1px solid var(--edge);border-radius:4px;background:none;padding:0;cursor:pointer}
+.swatchrow input[type=color]::-webkit-color-swatch-wrapper{padding:2px}
+.swatchrow input[type=color]::-webkit-color-swatch{border:none;border-radius:2.5px}
+.swatchrow .hex{font-family:var(--mono);font-size:10.5px;color:var(--faint);width:62px;text-align:right}
+
+.seg{display:flex;gap:5px}
+.seg button{flex:1;padding:7px 4px;border-radius:5px;border:1px solid var(--edge-soft);
+   background:var(--panel-2);color:var(--dim);font-size:11px;cursor:pointer;
+   transition:border-color .2s var(--ease),color .2s var(--ease)}
+.seg button:hover{border-color:var(--brass-dim);color:var(--text)}
+.seg button[aria-pressed="true"]{border-color:var(--brass);color:var(--brass-lit);background:#332A2C}
+
+.toggle{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.toggle label{font-size:12.5px;color:var(--dim)}
+.toggle button{width:40px;height:22px;border-radius:999px;border:1px solid var(--edge);
+   background:var(--panel-2);position:relative;cursor:pointer;transition:background .25s var(--ease),border-color .25s var(--ease)}
+.toggle button::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;
+   background:var(--faint);transition:transform .25s var(--ease),background .25s var(--ease)}
+.toggle button[aria-pressed="true"]{background:#3E3128;border-color:var(--brass)}
+.toggle button[aria-pressed="true"]::after{transform:translateX(18px);background:var(--brass)}
+
+.note{font-size:11.5px;line-height:1.6;color:var(--faint);padding:0 0 2px}
+.note b{color:var(--dim);font-weight:400}
+
+/* the foot — export */
+.pfoot{border-top:1px solid var(--edge);padding:13px 22px;display:grid;grid-template-columns:1fr 1fr;gap:8px;background:var(--panel)}
+.pfoot button{padding:11px 8px;border-radius:6px;border:1px solid var(--edge);background:var(--panel-2);
+   color:var(--text);font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+   cursor:pointer;transition:border-color .2s var(--ease),color .2s var(--ease)}
+.pfoot button:hover{border-color:var(--brass);color:var(--brass-lit)}
+.pfoot .wide{grid-column:1/-1;background:var(--brass);color:#171316;border-color:var(--brass);font-weight:500}
+.pfoot .wide:hover{background:var(--brass-lit);color:#171316}
+
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,14px);z-index:60;
+  background:var(--panel-2);border:1px solid var(--brass);color:var(--brass-lit);
+  font-family:var(--mono);font-size:11px;letter-spacing:.08em;padding:11px 18px;border-radius:999px;
+  opacity:0;pointer-events:none;transition:opacity .3s var(--ease),transform .3s var(--ease)}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+/* the code sheet */
+.sheet{position:fixed;inset:0;z-index:70;background:rgba(10,8,10,.78);display:none;
+  align-items:center;justify-content:center;padding:28px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.sheet.on{display:flex}
+.sheetin{background:var(--panel);border:1px solid var(--edge);border-radius:10px;
+  width:min(820px,100%);max-height:82svh;display:flex;flex-direction:column}
+.sheetin header{padding:16px 20px;border-bottom:1px solid var(--edge);display:flex;
+  justify-content:space-between;align-items:center;gap:14px}
+.sheetin h3{font-family:var(--serif);font-size:18px;font-weight:500}
+.sheetin p{font-size:12px;color:var(--faint);margin-top:3px;line-height:1.55}
+.sheetin pre{flex:1;overflow:auto;margin:0;padding:18px 20px;font-family:var(--mono);
+  font-size:11.5px;line-height:1.65;color:var(--text);white-space:pre;tab-size:2}
+.sheetin footer{padding:13px 20px;border-top:1px solid var(--edge);display:flex;gap:8px;justify-content:flex-end}
+
+@media (max-width:1080px){
+  body{overflow:auto}
+  .bench{grid-template-columns:1fr;height:auto}
+  .stage{height:76svh;padding:14px}
+  .panel{border-left:none;border-top:1px solid var(--edge);height:auto}
+  .pbody{overflow:visible}
+  .stagebar{left:22px;top:22px}
+  .holdbar{right:22px;bottom:20px}
+}
+@media (prefers-reduced-motion:reduce){*{transition-duration:.01ms !important}}
+</style>
+
+<div class="bench">
+  <section class="stage">
+    <div class="plate" id="plate">
+      <canvas id="cv" aria-label="Live preview of the functional medicine hero orrery"></canvas>
+      <div class="veil" id="veil"></div>
+      <div class="copy">
+        <p class="kicker">Preventative · Precision · Personalised</p>
+        <h1><span>Functional</span><span><em>medicine.</em></span></h1>
+        <p>Medically supervised <strong>functional medicine</strong> — a deeper investigation
+        into your metabolism, digestion, thyroid health and inflammation, tracing your symptoms
+        to their root cause.</p>
+        <div class="ctas">
+          <span class="pill">Book a consultation&nbsp;&nbsp;→</span>
+          <span class="pill ghost">How it works</span>
+        </div>
+      </div>
+    </div>
+    <div class="stagebar">
+      <span class="tag">Preset <b id="tag-name">Ember</b></span>
+      <span class="tag" id="tag-fps">—</span>
+    </div>
+    <div class="holdbar">
+      <button class="ghostbtn" id="btn-hold">Hold to compare</button>
+      <button class="ghostbtn" id="btn-shuffle">Shuffle seed</button>
+    </div>
+  </section>
+
+  <aside class="panel">
+    <div class="phead">
+      <h2>Orrery Tuner</h2>
+      <p class="sub">Functional Medicine · hero figure</p>
+    </div>
+    <div class="pbody">
+      <div class="presets">
+        <p class="legend"><span>Presets</span><span id="preset-count"></span></p>
+        <div class="pgrid" id="pgrid"></div>
+      </div>
+      <div id="groups"></div>
+    </div>
+    <div class="pfoot">
+      <button class="wide" id="btn-code">Copy drop-in code</button>
+      <button id="btn-link">Copy link</button>
+      <button id="btn-reset">Reset preset</button>
+    </div>
+  </aside>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-h">
+  <div class="sheetin">
+    <header>
+      <div>
+        <h3 id="sheet-h">Drop-in code</h3>
+        <p>Replaces the <code>RINGS</code> block and <code>draw()</code> in the hero script.
+        The scene below the fold shares this generator — re-render one and the other follows.</p>
+      </div>
+      <button class="ghostbtn" id="sheet-x">Close</button>
+    </header>
+    <pre id="sheet-code"></pre>
+    <footer>
+      <button class="ghostbtn" id="sheet-copy">Copy to clipboard</button>
+    </footer>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════════════════════════
+   ONE ENGINE, DRIVEN ENTIRELY BY SCALARS.
+   ⚠️ EVERY PARAMETER IS A NUMBER, A HEX STRING OR A BOOLEAN — nothing is a function. That
+   is what lets the same block drive the preview, the fifteen preset thumbnails, the URL
+   hash and the exported drop-in code from one source of truth. The moment a look is
+   expressible only as code, the tuner stops being able to hand it back.
+   ⚠️ THE SHIPPED PRESET REPRODUCES THE LIVE HERO EXACTLY — seed 424242, five rings, the
+   .34 + i×.155 ladder, tilt .22–.72, plane 1.9, and the star field drawn from the same
+   continued random stream. It is the "before", and it has to be truthful or nothing else
+   on this page means anything.
+   ═════════════════════════════════════════════════════════════════════════════════════ */
+(function(){
+"use strict";
+var TAU = Math.PI*2, SEG = 72;
+var REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ── colour helpers ───────────────────────────────────────────────────────────────── */
+function hex2rgb(h){
+  h = String(h||"#000").replace("#","");
+  if(h.length===3) h = h[0]+h[0]+h[1]+h[1]+h[2]+h[2];
+  var n = parseInt(h,16);
+  return [(n>>16)&255,(n>>8)&255,n&255];
+}
+function rgba(c,a){ return "rgba("+(c[0]|0)+","+(c[1]|0)+","+(c[2]|0)+","+(a<0?0:a>1?1:a).toFixed(3)+")"; }
+function mix(a,b,t){ return [a[0]+(b[0]-a[0])*t, a[1]+(b[1]-a[1])*t, a[2]+(b[2]-a[2])*t]; }
+function lum(c){ return (.2126*c[0] + .7152*c[1] + .0722*c[2])/255; }
+
+/* ── the shipped hero, as numbers. Every preset is a diff against this. ───────────── */
+var BASE = {
+  seed:424242, count:5, r0:.34, rStep:.155, size:.40, tiltLo:.22, tiltHi:.72, plane:1.9,
+  sort:0, posX:.70, posY:.48,
+  groundA:"#FBF8F2", groundB:"#F6F1E8",
+  farCol:"#6A585F", nearCol:"#6A585F", farW:1, nearW:1, farA:.14, nearA:.30, ramp:.5, defocus:0,
+  poolCol:"#785A3A", poolA:0, poolR:1.70, vig:0, dust:0, stars:.12,
+  lightCol:"#8A6A34", lightCore:1.8, lightGlow:7, lightGlowA:.45, lightOuter:0, lightSpec:0,
+  wakeArc:.55, wakeW:1.1, wakeA:.30,
+  nucCore:4, nucRing:9.5, nucRingA:.40, nucRing2:0, nucGlow:26, nucGlowA:.50,
+  nucBloom:0, nucBloomA:0, nucSpec:0,
+  axis:1, axisA:.13,
+  speed:1, parallax:14, additive:0, freeze:0, time:21.7
+};
+
+/* ── the universe. Seed in, rings and stars out — the live file's generator, generalised
+      so count, ladder, tilt range and plane spread are all reachable from the panel. ── */
+function build(P){
+  var s = (P.seed|0) || 1, i;
+  function rnd(){ return (s = (s*16807)%2147483647)/2147483647; }
+  var rings = [];
+  for(i=0;i<P.count;i++) rings.push({
+    r:   P.r0 + i*P.rStep,
+    asp: P.tiltLo + rnd()*Math.max(0, P.tiltHi-P.tiltLo),
+    rot: (rnd()-.5)*P.plane,
+    sp:  (.055+rnd()*.05)*(i%2?1:-1),
+    off: rnd()*TAU
+  });
+  var stars = [];
+  for(i=0;i<14;i++) stars.push({x:rnd(), y:rnd(), r:.7+rnd()*.9, ph:rnd()*TAU});
+  return {rings:rings, stars:stars};
+}
+
+/* ── the renderer. Pure: same arguments in, same frame out. ───────────────────────── */
+function render(c, W, H, P, U, t, offX, offY){
+  var i, gi, o;
+  var far = hex2rgb(P.farCol), near = hex2rgb(P.nearCol);
+  var lightC = hex2rgb(P.lightCol), pooC = hex2rgb(P.poolCol), gA = hex2rgb(P.groundA);
+  var HOT = [255,244,222];
+
+  c.globalCompositeOperation = "source-over";
+  c.globalAlpha = 1;
+
+  var bg = c.createLinearGradient(0,0,0,H);
+  bg.addColorStop(0,P.groundA); bg.addColorStop(1,P.groundB);
+  c.fillStyle = bg; c.fillRect(0,0,W,H);
+
+  /* ⚠️ NOT min(W,H). The live hero caps on width too — min(H*.40, W*.26) — so a plate that
+     is squarer than a browser window would otherwise render the figure far larger here than
+     it will ever appear in the page. min(H, W*.65)*size reproduces the shipped radius exactly
+     at 1440×900 and degrades sensibly at every other ratio. */
+  var R  = Math.min(H, W*.65)*P.size;
+  var cx = W*P.posX + offX, cy = H*P.posY + offY;
+
+  /* the pool — on a 97%-luminance ground a light has no headroom, so the ground is
+     deepened under the figure instead. ⚠️ the transparent stop carries the SAME rgb as
+     the opaque one: canvas interpolates gradients in non-premultiplied sRGB, and a
+     0-alpha stop of another hue leaves a visible band halfway out. */
+  if(P.poolA > 0){
+    var pg = c.createRadialGradient(cx,cy,0,cx,cy,R*P.poolR);
+    pg.addColorStop(0,   rgba(pooC,P.poolA));
+    pg.addColorStop(.38, rgba(pooC,P.poolA*.60));
+    pg.addColorStop(.72, rgba(pooC,P.poolA*.20));
+    pg.addColorStop(1,   rgba(pooC,0));
+    c.fillStyle = pg; c.fillRect(0,0,W,H);
+  }
+
+  if(P.stars > 0) for(i=0;i<U.stars.length;i++){
+    var st = U.stars[i];
+    c.fillStyle = rgba(lightC, P.stars + P.stars*.5*Math.sin(t*.5+st.ph));
+    c.beginPath(); c.arc(st.x*W, st.y*H, st.r*Math.max(.6,W/1200), 0, TAU); c.fill();
+  }
+
+  /* the dust plate — the mean plane, so the rings sit IN something rather than on nothing */
+  if(P.dust > 0){
+    var mr=0, ma=0;
+    for(i=0;i<U.rings.length;i++){ mr += U.rings[i].rot; ma += U.rings[i].asp; }
+    mr /= U.rings.length; ma /= U.rings.length;
+    c.save(); c.translate(cx,cy); c.rotate(mr); c.scale(1, Math.max(.04,ma));
+    var dg = c.createRadialGradient(0,0,R*.18,0,0,R*1.2);
+    dg.addColorStop(0,   rgba(lightC,0));
+    dg.addColorStop(.52, rgba(lightC,P.dust));
+    dg.addColorStop(1,   rgba(lightC,0));
+    c.fillStyle = dg; c.beginPath(); c.arc(0,0,R*1.2,0,TAU); c.fill(); c.restore();
+  }
+
+  /* the axis — his word for the centre. ⚠️ A HAIRLINE THAT REACHES AN EDGE READS AS A
+     SEAM, not as an axis: that is what made the shipped one look like a crop mark. The
+     shaft mode reaches true zero well inside the frame at both ends. */
+  if(P.axis === 1){
+    c.strokeStyle = rgba(hex2rgb(P.lightCol), P.axisA); c.lineWidth = 1;
+    c.beginPath(); c.moveTo(cx,cy-R*1.14); c.lineTo(cx,cy+R*1.14); c.stroke();
+  } else if(P.axis === 2){
+    var L0 = cy-R*1.12, L1 = cy+R*1.12;
+    var ag = c.createLinearGradient(cx,L0,cx,L1);
+    ag.addColorStop(0,   rgba(lightC,0));
+    ag.addColorStop(.24, rgba(lightC,P.axisA*.16));
+    ag.addColorStop(.5,  rgba(lightC,P.axisA));
+    ag.addColorStop(.76, rgba(lightC,P.axisA*.16));
+    ag.addColorStop(1,   rgba(lightC,0));
+    c.strokeStyle = ag; c.lineWidth = 9; c.globalAlpha = .20;
+    c.beginPath(); c.moveTo(cx,L0); c.lineTo(cx,L1); c.stroke();
+    c.globalAlpha = 1; c.lineWidth = 1.2;
+    c.beginPath(); c.moveTo(cx,L0); c.lineTo(cx,L1); c.stroke();
+  }
+
+  if(P.nucBloom > 0) glow(c,cx,cy,R*P.nucBloom,P.nucBloomA,lightC);
+
+  /* ── one list of everything, sorted far → near ────────────────────────────────────
+     ⚠️ THIS IS THE WHOLE OF THE 3D. Drawing ring-by-ring is what makes five orbits read
+     as five ellipses printed on one plane. Sorting every segment of every ring into a
+     single depth order is what lets a near arc pass in front of a far one and in front
+     of the nucleus, which enters the list at depth .5 — the centre of the system, so
+     half the universe is genuinely in front of it. Turn sorting off to see the flat
+     version the page ships today. */
+  var items = [];
+  for(gi=0; gi<U.rings.length; gi++){
+    var g = U.rings[gi], th = t*g.sp*P.speed + g.off;
+    for(i=0;i<SEG;i++){
+      var a0 = i/SEG*TAU, a1 = (i+1)/SEG*TAU;
+      var d = (Math.sin((a0+a1)/2)+1)/2;
+      var p0 = pt(g,a0,cx,cy,R), p1 = pt(g,a1,cx,cy,R);
+      items.push({d:d, k:0, x0:p0[0], y0:p0[1], x1:p1[0], y1:p1[1]});
+    }
+    items.push({d:(Math.sin(th)+1)/2, k:1, g:g, th:th});
+  }
+  items.push({d:.5, k:2});
+  if(P.sort) items.sort(function(a,b){ return a.d-b.d; });
+
+  c.lineCap = "round";
+  for(i=0;i<items.length;i++){
+    o = items[i];
+    if(o.k === 0){
+      /* the ramp bends WHERE the far colour hands over to the near one. At 0 the change
+         is linear across the depth; at 1 it holds the deep hue almost to the front, so
+         only the nearest arc is fully warm. */
+      var tt = o.d*(1-P.ramp) + o.d*o.d*P.ramp;
+      var col = mix(far, near, tt);
+      var al  = P.farA + (P.nearA-P.farA)*o.d;
+      var w   = P.farW + (P.nearW-P.farW)*o.d*o.d;
+      if(P.defocus > 0 && o.d < .5){
+        c.strokeStyle = rgba(col, al*.40);
+        c.lineWidth = w + P.defocus*(1-o.d*2);
+        c.beginPath(); c.moveTo(o.x0,o.y0); c.lineTo(o.x1,o.y1); c.stroke();
+      }
+      c.strokeStyle = rgba(col, al);
+      c.lineWidth = w;
+      c.beginPath(); c.moveTo(o.x0,o.y0); c.lineTo(o.x1,o.y1); c.stroke();
+    } else if(o.k === 1){
+      light(c,o,cx,cy,R,P,lightC,HOT);
+    } else {
+      nucleus(c,cx,cy,t,P,lightC,HOT);
+    }
+  }
+
+  if(P.vig > 0){
+    var vg = c.createRadialGradient(W*.5,H*.5,Math.min(W,H)*.26,W*.5,H*.5,Math.max(W,H)*.80);
+    vg.addColorStop(0, rgba(pooC,0));
+    vg.addColorStop(1, rgba(pooC,P.vig));
+    c.fillStyle = vg; c.fillRect(0,0,W,H);
+  }
+
+  function pt(g,a,cx,cy,R){
+    var ex = Math.cos(a)*R*g.r, ey = Math.sin(a)*R*g.r*g.asp;
+    var co = Math.cos(g.rot), si = Math.sin(g.rot);
+    return [cx+ex*co-ey*si, cy+ex*si+ey*co];
+  }
+  function light(c,o,cx,cy,R,P,lightC,HOT){
+    var nd = o.d, N = 20, k, ff, a0, a1, p0, p1;
+    if(P.wakeA > 0) for(k=0;k<N;k++){
+      a0 = o.th - P.wakeArc + k/N*P.wakeArc;
+      a1 = o.th - P.wakeArc + (k+1)/N*P.wakeArc;
+      p0 = pt(o.g,a0,cx,cy,R); p1 = pt(o.g,a1,cx,cy,R);
+      ff = Math.pow(k/N, 2.4);
+      c.strokeStyle = rgba(lightC, (.015 + (P.wakeA-.015)*ff) * (.4+.6*nd));
+      c.lineWidth = P.wakeW*(.45+.75*ff);
+      c.beginPath(); c.moveTo(p0[0],p0[1]); c.lineTo(p1[0],p1[1]); c.stroke();
+    }
+    var Pp = pt(o.g,o.th,cx,cy,R);
+    if(P.additive) c.globalCompositeOperation = "lighter";
+    if(P.lightOuter > 0) glow(c,Pp[0],Pp[1], P.lightOuter*(1+.35*nd), P.lightGlowA*.35*(.45+.55*nd), lightC);
+    if(P.lightGlow  > 0) glow(c,Pp[0],Pp[1], P.lightGlow*(1+.55*nd),  P.lightGlowA*(.7+.3*nd),      lightC);
+    c.globalCompositeOperation = "source-over";
+    c.fillStyle = rgba(lightC, .75+.25*nd);
+    c.beginPath(); c.arc(Pp[0],Pp[1], P.lightCore*(.7+.55*nd), 0, TAU); c.fill();
+    if(P.lightSpec > 0){
+      c.fillStyle = rgba(HOT, .55+.35*nd);
+      c.beginPath(); c.arc(Pp[0]-P.lightSpec*.5, Pp[1]-P.lightSpec*.55, P.lightSpec, 0, TAU); c.fill();
+    }
+  }
+  /* the nucleus — the root and axis of everything. It does not move; it breathes on a
+     sine slow enough that you cannot catch it. */
+  function nucleus(c,cx,cy,t,P,lightC,HOT){
+    if(P.additive) c.globalCompositeOperation = "lighter";
+    if(P.nucGlow > 0) glow(c,cx,cy, P.nucGlow + Math.sin(t*.5)*4, P.nucGlowA, lightC);
+    c.globalCompositeOperation = "source-over";
+    if(P.nucRing2 > 0){
+      c.strokeStyle = rgba(lightC, P.nucRingA*.42); c.lineWidth = 1;
+      c.beginPath(); c.arc(cx,cy,P.nucRing2,0,TAU); c.stroke();
+    }
+    if(P.nucRing > 0){
+      c.strokeStyle = rgba(lightC, P.nucRingA); c.lineWidth = 1.4;
+      c.beginPath(); c.arc(cx,cy,P.nucRing,0,TAU); c.stroke();
+    }
+    c.fillStyle = rgba(lightC,1);
+    c.beginPath(); c.arc(cx,cy,P.nucCore,0,TAU); c.fill();
+    if(P.nucSpec > 0){
+      c.fillStyle = rgba(HOT,.92);
+      c.beginPath(); c.arc(cx-P.nucCore*.30, cy-P.nucCore*.34, P.nucSpec, 0, TAU); c.fill();
+    }
+  }
+}
+function glow(c,x,y,r,a,col){
+  if(r<=0 || a<=0) return;
+  var g = c.createRadialGradient(x,y,0,x,y,r);
+  g.addColorStop(0, rgba(col,a)); g.addColorStop(1, rgba(col,0));
+  c.fillStyle = g; c.beginPath(); c.arc(x,y,r,0,TAU); c.fill();
+}
+
+/* ═══════════ THE PRESETS ═══════════════════════════════════════════════════════════════
+   ⚠️ DIVERSE ON PURPOSE, INCLUDING WHERE THE FIGURE SITS. Colour is the easy axis; the
+   ones that change a page are geometry and POSITION — a universe parked politely at 70%
+   width is a different argument from one cropping off three edges or sitting behind the
+   headline. Several of these deliberately break the shipped placement.
+   ⚠️ AND EVERY ONE OF THEM KEEPS IRREGULAR TILTS. An orrery's nearest wrong reading is an
+   ATOM — regularise the tilts and even the prettiest preset becomes a reactor mark on a
+   clinic page. That is the round-3 test (what ELSE does this look like?) applied here. */
+function P(o){ var k, out = {}; for(k in BASE) out[k] = BASE[k]; for(k in o) out[k] = o[k]; return out; }
+
+var PRESETS = [
+  {n:"Shipped",    d:"today's hero, unchanged", p:P({})},
+
+  {n:"Weight",     d:"taper + depth sorting only — palette frozen", p:P({
+    sort:1, farW:.45, nearW:2.6, farA:.09, nearA:.39, ramp:.7 })},
+
+  {n:"Ember",      d:"the ring warms as it comes toward you", p:P({
+    sort:1, farCol:"#693735", nearCol:"#8A6A34", farW:.78, nearW:3.4, farA:.18, nearA:.68, ramp:.82,
+    poolCol:"#785A3A", poolA:.225, poolR:1.62, axis:2, axisA:.34,
+    lightCore:3.0, lightGlow:11, lightGlowA:.50, lightOuter:27, lightSpec:1.15,
+    wakeArc:1.25, wakeW:2.0, wakeA:.36,
+    nucCore:6, nucRing:12.5, nucRingA:.46, nucRing2:20, nucGlow:34, nucGlowA:.50,
+    nucBloom:.44, nucBloomA:.15, nucSpec:2.1 })},
+
+  {n:"Champagne",  d:"one metal — no second hue left to go grey", p:P({
+    sort:1, farCol:"#C2A05E", nearCol:"#7A5B2A", farW:.76, nearW:3.26, farA:.19, nearA:.69, ramp:.5,
+    poolCol:"#8A6A34", poolA:.16, poolR:1.66, dust:.075, axis:2, axisA:.30,
+    lightCore:2.9, lightGlow:10, lightGlowA:.46, lightOuter:25, lightSpec:1.1,
+    wakeArc:1.05, wakeW:1.8, wakeA:.32,
+    nucCore:5.8, nucRing:12, nucRingA:.44, nucRing2:19, nucGlow:32, nucGlowA:.48,
+    nucBloom:.42, nucBloomA:.13, nucSpec:2 })},
+
+  {n:"Rose Gold",  d:"the cool end is a hue the brand already owns", p:P({
+    sort:1, farCol:"#C79A92", nearCol:"#8A6A34", farW:.76, nearW:3.26, farA:.24, nearA:.68, ramp:.78,
+    poolCol:"#8A6A5A", poolA:.17, poolR:1.66, axis:2, axisA:.28,
+    lightCore:2.9, lightGlow:10, lightGlowA:.46, lightOuter:25, lightSpec:1.1,
+    wakeArc:1.15, wakeW:1.9, wakeA:.33,
+    nucCore:5.8, nucRing:12, nucRingA:.44, nucRing2:19, nucGlow:32, nucGlowA:.48,
+    nucBloom:.42, nucBloomA:.13, nucSpec:2 })},
+
+  {n:"Aperture",   d:"the far side is genuinely out of focus", p:P({
+    sort:1, farCol:"#693735", nearCol:"#8A6A34", farW:.70, nearW:3.5, farA:.15, nearA:.70, ramp:.82,
+    defocus:3.8, vig:.09, poolCol:"#785A3A", poolA:.25, poolR:1.72, axis:2, axisA:.34,
+    lightCore:3.0, lightGlow:11, lightGlowA:.50, lightOuter:27, lightSpec:1.15,
+    wakeArc:1.25, wakeW:2.0, wakeA:.36,
+    nucCore:6, nucRing:12.5, nucRingA:.46, nucRing2:20, nucGlow:34, nucGlowA:.50,
+    nucBloom:.44, nucBloomA:.15, nucSpec:2.1 })},
+
+  {n:"Ecliptic",   d:"the outer orbits crop off the frame", p:P({
+    sort:1, r0:.30, rStep:.29, size:.535, posX:.68, posY:.50,
+    farCol:"#693735", nearCol:"#8A6A34", farW:.78, nearW:3.4, farA:.18, nearA:.68, ramp:.82,
+    poolCol:"#785A3A", poolA:.235, poolR:1.48, dust:.08, axis:2, axisA:.34,
+    lightCore:3.0, lightGlow:11, lightGlowA:.50, lightOuter:27, lightSpec:1.15,
+    wakeArc:1.25, wakeW:2.0, wakeA:.36,
+    nucCore:6, nucRing:12.5, nucRingA:.46, nucRing2:20, nucGlow:34, nucGlowA:.50,
+    nucBloom:.44, nucBloomA:.15, nucSpec:2.1 })},
+
+  {n:"Ink",        d:"dark ground — where gold finally has range", p:P({
+    sort:1, groundA:"#241D21", groundB:"#2E2228", additive:1, stars:.30, dust:.05,
+    farCol:"#693C42", nearCol:"#D8B472", farW:.80, nearW:3.5, farA:.22, nearA:.86, ramp:.72,
+    poolCol:"#C2A05E", poolA:.10, poolR:1.9, axis:2, axisA:.34,
+    lightCol:"#E0BE78", lightCore:3.1, lightGlow:13, lightGlowA:.62, lightOuter:30, lightSpec:1.3,
+    wakeArc:1.3, wakeW:2.2, wakeA:.46,
+    nucCore:6, nucRing:12, nucRingA:.60, nucRing2:20, nucGlow:38, nucGlowA:.62,
+    nucBloom:.52, nucBloomA:.18, nucSpec:2.3 })},
+
+  {n:"Aurum",      d:"every device at once, on ivory", p:P({
+    sort:1, r0:.31, rStep:.283, size:.52, posX:.66, posY:.50,
+    farCol:"#693735", nearCol:"#8A6A34", farW:.70, nearW:3.65, farA:.15, nearA:.71, ramp:.84,
+    defocus:3.4, vig:.10, dust:.078, poolCol:"#785A3A", poolA:.265, poolR:1.80,
+    axis:2, axisA:.34,
+    lightCore:3.2, lightGlow:12, lightGlowA:.50, lightOuter:32, lightSpec:1.25,
+    wakeArc:1.4, wakeW:2.2, wakeA:.40,
+    nucCore:6.4, nucRing:13, nucRingA:.50, nucRing2:21, nucGlow:38, nucGlowA:.54,
+    nucBloom:.50, nucBloomA:.17, nucSpec:2.3 })},
+
+  /* ── four that move the figure, not just the palette ─────────────────────────────── */
+  {n:"Nocturne",   d:"ink and rose, low and heavy to the right", p:P({
+    sort:1, groundA:"#221A20", groundB:"#191317", additive:1, stars:.22,
+    size:.50, posX:.72, posY:.62, tiltLo:.30, tiltHi:.86,
+    farCol:"#5A3340", nearCol:"#C79A92", farW:.85, nearW:3.3, farA:.24, nearA:.80, ramp:.68,
+    poolCol:"#C79A92", poolA:.085, poolR:1.9, vig:.16, axis:2, axisA:.22,
+    lightCol:"#E8C3B8", lightCore:3.0, lightGlow:13, lightGlowA:.58, lightOuter:28, lightSpec:1.2,
+    wakeArc:1.5, wakeW:2.1, wakeA:.40,
+    nucCore:5.6, nucRing:13, nucRingA:.50, nucRing2:22, nucGlow:36, nucGlowA:.55,
+    nucBloom:.55, nucBloomA:.14, nucSpec:2.1 })},
+
+  {n:"Porcelain",  d:"seven cool orbits, centred and quiet", p:P({
+    sort:1, count:7, r0:.26, rStep:.115, size:.36, posX:.50, posY:.50,
+    tiltLo:.16, tiltHi:.60, plane:2.3,
+    groundA:"#F7F8F9", groundB:"#EDEFF2",
+    farCol:"#8E9AA6", nearCol:"#3E4A57", farW:.45, nearW:1.9, farA:.16, nearA:.60, ramp:.6,
+    poolCol:"#5C6A78", poolA:.075, poolR:1.55, axis:2, axisA:.18,
+    lightCol:"#54636F", lightCore:2.0, lightGlow:7, lightGlowA:.34, lightOuter:16, lightSpec:.7,
+    wakeArc:.85, wakeW:1.3, wakeA:.26,
+    nucCore:4.2, nucRing:10, nucRingA:.42, nucRing2:16, nucGlow:24, nucGlowA:.38,
+    nucBloom:.34, nucBloomA:.08, nucSpec:1.4 })},
+
+  {n:"Solstice",   d:"low and far right, cropping two edges", p:P({
+    sort:1, r0:.34, rStep:.30, size:.60, posX:.82, posY:.68, tiltLo:.26, tiltHi:.78,
+    groundA:"#FBF6EA", groundB:"#F2E9D6",
+    farCol:"#7A4A2C", nearCol:"#9A6E22", farW:.85, nearW:4.2, farA:.20, nearA:.78, ramp:.86,
+    poolCol:"#8A5F2A", poolA:.24, poolR:1.5, vig:.12, dust:.09, axis:2, axisA:.30,
+    lightCore:3.6, lightGlow:13, lightGlowA:.52, lightOuter:34, lightSpec:1.4,
+    wakeArc:1.5, wakeW:2.4, wakeA:.42,
+    nucCore:7, nucRing:14, nucRingA:.52, nucRing2:23, nucGlow:42, nucGlowA:.56,
+    nucBloom:.52, nucBloomA:.19, nucSpec:2.5 })},
+
+  {n:"Filament",   d:"eight fine orbits, high and tight", p:P({
+    sort:1, count:8, r0:.22, rStep:.10, size:.34, posX:.76, posY:.34,
+    tiltLo:.14, tiltHi:.66, plane:2.6,
+    farCol:"#6B3A38", nearCol:"#A87C2E", farW:.35, nearW:1.55, farA:.22, nearA:.82, ramp:.7,
+    poolCol:"#785A3A", poolA:.19, poolR:1.7, axis:2, axisA:.26,
+    lightCore:2.1, lightGlow:8, lightGlowA:.46, lightOuter:19, lightSpec:.9,
+    wakeArc:1.6, wakeW:1.3, wakeA:.34,
+    nucCore:4.4, nucRing:9.5, nucRingA:.46, nucRing2:15, nucGlow:26, nucGlowA:.48,
+    nucBloom:.40, nucBloomA:.13, nucSpec:1.7 })},
+
+  {n:"Eclipse",    d:"three heavy orbits behind the headline", p:P({
+    sort:1, count:3, r0:.46, rStep:.34, size:.66, posX:.50, posY:.48,
+    tiltLo:.34, tiltHi:.92, plane:1.3,
+    farCol:"#6B4038", nearCol:"#8A6A34", farW:1.0, nearW:4.6, farA:.13, nearA:.52, ramp:.88,
+    defocus:4.6, poolCol:"#785A3A", poolA:.20, poolR:1.9, vig:.14, axis:0, axisA:.30,
+    lightCore:3.6, lightGlow:15, lightGlowA:.44, lightOuter:38, lightSpec:1.4,
+    wakeArc:1.9, wakeW:2.6, wakeA:.34,
+    nucCore:7.5, nucRing:16, nucRingA:.40, nucRing2:27, nucGlow:48, nucGlowA:.46,
+    nucBloom:.62, nucBloomA:.16, nucSpec:2.6 })},
+
+  {n:"Meridian",   d:"near edge-on — a horizon, not a target", p:P({
+    sort:1, count:6, r0:.30, rStep:.20, size:.50, posX:.68, posY:.52,
+    tiltLo:.05, tiltHi:.20, plane:.55,
+    farCol:"#6B3F3C", nearCol:"#94702E", farW:.60, nearW:2.9, farA:.20, nearA:.74, ramp:.8,
+    poolCol:"#785A3A", poolA:.22, poolR:1.8, dust:.10, axis:0, axisA:.30,
+    lightCore:2.8, lightGlow:11, lightGlowA:.50, lightOuter:26, lightSpec:1.1,
+    wakeArc:1.35, wakeW:2.0, wakeA:.38,
+    nucCore:5.6, nucRing:12, nucRingA:.46, nucRing2:20, nucGlow:33, nucGlowA:.50,
+    nucBloom:.46, nucBloomA:.15, nucSpec:2.1 })}
+];
+
+/* ═══════════ THE PANEL ════════════════════════════════════════════════════════════════
+   ⚠️ BUILT FROM A SPEC, NOT HAND-AUTHORED. Forty-five controls written out by hand drift
+   apart from the parameters they drive the first time one is renamed. Here the spec IS
+   the contract: a key that does not exist in BASE cannot get a control. */
+var SPEC = [
+ {t:"Ring line", open:true, note:"Weight and hue carry the depth. A flat 1px stroke at one alpha is a technical drawing — that is what the shipped hero does.", rows:[
+   {k:"farCol",  ui:"color", l:"Far colour"},
+   {k:"nearCol", ui:"color", l:"Near colour"},
+   {k:"farW",    ui:"range", l:"Far width",    min:.1, max:5,  step:.02, u:"px"},
+   {k:"nearW",   ui:"range", l:"Near width",   min:.2, max:10, step:.02, u:"px"},
+   {k:"farA",    ui:"range", l:"Far opacity",  min:0,  max:1,  step:.005},
+   {k:"nearA",   ui:"range", l:"Near opacity", min:0,  max:1,  step:.005},
+   {k:"ramp",    ui:"range", l:"Hue curve",    min:0,  max:1,  step:.01},
+   {k:"defocus", ui:"range", l:"Far defocus",  min:0,  max:12, step:.1,  u:"px"}
+ ]},
+ {t:"Geometry & seed", rows:[
+   {k:"count",  ui:"range", l:"Orbits",        min:2,   max:9,   step:1},
+   {k:"r0",     ui:"range", l:"Inner radius",  min:.10, max:.90, step:.005},
+   {k:"rStep",  ui:"range", l:"Spacing",       min:.03, max:.42, step:.005},
+   {k:"size",   ui:"range", l:"Overall size",  min:.12, max:.95, step:.005},
+   {k:"tiltLo", ui:"range", l:"Tilt, flattest",min:.02, max:.95, step:.01},
+   {k:"tiltHi", ui:"range", l:"Tilt, roundest",min:.02, max:.95, step:.01},
+   {k:"plane",  ui:"range", l:"Plane spread",  min:0,   max:3.2, step:.02, u:"rad"},
+   {k:"sort",   ui:"toggle",l:"Depth sorting"},
+   {k:"seed",   ui:"seed",  l:"Seed"}
+ ]},
+ {t:"Position", note:"Where the universe sits in the frame. A figure that crops implies it continues; one that fits inside its box is a diagram of a universe. These two govern the DESKTOP composition only — below 1024px the live page puts the figure in the headline's air instead, and the exported code keeps that.", rows:[
+   {k:"posX", ui:"range", l:"Across",  min:0, max:1, step:.005},
+   {k:"posY", ui:"range", l:"Down",    min:0, max:1, step:.005}
+ ]},
+ {t:"Travelling lights", rows:[
+   {k:"lightCol",   ui:"color", l:"Light colour"},
+   {k:"lightCore",  ui:"range", l:"Core size",     min:0, max:9,  step:.05, u:"px"},
+   {k:"lightGlow",  ui:"range", l:"Halo size",     min:0, max:34, step:.5,  u:"px"},
+   {k:"lightGlowA", ui:"range", l:"Halo strength", min:0, max:1,  step:.01},
+   {k:"lightOuter", ui:"range", l:"Outer bloom",   min:0, max:70, step:1,   u:"px"},
+   {k:"lightSpec",  ui:"range", l:"Specular",      min:0, max:3,  step:.05, u:"px"},
+   {k:"wakeArc",    ui:"range", l:"Wake length",   min:0, max:3.1,step:.02, u:"rad"},
+   {k:"wakeW",      ui:"range", l:"Wake width",    min:.2,max:6,  step:.05, u:"px"},
+   {k:"wakeA",      ui:"range", l:"Wake strength", min:0, max:1,  step:.01}
+ ]},
+ {t:"Nucleus", note:"His words for the centre: “the root and axis of everything.” It never moves — it breathes on a sine you cannot catch.", rows:[
+   {k:"nucCore",   ui:"range", l:"Core",          min:0, max:16, step:.1,  u:"px"},
+   {k:"nucRing",   ui:"range", l:"Inner ring",    min:0, max:34, step:.5,  u:"px"},
+   {k:"nucRing2",  ui:"range", l:"Outer ring",    min:0, max:52, step:.5,  u:"px"},
+   {k:"nucRingA",  ui:"range", l:"Ring strength", min:0, max:1,  step:.01},
+   {k:"nucGlow",   ui:"range", l:"Halo",          min:0, max:90, step:1,   u:"px"},
+   {k:"nucGlowA",  ui:"range", l:"Halo strength", min:0, max:1,  step:.01},
+   {k:"nucBloom",  ui:"range", l:"Bloom radius",  min:0, max:1.2,step:.01, u:"×R"},
+   {k:"nucBloomA", ui:"range", l:"Bloom strength",min:0, max:.6, step:.005},
+   {k:"nucSpec",   ui:"range", l:"Specular",      min:0, max:5,  step:.05, u:"px"}
+ ]},
+ {t:"Ground & atmosphere", note:"On ivory, gold cannot get brighter — only more saturated. The pool deepens the ground so light has somewhere to be bright against.", rows:[
+   {k:"groundA",  ui:"color", l:"Ground, top"},
+   {k:"groundB",  ui:"color", l:"Ground, foot"},
+   {k:"poolCol",  ui:"color", l:"Pool colour"},
+   {k:"poolA",    ui:"range", l:"Pool strength", min:0, max:.6,  step:.005},
+   {k:"poolR",    ui:"range", l:"Pool radius",   min:.4,max:3.2, step:.02, u:"×R"},
+   {k:"vig",      ui:"range", l:"Vignette",      min:0, max:.45, step:.005},
+   {k:"dust",     ui:"range", l:"Dust plate",    min:0, max:.30, step:.002},
+   {k:"stars",    ui:"range", l:"Star field",    min:0, max:.60, step:.005},
+   {k:"additive", ui:"toggle",l:"Additive light"}
+ ]},
+ {t:"Axis", rows:[
+   {k:"axis",  ui:"seg",   l:"Axis", opts:["None","Hairline","Shaft"]},
+   {k:"axisA", ui:"range", l:"Strength", min:0, max:.8, step:.01}
+ ]},
+ {t:"Motion", note:"One orbit runs 70–120 seconds by design — persistent peripheral drift is what provokes vestibular discomfort in exactly the readers this clinic serves. Grow the size, never the speed.", rows:[
+   {k:"speed",    ui:"range",  l:"Orbit speed", min:0, max:6,  step:.05, u:"×"},
+   {k:"parallax", ui:"range",  l:"Pointer parallax", min:0, max:60, step:1, u:"px"},
+   {k:"freeze",   ui:"toggle", l:"Freeze"},
+   {k:"time",     ui:"range",  l:"Frozen at",  min:0, max:140, step:.1, u:"s"}
+ ]}
+];
+
+/* ═══════════ WIRING ═══════════════════════════════════════════════════════════════════ */
+var $  = function(s){ return document.querySelector(s); };
+var cur = P(PRESETS[2].p), curName = "Ember", uni = build(cur), controls = {};
+var canvas = $("#cv"), ctx = canvas.getContext("2d"), plate = $("#plate"), veil = $("#veil");
+var DPR = Math.min(devicePixelRatio || 1, 2);
+var W = 0, H = 0, tx = 0, ty = 0, px = 0, py = 0, holding = null;
+
+function fmt(v, step){
+  if(step >= 1) return String(Math.round(v));
+  var dp = step >= .1 ? 1 : step >= .01 ? 2 : 3;
+  return Number(v).toFixed(dp);
+}
+
+/* ── the panel, built from SPEC ─────────────────────────────────────────────────────── */
+function buildPanel(){
+  var host = $("#groups"), i, j;
+  for(i=0;i<SPEC.length;i++){
+    var G = SPEC[i];
+    var det = document.createElement("details");
+    det.className = "group";
+    if(G.open) det.open = true;
+    var sum = document.createElement("summary");
+    sum.innerHTML = '<span>'+G.t+'</span><span class="chev">›</span>';
+    det.appendChild(sum);
+    var box = document.createElement("div");
+    box.className = "fields";
+    if(G.note){
+      var nt = document.createElement("p");
+      nt.className = "note"; nt.textContent = G.note;
+      box.appendChild(nt);
+    }
+    for(j=0;j<G.rows.length;j++) box.appendChild(makeRow(G.rows[j]));
+    det.appendChild(box);
+    host.appendChild(det);
+  }
+}
+
+function makeRow(r){
+  var wrap = document.createElement("div"), id = "c-"+r.k;
+
+  if(r.ui === "color"){
+    wrap.className = "swatchrow";
+    wrap.innerHTML = '<label for="'+id+'">'+r.l+'</label>'
+      + '<span class="hex"></span><input type="color" id="'+id+'">';
+    var inp = wrap.querySelector("input"), hx = wrap.querySelector(".hex");
+    inp.addEventListener("input", function(){ set(r.k, inp.value); });
+    controls[r.k] = function(v){ inp.value = v; hx.textContent = String(v).toUpperCase(); };
+    return wrap;
+  }
+
+  if(r.ui === "toggle"){
+    wrap.className = "toggle";
+    wrap.innerHTML = '<label>'+r.l+'</label><button type="button" aria-pressed="false" aria-label="'+r.l+'"></button>';
+    var btn = wrap.querySelector("button");
+    btn.addEventListener("click", function(){ set(r.k, cur[r.k] ? 0 : 1); });
+    controls[r.k] = function(v){ btn.setAttribute("aria-pressed", v ? "true" : "false"); };
+    return wrap;
+  }
+
+  if(r.ui === "seg"){
+    wrap.className = "row";
+    var html = '<label>'+r.l+'</label><span class="val"></span><div class="seg" style="grid-column:1/-1">';
+    for(var k=0;k<r.opts.length;k++) html += '<button type="button" data-v="'+k+'" aria-pressed="false">'+r.opts[k]+'</button>';
+    wrap.innerHTML = html + '</div>';
+    var btns = [].slice.call(wrap.querySelectorAll(".seg button"));
+    btns.forEach(function(b){ b.addEventListener("click", function(){ set(r.k, +b.dataset.v); }); });
+    controls[r.k] = function(v){ btns.forEach(function(b){ b.setAttribute("aria-pressed", +b.dataset.v === +v ? "true":"false"); }); };
+    return wrap;
+  }
+
+  if(r.ui === "seed"){
+    wrap.className = "row";
+    wrap.innerHTML = '<label>'+r.l+'</label><span class="val"></span>'
+      + '<div class="seg" style="grid-column:1/-1"><button type="button" data-a="roll">New universe</button>'
+      + '<button type="button" data-a="home">424242</button></div>';
+    var val = wrap.querySelector(".val");
+    wrap.querySelector('[data-a="roll"]').addEventListener("click", function(){
+      set("seed", 1 + Math.floor(Math.random()*2147483000)); });
+    wrap.querySelector('[data-a="home"]').addEventListener("click", function(){ set("seed", 424242); });
+    controls[r.k] = function(v){ val.textContent = v; };
+    return wrap;
+  }
+
+  wrap.className = "row";
+  wrap.innerHTML = '<label for="'+id+'">'+r.l+'</label><span class="val"></span>'
+    + '<input type="range" id="'+id+'" min="'+r.min+'" max="'+r.max+'" step="'+r.step+'">';
+  var rng = wrap.querySelector("input"), out = wrap.querySelector(".val");
+  rng.addEventListener("input", function(){ set(r.k, parseFloat(rng.value)); });
+  controls[r.k] = function(v){ rng.value = v; out.textContent = fmt(v, r.step) + (r.u ? " "+r.u : ""); };
+  return wrap;
+}
+
+/* ── state ──────────────────────────────────────────────────────────────────────────── */
+var GEOM = {seed:1, count:1, r0:1, rStep:1, tiltLo:1, tiltHi:1, plane:1};
+function set(k, v){
+  cur[k] = v;
+  if(GEOM[k]) uni = build(cur);
+  if(controls[k]) controls[k](v);
+  syncGround();
+  writeHash();
+  if(cur.freeze) paint(cur.time);
+}
+function syncAll(){
+  for(var k in controls) if(k in cur) controls[k](cur[k]);
+  syncGround();
+}
+/* the plate's copy has to follow its ground, or a dark preset renders ink text on ink */
+function syncGround(){
+  var g = hex2rgb(cur.groundA), dark = lum(hex2rgb(cur.groundB)) < .45;
+  plate.dataset.keyDark = dark ? "1" : "0";
+  var s = g[0]+","+g[1]+","+g[2];
+  veil.style.background =
+    "linear-gradient(180deg,rgba("+s+",0) 55%,rgba("+s+",1) 97%),"
+  + "radial-gradient(85% 115% at 20% 44%,rgba("+s+",.55) 0%,rgba("+s+",.22) 46%,rgba("+s+",0) 70%)";
+}
+
+/* ── the preview ────────────────────────────────────────────────────────────────────── */
+function size(){
+  W = plate.clientWidth; H = plate.clientHeight;
+  var w = Math.round(W*DPR), h = Math.round(H*DPR);
+  if(canvas.width !== w || canvas.height !== h){ canvas.width = w; canvas.height = h; }
+}
+function paint(t){
+  size();
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+  render(ctx, W, H, holding || cur, holding ? holdUni : uni, t, px, py);
+}
+var holdUni = null;
+
+/* ⚠️ PARALLAX IS RESPONSE, NOT DRIFT. It moves only while the pointer moves, so it is not
+   the persistent peripheral motion the hero's discipline is written against, and it is
+   off entirely under prefers-reduced-motion. */
+plate.addEventListener("pointermove", function(e){
+  if(REDUCE || !cur.parallax) { tx = ty = 0; return; }
+  var b = plate.getBoundingClientRect();
+  tx = ((e.clientX-b.left)/b.width  - .5) * -cur.parallax*2;
+  ty = ((e.clientY-b.top )/b.height - .5) * -cur.parallax*1.3;
+});
+plate.addEventListener("pointerleave", function(){ tx = ty = 0; });
+
+var T0 = performance.now(), frames = 0, fpsAt = T0;
+(function loop(now){
+  requestAnimationFrame(loop);
+  if(document.hidden) return;
+  px += (tx-px)*.07; py += (ty-py)*.07;
+  var t = (cur.freeze && !holding) ? cur.time : (performance.now()-T0)/1000;
+  paint(t);
+  frames++;
+  if(now - fpsAt > 900){
+    $("#tag-fps").textContent = Math.round(frames*1000/(now-fpsAt)) + " fps";
+    frames = 0; fpsAt = now;
+  }
+})(T0);
+addEventListener("resize", function(){ size(); });
+
+/* ── preset gallery. Each chip renders its own orrery, which is the only honest label
+      for a look — a word cannot tell you what "Meridian" does to a hero. ───────────── */
+function buildPresets(){
+  var grid = $("#pgrid");
+  $("#preset-count").textContent = PRESETS.length + " looks";
+  PRESETS.forEach(function(pr, idx){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "preset"; b.title = pr.d;
+    b.setAttribute("aria-pressed", pr.n === curName ? "true" : "false");
+    var cv = document.createElement("canvas");
+    var sp = document.createElement("span"); sp.textContent = pr.n;
+    b.appendChild(cv); b.appendChild(sp); grid.appendChild(b);
+    var w = 168, h = 105;
+    cv.width = w*2; cv.height = h*2;
+    var c2 = cv.getContext("2d");
+    c2.setTransform(2,0,0,2,0,0);
+    /* the thumbnail is the still frame the estate judges every hero at */
+    render(c2, w, h, pr.p, build(pr.p), 21.7, 0, 0);
+    b.addEventListener("click", function(){ apply(pr, true); });
+  });
+}
+function apply(pr, focusIt){
+  cur = P(pr.p); curName = pr.n; uni = build(cur);
+  $("#tag-name").textContent = pr.n;
+  [].slice.call(document.querySelectorAll(".preset")).forEach(function(el){
+    el.setAttribute("aria-pressed", el.querySelector("span").textContent === pr.n ? "true" : "false");
+  });
+  syncAll(); writeHash();
+  if(focusIt) toast(pr.n + " — " + pr.d);
+}
+
+/* ── hold to compare against what ships today ───────────────────────────────────────── */
+(function(){
+  var b = $("#btn-hold"), shipped = PRESETS[0].p;
+  function on(e){ e.preventDefault(); holding = shipped; holdUni = build(shipped); $("#tag-name").textContent = "Shipped"; }
+  function off(){ if(!holding) return; holding = null; holdUni = null; $("#tag-name").textContent = curName; }
+  b.addEventListener("pointerdown", on);
+  addEventListener("pointerup", off);
+  b.addEventListener("keydown", function(e){ if(e.key===" "||e.key==="Enter") on(e); });
+  b.addEventListener("keyup", off);
+  b.addEventListener("pointerleave", off);
+})();
+$("#btn-shuffle").addEventListener("click", function(){
+  set("seed", 1 + Math.floor(Math.random()*2147483000));
+  toast("Seed " + cur.seed + " — same rules, new universe");
+});
+$("#btn-reset").addEventListener("click", function(){
+  var pr = null;
+  for(var i=0;i<PRESETS.length;i++) if(PRESETS[i].n === curName) pr = PRESETS[i];
+  apply(pr || PRESETS[2], false); toast("Back to " + curName);
+});
+
+/* ── share + export ─────────────────────────────────────────────────────────────────── */
+var hashT = 0;
+function writeHash(){
+  clearTimeout(hashT);
+  hashT = setTimeout(function(){
+    var out = {}, k;
+    for(k in cur) if(cur[k] !== BASE[k]) out[k] = cur[k];
+    try{ history.replaceState(null,"","#" + btoa(unescape(encodeURIComponent(JSON.stringify(out))))); }catch(e){}
+  }, 220);
+}
+function readHash(){
+  if(!location.hash || location.hash.length < 4) return false;
+  try{
+    var o = JSON.parse(decodeURIComponent(escape(atob(location.hash.slice(1)))));
+    cur = P(o); uni = build(cur); curName = "Custom";
+    $("#tag-name").textContent = "Custom"; syncAll();
+    return true;
+  }catch(e){ return false; }
+}
+function copy(text, msg){
+  var done = function(){ toast(msg); };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done, function(){ fallback(); });
+  } else fallback();
+  function fallback(){
+    var ta = document.createElement("textarea");
+    ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta); ta.select();
+    try{ document.execCommand("copy"); done(); }catch(e){ toast("Select the code and copy it"); }
+    document.body.removeChild(ta);
+  }
+}
+$("#btn-link").addEventListener("click", function(){
+  copy(location.href, "Link copied — it carries this exact look");
+});
+
+var toastT = 0;
+function toast(m){
+  var el = $("#toast"); el.textContent = m; el.classList.add("on");
+  clearTimeout(toastT); toastT = setTimeout(function(){ el.classList.remove("on"); }, 2600);
+}
+
+function codeFor(P0){
+  var q = function(k){ var v = P0[k]; return typeof v === "string" ? '"'+v+'"' : v; };
+  var keys = Object.keys(BASE).filter(function(k){ return k !== "freeze" && k !== "time" && k !== "parallax"; });
+  var lines = [], row = [];
+  keys.forEach(function(k,i){
+    row.push(k+":"+q(k));
+    if(row.length === 3 || i === keys.length-1){ lines.push("    " + row.join(", ")); row = []; }
+  });
+  return [
+"/* ═══════════ The Orrery hero — tuned " + new Date().toISOString().slice(0,10) + " ═══════════",
+"   Paste over the RINGS block and draw() in the hero script. Everything the figure does is",
+"   in ORRERY below — no other line of the hero needs to change.",
+"   ⚠️ THE SCENE BELOW THE FOLD IS THIS SAME UNIVERSE by design (round 3 — \"speak the",
+"   hero's language twice\"): it holds a second copy of this generator, seed and tilts.",
+"   RE-RENDER THE HERO AND THE SCENE MUST FOLLOW IN THE SAME COMMIT, or the page silently",
+"   stops telling one story twice.",
+"   ⚠️ Orbit speed stays at " + P0.speed + "×. One orbit runs 70–120 seconds and the nucleus",
+"   breathes on a sine you cannot catch — that discipline is the audience's, not a taste.",
+"   If more presence is wanted, grow `size`, never `speed`. */",
+"const ORRERY = {",
+lines.join(",\n"),
+"  };",
+"",
+"  /* the universe — seeded, so a QA screenshot at a given t is reproducible */",
+"  const RINGS = (() => {",
+"    let s = ORRERY.seed;",
+"    const rnd = () => (s = (s*16807)%2147483647)/2147483647;",
+"    const R = [];",
+"    for(let i=0;i<ORRERY.count;i++) R.push({",
+"      r:   ORRERY.r0 + i*ORRERY.rStep,",
+"      asp: ORRERY.tiltLo + rnd()*(ORRERY.tiltHi-ORRERY.tiltLo),",
+"      rot: (rnd()-.5)*ORRERY.plane,",
+"      sp:  (.055+rnd()*.05)*(i%2?1:-1),",
+"      off: rnd()*TAU",
+"    });",
+"    STAR_SEED = s;                 // the stars continue the same stream",
+"    return R;",
+"  })();",
+"",
+"  /* where it sits, and how big. ⚠️ R is keyed to min(W,H) so the figure keeps its",
+"     proportion to the shorter edge on every display instead of stretching with the page. */",
+"  function frame(){",
+"    // ⚠️ THE PHONE AND TABLET PLACEMENTS ARE THE LIVE FILE'S AND STAY. On a phone the",
+"    // figure sits in the headline's air, not beside the copy — that is a composition",
+"    // decision the desktop tuner does not govern. Only the last line is tuned.",
+"    if(W<640)  return { cx: W*.74, cy: H*.30, R: Math.min(W,H)*ORRERY.size*.75 };",
+"    if(W<1024) return { cx: W*.72, cy: H*.42, R: Math.min(W,H)*ORRERY.size*.90 };",
+"    // min(H, W*.65) — NOT min(W,H): the shipped hero caps on width too, and without that",
+"    // cap the figure grows past its composition on a short, wide window.",
+"    return { cx: W*ORRERY.posX, cy: H*ORRERY.posY, R: Math.min(H, W*.65)*ORRERY.size };",
+"  }"
+  ].join("\n");
+}
+$("#btn-code").addEventListener("click", function(){
+  $("#sheet-code").textContent = codeFor(cur);
+  $("#sheet").classList.add("on");
+});
+$("#sheet-x").addEventListener("click", function(){ $("#sheet").classList.remove("on"); });
+$("#sheet").addEventListener("click", function(e){ if(e.target === $("#sheet")) $("#sheet").classList.remove("on"); });
+addEventListener("keydown", function(e){ if(e.key === "Escape") $("#sheet").classList.remove("on"); });
+$("#sheet-copy").addEventListener("click", function(){
+  copy($("#sheet-code").textContent, "Drop-in code copied");
+});
+
+/* ── go ─────────────────────────────────────────────────────────────────────────────── */
+buildPanel();
+buildPresets();
+if(!readHash()){ apply(PRESETS[2], false); }
+if(REDUCE){ cur.freeze = 1; syncAll(); }
+size();
+})();
+</script>

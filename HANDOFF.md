@@ -1,3 +1,29 @@
+# Handoff addendum — 2026-08-18 (a new page: /functional-medicine/)
+
+His brief: *"understand the peptide therapy page and based on that create a version for
+functional medicine"* — hero, a "what is functional medicine" question with an animation
+explaining it, service cards, the doctors, Irina's discovery call, the footer. He picked
+**the web → the root** for the scene and kept the full sibling structure (testimonials +
+FAQ) off a four-way question.
+
+**What shipped:** `functional-medicine/index.html`, adapted whole from the peptide page at
+its round-19b state — same ring, tray, panel, doctors, footer and grounds alternation; a
+new scroll scene (scattered symptom points connect into a web, a light traces it back to
+one igniting root as the dawn rises — payoff phrase "The root cause" inside the brand's
+ring motif) and a new hero plate (the plexus field, on the sibling hero's palette and
+discipline). QA: `tools/qa/fm-shots.mjs`, a screenshot pass + smoke checks, green.
+
+**⚠️ The three things most likely to be sent back, all flagged in the page and its
+HANDOVER:** the eight service names are DRAFT (medi-gyn.com is egress-blocked from the
+sandbox; they are assembled from the client's own recovered vocabulary — swap his menu in
+verbatim when it arrives); AED 1,150 is carried from the clinic's consultation price, not
+verified for FM; and two cards (Thyroid Health, Fatigue & Energy) stand on the designed
+plate-and-mark state until photographs arrive.
+
+Full record: [`functional-medicine/HANDOVER.md`](functional-medicine/HANDOVER.md).
+
+---
+
 # Handoff addendum — 2026-08-17, round 19b (the ring runs on a phone)
 
 His report was two sentences and one bug: *"its only 2d and if you flip it its nothing"*,

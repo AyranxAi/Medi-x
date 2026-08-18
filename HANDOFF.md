@@ -1,3 +1,43 @@
+# Handoff addendum — 2026-08-18, round 4 (his tuned orrery, and the palette put back)
+
+**His note was two halves and they had to be separated: *"i like this for the hero but the
+color is wack so fix it please"*, pasted with a complete tuned `ORRERY` block.** The FIGURE
+is his, verbatim — four rings instead of five, seed 106628903, near-face-on tilts, and the
+weights that make it read: a 6.74px near rim against a 1.26px far edge, the wake, the whole
+nucleus stack. Not one geometric or motion number was second-guessed.
+
+**The COLOUR came back from BRAND.md, four keys:** the ground to the hero's ivory stops
+(#FBF8F2 → #F6F1E8 — `.hero::after` fades the section's foot to `--ivory`, so a white canvas
+is a seam, not a ground); the two invented reds to `--burgundy` and `--logo-red`; the amber
+light to `--gold`; the white pool to a warm one. ⚠️ **THE ONE-RED RULE is why the rings could
+not stay #6b0000/#990000** — `--logo-red` was sampled from the wordmark so mark, buttons and
+favicon can never drift apart. His tonal step survived the swap intact (far L*≈20 → near
+L*≈35 became L*≈21 → L*≈34), which is what keeps the 2.5D.
+
+**⚠️ TWO THINGS A DESKTOP TUNER CANNOT SEE, both found by rendering the other placements.**
+Every pixel knob is quoted at R≈390, so the figure kept its PEN instead of its PROPORTIONS —
+a 6.74px rim is 1.7% of a desktop orrery and 5.3% of a phone one, and the first phone render
+was a dense knot; `draw()` now scales px knobs by `R/REF`. And the tablet placement ran that
+rim straight through the sub-copy — `--logo-red` under ink-soft body text is a worst-pixel
+contrast failure, where round 2's 1px hairlines crossed the same words invisibly — so the
+tablet moved into the headline's air like the phone's. **The desktop line is the tuner's;
+the other two are the page's.**
+
+**⚠️ THE SCENE MOVED IN THE SAME COMMIT — it is the same universe**, and its two
+count-dependent lines are count-agnostic now (`aligned += k/RINGS.length`, the ray reads the
+last ring by index), so the next re-count is five numbers in two places and nothing else.
+The scene keeps its own plum-and-gold grade on purpose: wine hairlines are invisible on that
+stage. ⚠️ **One honest cost, flagged for him:** at tilts .86–.90 the orbits start nearly
+face-on, so the scene's act one reads as near-concentric circles rather than scattered
+disorder. The alignment still lands and the payoff frame is the strongest it has been —
+widening the tilts is one number if he wants the disorder back.
+
+Smoke suite green (`tools/qa/fm-shots.mjs`), hero re-shot at 1920/1440/1440×620/900/768/390.
+
+Full record: [`functional-medicine/HANDOVER.md`](functional-medicine/HANDOVER.md).
+
+---
+
 # Handoff addendum — 2026-08-18, round 3 (letter O, and Ms. Richa Puri)
 
 **He read the river and killed it, correctly: *"that looks like a pandemic."*** Branching

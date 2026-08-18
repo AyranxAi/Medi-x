@@ -2489,20 +2489,20 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
        converging on one node is the grammar of a TRANSMISSION MAP, and a clinic page
        cannot afford a reader who feels something is spreading. His own fix was the better
        half of the note: speak the hero's language twice.
-       ⚠️⚠️ SO THIS SCENE IS THE HERO'S OWN UNIVERSE — same generator, same seed, same five
+       ⚠️⚠️ SO THIS SCENE IS THE HERO'S OWN UNIVERSE — same generator, same seed, same
        tilts (see the scene script at the foot of this file). The reader meets an orrery
        above the fold and scrolls into the same object below it.
        THE STORY: the systems ARRIVE one at a time, each on its own scattered tilt with one
        travelling light; the failure is NAMED while they are still scattered (the gold
        beat); then THE ALIGNMENT — orbit by orbit they swing into a single shared plane and
-       their five lights slide onto one shared ray, so disorder resolves into one
+       their lights slide onto one shared ray, so disorder resolves into one
        unmistakable line pointing at the centre. The dawn rises from that point.
        ⚠️ BEAT ORDER IS THE ARGUMENT: recognition → the failure of reading results alone
        NAMED → the turn to reading them together → the alignment → payoff. Re-ordering the
        beats breaks the causality the scene exists to show.
-       ⚠️ NOTHING IS ELIMINATED — all five systems are on screen at the end. That is why
-       this letter was picked over the subtractive ones, and "fading the four" is a
-       different letter and a different claim. -->
+       ⚠️ NOTHING IS ELIMINATED — every system is on screen at the end. That is why this
+       letter was picked over the subtractive ones, and "fading the rest" is a different
+       letter and a different claim. -->
   <div id="root">
     <section class="scene" aria-label="The alignment — a scroll story">
       <div class="scene-track">
@@ -4112,8 +4112,8 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
    on the universe the hero already holds and ends on the point at its centre.
 
    ⚠️⚠️ THIS IS THE HERO'S OWN UNIVERSE, NOT A SECOND ONE — same generator, same seed
-   (424242), same five tilts, same alternating speeds. That is the whole argument of the
-   round: the reader meets an orrery above the fold and scrolls into the same object below
+   (106628903), same four tilts, same alternating speeds. That is the whole argument of
+   the round: the reader meets an orrery above the fold and scrolls into the same object below
    it. If the hero's RINGS block is ever re-seeded or re-tuned, THIS BLOCK MOVES WITH IT or
    the page quietly stops telling one story twice. There is no build step to share them —
    two copies of one fact in one file, cross-referenced at both sites, the same arrangement
@@ -4128,8 +4128,8 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
    from exactly that point and the phrase lands inside the opening ring.
 
    ⚠️ NOTHING IS ELIMINATED AND NOTHING SHRINKS, which is why this letter was picked over
-   the subtractive ones: all five systems are on screen at the end, and the meaning is that
-   they finally READ TOGETHER. Do not "improve" it by fading the four — that is a different
+   the subtractive ones: every system is on screen at the end, and the meaning is that they
+   finally READ TOGETHER. Do not "improve" it by fading the rest — that is a different
    letter (Q) and a different claim.
    ⚠️ THE NUCLEUS SITS AT THE DAWN'S RADIAL CENTRE — 50%/55% of the stage, 52% on a phone
    (see centre()) — so the light rises from the point the ray just aimed at. Move one, move
@@ -4189,23 +4189,33 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
   const SCHED=[[.035,.125],[.145,.24],[.255,.335],[.36,.50],[.53,.75],[.86,.955]];
 
   /* ═══ THE UNIVERSE — the hero's, verbatim ════════════════════════════════════════
-     ⚠️ SEED 424242 AND THIS EXACT GENERATOR ARE SHARED WITH THE HERO CANVAS at the foot of
-     this file. Same five tilts, same aspects, same alternating directions. Change one,
-     change the other. */
-  let seed = 424242;
+     ⚠️ SEED 106628903 AND THIS EXACT GENERATOR ARE SHARED WITH THE HERO CANVAS at the foot
+     of this file, where the same numbers live as ORRERY.seed / .count / .r0 / .rStep /
+     .tiltLo / .tiltHi / .plane. Same four tilts, same aspects, same alternating
+     directions. Change one, change the other — IN THE SAME COMMIT.
+     ⚠️ THE COLOURS ARE NOT SHARED AND THAT IS NOT A DRIFT: this stage is plum rising to
+     the dawn, where the hero's wine hairlines would be invisible and stone→gold IS the
+     alignment. The shared fact is the universe, never the grade.
+     ⚠️ NOTHING BELOW COUNTS TO FIVE ANY MORE — `aligned` divides by RINGS.length and the
+     ray reads the last ring by index, so the next re-count in the hero lands here by
+     editing these five numbers and nothing else. */
+  let seed = 106628903;
   const rnd = () => (seed = (seed*16807)%2147483647)/2147483647;
-  const RINGS = Array.from({length:5},(_,i)=>({
-    r:.34+i*.155, asp:.22+rnd()*.5, rot:(rnd()-.5)*1.9,
+  const RINGS = Array.from({length:4},(_,i)=>({
+    r:.185+i*.22, asp:.86+rnd()*.04, rot:(rnd()-.5)*3.2,
     sp:(.055+rnd()*.05)*(i%2?1:-1), off:rnd()*6.283
   }));
   /* a whisper of fixed stars, the hero's own field */
   const STARS = Array.from({length:14},()=>({x:rnd(),y:rnd(),r:.7+rnd()*.9,ph:rnd()*6.283}));
 
   /* ═══ THE TARGET — one plane, one ray ════════════════════════════════════════════
-     ⚠️ THE ALIGNED ASPECT IS .30, NOT 0. Edge-on (aspect 0) collapses five orbits into one
+     ⚠️ THE ALIGNED ASPECT IS .30, NOT 0. Edge-on (aspect 0) collapses the orbits into one
      flat line and the picture stops being a universe — it becomes a rule with dots on it.
      At .30 the aligned system still reads as rings seen at a shallow angle, which is what
      makes the final frame a photograph of Saturn rather than a diagram.
+     ⚠️ AND THE SWING IS NOW THE BIG ONE — the hero's tuning leaves the orbits nearly
+     face-on (aspect .86–.90), so the alignment runs near-circles → one shallow plane
+     rather than shallow → shallower. The letter reads harder for it; the value stays .30.
      ⚠️ THE RAY POINTS UP-LEFT (−π/2 through the shared rotation), so it climbs AWAY from
      the payoff phrase's line rather than running under it. */
   const T_ROT=-.26, T_ASP=.30, T_TH=-Math.PI*.5;
@@ -4305,9 +4315,9 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
         const born=bornAt(i,p);
         if(born<=.01) return;
         const k=alignAt(i,p);
-        aligned+=k*.2;
+        aligned+=k/RINGS.length;      /* reaches 1 with every orbit home, at any count */
         /* the orbit, in segments — the near half brighter than the far, the hero's own
-           2.5D, and it is what keeps five overlapping ellipses readable */
+           2.5D, and it is what keeps overlapping ellipses readable */
         const SEG=72;
         for(let sIdx=0;sIdx<SEG;sIdx++){
           const a0=sIdx/SEG*6.283, a1=(sIdx+1)/SEG*6.283, am=(a0+a1)/2;
@@ -4341,11 +4351,11 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
       });
 
       /* ── the ray — drawn only once there is a line to draw it on. It runs from the
-         nucleus out through the five aligned lights, and it is the sentence the scene has
+         nucleus out through the aligned lights, and it is the sentence the scene has
          been building toward: everything points here. */
       const ray=ss(.55,.86,aligned);
       if(ray>.01){
-        const far=pt(RINGS[4],T_TH,1,R);
+        const far=pt(RINGS[RINGS.length-1],T_TH,1,R);
         const gr=ctx.createLinearGradient(cx,cy,far[0],far[1]);
         gr.addColorStop(0,rgba(dw>.5?GOLD_DEEP:GOLD,.42*ray*dim));
         gr.addColorStop(1,rgba(dw>.5?GOLD_DEEP:GOLD,.08*ray*dim));
@@ -4444,11 +4454,40 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
 /* ═══════════ The Orrery hero — Canvas 2.5D (letter F, his pick) ═══════════
    HIS CALL 2026-08-18, letter F off the concept board ("Twelve Ways In"), in his own
    words: "it's a universe which has a center which is like the root and axis of
-   everything." So that is what is drawn: five slender rings tilted in space — the five
-   systems — each carrying one travelling light, all orbiting a single gold nucleus that
-   never moves. The scene below the fold traces its river back to one spring; the hero
-   holds the same argument as a still-turning universe. It replaced the plexus field on
-   the same call (`git log` has it; one revert resurrects it).
+   everything." So that is what is drawn: slender rings tilted in space — the systems —
+   each carrying one travelling light, all turning around a single gold nucleus that
+   never moves. The scene below the fold swings that same universe on to one ray; the
+   hero holds the argument as a still-turning one. It replaced the plexus field on the
+   same call (`git log` has it; one revert resurrects it).
+
+   ROUND 4 — THE FIGURE IS HIS TUNING, THE COLOUR IS THE PAGE'S. His note was two halves:
+   "i like this for the hero" (a tuned ORRERY block, pasted whole) and "the color is
+   wack". So every geometric, motion and weight value below is that tuning VERBATIM —
+   seed, count, radii, tilts, plane, placement, stroke weights, glow radii, the wake, the
+   whole nucleus stack — and only the four colour keys were re-fetched from BRAND.md:
+
+     · ground  #ffffff → #FBF8F2 → #F6F1E8, the hero's own ivory stops. A pure-white
+               canvas is a seam, not a ground: `.hero::after` fades this section's foot
+               to --ivory #FAF7F1 and every section under it stands on that same ivory,
+               so white here shows as a lighter rectangle with a hard bottom edge.
+     · rings   #6b0000 / #990000 → --burgundy #5C1F31 / --logo-red #8E2D3A. ⚠️ THE
+               ONE-RED RULE (BRAND.md): --logo-red is the only red on this estate and it
+               was sampled from the wordmark, never invented — two invented reds in the
+               hero is exactly the drift that rule exists to prevent. The tuning's own
+               tonal step survives intact: far L*≈20 → near L*≈35 becomes L*≈21 → L*≈34,
+               so the near rim still lifts off the far one by the same amount, which is
+               the entire 2.5D.
+     · light   #ffb83d → --gold #C2A05E. The travelling lights and the nucleus are the
+               only warm metal in the hero, and that is what makes the centre read as
+               the axis rather than as one more ring; amber is a second warm hue and the
+               centre stops being the only one.
+     · pool    #ffffff → #FFFCF4, the same lift, warm. A cold lift on a warm ground
+               reads as a hole punched in the page rather than as light.
+
+   ⚠️ THE SPECULAR PIP IS DERIVED, NOT A KNOB — `lightCol` lifted 55% toward white, which
+   on the gold lands on the estate's champagne (#E4D4B6 ≈ the scene's own CHAMP). Derived
+   so that a future re-tune of `lightCol` can never strand a white-hot dot on a warm
+   figure; the same reason DEEP (the axis) is derived rather than typed.
 
    THREE THINGS THAT MATTER IF YOU TOUCH THIS (inherited from the sibling heroes):
 
@@ -4456,7 +4495,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
        fallback know it by name. It means "the hero ground", not "silk".
 
    2 · This is Canvas 2D, not WebGL — the 2.5D is an ellipse trick: tilt is aspect ×
-       rotation, depth is per-segment alpha, and a ring's light simply travels its own
+       rotation, depth is sin(a) per segment, and a ring's light simply travels its own
        ellipse. It costs nothing and runs on anything. The true-glass three.js cut stays
        on the concept board if the client ever wants it; the bill is recorded there.
 
@@ -4464,14 +4503,15 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
        70–120 seconds and the nucleus breathes on a sine you cannot catch moving —
        persistent peripheral drift is what provokes vestibular discomfort in exactly the
        readers this clinic serves. The orrery is ALIVE, never MOVING: the 2.5px-float
-       lesson at hero scale. If more presence is ever wanted, grow the RADIUS, never the
-       speed.
+       lesson at hero scale. If more presence is ever wanted, grow `size`, never `speed`.
 
-   ⚠️ THE PALETTE IS THE SIBLING HERO'S MEASURED ONE, PINNED: ring hairlines in the
-   ink-soft plum (quiet on ivory), the five travelling lights and the nucleus champagne
-   rgba(194,160,94,·) — the only warm metal in the hero, which is what makes the centre
-   read as the axis. Ground stops #FBF8F2 → #F6F1E8; the catch-block fallback is pinned
-   to the same two literals. */
+   ⚠️⚠️ THE SCENE BELOW THE FOLD IS THIS SAME UNIVERSE — it holds a second copy of this
+   generator, this seed and these tilts (search "THE UNIVERSE — the hero's, verbatim").
+   RE-SEED OR RE-COUNT HERE AND THAT BLOCK MOVES IN THE SAME COMMIT, or the page quietly
+   stops telling one story twice. ⚠️ THE SCENE KEEPS ITS OWN PALETTE and that is not a
+   drift: it stands on the plum stage and rises to the dawn, where wine hairlines are
+   invisible and stone→gold is the alignment itself. The shared fact is the universe,
+   never the grade. */
 try{
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const canvas = document.getElementById("silk");
@@ -4479,25 +4519,82 @@ try{
   if(!ctx) throw new Error("no 2d context");
   const DPR = Math.min(devicePixelRatio || 1, 1.5);
   const TAU = Math.PI*2;
+  let STAR_SEED = 0;
 
-  /* Deterministic: the same seed builds the same universe on every load, so a QA
-     screenshot at a given t is reproducible and a "did the hero change?" diff means
-     something. */
-  let seed = 424242;
-  const rnd = () => (seed = (seed*16807)%2147483647)/2147483647;
+  /* ═══ THE WHOLE FIGURE, IN ONE OBJECT ═════════════════════════════════════════════
+     Everything the orrery does is a key here — nothing else in this script carries a
+     tunable number, which is what makes a pasted tuning block a one-line review instead
+     of a diff read. What the less obvious keys mean:
+       rStep/r0/size  radii as fractions of R; `size` is R itself against the short edge
+       tiltLo/tiltHi  the ellipse aspects the seed picks between (1 = face-on circle)
+       plane          spread of per-ring rotation, radians peak-to-peak
+       ramp           the depth curve: colour/width/alpha all ride sin(a) to this power
+       sort           1 paints far-to-near across ALL rings, not ring by ring
+       defocus        far-edge softening (shadowBlur); costs a blur per segment, so 0 pays
+       axis           his plumb line, half-length in radii — 1.14 restores the shipped one
+       additive       'lighter' for the lights; on an ivory ground it blows to white, 0
+       vig/dust       for a dark re-grade; both off, both kept so nobody re-derives them
+     ⚠️ A KNOB AT 0 IS OFF AND COSTS NOTHING — every painter below guards on its own
+     radius and alpha, which is why the off knobs can stay in the shipped tuning. */
+  const ORRERY = {
+    seed:106628903, count:4, r0:0.185,
+    rStep:0.22, size:0.435, tiltLo:0.86,
+    tiltHi:0.9, plane:3.2, sort:0,
+    posX:0.715, posY:0.48, groundA:"#FBF8F2",
+    groundB:"#F6F1E8", farCol:"#5C1F31", nearCol:"#8E2D3A",
+    farW:1.26, nearW:6.74, farA:0.6,
+    nearA:0.965, ramp:1, defocus:0,
+    poolCol:"#FFFCF4", poolA:0.225, poolR:1.62,
+    vig:0, dust:0, stars:0.12,
+    lightCol:"#C2A05E", lightCore:9, lightGlow:20,
+    lightGlowA:0, lightOuter:4, lightSpec:2.75,
+    wakeArc:1.22, wakeW:2.35, wakeA:0.5,
+    nucCore:10.7, nucRing:30, nucRingA:0.66,
+    nucRing2:37, nucGlow:47, nucGlowA:0.5,
+    nucBloom:0.44, nucBloomA:0.15, nucSpec:2.1,
+    axis:0, axisA:0.34, speed:1,
+    additive:0
+  };
 
-  /* five rings — the five systems. Tilt and plane are fixed and seeded; the speeds are
-     lifetimes (≈70–120s an orbit), alternating direction so the universe never reads as
-     a single spin. */
-  const RINGS = Array.from({length:5},(_,i)=>({
-    r:.34+i*.155,
-    asp:.22+rnd()*.5,
-    rot:(rnd()-.5)*1.9,
-    sp:(.055+rnd()*.05)*(i%2?1:-1),
-    off:rnd()*TAU
-  }));
-  /* a whisper of fixed stars, so the universe has a field to sit in */
-  const STARS = Array.from({length:14},()=>({x:rnd(),y:rnd(),r:.7+rnd()*.9,ph:rnd()*TAU}));
+  /* the universe — seeded, so a QA screenshot at a given t is reproducible and a
+     "did the hero change?" diff means something */
+  const RINGS = (() => {
+    let s = ORRERY.seed;
+    const rnd = () => (s = (s*16807)%2147483647)/2147483647;
+    const R = [];
+    for(let i=0;i<ORRERY.count;i++) R.push({
+      r:   ORRERY.r0 + i*ORRERY.rStep,
+      asp: ORRERY.tiltLo + rnd()*(ORRERY.tiltHi-ORRERY.tiltLo),
+      rot: (rnd()-.5)*ORRERY.plane,
+      /* the speeds are lifetimes (≈70–120s an orbit), alternating direction so the
+         universe never reads as a single spin */
+      sp:  (.055+rnd()*.05)*(i%2?1:-1),
+      off: rnd()*TAU
+    });
+    STAR_SEED = s;                 // the stars continue the same stream
+    return R;
+  })();
+
+  /* a whisper of fixed stars, so the universe has a field to sit in — and a mote pool
+     that is built whether or not `dust` is up, so raising that knob can never re-seed
+     the stars underneath it */
+  const [STARS, DUST] = (() => {
+    let s = STAR_SEED;
+    const rnd = () => (s = (s*16807)%2147483647)/2147483647;
+    return [
+      Array.from({length:14},()=>({x:rnd(),y:rnd(),r:.7+rnd()*.9,ph:rnd()*TAU})),
+      Array.from({length:40},()=>({x:rnd(),y:rnd(),r:.5+rnd()*1.1,ph:rnd()*TAU,sp:.02+rnd()*.05}))
+    ];
+  })();
+
+  const hex = h => { const n=parseInt(h.slice(1),16); return [n>>16&255, n>>8&255, n&255]; };
+  const mix = (a,b,k) => a+(b-a)*k;
+  const mixC = (A,B,k) => [mix(A[0],B[0],k),mix(A[1],B[1],k),mix(A[2],B[2],k)];
+  const rgba = (C,a) => `rgba(${C[0]|0},${C[1]|0},${C[2]|0},${Math.max(0,Math.min(1,a)).toFixed(3)})`;
+  const FAR=hex(ORRERY.farCol), NEAR=hex(ORRERY.nearCol), LIT=hex(ORRERY.lightCol), POOL=hex(ORRERY.poolCol);
+  const SPEC = mixC(LIT,[255,255,255],.55);   /* champagne, derived — see the header */
+  const DEEP = mixC(LIT,[0,0,0],.30);         /* --gold-deep, derived the same way */
+  const VIG  = [46,34,40];                    /* --ink, only reachable through `vig` */
 
   let W=0, H=0;
   function size(){
@@ -4506,17 +4603,43 @@ try{
     if(canvas.width!==w || canvas.height!==h){ canvas.width=w; canvas.height=h; }
     ctx.setTransform(DPR,0,0,DPR,0,0);
   }
-  /* where the universe sits: right of the copy on a desktop, in the headline's air on a
-     phone. The hero's own radial wash (.hero::after) keeps the copy column clear. */
+  /* where it sits, and how big. ⚠️ R is keyed to min(W,H) so the figure keeps its
+     proportion to the shorter edge on every display instead of stretching with the page.
+     ⚠️ THE PHONE AND TABLET PLACEMENTS ARE THIS FILE'S, NOT THE DESKTOP TUNER'S. On a
+     phone and a tablet the figure sits in the headline's AIR, right of the lockup and
+     above the sub — never beside the copy, because at those widths the copy column is
+     most of the width and there is no "beside".
+     ⚠️ THE TABLET LINE WAS RE-COMPOSED WITH THIS TUNING (was cy .42 / size×.90) AND THE
+     REASON IS MEASURED, NOT TASTE: at 6.74px the near rim is a solid --logo-red stroke,
+     and the old placement ran it straight through the sub-copy — ink-soft #6A585F over
+     #8E2D3A fails the page's own worst-pixel contrast floor wherever they cross. The
+     round-2 hero got away with that placement because its orbits were 1px gold hairlines
+     at .14 alpha, which crossed the same words invisibly. Heavier figure, more air.
+     Only the desktop line is tuned. */
   function frame(){
-    if(W<640)  return {cx:W*.74, cy:H*.30, R:Math.min(W,H)*.30};
-    if(W<1024) return {cx:W*.72, cy:H*.42, R:Math.min(W,H)*.36};
-    return {cx:W*.70, cy:H*.48, R:Math.min(H*.40, W*.26)};
+    if(W<640)  return { cx: W*.74, cy: H*.30, R: Math.min(W,H)*ORRERY.size*.75 };
+    if(W<1024) return { cx: W*.74, cy: H*.34, R: Math.min(W,H)*ORRERY.size*.62 };
+    // min(H, W*.65) — NOT min(W,H): the shipped hero caps on width too, and without that
+    // cap the figure grows past its composition on a short, wide window.
+    return { cx: W*ORRERY.posX, cy: H*ORRERY.posY, R: Math.min(H, W*.65)*ORRERY.size };
   }
-  function glow(x,y,r,a){
+
+  /* ── the painters. Each guards on its own radius and alpha, which is what lets a knob
+     sit at 0 without paying for itself sixty times a second. ── */
+  function halo(C,x,y,r,a){
+    if(!(r>0)||!(a>0)) return;
     const g = ctx.createRadialGradient(x,y,0,x,y,r);
-    g.addColorStop(0,`rgba(194,160,94,${a})`); g.addColorStop(1,"rgba(194,160,94,0)");
+    g.addColorStop(0,rgba(C,a)); g.addColorStop(1,rgba(C,0));
     ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,TAU); ctx.fill();
+  }
+  function disc(C,x,y,r,a){
+    if(!(r>0)||!(a>0)) return;
+    ctx.fillStyle=rgba(C,a); ctx.beginPath(); ctx.arc(x,y,r,0,TAU); ctx.fill();
+  }
+  function hoop(C,x,y,r,a,w){
+    if(!(r>0)||!(a>0)) return;
+    ctx.strokeStyle=rgba(C,a); ctx.lineWidth=w||1;
+    ctx.beginPath(); ctx.arc(x,y,r,0,TAU); ctx.stroke();
   }
   /* a point on ring g at parameter a, in screen space; sin(a) doubles as depth */
   function pt(g,a,cx,cy,R){
@@ -4525,59 +4648,103 @@ try{
     return [cx+ex*c-ey*s, cy+ex*s+ey*c];
   }
 
+  /* ⚠️ EVERY PIXEL KNOB IN ORRERY IS QUOTED AT REF — the radius the tuning was judged at
+     (a 1440×900 desktop: min(900, 1440×.65) × .435 ≈ 390). `wk` re-states them against the
+     radius actually drawn, so the figure keeps ITS OWN PROPORTIONS at every size instead
+     of keeping its pen. Without it a 6.74px near rim is 1.7% of a desktop orrery and 5.3%
+     of a phone one, and the phone hero closes into a dense knot in the headline's air —
+     which is exactly what it did on the first render of this tuning.
+     Fractions of R (poolR, nucBloom, axis, the ring radii) are already proportional and
+     must NOT be scaled twice. Stars are the field behind the figure, not the figure, so
+     they keep their absolute size. */
+  const REF = 390;
   function draw(t){
-    const c = ctx;
+    const c = ctx, O = ORRERY;
+    const {cx,cy,R} = frame();
+    const wk = R/REF;                    /* pixel knobs → this display */
+    const S  = r => r*wk;                /* radii */
+    const LW = w => Math.max(.5, w*wk);  /* stroke widths — never below a visible hairline */
+
     const bg = c.createLinearGradient(0,0,0,H);
-    bg.addColorStop(0,"#FBF8F2"); bg.addColorStop(1,"#F6F1E8");
+    bg.addColorStop(0,O.groundA); bg.addColorStop(1,O.groundB);
     c.fillStyle=bg; c.fillRect(0,0,W,H);
 
-    for(const st of STARS){
-      c.fillStyle=`rgba(194,160,94,${.12+.06*Math.sin(t*.5+st.ph)})`;
-      c.beginPath(); c.arc(st.x*W,st.y*H,st.r,0,TAU); c.fill();
+    /* the pool — the figure sits in its own light instead of on a flat plate. It is wide
+       (1.62 R) and shallow on purpose: any harder and it becomes a visible disc, which is
+       a second circle competing with the real ones. */
+    halo(POOL,cx,cy,O.poolR*R,O.poolA);
+
+    for(const st of STARS) disc(LIT, st.x*W, st.y*H, st.r, O.stars*(1+.5*Math.sin(t*.5+st.ph)));
+    if(O.dust>0) for(const d of DUST)
+      disc(LIT, d.x*W, ((d.y + t*d.sp*.01)%1)*H, d.r, O.dust*(.5+.5*Math.sin(t*.7+d.ph)));
+
+    /* the axis — his word. A plumb line through the nucleus, faint as a hairline. Off in
+       this tuning; `axis:1.14` is the value it shipped at. */
+    if(O.axis>0){
+      c.strokeStyle=rgba(DEEP,O.axisA); c.lineWidth=LW(1);
+      c.beginPath(); c.moveTo(cx,cy-R*O.axis); c.lineTo(cx,cy+R*O.axis); c.stroke();
     }
 
-    const {cx,cy,R} = frame();
-
-    /* the axis — his word. A plumb line through the nucleus, faint as a hairline. */
-    c.strokeStyle="rgba(138,106,52,.13)"; c.lineWidth=1;
-    c.beginPath(); c.moveTo(cx,cy-R*1.14); c.lineTo(cx,cy+R*1.14); c.stroke();
-
+    /* ── the orbits ──────────────────────────────────────────────────────────────────
+       Depth is sin(a): 0 at the far edge of the ellipse, 1 at the near one, raised to
+       `ramp`. Colour, width AND alpha all ride that one number — the near rim is heavy
+       and lit, the far side is a whisper — and that single ramp is the whole of the 3D.
+       There is no z-buffer here and there never needs to be. */
     c.lineCap="round";
+    const SEG=72, segs=[];
+    for(const g of RINGS) for(let i=0;i<SEG;i++){
+      const a0=i/SEG*TAU, a1=(i+1)/SEG*TAU;
+      const d=(Math.sin((a0+a1)/2)+1)/2;
+      segs.push({k:O.ramp===1?d:Math.pow(d,O.ramp), p0:pt(g,a0,cx,cy,R), p1:pt(g,a1,cx,cy,R)});
+    }
+    if(O.sort) segs.sort((a,b)=>a.k-b.k);      /* only shows where two orbits cross */
+    for(const s of segs){
+      c.strokeStyle=rgba(mixC(FAR,NEAR,s.k), mix(O.farA,O.nearA,s.k));
+      c.lineWidth=LW(mix(O.farW,O.nearW,s.k));
+      if(O.defocus>0){ c.shadowColor=c.strokeStyle; c.shadowBlur=O.defocus*(1-s.k)*6; }
+      c.beginPath(); c.moveTo(s.p0[0],s.p0[1]); c.lineTo(s.p1[0],s.p1[1]); c.stroke();
+    }
+    if(O.defocus>0) c.shadowBlur=0;
+
+    /* ── the travelling lights, one per system ── */
+    if(O.additive) c.globalCompositeOperation="lighter";
     for(const g of RINGS){
-      const th = t*g.sp + g.off;
-      /* the ring, in segments — the near half a breath brighter than the far, which is
-         the whole of the 3D */
-      const SEG=64;
-      for(let i=0;i<SEG;i++){
-        const a0=i/SEG*TAU, a1=(i+1)/SEG*TAU;
-        const depth=(Math.sin((a0+a1)/2)+1)/2;
-        const p0=pt(g,a0,cx,cy,R), p1=pt(g,a1,cx,cy,R);
-        c.strokeStyle=`rgba(106,88,95,${(.14+.16*depth).toFixed(3)})`;
-        c.lineWidth=1;
-        c.beginPath(); c.moveTo(p0[0],p0[1]); c.lineTo(p1[0],p1[1]); c.stroke();
-      }
-      /* the light's wake — a short bright arc of the ring behind it */
-      const nd=(Math.sin(th)+1)/2;
+      const th = t*g.sp*O.speed + g.off;
+      const nd = (Math.sin(th)+1)/2;           /* 1 with the light on the near edge */
+      /* the wake — a short bright arc of the ring behind it, so a bead reads as
+         travelling rather than as a bead someone left there */
       for(let i=0;i<12;i++){
-        const a0=th-.55+i/12*.55, a1=th-.55+(i+1)/12*.55;
-        const p0=pt(g,a0,cx,cy,R), p1=pt(g,a1,cx,cy,R);
-        c.strokeStyle=`rgba(194,160,94,${(.08+.30*(i/12)*(.4+.6*nd)).toFixed(3)})`;
-        c.lineWidth=1.1;
-        c.beginPath(); c.moveTo(p0[0],p0[1]); c.lineTo(p1[0],p1[1]); c.stroke();
+        const a0=th-O.wakeArc+i/12*O.wakeArc, a1=th-O.wakeArc+(i+1)/12*O.wakeArc;
+        const q0=pt(g,a0,cx,cy,R), q1=pt(g,a1,cx,cy,R);
+        c.strokeStyle=rgba(LIT, O.wakeA*(.16+.84*(i/12))*(.4+.6*nd));
+        c.lineWidth=LW(O.wakeW);
+        c.beginPath(); c.moveTo(q0[0],q0[1]); c.lineTo(q1[0],q1[1]); c.stroke();
       }
-      /* the travelling light itself */
       const P=pt(g,th,cx,cy,R);
-      glow(P[0],P[1],7+4*nd,.45+.25*nd);
-      c.fillStyle=`rgba(138,106,52,${.75+.25*nd})`;
-      c.beginPath(); c.arc(P[0],P[1],1.8+1.1*nd,0,TAU); c.fill();
+      halo(LIT ,P[0],P[1],S(O.lightGlow*(.8+.4*nd)), O.lightGlowA*(.6+.4*nd));
+      halo(LIT ,P[0],P[1],S(O.lightCore*(.8+.4*nd)), .42+.26*nd);
+      disc(LIT ,P[0],P[1],S(O.lightOuter),          .75+.25*nd);
+      disc(SPEC,P[0],P[1],S(O.lightSpec),           .55+.35*nd);
     }
 
-    /* the nucleus — the root and axis of everything. It does not move. */
-    glow(cx,cy,26+Math.sin(t*.5)*4,.5);
-    c.strokeStyle="rgba(194,160,94,.4)"; c.lineWidth=1;
-    c.beginPath(); c.arc(cx,cy,9.5,0,TAU); c.stroke();
-    c.fillStyle="rgba(138,106,52,1)";
-    c.beginPath(); c.arc(cx,cy,4,0,TAU); c.fill();
+    /* ── the nucleus — the root and axis of everything. It does not move.
+       ⚠️ THE BREATH IS ON THE GLOW ALONE (±9% on a 12.6s sine). The hoops keep their
+       radii: a hairline circle changing radius by three pixels is a motion you CAN
+       catch, and a centre that pulses is the one thing this figure must never do. */
+    const br = 1+.09*Math.sin(t*.5);
+    halo(LIT ,cx,cy,O.nucBloom*R,    O.nucBloomA);
+    halo(LIT ,cx,cy,S(O.nucGlow*br),  O.nucGlowA);
+    hoop(LIT ,cx,cy,S(O.nucRing2),    O.nucRingA*.5, LW(1));
+    hoop(LIT ,cx,cy,S(O.nucRing),     O.nucRingA,    LW(1));
+    disc(LIT ,cx,cy,S(O.nucCore),     1);
+    disc(SPEC,cx,cy,S(O.nucSpec),     .9);
+    if(O.additive) c.globalCompositeOperation="source-over";
+
+    if(O.vig>0){
+      const v=c.createRadialGradient(cx,cy,Math.min(W,H)*.35,cx,cy,Math.max(W,H)*.78);
+      v.addColorStop(0,rgba(VIG,0)); v.addColorStop(1,rgba(VIG,O.vig));
+      c.fillStyle=v; c.fillRect(0,0,W,H);
+    }
   }
 
   /* 21.7s — the estate's shared still, kept so the heroes are judged at one frame.
@@ -4598,9 +4765,10 @@ try{
   }
 }catch(e){
   /* no canvas at all: a static gradient keeps the hero legible.
-     ⚠️ PINNED TO THE CANVAS'S OWN TWO STOPS (see `bg` in draw). If those move, move
-     these — a fallback that grades differently from the thing it stands in for is a bug
-     that only shows on the machines least able to report it. */
+     ⚠️ PINNED TO ORRERY.groundA / ORRERY.groundB, as literals because this block runs
+     precisely when the try above did not get far enough to define them. If those move,
+     move these — a fallback that grades differently from the thing it stands in for is a
+     bug that only shows on the machines least able to report it. */
   const c = document.getElementById("silk");
   if (c) c.style.background = "linear-gradient(160deg,#FBF8F2 30%,#F6F1E8 100%)";
 }

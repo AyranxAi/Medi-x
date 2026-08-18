@@ -1,6 +1,6 @@
 # Functional Medicine — `/functional-medicine/` (first ship 2026-08-18)
 
-> # ▶ START HERE — STATE OF PLAY AT THE END OF ROUND 3
+> # ▶ START HERE — STATE OF PLAY AT THE END OF ROUND 4
 >
 > **The page:** `/functional-medicine/index.html` — single file, zero build, ~5,250 lines,
 > adapted whole from `/peptide-therapy/index.html` at its round-19b state. Open it with any
@@ -47,6 +47,65 @@
 >    **If the sibling's ring changes, this ring should follow** — there is no parity
 >    harness between the two yet, and that is a real gap worth closing.
 >
+> **⚠️⚠️ ROUND 4 (2026-08-18) — HIS TUNED ORRERY, AND THE PALETTE PUT BACK.**
+>
+> **His note was two halves and they need separating: *"i like this for the hero but the
+> color is wack so fix it please"*, pasted with a complete tuned `ORRERY` block.** So the
+> FIGURE is his, verbatim — seed `106628903`, **four** rings (was five), radii .185 + .22i,
+> tilts .86–.90 (near face-on, was .22–.72), plane 3.2, `size` .435 at cx .715W / cy .48H,
+> and the weights that make it: a **6.74px near rim against a 1.26px far edge**, a wake at
+> 2.35px, the whole nucleus stack (bloom .44R, glow 47, hoops 37 and 30, core 10.7). The
+> axis is OFF in his tuning (`axis:0`); `axis:1.14` is the value it shipped at in round 2.
+> **Not one geometric or motion number was second-guessed.**
+>
+> **THE COLOUR IS THE PAGE'S AGAIN — four keys, each with a reason on the line above it:**
+> · ground `#ffffff` → **`#FBF8F2` → `#F6F1E8`**, the hero's pinned ivory stops. `.hero::after`
+>   fades this section's foot to `--ivory`, so a white canvas is a lighter rectangle with a
+>   hard bottom edge, not a ground. The catch-block fallback is pinned to the same literals.
+> · rings `#6b0000` / `#990000` → **`--burgundy #5C1F31` / `--logo-red #8E2D3A`**. ⚠️ **THE
+>   ONE-RED RULE (BRAND.md): `--logo-red` is the only red on this estate and it was sampled
+>   from the wordmark.** Two invented reds in the hero is the exact drift that rule exists to
+>   stop. His tonal STEP survives: far L*≈20 → near L*≈35 becomes L*≈21 → L*≈34, so the near
+>   rim lifts off the far one by the same amount — that ramp is the whole 2.5D.
+> · light `#ffb83d` → **`--gold #C2A05E`**. The lights and the nucleus are the only warm
+>   metal in the hero; that is what makes the centre read as the axis instead of one more
+>   ring. A second warm hue and the centre stops being the only one.
+> · pool `#ffffff` → **`#FFFCF4`** — the same lift, warm. A cold lift on a warm ground reads
+>   as a hole punched in the page.
+> ⚠️ **THE SPECULAR PIP AND THE AXIS COLOUR ARE DERIVED FROM `lightCol`, NOT TYPED** (+55%
+> toward white → the estate's champagne; −30% → `--gold-deep`). A future re-tune of the
+> light can never strand a white-hot dot on a warm figure.
+>
+> **⚠️⚠️ TWO THINGS THE TUNING BROKE THAT THE TUNER COULD NOT SEE, BOTH FIXED, BOTH
+> MEASURED — a desktop tuner does not render the other two placements:**
+> 1. **EVERY PIXEL KNOB IS QUOTED AT R≈390 (a 1440×900 desktop), so the figure kept its PEN
+>    instead of its PROPORTIONS.** A 6.74px rim is 1.7% of a desktop orrery and 5.3% of a
+>    phone one — the first phone render was a dense knot in the headline's air. `draw()` now
+>    scales every px knob by `wk = R/REF`; fractions of R (`poolR`, `nucBloom`, `axis`) are
+>    already proportional and are NOT scaled twice, and stroke widths floor at .5px.
+> 2. **THE TABLET PLACEMENT RAN THE NEAR RIM THROUGH THE SUB-COPY.** At 6.74px and .965
+>    alpha that is `--logo-red` under ink-soft body text — a worst-pixel contrast failure by
+>    this page's own standard, where round 2's 1px/.14-alpha hairlines crossed the same words
+>    invisibly. The tablet branch moved into the headline's air like the phone's
+>    (cy .42 → .34, size ×.90 → ×.62); verified at 900×1200, 768×1024 and 1000×680.
+>    ⚠️ **THE DESKTOP LINE IS THE TUNER'S AND THE OTHER TWO ARE THIS FILE'S** — at those
+>    widths the copy column IS the width, so there is no "beside the copy" to sit in.
+>
+> **⚠️⚠️ AND THE SCENE MOVED IN THE SAME COMMIT, BECAUSE IT IS THE SAME UNIVERSE.** Seed,
+> count, radii, tilts, plane and speeds are re-stated in the scene's generator; the two
+> count-dependent lines are now count-agnostic (`aligned += k/RINGS.length`, the ray reads
+> `RINGS[RINGS.length-1]`), so the next re-count is five numbers and nothing else.
+> ⚠️ **THE SCENE KEEPS ITS OWN PALETTE AND THAT IS NOT A DRIFT** — it stands on the plum
+> stage and rises to the dawn, where wine hairlines are invisible and stone→gold IS the
+> alignment. The shared fact is the universe, never the grade.
+> ⚠️ **THE LETTER READS HARDER, NOT SOFTER, FOR THE NEW TILTS** — but honestly: at .86–.90
+> the four orbits start nearly FACE-ON, so act one is four near-concentric circles rather
+> than visible disorder. The alignment still lands (near-circles → one shallow plane, four
+> lights sliding onto one ray) and the payoff frame is the strongest it has been, but if the
+> "beautiful disorder" of act one is wanted back, it is one number: widen `tiltLo`/`tiltHi`
+> in the hero's ORRERY and re-state them in the scene. **That is his call, not a fix to make
+> in passing.**
+>
 > **⚠️⚠️ ROUND 3 (2026-08-18) — TWO CALLS: LETTER O, AND MS. RICHA PURI.**
 >
 > **1 · THE SCENE IS THE ALIGNMENT NOW (letter O), AND THE RIVER IS GONE — HE READ IT AND
@@ -62,22 +121,22 @@
 > language — *"the same idea from the system in the hero where in the center is the root"* —
 > which was also the first concept board's own recommendation (*pick one language and speak
 > it twice*). So:
-> · **THE SCENE IS NOW THE HERO'S OWN UNIVERSE.** Same generator, same seed (424242), same
->   five tilts and speeds. ⚠️⚠️ **TWO COPIES OF ONE FACT IN ONE FILE — if the hero's `RINGS`
+> · **THE SCENE IS NOW THE HERO'S OWN UNIVERSE.** Same generator, same seed, same tilts and
+>   speeds (round 4 re-tuned both to seed 106628903 and four rings — read its note above). ⚠️⚠️ **TWO COPIES OF ONE FACT IN ONE FILE — if the hero's `RINGS`
 >   block is ever re-seeded or re-tuned, THE SCENE'S MOVES WITH IT**, or the page silently
 >   stops telling one story twice. Cross-referenced at both sites, the arrangement `--dawn`
 >   and `BG_B` already live under.
-> · **WHAT HAPPENS:** the five systems arrive one at a time on scattered tilts, each with a
+> · **WHAT HAPPENS:** the systems arrive one at a time on their own tilts, each with a
 >   travelling light; the gold beat names the failure while they are still scattered (*"read
 >   alone, every result looks normal"*); then orbit by orbit each swings into ONE SHARED
 >   PLANE and each light slides onto ONE SHARED RAY — disorder resolving into a line that
 >   points at the nucleus. The dawn rises from that point; "The source" lands inside the ring.
-> · ⚠️ **NOTHING IS ELIMINATED AND NOTHING SHRINKS — all five systems are on screen at the
+> · ⚠️ **NOTHING IS ELIMINATED AND NOTHING SHRINKS — every system is on screen at the
 >   end.** That is *why* O was picked over the subtractive letters (M/P/R on the second
 >   board): functional medicine's own claim is that everything is connected, so a scene that
->   deletes four systems argues against the definition two screens above it. **Do not
->   "improve" it by fading the four** — that is letter Q and a different claim.
-> · ⚠️ **THE ALIGNED ASPECT IS .30, NOT 0.** Edge-on collapses five orbits into one flat
+>   deletes the others argues against the definition two screens above it. **Do not
+>   "improve" it by fading the rest** — that is letter Q and a different claim.
+> · ⚠️ **THE ALIGNED ASPECT IS .30, NOT 0.** Edge-on collapses the orbits into one flat
 >   line and the picture stops being a universe. At .30 it still reads as rings at a shallow
 >   angle — a photograph, not a diagram.
 > · ⚠️ **THE GOLD BEAT CLOSES AT .335 AND THE FIRST ORBIT SWINGS AT .34.** A beat reading
@@ -117,7 +176,7 @@
 > **⚠️⚠️ ROUND 2 (2026-08-18) REPLACED THE HERO AND THE SCENE — HIS LETTERS, F AND G,
 > off the concept board ("Twelve Ways In", the published artifact). His words on F,
 > recorded: *"it's a universe which has a center which is like the root and axis of
-> everything."* The hero is now THE ORRERY (five tilted rings, five travelling lights,
+> everything."* The hero is now THE ORRERY (tilted rings, one travelling light each,
 > one gold nucleus that never moves, a hairline axis); the scene is now THE RIVER RUNS
 > BACKWARD (a delta seen only downstream, the turn where the water stands still and
 > reverses, the upstream travel, one spring igniting with the dawn, the phrase "The
@@ -144,13 +203,16 @@
 >   brighten with their own traffic).
 >   ⚠️ **THE TURN IS DRIVEN BY p, NOT TIME** — it is the reader's own scroll, latch-safe
 >   and scrub-exact. A time-driven turn would fire without them.
-> · **THE HERO — the orrery (letter F).** Canvas 2.5D, zero deps: five rings (tilt =
->   aspect × rotation, depth = per-segment alpha), one travelling champagne light per
->   ring with a wake-arc, a nucleus that never moves, a faint plumb-line axis — his
->   "root and axis of everything". One orbit takes 70–120s; the vestibular rule is the
->   spec. Right of the copy on desktop (cx .70W), in the headline's air on a phone
->   (cx .74W, cy .30H). Same #silk contract, same ground stops, same catch fallback,
->   same 21.7s reduced-motion still.
+> · **THE HERO — the orrery (letter F).** Canvas 2.5D, zero deps: tilted rings (tilt =
+>   aspect × rotation, depth = per-segment colour, width AND alpha), one travelling light
+>   per ring with a wake-arc, a nucleus that never moves — his "root and axis of
+>   everything". One orbit takes 70–120s; the vestibular rule is the spec. Right of the
+>   copy on desktop, in the headline's air on a phone and a tablet. Same #silk contract,
+>   same ground stops, same catch fallback, same 21.7s reduced-motion still.
+>   ⚠️ **ROUND 4 RE-TUNED IT TO HIS PASTED `ORRERY` BLOCK — five rings became four, the
+>   hairlines became a heavy near rim, the plumb-line axis is off, and every number now
+>   lives in one object at the top of the script.** Read round 4's note above before
+>   touching a value here.
 > · *(round 1, superseded)* **THE SCENE — "the web → the root".** Same engine grammar as both siblings (pure
 >   function of pin progress, latch, seeded geometry, Replay/Skip, the dawn to BG_B):
 >   scattered symptom points drift; the gold beat names the failure of symptom-chasing;

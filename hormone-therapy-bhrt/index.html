@@ -804,10 +804,20 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
    name", an (i) on the portrait corner that opens a popup with the doctor's
    profession and history, ×-closed, with Book a consultation at its foot. The
    popup IS the tiles' dialog shell (#pxd) — one shell, all templates.
-   ⚠️ TWO RED PILLS IN ONE VIEWPORT, HIS CALL — this deliberately overrides the
-   sister page's one-pill-per-section rule ("three primary CTAs is three times the
-   ask"): he asked for the pill under each name, so each doctor carries one.
-   Recorded so it is not "fixed" in passing.
+   ⚠️⚠️ THE PILL UNDER EACH NAME IS GONE — HIS CALL 2026-08-19, "there should only
+   be one start consultation there both for desktop and phone". WHAT STOOD HERE IS
+   KEPT VERBATIM BELOW RATHER THAN DELETED, because it was equally his call and a
+   reader who finds only the reversal will re-litigate the original:
+       "⚠️ TWO RED PILLS IN ONE VIEWPORT, HIS CALL — this deliberately overrides the
+        sister page's one-pill-per-section rule ('three primary CTAs is three times
+        the ask'): he asked for the pill under each name, so each doctor carries one.
+        Recorded so it is not 'fixed' in passing."
+   So the override is spent and one-pill-per-section holds here again — by instruction,
+   not because the rule reasserted itself. Nothing about the argument changed.
+   ⚠️ THE SURVIVING PILL OPENS THE CHOOSER, IT DOES NOT LEAVE FOR #book, and that is
+   the whole reason four could become one without losing a step: four pills each said
+   "book with THIS one", so a single pill aimed at the booking strip would have deleted
+   the choosing rather than consolidating it. See .doc-cta below and its DOM note.
    ⚠️ THE (i) IS THE HEADER'S GLASS-BUTTON MATERIAL (.globe over a photograph) at
    36px, with the serif italic i as its glyph. On the monogram fallback ground it
    flips to the solid-header colourway, or ivory glass vanishes on cream.
@@ -899,43 +909,118 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
   font-size:clamp(23px,2.2vw,31px);line-height:1.1;
 }
 .doc-spec{margin-top:7px;color:var(--ink-soft);font-size:clamp(14px,1.2vw,16.5px);line-height:1.55;max-width:30ch}
-.doc .btn{margin-top:clamp(18px,2.4vh,26px)}
+/* ⚠️ `.doc .btn` STOOD HERE AND IS DELETED, NOT HIDDEN — his 2026-08-19 call, recorded
+   in full at the head of this section. A display:none pill would have left four controls
+   in the accessibility tree that no reader can reach and no pointer can hit, which is a
+   worse page than the one with four visible pills. The markup lost them.
+   ⚠️ WHAT REPLACES THEM IS ONE PILL FOR THE WHOLE SET. It is centred under the grid at
+   every width — there is no phone-only or desktop-only version of it, because "one" was
+   the ask on both. Its margin is larger than the card's old 18–26px on purpose: the pill
+   now separates the SECTION from what follows rather than a name from its own button, and
+   at the card's spacing it read as a fifth thing in the grid. */
+.doc-cta{display:flex;justify-content:center;margin-top:clamp(34px,4.4vh,54px)}
 /* ⚠️ THE FOUR SIT IN ONE LINE ABOVE 1180 — his call 2026-08-17, "just fit in 1 line not
-   two". THE COLUMN COUNT IS THE SMALLEST PART OF IT. Three other things bind at 4-up,
-   and repeat(2)→repeat(4) on its own is broken on all three:
+   two". THE COLUMN COUNT IS THE SMALLEST PART OF IT. Three other things bound at 4-up
+   and repeat(2)→repeat(4) on its own was broken on all three — TWO OF THE THREE WERE
+   ABOUT THE PILL IN THE CARD AND LEFT WITH IT ON 2026-08-19. They are struck through in
+   prose rather than deleted, because anyone putting a pill back in the card inherits
+   both problems again on the same afternoon:
      · THE 62rem CAP WAS THE 2-UP COLUMN AND IS THE WRONG RULER FOR FOUR. Kept, it hands
        each card 223px inside 992 while the wrap has 1150 to spend at 1440 — 158px of the
        page's own measure left unspent, on a row that has no width to spare. Released to
        the wrap, the column is 259–268 across desktop and 247 at the 1181 cliff.
-     · .btn IS `white-space:nowrap` AND WAS 285px WIDE — WIDER THAN EITHER COLUMN, and a
-       nowrap pill cannot wrap its way out of an overflow; it simply runs past the card.
-       So the pill's own padding and type step down HERE AND NOWHERE ELSE: 216px against
-       a 247px column at the worst width. DO NOT SHORTEN THE LABEL INSTEAD — the 2-up
-       pill below 1181 is the one every other pill on the page matches.
-     · THE FOUR SPECIALISATIONS ARE NOT THE SAME LENGTH — Dr. Khalid's takes three lines
-       where the other three take two — so nothing under the portrait aligns by itself.
-       `.doc-spec{flex:1 0 auto}` eats that difference and the pill sits on the card's
-       floor. Delete it and the four buttons step up and down across the line.
+     · SPENT — .btn IS `white-space:nowrap` AND WAS 285px WIDE, WIDER THAN EITHER COLUMN,
+       and a nowrap pill cannot wrap its way out of an overflow; it simply ran past the
+       card. The per-card pill's padding and type stepped down HERE AND NOWHERE ELSE to
+       fit 216px into a 247px column. With one pill under the whole grid there is no pill
+       in the column at all, so the override is DELETED rather than left unmatched.
+     · SPENT — THE FOUR SPECIALISATIONS ARE NOT THE SAME LENGTH (Dr. Khalid's takes three
+       lines where the other three take two), so nothing under the portrait aligned by
+       itself and `.doc-spec{flex:1 0 auto}` ate the difference to put the four buttons on
+       one floor. NOTHING SITS UNDER THE SPEC NOW. The rule had no remaining effect and
+       went with the pill it was written for — the ragged bottom edge it hid is invisible
+       once the last line of type IS the bottom edge.
    The name needed a SIZE, not a wrap: at 22px all four hold one line. Dr. Nahla Ibrahim
    Elawady is the worst case — 22px was solved for exactly her name on the peptide page,
    and she is on THIS page's row too, so the margin is the measured one. It was 24px
    first, and hers took two lines at 1440 and above while the other three did not,
    which is the one thing this row cannot carry. Re-measure before raising the size.
    ⚠️ 1180 IS THE PAGE'S OWN CLIFF, NOT A NEW NUMBER — section 04's ring already reflows
-   there. Below it the 2-up grid above is untouched and the phone still gets its single
-   column, because four portraits in a line stop being portraits around 1100: the column
-   passes back under the pill's 216 and the overflow returns. */
+   there, and below it the 2-up grid above is untouched.
+   ⚠️ ITS ORIGINAL ARGUMENT WAS THE PILL'S 216px AND THAT ARGUMENT IS GONE, so the number
+   is re-justified here rather than left resting on a deleted rule: four squares in a line
+   stop reading as portraits around 1100, where the column drops under ~250px and Dr.
+   Khalid's three-line specialisation starts to outweigh the face above it. Same cliff,
+   standing on the picture now instead of on the button.
+   ⚠️ WHAT CHANGED BELOW IT: the phone no longer gets a single stacked column — it gets
+   the swipe rail. See the block under this one. */
 @media(min-width:1181px){
   .doc-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(22px,2.4vw,34px);max-width:none}
   .doc-photo{width:100%}
   .doc h3{margin-top:clamp(14px,1.8vh,20px);font-size:clamp(19px,1.5vw,22px);text-wrap:balance}
-  .doc-spec{margin-top:6px;font-size:clamp(12.5px,1vw,14px);line-height:1.5;max-width:none;flex:1 0 auto}
-  .doc .btn{margin-top:clamp(14px,1.8vh,20px);padding:15px 20px;font-size:11px;letter-spacing:.09em;gap:9px}
+  .doc-spec{margin-top:6px;font-size:clamp(12.5px,1vw,14px);line-height:1.5;max-width:none}
   .doc-info{top:10px;right:10px;width:32px;height:32px;font-size:16px}
 }
+/* ══ THE PHONE RAIL — HIS CALL 2026-08-19 ═══════════════════════════════
+   "make them swipeable in the phone so at least you don't have to swipe multiple times to
+   finish all of them". THE COMPLAINT WAS ABOUT DISTANCE, SO IT WAS MEASURED BEFORE AND
+   AFTER rather than judged: at 390×844 the stacked column made this section 2538px — 3.0
+   full screens for four faces, of which the grid alone was 2228. Sideways it is one screen
+   and three flicks. The same four cards; the page just stops spending a fifth of itself
+   on them.
+   ⚠️ IT IS THE SAME CHILDREN, TURNED — THERE IS NO SECOND MARKUP SHAPE FOR THE PHONE.
+   .doc-grid becomes a flex row with scroll-snap and .doc becomes its item; the portrait,
+   the (i), the bio <template>, the monogram fallback and the reveal are all untouched and
+   all keep working. Anyone tempted to build a separate phone carousel should read this
+   line first: the reason this is cheap is that nothing was duplicated.
+   ⚠️ 78%, AND THE REMAINING 22% IS THE ENTIRE AFFORDANCE. A full-width card is a rail
+   that looks like one picture — nothing on screen says three more exist, and dots alone
+   are too quiet to carry it. The edge of the next portrait IS the label, which is why
+   there are no arrows and no "swipe" caption on a page that has neither anywhere else.
+   ⚠️ THE NEGATIVE MARGIN IS LOAD-BEARING, NOT TIDINESS. .wrap pads by --pad, which is
+   clamp(20px,4.5vw,72px); without pulling the rail out to the viewport edge and handing
+   the same value back as scroll-padding, the peeking card is clipped by the wrap and the
+   rail reads as a cut-off column rather than a continuing one — the exact impression this
+   round exists to remove.
+   ⚠️ snap-align IS `center`, NOT `start`. With `start` the fourth card pins to the left
+   edge and leaves 22% of dead ground beside it, so the last doctor is the only one who
+   never sits in the middle of the screen. Centre costs nothing and treats the four alike.
+   ⚠️ NO SCRIPT IS REQUIRED FOR THE SWIPE. This is a plain overflow container: with
+   JavaScript off it is still a working rail. The dots below are an enhancement the script
+   adds, and it adds them only under this same 700. */
 @media(max-width:700px){
-  .doc-grid{grid-template-columns:1fr;gap:48px}
+  .doc-grid{
+    display:flex;gap:16px;max-width:none;
+    overflow-x:auto;scroll-snap-type:x mandatory;
+    margin-inline:calc(var(--pad) * -1);
+    padding-inline:var(--pad);scroll-padding-inline:var(--pad);
+    scrollbar-width:none;-webkit-overflow-scrolling:touch;
+  }
+  .doc-grid::-webkit-scrollbar{display:none}
+  .doc{flex:0 0 78%;scroll-snap-align:center}
+  /* the flex basis IS the column now, so the portrait's own 27rem cap has nothing left
+     to bind — it takes the card, as it did under the single column */
+  .doc-photo{width:100%}
+  .doc-cta{margin-top:clamp(26px,3.4vh,34px)}
 }
+/* ⚠️ THE DOTS ARE BUILT IN JS AND ARE THE RAIL'S ONLY POSITION READOUT. They are styled
+   here rather than in script because everything else on this page is, and because the one
+   thing worth saying about them is a rule, not a behaviour: THEY ARE 06's FADER DOTS,
+   COPIED EXACTLY — same 7px, same 11px gap, same --line ground, same burgundy fill, same
+   1.4 scale on the current one. Not shared code: that component owns opacity and this one
+   owns scrollLeft, and they have nothing in common but their appearance. If .story-dots is
+   ever restyled, restyle this with it or the page grows a second kind of dot.
+   ⚠️ DEFAULT display:none, LIT BY `.on` FROM THE SCRIPT'S OWN MEDIA QUERY — not by this
+   stylesheet's. The script has to know whether the rail is live anyway (to reset the
+   readout when the breakpoint is crossed), and two independent 700s that must agree is a
+   bug waiting for the day one of them moves. */
+.doc-dots{display:none;justify-content:center;gap:11px;margin-top:clamp(20px,2.6vh,26px)}
+.doc-dots button{
+  width:7px;height:7px;border-radius:50%;background:var(--line);padding:0;border:0;
+  transition:background .4s var(--ease),transform .4s var(--ease);
+}
+.doc-dots button[aria-current="true"]{background:var(--burgundy);transform:scale(1.4)}
+.doc-dots.on{display:flex}
 
 /* ══ THE IDENTITY HEADER — HIS CALL 2026-08-14, off a rendered four-way board ═══
    The portrait is SQUARE and the name sits BESIDE it, and both halves of that are
@@ -1019,6 +1104,80 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
 .pxd-list .pxd-list li{font-size:clamp(13.5px,1.1vw,15px);padding-left:20px;line-height:1.55}
 .pxd-list .pxd-list li::before{
   content:"";top:.66em;left:1px;width:12px;height:1px;background:var(--line);font-size:1em}
+
+/* ⚠️ THIS BLOCK ARRIVED FROM /peptide-therapy/ ON 2026-08-19 AND IT IS A GRAFT, NOT A
+   REWRITE — the rules are that page's, byte for byte, so the two choosers cannot drift.
+   WHY IT WAS MISSING: this page shipped with the chooser's SCRIPT but never its template
+   or its stylesheet. `chooseTpl` resolved to null and the [data-choose] branch was guarded
+   by `&& chooseTpl`, so the dead half failed silently and nothing on the page revealed it.
+   The section's new one-pill CTA is the first control that actually needs the view, which
+   is what surfaced the gap. If the peptide page's chooser is ever restyled, re-graft;
+   there is nothing here worth diverging on. */
+/* ══ THE CHOOSER — the second view of the same panel ══════════════════════════
+   A row per doctor: portrait, name + specialization, one pill. It reuses NOTHING
+   from .doc (that is a card in a grid; this is a list row in a dialog), but it
+   keeps the same two facts in the same order so the reader recognises them.
+   ⚠️ THE PILL IS NOT full-width ON PHONES even though .hero-ctas' is — here two
+   pills stack four rows apart and a full-width red bar twice reads as two page
+   CTAs rather than two choices. It stays inline and the row wraps under 460. */
+.pxd-docs{display:flex;flex-direction:column;gap:14px;margin-top:22px}
+.pxd-doc{
+  --face:64px;
+  display:flex;align-items:center;gap:clamp(12px,1.6vw,18px);
+  padding:clamp(12px,1.5vw,16px);
+  border:1px solid var(--line);border-radius:2px;background:var(--dawn);
+  transition:border-color .35s var(--ease),background .35s var(--ease);
+}
+.pxd-doc:hover{border-color:var(--gold);background:var(--gold-tint)}
+/* ⚠️ SQUARE AND **UNCROPPED** HERE — his call, and it is a deliberate split from the
+   header above, which uses the baked head crop. The row shows the whole figure; the
+   header shows the face. Same rule as the section card (whole figure at 336px), so
+   the reader meets the same two pictures they saw upstairs.
+   Sized by the same measurement as the header: --face is written per row from its
+   own text block, so picture top/bottom align with name top and specialization
+   bottom. Fallback below is the fixed square if the script never runs. */
+/* ⚠️ THE FALLBACK IS DECLARED ON .pxd-doc (the row), NOT HERE — and that placement
+   is load-bearing. sizeFaces() writes --face on the row and lets it inherit; a
+   `--face:64px` sitting on this element is a LOCAL declaration, which beats the
+   inherited one, so the script's value was silently ignored and every row rendered
+   at 64px. Measured: face 64 against a 74px text block, out by 10. */
+.pxd-doc-face{
+  flex:none;display:block;overflow:hidden;border-radius:2px;
+  width:var(--face,64px);height:var(--face,64px);
+}
+.pxd-doc-face img{width:100%;height:100%;object-fit:cover;display:block}
+/* ⚠️ THE CHOOSER NEEDED ITS OWN PORTRAIT FALLBACK — 2026-08-16, and it is a real gap
+   rather than belt-and-braces. The card fallback keys off `.doc.no-photo`, and the bio
+   panel inherits it because the panel is opened FROM a card; the chooser is a standalone
+   <template> with no card behind it, so a missing file rendered the browser's broken-image
+   glyph inside the dialog. Two of the four portraits are missing right now, so this fires
+   on exactly the rows whose files have not landed and the other two are unaffected.
+   The face keeps its box (sizeFaces measures the row, not the picture), so the monogram
+   swap costs no layout — four rows stay four squares of one size. */
+.pxd-doc-face.no-photo{
+  display:grid;place-content:center;background:var(--gold-tint);
+  font-family:var(--accent);letter-spacing:.06em;color:var(--gold-deep);
+  font-size:calc(var(--face,64px) * .34);line-height:1;
+}
+.pxd-doc-face.no-photo img{display:none}
+.pxd-doc-face.no-photo::after{content:attr(data-mono)}
+.pxd-doc-txt{display:flex;flex-direction:column;gap:3px;min-width:0;flex:1}
+.pxd-doc-txt b{font-family:var(--accent);font-weight:400;font-size:clamp(16px,1.5vw,19px);letter-spacing:-.01em;color:var(--ink)}
+.pxd-doc-txt span{font-size:clamp(12.5px,1.1vw,14px);color:var(--ink-soft);line-height:1.45}
+.pxd-doc .btn{flex:none;padding:13px 24px;font-size:11.5px}
+/* the way back to the service the reader came from — a text control, not a pill:
+   it undoes a step, it does not ask for anything */
+.pxd-back{
+  margin-top:22px;padding:0;
+  font-family:var(--sans);font-weight:500;font-size:11.5px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--ink-soft);
+  transition:color .3s var(--ease);
+}
+.pxd-back:hover{color:var(--logo-red)}
+@media(max-width:460px){
+  .pxd-doc{flex-wrap:wrap}
+  .pxd-doc .btn{width:100%;justify-content:center}
+}
 
 /* ─────────────────────────── 06 · TESTIMONIALS ─────────────────────────── */
 /* back to IVORY (2026-08-14, round 3) — the doctors section now occupies the 05
@@ -2081,6 +2240,68 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
        it; the core script binds it by id). It lived inside the siblings' services
        section only because that is where it was born; it is a fixed overlay and its
        place in the DOM carries no layout. -->
+  <!-- ══ THE DOCTOR CHOOSER ═══════════════════════════════════════════════════
+       ⚠️ ADDED 2026-08-19, AND IT IS A GAP BEING CLOSED RATHER THAN A NEW IDEA. The
+       chooser's SCRIPT has been on this page since it was written; only the template
+       and the stylesheet never came across, so `chooseTpl` was null and the
+       [data-choose] branch never ran. The section's one pill is the first control that
+       needs it — see the CSS graft note over .pxd-docs.
+       ⚠️ THE ROWS ARE 05's FOUR, IN 05's ORDER (Komissarov, Yakout, Elawady, Shukri).
+       A chooser that disagrees with the cards above it is the one bug this template
+       exists to make impossible, and nothing enforces it but this line. Keep them in
+       sync whenever either changes.
+       ⚠️ THE SELECT PILLS ARE MOCK (data-book), like every booking control on this
+       page. Each is ONE href away from the real system — the wiring is per-doctor deep
+       links, not a form. Do not point them at a placeholder.
+       ⚠️ THE PORTRAITS ARE THE UNCROPPED SQUARES, not the baked head crops — the same
+       split the sibling pages make: the row shows the whole figure, the bio header
+       shows the face, so the reader meets the picture they saw upstairs. -->
+  <template id="pxd-choose">
+    <p class="pxd-kicker" data-choose-kicker>Book a consultation</p>
+    <h3>Choose who you’ll see</h3>
+    <p>All four consult on hormone therapy. Pick whoever fits — the clinic will confirm
+    your time by WhatsApp.</p>
+    <div class="pxd-docs">
+      <div class="pxd-doc">
+        <span class="pxd-doc-face" data-mono="AK"><img src="../images/doctors/dr-andrey-komissarov-square.webp" alt="" aria-hidden="true"
+             loading="lazy" decoding="async" width="1024" height="1024"></span>
+        <div class="pxd-doc-txt">
+          <b>Dr. Andrey Komissarov</b>
+          <span>MD, PhD — Internal, Integrative &amp; Functional Medicine</span>
+        </div>
+        <a class="btn" href="#" data-book>Select <span class="arr">→</span></a>
+      </div>
+      <div class="pxd-doc">
+        <span class="pxd-doc-face" data-mono="EY"><img src="../images/doctors/dr-eslam-yakout-square.webp" alt="" aria-hidden="true"
+             loading="lazy" decoding="async" width="700" height="700"></span>
+        <div class="pxd-doc-txt">
+          <b>Dr. Eslam Yakout</b>
+          <span>Functional and Regenerative Medicine Doctor</span>
+        </div>
+        <a class="btn" href="#" data-book>Select <span class="arr">→</span></a>
+      </div>
+      <div class="pxd-doc">
+        <span class="pxd-doc-face" data-mono="NE"><img src="../images/doctors/dr-nahla-ibrahim-elawady-square.webp" alt="" aria-hidden="true"
+             loading="lazy" decoding="async" width="1024" height="1024"></span>
+        <div class="pxd-doc-txt">
+          <b>Dr. Nahla Ibrahim Elawady</b>
+          <span>MD, DHA-Certified Gynaecologist — BHRT &amp; Sexual Health</span>
+        </div>
+        <a class="btn" href="#" data-book>Select <span class="arr">→</span></a>
+      </div>
+      <div class="pxd-doc">
+        <span class="pxd-doc-face" data-mono="KS"><img src="../images/doctors/dr-khalid-shukri-square-v2.webp" alt="" aria-hidden="true"
+             loading="lazy" decoding="async" width="1024" height="1024"></span>
+        <div class="pxd-doc-txt">
+          <b>Dr. Khalid Shukri</b>
+          <span>MD, FCCM — American Board Certified, Anti-Ageing &amp; Regenerative Medicine</span>
+        </div>
+        <a class="btn" href="#" data-book>Select <span class="arr">→</span></a>
+      </div>
+    </div>
+    <button type="button" class="pxd-back" data-back>← Back</button>
+  </template>
+
   <div class="pxd" id="pxd" role="dialog" aria-modal="true" hidden>
     <div class="pxd-scrim" data-pxd-close></div>
     <div class="pxd-panel" tabindex="-1" data-lenis-prevent>
@@ -2179,7 +2400,6 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
           </div>
           <h3>Dr. Andrey Komissarov</h3>
           <p class="doc-spec">MD, PhD — Internal, Integrative &amp; Functional Medicine</p>
-          <a class="btn" href="#book">Book a consultation <span class="arr">→</span></a>
           <template class="doc-detail">
             <div class="pxd-hdr">
               <span class="pxd-face"><img src="../images/doctors/dr-andrey-komissarov-head-400.webp" alt="" aria-hidden="true" width="400" height="400"></span>
@@ -2232,7 +2452,6 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
           </div>
           <h3>Dr. Eslam Yakout</h3>
           <p class="doc-spec">Functional and Regenerative Medicine Doctor</p>
-          <a class="btn" href="#book">Book a consultation <span class="arr">→</span></a>
           <template class="doc-detail">
             <div class="pxd-hdr">
               <span class="pxd-face"><img src="../images/doctors/dr-eslam-yakout-head-400.webp" alt="" aria-hidden="true" width="400" height="400"></span>
@@ -2285,7 +2504,6 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
           </div>
           <h3>Dr. Nahla Ibrahim Elawady</h3>
           <p class="doc-spec">MD, DHA-Certified Gynaecologist — BHRT &amp; Sexual Health</p>
-          <a class="btn" href="#book">Book a consultation <span class="arr">→</span></a>
           <template class="doc-detail">
             <div class="pxd-hdr">
               <span class="pxd-face"><img src="../images/doctors/dr-nahla-ibrahim-elawady-head-400.webp" alt="" aria-hidden="true" width="400" height="400"></span>
@@ -2360,7 +2578,6 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
           </div>
           <h3>Dr. Khalid Shukri</h3>
           <p class="doc-spec">MD, FCCM — American Board Certified, Anti-Ageing &amp; Regenerative Medicine</p>
-          <a class="btn" href="#book">Book a consultation <span class="arr">→</span></a>
           <template class="doc-detail">
             <div class="pxd-hdr">
               <span class="pxd-face"><img src="../images/doctors/dr-khalid-shukri-head-400.webp" alt="" aria-hidden="true" width="400" height="400"></span>
@@ -2401,6 +2618,27 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
             <div class="pxd-cta"><a class="btn" href="#book">Book a consultation <span class="arr">→</span></a></div>
           </template>
         </article>
+      </div>
+      <!-- ══ ONE PILL FOR THE WHOLE SET — HIS CALL 2026-08-19 ══════════════════════
+           "there should only be one start consultation there both for desktop and phone."
+           It replaces the four that stood under the four names — the full record of that
+           reversal, including the instruction it overrides, is at the head of 05 in the
+           stylesheet.
+           ⚠️ IT IS A <button>, NOT AN <a href="#book">, AND THAT IS THE POINT OF THE ROUND.
+           Four pills each meant "book with THIS one". One pill aimed at the booking strip
+           would have quietly deleted the choosing step at the exact moment the reader is
+           looking at four faces — consolidating the ask while losing what the ask was
+           about. So it OPENS THE CHOOSER: same template, same shell, same four in the same
+           order, and the reader still picks a person.
+           ⚠️ IT OPENS THAT VIEW COLD — no service popup behind it — so the script removes
+           the template's own ← Back on this path. See the [data-doc-choose] handler.
+           ⚠️ WITH THE SCRIPT OFF IT DOES NOTHING, and that is accepted rather than
+           overlooked: the alternative is an <a href="#book"> the script must intercept to
+           reach the chooser, which is the same dependency wearing a disguise. Every
+           booking control on this page is mock in any case — see the [data-book] note in
+           the chooser template. -->
+      <div class="doc-cta">
+        <button type="button" class="btn" data-doc-choose>Book a consultation <span class="arr">→</span></button>
       </div>
     </div>
   </section>
@@ -2906,6 +3144,33 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
         if (t){ if (window.__lenis) window.__lenis.scrollTo(t, {offset:-70}); else t.scrollIntoView({behavior:"smooth"}); }
       }
     });
+    /* ══ THE SECTION'S ONE PILL — HIS CALL 2026-08-19 ═════════════════════════
+       The four per-card pills became one under the grid, and it opens THE SAME view a
+       service popup reaches through [data-choose]. Opened COLD, though, and two things
+       differ from that path because of it:
+       ⚠️ THE ← Back IS REMOVED HERE. It restores `lastTpl`, which cold is either nothing
+       or — worse — whichever bio the reader happened to open earlier in the session. A
+       control that silently does the wrong thing is worse than one that is absent, and
+       an inert one is worse than both.
+       ⚠️ THE KICKER IS LEFT ALONE. [data-choose] rewrites it to "<service> · Book a
+       consultation" so the reader never loses what they were reading; from the section
+       there is no service to carry and the template's own default is already right.
+       ⚠️ guardFaces() AND sizeFaces() MUST BOTH RUN HERE — __openPxd clones and stops.
+       The chooser's four portraits do not exist until that clone (so nothing can have
+       failed to load yet) and its squares are measured from text that does not exist
+       until then either. Skipping either is four broken-image glyphs or four mis-sized
+       faces: the exact trap the note over guardFaces() was written for. */
+    const docChoose = document.querySelector("[data-doc-choose]");
+    if (docChoose && chooseTpl){
+      docChoose.addEventListener("click", () => {
+        window.__openPxd(chooseTpl, "Choose who you’ll see", docChoose);
+        const back = bodyEl.querySelector(".pxd-back");
+        if (back) back.remove();
+        guardFaces();
+        sizeFaces();
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(sizeFaces);
+      });
+    }
     document.addEventListener("keydown", e => { if (e.key === "Escape" && !pxd.hidden) pxdClose(); });
   }
 
@@ -2920,6 +3185,64 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
     if (im.complete && im.naturalWidth === 0) bad();
     im.addEventListener("error", bad);
   });
+
+  /* ══ THE PHONE RAIL'S DOTS — HIS CALL 2026-08-19 ══════════════════════════
+     THE SWIPE ITSELF IS CSS — see the .doc-grid block at 700, which is a plain overflow
+     container and works with this script switched off. All this adds is the position
+     readout, which is why it is allowed to be absent.
+     ⚠️ THE BREAKPOINT IS WATCHED, NOT READ ONCE. A phone turned to landscape crosses 700
+     without a reload; built at load and left alone, the dots would sit under a 2-up grid
+     pointing at nothing. matchMedia's change event is the whole mechanism, and `at` is
+     reset on every crossing so the first sync after it cannot be swallowed as a no-op.
+     ⚠️ ONE 700 IN THE SCRIPT AND ONE IN THE STYLESHEET WOULD BE TWO NUMBERS THAT MUST
+     AGREE, so the stylesheet's .doc-dots is display:none and this lights it. Moving the
+     rail's breakpoint means moving it in both places; there is no way around that, but
+     there is only one place where being wrong is silent, and this comment is on it.
+     ⚠️ THE DOT'S LABEL IS THE DOCTOR'S NAME, not "3 of 4". The rail is four people, and
+     a screen reader that says "Dr. Eslam Yakout" is telling the truth about where the
+     control goes; the ordinal is already carried by aria-current.
+     ⚠️ REDUCED MOTION GETS AN INSTANT JUMP. A dot that slides is decoration on a control
+     whose job is to arrive. */
+  {
+    const rail  = document.querySelector(".doc-grid");
+    const cards = rail ? [...rail.querySelectorAll(".doc")] : [];
+    if (rail && cards.length > 1){
+      const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const dots = document.createElement("div");
+      dots.className = "doc-dots";
+      cards.forEach((card, i) => {
+        const bt = document.createElement("button");
+        bt.type = "button";
+        const h = card.querySelector("h3");
+        bt.setAttribute("aria-label", h ? h.textContent.trim() : "Doctor " + (i + 1) + " of " + cards.length);
+        bt.addEventListener("click", () => rail.scrollTo({
+          left: card.offsetLeft - (rail.clientWidth - card.clientWidth) / 2,
+          behavior: still ? "auto" : "smooth"
+        }));
+        dots.append(bt);
+      });
+      rail.after(dots);
+
+      let at = -1;
+      const sync = () => {
+        const mid = rail.scrollLeft + rail.clientWidth / 2;
+        let best = 0, near = Infinity;
+        cards.forEach((card, i) => {
+          const d = Math.abs(card.offsetLeft + card.clientWidth / 2 - mid);
+          if (d < near){ near = d; best = i; }
+        });
+        if (best === at) return;
+        at = best;
+        [...dots.children].forEach((b, i) => b.setAttribute("aria-current", i === at ? "true" : "false"));
+      };
+      rail.addEventListener("scroll", sync, {passive:true});
+
+      const mq = matchMedia("(max-width:700px)");
+      const arm = () => { dots.classList.toggle("on", mq.matches); at = -1; sync(); };
+      if (mq.addEventListener) mq.addEventListener("change", arm); else mq.addListener(arm);
+      arm();
+    }
+  }
 
   /* mock booking action */
   document.querySelectorAll("[data-book]").forEach(b => b.addEventListener("click", e => e.preventDefault()));

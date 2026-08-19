@@ -1,3 +1,41 @@
+# Handoff addendum — 2026-08-19b (doors 2 and 3: the estate's three doors are open)
+
+`/modern-menopause/` and `/testosterone-top-up/` ship in this round, built from the BHRT
+page as their template — so `/hormone-balancing/`'s three doors are all wired and
+`data-soon` is gone from that section.
+
+**The three doors are deliberately NOT recolours of one page.** Each device is its own
+argument and swapping any of them says the wrong thing:
+
+| | door 1 · BHRT | door 2 · Modern Menopause | door 3 · Testosterone Top Up |
+|---|---|---|---|
+| Reader | still cycling | 12+ months since her last period | men, andropause |
+| Scene | THE TIDE — waves waver, are topped up; **never flatten** | THE HORIZON — waves **do** flatten, four columns rise from the still line | THE SLOPE — one line slides out of range and is lifted **back into** it |
+| Device | 28-day ring | 24-hour clock | a ledger: what he told himself / what it is |
+| Infographic | the identical molecule | a third of your life happens after | the four monitoring markers |
+| Payoff | "Steady." | "Onward." | "Back." |
+
+⚠️ **THE DOORS MUST NOT BLUR** — his instruction ("i dont want you to mix both"). Each
+page's harness asserts the absence of the others' vocabulary.
+⚠️ **TWO CLINICAL CLAIMS ARE MADE IN PICTURES ON DOOR 3** and are not negotiable without a
+prescriber: the line is lifted *into* the range, never above it, and the history is never
+redrawn. Both are recorded at the code that enforces them.
+⚠️ **PRICES ON DOORS 2 AND 3 ARE INHERITED, NOT CONFIRMED** — AED 950 + VAT is his figure
+for door 1; he has not been asked about menoSTART (which includes the Lifestyle Guide) or
+the men's programme.
+⚠️ **DOOR 3 RUNS THREE DOCTORS, NOT FOUR** — Dr. Nahla (gynaecologist) is off the men's
+page. Editorial judgement, flagged, one `<article>` to reverse.
+⚠️ **DOOR 3'S FIVE DRAFT FAQ ANSWERS ARE THE MOST SAFETY-LOADED COPY ON THE ESTATE**
+(steroids · fertility · "normal" results · forever · how it's prescribed). Prescriber
+sign-off before real traffic.
+
+QA: `tools/qa/doors-shots.mjs` covers both new pages from one config table (door 1 keeps
+`bhrt-shots.mjs`). Green, including a 404 watch the first harness deliberately skipped.
+Records: [`modern-menopause/HANDOVER.md`](modern-menopause/HANDOVER.md) ·
+[`testosterone-top-up/HANDOVER.md`](testosterone-top-up/HANDOVER.md).
+
+---
+
 # Handoff addendum — 2026-08-19 (a new page: /hormone-therapy-bhrt/ — door 1 opens)
 
 His brief, over two turns: plan it as the consultant, then build it — hero, a hook,

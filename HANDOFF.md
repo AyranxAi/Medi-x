@@ -1,3 +1,35 @@
+# Handoff addendum — 2026-08-19 (a new page: /hormone-therapy-bhrt/ — door 1 opens)
+
+His brief, over two turns: plan it as the consultant, then build it — hero, a hook,
+an animation "like what we have so far", the customer journey, the clever symptom
+showcase, "an infographic on what hormones are in a clever awwwards creative way",
+then doctors · testimonials · FAQ · Irina · footer. His decisions, all on the record
+in the page's HANDOVER: **no hero photography** ("the images are rejected for a
+reason" — the uploaded medi-gyn-bhrt plates stay unreferenced), scene **A · THE
+TIDE** ⚠️ with a concept board of the other letters OWED next round ("i want tooooo
+see them all next time"), the month wheel, the identical key, the direct H1, **AED
+950 + VAT** (not the siblings' 1,150; review 750 + VAT), **blood test only — no
+DUTCH**, the 1,950 + VAT collection add-on, the word **"programme"** (owner-approved
+for this page only), and the peptide page's four doctors ("add what you can for now").
+
+**What shipped:** `hormone-therapy-bhrt/index.html`, adapted whole from the FM page
+with the ring/tray/chooser machinery deleted rather than disabled (~130KB); a new
+hero + scroll scene sharing ONE water (two hormone waves — the waver, the top-up,
+"Steady." in the ring); the programme as a full chapter on the sibling pg-grammar;
+the month wheel (armed ≥900px — measured, the 760 overflow is recorded at the site);
+the estradiol skeleton stamped twice with `<use>` — identical by construction.
+⚠️ **THIS PAGE IS PERIMENOPAUSE, NOT MODERN MENOPAUSE** — his instruction ("i dont
+want you to mix both"); the harness asserts the vocabulary stays apart. Parent door 1
+is wired (`data-soon` off); doors 2–3 wait for their pages.
+
+⚠️ ALL COPY IS DRAFT except what is inherited with sign-off (three parent FAQ
+answers, the doctor bios, the turn quote). Prices are his figures from this round.
+QA: `tools/qa/bhrt-shots.mjs` — screenshot pass + ~40 smoke checks, green.
+
+Full record: [`hormone-therapy-bhrt/HANDOVER.md`](hormone-therapy-bhrt/HANDOVER.md).
+
+---
+
 # Handoff addendum — 2026-08-18, round 3 (letter O, and Ms. Richa Puri)
 
 **He read the river and killed it, correctly: *"that looks like a pandemic."*** Branching

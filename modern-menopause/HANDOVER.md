@@ -1,4 +1,4 @@
-# /modern-menopause/ — build record, round 1 (2026-08-19)
+# /modern-menopause/ — build record, rounds 1–2 (2026-08-19)
 
 **What this page is:** door 2 of `/hormone-balancing/` — *"Twelve months or more since
 your last period?"* Postmenopause, and the programme it sells is the client's own
@@ -12,6 +12,53 @@ Menopause"; this one never sells to a woman who is still cycling.
 
 Built from the BHRT page (the estate's template now), so every recorded lesson comes with
 it. What changed is everything that has to change when the cycle has stopped.
+
+## Round 2 — the doctors turn sideways, and the four pills become one (2026-08-19)
+
+His instruction, applied across every page in the estate that carries a doctors section:
+*"make them swipeable in the phone so atleast you dont have to swipe multiple times to
+finish all of them"* and *"there should only be one start consultation there both for
+desktop and phone"*. This page received the change with `/peptide-therapy/`,
+`/functional-medicine/` and `/hormone-therapy-bhrt/`; the mechanism is identical on all
+five and the deep record lives at 05 in this page's own stylesheet.
+
+**MEASURED HERE, NOT INHERITED.** At 390×844 the section was **2,538px — 3.01 screens**
+and is **808px** now, 0.96 of a screen. Tablet 1,436 → 1,368. Desktop 794 → 822, the +28
+being the single pill's own row.
+
+**What the rail is:** `.doc-grid` becomes a flex row with `scroll-snap-type:x mandatory`
+under 700 and `.doc` becomes its item at `flex:0 0 78%`. The same children, turned — the
+portrait, the (i), the bio `<template>`, the monogram fallback and the reveal are all
+untouched. The 22% peek is the whole affordance (a full-width card is a rail that looks
+like one picture), the negative margin is load-bearing (without it `.wrap` clips the
+peeking card), and the swipe needs **no script** — JS adds only the dots, and it watches
+the 700 breakpoint rather than reading it once, because a phone turned to landscape
+crosses it without a reload.
+
+**The pill reverses his own 2026-08-14 call** and the note that recorded that call is
+quoted verbatim inside its replacement rather than deleted. ⚠️ **The surviving pill opens
+the chooser; it does not leave for `#book`** — four pills each meant "book with THIS one",
+so one aimed at the booking strip would have deleted the choosing step at the moment the
+reader is looking at four faces. Two CSS declarations died with the per-card pill and are
+deleted rather than left unmatched (the 4-up `.btn` step-down and `.doc-spec{flex:1 0 auto}`),
+and 1180 keeps its cliff on a new argument — the picture rather than the button.
+
+**⚠️⚠️ THE CHOOSER WAS MISSING ON THIS PAGE AND NOTHING REVEALED IT.** Built from the BHRT
+template, this page inherited the chooser's **script** but never its markup or its
+stylesheet: `chooseTpl` resolved to `null` and the `[data-choose]` branch, guarded by
+`&& chooseTpl`, never ran. The section's new pill is the first control that needs the view.
+`#pxd-choose` and the `.pxd-docs` / `.pxd-doc` / `.pxd-back` rules were **grafted from
+`/peptide-therapy/` byte for byte** so the estate's choosers cannot drift; only the intro
+line is this page's, and the heading matches the label the script was already passing
+(*"Choose who you'll see"*). **The rows are 05's four in 05's order** — nothing but that
+line enforces it.
+
+**QA:** the repo's own harnesses plus a five-page sweep at 390/768/1440 asserting one pill
+per section, zero in the cards, the rail live and snapping under 700, the dots hidden above
+it, no sideways scroll, and the chooser opening from the new pill with 4 rows matching the
+section's names **in order**, no ← Back and no broken portrait.
+
+---
 
 ## The three inversions — why this is not a recolour of door 1
 

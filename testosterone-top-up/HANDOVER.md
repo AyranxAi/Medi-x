@@ -1,4 +1,4 @@
-# /testosterone-top-up/ — build record, round 1 (2026-08-19)
+# /testosterone-top-up/ — build record, rounds 1–2 (2026-08-19)
 
 **What this page is:** door 3 of `/hormone-balancing/` — *"Concerned about male hormone
 health?"* The men's page, and the only one on the estate that is not about a cycle.
@@ -8,6 +8,57 @@ the parent page: *"testosterone replacement is not like this, it's supposed to b
 Testosterone Top Up."* No hyphen, no "Top-Up", and **TRT is never the programme's name** —
 it appears only as the generic name of the therapy, the way his own FAQ uses it. The
 harness watches the difference. The directory is hyphenated because that is URL grammar.
+
+## Round 2 — the doctors turn sideways, and the three pills become one (2026-08-19)
+
+His instruction, applied across every page in the estate that carries a doctors section:
+*"make them swipeable in the phone so atleast you dont have to swipe multiple times to
+finish all of them"* and *"there should only be one start consultation there both for
+desktop and phone"*. This page received the change with `/peptide-therapy/`,
+`/functional-medicine/` and `/hormone-therapy-bhrt/`; the mechanism is identical on all
+five and the deep record lives at 05 in this page's own stylesheet.
+
+**MEASURED HERE, NOT INHERITED.** At 390×844 the section was **1,969px — 2.33 screens**
+and is **808px** now, 0.96 of a screen. Tablet 1,436 → 1,368. Desktop 872 → 900, the +28
+being the single pill's own row. ⚠️ **THIS DOOR RENDERS THREE, SO ITS
+STACKED COLUMN WAS ALREADY SHORTER — AND IT STILL LANDS ON THE SAME 808.** The rail's
+height is one card plus its furniture and does not know how many follow it, which is the
+argument for doing this on a three-doctor page at all: stacking costs a screen per doctor,
+the rail costs a screen full stop.
+
+**What the rail is:** `.doc-grid` becomes a flex row with `scroll-snap-type:x mandatory`
+under 700 and `.doc` becomes its item at `flex:0 0 78%`. The same children, turned — the
+portrait, the (i), the bio `<template>`, the monogram fallback and the reveal are all
+untouched. The 22% peek is the whole affordance (a full-width card is a rail that looks
+like one picture), the negative margin is load-bearing (without it `.wrap` clips the
+peeking card), and the swipe needs **no script** — JS adds only the dots, and it watches
+the 700 breakpoint rather than reading it once, because a phone turned to landscape
+crosses it without a reload.
+
+**The pill reverses his own 2026-08-14 call** and the note that recorded that call is
+quoted verbatim inside its replacement rather than deleted. ⚠️ **The surviving pill opens
+the chooser; it does not leave for `#book`** — three pills each meant "book with THIS one",
+so one aimed at the booking strip would have deleted the choosing step at the moment the
+reader is looking at three faces. Two CSS declarations died with the per-card pill and are
+deleted rather than left unmatched (the 4-up `.btn` step-down and `.doc-spec{flex:1 0 auto}`),
+and 1180 keeps its cliff on a new argument — the picture rather than the button.
+
+**⚠️⚠️ THE CHOOSER WAS MISSING ON THIS PAGE AND NOTHING REVEALED IT.** Built from the BHRT
+template, this page inherited the chooser's **script** but never its markup or its
+stylesheet: `chooseTpl` resolved to `null` and the `[data-choose]` branch, guarded by
+`&& chooseTpl`, never ran. The section's new pill is the first control that needs the view.
+`#pxd-choose` and the `.pxd-docs` / `.pxd-doc` / `.pxd-back` rules were **grafted from
+`/peptide-therapy/` byte for byte** so the estate's choosers cannot drift; only the intro
+line is this page's, and the heading matches the label the script was already passing
+(*"Choose who you'll see"*). **The rows are 05's three in 05's order** — nothing but that
+line enforces it.
+
+**QA:** the repo's own harnesses plus a five-page sweep at 390/768/1440 asserting one pill
+per section, zero in the cards, the rail live and snapping under 700, the dots hidden above
+it, no sideways scroll, and the chooser opening from the new pill with 3 rows matching the
+section's names **in order**, no ← Back and no broken portrait.
+
+---
 
 ## Why this door is built differently — three deliberate departures
 
@@ -37,7 +88,9 @@ gynaecologist heading the row is the first thing a sceptical male reader notices
 last thing that helps him trust it. Her card is untouched on both women's doors and on
 /peptide-therapy/. His instruction this round was *"for doctors add what you can for
 now"* — permission to assemble, not a ruling on who belongs. Restoring her is one
-`<article>` plus one `grid-template-columns` value (set to 3 here). The three who remain
+`<article>`, one `grid-template-columns` value (set to 3 here) **and — since round 2 — one
+`.pxd-doc` row in `#pxd-choose`**, which must stay in the section's order. Miss the third
+and the chooser silently offers a different set of doctors from the row above it. The three who remain
 all have men's-health grounds in their own client bios.
 
 ## Copy provenance

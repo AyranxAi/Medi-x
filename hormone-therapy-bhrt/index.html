@@ -567,6 +567,327 @@ section{position:relative}
   .prog-card{position:static}
 }
 
+/* the flower is the chapter now, so the money card sits UNDER it rather than beside
+   it — one column, capped at a readable panel width, centred. .prog-grid itself is
+   untouched, and so is every other page that uses it. Removing the flower is
+   therefore two deletions and this modifier, and 03 is back as it was. */
+.prog-grid--card{grid-template-columns:minmax(0,1fr);max-width:560px;
+  margin-left:auto;margin-right:auto}
+.prog-grid--card .prog-card{position:static}
+
+/* ─────────────── 03 · THE FLOWER JOURNEY — the six steps, as one flower ───────────
+   The chapter's six steps are ONE RIGID SIX-PETAL FLOWER, not six cards. Everything
+   below exists to protect that sentence, so read the geometry before touching a value.
+
+   ⚠️ THE FLOWER IS RIGID. One <svg> holds one hub and six petals of ONE silhouette,
+   seated at exact 60° intervals. Nothing ever flips, mirrors, stretches or moves a
+   petal on its own — the ONLY thing that changes between steps is a single integer,
+   --fj-idx, which turns the WHOLE flower by -idx*60deg. Selecting step i puts petal i
+   at 12 o'clock with its broad end up and its tapered base pointing down at the hub,
+   because that is what rotating a rigid flower does. If you ever find yourself writing
+   a per-petal transform to "fix" an angle, the bug is somewhere else.
+
+   ⚠️ TEXT STAYS UPRIGHT BY COUNTER-ROTATION, NOT BY REPOSITIONING. Each petal's copy
+   sits in .fj-c, which turns by (idx − i)*60deg — the exact negative of the rotation
+   its two ancestors applied. Same duration, same easing, so the copy is upright at
+   every frame and not merely at the ends. Counter-rotation touches CONTENT ONLY; the
+   <path> never sees it.
+
+   ⚠️ transform-box:view-box + transform-origin:0 0 IS LOAD-BEARING on the three
+   CSS-transformed groups (.fj-scene, .fj-flower, .fj-c). Without it the browser
+   rotates each group about the middle of the viewBox instead of about its own local
+   origin, and the flower falls apart. The per-petal 60° seats are transform
+   ATTRIBUTES, not CSS, precisely because they never animate.
+
+   ⚠️ THE CAMERA IS THE ONLY ZOOM. .fj-scene translates and scales the whole scene —
+   petals, hub, shadow, copy — as one object, so overview→detail reads as a camera
+   moving toward a physical flower rather than a card swapping in. --fj-s / --fj-ty
+   are written by the script from the measured stage, NOT guessed in CSS, because the
+   composition has to hold from a 360px phone to a 2560px desktop.
+
+   ⚠️ THE HUB IS A SEPARATE CIRCLE AND IT LIVES AT THE FLOWER'S CENTRE. In detail the
+   camera puts it directly BELOW the active petal, cropped by the stage floor — that is
+   where "All steps" and the two arrows sit. Never draw the hub inside a petal.
+
+   Petal geometry, in user units, centre of flower at (0,0):
+     base r=125 · widest r=330 (half-width 165) · tip r=520 · hub r=150
+   Half-width 165 at r=330 is 26.6° of angular half-width, so two neighbours at 60°
+   clear each other by ~6.8° — the gap the overview reference shows. Widen the petal
+   and they collide; there is no other constraint holding them apart. */
+
+.fj{
+  --fj-ease:cubic-bezier(.22,1,.36,1);
+  --fj-dur:820ms;          /* overview ⇄ detail — the camera move */
+  --fj-turn:640ms;         /* neighbour → neighbour — one 60° increment */
+  --fj-s:1;                /* camera scale   — written by the script */
+  --fj-tx:0px;             /* camera pan     — written by the script */
+  --fj-ty:0px;             /* camera lift    — written by the script */
+  --fj-idx:0;              /* THE state. rotation = -idx*60deg */
+  --fj-fs:14px;            /* detail type root, user units — from layout() */
+  --fj-fs-ttl:25px;        /* detail title root — clamped on its own, see JS */
+  --fj-fs-num:44px;        /* detail numeral root — likewise */
+  --fj-fs-ov:30px;         /* overview type root, user units — from layout() */
+  --fj-ov-k:1;             /* overview label scale: 1 in overview, ~.4 in detail */
+  --fj-copy:340ms;         /* copy cross-fade */
+  --fj-gold-lift:#E0BE7A;  /* the edge, brightened on hover/focus */
+  /* the stage sits OUTSIDE .wrap on purpose — see the DOM. Inside it, a phone's
+     stage measured 320px against a 360px viewport, and those 40px are the difference
+     between body copy at 16px and body copy at 14. */
+  position:relative;margin-top:clamp(26px,4vh,46px);
+  display:none;            /* the script reveals it; <noscript> keeps the list */
+}
+.fj.fj-on{display:block}
+
+.fj-stage{
+  position:relative;width:100%;
+  height:clamp(520px,82svh,880px);
+  overflow:hidden;                       /* the STAGE crops the two neighbours … */
+  touch-action:pan-y;                    /* the swipe reads X, the page keeps Y */
+  -webkit-tap-highlight-color:transparent;
+}
+ /* … and the svg has to be allowed to paint outside its viewBox for that to be
+    true, or the crop would happen at a square box in the middle of the stage and
+    the neighbours would end at a straight vertical line instead of the stage edge */
+.fj-svg{display:block;width:100%;height:100%;overflow:visible}
+
+/* ── the three animated groups ─────────────────────────────────────────────── */
+.fj-scene,.fj-flower,.fj-c{transform-box:view-box;transform-origin:0 0}
+.fj-scene{transform:translate(var(--fj-tx),var(--fj-ty)) scale(var(--fj-s));
+  transition:transform var(--fj-dur) var(--fj-ease)}
+.fj-flower{transform:rotate(calc(var(--fj-idx) * -60deg));
+  transition:transform var(--fj-dur) var(--fj-ease)}
+.fj-c{transform:rotate(calc((var(--fj-idx) - var(--i)) * 60deg));
+  transition:transform var(--fj-dur) var(--fj-ease)}
+/* stepping between neighbours is a shorter move than the camera pull */
+.fj[data-turning="1"] .fj-scene,
+.fj[data-turning="1"] .fj-flower,
+.fj[data-turning="1"] .fj-c{transition-duration:var(--fj-turn)}
+
+/* ── petals ────────────────────────────────────────────────────────────────── */
+.fj-p{cursor:pointer;outline:none}
+.fj[data-mode="detail"] .fj-p{cursor:default}
+.fj-shape{
+  stroke:var(--gold);stroke-width:2.4;
+  /* broad, warm and diffused — the reference's petals sit ON the ivory, they do not
+     float above it. The shadow rides the camera with everything else, which is what
+     makes the zoom read as a camera move rather than a resize. */
+  filter:drop-shadow(0 7px 15px rgba(92,31,49,.11));
+  transition:filter .5s var(--fj-ease),stroke .35s var(--fj-ease),
+             stroke-width .35s var(--fj-ease),fill .45s var(--fj-ease);
+}
+.fj-p--ivory .fj-shape{fill:url(#fjIvory)}
+.fj-p--rose  .fj-shape{fill:url(#fjRose)}
+.fj-p--wine  .fj-shape{fill:url(#fjWine)}
+/* the active petal in detail is always the porcelain one — the copy has to be read
+   off it, and burgundy body text on a burgundy petal is not a contrast decision
+   anybody wins. The overview keeps the reference's ivory/rose/wine rhythm. */
+.fj[data-mode="detail"] .fj-p[data-on] .fj-shape{fill:url(#fjIvory)}
+
+/* hover/focus in overview: the petal lifts and its gold edge brightens. The lift is
+   a filter, never a transform — a transform here would break the rigid flower. */
+.fj[data-mode="overview"] .fj-p{transition:opacity var(--fj-copy) var(--fj-ease)}
+.fj[data-mode="overview"] .fj-p:hover .fj-shape,
+.fj[data-mode="overview"] .fj-p:focus-visible .fj-shape{
+  stroke:var(--fj-gold-lift);stroke-width:3.4;
+  filter:drop-shadow(0 12px 26px rgba(92,31,49,.22));
+}
+/* the focus ring is the gold edge treatment, doubled — colour is never the only cue,
+   the dashed halo carries it for anyone who cannot see the brightening */
+.fj-focus{fill:none;stroke:var(--gold-deep);stroke-width:2.6;stroke-dasharray:9 8;
+  opacity:0;pointer-events:none;transition:opacity .2s linear}
+.fj-p:focus-visible .fj-focus{opacity:1}
+
+/* ── petal copy ────────────────────────────────────────────────────────────── */
+.fj-dt{transition:opacity var(--fj-copy) var(--fj-ease)}
+/* the overview label rides one scale — see layout() for why it shrinks in detail.
+   transform-origin 0 0 is its ANCHOR, the same pivot the counter-rotation uses, so it
+   grows and shrinks in place instead of sliding along the petal. */
+.fj-ov{transform-box:view-box;transform-origin:0 0;
+  transform:scale(var(--fj-ov-k));
+  transition:opacity var(--fj-copy) var(--fj-ease),
+             transform var(--fj-dur) var(--fj-ease)}
+.fj[data-turning="1"] .fj-ov{transition-duration:var(--fj-copy),var(--fj-turn)}
+/* copy fades OUT before the flower turns and back IN once it is ~40% round — the
+   delay on the way in is what stops the reader chasing moving words */
+.fj-ov{opacity:1}
+.fj-dt{opacity:0;pointer-events:none}
+.fj[data-mode="detail"] .fj-p[data-on] .fj-ov{opacity:0}
+.fj[data-mode="detail"] .fj-p[data-on] .fj-dt{opacity:1;
+  transition-delay:calc(var(--fj-dur) * .42)}
+.fj[data-mode="detail"][data-turning="1"] .fj-p[data-on] .fj-dt{
+  transition-delay:calc(var(--fj-turn) * .42)}
+/* the two true neighbours keep their overview labels — they are the only thing that
+   tells the reader the flower did not become a card */
+.fj[data-mode="detail"] .fj-p:not([data-on]) .fj-ov{opacity:.92}
+
+/* ⚠️ THESE SIZES ARE USER UNITS, NOT SCREEN PIXELS — inside a viewBox `px` is a unit
+   of the drawing, and the camera multiplies it. What a reader actually sees is
+   size × --fj-s × (stage ÷ 1160), which is why the phone block below RAISES them:
+   a phone's detail camera is capped by the stage's WIDTH, a desktop's by its HEIGHT,
+   and those two caps land on different pixels-per-unit. The QA harness measures the
+   rendered size, not this number, and holds body copy at ≥16px. */
+.fj-num{font-family:var(--serif);font-weight:400;font-variation-settings:"opsz" 60;
+  text-anchor:middle}
+.fj-rule{stroke-width:2.2;stroke-linecap:round}
+.fj-ttl{font-family:var(--sans);font-weight:400;text-anchor:middle}
+.fj-ttl--dt{font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30}
+.fj-time{font-family:var(--sans);font-weight:500;text-anchor:middle;fill:var(--gold-deep)}
+.fj-body{font-family:var(--sans);font-weight:300;text-anchor:middle;fill:var(--ink)}
+/* one ratio ladder, two derived roots. --fj-fs / --fj-fs-ov are USER UNITS chosen by
+   layout() so that the RENDERED size lands where legibility wants it at every stage
+   size; everything else is a fixed multiple of them, so the typographic relationships
+   never drift between a phone and a desktop. */
+/* ⚠️ THE ROOTS CARRY THEIR UNIT. calc(var(--fj-fs) * 3.66) on a UNITLESS custom
+   property computes to a plain number, which font-size rejects — the declaration is
+   dropped and the copy silently inherits the page's 16px instead. It fails quietly and
+   looks almost right, which is the worst kind of failure. Inside a viewBox the px unit
+   is a USER unit, so this is still drawing units, not screen pixels. */
+.fj-ov .fj-num{font-size:calc(var(--fj-fs-ov) * 2.07)}
+.fj-ov .fj-ttl{font-size:var(--fj-fs-ov)}
+.fj-dt .fj-num{font-size:var(--fj-fs-num)}
+.fj-dt .fj-ttl{font-size:var(--fj-fs-ttl)}
+.fj-dt .fj-time{font-size:calc(var(--fj-fs) * 1.02)}
+.fj-dt .fj-body{font-size:var(--fj-fs)}
+
+/* ink sets, per petal ground. Two rules, not six. */
+.fj-p--ivory .fj-num{fill:var(--burgundy)}
+.fj-p--ivory .fj-rule{stroke:var(--gold)}
+.fj-p--ivory .fj-ttl{fill:var(--ink)}
+.fj-p--rose .fj-num,.fj-p--wine .fj-num,
+.fj-p--rose .fj-ttl,.fj-p--wine .fj-ttl{fill:#FFFBF6}
+.fj-p--rose .fj-rule,.fj-p--wine .fj-rule{stroke:#FFFBF6}
+/* …and back to the ivory set the moment a rose or wine petal becomes the active one */
+.fj[data-mode="detail"] .fj-p[data-on] .fj-num{fill:var(--burgundy)}
+.fj[data-mode="detail"] .fj-p[data-on] .fj-rule{stroke:var(--gold)}
+.fj[data-mode="detail"] .fj-p[data-on] .fj-ttl{fill:var(--ink)}
+
+.fj-ic-ink{fill:none;stroke:var(--burgundy);stroke-width:2.1;
+  stroke-linecap:round;stroke-linejoin:round}
+.fj-ic-gold{fill:var(--gold);stroke:none}
+.fj-ic-goldline{fill:none;stroke:var(--gold);stroke-width:2.1;
+  stroke-linecap:round;stroke-linejoin:round}
+.fj-ic-fill{fill:var(--burgundy);stroke:none}
+
+/* ── the hub, and the controls that sit on it ──────────────────────────────── */
+.fj-hub-c{fill:url(#fjHub);stroke:var(--gold);stroke-width:3;
+  filter:drop-shadow(0 6px 16px rgba(92,31,49,.20))}
+.fj[data-mode="detail"] .fj-hub-c{cursor:pointer}
+/* the ring the reference draws around the whole flower — a turn of the cycle, dotted,
+   and only ever in overview where the whole cycle is what the reader is looking at */
+.fj-ring{fill:none;stroke:var(--gold);stroke-width:2.2;stroke-linecap:round;
+  stroke-dasharray:1 17;opacity:.5;
+  transition:opacity var(--fj-copy) var(--fj-ease)}
+.fj[data-mode="detail"] .fj-ring{opacity:0}
+
+.fj-ui{position:absolute;inset:0;pointer-events:none}
+/* ⚠️ EVERY POSITIONED CONTROL NAMES ITSELF HERE. A `.fj-ui > *` shorthand does not
+   reach .fj-prev/.fj-all/.fj-next — they live one level down inside .fj-nav — and the
+   script's inline left/top are inert on a static element, which puts the whole control
+   cluster in the stage's top-left corner and nowhere near the hub. */
+.fj-nav{position:absolute;inset:0}
+.fj-cta,.fj-all,.fj-arw,.fj-hint,.fj-arw-l{position:absolute;pointer-events:auto}
+.fj-hint,.fj-arw-l{pointer-events:none}
+.fj-hint{pointer-events:none}
+
+/* overview: the booking CTA, dead centre, inside the hub */
+.fj-cta{
+  left:50%;top:50%;transform:translate(-50%,-50%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  width:var(--fj-hub);height:var(--fj-hub);border-radius:50%;
+  font-family:var(--sans);font-weight:400;color:#FBF4EC;text-align:center;
+  text-decoration:none;line-height:1.28;padding:6px;
+  transition:opacity var(--fj-copy) var(--fj-ease),color .3s var(--fj-ease);
+}
+.fj-cta .fj-cta-t{font-size:var(--fj-cta-fs);max-width:9ch}
+.fj-cta .fj-cta-a{font-size:calc(var(--fj-cta-fs) * 1.6);color:var(--gold);
+  line-height:1;margin-top:2px;
+  transition:transform .4s var(--fj-ease)}
+.fj-cta:hover .fj-cta-a,.fj-cta:focus-visible .fj-cta-a{transform:translateX(5px)}
+.fj-cta:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
+.fj[data-mode="detail"] .fj-cta{opacity:0;pointer-events:none}
+
+/* detail: ← All steps → , seated on the hub the camera has just brought down */
+.fj-nav{opacity:0;pointer-events:none;
+  transition:opacity var(--fj-copy) var(--fj-ease)}
+.fj[data-mode="detail"] .fj-nav{opacity:1;pointer-events:auto;
+  transition-delay:calc(var(--fj-dur) * .45)}
+.fj[data-mode="detail"][data-turning="1"] .fj-nav{transition-delay:0ms}
+
+.fj-all{
+  left:50%;transform:translate(-50%,-50%);
+  width:var(--fj-hub);height:var(--fj-hub);border-radius:50%;
+  border:0;background:none;cursor:pointer;
+  font-family:var(--sans);font-weight:400;font-size:var(--fj-cta-fs);
+  color:#FBF4EC;line-height:1.2;padding:0 0 calc(var(--fj-hub) * .34);
+  display:flex;align-items:center;justify-content:center;
+}
+.fj-all:focus-visible{outline:2px solid var(--gold);outline-offset:-6px}
+.fj-all:hover{color:#fff}
+
+.fj-arw{
+  transform:translate(-50%,-50%);
+  width:var(--fj-btn);height:var(--fj-btn);border-radius:50%;
+  min-width:44px;min-height:44px;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(255,253,249,.9);border:1.4px solid var(--gold);
+  color:var(--burgundy);cursor:pointer;
+  transition:background .3s var(--fj-ease),border-color .3s var(--fj-ease),
+             box-shadow .3s var(--fj-ease);
+}
+.fj-arw svg{width:44%;height:44%;display:block}
+.fj-arw:hover{background:#fff;border-color:var(--gold-deep);
+  box-shadow:0 6px 18px rgba(92,31,49,.16)}
+.fj-arw:focus-visible{outline:2px solid var(--gold-deep);outline-offset:3px}
+/* the destination is named under the arrow, exactly as the reference shows it —
+   an arrow with no name is a guess, and this is a six-step medical process */
+/* ⚠️ THE LABEL CARRIES ITS OWN GROUND. Which petal ends up under it depends on the
+   step — at 05 the previous one is the WINE petal, and dark ink on burgundy is a
+   contrast failure that only appears on one sixth of the states, which is exactly the
+   kind that ships. The pill makes the label legible over ivory, rose and wine alike,
+   and reads as a continuation of the arrow button above it. */
+.fj-arw-l{
+  transform:translateX(-50%);
+  font-family:var(--sans);font-weight:400;font-size:var(--fj-lbl-fs);
+  color:var(--ink);white-space:nowrap;pointer-events:none;text-align:center;
+  background:rgba(253,250,244,.92);border-radius:999px;padding:3px 10px;
+}
+/* on the hub, so it is pale champagne on burgundy rather than gold on ivory */
+.fj-hint{
+  left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:8px;
+  font-family:var(--sans);font-weight:400;font-size:var(--fj-lbl-fs);
+  color:#E4D2B4;pointer-events:none;white-space:nowrap;
+}
+.fj-hint svg{width:1.15em;height:1.15em;display:block}
+
+.fj-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+  clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* ── responsive ────────────────────────────────────────────────────────────── */
+.fj{--fj-cta-fs:clamp(13px,1.15vw,16px);--fj-lbl-fs:clamp(12px,1vw,13.5px)}
+@media(max-width:900px){
+  .fj-stage{height:clamp(460px,74svh,720px)}
+}
+@media(max-width:640px){
+  .fj{--fj-cta-fs:14px;--fj-lbl-fs:12.5px;
+      --fj-dur:760ms;--fj-turn:600ms}
+
+  .fj-stage{
+    height:clamp(460px,72svh,700px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  .fj-arw-l{font-size:12px}
+}
+
+/* ── reduced motion: the state changes, the camera does not travel ─────────── */
+@media(prefers-reduced-motion:reduce){
+  .fj{--fj-dur:1ms;--fj-turn:1ms;--fj-copy:180ms}
+  .fj-scene,.fj-flower,.fj-c{transition:none}
+  .fj[data-mode="detail"] .fj-p[data-on] .fj-dt,
+  .fj[data-mode="detail"] .fj-nav{transition-delay:0ms}
+  .fj-cta .fj-cta-a{transition:none}
+}
+
 /* ─────────────────────────── 04 · THE MONTH, MAPPED ───────────────────────
    ⚠️ THE RING IS A STATE, NOT A WIDTH (the round-19b lesson, inherited): everything
    absolute lives behind .month-armed, which only the script adds, and only ≥760px.
@@ -1862,8 +2183,110 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
         Your assessment, your blood work, your doctor, your prescription — one road,
         walked in order. Here is the whole of it.
       </p>
-      <div class="prog-grid">
-        <ol class="pg-steps pg-steps--page" data-reveal>
+    </div>
+
+      <!-- ══════════ THE FLOWER JOURNEY ══════════
+           The six steps, as ONE RIGID SIX-PETAL FLOWER around one burgundy hub.
+           ⚠️ THIS IS NOT SIX CARDS AND IT MUST NEVER BECOME SIX CARDS. Read the
+           .fj banner in the <style> for the geometry contract before editing —
+           the short version is that ONE integer (--fj-idx) turns the whole flower
+           -idx*60deg, which is the only reason the selected petal is at 12 o'clock
+           with its broad end up, its tapered base pointing down, the hub directly
+           below it and its two TRUE neighbours still attached at ±60°.
+           ⚠️ THE FLOWER IS BUILT BY SCRIPT FROM ONE DATA ARRAY (see the block at the
+           foot of this file). The markup here is a mount point on purpose: six
+           petals hand-written six times is six places for the geometry to drift.
+           ⚠️ THE <noscript> LIST IS THE ORIGINAL CHAPTER, VERBATIM. It is the whole
+           of the rollback story and the whole of the no-JS story, and its copy is
+           the approved copy — if the flower's wording ever changes, change it here
+           too or the two will disagree in the one place nobody looks. -->
+      <div class="fj" id="fj" data-mode="overview" data-active="0" data-turning="0">
+        <div class="fj-stage">
+          <svg class="fj-svg" viewBox="0 0 1160 1160" preserveAspectRatio="xMidYMid meet"
+               role="group" aria-label="How the programme works, in six steps">
+            <defs>
+              <!-- soft porcelain / paper surfaces. The light falls from the upper
+                   left on all three, so the flower reads as one physical object
+                   lit once rather than six pieces of coloured card. -->
+              <radialGradient id="fjIvory" cx="34%" cy="24%" r="88%">
+                <stop offset="0" stop-color="#FFFDFA"/>
+                <stop offset=".55" stop-color="#FAF4E9"/>
+                <stop offset="1" stop-color="#F0E6D6"/>
+              </radialGradient>
+              <radialGradient id="fjRose" cx="34%" cy="24%" r="88%">
+                <stop offset="0" stop-color="#D8B2AB"/>
+                <stop offset=".55" stop-color="#C99B93"/>
+                <stop offset="1" stop-color="#B98A82"/>
+              </radialGradient>
+              <radialGradient id="fjWine" cx="34%" cy="24%" r="88%">
+                <stop offset="0" stop-color="#71283F"/>
+                <stop offset=".55" stop-color="#5C1F31"/>
+                <stop offset="1" stop-color="#471526"/>
+              </radialGradient>
+              <radialGradient id="fjHub" cx="36%" cy="26%" r="86%">
+                <stop offset="0" stop-color="#6E2740"/>
+                <stop offset=".6" stop-color="#5C1F31"/>
+                <stop offset="1" stop-color="#441424"/>
+              </radialGradient>
+            </defs>
+            <!-- camera. Translates and scales the WHOLE scene as one object. -->
+            <g class="fj-scene">
+              <!-- the cycle, dotted, behind everything — overview only -->
+              <circle class="fj-ring" cx="0" cy="0" r="566"></circle>
+              <!-- the flower. Turns as one object. Filled by the script. -->
+              <g class="fj-flower"></g>
+            </g>
+          </svg>
+
+          <!-- The controls live in HTML, over the stage, and they DO NOT TURN: they
+               are seated on the hub, and the hub is the one part of the flower whose
+               screen position is the same at every step. Real <button>/<a> elements,
+               because an SVG <g> is not a control anybody's assistive technology
+               should have to guess at. Positions are written by the script from the
+               measured stage — see layout(). -->
+          <div class="fj-ui">
+            <a class="fj-cta" href="#book">
+              <span class="fj-cta-t">Book your consultation</span>
+              <span class="fj-cta-a" aria-hidden="true">&#8594;</span>
+            </a>
+            <div class="fj-nav">
+              <button type="button" class="fj-arw fj-prev" aria-label="Previous step">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M19 12H5m0 0 6-6m-6 6 6 6"/>
+                </svg>
+              </button>
+              <button type="button" class="fj-all">All steps</button>
+              <button type="button" class="fj-arw fj-next" aria-label="Next step">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M5 12h14m0 0-6-6m6 6-6 6"/>
+                </svg>
+              </button>
+              <!-- ⚠️ THE DESTINATION NAMES ARE SIBLINGS OF THE ARROWS, NOT CHILDREN.
+                   On a phone the hub fills most of the stage's width, which pushes the
+                   arrows against the edges — a label centred on its button then runs
+                   off the stage ("Choose your do…"). Free of the button, each label can
+                   be clamped to the stage independently while the arrow stays where the
+                   geometry puts it. Their text is written by the script. -->
+              <p class="fj-arw-l fj-arw-l--prev" aria-hidden="true"></p>
+              <p class="fj-arw-l fj-arw-l--next" aria-hidden="true"></p>
+              <p class="fj-hint" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                     stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 9h16m0 0-3-3m3 3-3 3M4 9l3-3M4 9l3 3"/>
+                </svg>
+                Swipe or use arrows
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- the step a screen reader is told about, in words, because the petal copy
+             is SVG <text> and is marked decorative to stop it being read twice -->
+        <p class="fj-sr fj-live" aria-live="polite"></p>
+      </div>
+      <noscript>
+        <ol class="pg-steps pg-steps--page">
           <li><span class="pg-n">01</span><span>Your symptom assessment<small>A questionnaire you complete online.</small></span><span class="pg-d">15 min</span></li>
           <li><span class="pg-n">02</span><span>Your blood work<small>At any laboratory, using the exact panel we send you — hormone work asks for markers a standard panel leaves out.</small></span><span class="pg-d">2–5 days</span></li>
           <li><span class="pg-n">03</span><span>Choose your doctor<small>You pick who you would like to see. They read your file first, then you choose a time with them.</small></span><span class="pg-d">same or next day</span></li>
@@ -1871,6 +2294,10 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
           <li><span class="pg-n">05</span><span>Your prescription arrives<small>Quoted to you first; once payment is settled it is compounded and sent to your address.</small></span><span class="pg-d">2 months’ supply</span></li>
           <li><span class="pg-n">06</span><span>Aftercare<small>Call us any time for a month — symptoms, questions, anything that isn’t clear.</small></span><span class="pg-d">1 month</span></li>
         </ol>
+      </noscript>
+
+    <div class="wrap">
+      <div class="prog-grid prog-grid--card">
         <aside class="prog-card" data-reveal>
           <p class="pxd-kicker">The programme</p>
           <h3>Here is what you’re starting.</h3>
@@ -3643,4 +4070,635 @@ try{
 })();
 </script>
 
+<script>
+/* ═══ 03 · THE FLOWER JOURNEY ══════════════════════════════════════════════════════
+   The six steps as ONE RIGID SIX-PETAL FLOWER. Read the CSS banner for the geometry
+   contract before changing anything here; this file only ever writes four things:
 
+     --fj-idx   one integer. THE state. The flower turns -idx*60deg, the copy
+                counter-turns (idx − i)*60deg. Every "which petal is at 12 o'clock"
+                question is answered by this number and nothing else.
+     --fj-s     camera scale      ┐ measured from the stage, never guessed — the
+     --fj-ty/tx camera position   ┘ composition has to hold from 360px to 2560px
+     data-mode  overview | detail
+
+   ⚠️ idx IS UNBOUNDED ON PURPOSE. active = idx mod 6, so Next at step 06 goes to
+   idx=6 (not back to 0) and the flower keeps turning the same way instead of
+   unwinding five sixths of a turn backwards. Clamp it and the motion lies about
+   what the reader just did.
+
+   ⚠️ NOTHING HERE MAY WRITE A PER-PETAL TRANSFORM. The 60° seats are static SVG
+   attributes written once at build time. If a petal is at the wrong angle the fault
+   is in idx, never in the petal.
+
+   ⚠️ THE PETAL COPY IS PRE-BROKEN INTO LINES. SVG <text> does not wrap, and that is
+   a feature here: the line breaks are authored against the petal's own silhouette so
+   the block never overruns the curve at any size. Longest line is 37 characters —
+   measured against the half-width at the LAST line's radius (~141 units), which is
+   the tightest point. Add a longer line and it will cross the gold edge on a phone
+   before it does on a desktop. */
+(function(){
+  var root = document.getElementById('fj');
+  if(!root || !document.createElementNS) return;
+
+  var flower = root.querySelector('.fj-flower');
+  var stage  = root.querySelector('.fj-stage');
+  var ui     = root.querySelector('.fj-ui');
+  var live   = root.querySelector('.fj-live');
+  var NS = 'http://www.w3.org/2000/svg';
+
+  /* ── geometry, in user units, flower centre at (CX,CY) ───────────────────── */
+  var VB = 1160, CX = 580, CY = 580;
+  var R_TIP = 520, R_BASE = 100, R_MAXW = 406, HW = 178, R_HUB = 147;
+  var R_ANCHOR = 330;      /* where each petal's copy is pinned and counter-rotates */
+  /* how much of the chord at a line's radius the copy may occupy. The remainder is the
+     margin between the last glyph and the gold edge — and it is a REAL margin, not a
+     safety fudge: the petal's edge is a curve, so a line that ends exactly on the chord
+     still looks like it is touching. Verified against the harness's own isPointInFill
+     check, which measures the rendered box rather than the advance width. */
+  var PAD = 0.92;
+
+  /* ⚠️ ONE SILHOUETTE, DRAWN ONCE, USED SIX TIMES — and these numbers are MEASURED,
+     not drawn by eye. The outline was read straight off
+     reference-images/00-flower-overview-reference.png: the burgundy petal at 6 o'clock
+     was thresholded, sampled as (radius, half-width) along its axis, and normalised so
+     the outer tip lands at r=520. These five cubics fit those samples to an RMS error
+     of 1.5 units — under 0.3% of the petal's length.
+
+     What the measurement settled, and what an eye gets wrong every time: THE WIDEST
+     POINT IS AT r=406, which is 78% of the way OUT. A petal drawn from intuition puts
+     it near the middle and reads as a blob; the reference is an egg with its fat end
+     outward, and that one number is most of the difference.
+
+     Derived, and load-bearing:
+       · max half-width 178 at r=406 → 23.7° of angular half-width
+       · but the widest ANGLE on the whole outline is 27.0°, at r≈254 — THAT is what
+         collides with the neighbours, not the widest point. It leaves 3.0° of clearance
+         each side at a 60° spacing, which is the gap the reference shows.
+       · base r=100, hub r=147 → the base tucks 47 units behind the hub at every state
+     Redraw this and re-run tools/qa/flower-journey.mjs: the fit, the copy and the
+     neighbour clearance are all measured against it. */
+  var PETAL = 'M 0,-100 C 34,-102 60,-118 70,-146 C 92,-190 120,-232 138,-272 '
+            + 'C 160,-318 176,-360 178,-404 C 179,-442 146,-484 96,-502 '
+            + 'C 66,-514 36,-520 0,-520 C -36,-520 -66,-514 -96,-502 '
+            + 'C -146,-484 -179,-442 -178,-404 C -176,-360 -160,-318 -138,-272 '
+            + 'C -120,-232 -92,-190 -70,-146 C -60,-118 -34,-102 0,-100 Z';
+
+  /* ── the six steps. One array. No markup is written twice. ────────────────── */
+  var STEPS = [
+    {n:'01', short:['Assessment'], title:'Your symptom assessment', time:'15 min', clock:true, icon:'signal',
+     body:[,
+          'Complete a thoughtful online',
+          'questionnaire about your',
+          'symptoms, health history',
+          'and goals.']},
+    {n:'02', short:['Blood work'], title:'Your blood work', time:'Results in 2–5 days', clock:false, icon:'drop',
+     body:[,
+          'Visit any laboratory using the',
+          'exact hormone panel we send',
+          'you — hormone work asks for',
+          'markers a standard panel',
+          'leaves out.']},
+    {n:'03', short:['Choose','your doctor'], title:'Choose your doctor', time:'Same or next day', clock:false, icon:'pair',
+     body:[,
+          'Choose the doctor you would like',
+          'to meet. They review your file',
+          'first, then you select a time',
+          'that suits you.']},
+    {n:'04', short:['Consultation'], title:'Your consultation', time:'60 min', clock:true, icon:'talk',
+     body:[,
+          'Your doctor explains the findings,',
+          'creates your treatment plan,',
+          'writes your prescription and',
+          'names the hormones',
+          'recommended for you.']},
+    {n:'05', short:['Prescription'], title:'Your prescription arrives', time:'2 months’ supply', clock:true, icon:'vessel',
+     body:[,
+          'We quote your prescription first.',
+          'Once payment is settled, it is',
+          'carefully compounded and',
+          'delivered to your address.']},
+    {n:'06', short:['Aftercare'], title:'Aftercare', time:'One month', clock:false, icon:'hold',
+     body:[,
+          'Call us any time during your first',
+          'month — whether you have',
+          'symptoms, questions or',
+          'anything that does not',
+          'feel clear.']}
+  ];
+
+  var TONE = ['ivory','rose','ivory','wine','ivory','rose'];   /* the reference rhythm */
+
+  /* ── icons, in a ±34 box, centred on (0,0) ───────────────────────────────── */
+  var ICONS = {
+    /* 01 · fine burgundy signal lines gathering into one gold point */
+    signal:'<path class="fj-ic-ink" d="M0,12 C-6,-4 -18,-16 -33,-26"/>'
+          +'<path class="fj-ic-ink" d="M0,12 C-4,-6 -10,-20 -18,-32"/>'
+          +'<path class="fj-ic-ink" d="M0,12 C0,-8 0,-20 0,-35"/>'
+          +'<path class="fj-ic-ink" d="M0,12 C4,-6 10,-20 18,-32"/>'
+          +'<path class="fj-ic-ink" d="M0,12 C6,-4 18,-16 33,-26"/>'
+          +'<circle class="fj-ic-gold" cx="0" cy="16" r="5"/>',
+    /* 02 · refined burgundy droplet inside a thin gold molecular orbit */
+    drop:'<g transform="rotate(-24)"><ellipse class="fj-ic-goldline" cx="0" cy="0" rx="34" ry="19"/>'
+        +'<circle class="fj-ic-gold" cx="-32" cy="-5" r="3.6"/>'
+        +'<circle class="fj-ic-gold" cx="26" cy="9" r="3.6"/>'
+        +'<circle class="fj-ic-gold" cx="12" cy="-17" r="3"/></g>'
+        +'<path class="fj-ic-fill" d="M0,-24 C9,-8 17,0 17,8 A17,17 0 0 1 -17,8 C-17,0 -9,-8 0,-24 Z"/>',
+    /* 03 · two overlapping profile outlines with a small gold star */
+    pair:'<circle class="fj-ic-ink" cx="-13" cy="0" r="21"/>'
+        +'<circle class="fj-ic-ink" cx="13" cy="0" r="21"/>'
+        +'<path class="fj-ic-gold" d="M0,-13 C2.2,-4.4 4.4,-2.2 13,0 C4.4,2.2 2.2,4.4 0,13 '
+        +'C-2.2,4.4 -4.4,2.2 -13,0 C-4.4,-2.2 -2.2,-4.4 0,-13 Z"/>',
+    /* 04 · two conversation arcs embracing a small gold medical cross.
+       ⚠️ NOT two facing semicircle arcs — drawn that way they close into a single
+       ellipse and the icon reads as an egg with a plus on it. Two offset bubbles with
+       tails read as two people talking at any size. */
+    talk:'<rect class="fj-ic-ink" x="-33" y="-27" width="41" height="33" rx="11"/>'
+        +'<path class="fj-ic-ink" d="M-23,6 L-26,19 L-13,6"/>'
+        +'<rect class="fj-ic-ink" x="-8" y="-11" width="41" height="33" rx="11"/>'
+        +'<path class="fj-ic-ink" d="M23,22 L26,33 L13,22"/>'
+        +'<path class="fj-ic-goldline" style="stroke-width:4.8" d="M0,-9 V5 M-7,-2 H7"/>',
+    /* 05 · minimal burgundy apothecary vessel with a gold measured seal */
+    vessel:'<path class="fj-ic-fill" d="M-14,-31 L14,-31 L14,-24 L-14,-24 Z"/>'
+          +'<path class="fj-ic-fill" d="M-10,-24 L10,-24 L10,-19 C10,-13 18,-11 18,1 L18,17 '
+          +'C18,24 13,28 6,28 L-6,28 C-13,28 -18,24 -18,17 L-18,1 C-18,-11 -10,-13 -10,-19 Z"/>'
+          +'<circle class="fj-ic-gold" cx="0" cy="8" r="9.5"/>',
+    /* 06 · ONE continuous burgundy line forming a protective embrace around a gold
+       point. ⚠️ Not an open ring with a dot at each end — drawn that way the two dots
+       become eyes and the whole symbol reads as a face. An open cup, curling up on
+       both sides, reads as being held. */
+    hold:'<path class="fj-ic-ink" d="M-23,-22 C-32,-11 -32,5 -23,15 '
+        +'C-14,26 14,26 23,15 C32,5 32,-11 23,-22"/>'
+        +'<circle class="fj-ic-gold" cx="0" cy="1" r="6.5"/>'
+  };
+
+  function el(name, attrs, html){
+    var n = document.createElementNS(NS, name);
+    /* a null value means "the stylesheet owns this" — font sizes are set in CSS so a
+       media query can reach them; an attribute would win over the class and it could
+       not */
+    for(var k in attrs) if(attrs[k] !== null) n.setAttribute(k, attrs[k]);
+    if(html != null) n.innerHTML = html;
+    return n;
+  }
+
+  /* multi-line runs whose block has to be re-centred whenever the type scale moves */
+  var RUNS = [], BODY = [];
+  var BODY_TOP = -22;      /* first body baseline, y from the anchor (r=352) */
+
+  /* ── build the flower ────────────────────────────────────────────────────── */
+  STEPS.forEach(function(st, i){
+    var g = el('g', {
+      'class':'fj-p fj-p--' + TONE[i],
+      'data-i':i,
+      'transform':'rotate(' + (i * 60) + ')',      /* the seat. Static, forever. */
+      'role':'button','tabindex':'0',
+      'aria-label':'Step ' + (i+1) + ' of 6: ' + st.title + ', ' + st.time
+    });
+    g.style.setProperty('--i', i);
+
+    g.appendChild(el('path', {'class':'fj-shape','d':PETAL,'aria-hidden':'true'}));
+    g.appendChild(el('path', {'class':'fj-focus','d':PETAL,'aria-hidden':'true'}));
+
+    /* THE CONTENT ANCHOR, and it is the whole trick. A plain attribute translate out
+       to r=330 — the petal's widest point — so that .fj-c's own local origin IS the
+       point it must counter-rotate about. Counter-rotating about the FLOWER's centre
+       instead would keep the copy upright and stack all six labels at 12 o'clock;
+       counter-rotating about the petal's own anchor keeps the copy upright AND on
+       its petal. Every y below is measured from here: y = 330 − r. */
+    var anchor = el('g', {'transform':'translate(0,' + (-R_ANCHOR) + ')','aria-hidden':'true'});
+    var c = el('g', {'class':'fj-c'});
+
+    /* overview label: number · gold rule · short title.
+       Multi-line runs are tspans with an em dy, never separate <text> elements at
+       fixed y's — the type scale is written from the measured stage (see layout),
+       so a hard-coded line gap collapses the moment the copy grows. */
+    var ov = el('g', {'class':'fj-ov'});
+    ov.appendChild(el('text', {'class':'fj-num','x':'0','y':'-22'}, st.n));
+    ov.appendChild(el('line', {'class':'fj-rule','x1':'-30','y1':'12','x2':'30','y2':'12'}));
+    var ovT = el('text', {'class':'fj-ttl','x':'0'});
+    st.short.forEach(function(line, k){
+      ovT.appendChild(el('tspan', {'x':'0','dy': k ? '1.16em' : '0'}, line));
+    });
+    ov.appendChild(ovT);
+    c.appendChild(ov);
+
+    /* detail: number · rule · title · timing · copy · symbol.
+       Every y is measured from the anchor at r=330, so y = 330 − r. */
+    var dt = el('g', {'class':'fj-dt'});
+    dt.appendChild(el('text', {'class':'fj-num','x':'0','y':'-122'}, st.n));
+    dt.appendChild(el('line', {'class':'fj-rule','x1':'-36','y1':'-98','x2':'36','y2':'-98'}));
+    dt.appendChild(el('text', {'class':'fj-ttl fj-ttl--dt','x':'0','y':'-72'}, st.title));
+
+    var time = el('g', {'transform':'translate(0,-44)'});
+    if(st.clock){
+      /* the clock rides with the words: half the label's width to its left, so the
+         pair stays optically centred on the petal's axis at every step */
+      var w = st.time.length * 7.4;
+      time.appendChild(el('g', {'transform':'translate(' + (-(w/2) - 11) + ',-4.6)'},
+        '<circle class="fj-ic-goldline" style="stroke-width:1.6" cx="0" cy="0" r="7.4"/>'
+        + '<path class="fj-ic-goldline" style="stroke-width:1.6" d="M0,-4 V0.4 L3.2,2.6"/>'));
+      time.appendChild(el('text', {'class':'fj-time','x':(11),'y':'0'}, st.time));
+    } else {
+      time.appendChild(el('text', {'class':'fj-time','x':'0','y':'0'}, st.time));
+    }
+    dt.appendChild(time);
+
+    /* ⚠️ THE BODY BLOCK IS TOP-ALIGNED, THE OVERVIEW LABEL IS CENTRED, and the
+       difference is not a style choice. The body hangs from a fixed first line just
+       under the timing: the petal is widest at r=406 and closes steadily below it, so
+       starting high is what buys the copy its width. Centring it would push a
+       five-line step further down into the taper and cost every OTHER step its reading
+       size, because one type scale serves all six. The overview label is centred
+       because it counter-rotates — a block centred on its own pivot sweeps the
+       smallest circle, and that is what keeps it inside a petal seated at 120°. */
+    var bodyT = el('text', {'class':'fj-body','x':'0'});
+    st.body.forEach(function(line, k){
+      bodyT.appendChild(el('tspan', {'x':'0','dy': k ? '1.45em' : '0'}, line));
+    });
+    dt.appendChild(bodyT);
+
+    /* the symbol follows the copy down rather than sitting at a fixed radius, so a
+       four-line step does not leave a hole where a five-line step is full */
+    var icon = el('g', {'transform':'translate(0,140)'}, ICONS[st.icon]);
+    dt.appendChild(icon);
+
+    BODY.push({t:bodyT, n:st.body.length, icon:icon});
+    RUNS.push({t:ovT, n:st.short.length, mid:48, lh:1.16});
+    c.appendChild(dt);
+
+    anchor.appendChild(c);
+    g.appendChild(anchor);
+    flower.appendChild(g);
+  });
+
+  /* the hub is drawn LAST so the six petal bases tuck behind it, exactly as they do
+     in the overview reference. It is a circle at the flower's centre and it is never,
+     at any state, part of a petal. */
+  flower.appendChild(el('circle', {'class':'fj-hub-c','cx':'0','cy':'0','r':R_HUB,'aria-hidden':'true'}));
+
+  var petals = [].slice.call(flower.querySelectorAll('.fj-p'));
+
+  /* ── how wide is the petal at radius r? ───────────────────────────────────
+     Asked of the PATH, by binary search on isPointInFill — not of a formula. The
+     silhouette is four cubics; anything that re-draws it (a softer taper, a rounder
+     dome) changes these numbers, and a hard-coded table would go quietly stale while
+     the copy started crossing the gold edge. This way the fit follows the shape. */
+  var probeShape = petals[0].querySelector('.fj-shape');
+  var HW_CACHE = {};
+  function halfWidthAt(r){
+    var key = Math.round(r);
+    if(HW_CACHE[key] != null) return HW_CACHE[key];
+    var lo = 0, hi = HW + 6;
+    if(!probeShape.isPointInFill(new DOMPoint(0, -r))) return (HW_CACHE[key] = 0);
+    for(var k = 0; k < 15; k++){
+      var mid = (lo + hi) / 2;
+      if(probeShape.isPointInFill(new DOMPoint(mid, -r))) lo = mid; else hi = mid;
+    }
+    return (HW_CACHE[key] = lo);
+  }
+
+  /* every line of copy that has to stay inside the curve, with the baseline it sits
+     on. y is measured from the anchor at r=330, so the radius is 330 − y. */
+  function runsFor(p){
+    var out = [];
+    [].forEach.call(p.querySelectorAll('.fj-dt text, .fj-ov text'), function(t){
+      var spans = t.querySelectorAll('tspan');
+      var base = parseFloat(t.getAttribute('y')) || 0;
+      var lh = t.classList.contains('fj-body') ? 1.45 : 1.16;
+      /* which type root does this line hang off? The three are clamped SEPARATELY —
+         see fitFactor for why sharing one factor is wrong. */
+      var root = (t.closest && t.closest('.fj-ov')) ? 'ov'
+               : t.classList.contains('fj-ttl--dt') ? 'ttl'
+               : t.classList.contains('fj-num') ? 'num' : 'fs';
+      if(!spans.length){ out.push({el:t, y:base, root:root}); return; }
+      var fs = parseFloat(getComputedStyle(t).fontSize) || 14;
+      [].forEach.call(spans, function(sp, k){
+        out.push({el:sp, y:base + k * lh * fs, root:root}); });
+    });
+    return out;
+  }
+
+  /* ── state ───────────────────────────────────────────────────────────────── */
+  var idx = 0, mode = 'overview', openedFrom = 0, turnTimer = 0;
+  var mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  function active(){ return ((idx % 6) + 6) % 6; }
+
+  function apply(turning){
+    var a = active();
+    root.style.setProperty('--fj-idx', idx);
+    root.setAttribute('data-mode', mode);
+    root.setAttribute('data-active', a);
+    root.setAttribute('data-turning', turning ? '1' : '0');
+    clearTimeout(turnTimer);
+    if(turning){
+      var d = mq.matches ? 1 : parseFloat(getComputedStyle(root).getPropertyValue('--fj-turn')) || 640;
+      turnTimer = setTimeout(function(){ root.setAttribute('data-turning','0'); }, d + 60);
+    }
+    petals.forEach(function(p, i){
+      if(i === a) p.setAttribute('data-on',''); else p.removeAttribute('data-on');
+      /* in detail the two cropped neighbours are scenery, not tab stops — Prev/Next
+         and the arrow keys are how a keyboard moves between steps there */
+      p.setAttribute('tabindex', mode === 'overview' ? '0' : (i === a ? '0' : '-1'));
+      p.setAttribute('aria-label', 'Step ' + (i+1) + ' of 6: ' + STEPS[i].title + ', ' + STEPS[i].time);
+    });
+    /* the labels are written BEFORE layout, because layout clamps them to the stage
+       and cannot measure a string it has not been given yet */
+    if(mode === 'detail'){
+      var s = STEPS[a];
+      live.textContent = 'Step ' + (a+1) + ' of 6. ' + s.title + '. ' + s.time + '. ' + s.body.join(' ');
+      lblPrev.textContent = STEPS[(a+5)%6].short.join(' ');
+      lblNext.textContent = STEPS[(a+1)%6].short.join(' ');
+      navPrev.setAttribute('aria-label','Previous step: ' + STEPS[(a+5)%6].title);
+      navNext.setAttribute('aria-label','Next step: ' + STEPS[(a+1)%6].title);
+    } else {
+      live.textContent = 'All six steps.';
+    }
+    layout();
+  }
+
+  function open(i, viaKeyboard){
+    openedFrom = i;
+    /* take the short way round: petal 5 opens by turning +60°, not −300° */
+    var d = ((i - active()) % 6 + 6) % 6;
+    idx += (d > 3 ? d - 6 : d);
+    mode = 'detail';
+    apply(false);
+    if(viaKeyboard !== false) petals[active()].focus();
+  }
+  function step(dir){
+    if(mode !== 'detail') return;
+    idx += dir;
+    apply(true);
+  }
+  function overview(refocus){
+    /* unwind to the nearest whole turn so the flower comes to rest on 01 at 12
+       o'clock without ever spinning more than half a turn to get there */
+    idx = Math.round(idx / 6) * 6;
+    mode = 'overview';
+    apply(false);
+    if(refocus) petals[openedFrom].focus();
+  }
+
+  /* ── the controls that sit on the hub ────────────────────────────────────── */
+  var cta     = ui.querySelector('.fj-cta');
+  var navAll  = ui.querySelector('.fj-all');
+  var navPrev = ui.querySelector('.fj-prev');
+  var navNext = ui.querySelector('.fj-next');
+  var hint    = ui.querySelector('.fj-hint');
+  var lblPrev = ui.querySelector('.fj-arw-l--prev');
+  var lblNext = ui.querySelector('.fj-arw-l--next');
+
+  /* ── camera + overlay placement, measured from the stage ─────────────────── */
+  var cam = {ov:null, dt:null};
+
+  function recentre(){
+    RUNS.forEach(function(r){
+      var fs = parseFloat(getComputedStyle(r.t).fontSize) || 14;
+      r.t.setAttribute('y', (r.mid - (r.n - 1) * r.lh * fs / 2).toFixed(2));
+    });
+    BODY.forEach(function(r){
+      var fs = parseFloat(getComputedStyle(r.t).fontSize) || 14;
+      r.t.setAttribute('y', BODY_TOP);
+      var last = BODY_TOP + (r.n - 1) * 1.45 * fs;      /* last baseline */
+      r.icon.setAttribute('transform',
+        'translate(0,' + Math.min(150, last + 58).toFixed(1) + ')');
+    });
+  }
+
+  /* The largest fraction of the current type scale at which EVERY line still clears
+     the curve, computed PER ROOT. 1 means nothing to do.
+
+     ⚠️ ONE SHARED FACTOR IS WRONG, and it is worth saying why. The detail title runs
+     1.76× the body and is the widest thing on the petal, so it is almost always what
+     binds. Scale the whole ladder by the title's factor and the BODY — the one run
+     with an accessibility floor under it — gets dragged to 14px on a phone to make
+     room for a heading that had spare contrast to give. Clamping the roots separately
+     costs a little of the type ratio on small screens and keeps the reading size. */
+  function fitFactor(){
+    var k = {fs:1, ttl:1, num:1, ov:1, worst:{}};
+    petals.forEach(function(p){
+      runsFor(p).forEach(function(run){
+        /* ⚠️ ASK THE GLYPHS, DO NOT MODEL THEM. getBBox gives the line's real inked
+           box in the petal's own coordinates — advance width plus a guessed descender
+           is close, and "close" is what let a last line cross the edge on a 360px
+           phone while this function reported it fitting. */
+        var b;
+        try { b = run.el.getBBox(); } catch(e) { return; }
+        if(!b || !b.width) return;
+        /* BOTH ends of the line box matter, and which one binds depends on where the
+           line sits: past the petal's widest radius (406) the curve closes going OUT,
+           so a NUMBER set high on the petal is pinched by its ascender, while a line
+           of body copy low down is pinched by its descender. Take the tighter. */
+        var avail = Math.min(halfWidthAt(R_ANCHOR - b.y),
+                             halfWidthAt(R_ANCHOR - (b.y + b.height))) * 2 * PAD;
+        if(avail > 0 && b.width > avail){
+          var f = avail / b.width;
+          if(f < k[run.root]){ k[run.root] = f;
+            k.worst[run.root] = run.el.textContent + ' [w' + b.width.toFixed(0)
+              + ' avail' + avail.toFixed(0) + ' r' + (R_ANCHOR - b.y).toFixed(0)
+              + '→' + (R_ANCHOR - b.y - b.height).toFixed(0) + ']'; }
+        }
+      });
+    });
+    return k;
+  }
+  function layout(){
+    var W = stage.clientWidth, H = stage.clientHeight;
+    if(!W || !H) return;
+    var s0 = Math.min(W, H) / VB;                 /* px per user unit at scale 1     */
+    var ox = (W - VB * s0) / 2, oy = (H - VB * s0) / 2;
+    var vw = W / s0, vh = H / s0;                 /* the visible window, in units    */
+    var portrait = vw < vh;
+
+    /* overview — fit the whole flower, with room for the labels to breathe. A phone
+       is allowed to overrun its width a little (the handover's 118–132vw); 112% is
+       where the labels at r=390 still clear the edge instead of being shaved. */
+    var so = portrait ? (vw * 1.12) / (R_TIP * 2)
+                      : Math.min(vw, vh) * 0.94 / (R_TIP * 2);
+    /* the flower is drawn around ITS OWN (0,0); the camera is what puts that point
+       where the composition needs it. Overview: dead centre of the viewBox. */
+    cam.ov = {s:so, tx:CX, ty:CY};
+
+    /* detail — the active petal fills the upper ~72% of the stage, capped so a
+       narrow phone never pushes the petal wider than 94vw */
+    /* 0.86 of the stage's height is the reference composition — petal top at ~5%,
+       base at ~91%, hub cap over the last tenth. It is also what stops a SHORT phone
+       (a 360×640 lands a 460px stage) from being height-capped so hard that the petal
+       only reaches 79% of the width and the copy has nowhere to go. */
+    var sd = Math.min((0.86 * vh) / (R_TIP - R_BASE), (0.94 * vw) / (HW * 2));
+    /* the petal's broad end sits 5% down from the top of the stage; everything else
+       — hub position, where the arrows land — follows from that one decision */
+    var hubY = CY - vh/2 + (0.05 * vh) + R_TIP * sd;
+    cam.dt = {s:sd, tx:CX, ty:hubY};
+
+    /* ⚠️ THE TYPE SCALE IS DERIVED, NOT DECLARED. A font-size in user units renders at
+       size × camera × (stage ÷ 1160), and the detail camera is capped by HEIGHT on a
+       desktop and by WIDTH on a phone — so one declared size lands on wildly different
+       pixels. Work backwards instead: pick the pixel size the reader should get, then
+       divide by the live px-per-unit. This is what holds body copy at 16px on a
+       360-wide phone and 19px on a desktop with ONE set of authored line breaks. */
+    /* the 17.4 floor is deliberately ABOVE the 16px requirement: the fit clamp below
+       can take a few per cent off to protect the silhouette, and the headroom is what
+       keeps that from eating into the accessibility floor on a 360px phone. */
+    var pxBody = Math.max(16.4, Math.min(20.0, Math.min(W, H) * 0.027));
+    /* ⚠️ THE NEIGHBOUR LABELS ARE SIZED FROM WHICHEVER CAMERA IS LIVE, so they stay
+       the same size on screen in both modes. It looks like a violation of the rigid
+       scene and it is the opposite: in detail the camera magnifies everything ~2.4×,
+       and a label that rides that up becomes a 40px word shouting from a cropped
+       background petal — which is exactly what the corrected reference images do NOT
+       show. Scale-compensating the two labels keeps them reading as what they are:
+       the names of the steps either side, at a glance, out of the way. */
+    var pxOv = Math.max(13.5, Math.min(18.5, Math.min(W, H) * 0.023));
+    var pxOvD = Math.max(11, Math.min(14.5, Math.min(W, H) * 0.016));
+    var uBody = pxBody / (sd * s0), uOv = pxOv / (so * s0);
+    root.style.setProperty('--fj-fs',     uBody.toFixed(3) + 'px');
+    root.style.setProperty('--fj-fs-ttl', (uBody * 1.85).toFixed(3) + 'px');
+    root.style.setProperty('--fj-fs-num', (uBody * 3.40).toFixed(3) + 'px');
+    root.style.setProperty('--fj-fs-ov',  uOv.toFixed(3) + 'px');
+    /* ⚠️ ONE NUMBER SHRINKS THE WHOLE LABEL, not just its type. Scaling the font alone
+       left each label's gold rule at full size — a 40px stroke under an 11px word.
+       .fj-ov is scaled as a group about its own anchor, so number, rule and title keep
+       their proportions and the transition has one thing to interpolate. */
+    root.style.setProperty('--fj-ov-k',
+      (mode === 'detail' ? (pxOvD * so) / (pxOv * sd) : 1).toFixed(4));
+
+    recentre();
+
+    /* ⚠️ AND NOW THE COPY IS MADE TO FIT, BY MEASUREMENT. The legibility target above
+       says how big the reader needs the words; the silhouette says how big they are
+       allowed to be. On a 360px phone those two disagree — the camera is capped by the
+       stage's width, so the petal cannot grow to meet the type — and the curve has to
+       win, because copy crossing the gold edge is a broken page while copy at 16.2px
+       instead of 16.8px is a page. Measured with getComputedTextLength against the
+       real font, so a font swap or a copy edit re-fits instead of quietly spilling. */
+    var k = fitFactor();
+    window.__fjFit = k;   /* read by tools/qa/flower-journey.mjs */
+    if(k.fs < 1 || k.ttl < 1 || k.num < 1 || k.ov < 1){
+      root.style.setProperty('--fj-fs',     (uBody * k.fs).toFixed(3) + 'px');
+      root.style.setProperty('--fj-fs-ttl', (uBody * 1.85 * k.ttl).toFixed(3) + 'px');
+      root.style.setProperty('--fj-fs-num', (uBody * 3.40 * k.num).toFixed(3) + 'px');
+      root.style.setProperty('--fj-fs-ov',  (uOv * k.ov).toFixed(3) + 'px');
+      recentre();
+    }
+
+    var c = (mode === 'detail') ? cam.dt : cam.ov;
+    root.style.setProperty('--fj-s', c.s);
+    root.style.setProperty('--fj-ty', c.ty.toFixed(2) + 'px');
+    root.style.setProperty('--fj-tx', c.tx.toFixed(2) + 'px');
+
+    function px(x, y, k){ return {x: ox + s0*(k.tx + k.s*x), y: oy + s0*(k.ty + k.s*y)}; }
+
+    /* overview: the booking hub, dead centre */
+    var hubO = px(0, 0, cam.ov), rO = R_HUB * cam.ov.s * s0;
+    cta.style.left = hubO.x + 'px'; cta.style.top = hubO.y + 'px';
+    cta.style.setProperty('--fj-hub', (rO * 2) + 'px');
+
+    /* detail: the hub arrives below the petal and is cropped by the stage floor.
+       Everything in the control cluster is placed off its VISIBLE CAP, not off its
+       centre — the centre is usually below the stage and would put the label
+       off-screen on a phone. */
+    var hubD = px(0, 0, cam.dt), rD = R_HUB * cam.dt.s * s0;
+    var capTop = hubD.y - rD, capBot = Math.min(H, hubD.y + rD);
+    var capH = Math.max(24, capBot - capTop);
+
+    navAll.style.left = hubD.x + 'px';
+    navAll.style.top  = (capTop + capH * 0.36) + 'px';
+    navAll.style.setProperty('--fj-hub', Math.max(56, Math.min(rD * 1.05, capH * 0.72)) + 'px');
+
+    var aR = window.innerWidth <= 640 ? 23 : 30;      /* 46px / 60px targets */
+    var aY = capTop + capH * 0.16;
+    var off = rD + aR + (window.innerWidth <= 640 ? 12 : 20);
+    var lx = Math.max(aR + 10, hubD.x - off);
+    var rx = Math.min(W - aR - 10, hubD.x + off);
+    navPrev.style.left = lx + 'px'; navPrev.style.top = aY + 'px';
+    navNext.style.left = rx + 'px'; navNext.style.top = aY + 'px';
+    ui.style.setProperty('--fj-btn', (aR * 2) + 'px');
+
+    /* Each label wants to sit under its arrow. Two things can stop it, and both are
+       resolved here rather than hoped away:
+         1. THE STAGE EDGE — on a phone the hub is nearly as wide as the viewport, so
+            the arrows end up against the sides and a label centred on its button runs
+            off. Where the arrow and the stage disagree, the stage wins.
+         2. THE HUB — below the arrow is often burgundy, and ink-on-burgundy is not a
+            contrast decision anybody wins. If the label's box would cross the hub's
+            top arc (computed, not guessed — the arc's height falls away with distance
+            from the centre) it flips ABOVE the arrow, onto the ivory. */
+    [[lblPrev, lx], [lblNext, rx]].forEach(function(pair){
+      var lab = pair[0], lw = lab.offsetWidth || 60, lh = lab.offsetHeight || 16;
+      var x = Math.max(lw / 2 + 6, Math.min(W - lw / 2 - 6, pair[1]));
+      lab.style.left = x + 'px';
+      /* measure from the label's NEAREST EDGE to the hub's axis, not from its centre:
+         the corner that lands on burgundy is the inner one, and a wide label reaches
+         the hub long before its middle does */
+      var dx = Math.max(Math.abs(x - hubD.x) - lw / 2, 0);
+      var arcY = dx < rD ? hubD.y - Math.sqrt(rD * rD - dx * dx) : Infinity;
+      var below = aY + aR + 8;
+      lab.style.top = (below + lh <= arcY ? below : aY - aR - 8 - lh) + 'px';
+    });
+
+    hint.style.left = hubD.x + 'px';
+    hint.style.top  = Math.min(H - 24, capTop + capH * 0.62) + 'px';
+  }
+
+  /* ── input ───────────────────────────────────────────────────────────────── */
+  petals.forEach(function(p, i){
+    p.addEventListener('click', function(){ if(mode === 'overview') open(i, false); });
+    p.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar'){
+        e.preventDefault();
+        if(mode === 'overview') open(i, true);
+      }
+    });
+  });
+  navPrev.addEventListener('click', function(){ step(-1); });
+  navNext.addEventListener('click', function(){ step(1); });
+  navAll.addEventListener('click', function(){ overview(true); });
+  /* the hub circle itself is the same control as the word sitting on it */
+  var hubCircle = flower.querySelector('.fj-hub-c');
+  hubCircle.addEventListener('click', function(){ if(mode === 'detail') overview(true); });
+
+  root.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && mode === 'detail'){ e.preventDefault(); overview(true); return; }
+    if(mode !== 'detail') return;
+    if(e.key === 'ArrowRight'){ e.preventDefault(); step(1); }
+    else if(e.key === 'ArrowLeft'){ e.preventDefault(); step(-1); }
+  });
+
+  /* swipe: 48px and a velocity check, so a slow scroll that drifts sideways is not
+     read as a step change. A deliberate downward drag is the touch equivalent of
+     Escape. touch-action:pan-y on the stage keeps the page scrollable throughout. */
+  var t0 = null;
+  stage.addEventListener('touchstart', function(e){
+    if(e.touches.length !== 1) { t0 = null; return; }
+    t0 = {x:e.touches[0].clientX, y:e.touches[0].clientY, t:e.timeStamp};
+  }, {passive:true});
+  stage.addEventListener('touchend', function(e){
+    if(!t0) return;
+    var t = e.changedTouches[0];
+    var dx = t.clientX - t0.x, dy = t.clientY - t0.y, dt = Math.max(1, e.timeStamp - t0.t);
+    t0 = null;
+    if(mode !== 'detail') return;
+    if(Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.2
+       && (Math.abs(dx) / dt > 0.25 || Math.abs(dx) > 96)){
+      step(dx < 0 ? 1 : -1);
+    } else if(dy > 70 && Math.abs(dy) > Math.abs(dx) * 1.6){
+      overview(false);
+    }
+  }, {passive:true});
+
+  var rt;
+  window.addEventListener('resize', function(){
+    clearTimeout(rt); rt = setTimeout(layout, 90);
+  });
+  if(window.ResizeObserver) new ResizeObserver(layout).observe(stage);
+
+  root.classList.add('fj-on');
+  apply(false);
+  layout();
+  /* the web fonts land after first paint, and every width above was measured against
+     whatever face was mounted at the time. Re-fit once they are really here. */
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
+})();
+</script>

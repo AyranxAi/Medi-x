@@ -572,6 +572,328 @@ section{position:relative}
   .prog-card{position:static}
 }
 
+/* the collar is the chapter now, so the money card sits UNDER it rather than beside it
+   — one column, capped at a readable panel width, centred. .prog-grid itself is
+   untouched, and so is every other page that uses it. */
+.prog-grid--card{grid-template-columns:minmax(0,1fr);max-width:560px;
+  margin-left:auto;margin-right:auto}
+.prog-grid--card .prog-card{position:static}
+
+/* ─────────────── 03 · THE COLLAR JOURNEY — the six steps, as one collar ───────────
+   The chapter's six steps are ONE RIGID SIX-SECTOR COLLAR, not six cards. Everything
+   below exists to protect that sentence, so read the geometry before touching a value.
+
+   ⚠️ THE COLLAR IS RIGID. One <svg> holds one hub and six sectors of ONE silhouette,
+   seated at exact 60° intervals. Nothing ever flips, mirrors, stretches or moves a
+   sector on its own — the ONLY thing that changes between steps is a single integer,
+   --tc-idx, which turns the WHOLE collar by -idx*60deg. Selecting step i puts sector i
+   at 12 o'clock with its broad end up and its tapered base pointing down at the hub,
+   because that is what rotating a rigid collar does. If you ever find yourself writing
+   a per-sector transform to "fix" an angle, the bug is somewhere else.
+
+   ⚠️ TEXT STAYS UPRIGHT BY COUNTER-ROTATION, NOT BY REPOSITIONING. Each sector's copy
+   sits in .tc-c, which turns by (idx − i)*60deg — the exact negative of the rotation
+   its two ancestors applied. Same duration, same easing, so the copy is upright at
+   every frame and not merely at the ends. Counter-rotation touches CONTENT ONLY; the
+   <path> never sees it.
+
+   ⚠️ transform-box:view-box + transform-origin:0 0 IS LOAD-BEARING on the three
+   CSS-transformed groups (.tc-scene, .tc-ring, .tc-c). Without it the browser
+   rotates each group about the middle of the viewBox instead of about its own local
+   origin, and the collar falls apart. The per-sector 60° seats are transform
+   ATTRIBUTES, not CSS, precisely because they never animate.
+
+   ⚠️ THE CAMERA IS THE ONLY ZOOM. .tc-scene translates and scales the whole scene —
+   sectors, hub, shadow, copy — as one object, so overview→detail reads as a camera
+   moving toward a physical collar rather than a card swapping in. --tc-s / --tc-ty
+   are written by the script from the measured stage, NOT guessed in CSS, because the
+   composition has to hold from a 360px phone to a 2560px desktop.
+
+   ⚠️ THE HUB IS A SEPARATE CIRCLE AND IT LIVES AT THE COLLAR'S CENTRE. In detail the
+   camera puts it directly BELOW the active sector, cropped by the stage floor — that is
+   where "All steps" and the two arrows sit. Never draw the hub inside a sector.
+
+   Sector geometry, in user units, centre of collar at (0,0):
+     base r=125 · widest r=330 (half-width 165) · tip r=520 · hub r=150
+   Half-width 165 at r=330 is 26.6° of angular half-width, so two neighbours at 60°
+   clear each other by ~6.8° — the gap the overview reference shows. Widen the sector
+   and they collide; there is no other constraint holding them apart. */
+
+.tc{
+  --tc-ease:cubic-bezier(.22,1,.36,1);
+  --tc-dur:820ms;          /* overview ⇄ detail — the camera move */
+  --tc-turn:640ms;         /* neighbour → neighbour — one 60° increment */
+  --tc-s:1;                /* camera scale   — written by the script */
+  --tc-tx:0px;             /* camera pan     — written by the script */
+  --tc-ty:0px;             /* camera lift    — written by the script */
+  --tc-idx:0;              /* THE state. rotation = -idx*60deg */
+  --tc-fs:14px;            /* detail type root, user units — from layout() */
+  --tc-fs-ttl:25px;        /* detail title root — clamped on its own, see JS */
+  --tc-fs-num:44px;        /* detail numeral root — likewise */
+  --tc-fs-ov:30px;         /* overview type root, user units — from layout() */
+  --tc-ov-k:1;             /* overview label scale: 1 in overview, ~.4 in detail */
+  --tc-copy:340ms;         /* copy cross-fade */
+  /* the stage sits OUTSIDE .wrap on purpose — see the DOM. Inside it, a phone's
+     stage measured 320px against a 360px viewport, and those 40px are the difference
+     between body copy at 16px and body copy at 14. */
+  position:relative;margin-top:clamp(26px,4vh,46px);
+  display:none;            /* the script reveals it; <noscript> keeps the list */
+}
+.tc.tc-on{display:block}
+
+.tc-stage{
+  position:relative;width:100%;
+  height:clamp(520px,82svh,880px);
+  overflow:hidden;                       /* the STAGE crops the two neighbours … */
+  touch-action:pan-y;                    /* the swipe reads X, the page keeps Y */
+  -webkit-tap-highlight-color:transparent;
+}
+ /* … and the svg has to be allowed to paint outside its viewBox for that to be
+    true, or the crop would happen at a square box in the middle of the stage and
+    the neighbours would end at a straight vertical line instead of the stage edge */
+.tc-svg{display:block;width:100%;height:100%;overflow:visible}
+
+/* ── the three animated groups ─────────────────────────────────────────────── */
+.tc-scene,.tc-ring,.tc-c{transform-box:view-box;transform-origin:0 0}
+.tc-scene{transform:translate(var(--tc-tx),var(--tc-ty)) scale(var(--tc-s));
+  transition:transform var(--tc-dur) var(--tc-ease)}
+.tc-ring{transform:rotate(calc(var(--tc-idx) * -60deg));
+  transition:transform var(--tc-dur) var(--tc-ease)}
+.tc-c{transform:rotate(calc((var(--tc-idx) - var(--i)) * 60deg));
+  transition:transform var(--tc-dur) var(--tc-ease)}
+/* stepping between neighbours is a shorter move than the camera pull */
+.tc[data-turning="1"] .tc-scene,
+.tc[data-turning="1"] .tc-ring,
+.tc[data-turning="1"] .tc-c{transition-duration:var(--tc-turn)}
+
+/* ── sectors ────────────────────────────────────────────────────────────────── */
+.tc-seg{cursor:pointer;outline:none}
+.tc[data-mode="detail"] .tc-seg{cursor:default}
+.tc-shape{
+  stroke:var(--gold);stroke-width:2.4;stroke-linejoin:round;
+  /* broad, warm and diffused — the reference's sectors sit ON the ivory, they do not
+     float above it. The shadow rides the camera with everything else, which is what
+     makes the zoom read as a camera move rather than a resize. */
+  filter:drop-shadow(0 7px 15px rgba(92,31,49,.11));
+  transition:filter .5s var(--tc-ease),stroke .35s var(--tc-ease),
+             stroke-width .35s var(--tc-ease),fill .45s var(--tc-ease);
+}
+.tc-seg--ivory .tc-shape{fill:url(#tcIvory)}
+.tc-seg--rose  .tc-shape{fill:url(#tcRose)}
+.tc-seg--wine  .tc-shape{fill:url(#tcWine)}
+/* the active sector in detail is always the porcelain one — the copy has to be read
+   off it, and burgundy body text on a burgundy sector is not a contrast decision
+   anybody wins. The overview keeps the reference's ivory/rose/wine rhythm. */
+.tc[data-mode="detail"] .tc-seg[data-on] .tc-shape{fill:url(#tcIvory)}
+
+/* hover/focus in overview: the sector lifts and its gold edge brightens. The lift is
+   a filter, never a transform — a transform here would break the rigid collar. */
+.tc[data-mode="overview"] .tc-seg{transition:opacity var(--tc-copy) var(--tc-ease)}
+.tc[data-mode="overview"] .tc-seg:hover .tc-shape,
+.tc[data-mode="overview"] .tc-seg:focus-visible .tc-shape{
+  stroke:var(--tc-gold-lift);stroke-width:3.4;
+  filter:drop-shadow(0 12px 26px rgba(92,31,49,.22));
+}
+/* the focus ring is the gold edge treatment, doubled — colour is never the only cue,
+   the dashed halo carries it for anyone who cannot see the brightening */
+.tc-focus{fill:none;stroke:var(--gold-deep);stroke-width:2.6;stroke-dasharray:9 8;
+  opacity:0;pointer-events:none;transition:opacity .2s linear}
+.tc-seg:focus-visible .tc-focus{opacity:1}
+
+/* ── sector copy ────────────────────────────────────────────────────────────── */
+.tc-dt{transition:opacity var(--tc-copy) var(--tc-ease)}
+/* the overview label rides one scale — see layout() for why it shrinks in detail.
+   transform-origin 0 0 is its ANCHOR, the same pivot the counter-rotation uses, so it
+   grows and shrinks in place instead of sliding along the sector. */
+.tc-ov{transform-box:view-box;transform-origin:0 0;
+  transform:scale(var(--tc-ov-k));
+  transition:opacity var(--tc-copy) var(--tc-ease),
+             transform var(--tc-dur) var(--tc-ease)}
+.tc[data-turning="1"] .tc-ov{transition-duration:var(--tc-copy),var(--tc-turn)}
+/* copy fades OUT before the collar turns and back IN once it is ~40% round — the
+   delay on the way in is what stops the reader chasing moving words */
+.tc-ov{opacity:1}
+.tc-dt{opacity:0;pointer-events:none}
+.tc[data-mode="detail"] .tc-seg[data-on] .tc-ov{opacity:0}
+.tc[data-mode="detail"] .tc-seg[data-on] .tc-dt{opacity:1;
+  transition-delay:calc(var(--tc-dur) * .42)}
+.tc[data-mode="detail"][data-turning="1"] .tc-seg[data-on] .tc-dt{
+  transition-delay:calc(var(--tc-turn) * .42)}
+/* the two true neighbours keep their overview labels — they are the only thing that
+   tells the reader the collar did not become a card */
+.tc[data-mode="detail"] .tc-seg:not([data-on]) .tc-ov{opacity:.92}
+
+/* ⚠️ THESE SIZES ARE USER UNITS, NOT SCREEN PIXELS — inside a viewBox `px` is a unit
+   of the drawing, and the camera multiplies it. What a reader actually sees is
+   size × --tc-s × (stage ÷ 1160), which is why the phone block below RAISES them:
+   a phone's detail camera is capped by the stage's WIDTH, a desktop's by its HEIGHT,
+   and those two caps land on different pixels-per-unit. The QA harness measures the
+   rendered size, not this number, and holds body copy at ≥16px. */
+.tc-num{font-family:var(--serif);font-weight:400;font-variation-settings:"opsz" 60;
+  text-anchor:middle}
+.tc-rule{stroke-width:2.2;stroke-linecap:round}
+.tc-ttl{font-family:var(--sans);font-weight:400;text-anchor:middle}
+.tc-ttl--dt{font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30}
+.tc-time{font-family:var(--sans);font-weight:500;text-anchor:middle;fill:var(--gold-deep)}
+.tc-body{font-family:var(--sans);font-weight:300;text-anchor:middle;fill:var(--ink)}
+/* one ratio ladder, two derived roots. --tc-fs / --tc-fs-ov are USER UNITS chosen by
+   layout() so that the RENDERED size lands where legibility wants it at every stage
+   size; everything else is a fixed multiple of them, so the typographic relationships
+   never drift between a phone and a desktop. */
+/* ⚠️ THE ROOTS CARRY THEIR UNIT. calc(var(--tc-fs) * 3.66) on a UNITLESS custom
+   property computes to a plain number, which font-size rejects — the declaration is
+   dropped and the copy silently inherits the page's 16px instead. It fails quietly and
+   looks almost right, which is the worst kind of failure. Inside a viewBox the px unit
+   is a USER unit, so this is still drawing units, not screen pixels. */
+.tc-ov .tc-num{font-size:calc(var(--tc-fs-ov) * 2.07)}
+.tc-ov .tc-ttl{font-size:var(--tc-fs-ov)}
+.tc-dt .tc-num{font-size:var(--tc-fs-num)}
+.tc-dt .tc-ttl{font-size:var(--tc-fs-ttl)}
+.tc-dt .tc-time{font-size:calc(var(--tc-fs) * 1.02)}
+.tc-dt .tc-body{font-size:var(--tc-fs)}
+
+/* ink sets, per sector ground. Two rules, not six. */
+.tc-seg--ivory .tc-num{fill:var(--burgundy)}
+.tc-seg--ivory .tc-rule{stroke:var(--gold)}
+.tc-seg--ivory .tc-ttl{fill:var(--ink)}
+.tc-seg--rose .tc-num,.tc-seg--wine .tc-num,
+.tc-seg--rose .tc-ttl,.tc-seg--wine .tc-ttl{fill:#FFFBF6}
+.tc-seg--rose .tc-rule,.tc-seg--wine .tc-rule{stroke:#FFFBF6}
+/* …and back to the ivory set the moment a rose or wine sector becomes the active one */
+.tc[data-mode="detail"] .tc-seg[data-on] .tc-num{fill:var(--burgundy)}
+.tc[data-mode="detail"] .tc-seg[data-on] .tc-rule{stroke:var(--gold)}
+.tc[data-mode="detail"] .tc-seg[data-on] .tc-ttl{fill:var(--ink)}
+
+.tc-ic-ink{fill:none;stroke:var(--burgundy);stroke-width:2.1;
+  stroke-linecap:round;stroke-linejoin:round}
+.tc-ic-gold{fill:var(--gold);stroke:none}
+.tc-ic-goldline{fill:none;stroke:var(--gold);stroke-width:2.1;
+  stroke-linecap:round;stroke-linejoin:round}
+.tc-ic-fill{fill:var(--burgundy);stroke:none}
+
+/* ── the hub, and the controls that sit on it ──────────────────────────────── */
+.tc-knurl line{stroke:var(--gold);stroke-width:1.8;opacity:.55}
+.tc-hub-c{fill:url(#tcHub);stroke:var(--gold);stroke-width:3;
+  filter:drop-shadow(0 6px 16px rgba(92,31,49,.20))}
+.tc[data-mode="detail"] .tc-hub-c{cursor:pointer}
+/* ⚠️ THE INDEX MARK NEVER TURNS. It lives in the camera's space, not the
+   collar's, and that is the entire grammar of a bezel: the ring moves, the reading
+   stays put. Put it inside .tc-ring "to keep the scene together" and the device
+   silently becomes a turntable with a decoration on it — invisible at rest, which
+   is why the harness reads its live matrix instead of trusting a screenshot.
+   (was: the dotted cycle ring — a turn of the cycle, dotted,
+   and only ever in overview where the whole cycle is what the reader is looking at */
+.tc-index{fill:var(--gold)}
+
+.tc-ui{position:absolute;inset:0;pointer-events:none}
+/* ⚠️ EVERY POSITIONED CONTROL NAMES ITSELF HERE. A `.tc-ui > *` shorthand does not
+   reach .tc-prev/.tc-all/.tc-next — they live one level down inside .tc-nav — and the
+   script's inline left/top are inert on a static element, which puts the whole control
+   cluster in the stage's top-left corner and nowhere near the hub. */
+.tc-nav{position:absolute;inset:0}
+.tc-cta,.tc-all,.tc-arw,.tc-hint,.tc-arw-l{position:absolute;pointer-events:auto}
+.tc-hint,.tc-arw-l{pointer-events:none}
+.tc-hint{pointer-events:none}
+
+/* overview: the booking CTA, dead centre, inside the hub */
+.tc-cta{
+  left:50%;top:50%;transform:translate(-50%,-50%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  width:var(--tc-hub);height:var(--tc-hub);border-radius:50%;
+  font-family:var(--sans);font-weight:400;color:#FBF4EC;text-align:center;
+  text-decoration:none;line-height:1.28;padding:6px;
+  transition:opacity var(--tc-copy) var(--tc-ease),color .3s var(--tc-ease);
+}
+.tc-cta .tc-cta-t{font-size:var(--tc-cta-fs);max-width:9ch}
+.tc-cta .tc-cta-a{font-size:calc(var(--tc-cta-fs) * 1.6);color:var(--gold);
+  line-height:1;margin-top:2px;
+  transition:transform .4s var(--tc-ease)}
+.tc-cta:hover .tc-cta-a,.tc-cta:focus-visible .tc-cta-a{transform:translateX(5px)}
+.tc-cta:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
+.tc[data-mode="detail"] .tc-cta{opacity:0;pointer-events:none}
+
+/* detail: ← All steps → , seated on the hub the camera has just brought down */
+.tc-nav{opacity:0;pointer-events:none;
+  transition:opacity var(--tc-copy) var(--tc-ease)}
+.tc[data-mode="detail"] .tc-nav{opacity:1;pointer-events:auto;
+  transition-delay:calc(var(--tc-dur) * .45)}
+.tc[data-mode="detail"][data-turning="1"] .tc-nav{transition-delay:0ms}
+
+.tc-all{
+  left:50%;transform:translate(-50%,-50%);
+  width:var(--tc-hub);height:var(--tc-hub);border-radius:50%;
+  border:0;background:none;cursor:pointer;
+  font-family:var(--sans);font-weight:400;font-size:var(--tc-cta-fs);
+  color:#FBF4EC;line-height:1.2;padding:0 0 calc(var(--tc-hub) * .34);
+  display:flex;align-items:center;justify-content:center;
+}
+.tc-all:focus-visible{outline:2px solid var(--gold);outline-offset:-6px}
+.tc-all:hover{color:#fff}
+
+.tc-arw{
+  transform:translate(-50%,-50%);
+  width:var(--tc-btn);height:var(--tc-btn);border-radius:50%;
+  min-width:44px;min-height:44px;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(255,253,249,.9);border:1.4px solid var(--gold);
+  color:var(--burgundy);cursor:pointer;
+  transition:background .3s var(--tc-ease),border-color .3s var(--tc-ease),
+             box-shadow .3s var(--tc-ease);
+}
+.tc-arw svg{width:44%;height:44%;display:block}
+.tc-arw:hover{background:#fff;border-color:var(--gold-deep);
+  box-shadow:0 6px 18px rgba(92,31,49,.16)}
+.tc-arw:focus-visible{outline:2px solid var(--gold-deep);outline-offset:3px}
+/* the destination is named under the arrow, exactly as the reference shows it —
+   an arrow with no name is a guess, and this is a six-step medical process */
+/* ⚠️ THE LABEL CARRIES ITS OWN GROUND. Which sector ends up under it depends on the
+   step — at 05 the previous one is the WINE sector, and dark ink on burgundy is a
+   contrast failure that only appears on one sixth of the states, which is exactly the
+   kind that ships. The pill makes the label legible over ivory, rose and wine alike,
+   and reads as a continuation of the arrow button above it. */
+.tc-arw-l{
+  transform:translateX(-50%);
+  font-family:var(--sans);font-weight:400;font-size:var(--tc-lbl-fs);
+  color:var(--ink);white-space:nowrap;pointer-events:none;text-align:center;
+  background:rgba(253,250,244,.92);border-radius:999px;padding:3px 10px;
+}
+/* on the hub, so it is pale champagne on burgundy rather than gold on ivory */
+.tc-hint{
+  left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:8px;
+  font-family:var(--sans);font-weight:400;font-size:var(--tc-lbl-fs);
+  color:#E4D2B4;pointer-events:none;white-space:nowrap;
+}
+.tc-hint svg{width:1.15em;height:1.15em;display:block}
+
+.tc-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+  clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* ── responsive ────────────────────────────────────────────────────────────── */
+.tc{--tc-cta-fs:clamp(13px,1.15vw,16px);--tc-lbl-fs:clamp(12px,1vw,13.5px)}
+@media(max-width:900px){
+  .tc-stage{height:clamp(460px,74svh,720px)}
+}
+@media(max-width:640px){
+  .tc{--tc-cta-fs:14px;--tc-lbl-fs:12.5px;
+      --tc-dur:760ms;--tc-turn:600ms}
+
+  .tc-stage{
+    height:clamp(460px,72svh,700px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  .tc-arw-l{font-size:12px}
+}
+
+/* ── reduced motion: the state changes, the camera does not travel ─────────── */
+@media(prefers-reduced-motion:reduce){
+  .tc{--tc-dur:1ms;--tc-turn:1ms;--tc-copy:180ms}
+  .tc-scene,.tc-ring,.tc-c{transition:none}
+  .tc[data-mode="detail"] .tc-seg[data-on] .tc-dt,
+  .tc[data-mode="detail"] .tc-nav{transition-delay:0ms}
+  .tc-cta .tc-cta-a{transition:none}
+}
+
 /* ─────────────────────────── 04 · THE LEDGER ───────────────────────────────────────
    The men's symptom device — see the section's DOM banner for why this door gets a
    ledger where the two women's doors get a dial.
@@ -1846,8 +2168,119 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
         Your assessment, your blood work, your doctor, your prescription — one road,
         walked in order. Here is the whole of it.
       </p>
-      <div class="prog-grid">
-        <ol class="pg-steps pg-steps--page" data-reveal>
+    </div>
+
+      <!-- ══════════ THE COLLAR JOURNEY ══════════
+           The six steps, as ONE RIGID SIX-SECTOR COLLAR turning under a fixed index
+           mark — sibling to the flower on the two women's doors, and deliberately its
+           opposite in character: an instrument, not a bloom.
+           ⚠️ WHY A COLLAR AND NOT A ROTOR, since a propeller was the ask: a propeller is
+           a device for making MORE, and this page's clinical argument is "into your
+           range, not past it" (see the slope scene's banner above). A torque setting is
+           precisely the correct amount rather than the maximum. Blades were drawn and
+           rejected on craft grounds too — a real one is too narrow to hold a paragraph.
+           ⚠️ THIS IS NOT SIX CARDS AND IT MUST NEVER BECOME SIX CARDS. Read the
+           .tc banner in the <style> for the geometry contract before editing —
+           the short version is that ONE integer (--tc-idx) turns the whole collar
+           -idx*60deg, which is the only reason the selected sector is at 12 o'clock
+           under the index mark, with the hub directly below it and its two TRUE
+           neighbours still attached at ±60°.
+           ⚠️ THE COLLAR IS BUILT BY SCRIPT FROM ONE DATA ARRAY (see the block at the
+           foot of this file). The markup here is a mount point on purpose: six
+           sectors hand-written six times is six places for the geometry to drift.
+           ⚠️ THE <noscript> LIST IS THE ORIGINAL CHAPTER, VERBATIM. It is the whole
+           of the rollback story and the whole of the no-JS story, and its copy is
+           the approved copy — if the collar's wording ever changes, change it here
+           too or the two will disagree in the one place nobody looks. -->
+      <div class="tc" id="tc" data-mode="overview" data-active="0" data-turning="0">
+        <div class="tc-stage">
+          <svg class="tc-svg" viewBox="0 0 1160 1160" preserveAspectRatio="xMidYMid meet"
+               role="group" aria-label="How the programme works, in six steps">
+            <defs>
+              <!-- soft porcelain / paper surfaces. The light falls from the upper
+                   left on all three, so the collar reads as one physical object
+                   lit once rather than six pieces of coloured card. -->
+              <radialGradient id="tcIvory" cx="34%" cy="24%" r="88%">
+                <stop offset="0" stop-color="#FFFDFA"/>
+                <stop offset=".55" stop-color="#FAF4E9"/>
+                <stop offset="1" stop-color="#F0E6D6"/>
+              </radialGradient>
+              <radialGradient id="tcRose" cx="34%" cy="24%" r="88%">
+                <stop offset="0" stop-color="#D8B2AB"/>
+                <stop offset=".55" stop-color="#C99B93"/>
+                <stop offset="1" stop-color="#B98A82"/>
+              </radialGradient>
+              <radialGradient id="tcWine" cx="34%" cy="24%" r="88%">
+                <stop offset="0" stop-color="#71283F"/>
+                <stop offset=".55" stop-color="#5C1F31"/>
+                <stop offset="1" stop-color="#471526"/>
+              </radialGradient>
+              <radialGradient id="tcHub" cx="36%" cy="26%" r="86%">
+                <stop offset="0" stop-color="#6E2740"/>
+                <stop offset=".6" stop-color="#5C1F31"/>
+                <stop offset="1" stop-color="#441424"/>
+              </radialGradient>
+            </defs>
+            <!-- camera. Translates and scales the WHOLE scene as one object. -->
+            <g class="tc-scene">
+              <!-- ⚠️ THE INDEX MARK IS A SIBLING OF THE COLLAR, NOT A CHILD. It rides
+                   the camera but never the rotation. Move it inside .tc-ring and the
+                   device quietly becomes a turntable with a decoration on it. -->
+              <path class="tc-index" d="M 0,-548 L 23,-590 L -23,-590 Z"></path>
+              <!-- the collar. Turns as one object. Filled by the script. -->
+              <g class="tc-ring"></g>
+            </g>
+          </svg>
+
+          <!-- The controls live in HTML, over the stage, and they DO NOT TURN: they
+               are seated on the hub, and the hub is the one part of the collar whose
+               screen position is the same at every step. Real <button>/<a> elements,
+               because an SVG <g> is not a control anybody's assistive technology
+               should have to guess at. Positions are written by the script from the
+               measured stage — see layout(). -->
+          <div class="tc-ui">
+            <a class="tc-cta" href="#book">
+              <span class="tc-cta-t">Book your consultation</span>
+              <span class="tc-cta-a" aria-hidden="true">&#8594;</span>
+            </a>
+            <div class="tc-nav">
+              <button type="button" class="tc-arw tc-prev" aria-label="Previous step">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M19 12H5m0 0 6-6m-6 6 6 6"/>
+                </svg>
+              </button>
+              <button type="button" class="tc-all">All steps</button>
+              <button type="button" class="tc-arw tc-next" aria-label="Next step">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M5 12h14m0 0-6-6m6 6-6 6"/>
+                </svg>
+              </button>
+              <!-- ⚠️ THE DESTINATION NAMES ARE SIBLINGS OF THE ARROWS, NOT CHILDREN.
+                   On a phone the hub fills most of the stage's width, which pushes the
+                   arrows against the edges — a label centred on its button then runs
+                   off the stage ("Choose your do…"). Free of the button, each label can
+                   be clamped to the stage independently while the arrow stays where the
+                   geometry puts it. Their text is written by the script. -->
+              <p class="tc-arw-l tc-arw-l--prev" aria-hidden="true"></p>
+              <p class="tc-arw-l tc-arw-l--next" aria-hidden="true"></p>
+              <p class="tc-hint" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                     stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 9h16m0 0-3-3m3 3-3 3M4 9l3-3M4 9l3 3"/>
+                </svg>
+                Swipe or use arrows
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- the step a screen reader is told about, in words, because the sector copy
+             is SVG <text> and is marked decorative to stop it being read twice -->
+        <p class="tc-sr tc-live" aria-live="polite"></p>
+      </div>
+      <noscript>
+        <ol class="pg-steps pg-steps--page">
           <li><span class="pg-n">01</span><span>Your symptom assessment<small>A questionnaire you complete online.</small></span><span class="pg-d">15 min</span></li>
           <li><span class="pg-n">02</span><span>Your blood work<small>At any laboratory, using the exact panel we send you — taken in the morning, when testosterone is read against its range.</small></span><span class="pg-d">2–5 days</span></li>
           <li><span class="pg-n">03</span><span>Choose your doctor<small>You pick who you would like to see. They read your file first, then you choose a time with them.</small></span><span class="pg-d">same or next day</span></li>
@@ -1855,6 +2288,10 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
           <li><span class="pg-n">05</span><span>Your prescription arrives<small>Quoted to you first; once payment is settled it is compounded and sent to your address.</small></span><span class="pg-d">2 months’ supply</span></li>
           <li><span class="pg-n">06</span><span>Aftercare<small>Call us any time for a month — symptoms, questions, anything that isn’t clear.</small></span><span class="pg-d">1 month</span></li>
         </ol>
+      </noscript>
+
+    <div class="wrap">
+      <div class="prog-grid prog-grid--card">
         <aside class="prog-card" data-reveal>
           <p class="pxd-kicker">The programme</p>
           <h3>Here is what you’re starting.</h3>
@@ -3402,4 +3839,599 @@ try{
 })();
 </script>
 
+<script>
+/* ═══ 03 · THE COLLAR JOURNEY ══════════════════════════════════════════════════════
+   The six steps as ONE RIGID SIX-SECTOR COLLAR. Read the CSS banner for the geometry
+   contract before changing anything here; this file only ever writes four things:
 
+     --tc-idx   one integer. THE state. The collar turns -idx*60deg, the copy
+                counter-turns (idx − i)*60deg. Every "which sector is at 12 o'clock"
+                question is answered by this number and nothing else.
+     --tc-s     camera scale      ┐ measured from the stage, never guessed — the
+     --tc-ty/tx camera position   ┘ composition has to hold from 360px to 2560px
+     data-mode  overview | detail
+
+   ⚠️ idx IS UNBOUNDED ON PURPOSE. active = idx mod 6, so Next at step 06 goes to
+   idx=6 (not back to 0) and the collar keeps turning the same way instead of
+   unwinding five sixths of a turn backwards. Clamp it and the motion lies about
+   what the reader just did.
+
+   ⚠️ NOTHING HERE MAY WRITE A PER-SECTOR TRANSFORM. The 60° seats are static SVG
+   attributes written once at build time. If a sector is at the wrong angle the fault
+   is in idx, never in the sector.
+
+   ⚠️ THE SECTOR COPY IS PRE-BROKEN INTO LINES. SVG <text> does not wrap, and that is
+   a feature here: the line breaks are authored against the sector's own silhouette so
+   the block never overruns the curve at any size. Longest line is 37 characters —
+   measured against the half-width at the LAST line's radius (~141 units), which is
+   the tightest point. Add a longer line and it will cross the gold edge on a phone
+   before it does on a desktop. */
+(function(){
+  var root = document.getElementById('tc');
+  if(!root || !document.createElementNS) return;
+
+  var ring   = root.querySelector('.tc-ring');
+  var stage  = root.querySelector('.tc-stage');
+  var ui     = root.querySelector('.tc-ui');
+  var live   = root.querySelector('.tc-live');
+  var NS = 'http://www.w3.org/2000/svg';
+
+  /* ── geometry, in user units, collar centred at (CX,CY) ───────────────── */
+  var VB = 1160, CX = 580, CY = 580;
+  var R_OUT = 520, R_IN = 170, R_MAXW = 456.1, HW = 249.7, R_HUB = 152;
+  var HALF = 28.7;          /* half-angle of one sector, in degrees */
+  var R_ANCHOR = 360;      /* where each sector's copy is pinned and counter-rotates */
+  var PAD = 0.92;          /* share of the chord at a line's radius the copy may use */
+
+  /* ⚠️ ONE SECTOR, SIX TIMES, AND THE SIDES ARE TRUE RADII. That is the whole reason
+     this reads as a machined collar rather than six curved cards: every seam points at
+     the centre, so the object can only be understood as one ring that turns. Splay the
+     sides "to fit more text" and it stops being a collar the moment anyone looks at it.
+
+     ⚠️ THIS IS A WORSE PARAGRAPH CONTAINER THAN THE SIBLING PAGES' PETAL, and the copy
+     has to respect that rather than argue with it. A petal stays fat as it descends; a
+     sector CONVERGES, because its edges are radii heading for a point. Usable half-width
+     is
+         min( r*tan(28.7deg) , sqrt(R_OUT^2 - r^2) )
+     — the radial edges bind below r=456.1, the outer arc binds above it, and the widest
+     this ever gets is 249.7 at r=456.1. Every line therefore has a smaller budget than the
+     line above it, and it falls away faster than a petal's: roughly 33 / 30 / 27 / 24 /
+     21 characters at the worst breakpoint. Author to the taper.
+     tools/qa/torque-collar.mjs measures it per line, per step, per width.
+
+     ⚠️ THERE ARE NO PER-STEP SYMBOLS HERE, and their absence is a decision rather than
+     an omission. The flower carries one per petal because its reference images did and
+     because a petal had the depth to hold one. A sector at phone scale does not: number,
+     title, timing and five lines already fill it, and a symbol would push the copy under
+     the 16px floor. An instrument is also not an illustration — the knurl and the index
+     mark are this device's ornament, and they both mean something. */
+  var SECTOR = 'M -249.7,-456.1 A 520,520 0 0 1 249.7,-456.1 L 81.6,-149.1 A 170,170 0 0 0 -81.6,-149.1 Z';
+
+  /* ── the six steps. One array. No markup is written twice. ────────────────── */
+  var STEPS = [
+    {n:'01', short:['Assessment'], title:'Your symptom assessment', time:'15 min', clock:true,
+     body:[,
+          'A questionnaire you complete',
+          'online.']},
+    {n:'02', short:['Blood work'], title:'Your blood work', time:'2–5 days', clock:false,
+     body:[,
+          'At any laboratory, using the',
+          'exact panel we send you —',
+          'taken in the morning, when',
+          'testosterone is read',
+          'against its range.']},
+    {n:'03', short:['Choose','your doctor'], title:'Choose your doctor', time:'Same or next day', clock:false,
+     body:[,
+          'You pick who you would like to',
+          'see. They read your file',
+          'first, then you choose a',
+          'time with them.']},
+    {n:'04', short:['Consultation'], title:'Your consultation', time:'60 min', clock:true,
+     body:[,
+          'Your doctor takes you through',
+          'the findings, writes your',
+          'prescription, and names',
+          'exactly what you will',
+          'be on.']},
+    {n:'05', short:['Prescription'], title:'Your prescription arrives', time:'2 months’ supply', clock:true,
+     body:[,
+          'Quoted to you first; once',
+          'payment is settled it is',
+          'compounded and sent to',
+          'your address.']},
+    {n:'06', short:['Aftercare'], title:'Aftercare', time:'1 month', clock:false,
+     body:[,
+          'Call us any time for a month —',
+          'symptoms, questions, anything',
+          'that isn’t clear.']}
+  ];
+
+  var TONE = ['ivory','rose','ivory','wine','ivory','rose'];   /* the reference rhythm */
+
+  function el(name, attrs, html){
+    var n = document.createElementNS(NS, name);
+    /* a null value means "the stylesheet owns this" — font sizes are set in CSS so a
+       media query can reach them; an attribute would win over the class and it could
+       not */
+    for(var k in attrs) if(attrs[k] !== null) n.setAttribute(k, attrs[k]);
+    if(html != null) n.innerHTML = html;
+    return n;
+  }
+
+  /* multi-line runs whose block has to be re-centred whenever the type scale moves */
+  var RUNS = [], BODY = [];
+  var BODY_TOP = 9;      /* first body baseline, y from the anchor (r=352) */
+
+  /* ── build the collar ────────────────────────────────────────────────────── */
+  STEPS.forEach(function(st, i){
+    var g = el('g', {
+      'class':'tc-seg tc-seg--' + TONE[i],
+      'data-i':i,
+      'transform':'rotate(' + (i * 60) + ')',      /* the seat. Static, forever. */
+      'role':'button','tabindex':'0',
+      'aria-label':'Step ' + (i+1) + ' of 6: ' + st.title + ', ' + st.time
+    });
+    g.style.setProperty('--i', i);
+
+    g.appendChild(el('path', {'class':'tc-shape','d':SECTOR,'aria-hidden':'true'}));
+    g.appendChild(el('path', {'class':'tc-focus','d':SECTOR,'aria-hidden':'true'}));
+
+    /* THE CONTENT ANCHOR, and it is the whole trick. A plain attribute translate out
+       to r=330 — the sector's widest point — so that .tc-c's own local origin IS the
+       point it must counter-rotate about. Counter-rotating about the COLLAR's centre
+       instead would keep the copy upright and stack all six labels at 12 o'clock;
+       counter-rotating about the sector's own anchor keeps the copy upright AND on
+       its sector. Every y below is measured from here: y = 330 − r. */
+    var anchor = el('g', {'transform':'translate(0,' + (-R_ANCHOR) + ')','aria-hidden':'true'});
+    var c = el('g', {'class':'tc-c'});
+
+    /* overview label: number · gold rule · short title.
+       Multi-line runs are tspans with an em dy, never separate <text> elements at
+       fixed y's — the type scale is written from the measured stage (see layout),
+       so a hard-coded line gap collapses the moment the copy grows. */
+    var ov = el('g', {'class':'tc-ov'});
+    ov.appendChild(el('text', {'class':'tc-num','x':'0','y':'-24'}, st.n));
+    ov.appendChild(el('line', {'class':'tc-rule','x1':'-32','y1':'10','x2':'32','y2':'10'}));
+    var ovT = el('text', {'class':'tc-ttl','x':'0'});
+    st.short.forEach(function(line, k){
+      ovT.appendChild(el('tspan', {'x':'0','dy': k ? '1.16em' : '0'}, line));
+    });
+    ov.appendChild(ovT);
+    c.appendChild(ov);
+
+    /* detail: number · rule · title · timing · copy · symbol.
+       Every y is measured from the anchor at r=330, so y = 330 − r. */
+    var dt = el('g', {'class':'tc-dt'});
+    dt.appendChild(el('text', {'class':'tc-num','x':'0','y':'-110'}, st.n));
+    dt.appendChild(el('line', {'class':'tc-rule','x1':'-40','y1':'-84','x2':'40','y2':'-84'}));
+    dt.appendChild(el('text', {'class':'tc-ttl tc-ttl--dt','x':'0','y':'-52'}, st.title));
+
+    var time = el('g', {'transform':'translate(0,-20)'});
+    if(st.clock){
+      /* the clock rides with the words: half the label's width to its left, so the
+         pair stays optically centred on the sector's axis at every step */
+      var w = st.time.length * 7.4;
+      time.appendChild(el('g', {'transform':'translate(' + (-(w/2) - 11) + ',-4.6)'},
+        '<circle class="tc-ic-goldline" style="stroke-width:1.6" cx="0" cy="0" r="7.4"/>'
+        + '<path class="tc-ic-goldline" style="stroke-width:1.6" d="M0,-4 V0.4 L3.2,2.6"/>'));
+      time.appendChild(el('text', {'class':'tc-time','x':(11),'y':'0'}, st.time));
+    } else {
+      time.appendChild(el('text', {'class':'tc-time','x':'0','y':'0'}, st.time));
+    }
+    dt.appendChild(time);
+
+    /* ⚠️ THE BODY BLOCK IS TOP-ALIGNED, THE OVERVIEW LABEL IS CENTRED, and the
+       difference is not a style choice. The body hangs from a fixed first line just
+       under the timing: the sector is widest at r=406 and closes steadily below it, so
+       starting high is what buys the copy its width. Centring it would push a
+       five-line step further down into the taper and cost every OTHER step its reading
+       size, because one type scale serves all six. The overview label is centred
+       because it counter-rotates — a block centred on its own pivot sweeps the
+       smallest circle, and that is what keeps it inside a sector seated at 120°. */
+    var bodyT = el('text', {'class':'tc-body','x':'0'});
+    st.body.forEach(function(line, k){
+      bodyT.appendChild(el('tspan', {'x':'0','dy': k ? '1.45em' : '0'}, line));
+    });
+    dt.appendChild(bodyT);
+
+    BODY.push({t:bodyT, n:st.body.length});
+    RUNS.push({t:ovT, n:st.short.length, mid:46, lh:1.16});
+    c.appendChild(dt);
+
+    anchor.appendChild(c);
+    g.appendChild(anchor);
+    ring.appendChild(g);
+  });
+
+  /* the hub is drawn LAST so the six sector bases tuck behind it, exactly as they do
+     in the overview reference. It is a circle at the collar's centre and it is never,
+     at any state, part of a sector. */
+  /* THE KNURL TURNS WITH THE COLLAR, and it is not decoration: six identical sectors
+     under a fixed mark could be at any rotation at all, and a moving knurl is the thing
+     that makes the turn legible. Cheapest honest way to say "this ring moved". */
+  var knurl = el('g', {'class':'tc-knurl','aria-hidden':'true'});
+  for(var kk = 0; kk < 120; kk++){
+    var ka = kk * 3 * Math.PI / 180, ks = Math.sin(ka), kc = -Math.cos(ka);
+    knurl.appendChild(el('line', {'x1':(R_OUT*ks).toFixed(1), 'y1':(R_OUT*kc).toFixed(1),
+      'x2':((R_OUT+14)*ks).toFixed(1), 'y2':((R_OUT+14)*kc).toFixed(1)}));
+  }
+  ring.appendChild(knurl);
+
+  ring.appendChild(el('circle', {'class':'tc-hub-c','cx':'0','cy':'0','r':R_HUB,'aria-hidden':'true'}));
+
+  var segs = [].slice.call(ring.querySelectorAll('.tc-seg'));
+
+  /* ── how wide is the sector at radius r? ───────────────────────────────────
+     Asked of the PATH, by binary search on isPointInFill — not of a formula. The
+     silhouette is four cubics; anything that re-draws it (a softer taper, a rounder
+     dome) changes these numbers, and a hard-coded table would go quietly stale while
+     the copy started crossing the gold edge. This way the fit follows the shape. */
+  var probeShape = segs[0].querySelector('.tc-shape');
+  var HW_CACHE = {};
+  function halfWidthAt(r){
+    var key = Math.round(r);
+    if(HW_CACHE[key] != null) return HW_CACHE[key];
+    var lo = 0, hi = HW + 6;
+    if(!probeShape.isPointInFill(new DOMPoint(0, -r))) return (HW_CACHE[key] = 0);
+    for(var k = 0; k < 15; k++){
+      var mid = (lo + hi) / 2;
+      if(probeShape.isPointInFill(new DOMPoint(mid, -r))) lo = mid; else hi = mid;
+    }
+    return (HW_CACHE[key] = lo);
+  }
+
+  /* every line of copy that has to stay inside the curve, with the baseline it sits
+     on. y is measured from the anchor at r=330, so the radius is 330 − y. */
+  function runsFor(p){
+    var out = [];
+    [].forEach.call(p.querySelectorAll('.tc-dt text, .tc-ov text'), function(t){
+      var spans = t.querySelectorAll('tspan');
+      var base = parseFloat(t.getAttribute('y')) || 0;
+      var lh = t.classList.contains('tc-body') ? 1.45 : 1.16;
+      /* which type root does this line hang off? The three are clamped SEPARATELY —
+         see fitFactor for why sharing one factor is wrong. */
+      var root = (t.closest && t.closest('.tc-ov')) ? 'ov'
+               : t.classList.contains('tc-ttl--dt') ? 'ttl'
+               : t.classList.contains('tc-num') ? 'num' : 'fs';
+      if(!spans.length){ out.push({el:t, y:base, root:root}); return; }
+      var fs = parseFloat(getComputedStyle(t).fontSize) || 14;
+      [].forEach.call(spans, function(sp, k){
+        out.push({el:sp, y:base + k * lh * fs, root:root}); });
+    });
+    return out;
+  }
+
+  /* ── state ───────────────────────────────────────────────────────────────── */
+  var idx = 0, mode = 'overview', openedFrom = 0, turnTimer = 0;
+  var mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  function active(){ return ((idx % 6) + 6) % 6; }
+
+  function apply(turning){
+    var a = active();
+    root.style.setProperty('--tc-idx', idx);
+    root.setAttribute('data-mode', mode);
+    root.setAttribute('data-active', a);
+    root.setAttribute('data-turning', turning ? '1' : '0');
+    clearTimeout(turnTimer);
+    if(turning){
+      var d = mq.matches ? 1 : parseFloat(getComputedStyle(root).getPropertyValue('--tc-turn')) || 640;
+      turnTimer = setTimeout(function(){ root.setAttribute('data-turning','0'); }, d + 60);
+    }
+    segs.forEach(function(p, i){
+      if(i === a) p.setAttribute('data-on',''); else p.removeAttribute('data-on');
+      /* in detail the two cropped neighbours are scenery, not tab stops — Prev/Next
+         and the arrow keys are how a keyboard moves between steps there */
+      p.setAttribute('tabindex', mode === 'overview' ? '0' : (i === a ? '0' : '-1'));
+      p.setAttribute('aria-label', 'Step ' + (i+1) + ' of 6: ' + STEPS[i].title + ', ' + STEPS[i].time);
+    });
+    /* the labels are written BEFORE layout, because layout clamps them to the stage
+       and cannot measure a string it has not been given yet */
+    if(mode === 'detail'){
+      var s = STEPS[a];
+      live.textContent = 'Step ' + (a+1) + ' of 6. ' + s.title + '. ' + s.time + '. ' + s.body.join(' ');
+      lblPrev.textContent = STEPS[(a+5)%6].short.join(' ');
+      lblNext.textContent = STEPS[(a+1)%6].short.join(' ');
+      navPrev.setAttribute('aria-label','Previous step: ' + STEPS[(a+5)%6].title);
+      navNext.setAttribute('aria-label','Next step: ' + STEPS[(a+1)%6].title);
+    } else {
+      live.textContent = 'All six steps.';
+    }
+    layout();
+  }
+
+  function open(i, viaKeyboard){
+    openedFrom = i;
+    /* take the short way round: sector 5 opens by turning +60°, not −300° */
+    var d = ((i - active()) % 6 + 6) % 6;
+    idx += (d > 3 ? d - 6 : d);
+    mode = 'detail';
+    apply(false);
+    if(viaKeyboard !== false) segs[active()].focus();
+  }
+  function step(dir){
+    if(mode !== 'detail') return;
+    idx += dir;
+    apply(true);
+  }
+  function overview(refocus){
+    /* unwind to the nearest whole turn so the collar comes to rest on 01 at 12
+       o'clock without ever spinning more than half a turn to get there */
+    idx = Math.round(idx / 6) * 6;
+    mode = 'overview';
+    apply(false);
+    if(refocus) segs[openedFrom].focus();
+  }
+
+  /* ── the controls that sit on the hub ────────────────────────────────────── */
+  var cta     = ui.querySelector('.tc-cta');
+  var navAll  = ui.querySelector('.tc-all');
+  var navPrev = ui.querySelector('.tc-prev');
+  var navNext = ui.querySelector('.tc-next');
+  var hint    = ui.querySelector('.tc-hint');
+  var lblPrev = ui.querySelector('.tc-arw-l--prev');
+  var lblNext = ui.querySelector('.tc-arw-l--next');
+
+  /* ── camera + overlay placement, measured from the stage ─────────────────── */
+  var cam = {ov:null, dt:null};
+
+  function recentre(){
+    RUNS.forEach(function(r){
+      var fs = parseFloat(getComputedStyle(r.t).fontSize) || 14;
+      r.t.setAttribute('y', (r.mid - (r.n - 1) * r.lh * fs / 2).toFixed(2));
+    });
+    BODY.forEach(function(r){
+      var fs = parseFloat(getComputedStyle(r.t).fontSize) || 14;
+      r.t.setAttribute('y', BODY_TOP);
+    });
+  }
+
+  /* The largest fraction of the current type scale at which EVERY line still clears
+     the curve, computed PER ROOT. 1 means nothing to do.
+
+     ⚠️ ONE SHARED FACTOR IS WRONG, and it is worth saying why. The detail title runs
+     1.76× the body and is the widest thing on the sector, so it is almost always what
+     binds. Scale the whole ladder by the title's factor and the BODY — the one run
+     with an accessibility floor under it — gets dragged to 14px on a phone to make
+     room for a heading that had spare contrast to give. Clamping the roots separately
+     costs a little of the type ratio on small screens and keeps the reading size. */
+  function fitFactor(){
+    var k = {fs:1, ttl:1, num:1, ov:1, worst:{}};
+    segs.forEach(function(p){
+      runsFor(p).forEach(function(run){
+        /* ⚠️ ASK THE GLYPHS, DO NOT MODEL THEM. getBBox gives the line's real inked
+           box in the sector's own coordinates — advance width plus a guessed descender
+           is close, and "close" is what let a last line cross the edge on a 360px
+           phone while this function reported it fitting. */
+        var b;
+        try { b = run.el.getBBox(); } catch(e) { return; }
+        if(!b || !b.width) return;
+        /* BOTH ends of the line box matter, and which one binds depends on where the
+           line sits: past the sector's widest radius (406) the curve closes going OUT,
+           so a NUMBER set high on the sector is pinched by its ascender, while a line
+           of body copy low down is pinched by its descender. Take the tighter. */
+        var avail = Math.min(halfWidthAt(R_ANCHOR - b.y),
+                             halfWidthAt(R_ANCHOR - (b.y + b.height))) * 2 * PAD;
+        if(avail > 0 && b.width > avail){
+          var f = avail / b.width;
+          if(f < k[run.root]){ k[run.root] = f;
+            k.worst[run.root] = run.el.textContent + ' [w' + b.width.toFixed(0)
+              + ' avail' + avail.toFixed(0) + ' r' + (R_ANCHOR - b.y).toFixed(0)
+              + '→' + (R_ANCHOR - b.y - b.height).toFixed(0) + ']'; }
+        }
+      });
+    });
+    return k;
+  }
+  function layout(){
+    var W = stage.clientWidth, H = stage.clientHeight;
+    if(!W || !H) return;
+    var s0 = Math.min(W, H) / VB;                 /* px per user unit at scale 1     */
+    var ox = (W - VB * s0) / 2, oy = (H - VB * s0) / 2;
+    var vw = W / s0, vh = H / s0;                 /* the visible window, in units    */
+    var portrait = vw < vh;
+
+    /* overview — fit the whole collar, with room for the labels to breathe. A phone
+       is allowed to overrun its width a little (the handover's 118–132vw); 112% is
+       where the labels at r=390 still clear the edge instead of being shaved. */
+    var REACH = 590;   /* the index mark, not the collar, is the outermost thing here —
+                          size on the collar and the one element that says "this is the
+                          reading" is the one element that gets clipped */
+    var so = portrait ? (vw * 1.02) / (REACH * 2)
+                      : Math.min(vw, vh) * 0.96 / (REACH * 2);
+    /* the collar is drawn around ITS OWN (0,0); the camera is what puts that point
+       where the composition needs it. Overview: dead centre of the viewBox. */
+    cam.ov = {s:so, tx:CX, ty:CY};
+
+    /* detail — the active sector fills the upper ~72% of the stage, capped so a
+       narrow phone never pushes the sector wider than 94vw */
+    /* 0.86 of the stage's height is the reference composition — sector top at ~5%,
+       base at ~91%, hub cap over the last tenth. It is also what stops a SHORT phone
+       (a 360×640 lands a 460px stage) from being height-capped so hard that the sector
+       only reaches 79% of the width and the copy has nowhere to go. */
+    /* ⚠️ THIS CAMERA IS WIDTH-LED WHERE THE FLOWER'S WAS HEIGHT-LED, because a sector
+       is wide and shallow — 350 deep against 500 across. On any portrait phone the width
+       cap binds and the sector's on-screen HEIGHT falls out of it; that height is the
+       entire copy budget, which is why this device carries no per-step symbol.
+       ⚠️ 1.16 ON PORTRAIT IS DELIBERATE OVERFLOW, and it runs opposite to intuition: a
+       BIGGER camera means fewer user units per rendered pixel, so the copy needs fewer
+       units to clear 16px and MORE characters fit on a line. What it costs is a few per
+       cent of the sector's outer corners at the stage edges — invisible on an arc. Drop
+       it to 0.94 "to tidy up" and the harness will report what that bought: tidiness,
+       and 14px body copy. */
+    var sd = Math.min((0.72 * vh) / (R_OUT - R_IN),
+                      ((portrait ? 1.16 : 0.94) * vw) / (HW * 2));
+    /* the sector's broad end sits 5% down from the top of the stage; everything else
+       — hub position, where the arrows land — follows from that one decision */
+    var hubY = CY - vh/2 + (0.05 * vh) + R_OUT * sd;
+    cam.dt = {s:sd, tx:CX, ty:hubY};
+
+    /* ⚠️ THE TYPE SCALE IS DERIVED, NOT DECLARED. A font-size in user units renders at
+       size × camera × (stage ÷ 1160), and the detail camera is capped by HEIGHT on a
+       desktop and by WIDTH on a phone — so one declared size lands on wildly different
+       pixels. Work backwards instead: pick the pixel size the reader should get, then
+       divide by the live px-per-unit. This is what holds body copy at 16px on a
+       360-wide phone and 19px on a desktop with ONE set of authored line breaks. */
+    /* the 17.4 floor is deliberately ABOVE the 16px requirement: the fit clamp below
+       can take a few per cent off to protect the silhouette, and the headroom is what
+       keeps that from eating into the accessibility floor on a 360px phone. */
+    var pxBody = Math.max(16.4, Math.min(20.0, Math.min(W, H) * 0.027));
+    /* ⚠️ THE NEIGHBOUR LABELS ARE SIZED FROM WHICHEVER CAMERA IS LIVE, so they stay
+       the same size on screen in both modes. It looks like a violation of the rigid
+       scene and it is the opposite: in detail the camera magnifies everything ~2.4×,
+       and a label that rides that up becomes a 40px word shouting from a cropped
+       background sector — which is exactly what the corrected reference images do NOT
+       show. Scale-compensating the two labels keeps them reading as what they are:
+       the names of the steps either side, at a glance, out of the way. */
+    var pxOv = Math.max(13.5, Math.min(18.5, Math.min(W, H) * 0.023));
+    var pxOvD = Math.max(11, Math.min(14.5, Math.min(W, H) * 0.016));
+    var uBody = pxBody / (sd * s0), uOv = pxOv / (so * s0);
+    root.style.setProperty('--tc-fs',     uBody.toFixed(3) + 'px');
+    root.style.setProperty('--tc-fs-ttl', (uBody * 1.62).toFixed(3) + 'px');
+    root.style.setProperty('--tc-fs-num', (uBody * 2.40).toFixed(3) + 'px');
+    root.style.setProperty('--tc-fs-ov',  uOv.toFixed(3) + 'px');
+    /* ⚠️ ONE NUMBER SHRINKS THE WHOLE LABEL, not just its type. Scaling the font alone
+       left each label's gold rule at full size — a 40px stroke under an 11px word.
+       .tc-ov is scaled as a group about its own anchor, so number, rule and title keep
+       their proportions and the transition has one thing to interpolate. */
+    root.style.setProperty('--tc-ov-k',
+      (mode === 'detail' ? (pxOvD * so) / (pxOv * sd) : 1).toFixed(4));
+
+    recentre();
+
+    /* ⚠️ AND NOW THE COPY IS MADE TO FIT, BY MEASUREMENT. The legibility target above
+       says how big the reader needs the words; the silhouette says how big they are
+       allowed to be. On a 360px phone those two disagree — the camera is capped by the
+       stage's width, so the sector cannot grow to meet the type — and the curve has to
+       win, because copy crossing the gold edge is a broken page while copy at 16.2px
+       instead of 16.8px is a page. Measured with getComputedTextLength against the
+       real font, so a font swap or a copy edit re-fits instead of quietly spilling. */
+    var k = fitFactor();
+    window.__tcFit = k;   /* read by tools/qa/collar-journey.mjs */
+    if(k.fs < 1 || k.ttl < 1 || k.num < 1 || k.ov < 1){
+      root.style.setProperty('--tc-fs',     (uBody * k.fs).toFixed(3) + 'px');
+      root.style.setProperty('--tc-fs-ttl', (uBody * 1.62 * k.ttl).toFixed(3) + 'px');
+      root.style.setProperty('--tc-fs-num', (uBody * 2.40 * k.num).toFixed(3) + 'px');
+      root.style.setProperty('--tc-fs-ov',  (uOv * k.ov).toFixed(3) + 'px');
+      recentre();
+    }
+
+    var c = (mode === 'detail') ? cam.dt : cam.ov;
+    root.style.setProperty('--tc-s', c.s);
+    root.style.setProperty('--tc-ty', c.ty.toFixed(2) + 'px');
+    root.style.setProperty('--tc-tx', c.tx.toFixed(2) + 'px');
+
+    function px(x, y, k){ return {x: ox + s0*(k.tx + k.s*x), y: oy + s0*(k.ty + k.s*y)}; }
+
+    /* overview: the booking hub, dead centre */
+    var hubO = px(0, 0, cam.ov), rO = R_HUB * cam.ov.s * s0;
+    cta.style.left = hubO.x + 'px'; cta.style.top = hubO.y + 'px';
+    cta.style.setProperty('--tc-hub', (rO * 2) + 'px');
+
+    /* detail: the hub arrives below the sector and is cropped by the stage floor.
+       Everything in the control cluster is placed off its VISIBLE CAP, not off its
+       centre — the centre is usually below the stage and would put the label
+       off-screen on a phone. */
+    var hubD = px(0, 0, cam.dt), rD = R_HUB * cam.dt.s * s0;
+    var capTop = hubD.y - rD, capBot = Math.min(H, hubD.y + rD);
+    var capH = Math.max(24, capBot - capTop);
+
+    navAll.style.left = hubD.x + 'px';
+    navAll.style.top  = (capTop + capH * 0.36) + 'px';
+    navAll.style.setProperty('--tc-hub', Math.max(56, Math.min(rD * 1.05, capH * 0.72)) + 'px');
+
+    var aR = window.innerWidth <= 640 ? 23 : 30;      /* 46px / 60px targets */
+    var aY = capTop + capH * 0.16;
+    var off = rD + aR + (window.innerWidth <= 640 ? 12 : 20);
+    var lx = Math.max(aR + 10, hubD.x - off);
+    var rx = Math.min(W - aR - 10, hubD.x + off);
+    navPrev.style.left = lx + 'px'; navPrev.style.top = aY + 'px';
+    navNext.style.left = rx + 'px'; navNext.style.top = aY + 'px';
+    ui.style.setProperty('--tc-btn', (aR * 2) + 'px');
+
+    /* Each label wants to sit under its arrow. Two things can stop it, and both are
+       resolved here rather than hoped away:
+         1. THE STAGE EDGE — on a phone the hub is nearly as wide as the viewport, so
+            the arrows end up against the sides and a label centred on its button runs
+            off. Where the arrow and the stage disagree, the stage wins.
+         2. THE HUB — below the arrow is often burgundy, and ink-on-burgundy is not a
+            contrast decision anybody wins. If the label's box would cross the hub's
+            top arc (computed, not guessed — the arc's height falls away with distance
+            from the centre) it flips ABOVE the arrow, onto the ivory. */
+    [[lblPrev, lx], [lblNext, rx]].forEach(function(pair){
+      var lab = pair[0], lw = lab.offsetWidth || 60, lh = lab.offsetHeight || 16;
+      var x = Math.max(lw / 2 + 11, Math.min(W - lw / 2 - 11, pair[1]));
+      lab.style.left = x + 'px';
+      /* measure from the label's NEAREST EDGE to the hub's axis, not from its centre:
+         the corner that lands on burgundy is the inner one, and a wide label reaches
+         the hub long before its middle does */
+      var dx = Math.max(Math.abs(x - hubD.x) - lw / 2, 0);
+      var arcY = dx < rD ? hubD.y - Math.sqrt(rD * rD - dx * dx) : Infinity;
+      var below = aY + aR + 8;
+      lab.style.top = (below + lh <= arcY ? below : aY - aR - 8 - lh) + 'px';
+    });
+
+    hint.style.left = hubD.x + 'px';
+    hint.style.top  = Math.min(H - 24, capTop + capH * 0.62) + 'px';
+  }
+
+  /* ── input ───────────────────────────────────────────────────────────────── */
+  segs.forEach(function(p, i){
+    p.addEventListener('click', function(){ if(mode === 'overview') open(i, false); });
+    p.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar'){
+        e.preventDefault();
+        if(mode === 'overview') open(i, true);
+      }
+    });
+  });
+  navPrev.addEventListener('click', function(){ step(-1); });
+  navNext.addEventListener('click', function(){ step(1); });
+  navAll.addEventListener('click', function(){ overview(true); });
+  /* the hub circle itself is the same control as the word sitting on it */
+  var hubCircle = ring.querySelector('.tc-hub-c');
+  hubCircle.addEventListener('click', function(){ if(mode === 'detail') overview(true); });
+
+  root.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && mode === 'detail'){ e.preventDefault(); overview(true); return; }
+    if(mode !== 'detail') return;
+    if(e.key === 'ArrowRight'){ e.preventDefault(); step(1); }
+    else if(e.key === 'ArrowLeft'){ e.preventDefault(); step(-1); }
+  });
+
+  /* swipe: 48px and a velocity check, so a slow scroll that drifts sideways is not
+     read as a step change. A deliberate downward drag is the touch equivalent of
+     Escape. touch-action:pan-y on the stage keeps the page scrollable throughout. */
+  var t0 = null;
+  stage.addEventListener('touchstart', function(e){
+    if(e.touches.length !== 1) { t0 = null; return; }
+    t0 = {x:e.touches[0].clientX, y:e.touches[0].clientY, t:e.timeStamp};
+  }, {passive:true});
+  stage.addEventListener('touchend', function(e){
+    if(!t0) return;
+    var t = e.changedTouches[0];
+    var dx = t.clientX - t0.x, dy = t.clientY - t0.y, dt = Math.max(1, e.timeStamp - t0.t);
+    t0 = null;
+    if(mode !== 'detail') return;
+    if(Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.2
+       && (Math.abs(dx) / dt > 0.25 || Math.abs(dx) > 96)){
+      step(dx < 0 ? 1 : -1);
+    } else if(dy > 70 && Math.abs(dy) > Math.abs(dx) * 1.6){
+      overview(false);
+    }
+  }, {passive:true});
+
+  var rt;
+  window.addEventListener('resize', function(){
+    clearTimeout(rt); rt = setTimeout(layout, 90);
+  });
+  if(window.ResizeObserver) new ResizeObserver(layout).observe(stage);
+
+  root.classList.add('tc-on');
+  apply(false);
+  layout();
+  /* the web fonts land after first paint, and every width above was measured against
+     whatever face was mounted at the time. Re-fit once they are really here. */
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
+})();
+</script>

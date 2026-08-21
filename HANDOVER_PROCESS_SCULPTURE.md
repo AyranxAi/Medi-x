@@ -87,6 +87,8 @@ Edit one, copy to the other; `md5` the blocks to prove parity.
 | desktop slot map | plate 66 cqw at −23.68° r 15.833; leaves 43 cqw at −105.06°/33.480 · −135.08°/31.072 · −180°/30 · −226.97°/27.551 · −264.03°/34.638, `--prot` 12/−27/−81/−157/168 | `.ps-arm[data-slot]` |
 | phone slot map | stage 1/1.25; plate 66 cqw at −10.42° r 17.285, −18°; leaves 50 cqw at −92.01°/37.148 · −136.60°/31.655 · −185.71°/25.125 · −235.56°/31.829 · −282.77°/38.451 | `@media(max-width:900px)` |
 | the grow's timing | delay 0 / dur `--ps-dur` (travel) · .55/.55 (late) · .92/.50 (arrive), × `--ps-dur` | `--ps-grow-delay`, `--ps-grow-dur` |
+| the overlap dials | ring radius × `--pspread`, resting-leaf width × `--pleaf` (the plate keeps its measured width); both 1 = the client's composition | `.ps-reach`, `.ps-arm{--pleafx}` |
+| depth (the stack) | seat `z-index` read as a target and glided, 16 px per 1000 of stage width between layers | `pc.lay`, `GAP` |
 | stacking | plate 10; Assessment 4, Blood work 2, Choose 5, Prescription 3, Aftercare 6 (1-3-5 in front of 2-4, as the render) | `--pz` |
 | resting label | Playfair 380, 2.55 cqw (16–22 px), seated toward each petal's tip | `.ps-lbl`, per-slot `--lox/--loy` |
 | phone card copy | `short` per step (the render's own sentence for 04) | `STEPS[].short`, `.ps-card-p--m` |
@@ -122,20 +124,45 @@ around the flower. Under the old ordinal rule, step 04 read 1, 2, 3, 5, 6 with 4
 
 **Still open — he asked to see these, and the contact sheets are in `.qa-out/flower/`:**
 
+- **The pace.** 850ms is too fast for him and `?slow=1` (6000ms) too slow — his words,
+  2026-08-21. `?dur=NNNN` sets it live; nothing is decided yet.
+- **The overlap** — his question, "should it be on top of each other as it is right now?"
+  `?leaf=` and `?spread=` explore it without re-tracing a seat. Sheet: `the-overlap.png`.
 - **When the arriving petal grows** — `?grow=travel` (default, swells along the arc),
   `?grow=late` (last third), `?grow=arrive` (blooms after landing).
+  ⚠️ If `late` or `arrive` wins, **the card's fade-in must be re-timed too** — it runs off
+  `--ps-dur` (0.45 × dur), so the copy currently arrives before the petal is big enough to
+  hold it and spills past the edge. Visible at 50% in rows B and C of `the-grow.png`.
 - **What the resting labels do** — `?labels=upright` (default, what it does today),
   `?labels=turn` (glued to the petal), `?labels=fade` (gone while anything moves).
   ⚠️ `turn` leaves four of the five labels unreadable **at rest**, not only mid-turn,
   because `--prot` at slots 3/4/5 is −81°/−157°/168°. The sheet shows it.
 
-Regenerate the sheets with `node tools/qa/flower-frames.mjs`. It does **not** race the
-clock — screenshot latency under software GL is seconds, which smeared every frame on the
-first attempt. It scrubs instead: CSS transitions are Web Animations, so each is paused and
-its `currentTime` set, the 3D layer's two tweens are placed by hand at the same fraction,
-and `--ps-dur` is then stretched to freeze the layer's own clock.
+Regenerate the sheets with `node tools/qa/flower-frames.mjs` (or `… grow|labels|overlap`).
 
-⚠️ **A latent bug came out of this and is fixed:** the render loop ran on a wall-clock
+⚠️ **Two traps that both produced confident, wrong sheets before they were caught:**
+1. **Do not RACE the clock.** Under software GL one screenshot costs seconds, so sampling a
+   running animation returns six identical settled frames. The rig SCRUBS: CSS transitions
+   are Web Animations, so each is paused and its `currentTime` set; the layer's three tweens
+   (`rot`, `inf`, `lay`) are placed by hand at the same fraction; `--ps-dur` is then
+   stretched to freeze the layer's own clock.
+2. **Do not replay a scrubbed flower.** Re-seating it to shoot the next frame leaves paused
+   animations and a part-turned state behind — rows drifted out of phase with each other
+   (the maroon sat at a different stage in each row, which is what exposed it). **Every
+   frame now comes from a fresh page load.** Slower; the only way the rows are comparable.
+
+⚠️ **THE STACK GLITCH (his report: "a glitch… I'm referring to the shadow"), fixed.**
+`z-index` is a stepped property — it cannot transition — and a turn changes every piece's
+slot at once, so **all six depths snapped in a single frame** at the start of the turn
+(traced: petal 2 jumped 43.7 → 106.2, petal 4 dropped 54.1 → 22.8). A second jump followed
+**mid-journey** when `.ps-arm.was-on` released the outgoing piece from z-index 9 back to its
+seat at 55%. Depth drives shadow distance and blur under the two VSM lights, so both read as
+the shadow snapping. The 3D layer now GLIDES depth on the same curve as everything else
+(`pc.lay`), and the `.was-on` pin is retired — a piece leaving slot 0 for slot 5 passes
+through 9, 8, 7 by itself, which is what that beat was miming. The one CSS line is kept in a
+comment if the fold-away is ever wanted back.
+
+⚠️ **A second latent bug came out of this and is fixed:** the render loop ran on a wall-clock
 deadline (`busyUntil`), so on a slow device a frame could outlast it and **the flower froze
 part-turned**. It was intermittent in the harness before anyone saw it on a phone. The loop
 now runs until the boxes actually stop moving (`dirty`, set by watching each box's rect),

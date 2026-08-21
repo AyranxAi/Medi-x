@@ -689,7 +689,7 @@ section{position:relative}
 }
 .ps-reach{
   position:absolute;left:0;top:0;width:0;height:0;
-  transform:translateX(var(--prad));
+  transform:translateX(calc(var(--prad) * var(--pspread,1)));
   transition:transform var(--ps-dur) var(--ps-ease);
 }
 .ps-cage{
@@ -697,8 +697,13 @@ section{position:relative}
   transform:rotate(calc(-1 * (var(--pang) + var(--pturn,0turn))));
   transition:transform var(--ps-dur) var(--ps-ease);
 }
+/* --pspread pushes the whole ring out; --pleaf resizes the RESTING leaves only
+   (the plate keeps its measured width). Both are 1 in the client's composition —
+   they exist so the overlap can be judged without re-tracing the seats. */
+.ps-arm{--pleafx:var(--pleaf,1)}
+.ps-arm[data-slot="0"]{--pleafx:1}
 .ps-petal{
-  position:absolute;left:0;top:0;width:var(--pw);aspect-ratio:var(--pa,1);
+  position:absolute;left:0;top:0;width:calc(var(--pw) * var(--pleafx,1));aspect-ratio:var(--pa,1);
   transform:translate(-50%,-50%) scale(var(--pb,1));
   transition:transform var(--ps-dur) var(--ps-ease),
              width var(--ps-grow-dur,var(--ps-dur)) var(--ps-ease) var(--ps-grow-delay,0ms),
@@ -730,7 +735,11 @@ section{position:relative}
 .ps-arm[data-slot="3"]{--pw:43cqw;--pa:1;--pang:-180deg;--prad:30cqw;--pz:5;--prot:-81deg}          /* left */
 .ps-arm[data-slot="4"]{--pw:43cqw;--pa:1;--pang:-226.97deg;--prad:27.551cqw;--pz:3;--prot:-157deg}  /* lower-left */
 .ps-arm[data-slot="5"]{--pw:43cqw;--pa:1;--pang:-264.03deg;--prad:34.638cqw;--pz:6;--prot:168deg}   /* bottom */
-.ps-arm.was-on{z-index:9}      /* the outgoing piece folds away IN FRONT of the rest */
+/* .ps-arm.was-on used to pin the outgoing piece at z-index 9 and drop it at 55%.
+   With the whole flower turning that drop landed MID-JOURNEY and popped the piece's
+   shadow. The 3D layer now GLIDES depth (see "the stack" in the layer), so a piece
+   leaving slot 0 for slot 5 passes through 9, 8, 7 by itself. Restore this one line
+   if the fold-away beat is ever wanted back. */
 .ps-arm.is-release{--pb:1.015;transition-duration:130ms}
 .ps-arm:not(.is-on):hover{--pb:1.02}
 
@@ -4596,7 +4605,8 @@ try{
         [body,back].forEach(function(mm){ mm.castShadow = true; mm.receiveShadow = true; g.add(mm); });
         scene.add(g);
         return {el:el, box:el.querySelector('.ps-petal'), g:g, body:body, back:back,
-                rot:null, rotFrom:0, rotTo:0, rotT0:0, inf:null, infFrom:0, infTo:0, infT0:0};
+                rot:null, rotFrom:0, rotTo:0, rotT0:0, inf:null, infFrom:0, infTo:0, infT0:0,
+                lay:null, layFrom:0, layTo:0, layT0:0};
       });
 
       var W = 1, H = 1, dpr = 1;
@@ -4651,6 +4661,10 @@ try{
              mesh turns the way the flower turned, never the short way home */
           var rot = -((parseFloat(cs.getPropertyValue('--prot')) || 0)
                     + (parseFloat(cs.getPropertyValue('--protturn')) || 0) * 360) * Math.PI/180;
+          /* THE STACK. z-index is stepped — it cannot transition — and a turn changes
+             every piece's slot at once, so all six depths used to snap in a single
+             frame and every shadow snapped with them. Read the seat's layer as a
+             TARGET and glide to it on the same curve as everything else. */
           var layer = parseInt(cs.zIndex, 10) || 0;
           if(pc.rot === null){ pc.rot = rot; pc.rotTo = rot; }
           if(rot !== pc.rotTo){ pc.rotFrom = pc.rot; pc.rotTo = rot; pc.rotT0 = now; }
@@ -4670,15 +4684,21 @@ try{
             pc.inf = ti >= 1 ? pc.infTo : pc.infFrom + (pc.infTo - pc.infFrom)*easeOut(ti);
           }
           pc.body.morphTargetInfluences[0] = pc.inf; pc.back.morphTargetInfluences[0] = pc.inf;
+          if(pc.lay === null){ pc.lay = layer; pc.layTo = layer; }
+          if(layer !== pc.layTo){ pc.layFrom = pc.lay; pc.layTo = layer; pc.layT0 = now; }
+          if(pc.lay !== pc.layTo){
+            var tl = M.clamp((now - pc.layT0)/dur, 0, 1);
+            pc.lay = tl >= 1 ? pc.layTo : pc.layFrom + (pc.layTo - pc.layFrom)*easeOut(tl);
+          }
           var cx = r.left + r.width/2 - sr.left, cy = r.top + r.height/2 - sr.top;
           var s = r.width/1000;
-          pc.g.position.set(cx, -cy, layer*GAP*W/1000 + 2);
+          pc.g.position.set(cx, -cy, pc.lay*GAP*W/1000 + 2);
           pc.g.rotation.z = pc.rot; pc.g.scale.set(s,s,s);
           /* CSS owns the box; the only honest way to know it has stopped is to
              watch it. This also covers any easing the layer does not model. */
           var key = cx.toFixed(2)+':'+cy.toFixed(2)+':'+r.width.toFixed(2);
           if(key !== pc.key){ pc.key = key; dirty = true; }
-          if(pc.inf !== pc.infTo || pc.rot !== pc.rotTo) dirty = true;
+          if(pc.inf !== pc.infTo || pc.rot !== pc.rotTo || pc.lay !== pc.layTo) dirty = true;
         });
       }
       var busyUntil = 0, raf = 0, t0 = performance.now();
@@ -4698,7 +4718,7 @@ try{
       wake(200);
       window.__ps3d = {renderer:renderer, scene:scene, pieces:pieces, wake:wake,
         /* for the harness: true once every tween has landed and the loop has drawn its last frame */
-        settled:function(){ return !raf && !dirty && pieces.every(function(pc){ return pc.inf === pc.infTo && pc.rot === pc.rotTo; }); }};
+        settled:function(){ return !raf && !dirty && pieces.every(function(pc){ return pc.inf === pc.infTo && pc.rot === pc.rotTo && pc.lay === pc.layTo; }); }};
     }
   })();
 
@@ -4707,6 +4727,12 @@ try{
      live URL can be compared on a real phone instead of in devtools:
        ?grow=travel|late|arrive     ?labels=upright|turn|fade                     */
   if(/[?&]slow=1/.test(location.search)) root.style.setProperty('--ps-dur','6000ms');
+  var qd = /[?&]dur=(\d{2,5})/.exec(location.search);
+  if(qd) root.style.setProperty('--ps-dur', qd[1] + 'ms');
+  ['spread','leaf'].forEach(function(k){                 /* the overlap dials */
+    var m = new RegExp('[?&]' + k + '=(\\d?\\.?\\d+)').exec(location.search);
+    if(m) root.style.setProperty('--p' + k, m[1]);
+  });
   var qg = /[?&]grow=(travel|late|arrive)/.exec(location.search);
   if(qg) root.setAttribute('data-ps-grow', qg[1]);
   var ql = /[?&]labels=(upright|turn|fade)/.exec(location.search);

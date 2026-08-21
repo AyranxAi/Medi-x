@@ -57,6 +57,8 @@ premise and the final frame keeps the waves rolling.**
   verbatim. `?scene=p` and `?probe=1` work as over there.
 
 ### The programme (03)
+**2026-08-21: the six steps now render as the process sculpture — a WebGL flower of porcelain petals shared with `/modern-menopause/`. Its full record, dials and open questions: [`HANDOVER_PROCESS_SCULPTURE.md`](../HANDOVER_PROCESS_SCULPTURE.md). The paragraph below describes the list it replaced (still the `<noscript>` fallback).**
+
 The siblings' `pg-*` grammar promoted to a chapter: six steps left (page-scale
 `--page` modifier), sticky card right. Steps keep the client's recorded order
 correction (doctor CHOSEN at 03, then reads the file). Step 05's cell is a QUANTITY

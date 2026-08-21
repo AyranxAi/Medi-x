@@ -30,7 +30,7 @@ swap says the opposite of what its page is for.
 ## Anatomy
 
 hero (Horizon, drawn — same water as the scene) → define (the door's hook, verbatim) →
-**THE HORIZON** scroll scene (fallback: 8 chips + turn) → **03 menoSTART** (six steps +
+**2026-08-21: 03's six steps render as the process sculpture (WebGL porcelain flower, shared with `/hormone-therapy-bhrt/`) — see [`HANDOVER_PROCESS_SCULPTURE.md`](../HANDOVER_PROCESS_SCULPTURE.md).** **THE HORIZON** scroll scene (fallback: 8 chips + turn) → **03 menoSTART** (six steps +
 card) → **04 the day, mapped** (24-hour dial, armed ≥900px) → **05 the long view**
 (life-bar + three cards) → docs (4) → stories (3) → faq (6) → Irina → footer.
 Grounds alternate ivory/dawn unbroken.

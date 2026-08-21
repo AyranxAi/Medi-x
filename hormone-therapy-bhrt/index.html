@@ -4238,8 +4238,10 @@ try{
         renderer = new THREE.WebGLRenderer({canvas:canvas, context:gl, antialias:true, alpha:true});
       } catch(e){ return; }
       renderer.outputColorSpace = THREE.SRGBColorSpace;
-      renderer.toneMapping = THREE.ACESFilmicToneMapping;
-      renderer.toneMappingExposure = 1.08;
+      /* Neutral, NOT ACES: ACES drags warm ivory toward khaki and the client read
+         it as "expired". Neutral keeps the cream clean and bright. */
+      renderer.toneMapping = THREE.NeutralToneMapping || THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.02;
 
       var OVER = .14;
       canvas.className = 'ps-canvas';
@@ -4252,19 +4254,41 @@ try{
 
       /* one warm key, grazing from the upper left so the round-overs catch it;
          a warm sky; a whisper of low fill. No shadow-casting lights at all. */
-      scene.add(new THREE.HemisphereLight(0xFFF7EA, 0xE2CCB8, 1.0));
-      var key = new THREE.DirectionalLight(0xFFF2DE, 1.9);
-      key.position.set(-55, 85, 105);
+      scene.add(new THREE.HemisphereLight(0xFFFCF5, 0xE3D8CC, .55));
+      /* the key DOMINATES on purpose: the dome gradient — bright crown, shaded
+         lower-right — is the entire reading of form on a near-white object */
+      var key = new THREE.DirectionalLight(0xFFF6E8, 2.3);
+      key.position.set(-55, 85, 70);
       scene.add(key);
-      var fill = new THREE.DirectionalLight(0xFFE3CF, .35);
+      var fill = new THREE.DirectionalLight(0xFFEDE0, .2);
       fill.position.set(60, -25, 80);
       scene.add(fill);
 
+      /* the sheen has to REFLECT something: a tiny studio — warm room, one big
+         softbox upper-left, a tall strip on the right — baked through PMREM and
+         mirrored faintly in every curved surface. This, not brightness, is what
+         reads as porcelain instead of paper. */
+      (function(){
+        var env = new THREE.Scene();
+        env.background = new THREE.Color(0xE8E0D6);
+        function card(w, h, x, y, z){
+          var m = new THREE.Mesh(new THREE.PlaneGeometry(w, h),
+            new THREE.MeshBasicMaterial({color:0xFFFFFF}));
+          m.position.set(x, y, z); m.lookAt(0, 0, 0); env.add(m);
+        }
+        card(70, 50, -45, 65, 45);      /* the softbox */
+        card(26, 70,  60,  5, 30);      /* the right strip — the crescent's sheen */
+        card(60, 24,   0, -70, 30);     /* a low bounce */
+        var pmrem = new THREE.PMREMGenerator(renderer);
+        scene.environment = pmrem.fromScene(env, .05).texture;
+        pmrem.dispose();
+      })();
+
       /* ── materials: soft ceramic — matte faces, the sheen lives on curvature ── */
-      var ivoryMat = new THREE.MeshPhysicalMaterial({color:0xF8F0E0, roughness:.56,
-        metalness:0, clearcoat:.14, clearcoatRoughness:.6});
-      var maroonMat = new THREE.MeshPhysicalMaterial({color:0x6B2136, roughness:.5,
-        metalness:0, clearcoat:.22, clearcoatRoughness:.5});
+      var ivoryMat = new THREE.MeshPhysicalMaterial({color:0xFBF7EE, roughness:.42,
+        metalness:0, clearcoat:.3, clearcoatRoughness:.35, envMapIntensity:.35});
+      var maroonMat = new THREE.MeshPhysicalMaterial({color:0x71263C, roughness:.38,
+        metalness:0, clearcoat:.35, clearcoatRoughness:.3, envMapIntensity:.85});
 
       /* ── the two traced outlines, local units, y up, ~62×74 box ─────────────── */
       function bez(segs, N){
@@ -4280,18 +4304,18 @@ try{
         return pts;
       }
       var PLECTRUM = bez([
-        [[-8,35.5],[0,38],[24,27],[31.5,7]],
-        [[31.5,7],[34,-8],[27,-25],[11,-33.5]],
-        [[11,-33.5],[3,-37],[-9,-36.5],[-18,-29]],
-        [[-18,-29],[-26,-22],[-30,-9],[-30,3]],
-        [[-30,3],[-30,15],[-22,31],[-8,35.5]]
+        [[-10,35],[-1,38],[22,29],[30.5,10]],
+        [[30.5,10],[34,-4],[30,-22],[15,-31.5]],
+        [[15,-31.5],[6,-37],[-7,-37.5],[-15,-31]],
+        [[-15,-31],[-19,-27.5],[-24,-14],[-27,-2]],
+        [[-27,-2],[-29.5,9],[-27,24],[-10,35]]
       ], 40);
       var LEAF = bez([
-        [[0,36],[15,35],[26,25],[28.5,5]],
-        [[28.5,5],[30,-10],[22,-24],[9,-30]],
-        [[9,-30],[3,-34.5],[-3,-35],[-7,-30.5]],
-        [[-7,-30.5],[-19,-25],[-28,-12],[-28.5,4]],
-        [[-28.5,4],[-27.5,24],[-14,35],[0,36]]
+        [[0,36.5],[13,36],[23,26],[26,7]],
+        [[26,7],[28,-9],[21,-24],[10,-31]],
+        [[10,-31],[4,-35],[-3,-35.5],[-7,-30.5]],
+        [[-7,-30.5],[-17,-24],[-24,-11],[-25.5,4]],
+        [[-25.5,4],[-26.5,23],[-12,36],[0,36.5]]
       ], 40);
 
       /* ── stone(): loft an outline through a quarter-round into a domed plateau,
@@ -4363,7 +4387,7 @@ try{
         var mny=Math.min.apply(0,ys)-PAD, mxy=Math.max.apply(0,ys)+PAD;
         var w=mxx-mnx, h=mxy-mny, x=c.getContext('2d');
         x.filter='blur(' + (blur/w*256).toFixed(1) + 'px)';
-        x.fillStyle='rgb(64,29,45)';        /* the tint lives in the texture */
+        x.fillStyle='rgb(78,68,58)';        /* warm taupe — never wine; red shadow on cream reads as a stain */
         x.beginPath();
         outline.forEach(function(p,i){
           var px=(p[0]-mnx)/w*256, py=256-(p[1]-mny)/h*256;
@@ -4373,8 +4397,8 @@ try{
         var tex = new THREE.CanvasTexture(c);
         return {tex:tex, w:w, h:h};
       }
-      var shPlectrum = shadowTex(PLECTRUM, 6);
-      var shLeaf     = shadowTex(LEAF, 6);
+      var shPlectrum = shadowTex(PLECTRUM, 9);
+      var shLeaf     = shadowTex(LEAF, 9);
       function shadowMesh(sh, opacity){
         return new THREE.Mesh(new THREE.PlaneGeometry(sh.w, sh.h),
           new THREE.MeshBasicMaterial({map:sh.tex, transparent:true,
@@ -4391,8 +4415,8 @@ try{
         var g = new THREE.Group();
         var mesh = new THREE.Mesh(slot === '0' ? plectrumGeo : leafGeo, ivoryMat);
         g.add(mesh);
-        var contact = shadowMesh(slot === '0' ? shPlectrum : shLeaf, .34);
-        contact.position.set(3.2, -4.2, -6);
+        var contact = shadowMesh(slot === '0' ? shPlectrum : shLeaf, slot === '0' ? .55 : .45);
+        contact.position.set(5, -6.5, -6);
         g.add(contact);
         scene.add(g);
         return {g:g, mesh:mesh, contact:contact, slot:slot,
@@ -4447,6 +4471,7 @@ try{
                 r.mesh.geometry = front ? plectrumGeo : leafGeo;
                 var sh = front ? shPlectrum : shLeaf;
                 r.contact.material.map = sh.tex;
+                r.contact.material.opacity = front ? .55 : .45;
                 r.contact.material.needsUpdate = true;
                 r.contact.geometry.dispose();
                 r.contact.geometry = new THREE.PlaneGeometry(sh.w, sh.h);
@@ -4479,7 +4504,9 @@ try{
               var front = domSlot === '0';
               r.mesh.geometry = front ? plectrumGeo : leafGeo;
               var sh = front ? shPlectrum : shLeaf;
-              r.contact.material.map = sh.tex; r.contact.material.needsUpdate = true;
+              r.contact.material.map = sh.tex;
+              r.contact.material.opacity = front ? .55 : .45;
+              r.contact.material.needsUpdate = true;
               r.contact.geometry.dispose(); r.contact.geometry = new THREE.PlaneGeometry(sh.w, sh.h);
               r.swapped = true;
             }

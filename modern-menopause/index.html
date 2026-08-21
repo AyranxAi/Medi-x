@@ -712,15 +712,23 @@ section{position:relative}
       → left → lower-left → bottom, shingled so each leaf sits in front of the one
       before it and the plate sits in front of all. Pieces do not own seats — a
       step change trades data-slot, so the picture is identical at every step. ── */
-.ps-petal[data-slot="0"]{--pw:66cqw;--pa:.906;--px:14.5cqw;--py:-6cqh;--pz:10}
-.ps-petal[data-slot="1"]{--pw:43cqw;--pa:1;--px:-8.7cqw;--py:-30.5cqh;--pz:4}   /* top */
-.ps-petal[data-slot="2"]{--pw:43cqw;--pa:1;--px:-22cqw;--py:-20.7cqh;--pz:2}    /* upper-left */
-.ps-petal[data-slot="3"]{--pw:43cqw;--pa:1;--px:-30cqw;--py:0cqh;--pz:5}        /* left */
-.ps-petal[data-slot="4"]{--pw:43cqw;--pa:1;--px:-18.8cqw;--py:19cqh;--pz:3}     /* lower-left */
-.ps-petal[data-slot="5"]{--pw:43cqw;--pa:1;--px:-3.6cqw;--py:32.5cqh;--pz:6}      /* bottom */
+.ps-petal[data-slot="0"]{--pw:66cqw;--pa:.906;--px:14.5cqw;--py:-6cqh;--pz:10;--prot:0deg}
+.ps-petal[data-slot="1"]{--pw:43cqw;--pa:1;--px:-8.7cqw;--py:-30.5cqh;--pz:4;--prot:12deg}     /* top */
+.ps-petal[data-slot="2"]{--pw:43cqw;--pa:1;--px:-22cqw;--py:-20.7cqh;--pz:2;--prot:-27deg}     /* upper-left */
+.ps-petal[data-slot="3"]{--pw:43cqw;--pa:1;--px:-30cqw;--py:0cqh;--pz:5;--prot:-81deg}         /* left */
+.ps-petal[data-slot="4"]{--pw:43cqw;--pa:1;--px:-18.8cqw;--py:19cqh;--pz:3;--prot:-157deg}     /* lower-left */
+.ps-petal[data-slot="5"]{--pw:43cqw;--pa:1;--px:-3.6cqw;--py:32.5cqh;--pz:6;--prot:168deg}    /* bottom */
 .ps-petal.was-on{z-index:9}      /* the outgoing piece folds away IN FRONT of the rest */
 .ps-petal.is-release{--pb:1.015;transition-duration:130ms}
 .ps-petal:not(.is-on):hover{--pb:1.02}
+
+/* ── THE 3D LAYER: one WebGL canvas behind the six DOM pieces paints them as real
+      porcelain petals (see the script's 3D section). It owns NO map — every frame it
+      reads each piece's box from the DOM and --prot/--pz from the cascade. When it is
+      live (.ps-3d on the root) the SVG art is hidden; if WebGL is missing or the
+      context is lost, the SVG art is the picture again. ────────────────────── */
+.ps-gl{position:absolute;inset:-18%;width:136%;height:136%;z-index:0;pointer-events:none;display:block}
+.ps.ps-3d .ps-svg{display:none!important}
 
 /* ── the face is a CONTENT layer only — hit, label, card. All paint lives in
       the SVG stack; never reintroduce backgrounds or box-shadows here. ─────── */
@@ -809,7 +817,7 @@ section{position:relative}
   .ps-body{font-size:16px;max-width:56ch}
   .ps-petal[data-slot="0"] .ps-svg--act-d{display:none}
   .ps-petal[data-slot="0"] .ps-svg--act-m{display:block}
-  .ps-petal[data-slot="0"]{--pw:66cqw;--px:17cqw;--py:-2.5cqh}
+  .ps-petal[data-slot="0"]{--pw:66cqw;--px:17cqw;--py:-2.5cqh;--prot:-18deg}
   .ps-petal[data-slot="1"]{--pw:50cqw;--px:-1.3cqw;--py:-29.7cqh}
   .ps-petal[data-slot="2"]{--pw:50cqw;--px:-23cqw;--py:-17.4cqh}
   .ps-petal[data-slot="3"]{--pw:50cqw;--px:-25cqw;--py:2cqh}
@@ -4215,9 +4223,11 @@ try{
   var cur = 0, tRelease = 0, tSettle = 0, tCopy = 0;
   var mq = window.matchMedia('(prefers-reduced-motion: reduce)');
 
+  var wake3D = function(){};   /* replaced by the 3D layer when it is live */
   function go(n){
     n = ((n % 6) + 6) % 6;
     if(n === cur) return;
+    wake3D();
     var out = petals[cur], inn = petals[n];
     var RM  = mq.matches;
     var DUR = parseFloat(getComputedStyle(root).getPropertyValue('--ps-dur')) || 850;
@@ -4293,7 +4303,275 @@ try{
   }, {passive:true});
 
   root.classList.add('ps-on');
+
+  /* ═══ THE 3D LAYER — real porcelain petals ═══════════════════════════════════
+     His brief (2026-08-21): every piece is a FLOWER PETAL — low where it joins the
+     centre of the flower, climbing CONVEX all the way to its far edge, which is the
+     highest point and curls a little like a petal tip; a little cup across the sides;
+     a thin rounded rim. The maroon is a SECOND petal under the selected one, a touch
+     longer toward the apex — a cover from below. One key light, upper right; soft
+     shadows fall down-left; matte porcelain; ground = the page's own ground (the
+     canvas is transparent, a shadow-catcher plane darkens the CSS ground).
+     ⚠️ THE 3D LAYER OWNS NO MAP: it reads each DOM piece's box and --prot/--pz every
+     frame it renders, so the CSS slot map (and its phone media query) stays the
+     single source of truth. It swaps geometry (leaf ↔ plate) when the slot trades. */
+  (function init3D(){
+    if(!window.WebGLRenderingContext || !window.ResizeObserver) return;
+    var canvas = document.createElement('canvas');
+    canvas.className = 'ps-gl'; canvas.setAttribute('aria-hidden','true');
+    var gl = null;
+    try{ gl = canvas.getContext('webgl2', {alpha:true, antialias:true, preserveDrawingBuffer:true, powerPreference:'high-performance'}); }catch(e){}
+    if(!gl) return;
+    import('/vendor/three.module.min.js').then(function(THREE){ build(THREE); }).catch(function(){});
+
+    function build(THREE){
+      var M = THREE.MathUtils;
+      stage.insertBefore(canvas, stage.firstChild);
+      var renderer = new THREE.WebGLRenderer({canvas:canvas, context:gl, alpha:true, antialias:true, preserveDrawingBuffer:true});
+      renderer.setClearColor(0x000000, 0);
+      renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.toneMapping = THREE.NoToneMapping;
+      var LITE = /[?&]lite=1/.test(location.search);
+      renderer.shadowMap.enabled = !LITE; renderer.shadowMap.type = THREE.VSMShadowMap;
+      var scene = new THREE.Scene();
+      var camera = new THREE.OrthographicCamera(0, 1, 0, -1, 1, 8000); camera.position.z = 3000;
+
+      /* ── the light: one key, upper right and in front; an environment for the soft
+            ambient; a shadow-catcher that darkens the page's ground ─────────────── */
+      var sun = new THREE.DirectionalLight(0xFFFFFF, .86);
+      sun.castShadow = true; sun.shadow.mapSize.set(1536,1536);
+      sun.shadow.radius = 9; sun.shadow.blurSamples = 16; sun.shadow.bias = -0.0004; sun.shadow.normalBias = 1.5;
+      scene.add(sun, sun.target);
+      var fill = new THREE.DirectionalLight(0xFFFFFF, .3);
+      fill.castShadow = true; fill.shadow.mapSize.set(1024,1024);
+      fill.shadow.radius = 22; fill.shadow.blurSamples = 16; fill.shadow.bias = -0.0004; fill.shadow.normalBias = 1.5;
+      scene.add(fill, fill.target);
+      var catcher = new THREE.Mesh(new THREE.PlaneGeometry(1,1), new THREE.ShadowMaterial({color:0x5E4536, opacity:.3}));
+      catcher.receiveShadow = true; catcher.position.z = -2; scene.add(catcher);
+      (function env(){
+        var es = new THREE.Scene();
+        es.add(new THREE.Mesh(new THREE.SphereGeometry(60,24,12), new THREE.MeshBasicMaterial({color:0xD9D4CF, side:THREE.BackSide})));
+        function panel(w,h,x,y,z,col){ var m = new THREE.Mesh(new THREE.PlaneGeometry(w,h), new THREE.MeshBasicMaterial({color:col, side:THREE.DoubleSide})); m.position.set(x,y,z); m.lookAt(0,0,0); es.add(m); }
+        panel(34,24, 26,24,24, 0xFFFFFF);     /* softbox, upper right, in front */
+        panel(20,34,-34, 4,14, 0xD4CEC8);     /* quiet fill, left */
+        panel(50,14,  0,-34,12, 0xC2BAB2);    /* bounce from below, dim */
+        var pm = new THREE.PMREMGenerator(renderer);
+        scene.environment = pm.fromScene(es, 0.04).texture; pm.dispose();
+        scene.environmentIntensity = 1.0;
+      })();
+
+      /* ── materials: matte porcelain with a whisper of sheen; lacquered maroon ── */
+      var IVORY = {color:0xF0EBE7, roughness:.62, metalness:0, sheen:.2, sheenRoughness:.8, sheenColor:0xFFFFFF, envMapIntensity:1};
+      var MAROON = {color:0x4E1A28, roughness:.6, metalness:0, clearcoat:.12, clearcoatRoughness:.6, envMapIntensity:.5};
+
+      /* ── the petal, as a mesh. One grid over the face (so the relief is sampled
+            everywhere, not only at the outline), a quarter-round rim of radius r, a
+            wall of thickness t. The relief: rise·L·(u + bulge·sin πu) — low at the
+            base, convex climb, highest at the far edge — minus a tip curl in the last
+            18%, plus cup·L·v² across. ─────────────────────────────────────────── */
+      function petalGeometry(shape, o){
+        var ax = o.axis, bp = o.base, L = o.L;
+        var relief = function(x, y){
+          var u = M.clamp(((x-bp[0])*ax[0] + (y-bp[1])*ax[1]) / L, 0, 1);
+          var v = ((x-bp[0])*(-ax[1]) + (y-bp[1])*ax[0]) / o.halfW;
+          var s = M.smoothstep(u, .82, 1);
+          return L*(o.rise*(u + o.bulge*Math.sin(Math.PI*u)) - o.rise*o.curl*s*s + o.cup*v*v);
+        };
+        var pts = shape.getPoints(240);
+        if(pts.length > 1 && pts[0].distanceTo(pts[pts.length-1]) < 1e-6) pts.pop();
+        var n = pts.length, area = 0, i, j;
+        for(i=0;i<n;i++){ j=(i+1)%n; area += pts[i].x*pts[j].y - pts[j].x*pts[i].y; }
+        var ccw = area > 0;
+        /* inset outline by r (the face sits r inside the true edge; the rim rolls out to it) */
+        var inset = pts.map(function(p, k){
+          var a = pts[(k-1+n)%n], b = pts[(k+1)%n], tx = b.x-a.x, ty = b.y-a.y, tl = Math.hypot(tx,ty)||1;
+          var nx = ccw ? -ty/tl : ty/tl, ny = ccw ? tx/tl : -tx/tl;   /* inward */
+          return new THREE.Vector2(p.x + nx*o.r, p.y + ny*o.r);
+        });
+        /* rows along the axis: where does the perpendicular at axial a cut the inset outline? */
+        var proj = inset.map(function(p){ return (p.x-bp[0])*ax[0] + (p.y-bp[1])*ax[1]; });
+        var amin = Math.min.apply(null, proj), amax = Math.max.apply(null, proj);
+        var NU = o.nu, NV = o.nv, rows = [];
+        for(i=0;i<=NU;i++){
+          var a = amin + (amax-amin)*(1-Math.cos(Math.PI*i/NU))/2;
+          if(i===0) a += (amax-amin)*1e-4; if(i===NU) a -= (amax-amin)*1e-4;
+          var hits = [];
+          for(j=0;j<n;j++){
+            var k2 = (j+1)%n, p1 = proj[j], p2 = proj[k2];
+            if((p1-a)*(p2-a) <= 0 && p1 !== p2){
+              var t = (a-p1)/(p2-p1), x = inset[j].x + (inset[k2].x-inset[j].x)*t, y = inset[j].y + (inset[k2].y-inset[j].y)*t;
+              hits.push({x:x, y:y, c:(x-bp[0])*(-ax[1]) + (y-bp[1])*ax[0]});
+            }
+          }
+          if(hits.length < 2){ var cx0 = bp[0]+ax[0]*a, cy0 = bp[1]+ax[1]*a; hits = [{x:cx0,y:cy0,c:0},{x:cx0,y:cy0,c:0}]; }
+          hits.sort(function(p,q){ return p.c-q.c; });
+          rows.push([hits[0], hits[hits.length-1]]);
+        }
+        var P = [], N = [], IDX = [];
+        function push(x,y,z){ P.push(x,y,z); return P.length/3-1; }
+        /* the face grid */
+        var grid = [];
+        for(i=0;i<=NU;i++){ grid.push([]); for(j=0;j<=NV;j++){
+          var f = j/NV, x = rows[i][0].x + (rows[i][1].x-rows[i][0].x)*f, y = rows[i][0].y + (rows[i][1].y-rows[i][0].y)*f;
+          grid[i].push(push(x, y, relief(x,y)));
+        }}
+        for(i=0;i<NU;i++) for(j=0;j<NV;j++){
+          var a0=grid[i][j], b0=grid[i][j+1], c0=grid[i+1][j], d0=grid[i+1][j+1];
+          IDX.push(a0,c0,b0, b0,c0,d0);
+        }
+        /* the boundary loop of the face: left column up, right column down */
+        var loop = [];
+        for(i=0;i<=NU;i++) loop.push({x:rows[i][0].x, y:rows[i][0].y});
+        for(i=NU-1;i>=1;i--) loop.push({x:rows[i][1].x, y:rows[i][1].y});
+        var m = loop.length, cxm = 0, cym = 0;
+        loop.forEach(function(p){ cxm += p.x/m; cym += p.y/m; });
+        var outN = loop.map(function(p, k){
+          var a = loop[(k-1+m)%m], b = loop[(k+1)%m], tx = b.x-a.x, ty = b.y-a.y, tl = Math.hypot(tx,ty)||1;
+          var nx = -ty/tl, ny = tx/tl;
+          if(nx*(p.x-cxm) + ny*(p.y-cym) < 0){ nx=-nx; ny=-ny; }
+          return [nx,ny];
+        });
+        /* the rim: K rings rolling from the face edge out and down to the true edge, then the wall */
+        var K = 6, rings = [];
+        for(var k=0;k<=K+1;k++){ rings.push([]); for(i=0;i<m;i++){
+          var phi = Math.min(k,K)/K*Math.PI/2, px = loop[i].x + outN[i][0]*o.r*Math.sin(phi), py = loop[i].y + outN[i][1]*o.r*Math.sin(phi);
+          var z = relief(px,py) - o.r*(1-Math.cos(phi)) - (k===K+1 ? (o.t-o.r) : 0);
+          rings[k].push(push(px,py,z));
+        }}
+        for(k=0;k<=K;k++) for(i=0;i<m;i++){
+          var i2=(i+1)%m, a1=rings[k][i], b1=rings[k][i2], c1=rings[k+1][i], d1=rings[k+1][i2];
+          if(ccw) IDX.push(a1,b1,c1, b1,d1,c1); else IDX.push(a1,c1,b1, b1,c1,d1);
+        }
+        var g = new THREE.BufferGeometry();
+        g.setAttribute('position', new THREE.Float32BufferAttribute(P,3)); g.setIndex(IDX); g.computeVertexNormals();
+        /* the face grid and the rim are wound opposite ways when the loop is CW; fix by the normal test */
+        var nrm = g.attributes.normal, flip = 0, tot = 0;
+        for(i=0;i<nrm.count;i++){ tot++; if(nrm.getZ(i) < 0) flip++; }
+        if(flip > tot/2){ var arr = g.index.array; for(i=0;i<arr.length;i+=3){ var tmp=arr[i+1]; arr[i+1]=arr[i+2]; arr[i+2]=tmp; } g.index.needsUpdate = true; g.computeVertexNormals(); }
+        return g;
+      }
+      /* the two silhouettes, in the same 1000-unit frames the SVG art uses */
+      function eggShape(L, Wd){
+        var Wh = Wd/2, T = .525*L, B = .475*L, yMid = -L/2 + B, sh = new THREE.Shape();
+        sh.moveTo(0,-L/2);
+        sh.bezierCurveTo(Wh*K, -L/2, Wh, yMid-B*K, Wh, yMid);
+        sh.bezierCurveTo(Wh, yMid+T*K, Wh*K, L/2, 0, L/2);
+        sh.bezierCurveTo(-Wh*K, L/2, -Wh, yMid+T*K, -Wh, yMid);
+        sh.bezierCurveTo(-Wh, yMid-B*K, -Wh*K, -L/2, 0, -L/2);
+        sh.closePath(); return sh;
+      }
+      var PLATE_PTS = [[0,600],[60,400],[210,250],[440,110],[690,26],[862,12],[975,170],[1000,506],[952,842],[826,1048],[566,1104],[284,1030],[90,852]];
+      var pBase = [0-500, 552-600], pApex = [862-500, 552-12];
+      var pdx = pApex[0]-pBase[0], pdy = pApex[1]-pBase[1], pL = Math.hypot(pdx,pdy), pDir = [pdx/pL, pdy/pL];
+      function plateShape(dx, dy, along){
+        var Q = PLATE_PTS.map(function(xy){
+          var px = xy[0]-500, py = 552-xy[1];
+          if(along !== 1){ var rx = px-pBase[0], ry = py-pBase[1], a = rx*pDir[0]+ry*pDir[1], c = rx*(-pDir[1])+ry*pDir[0];
+            px = pBase[0] + a*along*pDir[0] + c*(-pDir[1]); py = pBase[1] + a*along*pDir[1] + c*pDir[0]; }
+          return [px+dx, py+dy];
+        });
+        var nq = Q.length, sh = new THREE.Shape(); sh.moveTo(Q[0][0], Q[0][1]);
+        for(var i=0;i<nq;i++){ var p0=Q[(i-1+nq)%nq],p1=Q[i],p2=Q[(i+1)%nq],p3=Q[(i+2)%nq];
+          sh.bezierCurveTo(p1[0]+(p2[0]-p0[0])/6, p1[1]+(p2[1]-p0[1])/6, p2[0]-(p3[0]-p1[0])/6, p2[1]-(p3[1]-p1[1])/6, p2[0], p2[1]); }
+        sh.closePath(); return sh;
+      }
+      /* ── the two silhouettes share ONE topology (same grid, same rim rings), so a
+            piece is ONE mesh that MORPHS leaf → plate in step with its DOM box. The
+            maroon backing is always there: a slightly smaller leaf hidden beneath the
+            leaf, morphing into the longer backing petal only as the piece becomes the
+            plate — so nothing ever fades or goes transparent. ─────────────────── */
+      var RELIEF = {rise:.14, bulge:.18, curl:.3, cup:.03}, GRID = {nu:52, nv:16};
+      var leafGeo  = petalGeometry(eggShape(1000,640), Object.assign({L:1000, axis:[0,1], base:[0,-500], halfW:320, t:11, r:7}, GRID, RELIEF));
+      var plateGeo = petalGeometry(plateShape(0,0,1),   Object.assign({L:pL, axis:pDir, base:pBase, halfW:520, t:14, r:8}, GRID, RELIEF));
+      var bLeafGeo = petalGeometry(eggShape(940,600),  Object.assign({L:940, axis:[0,1], base:[0,-470], halfW:300, t:11, r:7}, GRID, RELIEF));
+      var bPlateGeo= petalGeometry(plateShape(14,-2,1.035), Object.assign({L:pL*1.035, axis:pDir, base:pBase, halfW:520, t:14, r:8}, GRID, RELIEF));
+      function withMorph(a, b){
+        a.morphAttributes.position = [b.attributes.position]; a.morphAttributes.normal = [b.attributes.normal]; return a;
+      }
+      withMorph(leafGeo, plateGeo); withMorph(bLeafGeo, bPlateGeo);
+
+      var GAP = 16;   /* z between stacking layers, in stage px per 1000 of width (set in sync) */
+      var pieces = petals.map(function(el){
+        var g = new THREE.Group();
+        var body = new THREE.Mesh(leafGeo, new THREE.MeshPhysicalMaterial(IVORY));
+        var back = new THREE.Mesh(bLeafGeo, new THREE.MeshPhysicalMaterial(MAROON));
+        body.updateMorphTargets(); back.updateMorphTargets();
+        back.position.z = -30;
+        [body,back].forEach(function(mm){ mm.castShadow = true; mm.receiveShadow = true; g.add(mm); });
+        scene.add(g);
+        return {el:el, g:g, body:body, back:back, rot:null, rotFrom:0, rotTo:0, rotT0:0, inf:null, infFrom:0, infTo:0, infT0:0};
+      });
+
+      var W = 1, H = 1, dpr = 1;
+      function resize(){
+        var r = stage.getBoundingClientRect(); W = r.width || 1; H = r.height || 1;
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        renderer.setPixelRatio(dpr); renderer.setSize(W*1.36, H*1.36, false);
+        camera.left = -.18*W; camera.right = 1.18*W; camera.top = .18*H; camera.bottom = -1.18*H; camera.updateProjectionMatrix();
+        var S = Math.max(W,H);
+        sun.position.set(W*1.15, H*.4, S*2.4); sun.target.position.set(W*.5, -H*.5, 0);
+        sun.shadow.camera.left = -S*1.1; sun.shadow.camera.right = S*1.1; sun.shadow.camera.top = S*1.1; sun.shadow.camera.bottom = -S*1.1;
+        sun.shadow.camera.near = 1; sun.shadow.camera.far = S*5; sun.shadow.camera.updateProjectionMatrix();
+        fill.position.set(W*.55, H*.1, S*3); fill.target.position.set(W*.5, -H*.5, 0);
+        fill.shadow.camera.left = -S*1.1; fill.shadow.camera.right = S*1.1; fill.shadow.camera.top = S*1.1; fill.shadow.camera.bottom = -S*1.1;
+        fill.shadow.camera.near = 1; fill.shadow.camera.far = S*6; fill.shadow.camera.updateProjectionMatrix();
+        catcher.scale.set(W*4, H*4, 1); catcher.position.set(W*.5, -H*.5, -2);
+      }
+      var DURms = function(){ return parseFloat(getComputedStyle(root).getPropertyValue('--ps-dur')) || 850; };
+      function easeOut(t){ return 1 - Math.pow(1-t, 3); }
+      function sync(now){
+        var sr = stage.getBoundingClientRect();
+        pieces.forEach(function(pc){
+          var el = pc.el, r = el.getBoundingClientRect(), cs = getComputedStyle(el);
+          var slot = el.getAttribute('data-slot');
+          var rot = -(parseFloat(cs.getPropertyValue('--prot')) || 0) * Math.PI/180;
+          var layer = parseInt(cs.zIndex, 10) || 0;
+          if(pc.rot === null){ pc.rot = rot; pc.rotTo = rot; }
+          if(rot !== pc.rotTo){ pc.rotFrom = pc.rot; pc.rotTo = rot; pc.rotT0 = now; }
+          var dur = DURms();
+          if(pc.rot !== pc.rotTo){
+            var t = M.clamp((now - pc.rotT0)/dur, 0, 1), d = pc.rotTo - pc.rotFrom;
+            d = Math.atan2(Math.sin(d), Math.cos(d));            /* shortest way round */
+            pc.rot = t >= 1 ? pc.rotTo : pc.rotFrom + d*easeOut(t);
+          }
+          /* the morph: 0 = leaf, 1 = plate — tweened over the same duration as the
+             DOM box, so the silhouette and the box arrive together */
+          var infTo = slot === '0' ? 1 : 0;
+          if(pc.inf === null){ pc.inf = infTo; pc.infTo = infTo; }
+          if(infTo !== pc.infTo){ pc.infFrom = pc.inf; pc.infTo = infTo; pc.infT0 = now; }
+          if(pc.inf !== pc.infTo){
+            var ti = M.clamp((now - pc.infT0)/dur, 0, 1);
+            pc.inf = ti >= 1 ? pc.infTo : pc.infFrom + (pc.infTo - pc.infFrom)*easeOut(ti);
+          }
+          pc.body.morphTargetInfluences[0] = pc.inf; pc.back.morphTargetInfluences[0] = pc.inf;
+          var cx = r.left + r.width/2 - sr.left, cy = r.top + r.height/2 - sr.top;
+          var s = r.width/1000;
+          pc.g.position.set(cx, -cy, layer*GAP*W/1000 + 2);
+          pc.g.rotation.z = pc.rot; pc.g.scale.set(s,s,s);
+        });
+      }
+      var busyUntil = 0, raf = 0, t0 = performance.now();
+      function frame(now){
+        raf = 0; sync(now); renderer.render(scene, camera);
+        if(now < busyUntil) raf = requestAnimationFrame(frame);
+      }
+      function wake(ms){ busyUntil = Math.max(busyUntil, performance.now() + (ms||0)); if(!raf) raf = requestAnimationFrame(frame); }
+      wake3D = function(){ wake(DURms() + 400); };
+      petals.forEach(function(p){ p.addEventListener('pointerenter', function(){ wake(600); }); p.addEventListener('pointerleave', function(){ wake(600); }); });
+      new ResizeObserver(function(){ resize(); wake(50); }).observe(stage);
+      if(document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ wake(50); });
+      canvas.addEventListener('webglcontextlost', function(e){ e.preventDefault(); root.classList.remove('ps-3d'); }, false);
+      window.addEventListener('pagehide', function(){ busyUntil = 0; });
+      resize(); sync(performance.now()); renderer.render(scene, camera);
+      root.classList.add('ps-3d');
+      wake(200);
+      window.__ps3d = {renderer:renderer, scene:scene, pieces:pieces, wake:wake,
+        /* for the harness: true once every tween has landed and the loop has drawn its last frame */
+        settled:function(){ return !raf && pieces.every(function(pc){ return pc.inf === pc.infTo && pc.rot === pc.rotTo; }); }};
+    }
+  })();
+
   /* lab/QA hook: ?step=N opens on that step (1-based) without motion */
+  if(/[?&]slow=1/.test(location.search)) root.style.setProperty('--ps-dur','6000ms');
   var q = /[?&]step=(\d)/.exec(location.search);
   if(q){ var s0 = +q[1]-1; if(s0 > 0 && s0 < 6){ var _mq = mq; mq = {matches:true}; go(s0); mq = _mq; } }
   window.__psGo = go;

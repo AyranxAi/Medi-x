@@ -47,7 +47,9 @@ let failures = 0;
 const fail = m => { failures++; console.error('  ✗ ' + m); };
 
 const browser = await chromium.launch({
-  executablePath: existsSync('/opt/pw-browsers/chromium') ? '/opt/pw-browsers/chromium' : undefined });
+  executablePath: existsSync('/opt/pw-browsers/chromium') ? '/opt/pw-browsers/chromium' : undefined,
+  /* the sculpture paints in WebGL; headless needs a software GL to show it */
+  args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
 
 for (const pageName of PAGES) {
   for (const [w, h, label] of SIZES) {
@@ -72,6 +74,11 @@ for (const pageName of PAGES) {
       return true;
     });
     if (!on) { fail('sculpture did not reveal'); await ctx.close(); continue; }
+    /* the 3D layer arrives a beat later (dynamic import of three); give it a moment,
+       then note which painter is live — it decides how the maroon is proven */
+    await page.waitForFunction(() => document.getElementById('process').classList.contains('ps-3d'), null, { timeout: 6000 }).catch(() => {});
+    const is3d = await page.evaluate(() => document.getElementById('process').classList.contains('ps-3d'));
+    console.log('  painter:', is3d ? 'WebGL' : 'SVG fallback');
     await page.waitForTimeout(300);
 
     const centres = [];
@@ -101,20 +108,38 @@ for (const pageName of PAGES) {
         }, s, { polling: 300, timeout: 15000 }).catch(() => fail(`step ${s+1}: never settled in the active zone`));
       }
       await page.waitForTimeout(150);
+      /* WebGL live: wait for the painter's own tweens to land and its last frame to draw —
+         on software GL a frame can take longer than the choreography */
+      await page.waitForFunction(() => !window.__ps3d || window.__ps3d.settled(), null, { timeout: 30000 }).catch(() => fail(`step ${s+1}: 3D layer never settled`));
 
       const r = await page.evaluate(() => {
         const root  = document.getElementById('process');
         const stage = root.querySelector('[data-ps-stage]').getBoundingClientRect();
         const act   = root.querySelector('.ps-petal.is-on');
         const face  = act.querySelector('.ps-face').getBoundingClientRect();
-        /* the active piece is layered SVG: the maroon INNER BODY must physically
-           extend past the ivory face path on the right — depth, not decoration */
-        const actSvg = [...act.querySelectorAll('.ps-svg--act')]
-          .find(sv => getComputedStyle(sv).display !== 'none');   /* desktop or phone art */
-        const innerR = actSvg.querySelector('.ps-inner').getBoundingClientRect();
-        const facePr = actSvg.querySelector('.ps-faceP').getBoundingClientRect();
+        /* the maroon must physically show past the plate's right edge — depth, not
+           decoration. WebGL live: read the framebuffer just right of the plate's box
+           at mid-height and walk inward until a maroon pixel turns up (R well over G).
+           SVG fallback: the inner body's box must extend past the face path. */
+        let maroonReveal = 0;
+        if (root.classList.contains('ps-3d')) {
+          const c = root.querySelector('.ps-gl'), gl = c.getContext('webgl2') || c.getContext('webgl');
+          const cr = c.getBoundingClientRect(), sx = c.width / cr.width, sy = c.height / cr.height;
+          const px = new Uint8Array(4);
+          for (let dx = 40; dx >= -face.width * .3; dx -= 2) {
+            const x = Math.round((face.right + dx - cr.left) * sx), y = Math.round(c.height - (face.y + face.height*.45 - cr.top) * sy);
+            gl.readPixels(x, y, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, px);
+            if (px[3] > 200 && px[0] > px[1] + 22 && px[0] < 170 && px[2] < 130) { maroonReveal = Math.max(maroonReveal, dx + 30); }
+          }
+        } else {
+          const actSvg = [...act.querySelectorAll('.ps-svg--act')]
+            .find(sv => getComputedStyle(sv).display !== 'none');   /* desktop or phone art */
+          const innerR = actSvg.querySelector('.ps-inner').getBoundingClientRect();
+          const facePr = actSvg.querySelector('.ps-faceP').getBoundingClientRect();
+          maroonReveal = innerR.right - facePr.right;
+        }
         const out = {
-          maroonReveal: innerR.right - facePr.right,
+          maroonReveal,
           cx: (face.x + face.width / 2 - stage.x) / stage.width,
           cy: (face.y + face.height / 2 - stage.y) / stage.height,
           cardPx: parseFloat(getComputedStyle(act.querySelector('.ps-card-meta')).fontSize),

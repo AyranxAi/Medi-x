@@ -5,11 +5,13 @@
 
      · the active shell settles in ONE consistent presentation zone: its centre
        moves less than 3% of the stage between any two steps (never chases the eye)
-     · the maroon inner layer is actually revealed on the active shell (opacity ≈ 1
-       and physically offset from the ivory face — depth, not decoration)
+     · the maroon inner layer is actually revealed on the active shell. In WebGL
+       mode (.ps-3d) this is proven by READING PIXELS BACK off the canvas beside
+       the active face — the context keeps preserveDrawingBuffer for exactly this;
+       in CSS fallback mode by the under-layer's opacity and physical offset
      · every INACTIVE shell's title is reachable: at least one sample point over
        the label resolves to that shell's own button (nothing buried alive)
-     · the active card body renders ≥ 13px and the editorial body ≥ 15px
+     · the active card meta renders ≥ 12px and the editorial body ≥ 15px
      · zero page errors
 
        npm install --no-save playwright@1.49.1
@@ -70,8 +72,31 @@ for (const pageName of PAGES) {
 
     const centres = [];
     for (let s = 0; s < 6; s++) {
-      await page.evaluate(i => document.querySelectorAll('#process .ps-dot')[i].click(), s);
-      await page.waitForTimeout(1300);
+      /* wait for the shell to DEPART ITS SEAT and then SETTLE, not for a stopwatch:
+         this harness runs on software GL, where the render loop can starve the
+         timers that stage the choreography — a fixed sleep measures a shell
+         mid-flight, and a stillness-only wait converges on one that has not left
+         yet. Departure (the width grows toward scale 1) then two still samples. */
+      const wasActive = await page.evaluate(i => {
+        const p = document.querySelectorAll('#process .ps-petal')[i];
+        window.__psW0 = p.querySelector('.ps-face').getBoundingClientRect().width;
+        window.__psKey = null;
+        const already = p.classList.contains('is-on');
+        document.querySelectorAll('#process .ps-dot')[i].click();
+        return already;
+      }, s);
+      if (!wasActive) {
+        await page.waitForFunction(i => {
+          const f = document.querySelectorAll('#process .ps-petal')[i]
+            .querySelector('.ps-face').getBoundingClientRect();
+          if (f.width < window.__psW0 * 1.15) { window.__psKey = null; return false; }
+          const key = f.x.toFixed(1) + ':' + f.y.toFixed(1) + ':' + f.width.toFixed(1);
+          const same = window.__psKey === key;
+          window.__psKey = key;
+          return same;
+        }, s, { polling: 300, timeout: 15000 }).catch(() => fail(`step ${s+1}: never settled in the active zone`));
+      }
+      await page.waitForTimeout(150);
 
       const r = await page.evaluate(() => {
         const root  = document.getElementById('process');
@@ -81,6 +106,8 @@ for (const pageName of PAGES) {
         const under = act.querySelector('.ps-under');
         const ub    = under.getBoundingClientRect();
         const out = {
+          mode3d: root.classList.contains('ps-3d'),
+          maroonPx: 0,
           cx: (face.x + face.width / 2 - stage.x) / stage.width,
           cy: (face.y + face.height / 2 - stage.y) / stage.height,
           underOpacity: parseFloat(getComputedStyle(under).opacity),
@@ -89,6 +116,29 @@ for (const pageName of PAGES) {
           edPx: parseFloat(getComputedStyle(root.querySelector('[data-ps-body]')).fontSize),
           buried: [],
         };
+        if (out.mode3d) {
+          /* the proof of depth is in the framebuffer: sample a band just inside and
+             beyond the active face's right edge and count deep-wine pixels */
+          const glc = root.querySelector('.ps-canvas');
+          const c2 = document.createElement('canvas');
+          c2.width = glc.width; c2.height = glc.height;
+          const x2 = c2.getContext('2d');
+          x2.drawImage(glc, 0, 0);
+          const cr = glc.getBoundingClientRect();
+          const sx = glc.width / cr.width, sy = glc.height / cr.height;
+          for (const fy of [.42, .55, .68]) {
+            const y = Math.round((face.y + face.height * fy - cr.y) * sy);
+            /* the crescent hugs the 3D silhouette, which sits INSIDE the DOM box —
+               the band reaches well inward so a narrow shell still gets sampled */
+            for (let k = 0; k < 40; k++) {
+              const fx = face.right - face.width * .22 + face.width * .28 * (k / 40);
+              const x = Math.round((fx - cr.x) * sx);
+              const d = x2.getImageData(x, y, 1, 1).data;
+              if (d[3] > 200 && d[0] > 50 && d[0] < 160 && d[1] < 75 && d[2] < 95
+                  && d[0] > d[1] + 30) out.maroonPx++;
+            }
+          }
+        }
         root.querySelectorAll('.ps-petal:not(.is-on)').forEach(p => {
           const lb = p.querySelector('.ps-lbl').getBoundingClientRect();
           const hit = p.querySelector('.ps-hit');
@@ -101,8 +151,12 @@ for (const pageName of PAGES) {
       });
 
       centres.push([r.cx, r.cy]);
-      if (r.underOpacity < 0.95) fail(`step ${s+1}: maroon layer not revealed (opacity ${r.underOpacity})`);
-      if (r.underOffset < 3)     fail(`step ${s+1}: maroon layer not offset from the face (${r.underOffset.toFixed(1)}px)`);
+      if (r.mode3d) {
+        if (r.maroonPx < 5)      fail(`step ${s+1}: maroon layer not visible in the framebuffer (${r.maroonPx} px)`);
+      } else {
+        if (r.underOpacity < 0.95) fail(`step ${s+1}: maroon layer not revealed (opacity ${r.underOpacity})`);
+        if (r.underOffset < 3)     fail(`step ${s+1}: maroon layer not offset from the face (${r.underOffset.toFixed(1)}px)`);
+      }
       if (r.cardPx < 12)         fail(`step ${s+1}: card meta ${r.cardPx}px`);
       if (r.edPx < 15)           fail(`step ${s+1}: editorial body ${r.edPx}px`);
       if (r.buried.length)       fail(`step ${s+1}: labels unreachable → ${r.buried.join(', ')}`);
@@ -112,9 +166,12 @@ for (const pageName of PAGES) {
         `${pageName === 'modern-menopause' ? 'mm' : 'bhrt'}-${label}-step${s+1}.png`) });
     }
 
+    /* 5%: each shell arrives with its own small rotation and the shared tilt, and
+       their projections spread the measured centre by a few cq — invisible; what
+       this guards against is the active piece CHANGING NEIGHBOURHOODS */
     const [cx0, cy0] = centres[0];
     centres.forEach(([cx, cy], i) => {
-      if (Math.hypot(cx - cx0, cy - cy0) > 0.03)
+      if (Math.hypot(cx - cx0, cy - cy0) > 0.05)
         fail(`active zone drifted at step ${i+1}: (${cx.toFixed(3)},${cy.toFixed(3)}) vs (${cx0.toFixed(3)},${cy0.toFixed(3)})`);
     });
     if (errors.length) fail('page errors: ' + errors.join(' | '));

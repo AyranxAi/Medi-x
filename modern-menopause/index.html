@@ -621,7 +621,8 @@ section{position:relative}
   --ps-champ:rgba(199,166,102,.55);  /* the rim between ivory and maroon */
   /* the shared active presentation zone — foreground-right, slightly turned so the
      viewer can see the shell's thickness. THE ZONE NEVER MOVES BETWEEN STEPS. */
-  --ps-act-x:15cqw; --ps-act-y:1cqh; --ps-act-ky:-7deg;
+  --ps-act-x:15cqw; --ps-act-y:1cqh; --ps-act-ky:7deg;
+  --ps-plate-out:3.2;      /* how far the maroon under-shell slides out, world units (1 = 1cqw) */
   position:relative;
   display:none;            /* the script reveals it; <noscript> keeps the list */
 }
@@ -692,6 +693,14 @@ section{position:relative}
   touch-action:pan-y;-webkit-tap-highlight-color:transparent;
 }
 .ps-stage{position:absolute;inset:0;perspective:1500px}
+/* the WebGL layer. It hangs 14% past the stage so shadows are never guillotined;
+   the DOM petals above it keep the labels, the card, the blob hit areas and the
+   focus rings — in 3D mode their own paint is simply switched off. */
+.ps-canvas{position:absolute;inset:-14%;width:128%;height:128%;z-index:0;pointer-events:none}
+/* !important on purpose: the is-on rules below re-paint border and shadow with
+   higher cascade position, and in 3D mode NOTHING of the DOM shell may paint */
+.ps.ps-3d .ps-face{background:none!important;border:0!important;box-shadow:none!important}
+.ps.ps-3d .ps-under{display:none}
 
 /* one shell. The transform chain is THE contract: centre on the stage, travel by
    the map, rotate in-plane, then turn about Y for thickness, then scale for depth.
@@ -853,20 +862,18 @@ section{position:relative}
   .ps-head{font-size:clamp(29px,7.4vw,40px);max-width:14em}
   .ps-body{font-size:16px;max-width:56ch}
   /* the maroon side slims down so the object never turns heavy on a narrow screen */
-  .ps{--ps-act-ky:-5deg}
+  .ps{--ps-act-ky:5deg;--ps-plate-out:2.5}
   .ps-petal.is-on .ps-under{transform:translate(2.8%,1.8%) rotate(.7deg)}
-  /* on the petal the copy yields to the editorial below — title, rule, meta stay */
-  .ps-card{padding:14% 12% 14% 17%}
-  .ps-card-cta{display:none}
+  /* on the petal the copy yields entirely to the editorial below — title, rule and
+     meta stay; the 3D shell is narrower than a desktop's and crowding it is worse
+     than saying less (the headline underneath carries the step's full story) */
+  .ps-card{padding:14% 12% 14% 20%}
+  .ps-card-cta,.ps-card-p{display:none}
+  .ps-card-t{font-size:clamp(19px,5.4cqw,26px)}
 }
 @media(max-width:640px){
   .ps-prog{max-width:none}
   .ps-dot{width:42px;font-size:12px}
-  .ps-card-p{font-size:13.5px;max-width:21ch}
-}
-/* very small phones: keep the object legible, drop the petal copy entirely */
-@media(max-width:380px){
-  .ps-card-p{display:none}
 }
 
 /* ── reduced motion: the state changes, nothing travels ───────────────────── */
@@ -4013,6 +4020,11 @@ try{
   var body  = root.querySelector('[data-ps-body]');
   var live  = root.querySelector('[data-ps-live]');
 
+  /* the WebGL layer (below) re-reads every petal's computed transform whenever the
+     state machine moves; until it mounts, this is a no-op and the CSS shells are
+     the whole picture */
+  var sync = function(){};
+
   /* ── the six steps. One array. No markup is written twice. ────────────────── */
   var STEPS = [
     {n:'01', title:'Assessment', meta:'15 min',
@@ -4120,12 +4132,14 @@ try{
       inn.classList.add('is-on');
       live.textContent = 'Step ' + (n+1) + ' of 6: ' + STEPS[n].title + '. '
                        + STEPS[n].meta + '. ' + STEPS[n].petal;
+      sync();
       tSettle = setTimeout(function(){      /* … then takes its seat's own depth */
         out.classList.remove('was-on');
+        sync();
       }, DUR * 0.55);
     }
     if(RM){ move(); }
-    else { out.classList.add('is-release'); tRelease = setTimeout(move, 130); }
+    else { out.classList.add('is-release'); sync(); tRelease = setTimeout(move, 130); }
   }
 
   /* ── input: shells, arrows, keyboard, swipe ───────────────────────────────── */
@@ -4162,6 +4176,263 @@ try{
   }, {passive:true});
 
   root.classList.add('ps-on');
+
+  /* ═══ THE WEBGL SCULPTURE — real thickness, real weight, real shadows ════════════
+     The CSS shells above are the state machine, the interaction layer, the text
+     layer and the complete no-WebGL fallback. This layer replaces only their PAINT:
+     six extruded porcelain shells in one lit scene, each mirroring its DOM petal's
+     computed transform 1:1, so the map, the choreography and every input stay in
+     one place (the stylesheet).
+
+     ⚠️ THE CAMERA IS ORTHOGRAPHIC AND ITS UNITS ARE CONTAINER-QUERY UNITS: 1 world
+     unit = 1cqw of the stage. That single decision is what lets this layer READ the
+     CSS map (--px/--py/--pr/--pky/--pk, computed) instead of owning a second one.
+     The DOM labels, the active card and the blob-shaped hit areas keep sitting on
+     top of the canvas exactly where the meshes render.
+
+     ⚠️ THE SHELL IS THREE PHYSICAL PARTS, matching the reference construction:
+     ivory top (extrude face) → thin champagne wall (extrude side — this IS the
+     gold rim, it is lit, not painted) → a separate deep-maroon under-shell that
+     slides toward 4 o'clock when the piece is active. Depth is never faked with a
+     painted stripe; the tilt (rotateY) and the light do the reveal.
+
+     ⚠️ ONE KEY LIGHT, upper-left, with a soft shadow map — the pieces shade EACH
+     OTHER where they stack, and a plum-tinted ShadowMaterial plane catches the
+     drop onto the page. Do not add more shadowing lights; two shadow maps double
+     the cost and flatten the reading of a single warm daylight. */
+  (function(){
+    var canvas = document.createElement('canvas');
+    /* preserveDrawingBuffer belongs to the CONTEXT, and the context is created
+       here, not by the renderer — tools/qa reads pixels back through it */
+    var glAttrs = {antialias:true, alpha:true, preserveDrawingBuffer:true};
+    var gl = canvas.getContext('webgl2', glAttrs) || canvas.getContext('webgl', glAttrs);
+    if(!gl) return;                       /* the CSS sculpture remains the picture */
+
+    import('../vendor/three.module.min.js').then(function(THREE){
+      var renderer;
+      try {
+        renderer = new THREE.WebGLRenderer({canvas:canvas, context:gl, antialias:true,
+          alpha:true, preserveDrawingBuffer:true});   /* read back by tools/qa */
+      } catch(e){ return; }
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.06;
+      renderer.shadowMap.enabled = true;
+      /* VSM, because it is the only map type whose radius actually blurs — the
+         reference's shadows are broad and airy, never crisp product-shot discs */
+      renderer.shadowMap.type = THREE.VSMShadowMap;
+
+      /* the canvas hangs 14% past the stage on every side so shadows and the
+         bottom shells are never guillotined at the box edge */
+      var OVER = .14;
+      canvas.className = 'ps-canvas';
+      canvas.setAttribute('aria-hidden','true');
+      stage.insertBefore(canvas, stage.firstChild);
+
+      var scene = new THREE.Scene();
+      var cam = new THREE.OrthographicCamera(-1,1,1,-1,-400,400);
+      cam.position.set(0,0,200);
+
+      /* ── the light — one warm key from the upper left, a sky, a whisper of fill.
+            Colours are sampled off the reference renders, then balanced under
+            ACES: the ivory must land near #F1EADD in open light, the wall near
+            champagne, the maroon near #5A1B2E in its own shadow. ─────────────── */
+      scene.add(new THREE.HemisphereLight(0xFFF8EC, 0xE6D0BC, 1.0));
+      /* high and frontal: the lateral shadow throw is z·(light.xy/light.z), so the
+         light's height is what keeps the ground shadow an understatement */
+      var key = new THREE.DirectionalLight(0xFFF3E0, 2.0);
+      key.position.set(-45, 70, 190);
+      key.castShadow = true;
+      key.shadow.mapSize.set(1024, 1024);
+      key.shadow.camera.left = -95; key.shadow.camera.right = 95;
+      key.shadow.camera.top = 95;   key.shadow.camera.bottom = -95;
+      key.shadow.camera.near = 60;  key.shadow.camera.far = 400;
+      key.shadow.radius = 12; key.shadow.blurSamples = 16;
+      key.shadow.bias = -0.0002;
+      scene.add(key);
+      var fill = new THREE.DirectionalLight(0xFFE2CE, .3);
+      fill.position.set(70, -30, 90);
+      scene.add(fill);
+
+      /* the page shows through the canvas; only the shadow is painted onto it,
+         and it is plum, never grey — grey shadow on warm cream reads as dirt */
+      var catcher = new THREE.Mesh(new THREE.PlaneGeometry(400,400),
+        new THREE.ShadowMaterial({color:0x4A2030, opacity:.17}));
+      catcher.receiveShadow = true;
+      scene.add(catcher);
+
+      /* ── materials. Matte porcelain, satin lacquer — never plastic. The face
+            carries a soft radial warmth (a 256px gradient), because a flat albedo
+            under directional light reads as card, not ceramic. ────────────────── */
+      var faceTex = (function(){
+        var c = document.createElement('canvas'); c.width = c.height = 256;
+        var x = c.getContext('2d');
+        var g = x.createRadialGradient(104,92,10, 128,128,168);
+        g.addColorStop(0,'#FEFAF1'); g.addColorStop(.55,'#F8F0E1'); g.addColorStop(1,'#EDE1CB');
+        x.fillStyle = g; x.fillRect(0,0,256,256);
+        var tx = new THREE.CanvasTexture(c);
+        tx.colorSpace = THREE.SRGBColorSpace;
+        return tx;
+      })();
+      var faceMat = new THREE.MeshStandardMaterial({map:faceTex, roughness:.62, metalness:0});
+      /* two walls: the resting shells wear near-ivory edges; ONLY the active piece
+         earns the champagne-gold rim, exactly as the reference restrains it */
+      var wallRest = new THREE.MeshStandardMaterial({color:0xEADCC3, roughness:.56, metalness:0});
+      var wallGold = new THREE.MeshStandardMaterial({color:0xD2B67C, roughness:.42, metalness:.18});
+      var maroonMat = new THREE.MeshStandardMaterial({color:0x5C1C2F, roughness:.44, metalness:0});
+
+      /* ── one pebble outline per shell, tapered toward its seat's pivot side —
+            the same six orientations the CSS blobs author with border-radius.
+            r(θ) is an ellipse pinched around the taper heading plus a soft second
+            harmonic, sampled and smoothed through a closed Catmull-Rom. ───────── */
+      function pebble(taperDeg, pinch, wobble){
+        var t0 = taperDeg * Math.PI/180, pts = [];
+        for(var k=0;k<48;k++){
+          var th = k/48 * Math.PI*2;
+          /* a BROAD taper (low power), never a narrow notch — a dent in the
+             silhouette reads as damage, not design */
+          var r = 1 - pinch*Math.pow((1+Math.cos(th-t0))/2, 2.0)
+                    + (wobble||0)*Math.cos(2*(th-t0)+.7);
+          pts.push(new THREE.Vector2(30*r*Math.cos(th), 37*r*Math.sin(th)));
+        }
+        var curve = new THREE.CatmullRomCurve3(
+          pts.map(function(p){return new THREE.Vector3(p.x,p.y,0);}), true, 'centripetal');
+        var sm = curve.getPoints(140);
+        var shape = new THREE.Shape();
+        shape.moveTo(sm[0].x, sm[0].y);
+        for(var i=1;i<sm.length;i++) shape.lineTo(sm[i].x, sm[i].y);
+        shape.closePath();
+        return shape;
+      }
+      /* taper headings, screen-space: 0 ↓, 1 ↘, 2 →, 3 ↙, 4 ↗, 5 ↑  (world y up) */
+      var TAPER = [-90, -35, 0, -145, 40, 90];
+      var PINCH = .52, DEPTH = 2.6, PLATE = 2.4;
+
+      /* the extrude's UVs are raw shape coordinates; the radial face texture needs
+         them normalised to the shape's own box or the gradient lands off-centre */
+      function normUV(geo){
+        var uv = geo.attributes.uv, mnu=1e9, mxu=-1e9, mnv=1e9, mxv=-1e9;
+        for(var i=0;i<uv.count;i++){
+          var u=uv.getX(i), v=uv.getY(i);
+          if(u<mnu)mnu=u; if(u>mxu)mxu=u; if(v<mnv)mnv=v; if(v>mxv)mxv=v;
+        }
+        for(var j=0;j<uv.count;j++)
+          uv.setXY(j,(uv.getX(j)-mnu)/(mxu-mnu),(uv.getY(j)-mnv)/(mxv-mnv));
+        uv.needsUpdate = true;
+      }
+
+      var rigs = petals.map(function(p, i){
+        var shape = pebble(TAPER[i], PINCH, .04);
+        var g = new THREE.Group();
+        var shellGeo = new THREE.ExtrudeGeometry(shape, {depth:DEPTH, bevelEnabled:true,
+          bevelThickness:.7, bevelSize:.7, bevelSegments:3, curveSegments:24});
+        shellGeo.center(); normUV(shellGeo);
+        var shell = new THREE.Mesh(shellGeo, [faceMat, wallRest]);
+        shell.castShadow = shell.receiveShadow = true;
+        var plateGeo = new THREE.ExtrudeGeometry(shape, {depth:PLATE, bevelEnabled:true,
+          bevelThickness:.6, bevelSize:.6, bevelSegments:2, curveSegments:24});
+        plateGeo.center();
+        var plate = new THREE.Mesh(plateGeo, maroonMat);
+        plate.castShadow = plate.receiveShadow = true;
+        plate.position.z = -(DEPTH + PLATE)/2 - .5;
+        plate.scale.setScalar(.984);      /* flush behind the shell until it slides */
+        g.add(plate); g.add(shell);
+        scene.add(g);
+        return {g:g, shell:shell, plate:plate,
+          cur:{x:0,y:0,z:0,rz:0,ry:0,s:1,px:0,py:0,ps:.984},
+          from:null, to:null, t0:0, dur:1};
+      });
+
+      /* ── mirroring: read the DOM petal's computed state, tween the mesh to it.
+            No coordinate is invented here — parse, convert, interpolate. ──────── */
+      var num = function(s){ return parseFloat(s) || 0; };
+      function targets(){
+        var cs = getComputedStyle(root);
+        var plateOut = num(cs.getPropertyValue('--ps-plate-out')) || 3.0;
+        return petals.map(function(p, i){
+          var st = getComputedStyle(p);
+          var on = p.classList.contains('is-on');
+          var zi = num(st.zIndex);
+          return {
+            x:  num(st.getPropertyValue('--px')),
+            y: -num(st.getPropertyValue('--py')) * aspect,
+            z:  4 + zi * 3,
+            rz: -num(st.getPropertyValue('--pr')) * Math.PI/180,
+            ry:  num(st.getPropertyValue('--pky')) * Math.PI/180,
+            s:  num(st.getPropertyValue('--pk')) * (num(st.getPropertyValue('--pb')) || 1),
+            px: on ? plateOut : 0,
+            py: on ? -plateOut * .72 : 0,
+            ps: on ? 1.01 : .984,
+            gold: on ? 1 : 0
+          };
+        });
+      }
+      function easeOut(t){ return 1 - Math.pow(1 - t, 4.2); }   /* ≈ the CSS curve */
+      var raf = 0, needFrame = true;
+      function animate(now){
+        raf = 0;
+        var busy = false;
+        rigs.forEach(function(r){
+          if(!r.to) return;
+          var t = Math.min(1, (now - r.t0) / r.dur);
+          var e = easeOut(t);
+          for(var k in r.to) r.cur[k] = r.from[k] + (r.to[k] - r.from[k]) * e;
+          if(t < 1) busy = true; else r.to = null;
+          r.g.position.set(r.cur.x, r.cur.y, r.cur.z);
+          r.g.rotation.set(0, r.cur.ry, r.cur.rz);
+          r.g.scale.setScalar(Math.max(.01, r.cur.s));
+          r.plate.position.x = r.cur.px / Math.max(.2, r.cur.s);
+          r.plate.position.y = r.cur.py / Math.max(.2, r.cur.s);
+          r.plate.scale.setScalar(r.cur.ps);
+          /* the rim turns champagne as the shell crosses half-way to the front */
+          r.shell.material[1] = r.cur.gold > .5 ? wallGold : wallRest;
+        });
+        renderer.render(scene, cam);
+        if(busy || needFrame){ needFrame = false; raf = requestAnimationFrame(animate); }
+      }
+      function kick(){ if(!raf) raf = requestAnimationFrame(animate); }
+
+      sync = function(){
+        var dur = parseFloat(getComputedStyle(root).getPropertyValue('--ps-dur')) || 850;
+        var now = performance.now();
+        targets().forEach(function(to, i){
+          var r = rigs[i];
+          r.from = {}; for(var k in to) r.from[k] = r.cur[k];
+          r.to = to; r.t0 = now; r.dur = Math.max(1, dur);
+        });
+        kick();
+      };
+
+      /* ── size: the frustum tracks the stage box so 1 unit stays 1cqw ────────── */
+      var aspect = 1.02;
+      function size(){
+        var W = stage.clientWidth, H = stage.clientHeight;
+        if(!W || !H) return;
+        aspect = H / W;
+        var hw = 50 * (1 + OVER*2);
+        cam.left = -hw; cam.right = hw;
+        cam.top = hw * aspect; cam.bottom = -hw * aspect;
+        cam.updateProjectionMatrix();
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+        renderer.setSize(Math.round(W*(1+OVER*2)), Math.round(H*(1+OVER*2)), false);
+        needFrame = true; kick();
+      }
+      size();
+      if(window.ResizeObserver) new ResizeObserver(function(){ size(); sync(); }).observe(stage);
+
+      /* if the context dies the CSS shells take the stage back, mid-scene */
+      canvas.addEventListener('webglcontextlost', function(){
+        root.classList.remove('ps-3d');
+        canvas.remove();
+        sync = function(){};
+      });
+
+      root.classList.add('ps-3d');
+      /* first frame lands already-composed: snap to the current state, no travel */
+      targets().forEach(function(to, i){ rigs[i].cur = to; });
+      sync();
+    }).catch(function(){ /* vendor unreachable — the CSS sculpture stands */ });
+  })();
 })();
 </script>
 <!-- PS:JS:END -->

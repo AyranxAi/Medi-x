@@ -5,10 +5,8 @@
 
      · the active shell settles in ONE consistent presentation zone: its centre
        moves less than 3% of the stage between any two steps (never chases the eye)
-     · the maroon inner layer is actually revealed on the active shell. In WebGL
-       mode (.ps-3d) this is proven by READING PIXELS BACK off the canvas beside
-       the active face — the context keeps preserveDrawingBuffer for exactly this;
-       in CSS fallback mode by the under-layer's opacity and physical offset
+     · the maroon INNER BODY (a full SVG path instance behind the ivory face)
+       physically extends past the face on the right — depth, not decoration
      · every INACTIVE shell's title is reachable: at least one sample point over
        the label resolves to that shell's own button (nothing buried alive)
      · the active card meta renders ≥ 12px and the editorial body ≥ 15px
@@ -103,42 +101,19 @@ for (const pageName of PAGES) {
         const stage = root.querySelector('[data-ps-stage]').getBoundingClientRect();
         const act   = root.querySelector('.ps-petal.is-on');
         const face  = act.querySelector('.ps-face').getBoundingClientRect();
-        const under = act.querySelector('.ps-under');
-        const ub    = under.getBoundingClientRect();
+        /* the active piece is layered SVG: the maroon INNER BODY must physically
+           extend past the ivory face path on the right — depth, not decoration */
+        const actSvg = act.querySelector('.ps-svg--act');
+        const innerR = actSvg.querySelector('.ps-inner').getBoundingClientRect();
+        const facePr = actSvg.querySelector('.ps-faceP').getBoundingClientRect();
         const out = {
-          mode3d: root.classList.contains('ps-3d'),
-          maroonPx: 0,
+          maroonReveal: innerR.right - facePr.right,
           cx: (face.x + face.width / 2 - stage.x) / stage.width,
           cy: (face.y + face.height / 2 - stage.y) / stage.height,
-          underOpacity: parseFloat(getComputedStyle(under).opacity),
-          underOffset: Math.hypot(ub.x - face.x, ub.y - face.y),
           cardPx: parseFloat(getComputedStyle(act.querySelector('.ps-card-meta')).fontSize),
           edPx: parseFloat(getComputedStyle(root.querySelector('[data-ps-body]')).fontSize),
           buried: [],
         };
-        if (out.mode3d) {
-          /* the proof of depth is in the framebuffer: sample a band just inside and
-             beyond the active face's right edge and count deep-wine pixels */
-          const glc = root.querySelector('.ps-canvas');
-          const c2 = document.createElement('canvas');
-          c2.width = glc.width; c2.height = glc.height;
-          const x2 = c2.getContext('2d');
-          x2.drawImage(glc, 0, 0);
-          const cr = glc.getBoundingClientRect();
-          const sx = glc.width / cr.width, sy = glc.height / cr.height;
-          for (const fy of [.42, .55, .68]) {
-            const y = Math.round((face.y + face.height * fy - cr.y) * sy);
-            /* the crescent hugs the 3D silhouette, which sits INSIDE the DOM box —
-               the band reaches well inward so a narrow shell still gets sampled */
-            for (let k = 0; k < 40; k++) {
-              const fx = face.right - face.width * .22 + face.width * .28 * (k / 40);
-              const x = Math.round((fx - cr.x) * sx);
-              const d = x2.getImageData(x, y, 1, 1).data;
-              if (d[3] > 200 && d[0] > 50 && d[0] < 160 && d[1] < 75 && d[2] < 95
-                  && d[0] > d[1] + 30) out.maroonPx++;
-            }
-          }
-        }
         root.querySelectorAll('.ps-petal:not(.is-on)').forEach(p => {
           const lb = p.querySelector('.ps-lbl').getBoundingClientRect();
           const hit = p.querySelector('.ps-hit');
@@ -151,12 +126,7 @@ for (const pageName of PAGES) {
       });
 
       centres.push([r.cx, r.cy]);
-      if (r.mode3d) {
-        if (r.maroonPx < 5)      fail(`step ${s+1}: maroon layer not visible in the framebuffer (${r.maroonPx} px)`);
-      } else {
-        if (r.underOpacity < 0.95) fail(`step ${s+1}: maroon layer not revealed (opacity ${r.underOpacity})`);
-        if (r.underOffset < 3)     fail(`step ${s+1}: maroon layer not offset from the face (${r.underOffset.toFixed(1)}px)`);
-      }
+      if (r.maroonReveal < 2)  fail(`step ${s+1}: maroon inner body not revealed past the face (${r.maroonReveal.toFixed(1)}px)`);
       if (r.cardPx < 12)         fail(`step ${s+1}: card meta ${r.cardPx}px`);
       if (r.edPx < 15)           fail(`step ${s+1}: editorial body ${r.edPx}px`);
       if (r.buried.length)       fail(`step ${s+1}: labels unreachable → ${r.buried.join(', ')}`);

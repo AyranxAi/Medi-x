@@ -589,11 +589,11 @@ section{position:relative}
    identical before and after, only the words move. It must never read as six cards,
    a carousel, or a flower menu.
 
-   ⚠️ EVERY SHELL IS A BLOB OF border-radius, NOT clip-path — on purpose. clip-path
-   clips box-shadows, and the layered warm shadows ARE the material. Each petal owns
-   its silhouette (--shape) authored so its tapered end aims at the pivot from its own
-   resting seat; rotations therefore stay small and a step change reads as UNFOLDING,
-   never as a spin.
+   ⚠️ EVERY PIECE IS A STACK OF SVG PATH INSTANCES (see the script's petal
+   builder): cast shadow → contact shadow → inner body → ivory face → champagne
+   rim. The silhouettes are traced beziers — the plate and the teardrop — and the
+   --shape blob radii below survive ONLY as hit-area/focus approximations for
+   .ps-hit; they paint nothing.
 
    ⚠️ THE SLOT MAP LIVES HERE, IN CSS, AS CUSTOM PROPERTIES — six fixed slots
    (--px/--py/--pr/--pk/--pz keyed by data-slot), slot 0 being the front. The script
@@ -602,9 +602,9 @@ section{position:relative}
    resize listener because all lengths are container units (cqw/cqh) measured off
    .ps-stagewrap.
 
-   ⚠️ THE MAROON IS A LAYER, NOT A BORDER. .ps-under is a second blob BEHIND the face,
-   slid toward 4-o'clock when active; the face's thin champagne rim sits between the
-   two surfaces and catches the light. Do not repaint it as an outline or a stripe.
+   ⚠️ THE MAROON IS THE INNER BODY — a full path instance behind the face, offset
+   toward 4 o'clock, visible past the shell on the right and lower-right. Never
+   repaint it as an outline, a border, or a stripe.
 
    ⚠️ ACTIVE SCALE IS 1 AND RESTING IS <1 — never the other way round. The active
    card's type is authored at its real rendered size; the resting labels are authored
@@ -615,14 +615,10 @@ section{position:relative}
   --ps-ease-in:cubic-bezier(.24,1.06,.32,1);  /* incoming shell: a whisper of overshoot */
   --ps-dur:850ms;          /* one sculptural transition, desktop */
   --ps-swap:420ms;         /* editorial copy cross-fade */
-  --ps-maroon-hi:#7A2740;  /* the inner layer, lit end */
-  --ps-maroon:#4A1626;     /* the inner layer, body */
-  --ps-maroon-dk:#320F1B;  /* the inner layer, shadow end */
-  --ps-champ:rgba(199,166,102,.55);  /* the rim between ivory and maroon */
-  /* the shared active presentation zone — foreground-right, slightly turned so the
-     viewer can see the shell's thickness. THE ZONE NEVER MOVES BETWEEN STEPS. */
-  --ps-act-x:15cqw; --ps-act-y:1cqh; --ps-act-ky:7deg;
-  --ps-plate-out:3.2;      /* how far the maroon under-shell slides out, world units (1 = 1cqw) */
+  /* the shared active presentation zone — foreground-right.
+     THE ZONE NEVER MOVES BETWEEN STEPS. The depth is drawn in the SVG art, so
+     the box itself stays flat and the card type stays true. */
+  --ps-act-x:14cqw; --ps-act-y:1cqh; --ps-act-ky:0deg;
   position:relative;
   display:none;            /* the script reveals it; <noscript> keeps the list */
 }
@@ -693,20 +689,12 @@ section{position:relative}
   touch-action:pan-y;-webkit-tap-highlight-color:transparent;
 }
 .ps-stage{position:absolute;inset:0;perspective:1500px}
-/* the WebGL layer. It hangs 14% past the stage so shadows are never guillotined;
-   the DOM petals above it keep the labels, the card, the blob hit areas and the
-   focus rings — in 3D mode their own paint is simply switched off. */
-.ps-canvas{position:absolute;inset:-14%;width:128%;height:128%;z-index:0;pointer-events:none}
-/* !important on purpose: the is-on rules below re-paint border and shadow with
-   higher cascade position, and in 3D mode NOTHING of the DOM shell may paint */
-.ps.ps-3d .ps-face{background:none!important;border:0!important;box-shadow:none!important}
-.ps.ps-3d .ps-under{display:none}
 
 /* one shell. The transform chain is THE contract: centre on the stage, travel by
    the map, rotate in-plane, then turn about Y for thickness, then scale for depth.
    --pb is a multiplier shared by hover (1.03) and the release phase (1.022). */
 .ps-petal{
-  position:absolute;left:50%;top:50%;width:62cqw;aspect-ratio:.84;
+  position:absolute;left:50%;top:50%;width:64cqw;aspect-ratio:1;  /* leaf frames are square — rotation is baked in the art */
   transform:translate(-50%,-50%) translate3d(var(--px),var(--py),0)
             rotate(var(--pr)) rotateY(var(--pky,0deg))
             scale(calc(var(--pk) * var(--pb,1)));
@@ -714,6 +702,22 @@ section{position:relative}
   z-index:var(--pz);
   pointer-events:none;           /* the blob's box is rectangular; only .ps-hit acts */
 }
+/* ── the layered-SVG paint. The petal BOX equals the face path's bounding box;
+      each SVG hangs past it by the exact viewBox padding, so shadows and the
+      inner body have room and every label/card/hit measurement stays honest.
+      Which silhouette shows is decided by the SLOT: the front slot wears the
+      plate, the rest wear the teardrop. ──────────────────────────────────── */
+.ps-svg{position:absolute;pointer-events:none;display:none}
+.ps-svg--act{inset:-4.6% -17.5% -15.7% -10.3%}
+.ps-svg--leaf{inset:-22%}
+.ps-petal[data-slot="0"] .ps-svg--act{display:block}
+.ps-petal[data-slot="1"] .ps-svg--s1{display:block}
+.ps-petal[data-slot="2"] .ps-svg--s2{display:block}
+.ps-petal[data-slot="3"] .ps-svg--s3{display:block}
+.ps-petal[data-slot="4"] .ps-svg--s4{display:block}
+.ps-petal[data-slot="5"] .ps-svg--s5{display:block}
+.ps-petal[data-slot="0"]{aspect-ratio:.898}                 /* the plate's bbox */
+
 /* ── THE SLOT MAP — the sculpture is ONE FIXED COMPOSITION, traced from the
       reference render: slot 0 is the front plectrum at the right, slots 1–5 are
       the five leaves. PIECES DO NOT OWN SEATS ANY MORE — a step change trades the
@@ -722,52 +726,23 @@ section{position:relative}
 .ps-petal[data-slot="0"]{--px:15cqw;--py:1cqh;--pr:0deg;--pk:1;--pz:10;
   --pky:var(--ps-act-ky);
   --shape:54% 46% 58% 42% / 46% 62% 38% 54%}                    /* the plectrum */
-.ps-petal[data-slot="1"]{--px:-6cqw; --py:-25cqh;--pr:6deg;  --pk:.66;--pz:2;
+.ps-petal[data-slot="1"]{--px:-3cqw; --py:-26cqh;--pr:0deg; --pk:.60;--pz:2;
   --shape:52% 48% 46% 54% / 62% 66% 36% 40%}                    /* top, taper ↓ */
-.ps-petal[data-slot="2"]{--px:-23cqw;--py:-16cqh;--pr:-14deg;--pk:.63;--pz:3;
+.ps-petal[data-slot="2"]{--px:-19cqw;--py:-16cqh;--pr:0deg;--pk:.59;--pz:3;
   --shape:64% 42% 34% 62% / 62% 54% 34% 50%}                    /* upper-left ↘ */
-.ps-petal[data-slot="3"]{--px:-29cqw;--py:4cqh;  --pr:-8deg; --pk:.61;--pz:4;
+.ps-petal[data-slot="3"]{--px:-24cqw;--py:4cqh;  --pr:0deg; --pk:.56;--pz:4;
   --shape:62% 36% 38% 60% / 54% 40% 46% 58%}                    /* mid-left → */
-.ps-petal[data-slot="4"]{--px:-22cqw;--py:23cqh; --pr:-18deg;--pk:.62;--pz:5;
+.ps-petal[data-slot="4"]{--px:-17cqw;--py:22cqh; --pr:0deg;--pk:.58;--pz:5;
   --shape:56% 32% 62% 54% / 56% 34% 58% 52%}                    /* lower-left ↗ */
-.ps-petal[data-slot="5"]{--px:0cqw;  --py:27cqh; --pr:-6deg; --pk:.63;--pz:6;
+.ps-petal[data-slot="5"]{--px:2cqw;  --py:27cqh; --pr:0deg; --pk:.60;--pz:6;
   --shape:46% 50% 56% 52% / 38% 36% 62% 64%}                    /* bottom ↑ */
 .ps-petal.was-on{z-index:9}      /* the outgoing piece folds away IN FRONT of the rest */
 .ps-petal.is-release{--pb:1.022;transition-duration:130ms}
 .ps-petal:not(.is-on):hover{--pb:1.03}
 
-/* ── the maroon inner layer — PHYSICAL DEPTH, not decoration ──────────────── */
-.ps-under{
-  position:absolute;inset:0;border-radius:var(--shape);
-  background:linear-gradient(118deg,var(--ps-maroon-hi) 0%,var(--ps-maroon) 46%,var(--ps-maroon-dk) 100%);
-  box-shadow:0 26px 54px -20px rgba(50,15,27,.45),
-             inset -1px -2px 3px rgba(255,235,200,.16);
-  transform:translate(1%,.8%) scale(.985);opacity:0;
-  transition:transform var(--ps-dur) var(--ps-ease),
-             opacity calc(var(--ps-dur)*.55) var(--ps-ease);
-}
-.ps-petal.is-on .ps-under{opacity:1;transform:translate(3.6%,2.4%) rotate(.8deg)}
-/* mid-flight the outgoing shell shows its maroon for a moment longer — the fold */
-.ps-petal.was-on .ps-under{opacity:.9;transform:translate(2.6%,2%) rotate(.8deg)}
-
-/* ── the ivory face — porcelain, never white card ─────────────────────────── */
-.ps-face{
-  position:absolute;inset:0;border-radius:var(--shape);
-  background:radial-gradient(circle at 30% 22%,#FFFDF9 0%,#FBF5EB 46%,#F1E8D7 100%);
-  border:1px solid var(--ps-champ);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.9),
-             inset -8px -14px 30px rgba(212,190,150,.15),
-             0 16px 36px -16px rgba(92,31,49,.18),
-             0 5px 12px -6px rgba(92,31,49,.10);
-  transition:box-shadow var(--ps-dur) var(--ps-ease),border-color .5s var(--ps-ease);
-}
-.ps-petal.is-on .ps-face{
-  border-color:rgba(199,166,102,.8);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.95),
-             inset -10px -18px 34px rgba(212,190,150,.13),
-             0 30px 62px -22px rgba(74,22,38,.30),
-             0 10px 22px -10px rgba(92,31,49,.14);
-}
+/* ── the face is a CONTENT layer only — hit, label, card. All paint lives in
+      the SVG stack; never reintroduce backgrounds or box-shadows here. ─────── */
+.ps-face{position:absolute;inset:0}
 
 /* ── the resting label: title only. Numbers live in the progress bar, nowhere
       else. Counter-rotated so it is upright at every seat and every frame. ── */
@@ -781,7 +756,7 @@ section{position:relative}
 .ps-petal.is-on .ps-hit{opacity:0;pointer-events:none}
 .ps-lbl{
   font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30;
-  font-size:clamp(20px,4.3cqw,28px);line-height:1.22;color:var(--ink);
+  font-size:clamp(23px,4.3cqw,28px);line-height:1.22;color:var(--ink);
   text-align:center;display:block;max-width:6.5em;
   transform:rotate(calc(var(--pr) * -1)) translate(var(--lox,0cqw),var(--loy,0cqh));
   transition:transform var(--ps-dur) var(--ps-ease),opacity .3s var(--ps-ease);
@@ -792,7 +767,7 @@ section{position:relative}
 .ps-petal[data-slot="2"] .ps-lbl{--lox:-6cqw;--loy:-5cqh}
 .ps-petal[data-slot="3"] .ps-lbl{--lox:-11cqw;--loy:-4cqh}
 .ps-petal[data-slot="4"] .ps-lbl{--lox:-12cqw;--loy:1cqh}
-.ps-petal[data-slot="5"] .ps-lbl{--lox:-15cqw;--loy:8cqh}
+.ps-petal[data-slot="5"] .ps-lbl{--lox:-20cqw;--loy:7cqh}
 .ps-petal.is-on .ps-lbl{opacity:0}
 
 /* ── the active card. Quiet: title · rule · meta · short copy · CTA. ──────── */
@@ -849,15 +824,16 @@ section{position:relative}
   .ps-arrows{display:flex;max-width:420px}
   .ps-head{font-size:clamp(29px,7.4vw,40px);max-width:14em}
   .ps-body{font-size:16px;max-width:56ch}
-  /* the maroon side slims down so the object never turns heavy on a narrow screen */
-  .ps{--ps-act-ky:5deg;--ps-plate-out:2.5}
-  .ps-petal.is-on .ps-under{transform:translate(2.8%,1.8%) rotate(.7deg)}
   /* on the petal the copy yields entirely to the editorial below — title, rule and
      meta stay; the 3D shell is narrower than a desktop's and crowding it is worse
      than saying less (the headline underneath carries the step's full story) */
-  .ps-card{padding:14% 12% 14% 20%}
-  .ps-card-cta,.ps-card-p{display:none}
+  .ps-card{padding:14% 13% 14% 21%}
+  .ps-card-cta{display:none}
   .ps-card-t{font-size:clamp(19px,5.4cqw,26px)}
+  .ps-card-p{font-size:13.5px;max-width:19ch}
+}
+@media(max-width:900px){
+  .ps-svg--act .ps-inner{transform:translate(6px,2.5px)}
 }
 @media(max-width:640px){
   .ps-prog{max-width:none}
@@ -867,7 +843,7 @@ section{position:relative}
 /* ── reduced motion: the state changes, nothing travels ───────────────────── */
 @media(prefers-reduced-motion:reduce){
   .ps{--ps-dur:1ms;--ps-swap:180ms}
-  .ps-petal,.ps-under,.ps-lbl{transition-duration:1ms}
+  .ps-petal,.ps-lbl{transition-duration:1ms}
   .ps-petal.is-on .ps-card{transition-delay:0s}
   .ps.ps-fading .ps-swap-el{transform:none}
   .ps-card-cta .arr{transition:none}
@@ -3966,10 +3942,11 @@ try{
 <!-- PS:JS:START -->
 <script>
 /* ═══ 03 · THE PROCESS SCULPTURE ═══════════════════════════════════════════════════
-   Six stones in ONE FIXED COMPOSITION traced from the reference; a step change
-   TRADES THE data-slot OF EXACTLY TWO PETALS, so the picture is identical at every
-   step and only the words move. The CSS banner (.ps) owns the slot map; this
-   script owns exactly three things and nothing else:
+   Six layered-SVG pieces in ONE FIXED COMPOSITION traced from the reference; a
+   step change RE-SEATS data-slot ordinally — the chosen piece takes the front,
+   the rest sit in step order — so the picture is identical at every step and
+   only the words move. The CSS banner (.ps) owns the
+   slot map; this script owns exactly three things and nothing else:
 
      · building the six shells and the six progress numbers from ONE data array
      · trading data-slot and toggling state classes — never a coordinate
@@ -4009,11 +3986,6 @@ try{
   var body  = root.querySelector('[data-ps-body]');
   var live  = root.querySelector('[data-ps-live]');
 
-  /* the WebGL layer (below) re-reads every petal's computed transform whenever the
-     state machine moves; until it mounts, this is a no-op and the CSS shells are
-     the whole picture */
-  var sync = function(){};
-
   /* ── the six steps. One array. No markup is written twice. ────────────────── */
   var STEPS = [
     {n:'01', title:'Assessment', meta:'15 min',
@@ -4048,13 +4020,103 @@ try{
      cta:'What to expect', href:'#book'}
   ];
 
+  /* ═══ THE PETAL, AS LAYERED SVG PATHS ════════════════════════════════════════
+     Two traced silhouettes — THE PLATE (slot 0, the active piece: an asymmetric
+     rounded-triangular plate, apex leaning right, one generous belly on the
+     right, a soft point at the lower left) and THE PETAL (slots 1–5, a slim
+     asymmetric teardrop; each slot's rotation and scale gives the variation).
+     ⚠️ NEVER rebuild these as border-radius ovals: the silhouette is the design.
+
+     Each piece is a stack of path instances, back to front:
+       cast shadow (active only) → contact shadow → inner body (maroon on the
+       active, warm plate-edge on the rest) → ivory face → champagne rim (the
+       stroke). The maroon is the INNER BODY showing past the shell on the
+       right and lower-right — a physical layer, never an outline.
+
+     The SVG hangs past the petal's box (inset paddings below) so shadows and
+     the inner body never clip; the BOX ITSELF remains the face's bounding box,
+     which is what keeps every label, card and hit area honest. */
+  var ACT_D = 'M150 12 C184 16 208 54 216 108 C223 156 198 200 152 218 '
+            + 'C134 225 114 228 98 226 C68 222 38 198 28 172 '
+            + 'C22 146 30 104 52 72 C76 38 112 16 150 12 Z';
+  var LEAF_D = 'M108 12 C142 14 176 48 186 96 C193 138 158 180 120 206 '
+             + 'C110 213 99 218 92 220 C72 214 44 186 33 148 '
+             + 'C23 112 27 64 45 37 C61 16 84 11 108 12 Z';
+
+  var defs = document.createElement('div');
+  defs.setAttribute('aria-hidden','true');
+  defs.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden';
+  defs.innerHTML =
+    '<svg width="0" height="0"><defs>'
+    + '<linearGradient id="psIvoryA" x1="0" y1="0" x2=".9" y2="1">'
+    +   '<stop offset="0" stop-color="#FBF7F0"/><stop offset=".5" stop-color="#F4EEE2"/>'
+    +   '<stop offset="1" stop-color="#EDE3D4"/></linearGradient>'
+    + '<linearGradient id="psIvory" x1=".1" y1="0" x2=".9" y2="1">'
+    +   '<stop offset="0" stop-color="#F9F4EC"/><stop offset=".55" stop-color="#F1EADD"/>'
+    +   '<stop offset="1" stop-color="#E4D9C6"/></linearGradient>'
+    + '<linearGradient id="psEdge" x1=".2" y1="0" x2=".9" y2="1">'
+    +   '<stop offset="0" stop-color="#E2D5C2"/><stop offset="1" stop-color="#C7B69E"/></linearGradient>'
+    + '<linearGradient id="psMaroon" x1=".55" y1=".05" x2=".85" y2="1">'
+    +   '<stop offset="0" stop-color="#712744"/><stop offset=".45" stop-color="#5A1C30"/>'
+    +   '<stop offset="1" stop-color="#421320"/></linearGradient>'
+    + '<linearGradient id="psRim" x1="0" y1="0" x2="1" y2="1">'
+    +   '<stop offset="0" stop-color="#EDD9AC"/><stop offset=".55" stop-color="#CDA771"/>'
+    +   '<stop offset="1" stop-color="#CDA771" stop-opacity=".3"/></linearGradient>'
+    + '<linearGradient id="psRimSoft" x1="0" y1="0" x2="1" y2="1">'
+    +   '<stop offset="0" stop-color="#D9BC8C" stop-opacity=".55"/>'
+    +   '<stop offset="1" stop-color="#D9BC8C" stop-opacity=".1"/></linearGradient>'
+    + '<filter id="psBlurS" x="-40%" y="-40%" width="180%" height="180%">'
+    +   '<feGaussianBlur stdDeviation="6"/></filter>'
+    + '<filter id="psBlurL" x="-60%" y="-60%" width="220%" height="220%">'
+    +   '<feGaussianBlur stdDeviation="14"/></filter>'
+    + '</defs></svg>';
+  stage.appendChild(defs);
+
+  function actSVG(){
+    return '<svg class="ps-svg ps-svg--act" viewBox="0 0 248 260" aria-hidden="true" focusable="false">'
+      + '<path class="ps-cast" d="' + ACT_D + '" fill="#63483A" opacity=".14" '
+      +   'transform="translate(16,22)" filter="url(#psBlurL)"/>'
+      + '<path class="ps-contact" d="' + ACT_D + '" fill="#5E4536" opacity=".28" '
+      +   'transform="translate(6,9)" filter="url(#psBlurS)"/>'
+      + '<path class="ps-inner" d="' + ACT_D + '" fill="url(#psMaroon)" transform="translate(8,3.5)"/>'
+      + '<path class="ps-faceP" d="' + ACT_D + '" fill="url(#psIvoryA)" '
+      +   'stroke="url(#psRim)" stroke-width="1.6"/>'
+      + '</svg>';
+  }
+  /* rotate the leaf's path data about its centre into a 300×300 frame. The
+     rotation lives in the GEOMETRY, never in CSS transform: that is what keeps
+     the light, the thickness edge and the shadow falling the same way on every
+     piece, exactly as one photograph would have it. */
+  function rot(d, deg){
+    var a = deg * Math.PI/180, cs = Math.cos(a), sn = Math.sin(a);
+    return d.replace(/(-?[\d.]+)[ ,](-?[\d.]+)/g, function(m, x, y){
+      x = +x - 116; y = +y - 126;
+      return (x*cs - y*sn + 150).toFixed(1) + ' ' + (x*sn + y*cs + 150).toFixed(1);
+    });
+  }
+  /* each SLOT's orientation: the taper always aims into the pivot behind the
+     front plate — down from the top seat, down-right from the upper-left seat,
+     right from the left seat, up-right from below, up from the bottom. */
+  var LEAF_ROT = {1:6, 2:-38, 3:-66, 4:-135, 5:162};
+  function leafSVG(k){
+    var d = rot(LEAF_D, LEAF_ROT[k]);
+    return '<svg class="ps-svg ps-svg--leaf ps-svg--s' + k + '" viewBox="0 0 300 300" '
+      + 'aria-hidden="true" focusable="false">'
+      + '<path class="ps-contact" d="' + d + '" fill="#5E4536" opacity=".22" '
+      +   'transform="translate(5,7)" filter="url(#psBlurS)"/>'
+      + '<path class="ps-inner" d="' + d + '" fill="url(#psEdge)" transform="translate(3.5,4.5)"/>'
+      + '<path class="ps-faceP" d="' + d + '" fill="url(#psIvory)" '
+      +   'stroke="url(#psRimSoft)" stroke-width="1.1"/>'
+      + '</svg>';
+  }
+
   /* ── build the shells ─────────────────────────────────────────────────────── */
   var petals = STEPS.map(function(st, i){
     var p = document.createElement('div');
     p.className = 'ps-petal';
     p.setAttribute('data-i', i);
     p.innerHTML =
-      '<div class="ps-under" aria-hidden="true"></div>'
+      actSVG() + leafSVG(1) + leafSVG(2) + leafSVG(3) + leafSVG(4) + leafSVG(5)
       + '<div class="ps-face">'
       +   '<button type="button" class="ps-hit" aria-label="Step ' + (i+1) + ' of 6: '
       +     st.title + '"><span class="ps-lbl">' + st.title + '</span></button>'
@@ -4117,24 +4179,24 @@ try{
     }, RM ? 20 : 250);
 
     function move(){
-      /* THE TRADE: exactly two pieces exchange slots, so the sculpture's
-         composition is identical before and after — only the words moved */
-      var slotN = inn.getAttribute('data-slot');
-      inn.setAttribute('data-slot', '0');
-      out.setAttribute('data-slot', slotN);
+      /* ORDINAL SEATING: the active step takes the front; the other five sit in
+         step order around the fan (top → upper-left → left → lower-left →
+         bottom). Deterministic — the same step always reads the same way. */
+      var k = 1;
+      STEPS.forEach(function(_, s){
+        petals[s].setAttribute('data-slot', s === n ? '0' : String(k++));
+      });
       out.classList.remove('is-on','is-release');
       out.classList.add('was-on');          /* folds away IN FRONT of the stack … */
       inn.classList.add('is-on');
       live.textContent = 'Step ' + (n+1) + ' of 6: ' + STEPS[n].title + '. '
                        + STEPS[n].meta + '. ' + STEPS[n].petal;
-      sync();
       tSettle = setTimeout(function(){      /* … then takes its seat's own depth */
         out.classList.remove('was-on');
-        sync();
       }, DUR * 0.55);
     }
     if(RM){ move(); }
-    else { out.classList.add('is-release'); sync(); tRelease = setTimeout(move, 130); }
+    else { out.classList.add('is-release'); tRelease = setTimeout(move, 130); }
   }
 
   /* ── input: shells, arrows, keyboard, swipe ───────────────────────────────── */
@@ -4172,351 +4234,6 @@ try{
 
   root.classList.add('ps-on');
 
-  /* ═══ THE WEBGL SCULPTURE — traced silhouettes, puffed stone, painted shadow ════
-     The CSS shells above are the state machine, the interaction layer, the text
-     layer and the complete no-WebGL fallback. This layer replaces only their PAINT.
-
-     ⚠️ THE SILHOUETTES ARE TRACED, NOT GENERATED. Two outlines, authored as cubic
-     beziers against the reference render: THE PLECTRUM (slot 0, the front piece)
-     and THE LEAF (slots 1–5, seated at each slot's own rotation). A radius formula
-     cannot produce the reference's taut, hand-sanded curves — do not replace these
-     with one.
-
-     ⚠️ THE GEOMETRY IS A PUFFED STONE, NOT AN EXTRUSION. stone() lofts each outline
-     through a quarter-round bevel into a softly domed plateau, mirrored top and
-     bottom — a river stone, thick and pillowy, with smooth vertex normals. The
-     bright line along the top-left edges IS this round-over catching the key
-     light; it is not painted.
-
-     ⚠️ THE SHADOWS ARE SPRITES, NOT SHADOW MAPS. Each piece carries its own
-     blurred-silhouette contact shadow just beneath it (the soft pooling where one
-     piece rests on another) and a broader, fainter ground wash. This is both
-     cheaper than mapped shadows and exactly the reference's shadow language:
-     wide, feathered, plum-tinted — never crisp, never grey.
-
-     ⚠️ THE CAMERA IS ORTHOGRAPHIC AND ITS UNIT IS 1cqw OF THE STAGE, which is what
-     lets this layer read the CSS slot map (--px/--py/--pr/--pky/--pk, computed)
-     instead of owning a second one. A step change trades two petals' data-slot;
-     the two travelling meshes arc toward each other, fold edge-on, SWAP OUTLINES
-     at the moment their shape is unreadable, and settle — so the picture after
-     is the picture before, and the maroon under-shell never has to move at all. */
-  (function(){
-    var canvas = document.createElement('canvas');
-    var glAttrs = {antialias:true, alpha:true, preserveDrawingBuffer:true};
-    var gl = canvas.getContext('webgl2', glAttrs) || canvas.getContext('webgl', glAttrs);
-    if(!gl) return;                       /* the CSS sculpture remains the picture */
-
-    import('../vendor/three.module.min.js').then(function(THREE){
-      var renderer;
-      try {
-        renderer = new THREE.WebGLRenderer({canvas:canvas, context:gl, antialias:true, alpha:true});
-      } catch(e){ return; }
-      renderer.outputColorSpace = THREE.SRGBColorSpace;
-      /* Neutral, NOT ACES: ACES drags warm ivory toward khaki and the client read
-         it as "expired". Neutral keeps the cream clean and bright. */
-      renderer.toneMapping = THREE.NeutralToneMapping || THREE.ACESFilmicToneMapping;
-      renderer.toneMappingExposure = 1.02;
-
-      var OVER = .14;
-      canvas.className = 'ps-canvas';
-      canvas.setAttribute('aria-hidden','true');
-      stage.insertBefore(canvas, stage.firstChild);
-
-      var scene = new THREE.Scene();
-      var cam = new THREE.OrthographicCamera(-1,1,1,-1,-400,400);
-      cam.position.set(0,0,200);
-
-      /* one warm key, grazing from the upper left so the round-overs catch it;
-         a warm sky; a whisper of low fill. No shadow-casting lights at all. */
-      scene.add(new THREE.HemisphereLight(0xFFFCF5, 0xE3D8CC, .55));
-      /* the key DOMINATES on purpose: the dome gradient — bright crown, shaded
-         lower-right — is the entire reading of form on a near-white object */
-      var key = new THREE.DirectionalLight(0xFFF6E8, 2.3);
-      key.position.set(-55, 85, 70);
-      scene.add(key);
-      var fill = new THREE.DirectionalLight(0xFFEDE0, .2);
-      fill.position.set(60, -25, 80);
-      scene.add(fill);
-
-      /* the sheen has to REFLECT something: a tiny studio — warm room, one big
-         softbox upper-left, a tall strip on the right — baked through PMREM and
-         mirrored faintly in every curved surface. This, not brightness, is what
-         reads as porcelain instead of paper. */
-      (function(){
-        var env = new THREE.Scene();
-        env.background = new THREE.Color(0xE8E0D6);
-        function card(w, h, x, y, z){
-          var m = new THREE.Mesh(new THREE.PlaneGeometry(w, h),
-            new THREE.MeshBasicMaterial({color:0xFFFFFF}));
-          m.position.set(x, y, z); m.lookAt(0, 0, 0); env.add(m);
-        }
-        card(70, 50, -45, 65, 45);      /* the softbox */
-        card(26, 70,  60,  5, 30);      /* the right strip — the crescent's sheen */
-        card(60, 24,   0, -70, 30);     /* a low bounce */
-        var pmrem = new THREE.PMREMGenerator(renderer);
-        scene.environment = pmrem.fromScene(env, .05).texture;
-        pmrem.dispose();
-      })();
-
-      /* ── materials: soft ceramic — matte faces, the sheen lives on curvature ── */
-      var ivoryMat = new THREE.MeshPhysicalMaterial({color:0xFBF7EE, roughness:.42,
-        metalness:0, clearcoat:.3, clearcoatRoughness:.35, envMapIntensity:.35});
-      var maroonMat = new THREE.MeshPhysicalMaterial({color:0x71263C, roughness:.38,
-        metalness:0, clearcoat:.35, clearcoatRoughness:.3, envMapIntensity:.85});
-
-      /* ── the two traced outlines, local units, y up, ~62×74 box ─────────────── */
-      function bez(segs, N){
-        var pts = [];
-        segs.forEach(function(s){
-          for(var k=0;k<N;k++){
-            var u=k/N, v=1-u;
-            pts.push([
-              v*v*v*s[0][0] + 3*v*v*u*s[1][0] + 3*v*u*u*s[2][0] + u*u*u*s[3][0],
-              v*v*v*s[0][1] + 3*v*v*u*s[1][1] + 3*v*u*u*s[2][1] + u*u*u*s[3][1]]);
-          }
-        });
-        return pts;
-      }
-      var PLECTRUM = bez([
-        [[-10,35],[-1,38],[22,29],[30.5,10]],
-        [[30.5,10],[34,-4],[30,-22],[15,-31.5]],
-        [[15,-31.5],[6,-37],[-7,-37.5],[-15,-31]],
-        [[-15,-31],[-19,-27.5],[-24,-14],[-27,-2]],
-        [[-27,-2],[-29.5,9],[-27,24],[-10,35]]
-      ], 40);
-      var LEAF = bez([
-        [[0,36.5],[13,36],[23,26],[26,7]],
-        [[26,7],[28,-9],[21,-24],[10,-31]],
-        [[10,-31],[4,-35],[-3,-35.5],[-7,-30.5]],
-        [[-7,-30.5],[-17,-24],[-24,-11],[-25.5,4]],
-        [[-25.5,4],[-26.5,23],[-12,36],[0,36.5]]
-      ], 40);
-
-      /* ── stone(): loft an outline through a quarter-round into a domed plateau,
-            mirrored top and bottom. H half-thickness, R round-over, D extra dome. */
-      function stone(outline, H, R, D){
-        var N = outline.length;
-        /* inward normals from neighbours, then two smoothing passes */
-        function inset(d){
-          var ring = outline.map(function(p, i){
-            var a = outline[(i-1+N)%N], b = outline[(i+1)%N];
-            var tx = b[0]-a[0], ty = b[1]-a[1];
-            var L = Math.hypot(tx,ty) || 1;
-            return [p[0] + (ty/L)*d, p[1] - (tx/L)*d];
-          });
-          var passes = 2 + Math.round(8 * d / R);
-          for(var s=0;s<passes;s++) ring = ring.map(function(p,i){
-            var a = ring[(i-1+N)%N], b = ring[(i+1)%N];
-            return [(a[0]+b[0]+2*p[0])/4, (a[1]+b[1]+2*p[1])/4];
-          });
-          return ring;
-        }
-        var cx=0, cy=0;
-        outline.forEach(function(p){ cx+=p[0]/N; cy+=p[1]/N; });
-        var SB=8, SI=4, rings=[];
-        for(var k=0;k<=SB;k++){            /* equator → plateau edge */
-          var f = k/SB*Math.PI/2;
-          rings.push({r:inset(R*(1-Math.cos(f))), z:H*Math.sin(f)});
-        }
-        var edge = rings[SB].r;
-        for(var j=1;j<=SI;j++){            /* plateau → domed centre */
-          var g = j/SI;
-          rings.push({r:edge.map(function(p){
-            return [p[0]+(cx-p[0])*g*.92, p[1]+(cy-p[1])*g*.92];}),
-            z:H + D*(1-Math.cos(Math.PI*g))/2});
-        }
-        var pos=[], idx=[];
-        var half=[rings, rings.map(function(r){return {r:r.r, z:-r.z};})];
-        half.forEach(function(rs, side){
-          var base = pos.length/3;
-          rs.forEach(function(r){ r.r.forEach(function(p){ pos.push(p[0],p[1],r.z); }); });
-          var cIdx = pos.length/3;
-          pos.push(cx, cy, side ? -(H+D) : (H+D));
-          for(var a=0;a<rs.length-1;a++) for(var i=0;i<N;i++){
-            var i2=(i+1)%N, r0=base+a*N, r1=base+(a+1)*N;
-            if(side){ idx.push(r0+i,r1+i,r0+i2, r0+i2,r1+i,r1+i2); }
-            else    { idx.push(r0+i,r0+i2,r1+i, r0+i2,r1+i2,r1+i); }
-          }
-          var last = base+(rs.length-1)*N;
-          for(var m=0;m<N;m++){
-            var m2=(m+1)%N;
-            if(side) idx.push(last+m,cIdx,last+m2); else idx.push(last+m,last+m2,cIdx);
-          }
-        });
-        var geo = new THREE.BufferGeometry();
-        geo.setAttribute('position', new THREE.Float32BufferAttribute(pos,3));
-        geo.setIndex(idx);
-        geo.computeVertexNormals();
-        return geo;
-      }
-      var plectrumGeo = stone(PLECTRUM, 3.4, 5.2, 1.5);
-      var leafGeo     = stone(LEAF,     3.2, 4.2, 1.4);
-
-      /* ── the shadow language: blurred silhouettes, plum, feathered ──────────── */
-      function shadowTex(outline, blur){
-        var PAD = blur*3.6, c = document.createElement('canvas');  /* the blur tail must DIE inside the canvas, or its clip edge prints as a line */
-        c.width = c.height = 256;
-        var xs = outline.map(function(p){return p[0];}), ys = outline.map(function(p){return p[1];});
-        var mnx=Math.min.apply(0,xs)-PAD, mxx=Math.max.apply(0,xs)+PAD;
-        var mny=Math.min.apply(0,ys)-PAD, mxy=Math.max.apply(0,ys)+PAD;
-        var w=mxx-mnx, h=mxy-mny, x=c.getContext('2d');
-        x.filter='blur(' + (blur/w*256).toFixed(1) + 'px)';
-        x.fillStyle='rgb(78,68,58)';        /* warm taupe — never wine; red shadow on cream reads as a stain */
-        x.beginPath();
-        outline.forEach(function(p,i){
-          var px=(p[0]-mnx)/w*256, py=256-(p[1]-mny)/h*256;
-          i ? x.lineTo(px,py) : x.moveTo(px,py);
-        });
-        x.closePath(); x.fill();
-        var tex = new THREE.CanvasTexture(c);
-        return {tex:tex, w:w, h:h};
-      }
-      var shPlectrum = shadowTex(PLECTRUM, 9);
-      var shLeaf     = shadowTex(LEAF, 9);
-      function shadowMesh(sh, opacity){
-        return new THREE.Mesh(new THREE.PlaneGeometry(sh.w, sh.h),
-          new THREE.MeshBasicMaterial({map:sh.tex, transparent:true,
-            opacity:opacity, depthWrite:false}));
-      }
-
-      /* ── the maroon under-shell: it belongs to SLOT 0, so it NEVER MOVES ────── */
-      var plate = new THREE.Mesh(stone(PLECTRUM, 2.4, 3.4, .9), maroonMat);
-      scene.add(plate);
-
-      /* ── six rigs: stone + contact shadow + ground wash, mirroring the DOM ──── */
-      var rigs = petals.map(function(p, i){
-        var slot = p.getAttribute('data-slot');
-        var g = new THREE.Group();
-        var mesh = new THREE.Mesh(slot === '0' ? plectrumGeo : leafGeo, ivoryMat);
-        g.add(mesh);
-        var contact = shadowMesh(slot === '0' ? shPlectrum : shLeaf, slot === '0' ? .55 : .45);
-        contact.position.set(5, -6.5, -6);
-        g.add(contact);
-        scene.add(g);
-        return {g:g, mesh:mesh, contact:contact, slot:slot,
-          cur:{x:0,y:0,z:0,rz:0,ry:0,s:1},
-          from:null, to:null, t0:0, dur:1, flight:false, swapped:true};
-      });
-
-      var num = function(s){ return parseFloat(s) || 0; };
-      function targets(){
-        return petals.map(function(p){
-          var st = getComputedStyle(p);
-          return {
-            x:  num(st.getPropertyValue('--px')),
-            y: -num(st.getPropertyValue('--py')) * aspect,
-            z:  4 + num(st.zIndex) * 8,
-            rz: -num(st.getPropertyValue('--pr')) * Math.PI/180,
-            ry:  num(st.getPropertyValue('--pky')) * Math.PI/180,
-            s:  num(st.getPropertyValue('--pk')) * (num(st.getPropertyValue('--pb')) || 1)
-          };
-        });
-      }
-      function placePlate(){
-        var out = num(getComputedStyle(root).getPropertyValue('--ps-plate-out')) || 3;
-        var s0 = getComputedStyle(petals[0]);       /* slot-0 vars live on .ps */
-        var cs = getComputedStyle(root);
-        var ax = num(cs.getPropertyValue('--ps-act-x')) || 15;
-        var ay = num(cs.getPropertyValue('--ps-act-y')) || 1;
-        var ky = num(cs.getPropertyValue('--ps-act-ky')) || 7;
-        plate.position.set(ax + out*1.12, -ay*aspect - out*.45, 76);
-        plate.rotation.y = ky * Math.PI/180;
-      }
-      function easeOut(t){ return 1 - Math.pow(1 - t, 4.2); }
-      var raf = 0, needFrame = true;
-      function animate(now){
-        raf = 0;
-        var busy = false;
-        rigs.forEach(function(r){
-          if(r.to){
-            var t = Math.min(1, (now - r.t0) / r.dur);
-            var e = easeOut(t);
-            for(var k in r.to) r.cur[k] = r.from[k] + (r.to[k] - r.from[k]) * e;
-            if(r.flight){
-              /* the trade: rise along an arc, fold edge-on, become the other
-                 shape while nobody can tell, unfold into the destination.
-                 ⚠️ THE FOLD RUNS ON RAW TIME, the travel on the eased curve —
-                 the ease front-loads the motion, and a fold tied to it would be
-                 over before the eye arrives; on time, edge-on lands mid-beat. */
-              r.cur.z  += Math.sin(Math.PI * t) * 10;
-              r.cur.ry += Math.sin(Math.PI * t) * 1.5;
-              if(t >= .5 && !r.swapped){
-                var front = r.slot === '0';
-                r.mesh.geometry = front ? plectrumGeo : leafGeo;
-                var sh = front ? shPlectrum : shLeaf;
-                r.contact.material.map = sh.tex;
-                r.contact.material.opacity = front ? .55 : .45;
-                r.contact.material.needsUpdate = true;
-                r.contact.geometry.dispose();
-                r.contact.geometry = new THREE.PlaneGeometry(sh.w, sh.h);
-                r.swapped = true;
-              }
-            }
-            if(t < 1) busy = true; else { r.to = null; r.flight = false; }
-          }
-          r.g.position.set(r.cur.x, r.cur.y, r.cur.z);
-          r.g.rotation.set(0, r.cur.ry, r.cur.rz);
-          r.g.scale.setScalar(Math.max(.01, r.cur.s));
-        });
-        renderer.render(scene, cam);
-        if(busy || needFrame){ needFrame = false; raf = requestAnimationFrame(animate); }
-      }
-      function kick(){ if(!raf) raf = requestAnimationFrame(animate); }
-
-      sync = function(){
-        var dur = parseFloat(getComputedStyle(root).getPropertyValue('--ps-dur')) || 850;
-        var now = performance.now();
-        targets().forEach(function(to, i){
-          var r = rigs[i], domSlot = petals[i].getAttribute('data-slot');
-          r.from = {}; for(var k in to) r.from[k] = r.cur[k];
-          r.to = to; r.t0 = now; r.dur = Math.max(1, dur);
-          if(domSlot !== r.slot){
-            r.slot = domSlot;
-            r.flight = dur > 40;            /* reduced motion trades instantly */
-            r.swapped = false;
-            if(!r.flight){                   /* swap now, no theatre */
-              var front = domSlot === '0';
-              r.mesh.geometry = front ? plectrumGeo : leafGeo;
-              var sh = front ? shPlectrum : shLeaf;
-              r.contact.material.map = sh.tex;
-              r.contact.material.opacity = front ? .55 : .45;
-              r.contact.material.needsUpdate = true;
-              r.contact.geometry.dispose(); r.contact.geometry = new THREE.PlaneGeometry(sh.w, sh.h);
-              r.swapped = true;
-            }
-          }
-        });
-        placePlate();
-        kick();
-      };
-
-      var aspect = 1.02;
-      function size(){
-        var W = stage.clientWidth, H = stage.clientHeight;
-        if(!W || !H) return;
-        aspect = H / W;
-        var hw = 50 * (1 + OVER*2);
-        cam.left = -hw; cam.right = hw;
-        cam.top = hw * aspect; cam.bottom = -hw * aspect;
-        cam.updateProjectionMatrix();
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-        renderer.setSize(Math.round(W*(1+OVER*2)), Math.round(H*(1+OVER*2)), false);
-        needFrame = true; kick();
-      }
-      size();
-      if(window.ResizeObserver) new ResizeObserver(function(){ size(); sync(); }).observe(stage);
-
-      canvas.addEventListener('webglcontextlost', function(){
-        root.classList.remove('ps-3d');
-        canvas.remove();
-        sync = function(){};
-      });
-
-      root.classList.add('ps-3d');
-      targets().forEach(function(to, i){ rigs[i].cur = to; });
-      sync();
-    }).catch(function(){ /* vendor unreachable — the CSS sculpture stands */ });
-  })();
 })();
 </script>
 <!-- PS:JS:END -->

@@ -581,13 +581,13 @@ section{position:relative}
 .prog-grid--card .prog-card{position:static}
 
 /* PS:CSS:START */
-/* ─────────────── 03 · THE PROCESS SCULPTURE — six layered ivory forms ───────────────
-   The chapter's six steps are ONE SCULPTURAL OBJECT: six ivory "pebble" shells fanned
-   around a shared pivot, overlapping at different depths. Selecting a step brings that
-   shell forward into ONE consistent presentation zone at the right of the sculpture,
-   where its deep-maroon INNER LAYER becomes visible along the right and lower-right
-   edge — the ivory face has physically lifted enough to show its thickness. It must
-   never read as six cards, a carousel, or a flower menu.
+/* ─────────────── 03 · THE PROCESS SCULPTURE — six stones, one composition ───────────
+   The chapter's six steps are ONE SCULPTURAL OBJECT in ONE FIXED COMPOSITION traced
+   from the reference render: the front plectrum at the right carries the active step
+   and reveals a deep-maroon under-shell along its right edge; five leaves carry the
+   other five titles. A step change TRADES exactly two pieces' slots — the picture is
+   identical before and after, only the words move. It must never read as six cards,
+   a carousel, or a flower menu.
 
    ⚠️ EVERY SHELL IS A BLOB OF border-radius, NOT clip-path — on purpose. clip-path
    clips box-shadows, and the layered warm shadows ARE the material. Each petal owns
@@ -595,10 +595,10 @@ section{position:relative}
    resting seat; rotations therefore stay small and a step change reads as UNFOLDING,
    never as a spin.
 
-   ⚠️ THE TRANSFORM MAP LIVES HERE, IN CSS, AS CUSTOM PROPERTIES — six resting seats
-   (--px/--py/--pr/--pk/--pz per petal) and ONE shared active transform (--ps-act-*).
-   The script only ever toggles classes (.is-on / .was-on / .is-release); it never
-   writes a coordinate. Media queries re-map the composition for a phone without a
+   ⚠️ THE SLOT MAP LIVES HERE, IN CSS, AS CUSTOM PROPERTIES — six fixed slots
+   (--px/--py/--pr/--pk/--pz keyed by data-slot), slot 0 being the front. The script
+   only ever trades data-slot values and toggles classes; it never writes a
+   coordinate. Media queries re-map the composition for a phone without a
    resize listener because all lengths are container units (cqw/cqh) measured off
    .ps-stagewrap.
 
@@ -714,38 +714,27 @@ section{position:relative}
   z-index:var(--pz);
   pointer-events:none;           /* the blob's box is rectangular; only .ps-hit acts */
 }
-/* ── the resting map. Six seats in a tight fan around the pivot (≈40% 48% of the
-      stage) — the pieces OVERLAP; daylight between them breaks the object. Seat 3
-      tucks high-right BEHIND the active zone with its shoulder showing past it. ── */
-.ps-petal[data-i="0"]{--px:-6cqw; --py:-25cqh;--pr:6deg;  --pk:.66;--pz:2;
-  --shape:52% 48% 46% 54% / 62% 66% 36% 40%}                    /* taper ↓ */
-.ps-petal[data-i="1"]{--px:-23cqw;--py:-16cqh;--pr:-14deg;--pk:.63;--pz:3;
-  --shape:64% 42% 34% 62% / 62% 54% 34% 50%}                    /* taper ↘ */
-.ps-petal[data-i="2"]{--px:-29cqw;--py:4cqh;  --pr:-8deg; --pk:.61;--pz:4;
-  --shape:62% 36% 38% 60% / 54% 40% 46% 58%}                    /* taper → */
-.ps-petal[data-i="3"]{--px:20cqw; --py:-26cqh;--pr:14deg; --pk:.56;--pz:1;
-  --shape:58% 54% 56% 34% / 46% 62% 52% 36%}                    /* taper ↙ */
-.ps-petal[data-i="4"]{--px:-22cqw;--py:23cqh; --pr:-18deg;--pk:.62;--pz:5;
-  --shape:56% 32% 62% 54% / 56% 34% 58% 52%}                    /* taper ↗ */
-.ps-petal[data-i="5"]{--px:0cqw;  --py:27cqh; --pr:-6deg; --pk:.63;--pz:6;
-  --shape:46% 50% 56% 52% / 38% 36% 62% 64%}                    /* taper ↑ */
-
-/* the active state OUTRANKS the seat map on purpose (doubled class): both write
-   the same custom properties and the seat rules carry an attribute selector. */
-.ps-petal.is-on.is-on{
-  --px:var(--ps-act-x);--py:var(--ps-act-y);--pk:1;--pky:var(--ps-act-ky);
-  z-index:10;transition-timing-function:var(--ps-ease-in);
-}
-.ps-petal.was-on{z-index:9}      /* the outgoing shell folds away IN FRONT of the rest */
+/* ── THE SLOT MAP — the sculpture is ONE FIXED COMPOSITION, traced from the
+      reference render: slot 0 is the front plectrum at the right, slots 1–5 are
+      the five leaves. PIECES DO NOT OWN SEATS ANY MORE — a step change trades the
+      data-slot of exactly two petals, so the picture is identical at every step
+      and only the words move. Do not add a seventh seat or a per-piece home. ── */
+.ps-petal[data-slot="0"]{--px:15cqw;--py:1cqh;--pr:0deg;--pk:1;--pz:10;
+  --pky:var(--ps-act-ky);
+  --shape:54% 46% 58% 42% / 46% 62% 38% 54%}                    /* the plectrum */
+.ps-petal[data-slot="1"]{--px:-6cqw; --py:-25cqh;--pr:6deg;  --pk:.66;--pz:2;
+  --shape:52% 48% 46% 54% / 62% 66% 36% 40%}                    /* top, taper ↓ */
+.ps-petal[data-slot="2"]{--px:-23cqw;--py:-16cqh;--pr:-14deg;--pk:.63;--pz:3;
+  --shape:64% 42% 34% 62% / 62% 54% 34% 50%}                    /* upper-left ↘ */
+.ps-petal[data-slot="3"]{--px:-29cqw;--py:4cqh;  --pr:-8deg; --pk:.61;--pz:4;
+  --shape:62% 36% 38% 60% / 54% 40% 46% 58%}                    /* mid-left → */
+.ps-petal[data-slot="4"]{--px:-22cqw;--py:23cqh; --pr:-18deg;--pk:.62;--pz:5;
+  --shape:56% 32% 62% 54% / 56% 34% 58% 52%}                    /* lower-left ↗ */
+.ps-petal[data-slot="5"]{--px:0cqw;  --py:27cqh; --pr:-6deg; --pk:.63;--pz:6;
+  --shape:46% 50% 56% 52% / 38% 36% 62% 64%}                    /* bottom ↑ */
+.ps-petal.was-on{z-index:9}      /* the outgoing piece folds away IN FRONT of the rest */
 .ps-petal.is-release{--pb:1.022;transition-duration:130ms}
 .ps-petal:not(.is-on):hover{--pb:1.03}
-/* each shell straightens toward its own presentation angle as it comes forward */
-.ps-petal[data-i="0"].is-on{--pr:-1deg}
-.ps-petal[data-i="1"].is-on{--pr:-2deg}
-.ps-petal[data-i="2"].is-on{--pr:-1deg}
-.ps-petal[data-i="3"].is-on{--pr:0deg}
-.ps-petal[data-i="4"].is-on{--pr:-2deg}
-.ps-petal[data-i="5"].is-on{--pr:-1deg}
 
 /* ── the maroon inner layer — PHYSICAL DEPTH, not decoration ──────────────── */
 .ps-under{
@@ -797,14 +786,13 @@ section{position:relative}
   transform:rotate(calc(var(--pr) * -1)) translate(var(--lox,0cqw),var(--loy,0cqh));
   transition:transform var(--ps-dur) var(--ps-ease),opacity .3s var(--ps-ease);
 }
-/* nudge each title toward the OUTER (visible) end of its seat — the part its
-   higher-stacked neighbours and the active shell never cover */
-.ps-petal[data-i="0"] .ps-lbl{--lox:2cqw;--loy:-15cqh}
-.ps-petal[data-i="1"] .ps-lbl{--lox:-6cqw;--loy:-5cqh}
-.ps-petal[data-i="2"] .ps-lbl{--lox:-11cqw;--loy:-4cqh}
-.ps-petal[data-i="3"] .ps-lbl{--lox:4cqw;--loy:-26cqh}
-.ps-petal[data-i="4"] .ps-lbl{--lox:-12cqw;--loy:1cqh}
-.ps-petal[data-i="5"] .ps-lbl{--lox:-15cqw;--loy:8cqh}
+/* nudge each title into its SLOT's clear window — the region the higher-stacked
+   neighbours and the front piece never cover */
+.ps-petal[data-slot="1"] .ps-lbl{--lox:2cqw;--loy:-15cqh}
+.ps-petal[data-slot="2"] .ps-lbl{--lox:-6cqw;--loy:-5cqh}
+.ps-petal[data-slot="3"] .ps-lbl{--lox:-11cqw;--loy:-4cqh}
+.ps-petal[data-slot="4"] .ps-lbl{--lox:-12cqw;--loy:1cqh}
+.ps-petal[data-slot="5"] .ps-lbl{--lox:-15cqw;--loy:8cqh}
 .ps-petal.is-on .ps-lbl{opacity:0}
 
 /* ── the active card. Quiet: title · rule · meta · short copy · CTA. ──────── */
@@ -3978,12 +3966,13 @@ try{
 <!-- PS:JS:START -->
 <script>
 /* ═══ 03 · THE PROCESS SCULPTURE ═══════════════════════════════════════════════════
-   Six layered ivory shells, one shared active zone, one maroon inner layer. The CSS
-   banner (.ps) owns the material and the transform map; this script owns exactly
-   three things and nothing else:
+   Six stones in ONE FIXED COMPOSITION traced from the reference; a step change
+   TRADES THE data-slot OF EXACTLY TWO PETALS, so the picture is identical at every
+   step and only the words move. The CSS banner (.ps) owns the slot map; this
+   script owns exactly three things and nothing else:
 
      · building the six shells and the six progress numbers from ONE data array
-     · toggling state classes (.is-on / .was-on / .is-release) — never a coordinate
+     · trading data-slot and toggling state classes — never a coordinate
      · the inputs: numbers, shells, arrows, ← →, swipe, and the aria-live sentence
 
    ⚠️ NO COORDINATES IN THIS FILE. Every seat, angle, scale and depth is a custom
@@ -4078,6 +4067,7 @@ try{
       +       ' <span class="arr" aria-hidden="true">&#8594;</span></a>'
       +   '</div>'
       + '</div>';
+    p.setAttribute('data-slot', String(i));   /* step 1 starts front (slot 0) */
     if(i === 0) p.classList.add('is-on');
     stage.appendChild(p);
     return p;
@@ -4127,6 +4117,11 @@ try{
     }, RM ? 20 : 250);
 
     function move(){
+      /* THE TRADE: exactly two pieces exchange slots, so the sculpture's
+         composition is identical before and after — only the words moved */
+      var slotN = inn.getAttribute('data-slot');
+      inn.setAttribute('data-slot', '0');
+      out.setAttribute('data-slot', slotN);
       out.classList.remove('is-on','is-release');
       out.classList.add('was-on');          /* folds away IN FRONT of the stack … */
       inn.classList.add('is-on');
@@ -4177,33 +4172,36 @@ try{
 
   root.classList.add('ps-on');
 
-  /* ═══ THE WEBGL SCULPTURE — real thickness, real weight, real shadows ════════════
+  /* ═══ THE WEBGL SCULPTURE — traced silhouettes, puffed stone, painted shadow ════
      The CSS shells above are the state machine, the interaction layer, the text
-     layer and the complete no-WebGL fallback. This layer replaces only their PAINT:
-     six extruded porcelain shells in one lit scene, each mirroring its DOM petal's
-     computed transform 1:1, so the map, the choreography and every input stay in
-     one place (the stylesheet).
+     layer and the complete no-WebGL fallback. This layer replaces only their PAINT.
 
-     ⚠️ THE CAMERA IS ORTHOGRAPHIC AND ITS UNITS ARE CONTAINER-QUERY UNITS: 1 world
-     unit = 1cqw of the stage. That single decision is what lets this layer READ the
-     CSS map (--px/--py/--pr/--pky/--pk, computed) instead of owning a second one.
-     The DOM labels, the active card and the blob-shaped hit areas keep sitting on
-     top of the canvas exactly where the meshes render.
+     ⚠️ THE SILHOUETTES ARE TRACED, NOT GENERATED. Two outlines, authored as cubic
+     beziers against the reference render: THE PLECTRUM (slot 0, the front piece)
+     and THE LEAF (slots 1–5, seated at each slot's own rotation). A radius formula
+     cannot produce the reference's taut, hand-sanded curves — do not replace these
+     with one.
 
-     ⚠️ THE SHELL IS THREE PHYSICAL PARTS, matching the reference construction:
-     ivory top (extrude face) → thin champagne wall (extrude side — this IS the
-     gold rim, it is lit, not painted) → a separate deep-maroon under-shell that
-     slides toward 4 o'clock when the piece is active. Depth is never faked with a
-     painted stripe; the tilt (rotateY) and the light do the reveal.
+     ⚠️ THE GEOMETRY IS A PUFFED STONE, NOT AN EXTRUSION. stone() lofts each outline
+     through a quarter-round bevel into a softly domed plateau, mirrored top and
+     bottom — a river stone, thick and pillowy, with smooth vertex normals. The
+     bright line along the top-left edges IS this round-over catching the key
+     light; it is not painted.
 
-     ⚠️ ONE KEY LIGHT, upper-left, with a soft shadow map — the pieces shade EACH
-     OTHER where they stack, and a plum-tinted ShadowMaterial plane catches the
-     drop onto the page. Do not add more shadowing lights; two shadow maps double
-     the cost and flatten the reading of a single warm daylight. */
+     ⚠️ THE SHADOWS ARE SPRITES, NOT SHADOW MAPS. Each piece carries its own
+     blurred-silhouette contact shadow just beneath it (the soft pooling where one
+     piece rests on another) and a broader, fainter ground wash. This is both
+     cheaper than mapped shadows and exactly the reference's shadow language:
+     wide, feathered, plum-tinted — never crisp, never grey.
+
+     ⚠️ THE CAMERA IS ORTHOGRAPHIC AND ITS UNIT IS 1cqw OF THE STAGE, which is what
+     lets this layer read the CSS slot map (--px/--py/--pr/--pky/--pk, computed)
+     instead of owning a second one. A step change trades two petals' data-slot;
+     the two travelling meshes arc toward each other, fold edge-on, SWAP OUTLINES
+     at the moment their shape is unreadable, and settle — so the picture after
+     is the picture before, and the maroon under-shell never has to move at all. */
   (function(){
     var canvas = document.createElement('canvas');
-    /* preserveDrawingBuffer belongs to the CONTEXT, and the context is created
-       here, not by the renderer — tools/qa reads pixels back through it */
     var glAttrs = {antialias:true, alpha:true, preserveDrawingBuffer:true};
     var gl = canvas.getContext('webgl2', glAttrs) || canvas.getContext('webgl', glAttrs);
     if(!gl) return;                       /* the CSS sculpture remains the picture */
@@ -4211,19 +4209,12 @@ try{
     import('../vendor/three.module.min.js').then(function(THREE){
       var renderer;
       try {
-        renderer = new THREE.WebGLRenderer({canvas:canvas, context:gl, antialias:true,
-          alpha:true, preserveDrawingBuffer:true});   /* read back by tools/qa */
+        renderer = new THREE.WebGLRenderer({canvas:canvas, context:gl, antialias:true, alpha:true});
       } catch(e){ return; }
       renderer.outputColorSpace = THREE.SRGBColorSpace;
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
-      renderer.toneMappingExposure = 1.06;
-      renderer.shadowMap.enabled = true;
-      /* VSM, because it is the only map type whose radius actually blurs — the
-         reference's shadows are broad and airy, never crisp product-shot discs */
-      renderer.shadowMap.type = THREE.VSMShadowMap;
+      renderer.toneMappingExposure = 1.08;
 
-      /* the canvas hangs 14% past the stage on every side so shadows and the
-         bottom shells are never guillotined at the box edge */
       var OVER = .14;
       canvas.className = 'ps-canvas';
       canvas.setAttribute('aria-hidden','true');
@@ -4233,159 +4224,214 @@ try{
       var cam = new THREE.OrthographicCamera(-1,1,1,-1,-400,400);
       cam.position.set(0,0,200);
 
-      /* ── the light — one warm key from the upper left, a sky, a whisper of fill.
-            Colours are sampled off the reference renders, then balanced under
-            ACES: the ivory must land near #F1EADD in open light, the wall near
-            champagne, the maroon near #5A1B2E in its own shadow. ─────────────── */
-      scene.add(new THREE.HemisphereLight(0xFFF8EC, 0xE6D0BC, 1.0));
-      /* high and frontal: the lateral shadow throw is z·(light.xy/light.z), so the
-         light's height is what keeps the ground shadow an understatement */
-      var key = new THREE.DirectionalLight(0xFFF3E0, 2.0);
-      key.position.set(-45, 70, 190);
-      key.castShadow = true;
-      key.shadow.mapSize.set(1024, 1024);
-      key.shadow.camera.left = -95; key.shadow.camera.right = 95;
-      key.shadow.camera.top = 95;   key.shadow.camera.bottom = -95;
-      key.shadow.camera.near = 60;  key.shadow.camera.far = 400;
-      key.shadow.radius = 12; key.shadow.blurSamples = 16;
-      key.shadow.bias = -0.0002;
+      /* one warm key, grazing from the upper left so the round-overs catch it;
+         a warm sky; a whisper of low fill. No shadow-casting lights at all. */
+      scene.add(new THREE.HemisphereLight(0xFFF7EA, 0xE2CCB8, 1.0));
+      var key = new THREE.DirectionalLight(0xFFF2DE, 1.9);
+      key.position.set(-55, 85, 105);
       scene.add(key);
-      var fill = new THREE.DirectionalLight(0xFFE2CE, .3);
-      fill.position.set(70, -30, 90);
+      var fill = new THREE.DirectionalLight(0xFFE3CF, .35);
+      fill.position.set(60, -25, 80);
       scene.add(fill);
 
-      /* the page shows through the canvas; only the shadow is painted onto it,
-         and it is plum, never grey — grey shadow on warm cream reads as dirt */
-      var catcher = new THREE.Mesh(new THREE.PlaneGeometry(400,400),
-        new THREE.ShadowMaterial({color:0x4A2030, opacity:.17}));
-      catcher.receiveShadow = true;
-      scene.add(catcher);
+      /* ── materials: soft ceramic — matte faces, the sheen lives on curvature ── */
+      var ivoryMat = new THREE.MeshPhysicalMaterial({color:0xF8F0E0, roughness:.56,
+        metalness:0, clearcoat:.14, clearcoatRoughness:.6});
+      var maroonMat = new THREE.MeshPhysicalMaterial({color:0x6B2136, roughness:.5,
+        metalness:0, clearcoat:.22, clearcoatRoughness:.5});
 
-      /* ── materials. Matte porcelain, satin lacquer — never plastic. The face
-            carries a soft radial warmth (a 256px gradient), because a flat albedo
-            under directional light reads as card, not ceramic. ────────────────── */
-      var faceTex = (function(){
-        var c = document.createElement('canvas'); c.width = c.height = 256;
-        var x = c.getContext('2d');
-        var g = x.createRadialGradient(104,92,10, 128,128,168);
-        g.addColorStop(0,'#FEFAF1'); g.addColorStop(.55,'#F8F0E1'); g.addColorStop(1,'#EDE1CB');
-        x.fillStyle = g; x.fillRect(0,0,256,256);
-        var tx = new THREE.CanvasTexture(c);
-        tx.colorSpace = THREE.SRGBColorSpace;
-        return tx;
-      })();
-      var faceMat = new THREE.MeshStandardMaterial({map:faceTex, roughness:.62, metalness:0});
-      /* two walls: the resting shells wear near-ivory edges; ONLY the active piece
-         earns the champagne-gold rim, exactly as the reference restrains it */
-      var wallRest = new THREE.MeshStandardMaterial({color:0xEADCC3, roughness:.56, metalness:0});
-      var wallGold = new THREE.MeshStandardMaterial({color:0xD2B67C, roughness:.42, metalness:.18});
-      var maroonMat = new THREE.MeshStandardMaterial({color:0x5C1C2F, roughness:.44, metalness:0});
-
-      /* ── one pebble outline per shell, tapered toward its seat's pivot side —
-            the same six orientations the CSS blobs author with border-radius.
-            r(θ) is an ellipse pinched around the taper heading plus a soft second
-            harmonic, sampled and smoothed through a closed Catmull-Rom. ───────── */
-      function pebble(taperDeg, pinch, wobble){
-        var t0 = taperDeg * Math.PI/180, pts = [];
-        for(var k=0;k<48;k++){
-          var th = k/48 * Math.PI*2;
-          /* a BROAD taper (low power), never a narrow notch — a dent in the
-             silhouette reads as damage, not design */
-          var r = 1 - pinch*Math.pow((1+Math.cos(th-t0))/2, 2.0)
-                    + (wobble||0)*Math.cos(2*(th-t0)+.7);
-          pts.push(new THREE.Vector2(30*r*Math.cos(th), 37*r*Math.sin(th)));
-        }
-        var curve = new THREE.CatmullRomCurve3(
-          pts.map(function(p){return new THREE.Vector3(p.x,p.y,0);}), true, 'centripetal');
-        var sm = curve.getPoints(140);
-        var shape = new THREE.Shape();
-        shape.moveTo(sm[0].x, sm[0].y);
-        for(var i=1;i<sm.length;i++) shape.lineTo(sm[i].x, sm[i].y);
-        shape.closePath();
-        return shape;
+      /* ── the two traced outlines, local units, y up, ~62×74 box ─────────────── */
+      function bez(segs, N){
+        var pts = [];
+        segs.forEach(function(s){
+          for(var k=0;k<N;k++){
+            var u=k/N, v=1-u;
+            pts.push([
+              v*v*v*s[0][0] + 3*v*v*u*s[1][0] + 3*v*u*u*s[2][0] + u*u*u*s[3][0],
+              v*v*v*s[0][1] + 3*v*v*u*s[1][1] + 3*v*u*u*s[2][1] + u*u*u*s[3][1]]);
+          }
+        });
+        return pts;
       }
-      /* taper headings, screen-space: 0 ↓, 1 ↘, 2 →, 3 ↙, 4 ↗, 5 ↑  (world y up) */
-      var TAPER = [-90, -35, 0, -145, 40, 90];
-      var PINCH = .52, DEPTH = 2.6, PLATE = 2.4;
+      var PLECTRUM = bez([
+        [[-8,35.5],[0,38],[24,27],[31.5,7]],
+        [[31.5,7],[34,-8],[27,-25],[11,-33.5]],
+        [[11,-33.5],[3,-37],[-9,-36.5],[-18,-29]],
+        [[-18,-29],[-26,-22],[-30,-9],[-30,3]],
+        [[-30,3],[-30,15],[-22,31],[-8,35.5]]
+      ], 40);
+      var LEAF = bez([
+        [[0,36],[15,35],[26,25],[28.5,5]],
+        [[28.5,5],[30,-10],[22,-24],[9,-30]],
+        [[9,-30],[3,-34.5],[-3,-35],[-7,-30.5]],
+        [[-7,-30.5],[-19,-25],[-28,-12],[-28.5,4]],
+        [[-28.5,4],[-27.5,24],[-14,35],[0,36]]
+      ], 40);
 
-      /* the extrude's UVs are raw shape coordinates; the radial face texture needs
-         them normalised to the shape's own box or the gradient lands off-centre */
-      function normUV(geo){
-        var uv = geo.attributes.uv, mnu=1e9, mxu=-1e9, mnv=1e9, mxv=-1e9;
-        for(var i=0;i<uv.count;i++){
-          var u=uv.getX(i), v=uv.getY(i);
-          if(u<mnu)mnu=u; if(u>mxu)mxu=u; if(v<mnv)mnv=v; if(v>mxv)mxv=v;
+      /* ── stone(): loft an outline through a quarter-round into a domed plateau,
+            mirrored top and bottom. H half-thickness, R round-over, D extra dome. */
+      function stone(outline, H, R, D){
+        var N = outline.length;
+        /* inward normals from neighbours, then two smoothing passes */
+        function inset(d){
+          var ring = outline.map(function(p, i){
+            var a = outline[(i-1+N)%N], b = outline[(i+1)%N];
+            var tx = b[0]-a[0], ty = b[1]-a[1];
+            var L = Math.hypot(tx,ty) || 1;
+            return [p[0] + (ty/L)*d, p[1] - (tx/L)*d];
+          });
+          var passes = 2 + Math.round(8 * d / R);
+          for(var s=0;s<passes;s++) ring = ring.map(function(p,i){
+            var a = ring[(i-1+N)%N], b = ring[(i+1)%N];
+            return [(a[0]+b[0]+2*p[0])/4, (a[1]+b[1]+2*p[1])/4];
+          });
+          return ring;
         }
-        for(var j=0;j<uv.count;j++)
-          uv.setXY(j,(uv.getX(j)-mnu)/(mxu-mnu),(uv.getY(j)-mnv)/(mxv-mnv));
-        uv.needsUpdate = true;
+        var cx=0, cy=0;
+        outline.forEach(function(p){ cx+=p[0]/N; cy+=p[1]/N; });
+        var SB=8, SI=4, rings=[];
+        for(var k=0;k<=SB;k++){            /* equator → plateau edge */
+          var f = k/SB*Math.PI/2;
+          rings.push({r:inset(R*(1-Math.cos(f))), z:H*Math.sin(f)});
+        }
+        var edge = rings[SB].r;
+        for(var j=1;j<=SI;j++){            /* plateau → domed centre */
+          var g = j/SI;
+          rings.push({r:edge.map(function(p){
+            return [p[0]+(cx-p[0])*g*.92, p[1]+(cy-p[1])*g*.92];}),
+            z:H + D*(1-Math.cos(Math.PI*g))/2});
+        }
+        var pos=[], idx=[];
+        var half=[rings, rings.map(function(r){return {r:r.r, z:-r.z};})];
+        half.forEach(function(rs, side){
+          var base = pos.length/3;
+          rs.forEach(function(r){ r.r.forEach(function(p){ pos.push(p[0],p[1],r.z); }); });
+          var cIdx = pos.length/3;
+          pos.push(cx, cy, side ? -(H+D) : (H+D));
+          for(var a=0;a<rs.length-1;a++) for(var i=0;i<N;i++){
+            var i2=(i+1)%N, r0=base+a*N, r1=base+(a+1)*N;
+            if(side){ idx.push(r0+i,r1+i,r0+i2, r0+i2,r1+i,r1+i2); }
+            else    { idx.push(r0+i,r0+i2,r1+i, r0+i2,r1+i2,r1+i); }
+          }
+          var last = base+(rs.length-1)*N;
+          for(var m=0;m<N;m++){
+            var m2=(m+1)%N;
+            if(side) idx.push(last+m,cIdx,last+m2); else idx.push(last+m,last+m2,cIdx);
+          }
+        });
+        var geo = new THREE.BufferGeometry();
+        geo.setAttribute('position', new THREE.Float32BufferAttribute(pos,3));
+        geo.setIndex(idx);
+        geo.computeVertexNormals();
+        return geo;
+      }
+      var plectrumGeo = stone(PLECTRUM, 3.4, 5.2, 1.5);
+      var leafGeo     = stone(LEAF,     3.2, 4.2, 1.4);
+
+      /* ── the shadow language: blurred silhouettes, plum, feathered ──────────── */
+      function shadowTex(outline, blur){
+        var PAD = blur*3.6, c = document.createElement('canvas');  /* the blur tail must DIE inside the canvas, or its clip edge prints as a line */
+        c.width = c.height = 256;
+        var xs = outline.map(function(p){return p[0];}), ys = outline.map(function(p){return p[1];});
+        var mnx=Math.min.apply(0,xs)-PAD, mxx=Math.max.apply(0,xs)+PAD;
+        var mny=Math.min.apply(0,ys)-PAD, mxy=Math.max.apply(0,ys)+PAD;
+        var w=mxx-mnx, h=mxy-mny, x=c.getContext('2d');
+        x.filter='blur(' + (blur/w*256).toFixed(1) + 'px)';
+        x.fillStyle='rgb(64,29,45)';        /* the tint lives in the texture */
+        x.beginPath();
+        outline.forEach(function(p,i){
+          var px=(p[0]-mnx)/w*256, py=256-(p[1]-mny)/h*256;
+          i ? x.lineTo(px,py) : x.moveTo(px,py);
+        });
+        x.closePath(); x.fill();
+        var tex = new THREE.CanvasTexture(c);
+        return {tex:tex, w:w, h:h};
+      }
+      var shPlectrum = shadowTex(PLECTRUM, 6);
+      var shLeaf     = shadowTex(LEAF, 6);
+      function shadowMesh(sh, opacity){
+        return new THREE.Mesh(new THREE.PlaneGeometry(sh.w, sh.h),
+          new THREE.MeshBasicMaterial({map:sh.tex, transparent:true,
+            opacity:opacity, depthWrite:false}));
       }
 
+      /* ── the maroon under-shell: it belongs to SLOT 0, so it NEVER MOVES ────── */
+      var plate = new THREE.Mesh(stone(PLECTRUM, 2.4, 3.4, .9), maroonMat);
+      scene.add(plate);
+
+      /* ── six rigs: stone + contact shadow + ground wash, mirroring the DOM ──── */
       var rigs = petals.map(function(p, i){
-        var shape = pebble(TAPER[i], PINCH, .04);
+        var slot = p.getAttribute('data-slot');
         var g = new THREE.Group();
-        var shellGeo = new THREE.ExtrudeGeometry(shape, {depth:DEPTH, bevelEnabled:true,
-          bevelThickness:.7, bevelSize:.7, bevelSegments:3, curveSegments:24});
-        shellGeo.center(); normUV(shellGeo);
-        var shell = new THREE.Mesh(shellGeo, [faceMat, wallRest]);
-        shell.castShadow = shell.receiveShadow = true;
-        var plateGeo = new THREE.ExtrudeGeometry(shape, {depth:PLATE, bevelEnabled:true,
-          bevelThickness:.6, bevelSize:.6, bevelSegments:2, curveSegments:24});
-        plateGeo.center();
-        var plate = new THREE.Mesh(plateGeo, maroonMat);
-        plate.castShadow = plate.receiveShadow = true;
-        plate.position.z = -(DEPTH + PLATE)/2 - .5;
-        plate.scale.setScalar(.984);      /* flush behind the shell until it slides */
-        g.add(plate); g.add(shell);
+        var mesh = new THREE.Mesh(slot === '0' ? plectrumGeo : leafGeo, ivoryMat);
+        g.add(mesh);
+        var contact = shadowMesh(slot === '0' ? shPlectrum : shLeaf, .34);
+        contact.position.set(3.2, -4.2, -6);
+        g.add(contact);
         scene.add(g);
-        return {g:g, shell:shell, plate:plate,
-          cur:{x:0,y:0,z:0,rz:0,ry:0,s:1,px:0,py:0,ps:.984},
-          from:null, to:null, t0:0, dur:1};
+        return {g:g, mesh:mesh, contact:contact, slot:slot,
+          cur:{x:0,y:0,z:0,rz:0,ry:0,s:1},
+          from:null, to:null, t0:0, dur:1, flight:false, swapped:true};
       });
 
-      /* ── mirroring: read the DOM petal's computed state, tween the mesh to it.
-            No coordinate is invented here — parse, convert, interpolate. ──────── */
       var num = function(s){ return parseFloat(s) || 0; };
       function targets(){
-        var cs = getComputedStyle(root);
-        var plateOut = num(cs.getPropertyValue('--ps-plate-out')) || 3.0;
-        return petals.map(function(p, i){
+        return petals.map(function(p){
           var st = getComputedStyle(p);
-          var on = p.classList.contains('is-on');
-          var zi = num(st.zIndex);
           return {
             x:  num(st.getPropertyValue('--px')),
             y: -num(st.getPropertyValue('--py')) * aspect,
-            z:  4 + zi * 3,
+            z:  4 + num(st.zIndex) * 8,
             rz: -num(st.getPropertyValue('--pr')) * Math.PI/180,
             ry:  num(st.getPropertyValue('--pky')) * Math.PI/180,
-            s:  num(st.getPropertyValue('--pk')) * (num(st.getPropertyValue('--pb')) || 1),
-            px: on ? plateOut : 0,
-            py: on ? -plateOut * .72 : 0,
-            ps: on ? 1.01 : .984,
-            gold: on ? 1 : 0
+            s:  num(st.getPropertyValue('--pk')) * (num(st.getPropertyValue('--pb')) || 1)
           };
         });
       }
-      function easeOut(t){ return 1 - Math.pow(1 - t, 4.2); }   /* ≈ the CSS curve */
+      function placePlate(){
+        var out = num(getComputedStyle(root).getPropertyValue('--ps-plate-out')) || 3;
+        var s0 = getComputedStyle(petals[0]);       /* slot-0 vars live on .ps */
+        var cs = getComputedStyle(root);
+        var ax = num(cs.getPropertyValue('--ps-act-x')) || 15;
+        var ay = num(cs.getPropertyValue('--ps-act-y')) || 1;
+        var ky = num(cs.getPropertyValue('--ps-act-ky')) || 7;
+        plate.position.set(ax + out*1.12, -ay*aspect - out*.45, 76);
+        plate.rotation.y = ky * Math.PI/180;
+      }
+      function easeOut(t){ return 1 - Math.pow(1 - t, 4.2); }
       var raf = 0, needFrame = true;
       function animate(now){
         raf = 0;
         var busy = false;
         rigs.forEach(function(r){
-          if(!r.to) return;
-          var t = Math.min(1, (now - r.t0) / r.dur);
-          var e = easeOut(t);
-          for(var k in r.to) r.cur[k] = r.from[k] + (r.to[k] - r.from[k]) * e;
-          if(t < 1) busy = true; else r.to = null;
+          if(r.to){
+            var t = Math.min(1, (now - r.t0) / r.dur);
+            var e = easeOut(t);
+            for(var k in r.to) r.cur[k] = r.from[k] + (r.to[k] - r.from[k]) * e;
+            if(r.flight){
+              /* the trade: rise along an arc, fold edge-on, become the other
+                 shape while nobody can tell, unfold into the destination.
+                 ⚠️ THE FOLD RUNS ON RAW TIME, the travel on the eased curve —
+                 the ease front-loads the motion, and a fold tied to it would be
+                 over before the eye arrives; on time, edge-on lands mid-beat. */
+              r.cur.z  += Math.sin(Math.PI * t) * 10;
+              r.cur.ry += Math.sin(Math.PI * t) * 1.5;
+              if(t >= .5 && !r.swapped){
+                var front = r.slot === '0';
+                r.mesh.geometry = front ? plectrumGeo : leafGeo;
+                var sh = front ? shPlectrum : shLeaf;
+                r.contact.material.map = sh.tex;
+                r.contact.material.needsUpdate = true;
+                r.contact.geometry.dispose();
+                r.contact.geometry = new THREE.PlaneGeometry(sh.w, sh.h);
+                r.swapped = true;
+              }
+            }
+            if(t < 1) busy = true; else { r.to = null; r.flight = false; }
+          }
           r.g.position.set(r.cur.x, r.cur.y, r.cur.z);
           r.g.rotation.set(0, r.cur.ry, r.cur.rz);
           r.g.scale.setScalar(Math.max(.01, r.cur.s));
-          r.plate.position.x = r.cur.px / Math.max(.2, r.cur.s);
-          r.plate.position.y = r.cur.py / Math.max(.2, r.cur.s);
-          r.plate.scale.setScalar(r.cur.ps);
-          /* the rim turns champagne as the shell crosses half-way to the front */
-          r.shell.material[1] = r.cur.gold > .5 ? wallGold : wallRest;
         });
         renderer.render(scene, cam);
         if(busy || needFrame){ needFrame = false; raf = requestAnimationFrame(animate); }
@@ -4396,14 +4442,27 @@ try{
         var dur = parseFloat(getComputedStyle(root).getPropertyValue('--ps-dur')) || 850;
         var now = performance.now();
         targets().forEach(function(to, i){
-          var r = rigs[i];
+          var r = rigs[i], domSlot = petals[i].getAttribute('data-slot');
           r.from = {}; for(var k in to) r.from[k] = r.cur[k];
           r.to = to; r.t0 = now; r.dur = Math.max(1, dur);
+          if(domSlot !== r.slot){
+            r.slot = domSlot;
+            r.flight = dur > 40;            /* reduced motion trades instantly */
+            r.swapped = false;
+            if(!r.flight){                   /* swap now, no theatre */
+              var front = domSlot === '0';
+              r.mesh.geometry = front ? plectrumGeo : leafGeo;
+              var sh = front ? shPlectrum : shLeaf;
+              r.contact.material.map = sh.tex; r.contact.material.needsUpdate = true;
+              r.contact.geometry.dispose(); r.contact.geometry = new THREE.PlaneGeometry(sh.w, sh.h);
+              r.swapped = true;
+            }
+          }
         });
+        placePlate();
         kick();
       };
 
-      /* ── size: the frustum tracks the stage box so 1 unit stays 1cqw ────────── */
       var aspect = 1.02;
       function size(){
         var W = stage.clientWidth, H = stage.clientHeight;
@@ -4420,7 +4479,6 @@ try{
       size();
       if(window.ResizeObserver) new ResizeObserver(function(){ size(); sync(); }).observe(stage);
 
-      /* if the context dies the CSS shells take the stage back, mid-scene */
       canvas.addEventListener('webglcontextlost', function(){
         root.classList.remove('ps-3d');
         canvas.remove();
@@ -4428,7 +4486,6 @@ try{
       });
 
       root.classList.add('ps-3d');
-      /* first frame lands already-composed: snap to the current state, no travel */
       targets().forEach(function(to, i){ rigs[i].cur = to; });
       sync();
     }).catch(function(){ /* vendor unreachable — the CSS sculpture stands */ });

@@ -547,7 +547,11 @@ section{position:relative}
    peptide siblings still carry the living copies; bring them back from there, never
    from memory. The pg-* money grammar below SURVIVES — it is shared, and this chapter
    is now its home on this page. */
-.programme{background:var(--ivory)}
+/* ⚠️ PROVISIONAL (2026-08-21): the process sculpture's ground is --cream, not --ivory,
+   because the client's reference render stands its ivory pieces on a warm cream ground;
+   on --ivory the pieces read darker than the page. His call to keep or revert — one
+   token either way. */
+.programme{background:var(--cream)}
 .prog-lede{max-width:58ch;margin-top:18px;color:var(--ink-soft);
   font-size:clamp(15px,1.25vw,17px);line-height:1.62}
 .prog-grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);
@@ -582,50 +586,43 @@ section{position:relative}
 
 /* PS:CSS:START */
 /* ─────────────── 03 · THE PROCESS SCULPTURE — six stones, one composition ───────────
-   The chapter's six steps are ONE SCULPTURAL OBJECT in ONE FIXED COMPOSITION traced
-   from the reference render: the front plectrum at the right carries the active step
-   and reveals a deep-maroon under-shell along its right edge; five leaves carry the
-   other five titles. A step change TRADES exactly two pieces' slots — the picture is
-   identical before and after, only the words move. It must never read as six cards,
-   a carousel, or a flower menu.
+   The chapter's six steps are ONE SCULPTURAL OBJECT in ONE FIXED COMPOSITION, matched
+   to the client's reference render (2026-08-21, desktop + phone): five ivory leaves
+   fanned behind one large ivory plate at the right; the plate stands on a thick
+   deep-maroon slab whose wall shows along the plate's right edge. A step change TRADES
+   slots — the picture is identical before and after, only the words move. It must
+   never read as six cards, a carousel, or a flower menu.
 
-   ⚠️ EVERY PIECE IS A STACK OF SVG PATH INSTANCES (see the script's petal
-   builder): cast shadow → contact shadow → inner body → ivory face → champagne
-   rim. The silhouettes are traced beziers — the plate and the teardrop — and the
-   --shape blob radii below survive ONLY as hit-area/focus approximations for
-   .ps-hit; they paint nothing.
+   ⚠️ EVERY PIECE IS A STACK OF SVG PATH INSTANCES built by the script's art builder:
+   cast shadow → contact shadow → wall (a swept stack of the silhouette, the physical
+   thickness) → face (ivory gradient + dome shading) → rim highlight. Two silhouettes:
+   THE LEAF (an egg, narrow end outward) and THE PLATE (a rounded plectrum, apex up-
+   right). The geometry carries each slot's rotation; the light always falls from the
+   upper left. Nothing here is a border-radius blob or a border.
 
    ⚠️ THE SLOT MAP LIVES HERE, IN CSS, AS CUSTOM PROPERTIES — six fixed slots
-   (--px/--py/--pr/--pk/--pz keyed by data-slot), slot 0 being the front. The script
-   only ever trades data-slot values and toggles classes; it never writes a
-   coordinate. Media queries re-map the composition for a phone without a
-   resize listener because all lengths are container units (cqw/cqh) measured off
-   .ps-stagewrap.
+   (--pw/--pa/--px/--py/--pz keyed by data-slot), slot 0 being the front plate. The
+   script only ever trades data-slot values and toggles classes; it never writes a
+   coordinate. Media queries re-map the composition for a phone without a resize
+   listener because every length is a container unit (cqw/cqh) off .ps-stagewrap.
+   Desktop and phone are TWO compositions traced from the two references — the phone
+   plate is rotated in its art (.ps-svg--act-m), never by CSS transform.
 
-   ⚠️ THE MAROON IS THE INNER BODY — a full path instance behind the face, offset
-   toward 4 o'clock, visible past the shell on the right and lower-right. Never
-   repaint it as an outline, a border, or a stripe.
-
-   ⚠️ ACTIVE SCALE IS 1 AND RESTING IS <1 — never the other way round. The active
-   card's type is authored at its real rendered size; the resting labels are authored
-   large and shown shrunk, which keeps text crisp where it is actually read. */
+   ⚠️ THE MAROON IS THE SLAB BENEATH THE PLATE — a swept stack of the plate silhouette
+   offset toward 3 o'clock; it is physical depth, never an outline or a stripe. */
 
 .ps{
   --ps-ease:cubic-bezier(.22,1,.36,1);
-  --ps-ease-in:cubic-bezier(.24,1.06,.32,1);  /* incoming shell: a whisper of overshoot */
+  --ps-ease-in:cubic-bezier(.24,1.06,.32,1);
   --ps-dur:850ms;          /* one sculptural transition, desktop */
   --ps-swap:420ms;         /* editorial copy cross-fade */
-  /* the shared active presentation zone — foreground-right.
-     THE ZONE NEVER MOVES BETWEEN STEPS. The depth is drawn in the SVG art, so
-     the box itself stays flat and the card type stays true. */
-  --ps-act-x:14cqw; --ps-act-y:1cqh; --ps-act-ky:0deg;
   position:relative;
   display:none;            /* the script reveals it; <noscript> keeps the list */
 }
 .ps.ps-on{display:block}
 
 .ps-grid{
-  display:grid;grid-template-columns:minmax(0,41fr) minmax(0,59fr);
+  display:grid;grid-template-columns:minmax(0,40fr) minmax(0,60fr);
   align-items:center;column-gap:clamp(30px,4.5vw,80px);
   min-height:min(80svh,880px);
 }
@@ -646,7 +643,6 @@ section{position:relative}
   font-size:clamp(15.5px,1.2vw,17.5px);line-height:1.68;color:var(--ink-soft);
   margin-top:clamp(16px,2.6vh,26px);max-width:46ch;
 }
-/* the copy swap: refined, never theatrical — opacity + ~10px of travel */
 .ps-swap-el{transition:opacity var(--ps-swap) var(--ps-ease),transform var(--ps-swap) var(--ps-ease)}
 .ps.ps-fading .ps-swap-el{opacity:0;transform:translateY(10px);transition-duration:230ms}
 
@@ -666,8 +662,7 @@ section{position:relative}
 .ps-dot[aria-current]{background:var(--burgundy);border-color:var(--burgundy);color:#F6EFE4}
 .ps-tick{flex:1 1 0;min-width:6px;max-width:28px;height:1px;background:rgba(194,160,94,.5)}
 
-/* ── previous / next — part of the phone composition; the desktop uses the
-      petals, the numbers and the arrow keys ───────────────────────────────── */
+/* ── previous / next — part of the phone composition ──────────────────────── */
 .ps-arrows{display:none;justify-content:space-between;margin-top:clamp(20px,3.4vh,30px)}
 .ps-arr{
   width:52px;height:52px;border-radius:50%;
@@ -682,98 +677,83 @@ section{position:relative}
 /* ── the sculpture stage ──────────────────────────────────────────────────── */
 .ps-stagewrap{
   position:relative;container-type:size;width:100%;
-  /* when the height cap bites (short desktop viewports), the width cap below keeps
-     the stage square — a squashed stage squeezes every label's clear window */
-  aspect-ratio:1/1.02;max-height:min(76svh,780px);
-  max-width:calc(min(76svh,780px)/1.02);margin-left:auto;
+  aspect-ratio:1/1.06;max-height:min(80svh,840px);
+  max-width:calc(min(80svh,840px)/1.06);margin-left:auto;
   touch-action:pan-y;-webkit-tap-highlight-color:transparent;
 }
-.ps-stage{position:absolute;inset:0;perspective:1500px}
+.ps-stage{position:absolute;inset:0}
 
-/* one shell. The transform chain is THE contract: centre on the stage, travel by
-   the map, rotate in-plane, then turn about Y for thickness, then scale for depth.
-   --pb is a multiplier shared by hover (1.03) and the release phase (1.022). */
+/* one piece. The transform chain is THE contract: centre on the stage, travel by
+   the map, then a breath of scale for hover/release. The box IS the face's bounding
+   box (width --pw, aspect --pa); the art hangs past it. */
 .ps-petal{
-  position:absolute;left:50%;top:50%;width:64cqw;aspect-ratio:1;  /* leaf frames are square — rotation is baked in the art */
-  transform:translate(-50%,-50%) translate3d(var(--px),var(--py),0)
-            rotate(var(--pr)) rotateY(var(--pky,0deg))
-            scale(calc(var(--pk) * var(--pb,1)));
-  transition:transform var(--ps-dur) var(--ps-ease);
+  position:absolute;left:50%;top:50%;width:var(--pw);aspect-ratio:var(--pa,1);
+  transform:translate(-50%,-50%) translate3d(var(--px),var(--py),0) scale(var(--pb,1));
+  transition:transform var(--ps-dur) var(--ps-ease),width var(--ps-dur) var(--ps-ease),
+             aspect-ratio var(--ps-dur) var(--ps-ease);
   z-index:var(--pz);
-  pointer-events:none;           /* the blob's box is rectangular; only .ps-hit acts */
+  pointer-events:none;           /* only .ps-hit acts */
 }
-/* ── the layered-SVG paint. The petal BOX equals the face path's bounding box;
-      each SVG hangs past it by the exact viewBox padding, so shadows and the
-      inner body have room and every label/card/hit measurement stays honest.
-      Which silhouette shows is decided by the SLOT: the front slot wears the
-      plate, the rest wear the teardrop. ──────────────────────────────────── */
+/* the layered-SVG paint. Which instance shows is decided by the SLOT: the front
+   slot wears the plate (desktop art, or the phone art under the media query), the
+   rest wear the leaf rotated for their seat. */
 .ps-svg{position:absolute;pointer-events:none;display:none}
-.ps-svg--act{inset:-4.6% -17.5% -15.7% -10.3%}
-.ps-svg--leaf{inset:-22%}
-.ps-petal[data-slot="0"] .ps-svg--act{display:block}
+.ps-svg--act{inset:-30%}
+.ps-svg--leaf{inset:-46%}
+.ps-petal[data-slot="0"] .ps-svg--act-d{display:block}
 .ps-petal[data-slot="1"] .ps-svg--s1{display:block}
 .ps-petal[data-slot="2"] .ps-svg--s2{display:block}
 .ps-petal[data-slot="3"] .ps-svg--s3{display:block}
 .ps-petal[data-slot="4"] .ps-svg--s4{display:block}
 .ps-petal[data-slot="5"] .ps-svg--s5{display:block}
-.ps-petal[data-slot="0"]{aspect-ratio:.898}                 /* the plate's bbox */
 
-/* ── THE SLOT MAP — the sculpture is ONE FIXED COMPOSITION, traced from the
-      reference render: slot 0 is the front plectrum at the right, slots 1–5 are
-      the five leaves. PIECES DO NOT OWN SEATS ANY MORE — a step change trades the
-      data-slot of exactly two petals, so the picture is identical at every step
-      and only the words move. Do not add a seventh seat or a per-piece home. ── */
-.ps-petal[data-slot="0"]{--px:15cqw;--py:1cqh;--pr:0deg;--pk:1;--pz:10;
-  --pky:var(--ps-act-ky);
-  --shape:54% 46% 58% 42% / 46% 62% 38% 54%}                    /* the plectrum */
-.ps-petal[data-slot="1"]{--px:-3cqw; --py:-26cqh;--pr:0deg; --pk:.60;--pz:2;
-  --shape:52% 48% 46% 54% / 62% 66% 36% 40%}                    /* top, taper ↓ */
-.ps-petal[data-slot="2"]{--px:-19cqw;--py:-16cqh;--pr:0deg;--pk:.59;--pz:3;
-  --shape:64% 42% 34% 62% / 62% 54% 34% 50%}                    /* upper-left ↘ */
-.ps-petal[data-slot="3"]{--px:-24cqw;--py:4cqh;  --pr:0deg; --pk:.56;--pz:4;
-  --shape:62% 36% 38% 60% / 54% 40% 46% 58%}                    /* mid-left → */
-.ps-petal[data-slot="4"]{--px:-17cqw;--py:22cqh; --pr:0deg;--pk:.58;--pz:5;
-  --shape:56% 32% 62% 54% / 56% 34% 58% 52%}                    /* lower-left ↗ */
-.ps-petal[data-slot="5"]{--px:2cqw;  --py:27cqh; --pr:0deg; --pk:.60;--pz:6;
-  --shape:46% 50% 56% 52% / 38% 36% 62% 64%}                    /* bottom ↑ */
+/* ── THE SLOT MAP — ONE FIXED COMPOSITION traced from the desktop reference:
+      slot 0 is the plate at the right, slots 1–5 are the leaves, top → upper-left
+      → left → lower-left → bottom, shingled so each leaf sits in front of the one
+      before it and the plate sits in front of all. Pieces do not own seats — a
+      step change trades data-slot, so the picture is identical at every step. ── */
+.ps-petal[data-slot="0"]{--pw:66cqw;--pa:.906;--px:14.5cqw;--py:-6cqh;--pz:10}
+.ps-petal[data-slot="1"]{--pw:43cqw;--pa:1;--px:-8.7cqw;--py:-30.5cqh;--pz:4}   /* top */
+.ps-petal[data-slot="2"]{--pw:43cqw;--pa:1;--px:-22cqw;--py:-20.7cqh;--pz:2}    /* upper-left */
+.ps-petal[data-slot="3"]{--pw:43cqw;--pa:1;--px:-30cqw;--py:0cqh;--pz:5}        /* left */
+.ps-petal[data-slot="4"]{--pw:43cqw;--pa:1;--px:-18.8cqw;--py:19cqh;--pz:3}     /* lower-left */
+.ps-petal[data-slot="5"]{--pw:43cqw;--pa:1;--px:-3.6cqw;--py:32.5cqh;--pz:6}      /* bottom */
 .ps-petal.was-on{z-index:9}      /* the outgoing piece folds away IN FRONT of the rest */
-.ps-petal.is-release{--pb:1.022;transition-duration:130ms}
-.ps-petal:not(.is-on):hover{--pb:1.03}
+.ps-petal.is-release{--pb:1.015;transition-duration:130ms}
+.ps-petal:not(.is-on):hover{--pb:1.02}
 
 /* ── the face is a CONTENT layer only — hit, label, card. All paint lives in
       the SVG stack; never reintroduce backgrounds or box-shadows here. ─────── */
 .ps-face{position:absolute;inset:0}
-
-/* ── the resting label: title only. Numbers live in the progress bar, nowhere
-      else. Counter-rotated so it is upright at every seat and every frame. ── */
 .ps-hit{
-  position:absolute;inset:0;border-radius:var(--shape);border:0;background:none;
-  margin:0;padding:10%;cursor:pointer;pointer-events:auto;
+  position:absolute;inset:6%;border-radius:50%;border:0;background:none;
+  margin:0;padding:8%;cursor:pointer;pointer-events:auto;
   display:flex;align-items:center;justify-content:center;
   -webkit-tap-highlight-color:transparent;
 }
 .ps-hit:focus-visible{outline:2px dashed var(--gold-deep);outline-offset:5px}
 .ps-petal.is-on .ps-hit{opacity:0;pointer-events:none}
+/* the resting label — light serif, sat toward the leaf's outward tip where the
+   reference puts it; nudged per SLOT (the clear window the neighbours never cover) */
 .ps-lbl{
-  font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30;
-  font-size:clamp(23px,4.3cqw,28px);line-height:1.22;color:var(--ink);
-  text-align:center;display:block;max-width:6.5em;
-  transform:rotate(calc(var(--pr) * -1)) translate(var(--lox,0cqw),var(--loy,0cqh));
+  font-family:var(--serif);font-weight:380;font-variation-settings:"opsz" 24;
+  font-size:clamp(16px,2.55cqw,22px);line-height:1.22;color:#443238;
+  letter-spacing:.005em;text-align:center;display:block;max-width:6.2em;
+  transform:translate(var(--lox,0cqw),var(--loy,0cqh));
   transition:transform var(--ps-dur) var(--ps-ease),opacity .3s var(--ps-ease);
 }
-/* nudge each title into its SLOT's clear window — the region the higher-stacked
-   neighbours and the front piece never cover */
-.ps-petal[data-slot="1"] .ps-lbl{--lox:2cqw;--loy:-15cqh}
-.ps-petal[data-slot="2"] .ps-lbl{--lox:-6cqw;--loy:-5cqh}
-.ps-petal[data-slot="3"] .ps-lbl{--lox:-11cqw;--loy:-4cqh}
-.ps-petal[data-slot="4"] .ps-lbl{--lox:-12cqw;--loy:1cqh}
-.ps-petal[data-slot="5"] .ps-lbl{--lox:-20cqw;--loy:7cqh}
+.ps-petal[data-slot="1"] .ps-lbl{--lox:2.3cqw;--loy:-7.6cqw}
+.ps-petal[data-slot="2"] .ps-lbl{--lox:-8cqw;--loy:-5cqw}
+.ps-petal[data-slot="3"] .ps-lbl{--lox:-5.6cqw;--loy:-.8cqw}
+.ps-petal[data-slot="4"] .ps-lbl{--lox:-5.2cqw;--loy:4.4cqw}
+.ps-petal[data-slot="5"] .ps-lbl{--lox:.8cqw;--loy:1.2cqw}
 .ps-petal.is-on .ps-lbl{opacity:0}
 
-/* ── the active card. Quiet: title · rule · meta · short copy · CTA. ──────── */
+/* ── the active card. Quiet: title · rule · meta · short copy · CTA — seated in
+      the plate's clear field, left of the belly, as the reference has it. ──── */
 .ps-card{
-  position:absolute;inset:0;padding:13% 15% 13% 20%;
-  display:flex;flex-direction:column;align-items:flex-start;justify-content:center;
+  position:absolute;inset:0;padding:30% 22% 10% 29%;
+  display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;
   opacity:0;visibility:hidden;transform:translateY(12px);pointer-events:none;
   transition:opacity var(--ps-swap) var(--ps-ease),
              transform var(--ps-swap) var(--ps-ease),
@@ -786,24 +766,25 @@ section{position:relative}
              visibility 0s linear 0s;
 }
 .ps-card-t{
-  font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 36;
-  font-size:clamp(21px,4.9cqw,33px);line-height:1.06;color:var(--burgundy);
+  font-family:var(--serif);font-weight:400;font-variation-settings:"opsz" 40;
+  font-size:clamp(22px,4.9cqw,40px);line-height:1.05;color:#3A1A26;margin:0;
 }
-.ps-card-rule{width:34px;height:1px;background:var(--gold);margin:clamp(9px,1.7cqh,15px) 0}
+.ps-card-rule{width:30px;height:1px;background:var(--gold);margin:clamp(10px,2.2cqw,18px) 0}
 .ps-card-meta{
-  font-family:var(--sans);font-weight:400;
-  font-size:clamp(12.5px,2.2cqw,15px);color:var(--ink-soft);
+  font-family:var(--sans);font-weight:400;margin:0;
+  font-size:clamp(12.5px,1.85cqw,15px);color:var(--ink-soft);
 }
+.ps-card-p--m{display:none}   /* the phone's shorter petal copy; the media query swaps */
 .ps-card-p{
-  font-family:var(--sans);font-weight:300;
-  font-size:clamp(13.5px,2.4cqw,16.5px);line-height:1.62;color:var(--ink);
-  max-width:24ch;margin-top:clamp(8px,1.8cqh,16px);
+  font-family:var(--sans);font-weight:300;margin:0;
+  font-size:clamp(13.5px,1.9cqw,15.5px);line-height:1.6;color:var(--ink);
+  max-width:26ch;margin-top:clamp(10px,2.2cqw,18px);
 }
 .ps-card-cta{
-  pointer-events:auto;display:inline-flex;align-items:center;gap:10px;
-  margin-top:clamp(12px,2.4cqh,22px);padding:10px 16px;
-  border:1px solid rgba(194,160,94,.75);background:rgba(255,253,249,.45);
-  font-family:var(--sans);font-weight:400;font-size:clamp(12px,2cqw,13.5px);
+  pointer-events:auto;display:inline-flex;align-items:center;gap:12px;
+  margin-top:clamp(14px,3cqw,26px);padding:11px 16px;
+  border:1px solid rgba(194,160,94,.8);background:rgba(255,253,249,.35);
+  font-family:var(--sans);font-weight:400;font-size:clamp(12px,1.75cqw,13.5px);
   color:var(--burgundy);text-decoration:none;white-space:nowrap;
   transition:background .3s var(--ps-ease),border-color .3s var(--ps-ease);
 }
@@ -815,25 +796,39 @@ section{position:relative}
 .ps-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
   clip:rect(0 0 0 0);white-space:nowrap;border:0}
 
-/* ── THE PHONE IS ITS OWN COMPOSITION, not a shrunk desktop: the sculpture
-      becomes the hero on top, the editorial follows, the arrows join in. ───── */
+/* ── THE PHONE IS ITS OWN COMPOSITION, traced from the phone reference: the
+      sculpture is the hero on top, the editorial follows, the arrows join in. The
+      plate turns ~18° so its apex points up; that turn is in the art. ───────── */
 @media(max-width:900px){
   .ps{--ps-dur:720ms}
   .ps-grid{grid-template-columns:minmax(0,1fr);row-gap:clamp(24px,4.5vh,40px);min-height:0}
-  .ps-stagewrap{order:-1;max-width:520px;margin:0 auto;max-height:none}
+  .ps-stagewrap{order:-1;aspect-ratio:1/1.25;max-width:min(520px,calc(82svh/1.25));
+    max-height:none;margin:0 auto}
   .ps-arrows{display:flex;max-width:420px}
   .ps-head{font-size:clamp(29px,7.4vw,40px);max-width:14em}
   .ps-body{font-size:16px;max-width:56ch}
-  /* on the petal the copy yields entirely to the editorial below — title, rule and
-     meta stay; the 3D shell is narrower than a desktop's and crowding it is worse
-     than saying less (the headline underneath carries the step's full story) */
-  .ps-card{padding:14% 13% 14% 21%}
-  .ps-card-cta{display:none}
-  .ps-card-t{font-size:clamp(19px,5.4cqw,26px)}
-  .ps-card-p{font-size:13.5px;max-width:19ch}
-}
-@media(max-width:900px){
-  .ps-svg--act .ps-inner{transform:translate(6px,2.5px)}
+  .ps-petal[data-slot="0"] .ps-svg--act-d{display:none}
+  .ps-petal[data-slot="0"] .ps-svg--act-m{display:block}
+  .ps-petal[data-slot="0"]{--pw:66cqw;--px:17cqw;--py:-2.5cqh}
+  .ps-petal[data-slot="1"]{--pw:50cqw;--px:-1.3cqw;--py:-29.7cqh}
+  .ps-petal[data-slot="2"]{--pw:50cqw;--px:-23cqw;--py:-17.4cqh}
+  .ps-petal[data-slot="3"]{--pw:50cqw;--px:-25cqw;--py:2cqh}
+  .ps-petal[data-slot="4"]{--pw:50cqw;--px:-18cqw;--py:21cqh}
+  .ps-petal[data-slot="5"]{--pw:50cqw;--px:8.5cqw;--py:30cqh}
+  .ps-lbl{font-size:clamp(16px,3.5cqw,22px)}
+  .ps-petal[data-slot="1"] .ps-lbl{--lox:.7cqw;--loy:-7.5cqw}
+  .ps-petal[data-slot="2"] .ps-lbl{--lox:-6cqw;--loy:-7.5cqw}
+  .ps-petal[data-slot="3"] .ps-lbl{--lox:-7.5cqw;--loy:-.7cqw}
+  .ps-petal[data-slot="4"] .ps-lbl{--lox:-3.5cqw;--loy:7cqw}
+  .ps-petal[data-slot="5"] .ps-lbl{--lox:1.9cqw;--loy:7.2cqw}
+  /* on the plate the copy is title · rule · meta · four short lines — no CTA;
+     the editorial underneath carries the step's full story */
+  .ps-card{padding:24% 16% 12% 30%}
+  .ps-card-cta,.ps-card-p--d{display:none}
+  .ps-card-p--m{display:block}
+  .ps-card-t{font-size:clamp(21px,5.4cqw,30px)}
+  .ps-card-meta{font-size:clamp(12.5px,2.4cqw,14px)}
+  .ps-card-p{font-size:clamp(13px,2.5cqw,14.5px);max-width:19ch;line-height:1.5}
 }
 @media(max-width:640px){
   .ps-prog{max-width:none}
@@ -2165,13 +2160,12 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
   <section class="programme sec-pad" id="programme">
 <!-- PS:HTML:START -->
       <!-- ══════════ THE PROCESS SCULPTURE ══════════
-           The six steps as ONE LAYERED OBJECT — six ivory shells around a shared
-           pivot; the selected one comes forward into a single, never-moving
-           presentation zone and reveals its deep-maroon inner layer. Read the .ps
+           The six steps as ONE LAYERED OBJECT — five ivory leaves behind one ivory
+           plate on its maroon slab; the selected step takes the plate. Read the .ps
            banner in the <style> for the material and motion contract before editing.
-           ⚠️ THE SHELLS ARE BUILT BY SCRIPT FROM ONE DATA ARRAY (see the block at
+           ⚠️ THE PIECES ARE BUILT BY SCRIPT FROM ONE DATA ARRAY (see the block at
            the foot of this file). This markup is the editorial half and the mount
-           point; six shells hand-written six times is six places for the layering
+           point; six pieces hand-written six times is six places for the layering
            to drift.
            ⚠️ THE <noscript> LIST BELOW IS THE ORIGINAL CHAPTER, VERBATIM — the
            whole of the rollback story and the whole of the no-JS story. If the
@@ -3943,25 +3937,25 @@ try{
 <script>
 /* ═══ 03 · THE PROCESS SCULPTURE ═══════════════════════════════════════════════════
    Six layered-SVG pieces in ONE FIXED COMPOSITION traced from the reference; a
-   step change RE-SEATS data-slot ordinally — the chosen piece takes the front,
+   step change RE-SEATS data-slot ordinally — the chosen piece takes the plate,
    the rest sit in step order — so the picture is identical at every step and
-   only the words move. The CSS banner (.ps) owns the
-   slot map; this script owns exactly three things and nothing else:
+   only the words move. The CSS banner (.ps) owns the slot map; this script owns
+   exactly three things and nothing else:
 
-     · building the six shells and the six progress numbers from ONE data array
+     · building the six pieces and the six progress numbers from ONE data array
      · trading data-slot and toggling state classes — never a coordinate
-     · the inputs: numbers, shells, arrows, ← →, swipe, and the aria-live sentence
+     · the inputs: numbers, pieces, arrows, ← →, swipe, and the aria-live sentence
 
-   ⚠️ NO COORDINATES IN THIS FILE. Every seat, angle, scale and depth is a custom
-   property in the stylesheet, which is what lets a media query recompose the phone
-   without a resize listener. If a shell is in the wrong place, the fault is in the
-   CSS map, never here.
+   ⚠️ NO COORDINATES IN THIS FILE. Every seat, size and depth is a custom property
+   in the stylesheet, which is what lets a media query recompose the phone without
+   a resize listener. If a piece is in the wrong place, the fault is in the CSS
+   map, never here. The ART (silhouettes, light, thickness, shadows) is the one
+   thing authored here, in viewBox units, so it scales with the piece.
 
-   ⚠️ THE CHOREOGRAPHY IS THREE BEATS, NOT ONE SWAP: the leaving shell lifts for
-   130ms (.is-release), folds back to its own seat while its maroon side stays lit
-   (.was-on holds it IN FRONT of the resting stack), and the arriving shell rises
-   into the one active zone with a whisper of overshoot. Reduced motion collapses
-   all three beats to a cross-fade — the state machine is identical. */
+   ⚠️ THE CHOREOGRAPHY IS THREE BEATS, NOT ONE SWAP: the leaving piece lifts for
+   130ms (.is-release), folds back to its own seat (.was-on holds it IN FRONT of
+   the resting stack), and the arriving piece rises into the plate. Reduced motion
+   collapses all three beats to a cross-fade — the state machine is identical. */
 (function(){
   var root = document.getElementById('process');
   if(!root) return;
@@ -3990,133 +3984,198 @@ try{
   var STEPS = [
     {n:'01', title:'Assessment', meta:'15 min',
      head:'Care begins with understanding you.',
-     body:'Our personalized process starts with a comprehensive assessment of your symptoms, health history, and goals — so we can create a plan that’s truly tailored to you.',
+     body:'Our personalized process starts with a comprehensive assessment of your symptoms, health history, and goals — so we can create a plan that’s truly tailored to you.',
      petal:'We begin with a comprehensive assessment of your symptoms, health history, and goals.',
+     short:'We begin with a full assessment of your symptoms, history and goals.',
      cta:'What to expect', href:'#book'},
     {n:'02', title:'Blood work', meta:'2–5 days',
      head:'We check key hormone and health markers.',
-     body:'Targeted blood work gives us a clearer picture of your hormone levels and overall health — helping us understand what may be happening beneath the surface.',
+     body:'Targeted blood work gives us a clearer picture of your hormone levels and overall health — helping us understand what may be happening beneath the surface.',
      petal:'We check key hormone and health markers to build a clearer picture of your current health.',
+     short:'We check key hormone and health markers for a clearer picture of your health.',
      cta:'What to expect', href:'#book'},
     {n:'03', title:'Choose your doctor', meta:'Personalized match',
      head:'Choose the doctor who feels right for you.',
      body:'Choose the doctor who best aligns with your needs, preferences and care goals, so your experience feels personal from the beginning.',
      petal:'Choose your preferred doctor and begin care with someone aligned with your needs.',
+     short:'Choose the doctor who feels right for you and begin your care with them.',
      cta:'Meet your doctors', href:'#doctors'},
     {n:'04', title:'Consultation', meta:'60 min',
      head:'We meet to review your health and create your plan.',
      body:'You’ll meet with your chosen doctor for a comprehensive review of your symptoms, health history and goals, so together you can create a plan tailored to you.',
-     petal:'Meet with your chosen doctor for a comprehensive review of your symptoms, health history and goals.',
+     petal:'Meet with your chosen doctor for a comprehensive review of your symptoms, health history, and goals. We create a plan tailored to you.',
+     short:'We meet with your doctor to review your health and create a plan tailored to you.',
      cta:'What to expect', href:'#book'},
     {n:'05', title:'Prescription', meta:'2 months’ supply',
      head:'Your treatment is prepared around you.',
      body:'Once your plan is confirmed, your prescription is prepared around your individual needs so treatment feels considered, clear and easy to begin.',
      petal:'Your personalized prescription is prepared around your doctor’s recommendations and care plan.',
+     short:'Your prescription is prepared around your doctor’s plan and sent to you.',
      cta:'Treatment details', href:'#book'},
     {n:'06', title:'Aftercare', meta:'One month',
      head:'Ongoing care, always by your side.',
      body:'Our aftercare includes follow-up support, care adjustments where needed and continued guidance, so your treatment can evolve with you.',
      petal:'We continue to support you with follow-up care, guidance and treatment adjustments where needed.',
+     short:'We stay by your side with follow-up care and adjustments where needed.',
      cta:'What to expect', href:'#book'}
   ];
 
-  /* ═══ THE PETAL, AS LAYERED SVG PATHS ════════════════════════════════════════
-     Two traced silhouettes — THE PLATE (slot 0, the active piece: an asymmetric
-     rounded-triangular plate, apex leaning right, one generous belly on the
-     right, a soft point at the lower left) and THE PETAL (slots 1–5, a slim
-     asymmetric teardrop; each slot's rotation and scale gives the variation).
-     ⚠️ NEVER rebuild these as border-radius ovals: the silhouette is the design.
-
-     Each piece is a stack of path instances, back to front:
-       cast shadow (active only) → contact shadow → inner body (maroon on the
-       active, warm plate-edge on the rest) → ivory face → champagne rim (the
-       stroke). The maroon is the INNER BODY showing past the shell on the
-       right and lower-right — a physical layer, never an outline.
-
-     The SVG hangs past the petal's box (inset paddings below) so shadows and
-     the inner body never clip; the BOX ITSELF remains the face's bounding box,
-     which is what keeps every label, card and hit area honest. */
-  var ACT_D = 'M150 12 C184 16 208 54 216 108 C223 156 198 200 152 218 '
-            + 'C134 225 114 228 98 226 C68 222 38 198 28 172 '
-            + 'C22 146 30 104 52 72 C76 38 112 16 150 12 Z';
-  var LEAF_D = 'M108 12 C142 14 176 48 186 96 C193 138 158 180 120 206 '
-             + 'C110 213 99 218 92 220 C72 214 44 186 33 148 '
-             + 'C23 112 27 64 45 37 C61 16 84 11 108 12 Z';
+  /* ═══ THE ART — silhouettes, light, thickness, shadow ══════════════════════
+     Everything is authored in viewBox units and scales with the piece. Light
+     falls from the upper left on every piece; thickness and shadow fall toward
+     the lower right. Two silhouettes:
+       THE LEAF  — an egg, narrow end outward (two half-ellipses, the widest line
+                   below the middle), 1000 long; 700 wide, 800 for the rounder
+                   "Choose your doctor" seat. Rotated in the geometry per slot.
+       THE PLATE — a rounded plectrum in a 1000×1060 frame: apex up-right, one
+                   generous belly on the right, a long taut upper-left flank, a
+                   broad soft lower-left, a near-flat bottom.
+     Each piece, back to front: cast shadow → contact shadow → wall (the silhouette
+     swept toward the lower right — the physical thickness) → face → rim. The
+     plate stands on its MAROON SLAB: the same silhouette swept toward 3 o'clock,
+     which is what shows as the deep wall along the plate's right edge. */
+  var K = 0.5523;                                   /* circle-arc bezier constant */
+  function leafPts(w){                              /* egg, narrow end up, centre (500,500), length 1000 */
+    var W = w/2, T = 525, B = 475;                  /* tip half 525 tall, blunt half 475 */
+    var cx = 500, top = 0, mid = T, bot = 1000;     /* widest line just below the middle */
+    return [
+      ['M', cx, top],
+      ['C', cx + W*K, top,  cx + W, mid - T*K,  cx + W, mid],
+      ['C', cx + W, mid + B*K,  cx + W*K, bot,  cx, bot],
+      ['C', cx - W*K, bot,  cx - W, mid + B*K,  cx - W, mid],
+      ['C', cx - W, mid - T*K,  cx - W*K, top,  cx, top],
+      ['Z']
+    ];
+  }
+  /* a closed smooth curve through anchor points (uniform Catmull-Rom → cubics) */
+  function smooth(P){
+    var n = P.length, out = [['M', P[0][0], P[0][1]]];
+    for(var i = 0; i < n; i++){
+      var p0 = P[(i-1+n)%n], p1 = P[i], p2 = P[(i+1)%n], p3 = P[(i+2)%n];
+      out.push(['C',
+        +(p1[0] + (p2[0]-p0[0])/6).toFixed(1), +(p1[1] + (p2[1]-p0[1])/6).toFixed(1),
+        +(p2[0] - (p3[0]-p1[0])/6).toFixed(1), +(p2[1] - (p3[1]-p1[1])/6).toFixed(1),
+        p2[0], p2[1]]);
+    }
+    out.push(['Z']);
+    return out;
+  }
+  /* THE PLATE — 13 anchors read off the reference render (its plate box normalised
+     to 1000 wide; 1104 tall), clockwise from the leftmost point: the round left, the
+     long convex upper-left flank, the broad near-flat top ending in the apex at the
+     upper right, the belly on the right, the soft bottom-right corner, and the bottom
+     as one arc that climbs back into the left. */
+  var PLATE = smooth([
+    [0,600],[60,400],[210,250],[440,110],[690,26],[862,12],[975,170],
+    [1000,506],[952,842],[826,1048],[566,1104],[284,1030],[90,852]
+  ]);
+  function xf(pts, cx, cy, deg, sx, sy){           /* rotate about (cx,cy), then scale about it */
+    var a = deg*Math.PI/180, cs = Math.cos(a), sn = Math.sin(a);
+    return pts.map(function(seg){
+      var out = [seg[0]];
+      for(var i = 1; i < seg.length; i += 2){
+        var x = seg[i] - cx, y = seg[i+1] - cy;
+        var rx = x*cs - y*sn, ry = x*sn + y*cs;
+        out.push(+(rx*(sx||1) + cx).toFixed(1), +(ry*(sy||1) + cy).toFixed(1));
+      }
+      return out;
+    });
+  }
+  function dStr(pts){ return pts.map(function(s){ return s.join(' '); }).join(' '); }
+  function path(d, attrs){ return '<path d="' + d + '" ' + attrs + '/>'; }
+  /* the wall: the silhouette swept from (tx,ty) back to the face — n instances */
+  function sweep(d, tx, ty, n, fill){
+    var s = '';
+    for(var k = n; k >= 1; k--){
+      var f = k/n;
+      s += path(d, 'fill="' + fill + '" transform="translate(' + (tx*f).toFixed(1) + ',' + (ty*f).toFixed(1) + ')"');
+    }
+    return s;
+  }
 
   var defs = document.createElement('div');
   defs.setAttribute('aria-hidden','true');
   defs.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden';
   defs.innerHTML =
     '<svg width="0" height="0"><defs>'
-    + '<linearGradient id="psIvoryA" x1="0" y1="0" x2=".9" y2="1">'
-    +   '<stop offset="0" stop-color="#FBF7F0"/><stop offset=".5" stop-color="#F4EEE2"/>'
-    +   '<stop offset="1" stop-color="#EDE3D4"/></linearGradient>'
-    + '<linearGradient id="psIvory" x1=".1" y1="0" x2=".9" y2="1">'
-    +   '<stop offset="0" stop-color="#F9F4EC"/><stop offset=".55" stop-color="#F1EADD"/>'
-    +   '<stop offset="1" stop-color="#E4D9C6"/></linearGradient>'
-    + '<linearGradient id="psEdge" x1=".2" y1="0" x2=".9" y2="1">'
-    +   '<stop offset="0" stop-color="#E2D5C2"/><stop offset="1" stop-color="#C7B69E"/></linearGradient>'
-    + '<linearGradient id="psMaroon" x1=".55" y1=".05" x2=".85" y2="1">'
-    +   '<stop offset="0" stop-color="#712744"/><stop offset=".45" stop-color="#5A1C30"/>'
-    +   '<stop offset="1" stop-color="#421320"/></linearGradient>'
+    /* the ivory face: lit upper-left, settling warmer lower-right */
+    + '<linearGradient id="psFace" x1="0" y1="0" x2="1" y2="1">'
+    +   '<stop offset="0" stop-color="#FAF6EF"/><stop offset=".55" stop-color="#F2EBE1"/>'
+    +   '<stop offset="1" stop-color="#E7DDD0"/></linearGradient>'
+    /* the dome: the surface turns away at its edges */
+    + '<radialGradient id="psDome" cx=".36" cy=".3" r=".8">'
+    +   '<stop offset=".45" stop-color="#7A5C4C" stop-opacity="0"/>'
+    +   '<stop offset="1" stop-color="#7A5C4C" stop-opacity=".13"/></radialGradient>'
+    /* the wall of an ivory piece */
+    + '<linearGradient id="psWall" x1="0" y1="0" x2=".6" y2="1">'
+    +   '<stop offset="0" stop-color="#E4D9CB"/><stop offset="1" stop-color="#CDBEAD"/></linearGradient>'
+    /* the thin lit rim along the upper-left edge */
     + '<linearGradient id="psRim" x1="0" y1="0" x2="1" y2="1">'
-    +   '<stop offset="0" stop-color="#EDD9AC"/><stop offset=".55" stop-color="#CDA771"/>'
-    +   '<stop offset="1" stop-color="#CDA771" stop-opacity=".3"/></linearGradient>'
-    + '<linearGradient id="psRimSoft" x1="0" y1="0" x2="1" y2="1">'
-    +   '<stop offset="0" stop-color="#D9BC8C" stop-opacity=".55"/>'
-    +   '<stop offset="1" stop-color="#D9BC8C" stop-opacity=".1"/></linearGradient>'
+    +   '<stop offset="0" stop-color="#FFFFFF" stop-opacity=".85"/>'
+    +   '<stop offset=".5" stop-color="#FFFFFF" stop-opacity=".25"/>'
+    +   '<stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></linearGradient>'
+    /* the plate's champagne rim: lit along the apex and the right, dying lower-left */
+    + '<linearGradient id="psRimP" x1=".85" y1="0" x2=".25" y2="1">'
+    +   '<stop offset="0" stop-color="#EADBBE" stop-opacity=".9"/>'
+    +   '<stop offset=".45" stop-color="#D9C39E" stop-opacity=".45"/>'
+    +   '<stop offset="1" stop-color="#D9C39E" stop-opacity=".12"/></linearGradient>'
+    /* the maroon slab: wine at the top, near-black at the foot */
+    + '<linearGradient id="psMaroon" x1=".3" y1="0" x2=".6" y2="1">'
+    +   '<stop offset="0" stop-color="#7B2C49"/><stop offset=".5" stop-color="#5A1A30"/>'
+    +   '<stop offset="1" stop-color="#3B0E1C"/></linearGradient>'
+    + '<filter id="psBlurC" x="-30%" y="-30%" width="160%" height="160%">'
+    +   '<feGaussianBlur stdDeviation="11"/></filter>'
     + '<filter id="psBlurS" x="-40%" y="-40%" width="180%" height="180%">'
-    +   '<feGaussianBlur stdDeviation="6"/></filter>'
-    + '<filter id="psBlurL" x="-60%" y="-60%" width="220%" height="220%">'
+    +   '<feGaussianBlur stdDeviation="34"/></filter>'
+    + '<filter id="psBlurCP" x="-30%" y="-30%" width="160%" height="160%">'
     +   '<feGaussianBlur stdDeviation="14"/></filter>'
+    + '<filter id="psBlurSP" x="-40%" y="-40%" width="180%" height="180%">'
+    +   '<feGaussianBlur stdDeviation="46"/></filter>'
     + '</defs></svg>';
   stage.appendChild(defs);
 
-  function actSVG(){
-    return '<svg class="ps-svg ps-svg--act" viewBox="0 0 248 260" aria-hidden="true" focusable="false">'
-      + '<path class="ps-cast" d="' + ACT_D + '" fill="#63483A" opacity=".14" '
-      +   'transform="translate(16,22)" filter="url(#psBlurL)"/>'
-      + '<path class="ps-contact" d="' + ACT_D + '" fill="#5E4536" opacity=".28" '
-      +   'transform="translate(6,9)" filter="url(#psBlurS)"/>'
-      + '<path class="ps-inner" d="' + ACT_D + '" fill="url(#psMaroon)" transform="translate(8,3.5)"/>'
-      + '<path class="ps-faceP" d="' + ACT_D + '" fill="url(#psIvoryA)" '
-      +   'stroke="url(#psRim)" stroke-width="1.6"/>'
+  /* the plate, desktop (0°) and phone (−18°: apex up, as the phone reference has it) */
+  function plateSVG(cls, deg){
+    var pts = deg ? xf(PLATE, 500, 552, deg) : PLATE;
+    var d = dStr(pts), ds = dStr(xf(pts, 500, 552, 0, 1, .962));
+    return '<svg class="ps-svg ps-svg--act ' + cls + '" viewBox="-300 -331 1600 1766" '
+      + 'aria-hidden="true" focusable="false">'
+      + path(d, 'class="ps-cast" fill="#6B4E3E" opacity=".27" transform="translate(30,72)" filter="url(#psBlurSP)"')
+      + path(d, 'class="ps-ao" fill="#5E4536" opacity=".13" filter="url(#psBlurSP)"')
+      + path(d, 'class="ps-contact" fill="#5E4536" opacity=".24" transform="translate(14,26)" filter="url(#psBlurCP)"')
+      + '<g class="ps-inner">' + sweep(ds, 58, 14, 9, 'url(#psMaroon)') + '</g>'
+      + sweep(d, 7, 3, 3, '#DCCDB8')
+      + path(d, 'class="ps-faceP" fill="url(#psFace)"')
+      + path(d, 'fill="url(#psDome)"')
+      + path(d, 'fill="none" stroke="url(#psRimP)" stroke-width="3.5"')
       + '</svg>';
   }
-  /* rotate the leaf's path data about its centre into a 300×300 frame. The
-     rotation lives in the GEOMETRY, never in CSS transform: that is what keeps
-     the light, the thickness edge and the shadow falling the same way on every
-     piece, exactly as one photograph would have it. */
-  function rot(d, deg){
-    var a = deg * Math.PI/180, cs = Math.cos(a), sn = Math.sin(a);
-    return d.replace(/(-?[\d.]+)[ ,](-?[\d.]+)/g, function(m, x, y){
-      x = +x - 116; y = +y - 126;
-      return (x*cs - y*sn + 150).toFixed(1) + ' ' + (x*sn + y*cs + 150).toFixed(1);
-    });
-  }
-  /* each SLOT's orientation: the taper always aims into the pivot behind the
-     front plate — down from the top seat, down-right from the upper-left seat,
-     right from the left seat, up-right from below, up from the bottom. */
-  var LEAF_ROT = {1:6, 2:-38, 3:-66, 4:-135, 5:162};
+  /* each SLOT's leaf: the narrow end aims OUTWARD from the fan's heart, exactly
+     as the reference turns them — up from the top seat, up-left, left, down-left,
+     down from the bottom. The turn is in the geometry; light and shadow stay put. */
+  var LEAF_ROT = {1:12, 2:-27, 3:-81, 4:-157, 5:168};
   function leafSVG(k){
-    var d = rot(LEAF_D, LEAF_ROT[k]);
-    return '<svg class="ps-svg ps-svg--leaf ps-svg--s' + k + '" viewBox="0 0 300 300" '
+    var d = dStr(xf(leafPts(640), 500, 500, LEAF_ROT[k]));
+    return '<svg class="ps-svg ps-svg--leaf ps-svg--s' + k + '" viewBox="-460 -460 1920 1920" '
       + 'aria-hidden="true" focusable="false">'
-      + '<path class="ps-contact" d="' + d + '" fill="#5E4536" opacity=".22" '
-      +   'transform="translate(5,7)" filter="url(#psBlurS)"/>'
-      + '<path class="ps-inner" d="' + d + '" fill="url(#psEdge)" transform="translate(3.5,4.5)"/>'
-      + '<path class="ps-faceP" d="' + d + '" fill="url(#psIvory)" '
-      +   'stroke="url(#psRimSoft)" stroke-width="1.1"/>'
+      + path(d, 'class="ps-cast" fill="#6B4E3E" opacity=".25" transform="translate(30,56)" filter="url(#psBlurS)"')
+      + path(d, 'class="ps-ao" fill="#5E4536" opacity=".1" transform="translate(0,4)" filter="url(#psBlurS)"')
+      + path(d, 'class="ps-contact" fill="#5E4536" opacity=".17" transform="translate(9,15)" filter="url(#psBlurC)"')
+      + '<g class="ps-inner">' + sweep(d, 11, 16, 4, 'url(#psWall)') + '</g>'
+      + path(d, 'class="ps-faceP" fill="url(#psFace)"')
+      + path(d, 'fill="url(#psDome)"')
+      + path(d, 'fill="none" stroke="url(#psRim)" stroke-width="3"')
       + '</svg>';
   }
 
-  /* ── build the shells ─────────────────────────────────────────────────────── */
+  /* ── build the pieces ─────────────────────────────────────────────────────── */
   var petals = STEPS.map(function(st, i){
     var p = document.createElement('div');
     p.className = 'ps-petal';
     p.setAttribute('data-i', i);
     p.innerHTML =
-      actSVG() + leafSVG(1) + leafSVG(2) + leafSVG(3) + leafSVG(4) + leafSVG(5)
+      plateSVG('ps-svg--act-d', 0) + plateSVG('ps-svg--act-m', -18)
+      + leafSVG(1) + leafSVG(2) + leafSVG(3) + leafSVG(4) + leafSVG(5)
       + '<div class="ps-face">'
       +   '<button type="button" class="ps-hit" aria-label="Step ' + (i+1) + ' of 6: '
       +     st.title + '"><span class="ps-lbl">' + st.title + '</span></button>'
@@ -4124,7 +4183,8 @@ try{
       +     '<h3 class="ps-card-t">' + st.title + '</h3>'
       +     '<span class="ps-card-rule" aria-hidden="true"></span>'
       +     '<p class="ps-card-meta">' + st.meta + '</p>'
-      +     '<p class="ps-card-p">' + st.petal + '</p>'
+      +     '<p class="ps-card-p ps-card-p--d">' + st.petal + '</p>'
+      +     '<p class="ps-card-p ps-card-p--m">' + st.short + '</p>'
       +     '<a class="ps-card-cta" href="' + st.href + '">' + st.cta
       +       ' <span class="arr" aria-hidden="true">&#8594;</span></a>'
       +   '</div>'
@@ -4169,7 +4229,7 @@ try{
       if(k === n) d.setAttribute('aria-current','step');
       else d.removeAttribute('aria-current');
     });
-    /* the editorial swap starts at once — by the time the shell settles, the words
+    /* the editorial swap starts at once — by the time the piece settles, the words
        are already standing still */
     root.classList.add('ps-fading');
     tCopy = setTimeout(function(){
@@ -4179,7 +4239,7 @@ try{
     }, RM ? 20 : 250);
 
     function move(){
-      /* ORDINAL SEATING: the active step takes the front; the other five sit in
+      /* ORDINAL SEATING: the active step takes the plate; the other five sit in
          step order around the fan (top → upper-left → left → lower-left →
          bottom). Deterministic — the same step always reads the same way. */
       var k = 1;
@@ -4199,7 +4259,7 @@ try{
     else { out.classList.add('is-release'); tRelease = setTimeout(move, 130); }
   }
 
-  /* ── input: shells, arrows, keyboard, swipe ───────────────────────────────── */
+  /* ── input: pieces, arrows, keyboard, swipe ───────────────────────────────── */
   petals.forEach(function(p, i){
     p.querySelector('.ps-hit').addEventListener('click', function(){ go(i); });
   });
@@ -4233,6 +4293,10 @@ try{
   }, {passive:true});
 
   root.classList.add('ps-on');
+  /* lab/QA hook: ?step=N opens on that step (1-based) without motion */
+  var q = /[?&]step=(\d)/.exec(location.search);
+  if(q){ var s0 = +q[1]-1; if(s0 > 0 && s0 < 6){ var _mq = mq; mq = {matches:true}; go(s0); mq = _mq; } }
+  window.__psGo = go;
 
 })();
 </script>

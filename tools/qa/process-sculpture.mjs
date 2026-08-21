@@ -58,6 +58,12 @@ for (const pageName of PAGES) {
     page.on('pageerror', e => errors.push(String(e)));
     await page.goto(`http://127.0.0.1:${port}/${pageName}/`, { waitUntil: 'load' });
     await page.waitForTimeout(700);
+    /* the page's preloader (burgundy, z 300) sits over everything for ~1.5s after
+       load; elementFromPoint would hit IT and call every label buried */
+    await page.waitForFunction(() => {
+      const p = document.querySelector('.preloader');
+      return !p || getComputedStyle(p).display === 'none';
+    }, null, { timeout: 8000 }).catch(() => {});
 
     const on = await page.evaluate(() => {
       const el = document.getElementById('process');
@@ -103,7 +109,8 @@ for (const pageName of PAGES) {
         const face  = act.querySelector('.ps-face').getBoundingClientRect();
         /* the active piece is layered SVG: the maroon INNER BODY must physically
            extend past the ivory face path on the right — depth, not decoration */
-        const actSvg = act.querySelector('.ps-svg--act');
+        const actSvg = [...act.querySelectorAll('.ps-svg--act')]
+          .find(sv => getComputedStyle(sv).display !== 'none');   /* desktop or phone art */
         const innerR = actSvg.querySelector('.ps-inner').getBoundingClientRect();
         const facePr = actSvg.querySelector('.ps-faceP').getBoundingClientRect();
         const out = {

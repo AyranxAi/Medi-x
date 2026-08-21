@@ -92,7 +92,7 @@ for (const pageName of PAGES) {
         const p = document.querySelectorAll('#process .ps-petal')[i];
         window.__psW0 = p.querySelector('.ps-face').getBoundingClientRect().width;
         window.__psKey = null;
-        const already = p.classList.contains('is-on');
+        const already = p.closest('.ps-arm').classList.contains('is-on');
         document.querySelectorAll('#process .ps-dot')[i].click();
         return already;
       }, s);
@@ -115,7 +115,7 @@ for (const pageName of PAGES) {
       const r = await page.evaluate(() => {
         const root  = document.getElementById('process');
         const stage = root.querySelector('[data-ps-stage]').getBoundingClientRect();
-        const act   = root.querySelector('.ps-petal.is-on');
+        const act   = root.querySelector('.ps-arm.is-on');
         const face  = act.querySelector('.ps-face').getBoundingClientRect();
         /* the maroon must physically show past the plate's right edge — depth, not
            decoration. WebGL live: read the framebuffer just right of the plate's box
@@ -146,7 +146,7 @@ for (const pageName of PAGES) {
           edPx: parseFloat(getComputedStyle(root.querySelector('[data-ps-body]')).fontSize),
           buried: [],
         };
-        root.querySelectorAll('.ps-petal:not(.is-on)').forEach(p => {
+        root.querySelectorAll('.ps-arm:not(.is-on)').forEach(p => {
           const lb = p.querySelector('.ps-lbl').getBoundingClientRect();
           const hit = p.querySelector('.ps-hit');
           const pts = [[.5,.5],[.2,.35],[.8,.35],[.2,.75],[.8,.75]]

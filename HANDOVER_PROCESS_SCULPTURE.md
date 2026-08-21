@@ -32,16 +32,24 @@ end**. He drew all three; the sketches are in the chat of 2026-08-21.
 
 ## Anatomy — four layers, one contract
 
-1. **DOM** (`PS:HTML` + the script's builder): six `.ps-petal` boxes, each with a hit button
+1. **DOM** (`PS:HTML` + the script's builder): six arms — `.ps-arm` (rotates about the
+   flower's centre) > `.ps-reach` (the radius) > `.ps-cage` (undoes the arm, so the petal's
+   own box stays axis-aligned, which is what the 3D layer measures) > `.ps-petal`. The seat,
+   the state classes and `data-slot` all live on the **arm**; `--pw/--pa/--prot` are custom
+   properties, so they inherit down to the box. Each `.ps-petal` carries a hit button
    (`.ps-hit`) carrying the resting label (`.ps-lbl`) and the active card (`.ps-card`: title ·
    rule · meta · copy · CTA). Labels, focus rings, keyboard (← →), swipe, the 01–06 progress
    numbers, phone arrows, aria-live — all DOM. `<noscript>` keeps the original six-step list.
-2. **CSS slot map** (`PS:CSS`): six fixed slots keyed by `data-slot` — `--pw` (box width),
-   `--pa` (aspect), `--px/--py` (seat from the stage centre), `--pz` (stack), `--prot` (the
-   petal's rotation, tip outward). Slot 0 is the plate. A phone media query re-maps all six
-   (plate turned −18°). **This is the only source of positions — the script never writes a
-   coordinate.** Step change = trade `data-slot` ordinally (the active step takes slot 0, the
-   rest sit in step order), so step 04 always reads exactly like the render.
+2. **CSS slot map** (`PS:CSS`): six fixed slots keyed by `data-slot`, now **POLAR** —
+   `--pang` (the seat's angle round the flower), `--prad` (its radius in cqw), plus `--pw`
+   (box width), `--pa` (aspect), `--pz` (stack), `--prot` (the petal's own rotation). Slot 0
+   is the plate. A phone media query re-maps all six (plate turned −18°). **This is still the
+   only source of positions — the script writes no coordinate, only WHOLE TURNS** (`--pturn`,
+   `--protturn`), which is what lets CSS interpolate the way the flower is actually going
+   instead of the way the numbers read. Step change = **cyclic** re-seating: petal p sits at
+   slot (p − active), so the steps always read 01…06 round the ring and every petal moves
+   exactly one seat. See **The turn**, below. The polar values were converted from the old
+   `--px/--py` and round-trip to them exactly — the statics are untouched.
 3. **The 3D layer** (`PS:JS`, section "THE 3D LAYER"): one transparent `<canvas class="ps-gl">`
    behind the pieces. It **owns no map**: every frame it draws, it reads each piece's box
    (`getBoundingClientRect`) and `--prot`/`z-index` from the cascade, and places/scales/
@@ -76,8 +84,9 @@ Edit one, copy to the other; `md5` the blocks to prove parity.
 | environment | small PMREM studio: warm-grey room, softbox upper right, quiet fill left, dim bounce below | `env()` |
 | leaf silhouette | egg 1000 × 640, widest at 52.5 % from the tip | `eggShape` |
 | plate silhouette | 13 anchors (Catmull-Rom) in a 1000 × 1104 frame, measured off the render | `PLATE_PTS` |
-| desktop slot map | plate 66 cqw at (14.5, −6); leaves 43 cqw at (−8.7,−30.5) 12° · (−22,−20.7) −27° · (−30,0) −81° · (−18.8,19) −157° · (−3.6,32.5) 168° | `.ps-petal[data-slot]` |
-| phone slot map | stage 1/1.25; plate 66 cqw at (17,−2.5) −18°; leaves 50 cqw | `@media(max-width:900px)` |
+| desktop slot map | plate 66 cqw at −23.68° r 15.833; leaves 43 cqw at −105.06°/33.480 · −135.08°/31.072 · −180°/30 · −226.97°/27.551 · −264.03°/34.638, `--prot` 12/−27/−81/−157/168 | `.ps-arm[data-slot]` |
+| phone slot map | stage 1/1.25; plate 66 cqw at −10.42° r 17.285, −18°; leaves 50 cqw at −92.01°/37.148 · −136.60°/31.655 · −185.71°/25.125 · −235.56°/31.829 · −282.77°/38.451 | `@media(max-width:900px)` |
+| the grow's timing | delay 0 / dur `--ps-dur` (travel) · .55/.55 (late) · .92/.50 (arrive), × `--ps-dur` | `--ps-grow-delay`, `--ps-grow-dur` |
 | stacking | plate 10; Assessment 4, Blood work 2, Choose 5, Prescription 3, Aftercare 6 (1-3-5 in front of 2-4, as the render) | `--pz` |
 | resting label | Playfair 380, 2.55 cqw (16–22 px), seated toward each petal's tip | `.ps-lbl`, per-slot `--lox/--loy` |
 | phone card copy | `short` per step (the render's own sentence for 04) | `STEPS[].short`, `.ps-card-p--m` |
@@ -88,6 +97,52 @@ the lit edge; maroon wall 4 px at the apex → 16–18 px constant through the m
 3 px at the foot (`#6A2D38` → `#401117`), a 1-px white line between face and maroon;
 labels centred at (0.43,0.12) (0.21,0.25) (0.15,0.49) (0.26,0.73) (0.47,0.84) of the
 stage, plate card text from 29 % / 30 % of the plate box.
+
+## The turn (2026-08-21, his call)
+
+Before this, a step change did **not** turn anything: it traded two petals across the fan
+while the other four stood still, and one of them span up to 168°. Five of the six
+transitions moved two pieces; 06 → 01 moved all six, so one transition looked unlike the
+other five. That is what "make it smooth" was about.
+
+**His two decisions:**
+
+- **Land in the render, not a rigid dial.** The six seats are not evenly spaced — going
+  round they are 81° → 30° → 45° → 47° → 37° → 120°, and the plate sits much closer in
+  (r 15.8) than the leaves (27–35). A rigid turn would carry that 120° opening away from
+  the plate and rotate the 30° pinch into its place, so the composition would match the
+  client's render on only one step out of six. Instead **the six measured seats are kept
+  exactly** and every petal shifts one seat along an arc — the flower turns and re-settles.
+  Petals therefore travel unequal amounts; that is the price, and it is the price he chose.
+- **Shortest way round.** From step a to step b the whole flower turns `(b−a) mod 6` seats
+  clockwise, or the other way about when that is more than three.
+
+A bonus that falls out of cyclic seating: the steps now always read **01…06 in order**
+around the flower. Under the old ordinal rule, step 04 read 1, 2, 3, 5, 6 with 4 on the plate.
+
+**Still open — he asked to see these, and the contact sheets are in `.qa-out/flower/`:**
+
+- **When the arriving petal grows** — `?grow=travel` (default, swells along the arc),
+  `?grow=late` (last third), `?grow=arrive` (blooms after landing).
+- **What the resting labels do** — `?labels=upright` (default, what it does today),
+  `?labels=turn` (glued to the petal), `?labels=fade` (gone while anything moves).
+  ⚠️ `turn` leaves four of the five labels unreadable **at rest**, not only mid-turn,
+  because `--prot` at slots 3/4/5 is −81°/−157°/168°. The sheet shows it.
+
+Regenerate the sheets with `node tools/qa/flower-frames.mjs`. It does **not** race the
+clock — screenshot latency under software GL is seconds, which smeared every frame on the
+first attempt. It scrubs instead: CSS transitions are Web Animations, so each is paused and
+its `currentTime` set, the 3D layer's two tweens are placed by hand at the same fraction,
+and `--ps-dur` is then stretched to freeze the layer's own clock.
+
+⚠️ **A latent bug came out of this and is fixed:** the render loop ran on a wall-clock
+deadline (`busyUntil`), so on a slow device a frame could outlast it and **the flower froze
+part-turned**. It was intermittent in the harness before anyone saw it on a phone. The loop
+now runs until the boxes actually stop moving (`dirty`, set by watching each box's rect),
+which also makes `__ps3d.settled()` trustworthy.
+
+⚠️ The layered-SVG fallback bakes rotation into five per-slot path stacks, so without WebGL
+the pieces still pop between seats rather than turning. Unchanged by this work.
 
 ## QA
 
@@ -116,16 +171,14 @@ headless-shell path shimmed to the full Chromium. Not a repo concern.
 - **Phone copy.** Each step gained a `short` sentence for the plate on phones (the long one
   overflowed the narrower plate). 04 is the render's own line; the other five are mine,
   cut from the existing copy.
-- **Motion.** The trade is functional — morph + a shortest-way rotation tween over
-  `--ps-dur` — but unpolished: a bottom petal spins ~170° becoming the plate. Deliberately
-  left for after his verdict on the statics.
+- **The grow and the labels** — the two questions the turn left open. See **The turn**.
 - **Performance.** Two VSM shadow maps. If a phone stutters during a step change, drop the
   fill's shadow (keep its light) — that is the cheap cut.
 
 ## Next chat — "the logic of the flower" (his words)
 
-Not designed yet; only what exists is recorded. Candidates for that conversation:
-what each step's plate CTA does (today all go to `#book` except 03 → `#doctors`); whether
+The turn is done (above); the grow and the labels are waiting on his verdict. Still not
+designed: what each step's plate CTA does (today all go to `#book` except 03 → `#doctors`); whether
 the steps should be reachable by URL (`?step=N` exists as a QA hook and could become the
 real deep link); whether a step should auto-advance or the flower should greet on scroll;
 what the phone arrows and swipe should do at the ends (today they wrap 06 → 01); keyboard

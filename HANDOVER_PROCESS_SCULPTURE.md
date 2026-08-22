@@ -89,6 +89,7 @@ Edit one, copy to the other; `md5` the blocks to prove parity.
 | the grow's timing | delay 0 / dur `--ps-dur` (travel) · .55/.55 (late) · .92/.50 (arrive), × `--ps-dur` | `--ps-grow-delay`, `--ps-grow-dur` |
 | the overlap dials | ring radius × `--pspread`, resting-leaf width × `--pleaf` (the plate keeps its measured width); both 1 = the client's composition | `.ps-reach`, `.ps-arm{--pleafx}` |
 | depth (the stack) | seat `z-index` read as a target and glided, 16 px per 1000 of stage width between layers | `pc.lay`, `GAP` |
+| the roll | a hop = `.55 × --ps-dur`; a turn of n seats = n hops. Travel `--ps-hop`, grow `--ps-total` | `ROLL`, `data-ps-roll`, `data-ps-turn` |
 | stacking | plate 10; Assessment 4, Blood work 2, Choose 5, Prescription 3, Aftercare 6 (1-3-5 in front of 2-4, as the render) | `--pz` |
 | resting label | Playfair 380, 2.55 cqw (16–22 px), seated toward each petal's tip | `.ps-lbl`, per-slot `--lox/--loy` |
 | phone card copy | `short` per step (the render's own sentence for 04) | `STEPS[].short`, `.ps-card-p--m` |
@@ -125,7 +126,9 @@ around the flower. Under the old ordinal rule, step 04 read 1, 2, 3, 5, 6 with 4
 **Still open — he asked to see these, and the contact sheets are in `.qa-out/flower/`:**
 
 - **The pace.** 850ms is too fast for him and `?slow=1` (6000ms) too slow — his words,
-  2026-08-21. `?dur=NNNN` sets it live; nothing is decided yet.
+  2026-08-21. `?dur=NNNN` sets it live; nothing is decided yet. Note the roll multiplies it:
+  a three-seat turn is 1.65 × whatever `--ps-dur` ends up being.
+- **The focus ring** — three options above; his call.
 - **The overlap** — his question, "should it be on top of each other as it is right now?"
   `?leaf=` and `?spread=` explore it without re-tracing a seat. Sheet: `the-overlap.png`.
 - **When the arriving petal grows** — `?grow=travel` (default, swells along the arc),
@@ -150,6 +153,35 @@ Regenerate the sheets with `node tools/qa/flower-frames.mjs` (or `… grow|label
    animations and a part-turned state behind — rows drifted out of phase with each other
    (the maroon sat at a different stage in each row, which is what exposed it). **Every
    frame now comes from a fresh page load.** Slower; the only way the rows are comparable.
+
+⚠️ **THE MULTI-SEAT SCRAMBLE (his report: "click 4 or 3 steps… it scrambled itself too
+much and is not elegant"), fixed by ROLLING.** A jump of more than one step interpolated
+straight from the old seat to the new one. The ring's radius is **not** constant — 103px at
+the plate, 226px at the bottom seat — so a petal crossing three seats **cut through the
+middle of the flower** instead of going round it: measured 195 → 144 → 119 → 108 → 103 while
+the ring along that arc sits near 210. Six petals doing that at once is the scramble.
+The flower now **rolls**: one seat at a time, each hop following the ring exactly. Traced at
+`--ps-dur:2000ms`, a three-seat turn is three hops at t=151 / 1251 / 2351ms — `--ps-dur ×
+--ps-roll` apart. A hop is `ROLL` (default **.55**) of `--ps-dur`, so a three-seat turn takes
+1.65 × the base: longer jumps take longer, which is also what they should look like.
+`?turn=direct` restores the old single interpolation for comparison; `?roll=` sets the hop.
+Two durations now exist: **`--ps-hop`** paces the travel (arm/reach/cage, and the layer's
+`rot` + `lay`), **`--ps-total`** paces the grow (box width, and the layer's `inf`).
+Re-aiming mid-roll is free — each hop re-reads `cur`, so a click during a roll just
+redirects it.
+
+⚠️ **THE FOCUS RING (his report: "why is there a circle like that when it's clicked and
+moved") — DIAGNOSED, NOT YET FIXED, his call.** It is `.ps-hit:focus-visible`, a dashed
+circle because `.ps-hit` is `border-radius:50%`. A **mouse click does not trigger it**
+(verified: `matchesFocusVisible === false`, `outline: none`). What happens is that focus
+stays on the petal that was clicked, that petal then **travels somewhere else**, and the
+first arrow-key press flips the browser's focus-visible heuristic — so the ring appears on a
+resting leaf in a seemingly random place. Options put to him: (a) move focus with the
+selection so the ring always sits on the active piece — note `.ps-arm.is-on .ps-hit` is
+`opacity:0`, which also hides the outline, and that `opacity:0` is redundant since
+`.ps-arm.is-on .ps-lbl` already hides the label; (b) restyle the ring to follow the petal's
+silhouette instead of a circle; (c) hand keyboard focus to the matching 01–06 progress
+number, which already carries a proper ring.
 
 ⚠️ **THE STACK GLITCH (his report: "a glitch… I'm referring to the shadow"), fixed.**
 `z-index` is a stepped property — it cannot transition — and a turn changes every piece's

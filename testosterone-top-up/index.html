@@ -1178,6 +1178,213 @@ section{position:relative}
   .pg-p{flex:0 0 100%;margin-left:30px;margin-top:9px;align-self:flex-start}
 }
 
+
+/* ══ THE PROGRAMME CARD AT CHAPTER SCALE ═══════════════════════════════════════
+   Two columns, one display figure, and every sentence the card used to spell out
+   moved behind a + on the row it explains. His references, 2026-08-24h.
+
+   ⚠️⚠️ EVERY RULE HERE IS SCOPED TO .prog-card OR TO A NEW pc-* CLASS, AND THAT IS
+   NOT STYLE PREFERENCE. /peptide-therapy/ and /functional-medicine/ render this
+   same content as a POPUP PANEL through the identical pg-h, pg-amt, pg-list,
+   pg-addon and pg-sum classes, and nobody asked to change them. A bare .pg-amt
+   rule here silently turns a dialog's 21px figure into a 68px one. Extend the
+   grammar, never fork it — the discipline .pg-steps--page already follows.
+
+   ⚠️ THE FIRST BUILD OF THIS WAS REJECTED AND THE REASON IS RECORDED HERE. His
+   first pair of mockups carried every grey sub-line and the add-on's full
+   paragraph, so a faithful build of them read as "convoluted" — his word. The
+   fix was NOT the layout, which survives unchanged in his second pair; it was
+   the copy. Roughly nine lines of small type came off a card that had thirty-five.
+   If a later round starts adding explanatory lines back INLINE, that is the
+   change that undoes this one. */
+.prog-grid--card{max-width:1180px}
+
+/* ⚠️ 41/59, NOT 50/50 — both of his references split the card there, and the
+   narrower left column is what makes the title wrap to two lines the way they
+   show. The divider is the right column's own left edge: grid stretches both
+   columns to the taller one, so the hairline runs the card's full height without
+   a spare element to maintain. */
+.prog-card{display:grid;grid-template-columns:minmax(0,41fr) minmax(0,59fr);
+  column-gap:0;padding:clamp(28px,3.2vw,48px)}
+.prog-card .pc-col--l{padding-right:clamp(28px,3.2vw,52px)}
+.prog-card .pc-col--r{padding-left:clamp(30px,3.6vw,58px);
+  border-left:1px solid rgba(194,160,94,.42)}
+.prog-card h3{font-size:clamp(27px,2.9vw,41px);line-height:1.12}
+.prog-card .pg-recap{font-size:14px}
+/* the short rule under the title. ⚠️ It borrows .ps-rule's IDEA and deliberately
+   NOT its class: the sculpture's rule is 44×2 and retuned on its own schedule, and
+   sharing the class would move this one every time that one moved. */
+.prog-card .pc-rule{width:clamp(78px,8vw,112px);height:1px;background:var(--gold);
+  margin-top:20px;opacity:.85}
+
+/* ⚠️ THE FIGURE IS PROMOTED, NOT RE-CUT, AND IT KEEPS ITS .pg-amt CLASS. Two
+   reasons, both load-bearing: var(--accent) is the face .pg-row--total already
+   wears, so the card's two largest numbers stay one typeface; and trt-page.mjs
+   asserts the static figure through `pg-amt">AED 1,150`, which is a no-JS
+   reader's only price. Reorder those classes and the harness goes red — .pg-amt
+   must stay LAST in the attribute.
+   ⚠️ ITS SIZE CAME DOWN BETWEEN ROUNDS. The first build set it at roughly four
+   times .pg-amt and it shouted over the chapter; his references are nearer two. */
+.prog-card .pc-price{font-family:var(--accent);font-variant-numeric:tabular-nums;
+  color:var(--ink);font-size:clamp(42px,4.6vw,68px);line-height:1;white-space:nowrap;
+  display:flex;align-items:baseline;gap:12px;justify-content:center}
+.prog-card .pc-price small{font-size:clamp(11px,1vw,13px);margin-left:0}
+
+/* the label loses its underline; the hairline moves to BETWEEN the blocks, and
+   the labels themselves go to the serif in sentence case — his second reference.
+   They read as writing rather than as signage. */
+.prog-card .pg-h{border-bottom:0;padding-bottom:0}
+.prog-card .pg-h span:first-child{font-family:var(--serif);font-weight:400;
+  font-size:clamp(19px,1.7vw,24px);letter-spacing:0;text-transform:none;
+  color:var(--gold-deep)}
+.prog-card .pg-blk{margin-top:clamp(22px,2.4vw,30px);padding-top:clamp(22px,2.4vw,30px);
+  border-top:1px solid rgba(194,160,94,.34)}
+
+/* type grows with the measure — 13.5px inside a 1180px card reads as a caption */
+.prog-card .pg-list li{font-size:clamp(14.5px,1.15vw,16.5px);line-height:1.45;padding-left:26px}
+.prog-card .pg-list li + li{margin-top:13px}
+.prog-card .pg-row{font-size:clamp(13.5px,1.05vw,15px)}
+.prog-card .pg-row--total span:first-child{font-family:var(--serif);font-weight:400;
+  font-size:clamp(17px,1.5vw,21px);letter-spacing:0;text-transform:none}
+.prog-card .pg-row--total span:last-child{font-size:clamp(26px,3.1vw,42px)}
+
+/* ⚠️ A TICK FOR WHAT YOU GET. It is an SVG background rather than a ✓ character
+   because MediGyn NOW has no glyph for one and the fallback is a tofu box. */
+.prog-card .pg-list li::before{content:"";width:16px;height:16px;top:.18em;left:0;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 8.4l3.3 3.3L13 4.9' fill='none' stroke='%23C2A05E' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat;
+  opacity:1}
+
+/* ── THE + · his call 2026-08-24h, and it replaces a cross rather than joining it
+   ⚠️ A CROSS LABELS A ROW; A + OPENS IT. "Blood tests · not included" raises the
+   question "then what do I pay, and to whom?", and the sentence that answered it
+   was the first thing the simplification deleted. Behind a +, that sentence is on
+   the card without being on screen. The AED 795 review fee lives here and NOWHERE
+   ELSE ON THE SITE — deleting these disclosures deletes a price.
+   ⚠️ IT IS <details>, NOT JAVASCRIPT. This page ships a no-JS rollback for its six
+   steps and static figures for its money; a disclosure needing a script would be
+   the one place a reader with JS off is simply told less.
+   ⚠️ SEVERAL OPEN AT ONCE, ON PURPOSE. One-at-a-time collapses the row above the
+   one you tapped, so everything between them jumps UP under your finger — you
+   touched one thing and the page moved another. It also needs a script. Four
+   one-line sentences cost ~140px in a column that is already the shorter of two.
+   ⚠️ THE WHOLE ROW IS THE TARGET, not the glyph: 14px of + is a 14px tap target,
+   and <summary> makes the label part of the control for free. */
+.prog-card .pc-exc .pg-list li{padding-left:0}
+.prog-card .pc-exc .pg-list li::before{display:none}
+.prog-card .pc-more > summary{position:relative;padding:3px 0 3px 28px;cursor:pointer;
+  list-style:none;display:block}
+.prog-card .pc-more > summary::-webkit-details-marker{display:none}
+.prog-card .pc-more > summary::before,
+.prog-card .pc-more > summary::after{content:"";position:absolute;
+  background:var(--gold-deep);opacity:.85;transition:transform .3s var(--ease),opacity .3s var(--ease)}
+.prog-card .pc-more > summary::before{left:0;top:calc(.72em + 3px);width:14px;height:1px}
+.prog-card .pc-more > summary::after{left:6.5px;top:calc(.72em - 3px);width:1px;height:14px;
+  transform-origin:center}
+/* the stem lies down onto the bar — the + becomes a − with no second glyph */
+.prog-card .pc-more[open] > summary::after{transform:rotate(90deg)}
+.prog-card .pc-more > summary:hover::before,
+.prog-card .pc-more > summary:hover::after{opacity:1}
+.prog-card .pc-more > summary:focus-visible{outline:1px solid var(--gold-deep);
+  outline-offset:3px;border-radius:2px}
+.prog-card .pc-more > small{display:block;padding-left:28px;margin-top:2px;
+  padding-bottom:4px;max-width:46ch}
+/* a thumb is not a cursor — the row grows its own target on touch */
+@media(hover:none){.prog-card .pc-more > summary{padding-top:9px;padding-bottom:9px}}
+/* ⚠️ THE UNFOLD IS PROGRESSIVE ENHANCEMENT AND MUST STAY THAT WAY. ::details-content
+   with interpolate-size is what animates a height to `auto`; where it is not
+   supported the row simply opens instantly, which is <details>'s own behaviour and
+   perfectly fine. Never reach for a script to close this gap — the whole point of
+   the element here is that it works with JS dead. */
+@supports (interpolate-size: allow-keywords){
+  .prog-card .pc-more{interpolate-size:allow-keywords}
+  .prog-card .pc-more::details-content{block-size:0;overflow:hidden;
+    transition:block-size .26s var(--ease),content-visibility .26s allow-discrete}
+  .prog-card .pc-more[open]::details-content{block-size:auto}
+}
+@media(prefers-reduced-motion:reduce){
+  .prog-card .pc-more::details-content{transition:none}
+  .prog-card .pc-more > summary::before,
+  .prog-card .pc-more > summary::after{transition:none}
+}
+
+/* the add-on box: a gold heading, the service on one line, one line of what it is,
+   and the figure. ⚠️ "ADD NOW" WENT WITH THE PARAGRAPH — the box's own heading says
+   it, and a section label above saying the same thing twice is the doubling that
+   made the card feel busy. */
+.prog-card .pg-addon{display:grid;grid-template-columns:auto minmax(0,1fr);
+  gap:6px 14px;align-items:start;margin-top:0;padding:clamp(17px,1.7vw,24px);
+  border-color:rgba(194,160,94,.5);border-radius:10px}
+.prog-card .pg-box{flex:0 0 21px;width:21px;height:21px;font-size:12px;margin-top:1px;
+  border-color:rgba(138,106,52,.75)}
+.prog-card .pc-addon-label{display:block;font-family:var(--serif);
+  font-size:clamp(16px,1.45vw,20px);color:var(--gold-deep);margin-bottom:7px}
+.prog-card .pg-t{font-size:clamp(14px,1.12vw,15.5px)}
+.prog-card .pg-t > small{font-size:clamp(12.5px,1vw,13.5px);margin-top:5px}
+.prog-card .pg-addon .pg-p{grid-column:2;justify-self:end;align-self:auto;
+  margin-top:12px;margin-left:0;font-family:var(--accent);font-size:clamp(18px,1.8vw,25px)}
+/* ⚠️ THE OUTSIDE-UAE NOTE STAYS VISIBLE AND IS THE ONE SENTENCE NOT BEHIND A +.
+   It guards a charge: a reader abroad who never opens a disclosure could tick a
+   1,950 collection that cannot reach her — the same failure that took this line
+   OUT of the <button> on 2026-08-24f. One line, under the box, where the decision
+   is made. bhrt-shots.mjs asserts it exists and is outside #pg-addon. */
+.prog-card .pg-note{margin-top:12px}
+
+/* the summary loses its 2px ink bar with the density it was separating */
+.prog-card .pg-sum{border-top:0;margin-top:clamp(26px,3vw,38px);padding-top:0}
+.prog-card .pg-row--total{border-top:1px solid rgba(194,160,94,.5);
+  margin-top:14px;padding-top:14px}
+.prog-card .prog-cta{margin-top:clamp(22px,2.4vw,28px)}
+
+/* ⚠️ THE PHONE INTERLEAVE, AND WHY IT IS display:contents. Desktop wants the
+   children split into two independently flowing columns; phone wants them in ONE
+   column in an order that ALTERNATES between those columns — kicker, title, PRICE,
+   included, add-on, not-included, summary, cta. Dissolving the wrappers makes every
+   child a direct grid item of the card and `order` puts them in his sequence, with
+   ONE NODE PER FIGURE. The three approaches this replaces all fail: stacked
+   wrappers put the price after the not-included list; explicit grid-row couples the
+   two columns' rhythms so the figure sets the kicker's row height; and duplicating
+   the price puts two nodes on one number beside four live IDs.
+   ⚠️ ACCESSIBILITY IS NOT A BLOCKER AND THIS IS THE RECORD OF WHY. The card's
+   focusable elements — the add-on toggle, the four summaries and the CTA — hold the
+   same relative order in both layouts, and the DOM reads sensibly aloud in each. */
+@media(max-width:1024px){
+  .prog-card{grid-template-columns:minmax(0,1fr)}
+  .prog-card .pc-col{display:contents}
+  .prog-card .pxd-kicker{order:1}
+  .prog-card h3{order:2;font-size:clamp(25px,7vw,33px)}
+  .prog-card .pg-recap{order:3}
+  .prog-card .pc-price{order:4;margin-top:12px;justify-content:flex-start;
+    font-size:clamp(32px,8.5vw,42px)}
+  .prog-card .pc-rule{display:none}
+  .prog-card .pc-inc{order:5}
+  .prog-card .pc-add{order:6}
+  .prog-card .pc-exc{order:7}
+  .prog-card .pg-sum{order:8;border-top:1px solid rgba(194,160,94,.34);
+    padding-top:clamp(22px,2.4vw,30px)}
+  .prog-card .prog-cta{order:9}
+  /* ⚠️ THE FIGURE STAYS ON ITS OWN ROW HERE. The base sheet drops .pg-p under the
+     copy at 520 and the dense build tried a third column instead; with the
+     paragraph gone the box is short, so a third column buys nothing and costs the
+     service name its width — it was setting three words to a line at 390. */
+  .prog-card .pg-addon .pg-p{margin-top:12px}
+}
+@media(min-width:1025px){
+  /* the first block in each column has no rule above it: the short gold rule serves
+     the left, and the figure serves the right */
+  .prog-card .pc-inc,.prog-card .pc-add{padding-top:0;border-top:0}
+  /* ⚠️ THE SUM AND THE PILL ANCHOR TO THE FLOOR, and /modern-menopause/ is why. The
+     two columns are grid items, so they are the same height whatever is in them —
+     but their CONTENT is not. That page's Included list is SIX items where BHRT's is
+     three, which left the left column ~500px longer and the buy half of the card
+     floating in a hole. Anchored, the card reads the same on all three doors: the
+     figure at the top of the right column, the total and the pill at the bottom,
+     and the air between them rather than under them.
+     ⚠️ DESKTOP ONLY. On phone the wrappers are display:contents and there is no
+     column to push against; the base margin above .pg-sum governs there. */
+  .prog-card .pc-col--r{display:flex;flex-direction:column}
+  .prog-card .pc-col--r .pg-sum{margin-top:auto;padding-top:clamp(26px,3vw,38px)}
+}
+
 /* ══ THE POPUP — one dialog shell, eight contents ══════════════════════════════
    Fixed overlay: ink scrim at blur (the nav overlay's material), an ivory panel in
    the card's own dress. The panel scrolls INSIDE itself past 80svh, so a phone
@@ -2418,63 +2625,78 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
     <div class="wrap">
       <div class="prog-grid prog-grid--card">
         <aside class="prog-card" data-reveal>
-          <p class="pxd-kicker">The programme</p>
-          <h3>Your treatment starts here</h3>
-          <p class="pg-recap"><b>Testosterone Top Up</b> — men’s hormone health.</p>
-          <div class="pg-blk">
-            <div class="pg-h"><span>Included</span><span class="pg-amt">AED 1,150 <small>+ VAT</small></span></div>
-            <ul class="pg-list">
-              <li>Detailed symptom assessment</li>
-              <li>Analysis and interpretation of your blood test results</li>
-              <li>Issuance of Testosterone Protocol and Prescription</li>
-              <li>Issuance of Science-based Supplementation Plan</li>
-              <li>Lifestyle Modifications Plan</li>
-              <li>4-week mentorship support after starting your treatment</li>
-            </ul>
+          <div class="pc-col pc-col--l">
+            <p class="pxd-kicker">The programme</p>
+            <h3>Your treatment starts here</h3>
+            <p class="pg-recap"><b>Testosterone Top Up</b> — men’s hormone health.</p>
+            <div class="pc-rule" aria-hidden="true"></div>
+            <div class="pg-blk pc-inc">
+              <div class="pg-h"><span>Included</span></div>
+              <ul class="pg-list">
+                <li>Detailed symptom assessment</li>
+                <li>Analysis and interpretation of your blood test results</li>
+                <li>Issuance of Testosterone Protocol and Prescription</li>
+                <li>Issuance of Science-based Supplementation Plan</li>
+                <li>Lifestyle Modifications Plan</li>
+                <li>4-week mentorship support after starting your treatment</li>
+              </ul>
+            </div>
+            <div class="pg-blk pg-blk--soft pc-exc">
+              <div class="pg-h"><span>Not included</span></div>
+              <ul class="pg-list">
+                <li><details class="pc-more"><summary>Blood tests</summary>
+                  <small>Home blood sample collection fees are separate.</small></details></li>
+                <li><details class="pc-more"><summary>Your testosterone therapy</summary>
+                  <small>Once your prescription is issued, we will price it — before you pay.</small></details></li>
+                <li><details class="pc-more"><summary>Supplementation products</summary>
+                  <small>Products are charged separately.</small></details></li>
+                <li><details class="pc-more"><summary>Review consultation</summary>
+                  <small>A new consultation, AED 795 + VAT.</small></details></li>
+              </ul>
+            </div>
           </div>
-          <div class="pg-blk">
-            <div class="pg-h"><span>Add now</span></div>
-            <button type="button" class="pg-addon" id="pg-addon" aria-pressed="false">
-              <span class="pg-box" aria-hidden="true">✓</span>
-              <span class="pg-t">Home blood sample collection · UAE
-                <!-- ⚠️ HIS COPY, 2026-08-24, AND IT IS TWO SENTENCES WHERE THERE WAS ONE — inside the
-                UAE and outside it are now separate lines, because they are separate offers.
-                The spaced hyphens around "home | office | hotel" became em dashes, the
-                estate's rule; nothing else was touched.
-                ⚠️ IT IS THE SAME PARAGRAPH ON FIVE PAGES and describes ONE service, so it
-                was replaced on all five. /testosterone-top-up/'s copy said "home or office"
-                where the others said "home"; his "home | office | hotel" supersedes both.
-                ⚠️ THE SECOND SENTENCE LEFT THIS BUTTON ON 2026-08-24f — it is the `.pg-note`
-                below, outside the <button>. See the stylesheet at `.pg-note` for why. -->
-                <small>Our team arrives to collect your required blood test sample anywhere in
-                the UAE — home | office | hotel — and provides you with the results at the
-                earliest.</small>
-            </span>
-              <span class="pg-p">AED 1,950 <small>+ VAT</small></span>
-            </button>
-            <p class="pg-note">Patients outside the UAE can do their blood tests at any
-            laboratory at their destination.</p>
+          <div class="pc-col pc-col--r">
+            <p class="pc-price pg-amt">AED 1,150 <small>+ VAT</small></p>
+            <div class="pg-blk pc-add">
+              <button type="button" class="pg-addon" id="pg-addon" aria-pressed="false">
+                <span class="pg-box" aria-hidden="true">✓</span>
+                <span class="pg-t"><span class="pc-addon-label">Optional add-on</span>Home blood sample collection · UAE
+                  <!-- ⚠️ HIS COPY, 2026-08-24, AND IT IS TWO SENTENCES WHERE THERE WAS ONE — inside the
+                  UAE and outside it are now separate lines, because they are separate offers.
+                  The spaced hyphens around "home | office | hotel" became em dashes, the
+                  estate's rule; nothing else was touched.
+                  ⚠️ IT IS THE SAME PARAGRAPH ON FIVE PAGES and describes ONE service, so it
+                  was replaced on all five. /testosterone-top-up/'s copy said "home or office"
+                  where the others said "home"; his "home | office | hotel" supersedes both.
+                  ⚠️ THE SECOND SENTENCE LEFT THIS BUTTON ON 2026-08-24f — it is the `.pg-note`
+                  below, outside the <button>. See the stylesheet at `.pg-note` for why. -->
+                  <!-- ⚠️ HIS 2026-08-24 SENTENCE, KEPT HERE VERBATIM SO RESTORING IT IS A PASTE:
+                       "Our team arrives to collect your required blood test sample anywhere in
+                       the UAE — home | office | hotel — and provides you with the results at the
+                       earliest."
+                       IT WAS CUT TO ONE LINE 2026-08-24h. His references for the simpler card show
+                       this box with NO description at all; a priced toggle that never says what it
+                       buys is worse than a long one, so the operative facts survive — the scope is
+                       the UAE and the places are home, office, hotel. What went is the half that
+                       restated the title and a delivery promise with no time attached to it.
+                       ⚠️ IT CANNOT GO BEHIND A + LIKE THE FOUR NOT-INCLUDED ROWS. This is a
+                       <button>, and <details> is interactive content — nesting it here is invalid
+                       HTML and the toggle stops working. -->
+                  <small>Anywhere in the UAE — home, office or hotel.</small>
+              </span>
+                <span class="pg-p">AED 1,950 <small>+ VAT</small></span>
+              </button>
+              <p class="pg-note">Patients outside the UAE can do their blood tests at any
+              laboratory at their destination.</p>
+            </div>
+            <div class="pg-sum">
+              <div class="pg-row"><span>Programme</span><span id="pg-sub">AED 1,150.00</span></div>
+              <div class="pg-row" id="pg-row-addon" hidden><span>Home blood sample collection</span><span id="pg-addon-amt">AED 1,950.00</span></div>
+              <div class="pg-row"><span>VAT 5%</span><span id="pg-vat">AED 57.50</span></div>
+              <div class="pg-row pg-row--total"><span>Total today</span><span id="pg-total">AED 1,207.50</span></div>
+            </div>
+            <div class="prog-cta"><a class="btn" href="#book" data-pg-start>Start the programme <span class="arr">→</span></a></div>
           </div>
-          <div class="pg-blk pg-blk--soft">
-            <div class="pg-h"><span>What’s not included</span></div>
-            <ul class="pg-list">
-              <li>Blood tests
-                <small>Home blood sample collection fees are separate.</small></li>
-              <li>Your testosterone therapy
-                <small>Once your prescription is issued, we will price it — before you pay.</small></li>
-              <li>Supplementation products
-                <small>Products are charged separately.</small></li>
-              <li>Review consultation
-                <small>A new consultation, AED 795 + VAT.</small></li>
-            </ul>
-          </div>
-          <div class="pg-sum">
-            <div class="pg-row"><span>Programme</span><span id="pg-sub">AED 1,150.00</span></div>
-            <div class="pg-row" id="pg-row-addon" hidden><span>Home blood sample collection</span><span id="pg-addon-amt">AED 1,950.00</span></div>
-            <div class="pg-row"><span>VAT 5%</span><span id="pg-vat">AED 57.50</span></div>
-            <div class="pg-row pg-row--total"><span>Total today</span><span id="pg-total">AED 1,207.50</span></div>
-          </div>
-          <div class="prog-cta"><a class="btn" href="#book" data-pg-start>Start the programme <span class="arr">→</span></a></div>
         </aside>
       </div>
     </div>

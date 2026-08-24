@@ -1,25 +1,64 @@
-# The programme card — redesign brief, opened 2026-08-24g
+# The programme card — the record, closed 2026-08-24h
 
-**This file exists because the work was deliberately NOT started.** His instruction:
-*"edit the start the programme section for the desktop and the phone to be exactly like
-this… but not to do it in this one but on another chat create the handover and let us
-proceed."* Everything below is preparation. **Nothing in the repo has been changed for it.**
+**This began as a brief for work that had not started. It is now a record of work that
+shipped.** The card is built on all three door cards; `tools/qa/prog-card.mjs` guards it.
+Everything below the fold is kept because it is still true and still the reason the card
+is shaped as it is.
 
 ---
 
-## ⚠️⚠️ FIRST: ASK HIM TO RE-PASTE THE TWO MOCKUPS
+## ⚠️ WHAT HAPPENED, IN ORDER — THE PART WORTH READING
 
-He supplied **two reference images** in the chat that produced this file — a desktop card
-and a phone card. **They could not be saved to the repo** (chat images have no file path
-this session could reach), so they exist nowhere but that conversation.
+**Round one was built faithfully from his first two mockups and he rejected it:**
+*"it really looks convoluted… hard to read."* The build was not wrong; the mockups
+carried every grey sub-line and the add-on's full three-line paragraph, so a faithful
+build of them was always going to be dense.
 
-**Open the new chat by asking him to paste both images again.** The written spec below is
-detailed enough to start from, but it is a description of a picture, and "exactly like
-this" is his standard. Do not guess at what the spec does not cover — ask, or wait for the
-image.
+**The diagnosis was copy, not layout.** His second pair of references kept the two
+columns, the divider and the promoted figure UNCHANGED. What they removed was text —
+four sub-lines, the add-on paragraph, the outside-UAE note. Roughly nine lines of small
+type off a card that had thirty-five.
 
-If he cannot re-supply them, say so plainly and work from the spec, flagging every place
-you had to infer.
+> **If a later round starts putting explanatory lines back INLINE, that is the change
+> that undoes this one.** They belong behind the +.
+
+**The + is his, and it resolved what the cut opened.** His words: *"rather than adding
+an x symbol we just need to add an + that is clickable so the person can understand what
+it means… the same things will be there if that is clicked and something will come
+down."* A cross LABELS a row; a + OPENS it. Three of the deleted sentences were
+load-bearing — a commercial promise, a price that exists nowhere else on the site, and a
+warning that guards a charge — and two of them now live on the row they explain instead
+of in a footnote.
+
+---
+
+## What shipped
+
+| | |
+|---|---|
+| **Layout** | Two columns, **41/59**, divider is the right column's own left edge. Reflows to one column at **1024px**, measured at 1104 (the narrowest two-column case) rather than picked. |
+| **Card width** | `.prog-grid--card` **1180px** — it was 560, the width the card was composed at as one column. |
+| **The figure** | Promoted out of the Included header to the right column, `clamp(42px,4.6vw,68px)`. **Keeps `.pg-amt`, LAST in its class list** — `trt-page.mjs` reads the no-JS price through it. |
+| **Labels** | `Included` / `Not included`, gold serif, sentence case. "What's not included" is gone; so is the "Add now" label, which the add-on box's own gold heading replaced. |
+| **Markers** | A gold tick (SVG, because MediGyn NOW has no ✓ glyph) for Included. A **+** for every Not-included row. |
+| **The +** | `<details>`/`<summary>`, **no JavaScript**. Several open at once. Whole row is the target, larger under `@media(hover:none)`. Unfolds via `::details-content` where supported, snaps where not. |
+| **Add-on box** | Gold "Optional add-on" heading, the service on one line, one line of what it is, figure bottom-right in the accent face. |
+| **Summary** | The 2px ink bar is gone with the density it separated; a gold hairline above the total. On desktop the sum and pill **anchor to the floor of the right column**. |
+| **Ground / box** | Unchanged — the chapter's `--ps-ground` porcelain, card keeps a fill, hairline and radius. **Burgundy was shown and not taken.** |
+| **Scope** | The three door cards. **Neither popup was touched.** |
+
+### Still open
+
+- **The burgundy ground** (`S3` in the round that is now deleted from `tools/preview/`).
+  It is a CHAPTER change, not a card change: `--ps-ground` #F0EBE7 is his own call
+  (*"you know how our flower is cream? make that the color of the background"*) and it is
+  what the flower sculpture stands on directly above this card. Going burgundy means
+  recolouring the chapter or banding the card alone. Worth a round of its own.
+- **`/modern-menopause/` still has a tall left column** — six Included items against
+  BHRT's three. The floor-anchor closed the hole; the air in the middle is real and is
+  the price of one shared layout across three lists of different lengths.
+- **The men's Included list still says "Detailed symptom assessment"** while step 01 is a
+  discovery call. Untouched here.
 
 ---
 
@@ -27,92 +66,56 @@ you had to infer.
 
 | Page | What it renders | Notes |
 |---|---|---|
-| `/hormone-therapy-bhrt/` | `<aside class="prog-card">` — a real chapter card | **AED 950 + VAT. This is the page the mockups show.** |
-| `/modern-menopause/` | the same card | AED 950 + VAT, **plus a `.pg-recap` line** |
+| `/hormone-therapy-bhrt/` | `<aside class="prog-card">` — a real chapter card | **AED 950 + VAT.** The page the mockups showed. |
+| `/modern-menopause/` | the same card | AED 950 + VAT, **plus a `.pg-recap` line** (it sits under the `<h3>`, above the gold rule) |
 | `/testosterone-top-up/` | the same card | **AED 1,150 + VAT** (2026-08-24g), plus `.pg-recap` |
 | `/peptide-therapy/` | ⚠️ **a popup panel** (`template#prog-panel`) | same `pg-*` classes, **no `.prog-card`** |
 | `/functional-medicine/` | ⚠️ **a popup panel** | same `pg-*` classes, **no `.prog-card`** |
 
-### The DOM, as it stands (BHRT — the other two add `.pg-recap` after the `<h3>`)
+### The DOM, as built
 
 ```
 <aside class="prog-card" data-reveal>
-  <p class="pxd-kicker">The programme</p>
-  <h3>Your treatment starts here</h3>
-  <div class="pg-blk">              Included   +  <span class="pg-amt">AED 950 +VAT</span>
-    <div class="pg-h">…</div>       ← the price lives HERE today, inline, ~21px
-    <ul class="pg-list">…</ul>
+  <div class="pc-col pc-col--l">
+    <p class="pxd-kicker"> · <h3> · [<p class="pg-recap">] · <div class="pc-rule">
+    <div class="pg-blk pc-inc">            Included  + the tick list
+    <div class="pg-blk pg-blk--soft pc-exc">  Not included + four <details class="pc-more">
   </div>
-  <div class="pg-blk">              Add now
-    <button id="pg-addon">…</button>      ← price is a sibling column INSIDE the button row
-    <p class="pg-note">…</p>              ← outside the button since 2026-08-24f
+  <div class="pc-col pc-col--r">
+    <p class="pc-price pg-amt">            ← the figure. .pg-amt MUST stay last.
+    <div class="pg-blk pc-add">            the add-on <button> + the .pg-note outside it
+    <div class="pg-sum">                   #pg-sub / #pg-row-addon[hidden] / #pg-vat / #pg-total
+    <div class="prog-cta">
   </div>
-  <div class="pg-blk pg-blk--soft"> What's not included
-    <ul class="pg-list">…</ul>
-  </div>
-  <div class="pg-sum">              Programme / [collection] / VAT / TOTAL TODAY
-    <div class="pg-row">×3 + <div class="pg-row pg-row--total">
-  </div>
-  <div class="prog-cta"><a class="btn" href="#book">Start the programme</a></div>
 </aside>
 ```
 
-### The CSS that governs it
-
-```
-.prog-grid--card   max-width:560px, centred          ← the card is ONE narrow column today
-.prog-card         sticky→static, white .55, 1px border, radius 18px, padding 22–34px
-.pg-blk            margin-top:26px
-.pg-h              flex row, label left / .pg-amt right, 1px ink underline
-.pg-amt            accent face, clamp(17px,2vw,21px)   ← THE FIGURE THAT GETS PROMOTED
-.pg-list / li      13.5px, gold dash marker at left
-.pg-addon          bordered box, flex: checkbox | text | price
-.pg-note           12.5px ink-soft, under the box
-.pg-sum            border-top 2px ink
-.pg-row            flex, label / figure, tabular-nums
-.pg-row--total     gold caps label / accent figure clamp(21px,2.6vw,27px)
-.prog-cta .btn     width:100%
-```
+⚠️ **The two wrappers become `display:contents` at 1024** so their children turn into
+direct grid items of the card and `order` interleaves them into the phone sequence.
+That is the whole trick, and the reason it is necessary is written out below.
 
 ---
 
-## What the mockups change
+## What the first pair of mockups asked for — SUPERSEDED, kept for the reasoning
 
-### Desktop — from one narrow column to **two columns with a vertical divider**
+The round-one spec lived here: promote the figure to roughly **four times** `.pg-amt`,
+strip the price out of the `Included` header, move the add-on's figure inside its box,
+lift the 560px cap, and give phone an order that is **not** today's DOM order.
 
-- **LEFT:** kicker → title → short gold rule → `INCLUDED` (+ its 3 items) →
-  `WHAT'S NOT INCLUDED` (+ its 4 items, each with its grey sub-line).
-- **DIVIDER:** a single hairline running the full height between the columns, roughly
-  centred.
-- **RIGHT:** the **big price** → `ADD NOW` + the add-on box → the outside-UAE note →
-  the summary rows → `TOTAL TODAY` → the full-width pill.
-
-**The five real changes:**
-
-1. ⚠️ **THE PRICE IS PROMOTED TO A DISPLAY FIGURE.** Today it is `.pg-amt`, ~21px, sitting
-   inline at the right of the `INCLUDED` header. In the mockup it is the largest thing on
-   the card — a Playfair figure at roughly **four times** its current size, with `+ VAT`
-   beside it in the small sans caps it already uses.
-2. **`INCLUDED` LOSES THE PRICE** and becomes a plain label, like `WHAT'S NOT INCLUDED`.
-3. **THE ADD-ON'S PRICE MOVES INSIDE THE BOX** — bottom-right on desktop rather than a
-   third flex column in the same row. On phone it stacks (`AED 1,950` over `+ VAT`).
-4. **THE CARD APPEARS TO LOSE ITS BOX** — no outer border, no radius, no white fill;
-   flat on the section ground with hairlines doing the dividing. ⚠️ **VERIFY THIS
-   AGAINST THE IMAGE** — the crop may simply be inside the existing card. It is the one
-   structural thing the spec is least sure of. **See open question 1.**
-5. **THE 560px CAP MUST LIFT.** `.prog-grid--card{max-width:560px}` is the width the card
-   was composed at. Two columns cannot live there. The mockup is a wide block — closer to
-   the page's own `.wrap` measure than to a panel.
-
-### Phone — one column, and the order is NOT today's order
+**Four of those five shipped.** The one that did not is the figure's size: at ~4× it
+shouted over the chapter and his second pair of references set it nearer **2×**, which is
+what is built. The phone order is unchanged from the spec and is the thing
+`prog-card.mjs` now measures:
 
 ```
-kicker → title → BIG PRICE → rule → INCLUDED → items → rule → ADD NOW → box → note
-→ rule → WHAT'S NOT INCLUDED → items → thick rule → summary rows → TOTAL TODAY → pill
+kicker → title → [recap] → BIG PRICE → INCLUDED → ADD NOW + box + note
+→ NOT INCLUDED → summary rows → TOTAL TODAY → pill
 ```
 
-The price sits **directly under the title**, left-aligned, large (smaller than desktop but
-still the display figure). Everything else keeps today's sequence.
+It also proposed the card might **lose its box** and sit flat on the ground. Five edge
+treatments were rendered for him — flat, ruled band, hairline frame, today's box, paper —
+and **he kept the box**. Do not re-open that from the mockup crop; it was decided from
+pictures.
 
 ---
 
@@ -183,24 +186,20 @@ Three different figures ride this card and two are script-driven:
 
 ---
 
-## Open questions — put these to him early
+## The open questions, and his answers
 
-1. ⚠️ **Does the card keep its box?** Today: white `.55` fill, 1px border, 18px radius.
-   The mockups look flat and borderless. **This is the biggest visual unknown in the
-   brief** and it changes how the whole chapter sits on its ground.
-2. **Which pages get this?** The mockups are BHRT. `/modern-menopause/` and
-   `/testosterone-top-up/` carry the identical card and would look broken beside it if
-   left behind — but the peptide and FM **popups** are a different component and almost
-   certainly out of scope. Recommend: **all three door cards, neither popup.**
-3. **Where does `.pg-recap` go?** Modern-menopause and testosterone have a one-line recap
-   after the `<h3>` that the BHRT mockup does not show. Under the title? Under the price?
-4. **How wide does the card get on desktop?** Full `.wrap` measure, or something narrower?
-   The mockup's proportions suggest wide, but the number is his.
-5. **Where is the breakpoint?** The card currently reflows at 900px (`.prog-grid`) and the
-   chapter has its own cliffs. Two columns of this density will not survive 900 — expect to
-   need a higher one, and **measure it rather than pick it**.
+1. **Does the card keep its box?** → He asked to see options; five were rendered.
+   **The box stayed** (fill, hairline, 18px radius), on the chapter's own ground.
+2. **Which pages?** → **All three door cards, neither popup.**
+3. **Where does `.pg-recap` go?** → **Under the `<h3>`, above the gold rule**, in the
+   left column. Ordered explicitly on phone.
+4. **How wide?** → He chose the full `.wrap`; the simplification brought it to **1180px**.
+5. **Where is the breakpoint?** → **1024**, measured at 1104.
 
----
+Also settled: **the CTA stays a pill** (his first reference showed a rounded rectangle;
+the estate's button is a pill on every page), and **the Included list keeps ticks with no
++** — a + that opens onto nothing is a broken promise, and only menopause has a sentence
+there.
 
 ## Verifying the work
 
@@ -208,10 +207,20 @@ Run these; all three were green when this brief was written:
 
 ```
 npm install --no-save playwright@1.49.1 gsap@3.13.0 lenis@1.3.4     # ⚠️ all three in ONE install
-node tools/qa/bhrt-shots.mjs      # asserts 950.00 / 47.50 / 997.50 + the add-on arithmetic
-node tools/qa/trt-page.mjs        # asserts 1,150 three ways, incl. the static no-JS figures
-node tools/qa/doctors-pill.mjs    # unrelated, but it walks all five pages — cheap insurance
+node tools/qa/prog-card.mjs --shots  # THE CARD ITSELF, on all three doors
+node tools/qa/bhrt-shots.mjs         # 950.00 / 47.50 / 997.50 + the add-on arithmetic
+node tools/qa/trt-page.mjs           # 1,150 three ways + the 795 review fee on all three
+node tools/qa/doctors-pill.mjs       # walks all five pages — cheap insurance
 ```
+
+**`prog-card.mjs` is the one that did not exist when this file was written**, and the
+failure it is for is the phone order. Desktop and phone want the same children in
+different sequences; if a later edit adds a child with no `order`, or wraps two children
+in a new div, **desktop keeps working perfectly and the phone order quietly scrambles** —
+the figure lands under the not-included list, or the total floats above its own summary.
+It renders. It just says the wrong thing in the wrong place. So the order is asserted by
+**measured position**, not by class. It also holds the four `<details>`, the `.pg-amt`
+class order, `.pg-note` staying outside the toggle, and the collection row staying hidden.
 
 `trt-page.mjs` checks the money **in the raw markup as well as after the script runs**,
 precisely so a layout change that strands a static figure gets caught. If you restructure

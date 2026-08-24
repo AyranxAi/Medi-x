@@ -42,6 +42,11 @@ is where those are taken.
 - ⚠️ *"guide **them** to the right specialist"* → *"guide **you**"*. In his line "them"
   can only attach to "your needs", and needs do not see specialists.
 
+📐 **THE PROGRAMME CARD IS BEING REDESIGNED** — his mockups, desktop and phone,
+2026-08-24g. The brief is [`HANDOVER_PROGRAMME_CARD.md`](../HANDOVER_PROGRAMME_CARD.md)
+and **the work is deliberately not started**. ⚠️ It opens by asking him to re-paste the
+two reference images — they live only in that chat and could not be saved to the repo.
+
 ⚠️ **THE LITE PETAL, 2026-08-24e** — his call. The plate now carries the step's **number, name
 and duration only**; the sentence and the CTA moved to the editorial column (left on desktop,
 below the flower on a phone). This retired the two-version copy fork: each step carried four

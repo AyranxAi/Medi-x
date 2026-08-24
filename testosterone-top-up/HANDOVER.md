@@ -154,6 +154,11 @@ flower at six steps on desktop and phone, and the grade asserted as a pair.
 5. Title/meta sign-off; real testimonials; the scene concept board owed from door 1.
 6. `images/medi-gyn-trt-*` sit unreferenced — no photography, his call.
 
+📐 **THE PROGRAMME CARD IS BEING REDESIGNED** — his mockups, desktop and phone,
+2026-08-24g. The brief is [`HANDOVER_PROGRAMME_CARD.md`](../HANDOVER_PROGRAMME_CARD.md)
+and **the work is deliberately not started**. ⚠️ It opens by asking him to re-paste the
+two reference images — they live only in that chat and could not be saved to the repo.
+
 ## Irina's round, part 2 — 2026-08-24g, the four that were held
 
 All four came back the same day and **her copy won every one of them**. His rule, stated

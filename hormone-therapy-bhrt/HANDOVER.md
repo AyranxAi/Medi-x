@@ -1,5 +1,26 @@
 # /hormone-therapy-bhrt/ — build record, round 1 (2026-08-19)
 
+⚠️⚠️ **IRINA'S COPY ROUND, 2026-08-24f** — the largest copy change since the page shipped,
+and **the words are Irina's**. His instruction when a heading's meaning was queried:
+*"do what irina has said, the one i pasted"*. Her copy was therefore SET, not edited;
+every departure from her text is typographic and is recorded at the site it happens.
+What moved: the hero sub, the definition, three scene beats, the whole of 04's copy, 05's
+lede, **three hormone dossiers became five**, and **the doctors row became three women**.
+
+**⚠️ SIX THINGS ARE FLAGGED FOR HER AND ONE IS URGENT — see "Open" at the foot.** The
+urgent one: *"Assisting anxiety via allopregnanolone"* on the Pregnenolone card reads, as
+written, as the hormone assisting the anxiety. It is one word and it is hers to change.
+
+⚠️ **UK ENGLISH IS A SITE-WIDE RULE NOW** — his call the same day: *"the whole website,
+it's going to be UK English, not American, so we will always use personalised and not
+personalized."* 23 instances fixed across five pages. **What the rule does NOT reach is
+written in [`BRAND.md`](../BRAND.md)** and each exclusion is load-bearing — code
+identifiers (`scroll-behavior`), build comments (one deliberately spells the American form
+*because it is naming it*), the American Academy of Anti-Aging, and **`estrogen` /
+`estradiol`, which he was asked about directly and chose to keep**: they are the
+international non-proprietary names, the ones on a prescription and in a patient's search
+box. That last one is in BRAND.md precisely so it is not re-litigated.
+
 ⚠️ **THE LITE PETAL, 2026-08-24e** — his call. The plate now carries the step's **number, name
 and duration only**; the sentence and the CTA moved to the editorial column (left on desktop,
 below the flower on a phone). This retired the two-version copy fork: each step carried four
@@ -13,7 +34,6 @@ list is now three lines, his**. ⚠️⚠️ **THE 4-WEEK MENTORSHIP CAME OFF TH
 "Detailed symptom assessment" and the blood-test interpretation line — the mentorship is a
 distinct promise from step 06's aftercare month and is now made nowhere on this page. One
 `<li>` to put back. Full account in [`HANDOFF.md`](../HANDOFF.md).
-
 
 **What this page is:** door 1 of `/hormone-balancing/` — the woman who clicked
 *"Still cycling and noticing changes?"* It sells exactly one thing: **the programme**
@@ -45,14 +65,15 @@ memory.
 | Blood test only | "regarding dutch we stop for now onky blood test now" — no DUTCH anywhere, harness-asserted |
 | Home collection add-on | "we still have the optional add on of 1950 + vat for blood work in uae" |
 | The word "programme" | approved by the owner via him (relayed earlier the same day): the price buys assessment + blood reading + consultation, which is fairly a programme; "consultation" names only the meeting. The peptide page's consultation-only rule governs THAT page |
-| Doctors | "for doctors add what you can for now" → the peptide page's four, verbatim (Nahla restored into the slot the FM base gave Ms. Puri) |
+| Doctors | "for doctors add what you can for now" → the peptide page's four, verbatim. ⚠️ **SUPERSEDED 2026-08-24f**: three, all women, Dr. V · Dr. N · Dr. D |
 
 ## Anatomy
 
 hero (Tide, drawn) → define (the door's own hook, verbatim) → THE TIDE scroll scene
 (fallback: signals chips + turn) → **03 the programme** (six steps + the card) →
 **04 the month, mapped** (cycle wheel) → **05 what are hormones** (identical key +
-three dossiers) → docs (4) → stories (3) → faq (6) → final (Irina) → footer.
+**five dossiers**, 3 + 2 centred) → **docs (3, all women)** → stories (3) → faq (6) →
+final (Irina) → footer.
 
 Grounds: porcelain(03) → dawn(04) → ivory(05) → dawn(docs) → ivory(stories) → dawn(faq)
 → ivory(final). The scene exits its dawn onto 03 — the parent's measured seam, measured
@@ -118,25 +139,56 @@ the clinic's own claim ("the same molecule as human body hormone molecules",
 recovered from their site). Three dossiers name the three hormones in their own
 vocabulary (creams etc. live in the FAQ's client-approved answer, not here).
 
+### The five dossiers (05) — 2026-08-24f
+Three hormones became five, and the two new ones are a **different tier**: pregnenolone
+and DHEA are the precursors the other three are made from, which is what their epithets
+say (grandmother → mother → the sisters and the brother). The grid seats them that way —
+three across, the pair centred beneath — so the row break reads as the pathway, not as an
+orphan. ⚠️ **THE CENTRING IS POSITIONAL** (`nth-child(4)`/`(5)`): reorder the `<article>`s
+and the layout follows the SLOT, not the hormone. Six tracks with every card at `span 2`
+is arithmetically identical to the old `repeat(3)`, so row 1 is unchanged to the pixel.
+
 ### Docs · stories · FAQ · final
-Docs: the peptide four (Andrey · Eslam · **Nahla** · Khalid), bios client copy
-verbatim. ⚠️ Nahla is third only because that was the open slot; **a BHRT
-gynaecologist LEADING the row is a question for him**, not a tidy-up. Stories: three
+Docs: **three, and all three are women** — Dr. Valentina Ghorashi · Dr. Nahla Ibrahim
+Elawady · Dr. Diana Makovskaia, in his order (2026-08-24f). ⚠️ **THIS ROW IS UNIQUE IN THE
+ESTATE** — every other page still renders the peptide four, so a "sync the doctors" pass
+would silently undo his call. Andrey, Eslam and Khalid are untouched on the other four
+pages; restore from there, never from memory. The old open question ("Nahla first?") is
+closed. Bios are client copy; every correction is recorded at its own card. Stories: three
 placeholders in this page's register — NOT real patients. FAQ: three answers are the
 parent page's client-approved copy verbatim (safe? / how used? / tried HRT); three
 are DRAFT perimenopause questions — "Will BHRT stop my periods?" especially needs a
 prescriber's eyes. Final strip + footer inherited; WhatsApp prefills say "hormone
 therapy support".
 
-## QA — `tools/qa/bhrt-shots.mjs`, all green
+## QA — `tools/qa/bhrt-shots.mjs`, all green (43 checks, 2026-08-24f)
 
 Screenshot pass (scene stops ×8 at 1440/390, page chapters d+p, reduced-motion) +
-smoke: 6 beats · 6 steps · 4 docs incl. Nahla · 6 FAQ · 3 stories · 8 labels = 8
+smoke: 6 beats · 6 steps · **3 docs, order-asserted** · 6 FAQ · 3 stories · 8 labels = 8
 chips · 28 ticks · 2 `<use>` · money three ways · add-on arithmetic · flip works ·
 no DUTCH/BOZAT · no Modern-Menopause vocabulary · wheel unarmed on phones · no
 sideways scroll at 13 widths (320–1920) · reduced-motion falls back clean · hero
-canvas alive. Run: `npm install --no-save playwright@1.49.1 gsap@3.13.0 lenis@1.3.4
-&& node tools/qa/bhrt-shots.mjs`. The full harness on the peptide-page.mjs pattern is
+canvas alive.
+
+**Six checks were added this round**, and each guards a decision that a well-meaning
+later pass would otherwise undo silently:
+- **the row is Valentina · Nahla · Diana, in that order** — his instruction named the
+  order outright; asserting the SET alone would let a re-sort through.
+- **no doctor from the peptide four is back on this page** — the failure mode is a
+  "sync the doctors" pass on a sibling page, and it would look like a tidy-up.
+- **five hormone dossiers** and **the two precursors are centred beneath the three** —
+  reads `grid-column-start` off the live layout, because the centring is positional and
+  a reordered `<article>` breaks it without touching any CSS.
+- **the international blood-test line is outside the priced toggle** *and* **the add-on
+  button's accessible name no longer carries it** — two checks, deliberately: the first
+  can pass while the line sits in a second, still-wrong place inside the button.
+- **no American -ize spellings in visible copy** — reads `innerText`, so it sees what a
+  reader sees and NOT the build comments, which quote the American forms on purpose.
+
+Run: `npm install --no-save playwright@1.49.1 gsap@3.13.0 lenis@1.3.4 && node
+tools/qa/bhrt-shots.mjs` — ⚠️ **all three in ONE `--no-save` install**; a second
+`--no-save` install drops what the first one put there, and the harness then fails with
+`Cannot find package 'playwright'`. The full harness on the peptide-page.mjs pattern is
 the natural next round once copy is signed off.
 
 ## Wiring
@@ -149,11 +201,65 @@ its own, deliberately: the menu lists top services; the doors are the route in.
 
 ## Open — his to answer
 
-1. **The scene concept board** — B and C rendered on this real stage, next round. Owed.
-2. Doctor order: Nahla first?
-3. `<title>`/meta description sign-off (draft, in his pattern).
-4. Real testimonial copy; FAQ drafts through him + a prescriber; the month wheel's
-   day placements through a doctor.
-5. Payment provider for "Start the programme" (merchant account — his to open).
-6. The three uploaded `medi-gyn-bhrt-*` plates sit unreferenced in `images/` — keep
-   or retire is his call; nothing points at them.
+**⚠️ SIX OF THESE ARE IRINA'S OWN COPY, FLAGGED RATHER THAN GUESSED AT.** Her words were
+SET on his instruction ("do what irina has said"), so nothing below was changed on
+anyone's judgement — each is a question with a one-line answer she owns.
+
+1. ⚠️⚠️ **"Assisting anxiety via allopregnanolone"** (Pregnenolone card). Read plainly it
+   says the hormone assists the *anxiety*. She almost certainly means it **eases** it. One
+   word. **This is the one to fix before the page goes live.**
+2. **"We look at yours."** replaced "**yours is the one we test**" in 04's lede. The old
+   sentence was recorded as LOAD-BEARING — it is what keeps the wheel an illustration
+   rather than a diagnosis, and "test" is the word doing the clinical work. Her line keeps
+   the sense and loses the verb. Restoring "Yours is the one we test." is one string.
+3. **"…can be replaced with molecules identical to those your body naturally produces"**
+   (05's lede). This page's whole argument is **top-up**, not replacement — scene beat 4
+   says "So we top it up", and *replacement* is /modern-menopause/'s register, which this
+   page is under standing instruction not to blur into. "topped up with" is one phrase.
+4. **Testosterone lost "Present in women too — in smaller, working doses."** That line
+   pre-empted the one question a women's page invites the moment it names testosterone.
+   One `<li>` to put back.
+5. **Three claims sit in regulated categories** — "Immunity support", "Heart boosting"
+   (cardiovascular) and "Up-regulator of growth hormone" (endocrine). Not blocking, but
+   they should travel to a prescriber with the FAQ drafts and the wheel's day placements.
+6. **"for women with a menstrual cycle but who are noticing some change"** (hero). Set as
+   she wrote it, with one article inserted ("a menstrual cycle") because it was missing.
+   It still reads stiffly; *"for women who still have a menstrual cycle but are noticing
+   some change"* is smoother and uses only her words. Her call.
+
+**His, from earlier rounds and still open:**
+
+7. **The scene concept board** — B and C rendered on this real stage. Owed since 2026-08-19.
+8. **The 4-week mentorship `<li>`** — still promised nowhere on this page (round 2026-08-24b).
+9. `<title>`/meta description sign-off. ⚠️ The meta was rewritten this round to track
+   Irina's hero copy ("dosed from your labs" → "tailored to your lab results"); it is still
+   draft, in his pattern.
+10. Real testimonial copy; the FAQ drafts through him + a prescriber; the wheel's day
+    placements through a doctor.
+11. Payment provider for "Start the programme" (merchant account — his to open).
+12. The three uploaded `medi-gyn-bhrt-*` plates sit unreferenced in `images/`.
+
+**Raised by this round, small:**
+
+13. **Dr. Diana's backdrop is white; Dr. Valentina's and Dr. Nahla's are the same grey.**
+    A photo-shoot difference, visible in the row. It cannot be fixed by compositing —
+    BRAND.md's rule is that no pixel is invented, and the round-6 attempt to pad a frame
+    with sampled backdrop was rejected twice. A re-shoot or a matching backdrop is the
+    only honest fix; it is minor and it is his call whether to bother.
+14. **Dr. Diana is "DHA-Licensed" where the other two are "DHA-Certified."** That is what
+    her own page says and the two are not the same credential, so they were NOT made to
+    agree. Confirm which is right for her.
+15. **Dr. Valentina's second language read "Iranian" in the source** — that is the
+    nationality; the language is **Farsi**. Corrected on the page. Say if the source's own
+    word is wanted back.
+16. **Dr. Valentina's master is 600×600**, the smallest on any doctors row (the others are
+    660–1024). It covers the shipped layouts at ~1.4–1.7x and is fine as it stands; if a
+    larger file exists it is worth taking — NEW BASENAME, never an overwrite.
+17. **"we will price it before your payment"** was applied to THIS page only. The identical
+    line still reads "— before you pay" on /modern-menopause/ and /testosterone-top-up/.
+    One line each to bring them into step; not done unasked, because his brief was
+    page-scoped.
+18. **"waver" vs "fluctuate"** — beat 3 now says "fluctuate"; the scene's no-JS fallback
+    still says "waver" twice ("two hormones begin to waver", "what perimenopause lets
+    waver"). Only a reader with JS disabled or reduced motion on sees both, so the split is
+    nearly invisible — but it is a split. Two strings if it should be harmonised.

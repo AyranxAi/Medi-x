@@ -1099,10 +1099,19 @@ section{position:relative}
    straight after the PRICE TBC tag — a <small> is inline by default and the block
    rule only named the two lists. */
 .pg-list small,.pg-steps small,.pg-t small{display:block;font-size:12px;color:var(--ink-soft);margin-top:4px;line-height:1.45}
-/* ⚠️ THE ADD-ON'S BLURB IS TWO BLOCKS SINCE 2026-08-24 — inside the UAE and outside it are
-   separate offers and his copy separates them. Two <small>s at 4px apart read as one
-   wrapped sentence, which is the thing the split exists to undo. */
-.pg-t small + small{margin-top:.6em}
+/* ⚠️⚠️ THE INTERNATIONAL LINE CAME OUT OF THE BUTTON — his call 2026-08-24f, and the reason
+   is structural, not editorial: A <button>'s ENTIRE SUBTREE IS ITS ACCESSIBLE NAME, so
+   inside it a screen reader announced "Home blood sample collection · UAE … our team
+   arrives … Patients outside the UAE … AED 1,950 + VAT" as ONE offer. It is not part of
+   what the toggle buys — it is what to do when the toggle is NOT for you — and a reader
+   abroad could reasonably tick a 1,950 charge that cannot apply to her. It is now a plain
+   note under the box: not focusable, not priced, not clickable.
+   ⚠️ IT IS THE SAME PARAGRAPH ON FIVE PAGES and describes ONE service, so it moved on all
+   five, exactly as its 2026-08-24 rewrite did. Change one, change five.
+   ⚠️ `.pg-t small + small` DIED WITH THE MOVE — it spaced the two <small>s apart and .pg-t
+   now holds only one. It is deleted rather than left inert: a rule that matches nothing is
+   a trap for the next person who adds a second line here and cannot see why it is spaced. */
+.pg-note{margin-top:10px;font-size:12.5px;line-height:1.45;color:var(--ink-soft)}
 
 /* ⚠️ THE ONLY CONTROL IN THE PANEL BESIDES START. The prescribed treatment and the
    supplements cannot be ticked here — they are prescribed — and a checkbox nobody is
@@ -2314,7 +2323,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
               <h2 class="ps-eyebrow">The Medi&#8209;Gyn process</h2>
               <p class="ps-head ps-swap-el" data-ps-head>Care begins with understanding you.</p>
               <div class="ps-rule" aria-hidden="true"></div>
-              <p class="ps-body ps-swap-el" data-ps-body>Our personalized process starts with a
+              <p class="ps-body ps-swap-el" data-ps-body>Our personalised process starts with a
                 comprehensive assessment of your symptoms, health history, and goals&#8202;&#8212;&#8202;so
                 we can create a plan that&#8217;s truly tailored to you.</p>
               <nav class="ps-prog" aria-label="Process steps" data-ps-prog></nav>
@@ -2393,14 +2402,17 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
                 estate's rule; nothing else was touched.
                 ⚠️ IT IS THE SAME PARAGRAPH ON FIVE PAGES and describes ONE service, so it
                 was replaced on all five. /testosterone-top-up/'s copy said "home or office"
-                where the others said "home"; his "home | office | hotel" supersedes both. -->
+                where the others said "home"; his "home | office | hotel" supersedes both.
+                ⚠️ THE SECOND SENTENCE LEFT THIS BUTTON ON 2026-08-24f — it is the `.pg-note`
+                below, outside the <button>. See the stylesheet at `.pg-note` for why. -->
                 <small>Our team arrives to collect your required blood test sample anywhere in
                 the UAE — home | office | hotel — and provides you with the results at the
                 earliest.</small>
-                <small>Patients outside the UAE can do their blood tests at any laboratory at
-                their destination.</small></span>
+            </span>
               <span class="pg-p">AED 1,950 <small>+ VAT</small></span>
             </button>
+            <p class="pg-note">Patients outside the UAE can do their blood tests at any
+            laboratory at their destination.</p>
           </div>
           <div class="pg-blk pg-blk--soft">
             <div class="pg-h"><span>What’s not included</span></div>
@@ -2668,11 +2680,11 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
             of patients seeking to improve and maintain their quality of life, allowing them to
             feel better, do more, and live longer. He offers comprehensive care and diagnostic
             services resulting in patients’ long-term well-being.</p>
-            <p>Dr Andrey’s primary focus lies in optimizing health and wellness across all facets
+            <p>Dr Andrey’s primary focus lies in optimising health and wellness across all facets
             of life. He offers a more natural and functional alternative to the limitations of
             traditional medicine. Dr Andrey’s mission is to empower individuals to take control
             of their health in a holistic manner.</p>
-            <p>Dr Andrey utilizes an effective combination of cutting-edge natural therapies, as
+            <p>Dr Andrey utilises an effective combination of cutting-edge natural therapies, as
             well as traditional treatments, underscoring his commitment to a truly integrated
             approach to well-being.</p>
             <div class="pxd-cta"><a class="btn" href="#book">Book a consultation <span class="arr">→</span></a></div>
@@ -2698,15 +2710,15 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
               </div>
             </div>
             <p>Dr. Eslam Yakout is a physician with over 20 years of clinical experience,
-            specialized in Functional and Regenerative Medicine. His work focuses on helping
-            patients restore balance and vitality through a personalized and holistic
+            specialised in Functional and Regenerative Medicine. His work focuses on helping
+            patients restore balance and vitality through a personalised and holistic
             approach.</p>
             <p class="pxd-sub">Particular expertise</p>
             <ul class="pxd-list">
               <li>Autoimmune diseases and fibromyalgia — reducing chronic pain, inflammation, and fatigue through functional and regenerative protocols.</li>
               <li>Gut microbiome health — using advanced testing to address dysbiosis, leaky gut, and their link to immunity and chronic disease.</li>
               <li>Peptide therapies — applying cutting-edge peptides for healing, tissue repair, hormonal balance, and longevity.</li>
-              <li>Nutrigenomics — integrating genetic insights with nutrition, a field he studied in South Africa in 2005, to optimize cellular and metabolic health.</li>
+              <li>Nutrigenomics — integrating genetic insights with nutrition, a field he studied in South Africa in 2005, to optimise cellular and metabolic health.</li>
               <li>Acupuncture &amp; Traditional Chinese Medicine — drawing from training in China (2000–2004), Dr. Yakout integrates Eastern practices with modern medicine, offering a truly holistic model of care that addresses both root causes and overall well-being.</li>
             </ul>
             <p class="pxd-sub">Dr. Eslam’s story</p>
@@ -4028,7 +4040,15 @@ try{
      meeting" takes the brand's own casing by the same call — it was "A ZOOM Meeting".
      ⚠️ "personalised", NOT "personalized", now in 01 as well as 03. 01 was held back on
      2026-08-24 at his request; the spelling is the estate's British one and the exception
-     had no reason to outlive that round. ───────────────────────────────────────────── */
+     had no reason to outlive that round.
+     ⚠️ THE <noscript>/HTML FALLBACK STILL SAID "personalized" UNTIL 2026-08-24f — this
+     array was fixed that round and the hand-written copy of STEPS[0].body in the markup
+     above was not, so the note you are reading was TRUE OF THE SCRIPT AND FALSE OF THE
+     PAGE for a fortnight. Both say "personalised" now. If a step's `body` ever changes,
+     the markup's copy of step 01 changes with it — that pair is two copies of one fact.
+     ⚠️ IT IS A SITE-WIDE RULE NOW, NOT A ONE-WORD FIX: "the whole website, it's going to
+     be UK English, not American" — his call 2026-08-24f. See BRAND.md for what the rule
+     does and does not reach. ─────────────────────────────────────────────────────────── */
   var STEPS = [
     {n:'01', title:'Assessment', meta:'15 min',
      head:'Care begins with understanding you.',

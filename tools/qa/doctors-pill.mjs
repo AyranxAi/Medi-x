@@ -54,7 +54,10 @@ const port = srv.address().port;
    everywhere else. A page that silently loses a doctor should fail here too. */
 const PAGES = [
   { slug: 'modern-menopause',     docs: 4 },
-  { slug: 'hormone-therapy-bhrt', docs: 4 },
+  /* ⚠️ THREE SINCE 2026-08-24f, AND IT IS THE ONLY PAGE THAT IS NOT THE PEPTIDE SET —
+     his call, three women (Dr. V · Dr. N · Dr. D). The count differing from its
+     siblings is the brief, not drift; bhrt-shots.mjs asserts the names and the order. */
+  { slug: 'hormone-therapy-bhrt', docs: 3 },
   { slug: 'testosterone-top-up',  docs: 3 },
   { slug: 'functional-medicine',  docs: 4 },
   { slug: 'peptide-therapy',      docs: 4 },

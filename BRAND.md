@@ -67,3 +67,30 @@ the copy lands on calm regions.
 Red wordmark is the default at every scroll state; ivory survives only in the
 open menu. Favicon: ivory monogram + gold spark on an A9 ground — matching
 the page's one red.
+
+## Spelling — UK English
+
+**His call, 2026-08-24f:** *"the whole website, it's going to be UK English, not
+American, so we will always use personalised and not personalized."* The estate was
+already mostly British by accident (`programme`, `ageing`, `gynaecology`,
+`optimise`); this makes it a rule.
+
+Reaches: **visible copy only** — `-ise`/`-isation`, `programme`, `ageing`,
+`gynaecology`, `practise` (verb) / `practice` (noun), `-our`, `-re`.
+
+Does **not** reach, and each exclusion is load-bearing:
+
+- **Code.** `scroll-behavior`, `behavior:"smooth"`, `color`, `center`, WebGL
+  `program` — these are API and CSS identifiers. Changing one breaks the page.
+- **Comments and build notes.** They quote his instructions verbatim and record
+  what happened. One note deliberately spells `personalized` *because it is naming
+  the wrong spelling*. Rewriting the record falsifies it.
+- **Proper nouns.** The **American Academy of Anti-Aging** keeps its own spelling
+  beside the estate's "Anti-Ageing". They disagree on purpose; do not make them
+  agree.
+- **`estrogen` / `estradiol`.** ⚠️ **HIS CALL 2026-08-24f, PUT TO HIM AND ANSWERED:**
+  the estate keeps the **international non-proprietary names**, not the NHS/BNF
+  `oestrogen` / `oestradiol`. These are the names that appear on a prescription and
+  the ones patients search for; looking American here is the pharmacological
+  standard, not a slip. This is the one place the UK rule stops at a word boundary,
+  so it is written down rather than left to be re-litigated. ~33 instances estate-wide.

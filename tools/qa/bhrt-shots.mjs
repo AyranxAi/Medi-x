@@ -116,6 +116,18 @@ for (const [w, h, tag] of [[1440, 900, 'd'], [390, 844, 'p']]) {
     rollback: (document.querySelector('#programme noscript')?.textContent.match(/<li>/g) || []).length,
     docs:    document.querySelectorAll('.doc').length,
     names:   [...document.querySelectorAll('.doc > h3')].map(h => h.textContent.trim()),
+    /* the five dossiers, and the two precursors' centred seats — the nth-child
+       centring is positional, so a reordered <article> moves the layout silently */
+    msgs:    document.querySelectorAll('.msg-card').length,
+    msgCols: [...document.querySelectorAll('.msg-card')].map(c => getComputedStyle(c).gridColumnStart),
+    /* the international blood-test line must be OUTSIDE the priced toggle: a
+       <button>'s whole subtree is its accessible name, and inside it the note
+       was announced as part of the AED 1,950 offer */
+    noteOut: !!document.querySelector('.pg-note') && !document.querySelector('#pg-addon .pg-note'),
+    addonName: document.getElementById('pg-addon')?.textContent.replace(/\s+/g,' ').trim(),
+    /* the UK-English rule: visible copy only, and estradiol/estrogen are the
+       INN and deliberately not oestradiol/oestrogen (BRAND.md) */
+    usSpell: (document.body.innerText.match(/\b\w*(?:personaliz|optimiz|utiliz|specializ)\w*\b/gi) || []),
     faq:     document.querySelectorAll('.faq-item').length,
     stories: document.querySelectorAll('.story').length,
     labels:  document.querySelectorAll('.month-label').length,
@@ -134,8 +146,24 @@ for (const [w, h, tag] of [[1440, 900, 'd'], [390, 844, 'p']]) {
   ok(smoke.beats === 6, 'six scene beats', String(smoke.beats));
   ok(smoke.steps === 6, 'six programme steps (the sculpture)', String(smoke.steps));
   ok(smoke.rollback === 6, 'six steps in the <noscript> rollback list', String(smoke.rollback));
-  ok(smoke.docs === 4, 'four doctors', String(smoke.docs));
-  ok(smoke.names.some(n => /Nahla/.test(n)), 'Dr. Nahla on the row', smoke.names.join(' · '));
+  ok(smoke.docs === 3, 'three doctors', String(smoke.docs));
+  /* ⚠️ THE ORDER IS ASSERTED, NOT JUST THE SET — his call 2026-08-24f named it
+     outright (Dr. V, Dr. N, Dr. D) and all three are women, which was the
+     instruction. A "sync the doctors" pass on another page would restore the
+     peptide four here silently; this is the check that refuses it. */
+  ok(/Valentina/.test(smoke.names[0] || '') && /Nahla/.test(smoke.names[1] || '')
+     && /Diana/.test(smoke.names[2] || ''),
+     'the row is Valentina · Nahla · Diana, in that order', smoke.names.join(' · '));
+  ok(!smoke.names.some(n => /Andrey|Eslam|Khalid|Puri/.test(n)),
+     'no doctor from the peptide four is back on this page', smoke.names.join(' · '));
+  ok(smoke.msgs === 5, 'five hormone dossiers', String(smoke.msgs));
+  ok(smoke.msgCols[3] === '2' && smoke.msgCols[4] === '4',
+     'the two precursors are centred beneath the three', smoke.msgCols.join(','));
+  ok(smoke.noteOut, 'the international blood-test line is outside the priced toggle');
+  ok(!/outside the UAE/i.test(smoke.addonName || ''),
+     'the add-on button\'s accessible name no longer carries it', String(smoke.addonName).slice(0, 120));
+  ok(smoke.usSpell.length === 0, 'no American -ize spellings in visible copy',
+     smoke.usSpell.join(' · '));
   ok(smoke.faq === 6, 'six FAQ items', String(smoke.faq));
   ok(smoke.stories === 3, 'three stories', String(smoke.stories));
   ok(smoke.labels === 8 && smoke.chips === 8, 'eight month labels = eight fallback chips', `${smoke.labels}/${smoke.chips}`);

@@ -1,5 +1,38 @@
 # /testosterone-top-up/ — build record, round 1 (2026-08-19)
 
+⚠️⚠️ **IRINA'S ROUND, PART 1 — 2026-08-24g.** Her notes on this page were reviewed before
+implementation and **only the settled half is in**. What landed: the PRICE, her definition,
+her six beats, her monitoring panel, her ledger close. **Five items are still open and are
+listed at the foot** — do not treat this page as copy-complete.
+
+**THE PRICE IS FINALLY THIS PAGE'S OWN: AED 1,150 + VAT.** The 950 that stood here since
+2026-08-19 was inherited from the BHRT build and carried a flag saying it had never been
+confirmed for the men's programme. Irina's note closes it, and names the reason: men get a
+full Supplements' **protocol**, not the suggestions the hormone-balancing programme carries.
+**That is why this page's Included list is six lines where BHRT's is three — do not
+"align" them; the difference is what the extra 200 buys.**
+Arithmetic: 1,150 → 57.50 → **1,207.50**; with collection 3,100 → 155.00 → **3,255.00**.
+
+⚠️ **THE DECLINE NOW STARTS IN THE 40s, NOT AT THIRTY** — his call, taken knowingly when
+the conflict was put to him. Both figures are defensible in the literature; this one
+narrows the page's audience by a decade, which was named before he chose.
+
+⚠️⚠️ **THIS PAGE'S DOCTORS ROW IS PURELY MALE — his instruction, and it is the MIRROR of
+/hormone-therapy-bhrt/, which is purely female by the same call.** Andrey · Eslam · Khalid.
+Neither row is the peptide four any more, and neither is drift. `tools/qa/trt-page.mjs`
+asserts this one; `bhrt-shots.mjs` asserts the other.
+⚠️ **NOTHING IN THE SHARED SCULPTURE BLOCK MAY SAY "she"** — three doors share it and one
+is this one. The first cut of the petal-01 note said "which specialist she should see" and
+was wrong here the moment it was written; it is neutral now.
+
+✅ **THIS PAGE HAS A HARNESS AT LAST — `node tools/qa/trt-page.mjs`.** It was written the
+day the price changed, because 950 → 1,150 is four numbers in two places and a card that
+adds up wrongly still renders. Money is checked three ways (the static markup a no-JS
+reader gets, the derived figures, and the add-on arithmetic), plus the page's shape, the
+all-male row, the range guard, the morning draw, and no sideways scroll at nine widths.
+**It found a real regression on its first run — see open item 2.**
+
+
 ⚠️ **THE LITE PETAL, 2026-08-24e** — his call. The plate now carries the step's **number, name
 and duration only**; the sentence and the CTA moved to the editorial column (left on desktop,
 below the flower on a phone). This retired the two-version copy fork: each step carried four
@@ -120,3 +153,64 @@ flower at six steps on desktop and phone, and the grade asserted as a pair.
    nothing confirms the form for men, so the page says the doctor names it. Confirm.
 5. Title/meta sign-off; real testimonials; the scene concept board owed from door 1.
 6. `images/medi-gyn-trt-*` sit unreferenced — no photography, his call.
+
+## Open from Irina's round — 2026-08-24g, HIS TO SETTLE
+
+**Five items were held back deliberately.** Each is a real decision, not a typo.
+
+1. ⚠️⚠️ **THE BANNER.** Her line — *"Medically supervised testosterone therapy, tailored to
+   your individual results and monitored throughout your treatment"* — **drops "topped up
+   into your range"**, which this file's own banner calls the page's whole clinical
+   position: dosing back to a normal range, never above it. It is what separates this
+   clinic from the ones that sell a vial. Her beat 4 keeps "not beyond it", so the position
+   survives in the scene — but the banner is where a skim-reader meets it. Her line also
+   drops **"for men"**. Held pending his answer.
+
+2. ⚠️⚠️ **THE MORNING DRAW IS INVISIBLE TO ANYONE WITH JAVASCRIPT ON — a real regression,
+   found by the new harness on its first run.** *"Taken in the morning"* now exists only
+   inside the `<noscript>` rollback list, which a scripting browser never renders. It was
+   lost when the sculpture replaced the `<ol>`, and nobody noticed. **Testosterone is
+   diurnal and a reference range is written for a morning sample, so this is the one
+   instruction on the page that changes the RESULT rather than the experience.** Irina's
+   step-02 copy happens to fix it — which is the strongest argument for taking her steps.
+
+3. ⚠️ **HER STEPS 02–06 WOULD FORK THE SHARED BLOCK.** The STEPS array is byte-identical
+   across the three doors by design, and her step 02 is testosterone-specific (the morning
+   draw, the UAE collection). Forking it is the crack the parity contract exists to
+   prevent — but item 2 says the generic block is actively costing this page a clinical
+   instruction. **Recommendation: fork step 02 on this page only, and leave 03–06 shared
+   unless he wants those too.** Her step 02 is also two labelled lines where `body` is one
+   sentence (the lite-petal decision); folding it is straightforward once he chooses.
+   Settled already: home collection stays the **paid AED 1,950 add-on** and step 02 steers
+   UAE readers to it — his call. "Ask the team" was rejected as vague enough to read free.
+
+4. ⚠️ **TWO OF HER BEATS RUN TO THREE LINES AT 390px**, against the recorded rule
+   ("SIX BEATS, NONE PAST TWO LINES", inherited from a client cut). Measured, not guessed:
+   beat 2 *"You never notice the change from one year to the next — but you feel it over a
+   decade"* and beat 6 *"And the years you thought you'd lost, feel like yours again"*.
+   The other four are fine. **They are in as she wrote them** rather than silently trimmed;
+   the fix is either her trim, or a phone-only step-down on the beat type.
+
+5. ⚠️ **THE LEDGER'S HEADING.** Her *"Every symptom tells us a story"* would replace
+   **"What you told yourself"** — and that heading IS the section's argument: eight
+   excuses a man has actually said to himself, then the flip. She called the middle
+   "really clever"; this heading is what makes it clever. Her closing line went in (it is
+   tighter than the one it replaced, though it loses the tie to the eight rows). **The
+   heading is held.** Related: *"From assessment to testing…"* has nowhere to go — the
+   chapter's h2 and lede were deliberately retired when the sculpture shipped — and it
+   still says *assessment*, which step 01 no longer is.
+
+**Also raised, smaller:**
+
+- **The Review consultation is still AED 750 + VAT.** His 2026-08-19 note set 950 and 750
+  together; only the first has been revised. If the men's programme is 1,150, the review
+  may not be 750.
+- **"Detailed symptom assessment"** sits in the Included list while step 01 is a discovery
+  call, not an assessment.
+- **Step 06 gains "We will be checking in on you"** in her copy — a proactive outbound
+  promise where the page currently only says "call us any time". Operationally real?
+- **The `seg-gloss` still reads "Andropause, named"** but her new definition never uses
+  the word, so the gloss no longer gets named by the sentence under it.
+- **Her beat 4 says "your optimal range"** where the page said "your range". "Optimal" is a
+  half-step toward "optimised levels", the vocabulary this page's banner warns against. The
+  guard ("not beyond it") is intact either way.

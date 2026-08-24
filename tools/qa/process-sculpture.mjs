@@ -1,5 +1,5 @@
 /* ═══ tools/qa/process-sculpture.mjs — the six-shell sculpture, photographed and
-   smoke-tested. Serves the repo, then photographs 03's process sculpture on both
+   smoke-tested. Serves the repo, then photographs 03's process sculpture on all three
    door pages, at desktop and phone, at every step — and asserts the contract the
    section exists to keep:
 
@@ -10,6 +10,13 @@
      · every INACTIVE shell's title is reachable: at least one sample point over
        the label resolves to that shell's own button (nothing buried alive)
      · the active card meta renders ≥ 12px and the editorial body ≥ 15px
+     · THE GRADE, as a pair (2026-08-24): the chapter stands on --ps-ground #F0EBE7 —
+       the colour the petals used to be — and the lit plate reads the scrolled header's
+       #FAF7F1 off the live framebuffer, with the bar itself driven down and back up to
+       prove what it returns as. Half this change is worse than none of it, so both
+       halves are asserted here rather than in two places.
+     · .ps-eyebrow is --gold-gloss, not --gold-deep: 13px uppercase is small text and
+       --gold-deep measures 4.233 on this ground against a floor of 4.5
      · zero page errors
 
        npm install --no-save playwright@1.49.1
@@ -41,8 +48,13 @@ const srv = http.createServer((req, res) => {
 await new Promise(r => srv.listen(0, r));
 const port = srv.address().port;
 
-const PAGES = ['modern-menopause', 'hormone-therapy-bhrt'];
+/* ⚠️ THREE DOORS SINCE 2026-08-24 — his call, "make it in all three services including
+   men in testosterone top up". The three PS blocks are byte-identical (md5 the marked
+   ranges to prove it), so a failure here on one page and not the others is a page-level
+   ground or token, never the sculpture. */
+const PAGES = ['modern-menopause', 'hormone-therapy-bhrt', 'testosterone-top-up'];
 const SIZES = [[1440, 900, 'desktop'], [393, 852, 'phone']];
+const TAG = { 'modern-menopause':'mm', 'hormone-therapy-bhrt':'bhrt', 'testosterone-top-up':'trt' };
 let failures = 0;
 const fail = m => { failures++; console.error('  ✗ ' + m); };
 
@@ -81,6 +93,26 @@ for (const pageName of PAGES) {
     console.log('  painter:', is3d ? 'WebGL' : 'SVG fallback');
     await page.waitForTimeout(300);
 
+    /* ── THE GRADE (2026-08-24) — his call: "you know how our flower is cream? make that
+       the color of the background", and "for the flower match it with the color of the
+       header when you go down and you go up and reappears". Two colours that swapped
+       ends, so they are asserted as a PAIR: a page that reverted one half would still
+       pass a check that only knew about the other, and half of this change is worse
+       than none of it. The header half is driven for real at the foot of this block. */
+    const grade = await page.evaluate(() => {
+      const ps = document.getElementById('process');
+      return {
+        ground:  getComputedStyle(document.querySelector('.programme')).backgroundColor,
+        eyebrow: getComputedStyle(ps.querySelector('.ps-eyebrow')).color,
+      };
+    });
+    if (grade.ground !== 'rgb(240, 235, 231)')
+      fail(`chapter ground is ${grade.ground}, not --ps-ground #F0EBE7`);
+    /* 13px uppercase is small text, floor 4.5 — and --gold-deep measures 4.233 on this
+       ground. The token is not decoration; see the note over .ps-eyebrow. */
+    if (grade.eyebrow !== 'rgb(127, 98, 48)')
+      fail(`eyebrow is ${grade.eyebrow}, not --gold-gloss #7F6230`);
+
     const centres = [];
     for (let s = 0; s < 6; s++) {
       /* wait for the shell to DEPART ITS SEAT and then SETTLE, not for a stopwatch:
@@ -112,7 +144,7 @@ for (const pageName of PAGES) {
          on software GL a frame can take longer than the choreography */
       await page.waitForFunction(() => !window.__ps3d || window.__ps3d.settled(), null, { timeout: 30000 }).catch(() => fail(`step ${s+1}: 3D layer never settled`));
 
-      const r = await page.evaluate(() => {
+      const read = () => page.evaluate(() => {
         const root  = document.getElementById('process');
         const stage = root.querySelector('[data-ps-stage]').getBoundingClientRect();
         const act   = root.querySelector('.ps-arm.is-on');
@@ -121,7 +153,7 @@ for (const pageName of PAGES) {
            decoration. WebGL live: read the framebuffer just right of the plate's box
            at mid-height and walk inward until a maroon pixel turns up (R well over G).
            SVG fallback: the inner body's box must extend past the face path. */
-        let maroonReveal = 0;
+        let maroonReveal = 0, opaque = 0;
         if (root.classList.contains('ps-3d')) {
           const c = root.querySelector('.ps-gl'), gl = c.getContext('webgl2') || c.getContext('webgl');
           const cr = c.getBoundingClientRect(), sx = c.width / cr.width, sy = c.height / cr.height;
@@ -129,9 +161,15 @@ for (const pageName of PAGES) {
           for (let dx = 40; dx >= -face.width * .3; dx -= 2) {
             const x = Math.round((face.right + dx - cr.left) * sx), y = Math.round(c.height - (face.y + face.height*.45 - cr.top) * sy);
             gl.readPixels(x, y, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, px);
+            /* ⚠️ COUNT THE OPAQUE SAMPLES, NOT ONLY THE MAROON ONES. A scan line that
+               crosses the plate MUST hit opaque pixels — the plate is there. Zero of
+               them means the framebuffer read back blank, which is a statement about
+               the read and not about the maroon; see the caller. */
+            if (px[3] > 200) opaque++;
             if (px[3] > 200 && px[0] > px[1] + 22 && px[0] < 170 && px[2] < 130) { maroonReveal = Math.max(maroonReveal, dx + 30); }
           }
         } else {
+          opaque = 1;
           const actSvg = [...act.querySelectorAll('.ps-svg--act')]
             .find(sv => getComputedStyle(sv).display !== 'none');   /* desktop or phone art */
           const innerR = actSvg.querySelector('.ps-inner').getBoundingClientRect();
@@ -139,7 +177,7 @@ for (const pageName of PAGES) {
           maroonReveal = innerR.right - facePr.right;
         }
         const out = {
-          maroonReveal,
+          maroonReveal, opaque,
           cx: (face.x + face.width / 2 - stage.x) / stage.width,
           cy: (face.y + face.height / 2 - stage.y) / stage.height,
           cardPx: parseFloat(getComputedStyle(act.querySelector('.ps-card-meta')).fontSize),
@@ -157,15 +195,47 @@ for (const pageName of PAGES) {
         return out;
       });
 
+      /* ⚠️⚠️ THIS SPLITS TWO FAILURES THAT USED TO PRINT THE SAME LINE. IT IS A
+         DIAGNOSTIC, NOT A FIX — the intermittency it was written for is STILL OPEN.
+         Under software GL the maroon check fails at 1-3 steps per page-and-viewport, on
+         DIFFERENT steps each run, on pages whose bytes are identical to main, always at
+         exactly `0.0px`. Two very different things produce that number:
+           · the drawing buffer read back EMPTY — nothing opaque anywhere on a line that
+             crosses the plate, which is not a picture anyone has seen. The stage's
+             ResizeObserver calls resize(), which reallocates and clears the buffer, and
+             the redraw is a wake(50) away. Retried once, and only then reported.
+           · the line was drawn and carried NO MAROON — the plate was measured somewhere
+             it should not have been. That is the same fault the `active zone drifted`
+             check reports, and the two travel together: the settle wait below accepts two
+             identical samples 300ms apart, and the choreography is three beats, so a pair
+             taken across a beat boundary matches while the piece is still in flight.
+         ⚠️ THE RETRY IS NOT A TOLERANCE. `opaque` is either zero or dozens; there is no
+         middle, so it cannot quietly widen a real failure into a pass.
+         ⚠️ WHAT IS STILL MISSING is a settle condition tied to the choreography's own
+         state rather than to sampled stillness. Until it is written, a lone maroon or
+         drift failure on one step should be judged from the shots in .qa-out/process/
+         before it is believed — and this harness has measured an animation instead of a
+         page four times before (tools/qa/README.md). */
+      let r = await read();
+      if (r.opaque === 0) {
+        await page.evaluate(() => window.__ps3d && window.__ps3d.wake(120));
+        await page.waitForFunction(() => !window.__ps3d || window.__ps3d.settled(), null, { timeout: 20000 }).catch(() => {});
+        await page.waitForTimeout(250);
+        r = await read();
+      }
+
       centres.push([r.cx, r.cy]);
-      if (r.maroonReveal < 2)  fail(`step ${s+1}: maroon inner body not revealed past the face (${r.maroonReveal.toFixed(1)}px)`);
+      if (r.opaque === 0)      fail(`step ${s+1}: the framebuffer read back blank twice — the maroon was not measured`);
+      else if (r.maroonReveal < 2) fail(`step ${s+1}: maroon inner body not revealed past the face (${r.maroonReveal.toFixed(1)}px)`);
       if (r.cardPx < 12)         fail(`step ${s+1}: card meta ${r.cardPx}px`);
       if (r.edPx < 15)           fail(`step ${s+1}: editorial body ${r.edPx}px`);
       if (r.buried.length)       fail(`step ${s+1}: labels unreachable → ${r.buried.join(', ')}`);
 
       const el = await page.$('#process');
-      await el.screenshot({ path: path.join(OUT,
-        `${pageName === 'modern-menopause' ? 'mm' : 'bhrt'}-${label}-step${s+1}.png`) });
+      /* ⚠️ THE TAG IS A MAP, NOT A TERNARY — it was `mm : bhrt`, which quietly filed the
+         third door's shots over the BHRT ones the moment testosterone-top-up joined the
+         list. A two-way ternary over a growing list is a silent overwrite. */
+      await el.screenshot({ path: path.join(OUT, `${TAG[pageName]}-${label}-step${s+1}.png`) });
     }
 
     /* 5%: each shell arrives with its own small rotation and the shared tilt, and
@@ -176,6 +246,46 @@ for (const pageName of PAGES) {
       if (Math.hypot(cx - cx0, cy - cy0) > 0.05)
         fail(`active zone drifted at step ${i+1}: (${cx.toFixed(3)},${cy.toFixed(3)}) vs (${cx0.toFixed(3)},${cy0.toFixed(3)})`);
     });
+    /* THE PORCELAIN AGAINST THE BAR. The petals are #FAF7F1 — --ivory, which is what
+       `.hdr--solid` paints at 95%. Read the lit plate out of the framebuffer rather than
+       trusting the literal, because the literal is what a re-grade would change and the
+       env map is what would quietly undo it; 14 of tolerance per channel is the studio's
+       own shading, measured at 250,244,234 on all three doors on the day. */
+    if (is3d) {
+      const px = await page.evaluate(() => {
+        const ps = document.getElementById('process');
+        const face = ps.querySelector('.ps-arm.is-on .ps-face').getBoundingClientRect();
+        const c = ps.querySelector('.ps-gl'), gl = c.getContext('webgl2') || c.getContext('webgl');
+        const cr = c.getBoundingClientRect(), sx = c.width / cr.width, sy = c.height / cr.height;
+        const b = new Uint8Array(4);
+        gl.readPixels(Math.round((face.x + face.width * .30 - cr.left) * sx),
+                      Math.round(c.height - (face.y + face.height * .68 - cr.top) * sy),
+                      1, 1, gl.RGBA, gl.UNSIGNED_BYTE, b);
+        return [b[0], b[1], b[2], b[3]];
+      });
+      if (px[3] < 200 || Math.abs(px[0]-250) > 14 || Math.abs(px[1]-247) > 14 || Math.abs(px[2]-241) > 16)
+        fail(`lit plate reads ${px.join(',')} — not the header ivory #FAF7F1`);
+    }
+
+    /* the header state he named, driven rather than simulated: the bar goes solid and
+       hides past 240px on the way DOWN and comes back solid on the way UP. Toggling the
+       class and reading it in the same tick returns the transition's start value — that
+       cost a false failure the first time this was written. */
+    await page.evaluate(async () => {
+      scrollTo(0, 0); await new Promise(r => setTimeout(r, 250));
+      for (let y = 0; y < 1400; y += 120) { scrollTo(0, y); await new Promise(r => setTimeout(r, 40)); }
+      for (let y = 1400; y > 900; y -= 120) { scrollTo(0, y); await new Promise(r => setTimeout(r, 40)); }
+    });
+    await page.waitForTimeout(900);
+    const bar = await page.evaluate(() => {
+      const b = document.querySelector('.hdr');
+      return { bg: getComputedStyle(b).backgroundColor,
+               solid: b.classList.contains('hdr--solid'),
+               hidden: b.classList.contains('hdr--hidden') };
+    });
+    if (!bar.solid || bar.hidden) fail(`header did not come back solid on the way up (solid=${bar.solid} hidden=${bar.hidden})`);
+    else if (bar.bg !== 'rgba(250, 247, 241, 0.95)') fail(`the returned bar is ${bar.bg}, not the petals' #FAF7F1 @ .95`);
+
     if (errors.length) fail('page errors: ' + errors.join(' | '));
     await ctx.close();
   }

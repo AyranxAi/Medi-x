@@ -1538,10 +1538,17 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
    name", an (i) on the portrait corner that opens a popup with the doctor's
    profession and history, ×-closed, with Book a consultation at its foot. The
    popup IS the tiles' dialog shell (#pxd) — one shell, all templates.
-   ⚠️ TWO RED PILLS IN ONE VIEWPORT, HIS CALL — this deliberately overrides the
-   sister page's one-pill-per-section rule ("three primary CTAs is three times the
-   ask"): he asked for the pill under each name, so each doctor carries one.
-   Recorded so it is not "fixed" in passing.
+   ⚠️⚠️ THE PILL UNDER EACH NAME IS GONE — HIS CALL 2026-08-24, "it should only have one
+   book consultation", and it applies to every page that renders doctors. The chapter
+   now closes on ONE centred pill under the row (`.docs-cta`); the popup keeps the one
+   at its foot, which is still one pill on screen. This REVERSES the exception recorded
+   below and restores the sister page's one-pill-per-section rule, so the note stands as
+   the history of the decision, not as the rule:
+     · [SUPERSEDED] TWO RED PILLS IN ONE VIEWPORT, HIS CALL — this deliberately overrode
+       the sister page's one-pill-per-section rule ("three primary CTAs is three times
+       the ask"): he asked for the pill under each name, so each doctor carried one.
+   The 2026-08-14 brief above is otherwise untouched and still governs — the portrait,
+   the specialisation line, the (i) and the popup are all as he asked for them.
    ⚠️ THE (i) IS THE HEADER'S GLASS-BUTTON MATERIAL (.globe over a photograph) at
    36px, with the serif italic i as its glyph. On the monogram fallback ground it
    flips to the solid-header colourway, or ivory glass vanishes on cream.
@@ -1594,7 +1601,7 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
    photo simply takes 100% of it, as it did before.
    ⚠️ SINCE 2026-08-17 THIS PAIR GOVERNS 701–1180 ONLY. Above 1180 the four sit in one
    line, both caps are released there, and the picture is the column — see the block
-   below `.doc .btn`. Retuning either number here now moves the TABLET, not the page
+   below `.docs-cta`. Retuning either number here now moves the TABLET, not the page
    he looks at. */
 .doc-grid{
   display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
@@ -1633,36 +1640,47 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
   font-size:clamp(23px,2.2vw,31px);line-height:1.1;
 }
 .doc-spec{margin-top:7px;color:var(--ink-soft);font-size:clamp(14px,1.2vw,16.5px);line-height:1.55;max-width:30ch}
-.doc .btn{margin-top:clamp(18px,2.4vh,26px)}
+/* ⚠️ THE CHAPTER CARRIES ONE PILL, NOT ONE PER CARD — his call 2026-08-24, "it should
+   only have one book consultation". `.doc .btn` is DELETED, NOT DISABLED: no doctor card
+   renders a pill on any page any more, and the chapter closes on this single centred one
+   under the row. The popup’s `.pxd-cta` is untouched — one doctor on screen, one pill. */
+.docs-cta{display:flex;justify-content:center;margin-top:clamp(34px,5vh,60px)}
 /* ⚠️ THE FOUR SIT IN ONE LINE ABOVE 1180 — his call 2026-08-17, "just fit in 1 line not
-   two". THE COLUMN COUNT IS THE SMALLEST PART OF IT. Three other things bind at 4-up,
-   and repeat(2)→repeat(4) on its own is broken on all three:
+   two". THE COLUMN COUNT IS THE SMALLEST PART OF IT. Three other things bound at 4-up,
+   and repeat(2)→repeat(4) on its own was broken on all three — TWO OF THE THREE WERE THE
+   PER-CARD PILL AND RETIRED WITH IT ON 2026-08-24, and they are kept below because they
+   are what a card pill costs, not because they still apply:
      · THE 62rem CAP WAS THE 2-UP COLUMN AND IS THE WRONG RULER FOR FOUR. Kept, it hands
        each card 223px inside 992 while the wrap has 1150 to spend at 1440 — 158px of the
        page's own measure left unspent, on a row that has no width to spare. Released to
        the wrap, the column is 259–268 across desktop and 247 at the 1181 cliff.
-     · .btn IS `white-space:nowrap` AND WAS 285px WIDE — WIDER THAN EITHER COLUMN, and a
-       nowrap pill cannot wrap its way out of an overflow; it simply runs past the card.
-       So the pill's own padding and type step down HERE AND NOWHERE ELSE: 216px against
-       a 247px column at the worst width. DO NOT SHORTEN THE LABEL INSTEAD — the 2-up
-       pill below 1181 is the one every other pill on the page matches.
-     · THE FOUR SPECIALISATIONS ARE NOT THE SAME LENGTH — Dr. Khalid's takes three lines
-       where the other three take two — so nothing under the portrait aligns by itself.
-       `.doc-spec{flex:1 0 auto}` eats that difference and the pill sits on the card's
-       floor. Delete it and the four buttons step up and down across the line.
+     · [RETIRED] .btn IS `white-space:nowrap` AND WAS 285px WIDE — WIDER THAN EITHER
+       COLUMN, and a nowrap pill cannot wrap its way out of an overflow; it simply ran
+       past the card. The pill's own padding and type stepped down here and nowhere else,
+       to 216px against a 247px column at the worst width. THIS IS THE NUMBER TO COME BACK
+       TO if a per-card pill is ever proposed again: it does not fit at 4-up unshrunk, and
+       shortening the label was rejected instead — the 2-up pill is the one every other
+       pill on the page matches.
+     · [RETIRED] THE SPECIALISATIONS ARE NOT THE SAME LENGTH — Dr. Khalid's takes three
+       lines where the others take two — so nothing under the portrait aligned by itself.
+       `.doc-spec{flex:1 0 auto}` ate that difference and sat the pill on the card's
+       floor. With the pill gone the spec is the card's last line and has nothing to
+       level against, so the flex went with it; the ragged lengths are now simply ragged,
+       which is what the row looked like before there was a pill to align.
    The name needed a SIZE, not a wrap: at 22px all four still hold one line, Dr. Nahla's
    — the longest — included. It was 24px first, and hers took two lines at 1440 and above
    while the other three did not, which is the one thing this row cannot carry.
    ⚠️ 1180 IS THE PAGE'S OWN CLIFF, NOT A NEW NUMBER — section 04's ring already reflows
    there. Below it the 2-up grid above is untouched and the phone still gets its single
-   column, because four portraits in a line stop being portraits around 1100: the column
-   passes back under the pill's 216 and the overflow returns. */
+   column, because four portraits in a line stop being portraits around 1100 — that was
+   measured as the column passing back under the pill's 216, and the pill is gone, but the
+   portrait is the reason the cliff stays: 247px of picture is the floor this row was
+   composed at. */
 @media(min-width:1181px){
   .doc-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(22px,2.4vw,34px);max-width:none}
   .doc-photo{width:100%}
   .doc h3{margin-top:clamp(14px,1.8vh,20px);font-size:clamp(19px,1.5vw,22px);text-wrap:balance}
-  .doc-spec{margin-top:6px;font-size:clamp(12.5px,1vw,14px);line-height:1.5;max-width:none;flex:1 0 auto}
-  .doc .btn{margin-top:clamp(14px,1.8vh,20px);padding:15px 20px;font-size:11px;letter-spacing:.09em;gap:9px}
+  .doc-spec{margin-top:6px;font-size:clamp(12.5px,1vw,14px);line-height:1.5;max-width:none}
   .doc-info{top:10px;right:10px;width:32px;height:32px;font-size:16px}
 }
 @media(max-width:700px){
@@ -3118,6 +3136,10 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
        HIS CALL 2026-08-14 — picture + specialization + "book consultation under their
        name", with an (i) on the portrait corner opening a popup of "the dr and their
        profession and history", × top-right, Book a consultation at the popup's foot.
+       ⚠️⚠️ "UNDER THEIR NAME" WAS WITHDRAWN 2026-08-24 — "it should only have one book
+       consultation". The pill is now the chapter's, once, under the row; see the
+       `.docs-cta` note there and the banner over `.docs` in the stylesheet. Everything
+       else in the 2026-08-14 brief stands.
        ⚠️ THE BIOS ARE CLIENT COPY from the live medi-gyn.com doctor pages, reproduced
        with typographic corrections only, each recorded here:
          · "revealing root course of weight gain" → "root cause" (typo)
@@ -3196,7 +3218,6 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
           </div>
           <h3>Dr. Andrey Komissarov</h3>
           <p class="doc-spec">MD, PhD — Internal, Integrative &amp; Functional Medicine</p>
-          <a class="btn" href="#book">Book a consultation <span class="arr">→</span></a>
           <template class="doc-detail">
             <div class="pxd-hdr">
               <span class="pxd-face"><img src="../images/doctors/dr-andrey-komissarov-head-400.webp" alt="" aria-hidden="true" width="400" height="400"></span>
@@ -3249,7 +3270,6 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
           </div>
           <h3>Dr. Eslam Yakout</h3>
           <p class="doc-spec">Functional and Regenerative Medicine Doctor</p>
-          <a class="btn" href="#book">Book a consultation <span class="arr">→</span></a>
           <template class="doc-detail">
             <div class="pxd-hdr">
               <span class="pxd-face"><img src="../images/doctors/dr-eslam-yakout-head-400.webp" alt="" aria-hidden="true" width="400" height="400"></span>
@@ -3304,7 +3324,6 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
           </div>
           <h3>Dr. Nahla Ibrahim Elawady</h3>
           <p class="doc-spec">MD, DHA-Certified Gynaecologist — BHRT &amp; Sexual Health</p>
-          <a class="btn" href="#book">Book a consultation <span class="arr">→</span></a>
           <template class="doc-detail">
             <div class="pxd-hdr">
               <span class="pxd-face"><img src="../images/doctors/dr-nahla-ibrahim-elawady-head-400.webp" alt="" aria-hidden="true" width="400" height="400"></span>
@@ -3378,7 +3397,6 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
           </div>
           <h3>Dr. Khalid Shukri</h3>
           <p class="doc-spec">MD, FCCM — American Board Certified, Anti-Ageing &amp; Regenerative Medicine</p>
-          <a class="btn" href="#book">Book a consultation <span class="arr">→</span></a>
           <template class="doc-detail">
             <div class="pxd-hdr">
               <span class="pxd-face"><img src="../images/doctors/dr-khalid-shukri-head-400.webp" alt="" aria-hidden="true" width="400" height="400"></span>
@@ -3419,6 +3437,16 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
             <div class="pxd-cta"><a class="btn" href="#book">Book a consultation <span class="arr">→</span></a></div>
           </template>
         </article>
+      </div>
+      <!-- ⚠️ ONE PILL FOR THE WHOLE CHAPTER — his call 2026-08-24, "it should only have
+           one book consultation". It replaces the pill that stood under every name since
+           2026-08-14; the (i) on each portrait is still the way into a single doctor, and
+           the popup keeps its own `.pxd-cta` because only one doctor is ever on screen
+           there. Do not put the per-card pill back without re-reading the width note over
+           `.doc .btn`’s replacement in the stylesheet — it is the reason the 1181 row
+           needed a stepped-down pill at all. -->
+      <div class="docs-cta" data-reveal>
+        <a class="btn" href="#book">Book a consultation <span class="arr">→</span></a>
       </div>
     </div>
   </section>

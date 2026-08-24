@@ -1,11 +1,12 @@
 # The process sculpture (03) — build record, 2026-08-21
 
-Chapter 03 of both door pages — `/hormone-therapy-bhrt/` and `/modern-menopause/` — is one
-object: **a flower of six porcelain petals**. Five resting petals fan behind one large
-selected petal ("the plate") that carries the step's card; a deep-maroon petal sits
-beneath the plate as a backing. Selecting a step trades which petal is the plate; the
-picture itself never changes, only the words move. It paints in **WebGL (Three.js)**, and
-the DOM keeps everything a reader touches. Live since `e2cacc3` on main.
+Chapter 03 of all three door pages — `/hormone-therapy-bhrt/`, `/modern-menopause/` and
+`/testosterone-top-up/` — is one object: **a flower of six porcelain petals**. Five resting
+petals fan behind one large selected petal ("the plate") that carries the step's card; a
+deep-maroon petal sits beneath the plate as a backing. Selecting a step trades which petal
+is the plate; the picture itself never changes, only the words move. It paints in **WebGL
+(Three.js)**, and the DOM keeps everything a reader touches. Live since `e2cacc3` on main;
+the third door took it on 2026-08-24.
 
 **The reference is the client's pair of renders** — `~/Documents/medi-gyn/Design .png`
 (desktop, 1672×941) and `Design Phone.png` (941×1672), not in the repo. Every number in
@@ -64,8 +65,20 @@ end**. He drew all three; the sketches are in the chat of 2026-08-21.
    is absent or the context is lost. Container-query units absent → the `<noscript>` list is
    injected instead.
 
-All three blocks are **byte-identical on both pages** (markers `PS:CSS/HTML/JS:START…END`).
-Edit one, copy to the other; `md5` the blocks to prove parity.
+All three blocks are **byte-identical on all three pages** (markers
+`PS:CSS/HTML/JS:START…END`). Edit one, copy to the others; `md5` the blocks to prove parity.
+
+**The third door joined on 2026-08-24** — his call, "make it in all three services including
+men in testosterone top up". Nothing about the sculpture was page-specific, so the port was
+the three marked blocks verbatim plus `.prog-grid--card` (the one modifier that lives outside
+them, which drops the money panel under the flower instead of beside it). What the men's door
+gave up to take it is what the two women's doors gave up in `39c094d`: the chapter's own `h2`
+and lede, because the sculpture's editorial column is the heading now. Both strings are kept
+verbatim in a comment at the section, so the rollback is still the three deletions plus that
+paste. **The six steps' copy is the shared copy** — it was already written generically enough
+for two different doors and reads for the third unchanged; the men's own step 02 wording (the
+morning draw, which changes the result and not the experience) survives where it always lived,
+in the `<noscript>` list.
 
 ## The dials (current values) and where they live
 
@@ -76,7 +89,8 @@ Edit one, copy to the other; `md5` the blocks to prove parity.
 | rim radius / wall thickness (1000-unit frame) | leaf r 7, t 11 · plate r 8, t 14 | `leafGeo` / `plateGeo` |
 | backing petal | same silhouette, +3.5 % along the base→apex axis, +14 right, −2 up, 30 below | `plateShape(14,-2,1.035)`, `back.position.z` |
 | stack gap between layers | 16 px per 1000 px of stage width | `GAP` |
-| porcelain | `#F0EBE7`, roughness .62, sheen .2, env 1.0 | `IVORY` |
+| porcelain | `#FAF7F1`, roughness .62, sheen .2, env 1.0 — **the scrolled header's ivory** | `IVORY` |
+| the chapter's ground | `#F0EBE7` — the porcelain the petals wore until 2026-08-24 | `--ps-ground`, `.programme` |
 | maroon | `#4E1A28`, roughness .6, clearcoat .12, env .5 | `MAROON` |
 | key light | white ×.86 at (1.15 W, .4 H, 2.4 S) — upper right, in front; VSM radius 9, map 1536 | `sun` |
 | fill light | white ×.30 near-frontal (.55 W, .1 H, 3 S); VSM radius 22, map 1024 — the contact darkening | `fill` |
@@ -100,6 +114,96 @@ the lit edge; maroon wall 4 px at the apex → 16–18 px constant through the m
 3 px at the foot (`#6A2D38` → `#401117`), a 1-px white line between face and maroon;
 labels centred at (0.43,0.12) (0.21,0.25) (0.15,0.49) (0.26,0.73) (0.47,0.84) of the
 stage, plate card text from 29 % / 30 % of the plate box.
+
+## The re-grade (2026-08-24, his call)
+
+> "im thinking of changing the colors of it to something lighter — you know how our flower is
+> cream? make that the color of the background. additionally for the flower match it with the
+> color of the header when you go down and you go up and reappears."
+
+**Two colours swapped ends.** The flower's cream came off the petals and became the chapter's
+ground; the petals took the colour of the header in its scrolled state.
+
+| | before | after |
+|---|---|---|
+| petals | `#F0EBE7` | `#FAF7F1` — `--ivory`, i.e. `.hdr--solid`'s `rgba(250,247,241,.95)` |
+| ground | `--cream #F4EDE1` (meno, BHRT) · `--ivory #FAF7F1` (TRT) | `--ps-ground #F0EBE7` |
+| separation, petal against ground | 1.017, petal darker · 1.107, petal darker | **1.107 on all three, petal LIGHTER** |
+
+⚠️ **THE NUMBER ALONE HIDES THE POINT: THE SIGN FLIPPED.** The men's door already separated by
+1.107 — with the petals *darker* than their ivory ground, which is the reading the 2026-08-21
+note called "the pieces read darker than the page". The same 1.107 now runs the other way on
+all three doors. "Lighter" was a direction, not a magnitude.
+
+**The render's own relationship is preserved and that is the argument for it.** The client's
+reference stands its pieces on a ground *darker* than they are; the provisional `--cream` of
+2026-08-21 existed for exactly that reason, and the note on it asked him to keep or revert.
+He answered with a third colour instead, and it keeps the relationship while making the
+flower the lighter of the two — which is what "lighter" meant.
+
+**Four sites hold a colour that must move together**, and there is no way to share them in a
+zero-build single file — the same standing `--dawn` and the scene's `BG_B` have:
+
+1. `--ivory` in each page's token block
+2. `.hdr--solid`'s `background`
+3. `IVORY.color` in the 3D layer
+4. the `psFace` gradient's mid stop in the SVG fallback (its lit and shade stops are derived
+   from it, not lifted uniformly — see below)
+
+**The SVG fallback could not take a uniform lift.** The porcelain's delta is `+10,+12,+10`;
+adding it to the face's lit stop clipped it to white and threw the modelling away. So the
+shade keeps its full spread *from the mid* (where the form reads) and the lit end takes the
+headroom that is left: `#FFFDF8 / #FAF7F1 / #EFE9E0` against the old
+`#FAF6EF / #F2EBE1 / #E7DDD0`. Lit-to-shade spread is 16 values of red against the old 19.
+The wall (`psWall`) and the plate's inner sweep took the full `+10,+12,+10`: `#EEE5D5 /
+#D7CAB7` and `#E6D9C2`. **The wall must stay a few values under the face's shade stop** or
+thickness stops reading as thickness — it was 3–5 under before and is 3–5 under after.
+
+**The maroon, the lights, the environment and the shadows did not move** — "only these for
+now", and they are the reason the piece still reads as porcelain rather than paper.
+
+**Everything ON the petal improved, because the petal got lighter.** `--ink-soft` on the
+card meta went 5.59 → 6.19; the resting label 10.09 → 11.16; the card title 13.09 → 14.49;
+the plate CTA 10.46 → 11.58. Nothing on the plate needed touching.
+
+⚠️ **MEASURED IN PASSING AND LEFT ALONE: the gold rings are decoration, not contrast.**
+`.ps-dot` / `.ps-tick` / `.ps-arr` are gold at 50–70 % over the ground and measure **1.42–1.65**
+against it — under the 3.0 a UI boundary asks for. **The re-grade did not cause this and
+barely moved it**: the same rings measured 1.43–1.60 on `--cream` and 1.68 on `--ivory`, so
+the change is 0.015. What carries the numbers is the label inside them — `--burgundy` at
+10.46 on the ground, and the active dot is solid burgundy — not the ring. Recorded because it
+was measured, not proposed: the ring's weight is the client's palette and changing it is his
+call, not a side effect of a colour swap.
+
+**One contrast pairing moved and had to be repaired.** `.ps-eyebrow` is 13 px uppercase, so
+it is small text with a floor of 4.5. `--gold-deep` measures **4.685** on `--ivory`, **4.305**
+on `--cream` and **4.233** on the new ground — so it *passed on the testosterone door only*,
+and the new ground put all three on the wrong side at once. It is `--gold-gloss` now:
+**4.805**, the tightest pairing in the chapter. This is the rule the token block already
+recorded on `--gold-gloss` ("it is a function of the ground") firing for the third time.
+**Re-measure before moving `--ps-ground` any further from `--ivory`.**
+
+## The bleed, and the sideways scroll it cost (2026-08-24)
+
+`.ps-gl` is `inset:-18%; width:136%; height:136%` of the stage **on purpose** — the art hangs
+past the piece boxes and the shadows need the room. What it never had was anything stopping it
+at the page edge, so the whole document grew with it, **from the day the WebGL layer shipped
+until 2026-08-24**, on both door pages.
+
+**It failed ten of `doors-shots.mjs`'s thirteen widths**, not just the phone ones: 320 read
+350, 390 read 433, 600 read 654 — and 1104 read 1194, 1280 read 1384, 1440 read 1453. Only
+760, 900 and 1920 had margin enough to absorb it. **At 1440 the overflow is 13px**, which is
+why three days passed with nobody noticing: it is a scrollbar, not a broken layout.
+
+Fixed with **`.ps{overflow-x:clip}`**, in the shared block so it travels with the sculpture.
+
+⚠️ **`clip`, NOT `hidden`.** `overflow-x:hidden` makes the element a scroll container and
+forces `overflow-y` to `auto`, which clips the flower's shadow at the chapter's top and foot —
+the thing the bleed exists for. `clip` on one axis leaves the other `visible`.
+
+⚠️ **THE HARNESS THAT CATCHES IT EXISTED THE WHOLE TIME.** `tools/qa/doors-shots.mjs` sweeps
+thirteen widths and had simply not been re-run since the sculpture landed. Run it after any
+change to the stage, the canvas inset, or the phone slot map.
 
 ## The turn (2026-08-21, his call)
 
@@ -209,7 +313,7 @@ the pieces still pop between seats rather than turning. Unchanged by this work.
 npm install --no-save playwright@1.49.1 && npx playwright install chromium
 node tools/qa/process-sculpture.mjs
 ```
-Serves the repo, photographs 03 on both pages at 1440×900 and 393×852, every step, and
+Serves the repo, photographs 03 on all three pages at 1440×900 and 393×852, every step, and
 asserts: the plate's centre moves < 5 % between steps; **the maroon shows past the plate's
 right edge** (read from the WebGL framebuffer when `.ps-3d` is live — it waits for the
 layer's own `window.__ps3d.settled()` first, because software GL can be slower than the
@@ -223,10 +327,42 @@ Local quirk (this Mac, 2026-08-21): `npx playwright install` stalled at extracti
 zip was unpacked by hand into `~/Library/Caches/ms-playwright/chromium-1148/` and the
 headless-shell path shimmed to the full Chromium. Not a repo concern.
 
+### ⚠️ The harness's own intermittency — open
+
+**IT IS ONE FAULT WITH TWO FACES, AND IT IS STILL OPEN.** Under software GL
+`process-sculpture.mjs` fails 1–3 steps per page-and-viewport, on *different* steps each run,
+across all three doors — including pages whose sculpture bytes are provably identical to
+`main`. Two checks report it: `maroon inner body not revealed past the face (0.0px)` and
+`active zone drifted at step N`. **They move between runs, which is what rules the
+composition out** — a real seat error would land on the same page and the same step every
+time.
+
+**The leading cause is the settle wait, and it is not fixed.** It accepts **two identical
+samples 300 ms apart** once the box has grown past 1.15×, and the choreography is three beats
+rather than one move — a release, a fold back to the seat, then the rise. A pair of samples
+taken across a beat boundary matches while the piece is still in flight, and the harness then
+measures a piece that is nowhere near its seat: the plate's centre lands in the wrong
+neighbourhood (the drift) and the maroon is not where the scan line looks for it (the 0.0px).
+
+**What DID get fixed on 2026-08-24 is that `0.0px` no longer means two different things.**
+A scan across the plate must hit opaque pixels; zero of them means the drawing buffer read
+back empty — the stage's `ResizeObserver` calls `resize()`, which reallocates and clears it,
+and the redraw is a `wake(50)` away. The check counts opaque samples now, retries once on an
+empty line, and reports a second blank read as **a blank read**. So a `0.0px` that survives
+means the line was drawn and carried no maroon, which points at the settle wait rather than
+at the GL. **It is not a tolerance** — `opaque` is either zero or dozens, with nothing between.
+
+⚠️ **THE HONEST FIX IS A SETTLE CONDITION TIED TO THE CHOREOGRAPHY'S OWN STATE**, not a longer
+sleep and not a wider tolerance, and it is unwritten. Until it is, judge a lone maroon or
+drift failure from `.qa-out/process/<tag>-<viewport>-step<N>.png` before believing it — this
+harness family has measured an animation instead of a page four times before (see
+`tools/qa/README.md`).
+
 ## Provisional — his to keep or revert
 
-- **Ground.** The chapter stands on `--cream`, not the page's `--ivory`, because the render
-  stands its ivory on warm cream; flagged above `.programme{…}` in both pages. One token.
+- ~~**Ground.**~~ **ANSWERED 2026-08-24** — and with a third colour rather than either of the
+  two on offer. It is `--ps-ground #F0EBE7`, the flower's own former porcelain, on all three
+  doors; the petals went up to `--ivory` to clear it. See **The re-grade**.
 - **Phone copy.** Each step gained a `short` sentence for the plate on phones (the long one
   overflowed the narrower plate). 04 is the render's own line; the other five are mine,
   cut from the existing copy.

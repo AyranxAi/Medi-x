@@ -39,8 +39,20 @@ hero (Tide, drawn) → define (the door's own hook, verbatim) → THE TIDE scrol
 **04 the month, mapped** (cycle wheel) → **05 what are hormones** (identical key +
 three dossiers) → docs (4) → stories (3) → faq (6) → final (Irina) → footer.
 
-Grounds: ivory(03) → dawn(04) → ivory(05) → dawn(docs) → ivory(stories) → dawn(faq)
-→ ivory(final). The scene exits its dawn onto 03's ivory — the parent's measured seam.
+Grounds: porcelain(03) → dawn(04) → ivory(05) → dawn(docs) → ivory(stories) → dawn(faq)
+→ ivory(final). The scene exits its dawn onto 03 — the parent's measured seam, measured
+against ivory before 03 took its own ground; ten values, and not re-measured since.
+
+⚠️ **03's COLOURS TRADED ENDS ON 2026-08-24** — the flower's cream `#F0EBE7` came off the
+petals and became the chapter's ground (`--ps-ground`), and the petals took `--ivory
+#FAF7F1`, the colour the header paints when it comes back on an upward scroll. **The two
+halves are one decision**; reverting one alone is worse than reverting neither. Full account
+in [`HANDOVER_PROCESS_SCULPTURE.md`](../HANDOVER_PROCESS_SCULPTURE.md).
+
+⚠️ **ONE "Book a consultation" IN THE DOCTORS CHAPTER SINCE 2026-08-24** — his call, "it
+should only have one book consultation", across every page that renders doctors. The pill
+under each name is gone; the chapter closes on one centred pill under the row, and the popup
+keeps its own. `node tools/qa/doctors-pill.mjs` guards it on all five pages.
 
 ### The Tide (hero + scene — one water)
 Two hormone waves: estradiol leads (gold/champagne), progesterone answers a

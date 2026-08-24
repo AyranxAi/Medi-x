@@ -90,6 +90,21 @@
      authority is the block on --dawn above. */
   --ivory:#FAF7F1;         /* warm ivory — the alternating ground, one beat of two */
   --cream:#F4EDE1;
+  /* ⚠️ THE SCULPTURE'S GROUND, AND IT IS THE FLOWER'S OWN OLD COLOUR — his call
+     2026-08-24: "you know how our flower is cream? make that the color of the
+     background". #F0EBE7 is EXACTLY the porcelain the petals were painted in until that
+     day; it came off the petals and went under them, and the petals went up to --ivory
+     in the same move. Read THE PORCELAIN in the 3D layer before touching either.
+     ⚠️ IT IS A THIRD GROUND AND NOT --cream, on purpose. --cream is #F4EDE1 — +4 red,
+     +2 green and SIX LESS BLUE than the colour he pointed at, which is a visibly warmer,
+     yellower ground and not a rounding of it. Dressing the chapter in --cream would have
+     been a different colour from the one he named, picked because it already had a token.
+     The alternation either side of this chapter is untouched; the beat is one chapter's.
+     ⚠️ THE PAIR IS THE POINT: ground #F0EBE7 under petals #FAF7F1 separates by 1.107,
+     which is the whole of "make the flower lighter". They move together or not at all —
+     put the ground back to --cream on its own and the petals stand on something LIGHTER
+     than the pairing he approved, which is the composition he asked to be changed. */
+  --ps-ground:#F0EBE7;
   --line:#DED4C2;
   --burgundy:#5C1F31;
   --rose:#C79A92;
@@ -462,8 +477,13 @@ section{position:relative}
    ⚠️ GROUND: the dawn, and the same cross-reference applies — --dawn MUST STAY
    EQUAL to BG_B in the web scene script at the foot of this file. The scene
    rises to exactly this colour. The page's grounds run the sister sequence:
-   dawn(03) → ivory(04) → dawn(05 doctors) → ivory(06) → dawn(07) →
+   dawn(03) → porcelain(04, the sculpture) → dawn(05 doctors) → ivory(06) → dawn(07) →
    ivory(08, hairlined) → cream(footer).
+   ⚠️ THE SCULPTURE'S BEAT IS THE ONE GROUND THAT IS NOT ONE OF THE TWO — --ps-ground,
+   his call 2026-08-24. It reads as the ivory beat (it is 10 values under it, not a
+   different family) and the alternation is intact either side of it; what it is NOT is
+   interchangeable with --ivory, because the flower is painted in --ivory now and would
+   vanish into its own ground. The token block carries the whole of it.
    ⚠️⚠️ THAT SEQUENCE WAS FLATTENED TO ONE IVORY GROUND ON 2026-08-17 AND RESTORED THE
    SAME DAY — the full account, including what the flattening got right and the review
    method that missed it, is on the --dawn token. Do not re-propose it from this rule.
@@ -536,22 +556,33 @@ section{position:relative}
    The siblings' popup programme panel, promoted to a chapter — see the section's own
    DOM banner for the money and the wording rules (AED 950 + VAT, "programme" approved
    for this page, blood work only).
-   ⚠️⚠️ THE GROUNDS RUN ivory(03) → dawn(04 month) → ivory(05 messengers) → dawn(docs)
+   ⚠️⚠️ THE GROUNDS RUN porcelain(03, here) → dawn(04) → ivory(05) → dawn(docs)
    → ivory(stories) → dawn(faq) → ivory(final) — the estate's alternation, unbroken.
-   The scene exits its dawn onto this ivory: the parent page measured that seam
+   The scene exits its dawn onto this chapter: the parent page measured that seam
    (blush → ivory, every channel moving the same way, reads as a section change) and
    the FM sibling ships it; this page inherits the judgement.
+   ⚠️ THIS BEAT WAS ivory UNTIL 2026-08-24 AND IS NOW --ps-ground, ten values under it.
+   The seam above was measured against ivory and the ten values do not unmake it — every
+   channel still moves the same way out of the blush — but it has NOT been re-measured
+   since, and it is the one thing on this page the new ground touches that was decided
+   before it. Re-measure before moving --ps-ground any further from --ivory.
    ⚠️ THE RING/TRAY/CHOOSER CSS THAT STOOD HERE IS DELETED, NOT DISABLED — this page
    never shipped the eight-service ring (its one programme is this chapter), so the
    machinery went whole: ~900 lines of .rail/.pw/.px-tray/.pxd-doc rules. The FM and
    peptide siblings still carry the living copies; bring them back from there, never
    from memory. The pg-* money grammar below SURVIVES — it is shared, and this chapter
    is now its home on this page. */
-/* ⚠️ PROVISIONAL (2026-08-21): the process sculpture's ground is --cream, not --ivory,
-   because the client's reference render stands its ivory pieces on a warm cream ground;
-   on --ivory the pieces read darker than the page. His call to keep or revert — one
-   token either way. */
-.programme{background:var(--cream)}
+/* ⚠️ THE PROVISIONAL GROUND OF 2026-08-21 GOT ITS ANSWER ON 2026-08-24, AND IT WAS
+   NEITHER OF THE TWO ON OFFER. The question was --cream or --ivory; he named a third
+   thing — the flower's own porcelain — and put it under the flower instead. --ps-ground
+   IS that porcelain, #F0EBE7, and the petals moved up to --ivory to clear it. The
+   2026-08-21 reasoning still holds and is why the answer is not --ivory: the client's
+   render stands its pieces on a ground DARKER than they are, and on --ivory the pieces
+   read darker than the page. What changed is which end of that pairing moved.
+   ⚠️ ONE TOKEN, THREE DOORS. This rule is identical on /modern-menopause/,
+   /hormone-therapy-bhrt/ and /testosterone-top-up/; the third joined them the same day
+   the sculpture did. The testosterone door gave up --ivory here to join them. */
+.programme{background:var(--ps-ground)}
 .prog-lede{max-width:58ch;margin-top:18px;color:var(--ink-soft);
   font-size:clamp(15px,1.25vw,17px);line-height:1.62}
 .prog-grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);
@@ -618,6 +649,26 @@ section{position:relative}
   --ps-swap:420ms;         /* editorial copy cross-fade */
   position:relative;
   display:none;            /* the script reveals it; <noscript> keeps the list */
+  /* ⚠️⚠️ THE CANVAS BLEEDS AND THE DOCUMENT PAID FOR IT — fixed 2026-08-24, and the bug had
+     been live on both door pages since the WebGL layer shipped on the 21st. `.ps-gl` is
+     `inset:-18%; width:136%` of the stage ON PURPOSE (the art hangs past the boxes and
+     the shadows need the room); what it did not have was anything stopping it at the page
+     edge, so the whole DOCUMENT grew a sideways scroll.
+     ⚠️ IT WAS NOT A PHONE BUG, WHICH IS WHY IT SURVIVED. It failed TEN of the sweep's
+     thirteen widths: 320 read 350, 390 read 433 and 600 read 654 — but 1104 read 1194,
+     1280 read 1384 and 1440 read 1453 as well. Only 760, 900 and 1920 had margin enough to
+     absorb it, and 1440 is the width anybody looks at, where the overflow is 13px and
+     invisible until you notice the scrollbar.
+     ⚠️ IT IS `clip`, NOT `hidden`, AND THE DIFFERENCE IS THE WHOLE FIX. `overflow-x:hidden`
+     would make this a scroll container and force `overflow-y` to `auto`, which clips the
+     flower's own shadow at the chapter's top and foot — the thing the bleed exists for.
+     `clip` on one axis leaves the other `visible`, so the vertical bleed is untouched and
+     nothing scrolls. Do not "simplify" it to hidden.
+     ⚠️ NOTHING VISIBLE IS LOST. On a phone what gets clipped is what was off-screen
+     anyway; on a desktop the stage is capped well inside the wrap and the bleed never
+     reaches this edge. `tools/qa/doors-shots.mjs` sweeps thirteen widths and is where
+     this failed — the sweep had not been re-run since the sculpture landed. */
+  overflow-x:clip;
 }
 .ps.ps-on{display:block}
 
@@ -628,9 +679,19 @@ section{position:relative}
 }
 
 /* ── the editorial column ─────────────────────────────────────────────────── */
+/* ⚠️ --gold-gloss, NOT --gold-deep, AND THE GROUND IS WHY — the rule the token block
+   records on --gold-gloss ("it is a function of the ground; anyone who darkens the
+   ground must bring it back") fired here on 2026-08-24. This is 13px uppercase, so it
+   is small text and its floor is 4.5. MEASURED on the three grounds this chapter has
+   stood on: --gold-deep is 4.685 on --ivory, 4.305 on --cream and 4.233 on the
+   --ps-ground it stands on now; --gold-gloss is 4.805 there. So --gold-deep passed on
+   the testosterone door and failed on the two it shipped with, and the new ground put
+   all three on the wrong side of the line at once. --gold-gloss clears it on all three
+   with 0.305 to spare, and is the tightest pairing in this chapter. RE-MEASURE BEFORE
+   MOVING --ps-ground: darken it further and this goes under too. */
 .ps-eyebrow{
   font-family:var(--accent);font-weight:400;font-size:13px;
-  letter-spacing:.24em;text-transform:uppercase;color:var(--gold-deep);
+  letter-spacing:.24em;text-transform:uppercase;color:var(--gold-gloss);
 }
 .ps-head{
   font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 40;
@@ -1165,10 +1226,17 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
    name", an (i) on the portrait corner that opens a popup with the doctor's
    profession and history, ×-closed, with Book a consultation at its foot. The
    popup IS the tiles' dialog shell (#pxd) — one shell, all templates.
-   ⚠️ TWO RED PILLS IN ONE VIEWPORT, HIS CALL — this deliberately overrides the
-   sister page's one-pill-per-section rule ("three primary CTAs is three times the
-   ask"): he asked for the pill under each name, so each doctor carries one.
-   Recorded so it is not "fixed" in passing.
+   ⚠️⚠️ THE PILL UNDER EACH NAME IS GONE — HIS CALL 2026-08-24, "it should only have one
+   book consultation", and it applies to every page that renders doctors. The chapter
+   now closes on ONE centred pill under the row (`.docs-cta`); the popup keeps the one
+   at its foot, which is still one pill on screen. This REVERSES the exception recorded
+   below and restores the sister page's one-pill-per-section rule, so the note stands as
+   the history of the decision, not as the rule:
+     · [SUPERSEDED] TWO RED PILLS IN ONE VIEWPORT, HIS CALL — this deliberately overrode
+       the sister page's one-pill-per-section rule ("three primary CTAs is three times
+       the ask"): he asked for the pill under each name, so each doctor carried one.
+   The 2026-08-14 brief above is otherwise untouched and still governs — the portrait,
+   the specialisation line, the (i) and the popup are all as he asked for them.
    ⚠️ THE (i) IS THE HEADER'S GLASS-BUTTON MATERIAL (.globe over a photograph) at
    36px, with the serif italic i as its glyph. On the monogram fallback ground it
    flips to the solid-header colourway, or ivory glass vanishes on cream.
@@ -1221,7 +1289,7 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
    photo simply takes 100% of it, as it did before.
    ⚠️ SINCE 2026-08-17 THIS PAIR GOVERNS 701–1180 ONLY. Above 1180 the four sit in one
    line, both caps are released there, and the picture is the column — see the block
-   below `.doc .btn`. Retuning either number here now moves the TABLET, not the page
+   below `.docs-cta`. Retuning either number here now moves the TABLET, not the page
    he looks at. */
 .doc-grid{
   display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
@@ -1260,23 +1328,33 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
   font-size:clamp(23px,2.2vw,31px);line-height:1.1;
 }
 .doc-spec{margin-top:7px;color:var(--ink-soft);font-size:clamp(14px,1.2vw,16.5px);line-height:1.55;max-width:30ch}
-.doc .btn{margin-top:clamp(18px,2.4vh,26px)}
+/* ⚠️ THE CHAPTER CARRIES ONE PILL, NOT ONE PER CARD — his call 2026-08-24, "it should
+   only have one book consultation". `.doc .btn` is DELETED, NOT DISABLED: no doctor card
+   renders a pill on any page any more, and the chapter closes on this single centred one
+   under the row. The popup’s `.pxd-cta` is untouched — one doctor on screen, one pill. */
+.docs-cta{display:flex;justify-content:center;margin-top:clamp(34px,5vh,60px)}
 /* ⚠️ THE FOUR SIT IN ONE LINE ABOVE 1180 — his call 2026-08-17, "just fit in 1 line not
-   two". THE COLUMN COUNT IS THE SMALLEST PART OF IT. Three other things bind at 4-up,
-   and repeat(2)→repeat(4) on its own is broken on all three:
+   two". THE COLUMN COUNT IS THE SMALLEST PART OF IT. Three other things bound at 4-up,
+   and repeat(2)→repeat(4) on its own was broken on all three — TWO OF THE THREE WERE THE
+   PER-CARD PILL AND RETIRED WITH IT ON 2026-08-24, and they are kept below because they
+   are what a card pill costs, not because they still apply:
      · THE 62rem CAP WAS THE 2-UP COLUMN AND IS THE WRONG RULER FOR FOUR. Kept, it hands
        each card 223px inside 992 while the wrap has 1150 to spend at 1440 — 158px of the
        page's own measure left unspent, on a row that has no width to spare. Released to
        the wrap, the column is 259–268 across desktop and 247 at the 1181 cliff.
-     · .btn IS `white-space:nowrap` AND WAS 285px WIDE — WIDER THAN EITHER COLUMN, and a
-       nowrap pill cannot wrap its way out of an overflow; it simply runs past the card.
-       So the pill's own padding and type step down HERE AND NOWHERE ELSE: 216px against
-       a 247px column at the worst width. DO NOT SHORTEN THE LABEL INSTEAD — the 2-up
-       pill below 1181 is the one every other pill on the page matches.
-     · THE FOUR SPECIALISATIONS ARE NOT THE SAME LENGTH — Dr. Khalid's takes three lines
-       where the other three take two — so nothing under the portrait aligns by itself.
-       `.doc-spec{flex:1 0 auto}` eats that difference and the pill sits on the card's
-       floor. Delete it and the four buttons step up and down across the line.
+     · [RETIRED] .btn IS `white-space:nowrap` AND WAS 285px WIDE — WIDER THAN EITHER
+       COLUMN, and a nowrap pill cannot wrap its way out of an overflow; it simply ran
+       past the card. The pill's own padding and type stepped down here and nowhere else,
+       to 216px against a 247px column at the worst width. THIS IS THE NUMBER TO COME BACK
+       TO if a per-card pill is ever proposed again: it does not fit at 4-up unshrunk, and
+       shortening the label was rejected instead — the 2-up pill is the one every other
+       pill on the page matches.
+     · [RETIRED] THE SPECIALISATIONS ARE NOT THE SAME LENGTH — Dr. Khalid's takes three
+       lines where the others take two — so nothing under the portrait aligned by itself.
+       `.doc-spec{flex:1 0 auto}` ate that difference and sat the pill on the card's
+       floor. With the pill gone the spec is the card's last line and has nothing to
+       level against, so the flex went with it; the ragged lengths are now simply ragged,
+       which is what the row looked like before there was a pill to align.
    The name needed a SIZE, not a wrap: at 22px all four hold one line. Dr. Nahla Ibrahim
    Elawady is the worst case — 22px was solved for exactly her name on the peptide page,
    and she is on THIS page's row too, so the margin is the measured one. It was 24px
@@ -1284,14 +1362,15 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
    which is the one thing this row cannot carry. Re-measure before raising the size.
    ⚠️ 1180 IS THE PAGE'S OWN CLIFF, NOT A NEW NUMBER — section 04's ring already reflows
    there. Below it the 2-up grid above is untouched and the phone still gets its single
-   column, because four portraits in a line stop being portraits around 1100: the column
-   passes back under the pill's 216 and the overflow returns. */
+   column, because four portraits in a line stop being portraits around 1100 — that was
+   measured as the column passing back under the pill's 216, and the pill is gone, but the
+   portrait is the reason the cliff stays: 247px of picture is the floor this row was
+   composed at. */
 @media(min-width:1181px){
   .doc-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(22px,2.4vw,34px);max-width:none}
   .doc-photo{width:100%}
   .doc h3{margin-top:clamp(14px,1.8vh,20px);font-size:clamp(19px,1.5vw,22px);text-wrap:balance}
-  .doc-spec{margin-top:6px;font-size:clamp(12.5px,1vw,14px);line-height:1.5;max-width:none;flex:1 0 auto}
-  .doc .btn{margin-top:clamp(14px,1.8vh,20px);padding:15px 20px;font-size:11px;letter-spacing:.09em;gap:9px}
+  .doc-spec{margin-top:6px;font-size:clamp(12.5px,1vw,14px);line-height:1.5;max-width:none}
   .doc-info{top:10px;right:10px;width:32px;height:32px;font-size:16px}
 }
 @media(max-width:700px){
@@ -1384,7 +1463,7 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
 /* ─────────────────────────── 06 · TESTIMONIALS ─────────────────────────── */
 /* back to IVORY (2026-08-14, round 3) — the doctors section now occupies the 05
    slot and carries the dawn, so the page runs the sister sequence exactly:
-   dawn(03) → ivory(04) → dawn(05 doctors) → ivory(06) → dawn(07) → ivory(08). */
+   dawn(03) → porcelain(04) → dawn(05 doctors) → ivory(06) → dawn(07) → ivory(08). */
 /* ⚠️ IVORY AGAIN SINCE 2026-08-17 — it was dawn from round 18. This section has still
    never changed on its own; the run it sits in has now inverted twice. See the ⚠️⚠️ note
    at .docs. The one number worth tracking is the quote, because it is PURE #000: its
@@ -2459,6 +2538,10 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
        HIS CALL 2026-08-14 — picture + specialization + "book consultation under their
        name", with an (i) on the portrait corner opening a popup of "the dr and their
        profession and history", × top-right, Book a consultation at the popup's foot.
+       ⚠️⚠️ "UNDER THEIR NAME" WAS WITHDRAWN 2026-08-24 — "it should only have one book
+       consultation". The pill is now the chapter's, once, under the row; see the
+       `.docs-cta` note there and the banner over `.docs` in the stylesheet. Everything
+       else in the 2026-08-14 brief stands.
        ⚠️ THE BIOS ARE CLIENT COPY from the live medi-gyn.com doctor pages, reproduced
        with typographic corrections only, each recorded here:
          · "revealing root course of weight gain" → "root cause" (typo)
@@ -2543,7 +2626,6 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
           </div>
           <h3>Dr. Andrey Komissarov</h3>
           <p class="doc-spec">MD, PhD — Internal, Integrative &amp; Functional Medicine</p>
-          <a class="btn" href="#book">Book a consultation <span class="arr">→</span></a>
           <template class="doc-detail">
             <div class="pxd-hdr">
               <span class="pxd-face"><img src="../images/doctors/dr-andrey-komissarov-head-400.webp" alt="" aria-hidden="true" width="400" height="400"></span>
@@ -2596,7 +2678,6 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
           </div>
           <h3>Dr. Eslam Yakout</h3>
           <p class="doc-spec">Functional and Regenerative Medicine Doctor</p>
-          <a class="btn" href="#book">Book a consultation <span class="arr">→</span></a>
           <template class="doc-detail">
             <div class="pxd-hdr">
               <span class="pxd-face"><img src="../images/doctors/dr-eslam-yakout-head-400.webp" alt="" aria-hidden="true" width="400" height="400"></span>
@@ -2649,7 +2730,6 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
           </div>
           <h3>Dr. Nahla Ibrahim Elawady</h3>
           <p class="doc-spec">MD, DHA-Certified Gynaecologist — BHRT &amp; Sexual Health</p>
-          <a class="btn" href="#book">Book a consultation <span class="arr">→</span></a>
           <template class="doc-detail">
             <div class="pxd-hdr">
               <span class="pxd-face"><img src="../images/doctors/dr-nahla-ibrahim-elawady-head-400.webp" alt="" aria-hidden="true" width="400" height="400"></span>
@@ -2724,7 +2804,6 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
           </div>
           <h3>Dr. Khalid Shukri</h3>
           <p class="doc-spec">MD, FCCM — American Board Certified, Anti-Ageing &amp; Regenerative Medicine</p>
-          <a class="btn" href="#book">Book a consultation <span class="arr">→</span></a>
           <template class="doc-detail">
             <div class="pxd-hdr">
               <span class="pxd-face"><img src="../images/doctors/dr-khalid-shukri-head-400.webp" alt="" aria-hidden="true" width="400" height="400"></span>
@@ -2765,6 +2844,16 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
             <div class="pxd-cta"><a class="btn" href="#book">Book a consultation <span class="arr">→</span></a></div>
           </template>
         </article>
+      </div>
+      <!-- ⚠️ ONE PILL FOR THE WHOLE CHAPTER — his call 2026-08-24, "it should only have
+           one book consultation". It replaces the pill that stood under every name since
+           2026-08-14; the (i) on each portrait is still the way into a single doctor, and
+           the popup keeps its own `.pxd-cta` because only one doctor is ever on screen
+           there. Do not put the per-card pill back without re-reading the width note over
+           `.doc .btn`’s replacement in the stylesheet — it is the reason the 1181 row
+           needed a stepped-down pill at all. -->
+      <div class="docs-cta" data-reveal>
+        <a class="btn" href="#book">Book a consultation <span class="arr">→</span></a>
       </div>
     </div>
   </section>
@@ -4148,17 +4237,27 @@ try{
   defs.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden';
   defs.innerHTML =
     '<svg width="0" height="0"><defs>'
-    /* the ivory face: lit upper-left, settling warmer lower-right */
+    /* the ivory face: lit upper-left, settling warmer lower-right.
+       ⚠️ RE-GRADED 2026-08-24 with the 3D porcelain — the mid stop IS #FAF7F1, the
+       material's own colour, so the fallback and the WebGL painter agree on the body
+       tone. The old stops were #FAF6EF / #F2EBE1 / #E7DDD0 around #F0EBE7. The lift is
+       not uniform and could not be: adding the porcelain's own delta to the lit stop
+       clipped it to white and threw the modelling away, so the SHADE keeps its full
+       spread from the mid (where the form reads) and the lit end takes what headroom is
+       left. Spread lit-to-shade is 16 values of red against the old 19. */
     + '<linearGradient id="psFace" x1="0" y1="0" x2="1" y2="1">'
-    +   '<stop offset="0" stop-color="#FAF6EF"/><stop offset=".55" stop-color="#F2EBE1"/>'
-    +   '<stop offset="1" stop-color="#E7DDD0"/></linearGradient>'
+    +   '<stop offset="0" stop-color="#FFFDF8"/><stop offset=".55" stop-color="#FAF7F1"/>'
+    +   '<stop offset="1" stop-color="#EFE9E0"/></linearGradient>'
     /* the dome: the surface turns away at its edges */
     + '<radialGradient id="psDome" cx=".36" cy=".3" r=".8">'
     +   '<stop offset=".45" stop-color="#7A5C4C" stop-opacity="0"/>'
     +   '<stop offset="1" stop-color="#7A5C4C" stop-opacity=".13"/></radialGradient>'
-    /* the wall of an ivory piece */
+    /* the wall of an ivory piece — lifted by the porcelain's own delta (+10,+12,+10)
+       on 2026-08-24, from #E4D9CB / #CDBEAD. The wall must stay a few values under the
+       face's shade stop or the thickness stops reading as thickness; it was 3-5 under
+       before the re-grade and it is 3-5 under after it. */
     + '<linearGradient id="psWall" x1="0" y1="0" x2=".6" y2="1">'
-    +   '<stop offset="0" stop-color="#E4D9CB"/><stop offset="1" stop-color="#CDBEAD"/></linearGradient>'
+    +   '<stop offset="0" stop-color="#EEE5D5"/><stop offset="1" stop-color="#D7CAB7"/></linearGradient>'
     /* the thin lit rim along the upper-left edge */
     + '<linearGradient id="psRim" x1="0" y1="0" x2="1" y2="1">'
     +   '<stop offset="0" stop-color="#FFFFFF" stop-opacity=".85"/>'
@@ -4194,7 +4293,7 @@ try{
       + path(d, 'class="ps-ao" fill="#5E4536" opacity=".13" filter="url(#psBlurSP)"')
       + path(d, 'class="ps-contact" fill="#5E4536" opacity=".24" transform="translate(14,26)" filter="url(#psBlurCP)"')
       + '<g class="ps-inner">' + sweep(ds, 58, 14, 9, 'url(#psMaroon)') + '</g>'
-      + sweep(d, 7, 3, 3, '#DCCDB8')
+      + sweep(d, 7, 3, 3, '#E6D9C2')   /* re-graded with the face, 2026-08-24 (was #DCCDB8) */
       + path(d, 'class="ps-faceP" fill="url(#psFace)"')
       + path(d, 'fill="url(#psDome)"')
       + path(d, 'fill="none" stroke="url(#psRimP)" stroke-width="3.5"')
@@ -4464,7 +4563,20 @@ try{
       })();
 
       /* ── materials: matte porcelain with a whisper of sheen; lacquered maroon ── */
-      var IVORY = {color:0xF0EBE7, roughness:.62, metalness:0, sheen:.2, sheenRoughness:.8, sheenColor:0xFFFFFF, envMapIntensity:1};
+      /* ⚠️⚠️ THE PORCELAIN IS THE SCROLLED HEADER'S IVORY, AND THAT IS THE SPEC — his call
+         2026-08-24: "for the flower match it with the color of the header when you go down
+         and you go up and reappears". That header state is `.hdr--solid`, which paints
+         rgba(250,247,241,.95) — #FAF7F1 at 95 per cent over the page — and #FAF7F1 is
+         --ivory. So the petals and the bar that comes back down the page are one colour.
+         ⚠️ IT IS A LITERAL HERE AND A TOKEN THERE, and there is no way to share them in a
+         zero-build single file — the same standing --dawn and the scene's BG_B have. Three
+         sites hold this colour and all three must move together: --ivory in the token
+         block, .hdr--solid's background, and this line. The SVG fallback's psFace mid stop
+         is the fourth, and its note points back here.
+         ⚠️ IT WAS #F0EBE7 UNTIL THAT DAY, and that value is not gone — it is the ground
+         the flower now stands on (--ps-ground). The two swapped places; that swap IS the
+         change he asked for, so neither half means anything without the other. */
+      var IVORY = {color:0xFAF7F1, roughness:.62, metalness:0, sheen:.2, sheenRoughness:.8, sheenColor:0xFFFFFF, envMapIntensity:1};
       var MAROON = {color:0x4E1A28, roughness:.6, metalness:0, clearcoat:.12, clearcoatRoughness:.6, envMapIntensity:.5};
 
       /* ── the petal, as a mesh. One grid over the face (so the relief is sampled

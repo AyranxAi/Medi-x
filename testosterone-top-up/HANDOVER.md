@@ -63,11 +63,38 @@ all have men's-health grounds in their own client bios.
 AED **950 + VAT** → 997.50; add-on 1,950 + VAT → 3,045.00; review 750 + VAT. Same standing
 as door 2: his 2026-08-19 figure, given for door 1, **not yet confirmed for this page.**
 
+## Chapter 03 — the process sculpture
+
+**2026-08-24: 03's six steps render as the process sculpture (the WebGL porcelain flower,
+shared byte-for-byte with `/hormone-therapy-bhrt/` and `/modern-menopause/`) — his call,
+"make it in all three services including men in testosterone top up". See
+[`HANDOVER_PROCESS_SCULPTURE.md`](../HANDOVER_PROCESS_SCULPTURE.md).**
+⚠️ The chapter's own `h2` and lede went with the swap, as they did on the two sibling doors;
+both strings are kept verbatim in a comment at the section for a rollback.
+⚠️ **The men's step 02 — the morning draw — lives in the `<noscript>` list, not in the
+sculpture's shared step copy.** It is the one instruction on this page that changes the
+*result* and not the experience, so if the sculpture's copy is ever made page-specific it is
+the first thing that must carry over.
+
+⚠️ **03's COLOURS TRADED ENDS ON 2026-08-24** — the flower's cream `#F0EBE7` came off the
+petals and became the chapter's ground (`--ps-ground`), and the petals took `--ivory
+#FAF7F1`, the colour the header paints when it comes back on an upward scroll. **The two
+halves are one decision**; reverting one alone is worse than reverting neither. Full account
+in [`HANDOVER_PROCESS_SCULPTURE.md`](../HANDOVER_PROCESS_SCULPTURE.md).
+
+⚠️ **ONE "Book a consultation" IN THE DOCTORS CHAPTER SINCE 2026-08-24** — his call, "it
+should only have one book consultation", across every page that renders doctors. The pill
+under each name is gone; the chapter closes on one centred pill under the row, and the popup
+keeps its own. `node tools/qa/doctors-pill.mjs` guards it on all five pages.
+
 ## QA
 
 `node tools/qa/doors-shots.mjs` (shared with door 2) — green, including: 3 doctors and
 Nahla asserted **off** the row, the ledger armed, four markers, the money three ways, no
 menoSTART/"Modern Menopause"/"Top-Up" anywhere, **no 404s**, 13 widths, reduced motion.
+`node tools/qa/process-sculpture.mjs` (shared with doors 1 and 2 since 2026-08-24) — the
+flower at six steps on desktop and phone, and the grade asserted as a pair.
+`node tools/qa/doctors-pill.mjs` — one pill in the doctors chapter, three doctors, three popups.
 
 ## Open — his to answer
 

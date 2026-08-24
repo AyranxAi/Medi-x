@@ -66,6 +66,33 @@ node tools/qa/scene-shots.mjs
 story actually is. `?layout=side` selects the right/left composition; omit it for the
 default centred scene. `?probe=1` swaps the scene for its static fallback.
 
+## One pill in the doctors chapter — `doctors-pill.mjs`
+
+```bash
+npm install --no-save playwright@1.49.1
+node tools/qa/doctors-pill.mjs [--shots]      # five pages x three widths, plus one real popup
+```
+
+His call 2026-08-24: "for all the ones containing doctors it should only have one book
+consultation across all pages". Nineteen per-card pills came out across five pages and each
+chapter closes on one centred pill under the row instead.
+
+⚠️ **THIS EXISTS BECAUSE THE RULE HAS ALREADY BEEN REVERSED ONCE.** The per-card pill was his
+call on 2026-08-14, recorded then as a deliberate override of the estate's
+one-pill-per-section rule, and it came back out ten days later. **A rule that has flipped once
+flips again**, and the page it flips on next is whichever of the five somebody edits without
+reading the other four.
+
+⚠️ **THE POPUP'S PILL IS ASSERTED PRESENT, NOT ABSENT.** `.pxd-cta` is the exception the rule
+was always written to allow — one doctor on screen, one pill — and it is now the ONLY
+per-doctor route to booking. A well-meaning "only one pill anywhere" sweep that took it out
+would leave a reader with no way to reach one named doctor at all, so the check fails in that
+direction too.
+
+⚠️ **THE PORTRAITS ARE SCROLLED INTO VIEW BEFORE "no 404s" IS CLAIMED.** They are
+`loading="lazy"`: a page that never scrolls to the chapter never requests them, and a response
+listener over requests that were never made reports a clean run on a chapter of broken images.
+
 ## Door-plate contrast — `door-contrast.mjs`
 
 Section 04's three plates are photographs of very different tone, and the copy on them is in

@@ -141,7 +141,15 @@ for (const P of PAGES) {
       payoff: document.querySelector('.scene-title')?.textContent.trim(),
       sceneId: document.querySelector('#' + cfg.sceneId) ? cfg.sceneId : '(missing)',
       beats: document.querySelectorAll('.scene-beat').length,
-      steps: document.querySelectorAll('.pg-steps li').length,
+      /* ⚠️ THE SIX STEPS ARE THE SCULPTURE'S NOW, NOT AN <ol>'s. This read
+         `.pg-steps li` until 2026-08-24 and had been quietly returning 0 since the
+         flower shipped: the original list moved into <noscript>, whose contents are a
+         TEXT NODE in a scripting-enabled browser, so the selector matched nothing and
+         the check reported a page with no programme steps at all. Both halves are asked
+         for now — the six petals a reader gets, and the six <li> in the rollback list a
+         reader without JS gets, counted out of the raw text because they are not DOM. */
+      steps: document.querySelectorAll('#process .ps-arm').length,
+      rollback: (document.querySelector('#programme noscript')?.textContent.match(/<li>/g) || []).length,
       docs: document.querySelectorAll('.doc').length,
       names: [...document.querySelectorAll('.doc > h3')].map(h => h.textContent.trim()),
       faq: document.querySelectorAll('.faq-item').length,
@@ -159,7 +167,12 @@ for (const P of PAGES) {
          the scene engine. A vocabulary rule about what the PAGE SAYS has to read what a
          reader can read; clone, strip the code, then take the text. */
       body: (() => { const c = document.body.cloneNode(true);
-        c.querySelectorAll('script,style,template').forEach(n => n.remove());
+        /* ⚠️ <noscript> JOINED THE STRIP LIST 2026-08-24, for the reason the comment above
+           gives about <script>: with JS on, a <noscript>'s content is a text node holding
+           raw markup, so its tags and attributes land in body.textContent and a vocabulary
+           rule about what the PAGE SAYS starts reading HTML. Its copy is still asserted —
+           by the rollback count above, which is what it is for. */
+        c.querySelectorAll('script,style,template,noscript').forEach(n => n.remove());
         return c.textContent; })(),
       ids: [...document.querySelectorAll('main section[id]')].map(e => e.id),
       links: [...document.querySelectorAll('a[href]')].map(a => a.getAttribute('href')).filter(h => h && !h.startsWith('#') && !/^https?:|^mailto:/.test(h)),
@@ -169,7 +182,8 @@ for (const P of PAGES) {
     ok(d.payoff === P.payoff, `payoff word "${P.payoff}"`, d.payoff);
     ok(d.sceneId === P.sceneId, `scene container #${P.sceneId}`, d.sceneId);
     ok(d.beats === 6, 'six scene beats', String(d.beats));
-    ok(d.steps === 6, 'six programme steps', String(d.steps));
+    ok(d.steps === 6, 'six programme steps (the sculpture)', String(d.steps));
+    ok(d.rollback === 6, 'six steps in the <noscript> rollback list', String(d.rollback));
     ok(d.docs === P.docs, `${P.docs} doctors`, d.names.join(' · '));
     ok(/Nahla/.test(d.names.join()) === P.hasNahla, `Dr. Nahla ${P.hasNahla ? 'on' : 'off'} this row`);
     ok(d.faq === 6, 'six FAQ items', String(d.faq));

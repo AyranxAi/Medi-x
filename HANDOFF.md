@@ -1,3 +1,234 @@
+# Handoff addendum — 2026-08-24 (one pill in the doctors chapter · the flower opens on door 3 · the flower and its ground trade colours · the page stops scrolling sideways)
+
+Three calls of his and one thing the audit turned up on the way. Each is recorded at the code
+as well as here, and each is small to reverse — but the third is two halves of one decision
+and reverting half of it is worse than reverting neither.
+
+**The fourth was not asked for and is not a liberty:** the thirteen-width sweep in
+`tools/qa/doors-shots.mjs` had not been run since the sculpture shipped, and it turned out
+both door pages had been scrolling sideways at ten of those thirteen widths — desktop
+included — for three days. Porting the sculpture to a third door would have taken that with
+it. Section 4.
+
+## 1 · The doctors chapter carries ONE "Book a consultation"
+
+> "for all the ones containing doctors it should only have one book consultation across all pages"
+
+**This reverses the 2026-08-14 exception, and that is the point.** The pill under each name
+was his own call then, and it was recorded as a deliberate override of the estate's
+one-pill-per-section rule ("three primary CTAs is three times the ask"). The rule is back.
+
+| page | card pills removed | chapter pills now |
+|---|---|---|
+| `/modern-menopause/` | 4 | 1 |
+| `/hormone-therapy-bhrt/` | 4 | 1 |
+| `/testosterone-top-up/` | 3 | 1 |
+| `/functional-medicine/` | 4 | 1 |
+| `/peptide-therapy/` | 4 | 1 |
+
+**The popup keeps its own pill.** `.pxd-cta` at the foot of a doctor's dialog is untouched on
+all five pages: only one doctor is ever on screen inside it, so it is still one pill in one
+view, and it is still the route to booking *that* doctor. The (i) on each portrait is
+unchanged and is now the only per-doctor control.
+
+⚠️ **THE HERO PILL IS NOT IN SCOPE** and was left alone. "The ones containing doctors" was
+read as the doctors chapter, not the page; a page with no hero CTA is a different brief.
+
+⚠️ **TWO CSS RULES DIED WITH THE PILL AND BOTH ARE WORTH KNOWING ABOUT BEFORE ANYONE PUTS IT
+BACK.** They are kept in the stylesheet as `[RETIRED]` bullets rather than deleted, over
+`.docs-cta`:
+- `.btn` is `white-space:nowrap` and was **285px wide — wider than either column** at 4-up.
+  Its padding and type stepped down to 216px against a 247px column, in that media query and
+  nowhere else. A per-card pill does not fit at 4-up unshrunk.
+- `.doc-spec{flex:1 0 auto}` existed to eat the ragged specialisation lengths so the pills sat
+  on one line. With no pill the spec is the card's last line and has nothing to level against,
+  so it went too.
+
+⚠️ **THE 1181 CLIFF STAYS** even though the pill's 216px was how it was originally measured.
+The portrait is the reason now: 247px of picture is the floor this row was composed at.
+
+## 2 · The process sculpture opens on door 3
+
+> "regarding the flower thingy make it in all three services including men in testosterone top up"
+
+`/testosterone-top-up/` now runs the same chapter 03 as its two sibling doors. **Nothing about
+the sculpture was page-specific**, so the port is the three marked blocks verbatim —
+`PS:CSS`, `PS:HTML`, `PS:JS` — plus `.prog-grid--card`, the one modifier that lives outside
+them and drops the money panel under the flower instead of beside it. `md5` the marked ranges
+on all three pages; they agree.
+
+**What the men's door gave up is what the two women's doors gave up when the flower landed:**
+the chapter's own `h2` and lede, because the sculpture's editorial column is the heading now.
+Both strings are kept verbatim in a comment at the section, so the rollback is the three
+deletions plus that paste.
+
+⚠️ **THE SIX STEPS' COPY IS SHARED AND WAS NOT REWRITTEN FOR MEN.** It was already written
+generically enough for two different doors and reads for the third unchanged. **The men's own
+step 02 — the morning draw — survives where it always lived, in the `<noscript>` list**, and
+that is the one instruction on this page that changes the *result* and not the experience
+(testosterone is diurnal; a reference range is written for a morning sample). If the
+sculpture's step copy is ever made page-specific, that sentence is the first thing it must
+carry.
+
+⚠️ **THE THIRD DOOR JOINED `tools/qa/process-sculpture.mjs`**, and its screenshot tag with it —
+the harness named its shots with a two-way ternary (`mm : bhrt`), which would have filed door
+3's shots silently over BHRT's. It is a map now.
+
+## 3 · The flower and its ground trade colours
+
+> "im thinking of changing the colors of it to something lighter — you know how our flower is
+> cream? make that the color of the background. additionally for the flower match it with the
+> color of the header when you go down and you go up and reappears. only these for now."
+
+**Two colours swapped ends.** The flower's cream came off the petals and became the chapter's
+ground; the petals took the colour of the header in its scrolled state — `.hdr--solid`, which
+is the bar that hides on the way down and comes back on the way up, exactly as he described it.
+
+| | before | after |
+|---|---|---|
+| petals | `#F0EBE7` | `#FAF7F1` — `--ivory`, i.e. `.hdr--solid`'s `rgba(250,247,241,.95)` |
+| chapter ground | `--cream #F4EDE1` (doors 1–2) · `--ivory #FAF7F1` (door 3) | `--ps-ground #F0EBE7` on all three |
+| petal against its ground | 1.017, petal darker · 1.107, petal darker | **1.107 everywhere, petal LIGHTER** |
+
+⚠️ **THE NUMBER ALONE HIDES THE POINT: THE SIGN FLIPPED.** The men's door already separated by
+1.107 — with the petals *darker* than their ivory ground, which is the reading the 2026-08-21
+note called "the pieces read darker than the page". The same 1.107 now runs the other way on
+all three doors. "Lighter" was a direction, not a magnitude.
+
+⚠️⚠️ **THE TWO HALVES ARE ONE DECISION.** Put the ground back to `--cream` on its own and the
+petals stand on something *lighter* than the pairing that was already there — which is the
+composition he asked to have changed. Move one, move both.
+
+**This also answers the provisional ground of 2026-08-21**, which asked him to keep `--cream`
+or revert to `--ivory`. He answered with a third colour. The 2026-08-21 reasoning is why it is
+not `--ivory`: the client's reference render stands its pieces on a ground *darker* than they
+are. That relationship is preserved; what changed is which end of it moved.
+
+⚠️ **FOUR SITES HOLD ONE COLOUR AND THERE IS NO WAY TO SHARE THEM** in a zero-build single
+file — the same standing `--dawn` and the scene's `BG_B` have. `--ivory` in the token block ·
+`.hdr--solid`'s background · `IVORY.color` in the 3D layer · the `psFace` gradient's mid stop
+in the SVG fallback. All four move together or the flower stops matching the bar.
+
+⚠️ **THE SVG FALLBACK COULD NOT TAKE A UNIFORM LIFT.** The porcelain's delta is `+10,+12,+10`;
+adding it to the face's lit stop clipped it to white and threw the modelling away. The shade
+keeps its full spread from the mid, where the form reads, and the lit end takes the headroom
+left: `#FFFDF8 / #FAF7F1 / #EFE9E0`. The wall and the plate's inner sweep took the full delta.
+**The wall must stay a few values under the face's shade stop** or thickness stops reading as
+thickness — 3–5 under before, 3–5 under after.
+
+⚠️ **ONE CONTRAST PAIRING MOVED AND HAD TO BE REPAIRED.** `.ps-eyebrow` is 13px uppercase, so
+its floor is 4.5. `--gold-deep` measures **4.685** on `--ivory`, **4.305** on `--cream` and
+**4.233** on the new ground — it had been *passing on door 3 only*, and the new ground put all
+three doors on the wrong side at once. It is `--gold-gloss` now: **4.805**, and the tightest
+pairing in the chapter. This is the rule the token block already records on `--gold-gloss`
+("it is a function of the ground") firing for the third time. **Re-measure before moving
+`--ps-ground` any further from `--ivory`.**
+
+⚠️ **MEASURED IN PASSING AND LEFT ALONE: the gold rings are decoration, not contrast.**
+`.ps-dot` / `.ps-tick` / `.ps-arr` are gold at 50–70 % over the ground and measure **1.42–1.65**
+against it, under the 3.0 a UI boundary asks for. **The re-grade did not cause it and barely
+moved it** — 1.43–1.60 on `--cream`, 1.68 on `--ivory`, so the change is 0.015 — and what
+carries the numbers is the `--burgundy` label inside them at 10.46, not the ring. Recorded
+because it was measured; the ring's weight is his palette, not a side effect to fix quietly.
+
+⚠️ **"ONLY THESE FOR NOW" WAS TAKEN LITERALLY.** The maroon, the two lights, the PMREM
+environment and both shadows are untouched — they are why the piece still reads as porcelain
+rather than paper. The estate's other grounds are untouched; this is one chapter's colour.
+
+## 4 · The sideways scroll — found by the audit, fixed
+
+**Not something he asked for; something the sweep found while checking what he did.**
+`tools/qa/doors-shots.mjs` sweeps thirteen widths and **had not been re-run since the
+sculpture landed on 2026-08-21.** Run now, it failed **ten of the thirteen** on both door
+pages: 320 read 350, 390 read 433, 600 read 654 — **and 1104 read 1194, 1280 read 1384,
+1440 read 1453.** Only 760, 900 and 1920 had margin enough to absorb it.
+
+⚠️ **IT WAS NOT A PHONE BUG, WHICH IS WHY IT SURVIVED THREE DAYS.** At 1440 — the width
+anybody actually looks at — the overflow is 13px: invisible until you notice the scrollbar.
+The phone widths are where it is obvious, and nobody was at a phone width.
+
+**The cause is the WebGL canvas, and the bleed is deliberate.** `.ps-gl` is
+`inset:-18%; width:136%` of the stage because the art hangs past the piece boxes and the
+shadows need the room. What it never had was anything stopping it at the page edge.
+
+**`.ps{overflow-x:clip}`** — one declaration, in the shared `PS:CSS` block so it travels
+with the sculpture.
+
+⚠️ **IT IS `clip`, NOT `hidden`, AND THE DIFFERENCE IS THE WHOLE FIX.** `overflow-x:hidden`
+makes the element a scroll container and forces `overflow-y` to `auto`, which would clip the
+flower's own shadow at the chapter's top and foot — the thing the bleed exists for. `clip` on
+one axis leaves the other `visible`. **Do not "simplify" it to `hidden`.** Nothing visible is
+lost: on a phone what gets clipped was off-screen anyway.
+
+⚠️ **THE REAL FINDING IS THE UN-RUN HARNESS.** The bug shipped on the 21st, the harness that
+catches it existed on the 19th, and nothing connected them for three days. The
+`/testosterone-top-up/` handover still recorded doors-shots as "green, including 13 widths" —
+true when it was written, and it had been stale ever since.
+
+## What was checked
+
+- `tools/qa/doctors-pill.mjs` — **new this round**, five pages × three widths plus one real
+  popup open: 0 card pills, exactly 1 chapter pill pointing at `#book`, the right doctor
+  count, a popup and its own pill for every doctor, portraits loaded, no console errors, no
+  404s. All green.
+- `tools/qa/process-sculpture.mjs`, now over all three doors × desktop and phone × six steps.
+  **Every grade assertion green on every door and viewport**: the chapter ground resolving to
+  `rgb(240,235,231)`, the eyebrow to `--gold-gloss`, the lit plate reading within 14 of the
+  header ivory **off the live framebuffer**, and the bar coming back solid at
+  `rgba(250,247,241,.95)` after a real scroll down and back up. The maroon and zone-drift
+  checks still fail intermittently — **pre-existing, not the page, and not fixed**; see the
+  note below. The third door's failure profile matches its two siblings exactly, which is the
+  parity signal the port needed.
+- `tools/qa/doors-shots.mjs` over both doors it covers, including the thirteen-width sweep
+  that found the overflow above.
+
+⚠️ **`tools/qa/doors-shots.mjs` AND `bhrt-shots.mjs` HAD BEEN ASSERTING A DEAD SELECTOR.** Both
+counted `.pg-steps li` for "six programme steps" and had been returning **0 since the flower
+shipped**: the original list moved into `<noscript>`, whose content is a *text node* in a
+scripting-enabled browser, so the selector matched nothing and the check reported a page with
+no programme steps at all. Both halves are asked for now — the six petals a reader gets, and
+the six `<li>` counted out of the `<noscript>` text a reader without JS gets. `<noscript>`
+also joined the strip list before `body.textContent` is read for the vocabulary rules, for the
+reason `<script>` is already on it: with JS on it is raw markup, and a rule about what the
+page *says* should not be reading HTML.
+
+⚠️ **THE SCULPTURE HARNESS IS INTERMITTENT UNDER SOFTWARE GL, AND IT IS NOT THE PAGE.**
+**IT IS ONE FAULT WITH TWO FACES, AND IT IS STILL OPEN.** Under software GL
+`process-sculpture.mjs` fails 1–3 steps per page-and-viewport, on *different* steps each run,
+across all three doors — including pages whose sculpture bytes are provably identical to
+`main`. Two checks report it: `maroon inner body not revealed past the face (0.0px)` and
+`active zone drifted at step N`. **They move between runs, which is what rules the
+composition out** — a real seat error would land on the same page and the same step every
+time.
+
+**The leading cause is the settle wait, and it is not fixed.** It accepts **two identical
+samples 300 ms apart** once the box has grown past 1.15×, and the choreography is three beats
+rather than one move — a release, a fold back to the seat, then the rise. A pair of samples
+taken across a beat boundary matches while the piece is still in flight, and the harness then
+measures a piece that is nowhere near its seat: the plate's centre lands in the wrong
+neighbourhood (the drift) and the maroon is not where the scan line looks for it (the 0.0px).
+
+**What DID get fixed on 2026-08-24 is that `0.0px` no longer means two different things.**
+A scan across the plate must hit opaque pixels; zero of them means the drawing buffer read
+back empty — the stage's `ResizeObserver` calls `resize()`, which reallocates and clears it,
+and the redraw is a `wake(50)` away. The check counts opaque samples now, retries once on an
+empty line, and reports a second blank read as **a blank read**. So a `0.0px` that survives
+means the line was drawn and carried no maroon, which points at the settle wait rather than
+at the GL. **It is not a tolerance** — `opaque` is either zero or dozens, with nothing between.
+
+⚠️ **THE HONEST FIX IS A SETTLE CONDITION TIED TO THE CHOREOGRAPHY'S OWN STATE**, not a longer
+sleep and not a wider tolerance, and it is unwritten. Until it is, judge a lone maroon or
+drift failure from `.qa-out/process/<tag>-<viewport>-step<N>.png` before believing it — this
+harness family has measured an animation instead of a page four times before (see
+`tools/qa/README.md`).
+
+## Still open, unchanged by this round
+
+- Prices on doors 2 and 3 are still inherited, not confirmed.
+- Door 3's five draft FAQ answers still want prescriber sign-off.
+- The grow and the labels — the two questions the turn left open — are still his.
+
+
 # Handoff addendum — 2026-08-19b (doors 2 and 3: the estate's three doors are open)
 
 `/modern-menopause/` and `/testosterone-top-up/` ship in this round, built from the BHRT

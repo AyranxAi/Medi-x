@@ -1,5 +1,11 @@
 # Peptide Therapy — `/peptide-therapy/` (first ship 2026-08-14)
 
+⚠️ **ONE "Book a consultation" IN THE DOCTORS CHAPTER SINCE 2026-08-24** — his call, "it
+should only have one book consultation", across every page that renders doctors. The pill
+under each name is gone; the chapter closes on one centred pill under the row, and the popup
+keeps its own. `node tools/qa/doctors-pill.mjs` guards it on all five pages.
+
+
 > # ▶ START HERE — STATE OF PLAY AT THE END OF ROUND 19
 >
 > **The page:** `/peptide-therapy/index.html` — single file, zero build, ~4,300 lines.

@@ -30,7 +30,19 @@ swap says the opposite of what its page is for.
 ## Anatomy
 
 hero (Horizon, drawn — same water as the scene) → define (the door's hook, verbatim) →
-**2026-08-21: 03's six steps render as the process sculpture (WebGL porcelain flower, shared with `/hormone-therapy-bhrt/`) — see [`HANDOVER_PROCESS_SCULPTURE.md`](../HANDOVER_PROCESS_SCULPTURE.md).** **THE HORIZON** scroll scene (fallback: 8 chips + turn) → **03 menoSTART** (six steps +
+**2026-08-21: 03's six steps render as the process sculpture (WebGL porcelain flower, shared with `/hormone-therapy-bhrt/`) — see [`HANDOVER_PROCESS_SCULPTURE.md`](../HANDOVER_PROCESS_SCULPTURE.md).**
+**Since 2026-08-24 the third door runs it too.**
+⚠️ **03's COLOURS TRADED ENDS ON 2026-08-24** — the flower's cream `#F0EBE7` came off the
+petals and became the chapter's ground (`--ps-ground`), and the petals took `--ivory
+#FAF7F1`, the colour the header paints when it comes back on an upward scroll. **The two
+halves are one decision**; reverting one alone is worse than reverting neither. Full account
+in [`HANDOVER_PROCESS_SCULPTURE.md`](../HANDOVER_PROCESS_SCULPTURE.md).
+
+⚠️ **ONE "Book a consultation" IN THE DOCTORS CHAPTER SINCE 2026-08-24** — his call, "it
+should only have one book consultation", across every page that renders doctors. The pill
+under each name is gone; the chapter closes on one centred pill under the row, and the popup
+keeps its own. `node tools/qa/doctors-pill.mjs` guards it on all five pages.
+ **THE HORIZON** scroll scene (fallback: 8 chips + turn) → **03 menoSTART** (six steps +
 card) → **04 the day, mapped** (24-hour dial, armed ≥900px) → **05 the long view**
 (life-bar + three cards) → docs (4) → stories (3) → faq (6) → Irina → footer.
 Grounds alternate ivory/dawn unbroken.

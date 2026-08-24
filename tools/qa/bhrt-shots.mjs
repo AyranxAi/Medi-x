@@ -105,7 +105,15 @@ for (const [w, h, tag] of [[1440, 900, 'd'], [390, 844, 'p']]) {
 
   const smoke = await page.evaluate(() => ({
     beats:   document.querySelectorAll('.scene-beat').length,
-    steps:   document.querySelectorAll('.pg-steps li').length,
+    /* ⚠️ THE SIX STEPS ARE THE SCULPTURE'S NOW, NOT AN <ol>'s. This read
+       `.pg-steps li` until 2026-08-24 and had been quietly returning 0 since the
+       flower shipped: the original list moved into <noscript>, whose contents are a
+       TEXT NODE in a scripting-enabled browser, so the selector matched nothing and
+       the check reported a page with no programme steps at all. Both halves are asked
+       for now — the six petals a reader gets, and the six <li> in the rollback list a
+       reader without JS gets, counted out of the raw text because they are not DOM. */
+    steps:   document.querySelectorAll('#process .ps-arm').length,
+    rollback: (document.querySelector('#programme noscript')?.textContent.match(/<li>/g) || []).length,
     docs:    document.querySelectorAll('.doc').length,
     names:   [...document.querySelectorAll('.doc > h3')].map(h => h.textContent.trim()),
     faq:     document.querySelectorAll('.faq-item').length,
@@ -124,7 +132,8 @@ for (const [w, h, tag] of [[1440, 900, 'd'], [390, 844, 'p']]) {
     order:   [...document.querySelectorAll('main > section, main > div[id]')].map(e => e.id || e.className.split(' ')[0]),
   }));
   ok(smoke.beats === 6, 'six scene beats', String(smoke.beats));
-  ok(smoke.steps === 6, 'six programme steps', String(smoke.steps));
+  ok(smoke.steps === 6, 'six programme steps (the sculpture)', String(smoke.steps));
+  ok(smoke.rollback === 6, 'six steps in the <noscript> rollback list', String(smoke.rollback));
   ok(smoke.docs === 4, 'four doctors', String(smoke.docs));
   ok(smoke.names.some(n => /Nahla/.test(n)), 'Dr. Nahla on the row', smoke.names.join(' · '));
   ok(smoke.faq === 6, 'six FAQ items', String(smoke.faq));

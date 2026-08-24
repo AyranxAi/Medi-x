@@ -1,5 +1,11 @@
 # Functional Medicine — `/functional-medicine/` (first ship 2026-08-18)
 
+⚠️ **ONE "Book a consultation" IN THE DOCTORS CHAPTER SINCE 2026-08-24** — his call, "it
+should only have one book consultation", across every page that renders doctors. The pill
+under each name is gone; the chapter closes on one centred pill under the row, and the popup
+keeps its own. `node tools/qa/doctors-pill.mjs` guards it on all five pages.
+
+
 > # ▶ START HERE — STATE OF PLAY AT THE END OF ROUND 3
 >
 > **The page:** `/functional-medicine/index.html` — single file, zero build, ~5,250 lines,

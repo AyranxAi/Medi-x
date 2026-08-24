@@ -6,6 +6,20 @@ eight full-viewport chapters, photographic plates, six languages.
 
 Live: https://medi-x-gin.vercel.app
 
+## Where to pick this up
+
+⚠️ **[`NEXT_ITERATIONS.md`](NEXT_ITERATIONS.md) is the file to read first.** It carries what is
+still open, what is settled and must not be re-opened, and what to run before trusting a change.
+[`HANDOFF.md`](HANDOFF.md) and [`HANDOVER_PROCESS_SCULPTURE.md`](HANDOVER_PROCESS_SCULPTURE.md)
+are the record of what was built and why, newest first, and each page keeps its own
+`HANDOVER.md`.
+
+⚠️ **THE ARCHITECTURE SECTION BELOW DESCRIBES THE LANDING PAGE, NOT THE ESTATE.** It was written
+when `index.html` *was* the site. There are now **eight pages** — the landing page, the
+`/hormone-balancing/` hub, three service doors, `/functional-medicine/`, `/peptide-therapy/` and
+`/programs/`. Everything it says about zero-build, zero-dependency single files is still exactly
+true of each of them; the file tree is what has moved on.
+
 ## Architecture
 
 The site is **one static HTML file with zero dependencies and no build step**.

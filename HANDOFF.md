@@ -68,6 +68,14 @@ resolve against the viewport and swing between the two layouts.
 version for the plate and I derived them from his copy. They were the only words in that array
 not written by him. **They are gone.** The plate has no prose to shorten.
 
+**The comment block that documented the fork is retired in place, not deleted.** It kept
+describing `petal` and `short` as live directly above the block that replaced them — two
+`the six steps` headers back to back, the first contradicting the second. It now reads
+`[RETIRED 2026-08-24e]` and keeps the one thing still worth having: **the measurement.** The
+phone plate holds ~15 words / 90 characters, the desktop 25, and that gap is the whole reason
+the plate stopped carrying prose. ⚠️ **Anyone putting a sentence back on the plate revives the
+fork**, and the retired note is what tells them so.
+
 # Handoff addendum — 2026-08-24b (his copy lands on the petals and the programme panel · the add-on row stops crushing itself on a phone)
 
 A copy round on top of the same day's structural one. Everything here is his words; the

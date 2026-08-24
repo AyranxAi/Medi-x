@@ -120,29 +120,43 @@ for (const pageName of PAGES) {
          timers that stage the choreography — a fixed sleep measures a shell
          mid-flight, and a stillness-only wait converges on one that has not left
          yet. Departure (the width grows toward scale 1) then two still samples. */
-      const wasActive = await page.evaluate(i => {
-        const p = document.querySelectorAll('#process .ps-petal')[i];
-        window.__psW0 = p.querySelector('.ps-face').getBoundingClientRect().width;
+      await page.evaluate(i => {
         window.__psKey = null;
-        const already = p.closest('.ps-arm').classList.contains('is-on');
         document.querySelectorAll('#process .ps-dot')[i].click();
-        return already;
       }, s);
-      if (!wasActive) {
-        await page.waitForFunction(i => {
-          const f = document.querySelectorAll('#process .ps-petal')[i]
-            .querySelector('.ps-face').getBoundingClientRect();
-          if (f.width < window.__psW0 * 1.15) { window.__psKey = null; return false; }
-          const key = f.x.toFixed(1) + ':' + f.y.toFixed(1) + ':' + f.width.toFixed(1);
-          const same = window.__psKey === key;
-          window.__psKey = key;
-          return same;
-        }, s, { polling: 300, timeout: 15000 }).catch(() => fail(`step ${s+1}: never settled in the active zone`));
-      }
-      await page.waitForTimeout(150);
-      /* WebGL live: wait for the painter's own tweens to land and its last frame to draw —
-         on software GL a frame can take longer than the choreography */
-      await page.waitForFunction(() => !window.__ps3d || window.__ps3d.settled(), null, { timeout: 30000 }).catch(() => fail(`step ${s+1}: 3D layer never settled`));
+
+      /* ⚠️⚠️ WAIT ON THE CONTRACT, NOT ON STILLNESS. This wait was "the box grew past 1.15x,
+         then two identical samples 300ms apart", and it cost three rounds of confusing
+         failures: it accepts a piece that is momentarily still BETWEEN the choreography's
+         three beats, so the harness measured a plate that had not finished arriving. Every
+         symptom followed from that — `maroon ... (0.0px)` at 1-3 random steps per run, and
+         `active zone drifted`, both on pages whose bytes were identical to main. MEASURED
+         2026-08-24: with a long enough settle the seating is correct at all six steps on
+         both viewports, every time, and the maroon is on the plate's right at every one.
+         So the condition is now what the section actually promises:
+           · the chosen petal is BOTH `.is-on` AND seated at `data-slot="0"`
+           · its box has actually morphed to the plate — 66cqw against a resting leaf's 43,
+             so "clearly the widest" is the honest test and 1.3x is well inside that margin
+           · the 3D layer's own tweens have landed
+           · and only THEN, two identical boxes
+         ⚠️ DO NOT RELAX THIS BACK TO A SLEEP. A longer sleep hides the same race; the point
+         is that the plate's arrival is observable, so observe it. */
+      await page.waitForFunction(i => {
+        const ps = document.getElementById('process');
+        const arms = [...ps.querySelectorAll('.ps-arm')];
+        const arm = arms[i];
+        if (!arm.classList.contains('is-on')) return false;
+        if (arm.getAttribute('data-slot') !== '0') return false;
+        const w = arms.map(a => a.querySelector('.ps-face').getBoundingClientRect().width);
+        const others = w.filter((_, k) => k !== i);
+        if (w[i] < Math.max.apply(null, others) * 1.3) return false;
+        if (window.__ps3d && !window.__ps3d.settled()) return false;
+        const r = arm.querySelector('.ps-face').getBoundingClientRect();
+        const key = r.x.toFixed(1) + ':' + r.y.toFixed(1) + ':' + r.width.toFixed(1);
+        const same = window.__psKey === key;
+        window.__psKey = key;
+        return same;
+      }, s, { polling: 250, timeout: 25000 }).catch(() => fail(`step ${s+1}: the plate never finished arriving`));
 
       const read = () => page.evaluate(() => {
         const root  = document.getElementById('process');
@@ -195,8 +209,10 @@ for (const pageName of PAGES) {
         return out;
       });
 
-      /* ⚠️⚠️ THIS SPLITS TWO FAILURES THAT USED TO PRINT THE SAME LINE. IT IS A
-         DIAGNOSTIC, NOT A FIX — the intermittency it was written for is STILL OPEN.
+      /* ⚠️ THIS SPLITS TWO FAILURES THAT USED TO PRINT THE SAME LINE, and it stays because
+         the split is still worth having — but IT IS NOT THE FIX and neither is the settle
+         wait above. See the ⚠️⚠️ at the foot of this comment: the maroon check still fails
+         with the seating and the morph provably correct, so a second fault remains open.
          Under software GL the maroon check fails at 1-3 steps per page-and-viewport, on
          DIFFERENT steps each run, on pages whose bytes are identical to main, always at
          exactly `0.0px`. Two very different things produce that number:
@@ -211,11 +227,18 @@ for (const pageName of PAGES) {
              taken across a beat boundary matches while the piece is still in flight.
          ⚠️ THE RETRY IS NOT A TOLERANCE. `opaque` is either zero or dozens; there is no
          middle, so it cannot quietly widen a real failure into a pass.
-         ⚠️ WHAT IS STILL MISSING is a settle condition tied to the choreography's own
-         state rather than to sampled stillness. Until it is written, a lone maroon or
-         drift failure on one step should be judged from the shots in .qa-out/process/
-         before it is believed — and this harness has measured an animation instead of a
-         page four times before (tools/qa/README.md). */
+         ⚠️⚠️ THE MAROON CHECK IS STILL WRONG AND THE PAGE IS NOT. With the corrected
+         settle wait above — seating, morph and tweens all provably correct at every step —
+         this scan STILL returns 0.0px at some of them, while a screenshot of the same
+         frame shows the maroon exactly where it belongs, on the plate's right edge.
+         So the fault is in the SCAN, not in when it runs. Not yet ruled out: the single
+         sample row at 45% of the face height may miss a crescent thickest elsewhere on the
+         plate's curve; `dx + 30` requires maroon within 28px INSIDE the box edge, which is
+         an assumption about the crescent's width that was never measured; and the
+         `px[0] < 170` ceiling may reject a lit maroon.
+         ⚠️ UNTIL THAT IS FOUND, A MAROON FAILURE HERE IS NOT EVIDENCE ABOUT THE PAGE.
+         Judge it from the shots in .qa-out/process/, which are trustworthy now the wait
+         is. Do NOT delete the check to green the run — its subject is real. */
       let r = await read();
       if (r.opaque === 0) {
         await page.evaluate(() => window.__ps3d && window.__ps3d.wake(120));

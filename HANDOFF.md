@@ -342,35 +342,45 @@ also joined the strip list before `body.textContent` is read for the vocabulary 
 reason `<script>` is already on it: with JS on it is raw markup, and a rule about what the
 page *says* should not be reading HTML.
 
-⚠️ **THE SCULPTURE HARNESS IS INTERMITTENT UNDER SOFTWARE GL, AND IT IS NOT THE PAGE.**
-**IT IS ONE FAULT WITH TWO FACES, AND IT IS STILL OPEN.** Under software GL
-`process-sculpture.mjs` fails 1–3 steps per page-and-viewport, on *different* steps each run,
-across all three doors — including pages whose sculpture bytes are provably identical to
-`main`. Two checks report it: `maroon inner body not revealed past the face (0.0px)` and
-`active zone drifted at step N`. **They move between runs, which is what rules the
-composition out** — a real seat error would land on the same page and the same step every
-time.
+**THE PAGE IS CORRECT. THE HARNESS IS NOT. AN EARLIER VERDICT IN THIS FILE WAS WRONG.**
 
-**The leading cause is the settle wait, and it is not fixed.** It accepts **two identical
-samples 300 ms apart** once the box has grown past 1.15×, and the choreography is three beats
-rather than one move — a release, a fold back to the seat, then the rise. A pair of samples
-taken across a beat boundary matches while the piece is still in flight, and the harness then
-measures a piece that is nowhere near its seat: the plate's centre lands in the wrong
-neighbourhood (the drift) and the maroon is not where the scan line looks for it (the 0.0px).
+Two checks in `process-sculpture.mjs` have failed intermittently for three rounds — `maroon
+inner body not revealed past the face (0.0px)` and `active zone drifted at step N` — on 1–3
+steps per page-and-viewport, on different steps each run, on pages whose bytes were identical
+to `main`. This file previously called the cause "not diagnosed" and offered a
+blank-framebuffer theory. **That theory was wrong.** Here is what is now established, and what
+is not.
 
-**What DID get fixed on 2026-08-24 is that `0.0px` no longer means two different things.**
-A scan across the plate must hit opaque pixels; zero of them means the drawing buffer read
-back empty — the stage's `ResizeObserver` calls `resize()`, which reallocates and clears it,
-and the redraw is a `wake(50)` away. The check counts opaque samples now, retries once on an
-empty line, and reports a second blank read as **a blank read**. So a `0.0px` that survives
-means the line was drawn and carried no maroon, which points at the settle wait rather than
-at the GL. **It is not a tolerance** — `opaque` is either zero or dozens, with nothing between.
+**ESTABLISHED: the sculpture itself is right, at every step, on both viewports.** Instrumented
+at rest: exactly one arm at `data-slot="0"`, exactly one at plate width (430px against a
+resting leaf's 280), exactly one with morph influence 1, always the `.is-on` one — and the
+maroon on the plate's right at every step. Photographed with the plate's box outlined, the
+card is inside the plate and the maroon is on its right edge. What reads as a detached
+red-edged petal to its left is a resting leaf overlapping in front. **Anyone who thinks this
+chapter renders the maroon on the wrong piece is looking at a mid-turn frame.**
 
-⚠️ **THE HONEST FIX IS A SETTLE CONDITION TIED TO THE CHOREOGRAPHY'S OWN STATE**, not a longer
-sleep and not a wider tolerance, and it is unwritten. Until it is, judge a lone maroon or
-drift failure from `.qa-out/process/<tag>-<viewport>-step<N>.png` before believing it — this
-harness family has measured an animation instead of a page four times before (see
-`tools/qa/README.md`).
+**ESTABLISHED AND FIXED: the settle wait was accepting mid-flight states.** It accepted *"the
+box grew past 1.15×, then two identical samples 300 ms apart"*, and the choreography is THREE
+BEATS — release, fold back, rise — so a piece is momentarily still BETWEEN beats. Measured:
+sampled 450 ms after `settled()`, the "plate" measures 280px, which is a resting leaf; at 3 s
+it measures 430px. The wait now checks the contract instead of stillness — `.is-on` AND seated
+at slot 0, box morphed to clearly the widest, 3D tweens landed, and only then two identical
+boxes. ⚠️ **Do not relax it back to a sleep**; a longer sleep hides the same race.
+
+**STILL OPEN: the maroon check fails even with the corrected wait.** With the seating and the
+morph provably correct, the scan still returns `0.0px` at some steps. So there is a SECOND
+fault, in the scan itself rather than in when it runs, and it has NOT been found. Candidates
+not yet ruled out: the single sample row at 45 % of the face height may miss a crescent that
+is thickest elsewhere on the plate's curve; the `dx + 30` reveal arithmetic requires maroon
+within 28px INSIDE the box edge, which is an assumption about the crescent's width that was
+never measured; and the `px[0] < 170` ceiling may reject a lit maroon.
+
+⚠️ **UNTIL THAT IS FOUND, A MAROON FAILURE FROM THIS HARNESS IS NOT EVIDENCE ABOUT THE PAGE.**
+Judge the maroon from `.qa-out/process/` shots, which are trustworthy now that the wait is.
+
+⚠️ **THE LESSON IS THE ONE `tools/qa/README.md` ALREADY RECORDS FOUR TIMES OVER: this harness
+family keeps measuring an animation instead of a page.** It has now done it a fifth time, and
+the tell was the same — a failure that moved between runs on bytes that did not.
 
 ## Still open, unchanged by this round
 

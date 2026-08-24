@@ -1428,6 +1428,10 @@ section{position:relative}
    straight after the PRICE TBC tag — a <small> is inline by default and the block
    rule only named the two lists. */
 .pg-list small,.pg-steps small,.pg-t small{display:block;font-size:12px;color:var(--ink-soft);margin-top:4px;line-height:1.45}
+/* ⚠️ THE ADD-ON'S BLURB IS TWO BLOCKS SINCE 2026-08-24 — inside the UAE and outside it are
+   separate offers and his copy separates them. Two <small>s at 4px apart read as one
+   wrapped sentence, which is the thing the split exists to undo. */
+.pg-t small + small{margin-top:.6em}
 
 /* ⚠️ THE ONLY CONTROL IN THE PANEL BESIDES START. The prescribed treatment and the
    supplements cannot be ticked here — they are prescribed — and a checkbox nobody is
@@ -1471,9 +1475,18 @@ section{position:relative}
 .pg-vatline{margin-top:9px;font-size:12px;color:var(--ink-soft);text-align:right}
 /* .pg-foot's rule stood here and went with its <p> — round 14, his "it's not good in that
    page". The argument is at the deleted markup in the template. */
+/* ⚠️ THE PANEL IS ONE COMPOSITION, AND BELOW 520 ITS THREE-COLUMN ROWS BECOME TWO. Both
+   rows here put a nowrap figure in a third column, which on a 350px card leaves the middle
+   column almost nothing: the add-on's blurb was setting three words to a line and running
+   the row eight lines deep. The figure drops UNDER the copy instead, indented to the
+   copy's own left edge so the row still reads as one thing.
+   ⚠️ THE STEPS LIST ALREADY DID THIS at this breakpoint; the add-on row simply never
+   followed it. Keep the two together — they are the same row shape and the same fix. */
 @media(max-width:520px){
   .pg-steps li{grid-template-columns:auto 1fr}
   .pg-d{grid-column:2;text-align:left;margin-top:4px}
+  .pg-addon{flex-wrap:wrap}
+  .pg-p{flex:0 0 100%;margin-left:30px;margin-top:9px;align-self:flex-start}
 }
 
 /* ══ THE POPUP — one dialog shell, eight contents ══════════════════════════════
@@ -3011,9 +3024,18 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
         <button type="button" class="pg-addon" id="pg-addon" aria-pressed="false">
           <span class="pg-box" aria-hidden="true">✓</span>
           <span class="pg-t">Home blood sample collection · UAE
-            <small>A team or a nurse comes to your home anywhere in the UAE and takes the sample
-            for whichever tests are required. Outside the UAE you use any laboratory near you and
-            we send the exact panel to ask for.</small></span>
+            <!-- ⚠️ HIS COPY, 2026-08-24, AND IT IS TWO SENTENCES WHERE THERE WAS ONE — inside the
+            UAE and outside it are now separate lines, because they are separate offers.
+            The spaced hyphens around "home | office | hotel" became em dashes, the
+            estate's rule; nothing else was touched.
+            ⚠️ IT IS THE SAME PARAGRAPH ON FIVE PAGES and describes ONE service, so it
+            was replaced on all five. /testosterone-top-up/'s copy said "home or office"
+            where the others said "home"; his "home | office | hotel" supersedes both. -->
+            <small>Our team arrives to collect your required blood test sample anywhere in
+            the UAE — home | office | hotel — and provides you with the results at the
+            earliest.</small>
+            <small>Patients outside the UAE can do their blood tests at any laboratory at
+            their destination.</small></span>
           <span class="pg-p">AED 1,950 <small>+ VAT</small></span>
         </button>
       </div>

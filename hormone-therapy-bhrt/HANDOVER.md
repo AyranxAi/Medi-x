@@ -1,5 +1,13 @@
 # /hormone-therapy-bhrt/ — build record, round 1 (2026-08-19)
 
+⚠️ **HIS COPY ROUND, 2026-08-24b** — the six petal cards carry his words and lead with their
+step number; the programme panel's heading is "Your treatment starts here" and its **Included
+list is now three lines, his**. ⚠️⚠️ **THE 4-WEEK MENTORSHIP CAME OFF THAT LIST** along with
+"Detailed symptom assessment" and the blood-test interpretation line — the mentorship is a
+distinct promise from step 06's aftercare month and is now made nowhere on this page. One
+`<li>` to put back. Full account in [`HANDOFF.md`](../HANDOFF.md).
+
+
 **What this page is:** door 1 of `/hormone-balancing/` — the woman who clicked
 *"Still cycling and noticing changes?"* It sells exactly one thing: **the programme**
 (assessment + blood-work reading + consultation, AED 950 + VAT). It is the

@@ -205,6 +205,28 @@ the thing the bleed exists for. `clip` on one axis leaves the other `visible`.
 thirteen widths and had simply not been re-run since the sculpture landed. Run it after any
 change to the stage, the canvas inset, or the phone slot map.
 
+## The copy, and the phone's ceiling (2026-08-24)
+
+His copy landed on the six cards, each now leading with its own number. **Step 01 was left
+alone at his request.** The full account — the corrections made, the two strings reproduced
+exactly as written, and the one American spelling still standing in 01 — is in
+`HANDOFF.md`'s 2026-08-24b addendum. Two things belong here because they are geometry:
+
+**The heading is a baseline flex row now.** The step number is an item inside the `<h3>`, not
+inline text before it, because inline text indents only the title's *first* line — and "BHRT
+Prescription" wraps at every width, so "BHRT" sat one numeral-width right of "Prescription".
+The numeral is `--sans`, not `--accent`: the accent face's zero is a small round glyph that
+at card size renders "04" as what reads like "o4".
+
+**THE PHONE PLATE HOLDS ABOUT 15 WORDS / 90 CHARACTERS, AND THAT NUMBER IS MEASURED.** Forcing
+the desktop sentence onto a 390px phone: at **21 words** the copy runs off the petal, collides
+with a neighbouring label and pushes the CTA off the card; at **17 words** it still overruns
+the plate's right edge; the six shipped `short` lines run **12–15** and all six clear it. This
+is why `petal` and `short` are two sentences and not one string truncated — **a new line from
+the client is two lines of work.** If that fork is ever collapsed, the ceiling is the rule and
+the desktop plate (which holds about 25) goes sparse; the trade is his, and it must not be
+made by quietly shortening `petal`.
+
 ## The turn (2026-08-21, his call)
 
 Before this, a step change did **not** turn anything: it traded two petals across the fan

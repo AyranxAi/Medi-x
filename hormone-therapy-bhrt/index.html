@@ -871,9 +871,36 @@ section{position:relative}
              transform var(--ps-swap) var(--ps-ease) calc(var(--ps-dur)*.45),
              visibility 0s linear 0s;
 }
+/* ⚠️ THE HEADING IS A BASELINE FLEX ROW SINCE THE NUMBER JOINED IT (2026-08-24), and that
+   is not decoration. As plain inline text the numeral indents the title's FIRST line only,
+   so a title that wraps — "BHRT Prescription" does, at every width — sets "BHRT" one
+   numeral-width right of "Prescription" and the name looks broken. As a flex row the
+   numeral is its own item and the title is a second item that wraps inside its own box, so
+   every line of the name shares one left edge. `align-items:baseline` sits the small
+   numeral on the title's first baseline rather than centring it against a 40px line. */
 .ps-card-t{
   font-family:var(--serif);font-weight:400;font-variation-settings:"opsz" 40;
   font-size:clamp(22px,4.9cqw,40px);line-height:1.05;color:#3A1A26;margin:0;
+  display:flex;align-items:baseline;gap:clamp(6px,1.05cqw,10px);
+}
+/* ⚠️ THE STEP NUMBER BORROWS .pg-n's GRAMMAR, NOT THE TITLE'S — small, tracked out,
+   gold-deep. Set in Playfair at the title's own size it stops being a label and becomes the
+   first word of the name ("02 Blood Work" reads as a phrase).
+   ⚠️ --sans, NOT --accent, AND THE REASON IS THE FIGURES. .pg-n sets its numbers in the
+   accent face and gets away with it at 11.5px; here the same face rendered "04" as what
+   reads like "o4" — its zero is a small round glyph that at this size is a lowercase o
+   beside a lining 4. `font-variant-numeric:tabular-nums` does not fix it, because the
+   figures are not the problem, the DESIGN of the zero is. --sans has lining figures and is
+   what the progress dots already use, so the numeral matches the 01–06 row a reader has
+   just been looking at.
+   ⚠️ IT IS SIZED OFF THE CONTAINER, NOT off the h3, on purpose: `em` here would resolve
+   against a 40px title on a desktop and a 22px one on a phone, and the numeral would swing
+   from 17px to 9px — illegible at the small end. cqw pins it to the stage instead. */
+.ps-card-n{
+  flex:none;
+  font-family:var(--sans);font-weight:400;color:var(--gold-deep);
+  font-size:clamp(11px,1.75cqw,14px);letter-spacing:.14em;
+  font-variant-numeric:tabular-nums lining-nums;
 }
 .ps-card-rule{width:30px;height:1px;background:var(--gold);margin:clamp(10px,2.2cqw,18px) 0}
 .ps-card-meta{
@@ -1070,6 +1097,10 @@ section{position:relative}
    straight after the PRICE TBC tag — a <small> is inline by default and the block
    rule only named the two lists. */
 .pg-list small,.pg-steps small,.pg-t small{display:block;font-size:12px;color:var(--ink-soft);margin-top:4px;line-height:1.45}
+/* ⚠️ THE ADD-ON'S BLURB IS TWO BLOCKS SINCE 2026-08-24 — inside the UAE and outside it are
+   separate offers and his copy separates them. Two <small>s at 4px apart read as one
+   wrapped sentence, which is the thing the split exists to undo. */
+.pg-t small + small{margin-top:.6em}
 
 /* ⚠️ THE ONLY CONTROL IN THE PANEL BESIDES START. The prescribed treatment and the
    supplements cannot be ticked here — they are prescribed — and a checkbox nobody is
@@ -1113,9 +1144,18 @@ section{position:relative}
 .pg-vatline{margin-top:9px;font-size:12px;color:var(--ink-soft);text-align:right}
 /* .pg-foot's rule stood here and went with its <p> — round 14, his "it's not good in that
    page". The argument is at the deleted markup in the template. */
+/* ⚠️ THE PANEL IS ONE COMPOSITION, AND BELOW 520 ITS THREE-COLUMN ROWS BECOME TWO. Both
+   rows here put a nowrap figure in a third column, which on a 350px card leaves the middle
+   column almost nothing: the add-on's blurb was setting three words to a line and running
+   the row eight lines deep. The figure drops UNDER the copy instead, indented to the
+   copy's own left edge so the row still reads as one thing.
+   ⚠️ THE STEPS LIST ALREADY DID THIS at this breakpoint; the add-on row simply never
+   followed it. Keep the two together — they are the same row shape and the same fix. */
 @media(max-width:520px){
   .pg-steps li{grid-template-columns:auto 1fr}
   .pg-d{grid-column:2;text-align:left;margin-top:4px}
+  .pg-addon{flex-wrap:wrap}
+  .pg-p{flex:0 0 100%;margin-left:30px;margin-top:9px;align-self:flex-start}
 }
 
 /* ══ THE POPUP — one dialog shell, eight contents ══════════════════════════════
@@ -2318,16 +2358,27 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
       <div class="prog-grid prog-grid--card">
         <aside class="prog-card" data-reveal>
           <p class="pxd-kicker">The programme</p>
-          <h3>Here is what you’re starting.</h3>
+          <h3>Your treatment starts here</h3>
           <div class="pg-blk">
             <div class="pg-h"><span>Included</span><span class="pg-amt">AED 950 <small>+ VAT</small></span></div>
+            <!-- ⚠️⚠️ HIS LIST, 2026-08-24, AND IT IS SHORTER THAN WHAT IT REPLACES — three
+                 lines where there were six. Gone with it: "Detailed symptom assessment",
+                 "Analysis and interpretation of your blood test results" and "4-week
+                 mentorship support after starting your treatment". THE LAST OF THOSE IS
+                 THE ONE TO WATCH: the 4-week mentorship is a promise the client makes, it
+                 is distinct from step 06's aftercare month, and it is now made nowhere on
+                 this page. Flagged for him — one <li> to put back.
+                 ⚠️ "Bioidenticsl" IS CORRECTED TO "Bioidentical" (typo, recorded here and
+                 nowhere else), and it is the estate's own spelling: the line this replaces
+                 read "Bio-identical". His form, unhyphenated, is kept.
+                 ⚠️ THIS LIST IS BHRT VOCABULARY AND STOPS AT THIS DOOR. /modern-menopause/
+                 keeps its own (the Modern Menopause Lifestyle Guide with Ms. Livia Rees,
+                 which is recovered client copy) and /testosterone-top-up/ keeps its
+                 Testosterone Protocol line. Aligning them is his call, not a sync. -->
             <ul class="pg-list">
-              <li>Detailed symptom assessment</li>
-              <li>Analysis and interpretation of your blood test results</li>
-              <li>Issuance of Bio-identical Hormone Therapy Protocol and Prescription</li>
-              <li>Issuance of Science-based Supplementation Plan</li>
-              <li>Lifestyle Modifications Plan</li>
-              <li>4-week mentorship support after starting your treatment</li>
+              <li>Prescription Issued Bioidentical Hormone Therapy</li>
+              <li>Science-based Supplements’ suggestion</li>
+              <li>Hormone Balancing Lifestyle Guide</li>
             </ul>
           </div>
           <div class="pg-blk">
@@ -2335,9 +2386,18 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
             <button type="button" class="pg-addon" id="pg-addon" aria-pressed="false">
               <span class="pg-box" aria-hidden="true">✓</span>
               <span class="pg-t">Home blood sample collection · UAE
-                <small>A team or a nurse comes to your home anywhere in the UAE and takes the sample
-                for whichever tests are required. Outside the UAE you use any laboratory near you and
-                we send the exact panel to ask for.</small></span>
+                <!-- ⚠️ HIS COPY, 2026-08-24, AND IT IS TWO SENTENCES WHERE THERE WAS ONE — inside the
+                UAE and outside it are now separate lines, because they are separate offers.
+                The spaced hyphens around "home | office | hotel" became em dashes, the
+                estate's rule; nothing else was touched.
+                ⚠️ IT IS THE SAME PARAGRAPH ON FIVE PAGES and describes ONE service, so it
+                was replaced on all five. /testosterone-top-up/'s copy said "home or office"
+                where the others said "home"; his "home | office | hotel" supersedes both. -->
+                <small>Our team arrives to collect your required blood test sample anywhere in
+                the UAE — home | office | hotel — and provides you with the results at the
+                earliest.</small>
+                <small>Patients outside the UAE can do their blood tests at any laboratory at
+                their destination.</small></span>
               <span class="pg-p">AED 1,950 <small>+ VAT</small></span>
             </button>
           </div>
@@ -4145,7 +4205,21 @@ try{
   var body  = root.querySelector('[data-ps-body]');
   var live  = root.querySelector('[data-ps-live]');
 
-  /* ── the six steps. One array. No markup is written twice. ────────────────── */
+  /* ── the six steps. One array. No markup is written twice. ──────────────────
+     ⚠️⚠️ EVERY STEP IS WRITTEN TWICE ON PURPOSE, AND THE PHONE'S CEILING IS MEASURED.
+     `petal` is the desktop plate's sentence; `short` is the phone's, and the phone is NOT
+     a smaller desktop — the plate there holds about 15 WORDS / 90 CHARACTERS and no more.
+     Measured 2026-08-24 by forcing the desktop sentence onto a 390px phone: at 21 words
+     (step 04) the copy runs off the petal, collides with a neighbouring label and pushes
+     the CTA off the card entirely; at 17 words (step 05) it still overruns the plate's
+     right edge. The six `short` lines run 12–15 words and all six clear it.
+     ⚠️ SO A NEW SENTENCE FROM THE CLIENT IS TWO SENTENCES OF WORK, and the second one is
+     a rewrite rather than a truncation. If that is ever collapsed to one, the rule is a
+     HARD ~15-word ceiling on every step, and the desktop plate — which holds 25 — goes
+     sparse. That trade is his to make; do not make it by shortening `petal` quietly.
+     ⚠️ THE `short` LINES FOR 02, 04 AND 05 WERE DERIVED FROM HIS OWN 2026-08-24 COPY, not
+     written fresh, and they are the one place in this array that is not his words. Flagged
+     for approval. ──────────────────────────────────────────────────────────────── */
   var STEPS = [
     {n:'01', title:'Assessment', meta:'15 min',
      head:'Care begins with understanding you.',
@@ -4153,13 +4227,21 @@ try{
      petal:'We begin with a comprehensive assessment of your symptoms, health history, and goals.',
      short:'We begin with a full assessment of your symptoms, history and goals.',
      cta:'What to expect', href:'#book'},
-    {n:'02', title:'Blood work', meta:'2–5 days',
+    {n:'02', title:'Blood Work', meta:'2–5 days',
      head:'We check key hormone and health markers.',
      body:'Targeted blood work gives us a clearer picture of your hormone levels and overall health — helping us understand what may be happening beneath the surface.',
-     petal:'We check key hormone and health markers to build a clearer picture of your current health.',
-     short:'We check key hormone and health markers for a clearer picture of your health.',
+     /* ⚠️ HIS COPY, 2026-08-24, with two typographic corrections recorded here and made
+        nowhere else: "health markets" → "health markers" (the subject is hormone markers,
+        and the line it replaces said markers), and the spaced hyphen → an em dash, which
+        is the estate's rule. A closing full stop was added to match the other five. */
+     petal:'We assess key hormone and health markers to build a clear picture of your health today — so your care is tailored to you.',
+     short:'We assess key hormone and health markers for a clear picture of your health today.',
      cta:'What to expect', href:'#book'},
-    {n:'03', title:'Choose your doctor', meta:'Personalized match',
+    /* ⚠️ "Personalised", not "Personalized" — his call 2026-08-24, and it is the estate's
+       own British spelling (the doctor bios carry the same correction: "rate of aging" →
+       "rate of ageing"). ⚠️ ONE AMERICAN SPELLING SURVIVES, in step 01's body, because he
+       asked for 01 to be left alone this round. Flagged, not fixed. */
+    {n:'03', title:'Choose your Doctor', meta:'Personalised match',
      head:'Choose the doctor who feels right for you.',
      body:'Choose the doctor who best aligns with your needs, preferences and care goals, so your experience feels personal from the beginning.',
      petal:'Choose your preferred doctor and begin care with someone aligned with your needs.',
@@ -4168,16 +4250,30 @@ try{
     {n:'04', title:'Consultation', meta:'60 min',
      head:'We meet to review your health and create your plan.',
      body:'You’ll meet with your chosen doctor for a comprehensive review of your symptoms, health history and goals, so together you can create a plan tailored to you.',
-     petal:'Meet with your chosen doctor for a comprehensive review of your symptoms, health history, and goals. We create a plan tailored to you.',
-     short:'We meet with your doctor to review your health and create a plan tailored to you.',
+     /* ⚠️ HIS COPY, 2026-08-24, AND IT NAMES THE CHANNEL — "A ZOOM Meeting". That is an
+        operational claim rather than a description, so it is his to make and his to
+        withdraw; it is reproduced exactly as he wrote it, capitals included. */
+     petal:'A ZOOM Meeting with your chosen Hormone Specialist for a comprehensive review of your symptoms, medical history, lifestyle and personal goals.',
+     short:'A ZOOM Meeting with your Hormone Specialist to review your symptoms, history and goals.',
      cta:'What to expect', href:'#book'},
-    {n:'05', title:'Prescription', meta:'2 months’ supply',
+    /* ⚠️⚠️ "BHRT Prescription" IS HIS WORDING AND IT RUNS ON ALL THREE DOORS, INCLUDING
+       THE MEN'S. This block is byte-identical on /hormone-therapy-bhrt/,
+       /modern-menopause/ and /testosterone-top-up/ by contract, so the title he gave is
+       the title all three show. It is defensible — a testosterone top-up IS bio-identical
+       hormone therapy — but it is the one string in this array that names a therapy rather
+       than a step, and the estate's standing rule is that the doors must not blur.
+       ⚠️ IF HE WANTS IT PAGE-SPECIFIC, that is a `label`/`title` fork and it BREAKS THE
+       BYTE-IDENTICAL CONTRACT — read the parity note over the block before doing it.
+       ⚠️ THE RESTING LEAF KEEPS THE SHORT NAME. "BHRT Prescription" is two words too long
+       for the label seated on a resting petal, so `label` carries the short one and
+       `title` carries his. See the builder. */
+    {n:'05', title:'BHRT Prescription', label:'Prescription', meta:'2-month supply',
      head:'Your treatment is prepared around you.',
      body:'Once your plan is confirmed, your prescription is prepared around your individual needs so treatment feels considered, clear and easy to begin.',
-     petal:'Your personalized prescription is prepared around your doctor’s recommendations and care plan.',
-     short:'Your prescription is prepared around your doctor’s plan and sent to you.',
+     petal:'Your personalised prescription is prepared based on your blood test results and your consultation with the doctor.',
+     short:'Your personalised prescription is prepared from your blood results and your consultation.',
      cta:'Treatment details', href:'#book'},
-    {n:'06', title:'Aftercare', meta:'One month',
+    {n:'06', title:'Aftercare', meta:'1-Month care',
      head:'Ongoing care, always by your side.',
      body:'Our aftercare includes follow-up support, care adjustments where needed and continued guidance, so your treatment can evolve with you.',
      petal:'We continue to support you with follow-up care, guidance and treatment adjustments where needed.',
@@ -4361,9 +4457,19 @@ try{
       + leafSVG(1) + leafSVG(2) + leafSVG(3) + leafSVG(4) + leafSVG(5)
       + '<div class="ps-face">'
       +   '<button type="button" class="ps-hit" aria-label="Step ' + (i+1) + ' of 6: '
-      +     st.title + '"><span class="ps-lbl">' + st.title + '</span></button>'
+      +     st.title + '"><span class="ps-lbl">' + (st.label || st.title) + '</span></button>'
       +   '<div class="ps-card">'
-      +     '<h3 class="ps-card-t">' + st.title + '</h3>'
+      /* ⚠️ THE NUMBER IS INSIDE THE HEADING, NOT BESIDE IT — his call 2026-08-24, "add the
+         number before the step". A separate element above the title would read as a second
+         line of copy; a span inside the h3 reads as a label ON the name, wraps with it, and
+         keeps ONE heading in the accessibility tree. It is aria-hidden because the button's
+         own label already says "Step 2 of 6", so a screen reader would otherwise hear the
+         position twice.
+         ⚠️ `st.label || st.title` ON THE RESTING LEAF, ABOVE. The card can carry a long
+         title ("BHRT Prescription"); the label seated on a resting petal cannot. Any step
+         whose title outgrows its petal gets a `label`; the rest inherit `title`. */
+      +     '<h3 class="ps-card-t"><span class="ps-card-n" aria-hidden="true">'
+      +       st.n + '</span>' + st.title + '</h3>'
       +     '<span class="ps-card-rule" aria-hidden="true"></span>'
       +     '<p class="ps-card-meta">' + st.meta + '</p>'
       +     '<p class="ps-card-p ps-card-p--d">' + st.petal + '</p>'

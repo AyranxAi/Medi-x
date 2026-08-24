@@ -1,3 +1,153 @@
+# Handoff addendum — 2026-08-24b (his copy lands on the petals and the programme panel · the add-on row stops crushing itself on a phone)
+
+A copy round on top of the same day's structural one. Everything here is his words; the
+corrections made to them are listed, and the two places where words are NOT his are flagged.
+
+## 1 · The six petal cards
+
+Each card now leads with its own number — his call, "add the number before the step" — and
+carries his copy. **Step 01 was left alone**, as he asked.
+
+| step | title | meta | card copy |
+|---|---|---|---|
+| 01 | Assessment | 15 min | *untouched — his "skip for now"* |
+| 02 | Blood Work | 2–5 days | his |
+| 03 | Choose your Doctor | Personalised match | unchanged; only the spelling moved |
+| 04 | Consultation | 60 min | his |
+| 05 | BHRT Prescription | 2-month supply | his |
+| 06 | Aftercare | 1-Month care | unchanged — "data here is fine" |
+
+**The number is inside the `<h3>`, and the heading became a baseline flex row to hold it.**
+As plain inline text the numeral indents the title's *first line only*, so "BHRT
+Prescription" — which wraps at every width — set "BHRT" one numeral-width right of
+"Prescription" and the name looked broken. As a flex row every line of the name shares one
+left edge.
+
+⚠️ **THE NUMERAL IS SET IN `--sans`, NOT `--accent`.** `.pg-n` uses the accent face for step
+numbers and gets away with it at 11.5px; at card size the same face rendered **"04" as what
+reads like "o4"** — its zero is a small round glyph that beside a lining 4 is a lowercase o.
+`font-variant-numeric` does not fix it, because the figures are not the problem, the design
+of the zero is. `--sans` has lining figures and is what the 01–06 progress dots already use.
+
+**Three typographic corrections, recorded here and made nowhere else:**
+- "health **markets**" → "health **markers**" (the subject is hormone markers; the line it
+  replaces said markers)
+- spaced hyphens → em dashes, in step 02's copy and the add-on blurb — the estate's rule
+- "**Bioidenticsl**" → "**Bioidentical**" in the Included list
+
+**Two things were reproduced exactly as he wrote them and may not be what he meant:**
+- **"A ZOOM Meeting"**, capitals and all. It is also an operational claim rather than a
+  description — the consultation is on Zoom — so it is his to make and his to withdraw.
+- **The heading capitalisation is mixed**: "Blood Work" is title case, "Choose your Doctor"
+  is neither title nor sentence case. The estate is otherwise sentence case ("Blood work").
+  One word from him either way.
+
+⚠️⚠️ **"BHRT Prescription" RUNS ON ALL THREE DOORS, INCLUDING THE MEN'S.** The step array is
+byte-identical across `/hormone-therapy-bhrt/`, `/modern-menopause/` and
+`/testosterone-top-up/` by contract, so his title is the title all three show. It is
+defensible — a testosterone top-up *is* bio-identical hormone therapy — but it is the only
+string in the array that names a therapy rather than a step, and the estate's standing rule
+is that the doors must not blur. **Making it page-specific breaks the byte-identical
+contract**; read the parity note before doing it.
+
+⚠️ **THE RESTING LEAF KEEPS THE SHORT NAME.** "BHRT Prescription" is too long for a label
+seated on a resting petal, so `label:'Prescription'` carries it and `title` carries his. Any
+future step whose title outgrows its petal gets the same treatment.
+
+⚠️ **ONE AMERICAN SPELLING SURVIVES** — "personalized", in step 01's editorial body, because
+01 was to be left alone. It is now the only one in the chapter. One word to fix when 01 comes
+back round.
+
+⚠️ **THE EDITORIAL COLUMN STILL CARRIES THE OLD DESCRIPTIONS.** `head` and `body` — the words
+on the LEFT while a step is selected — were not part of this round and still describe each
+step in the older wording. Nothing contradicts, but each step is now described twice in two
+registers. His call whether they follow.
+
+## 2 · One section for desktop and phone — what I found
+
+> "lets make this one section for desktop and phones please guide on how to tackle this"
+
+**The programme panel is already one section.** Same markup, same order, one column at every
+width; only the measure changes (560px capped on a desktop, 350px on a 390 phone) and the
+padding with it. There is nothing to merge.
+
+**The real desktop/phone fork is inside the flower, and it is the copy.** Every step is
+written twice — `petal` for the desktop plate, `short` for the phone's — so a new sentence
+from him is two sentences of work, and the second is a rewrite rather than a truncation.
+
+**The phone's ceiling is measured, not estimated** (2026-08-24, forcing the desktop sentence
+onto a 390px phone):
+
+| words | result on the phone plate |
+|---|---|
+| 12–15 (the six `short` lines) | fits, all six |
+| 17 (his step 05) | overruns the plate's right edge, CTA pushed off the card |
+| 21 (his step 04) | runs off the petal, collides with a neighbouring label, CTA gone |
+
+So the phone plate holds about **15 words / 90 characters**, and his lines run **17–24**.
+
+**Three ways to make it one, and what each costs:**
+
+1. **One sentence, cut to the phone's measure.** Delete `short`. One place to edit, forever.
+   Costs: a hard ~15-word ceiling on every step, and the desktop plate — which holds about
+   25 — reads sparse.
+2. **Keep two, and he writes both.** Costs him six extra short lines; costs nobody any
+   invention. This is what shipped today, with the short lines derived from his own copy.
+3. **One sentence, and the phone plate grows to hold it.** The only option that keeps one
+   copy AND full sentences. Costs: re-tuning the phone composition, which is traced from his
+   own reference render — the largest change of the three.
+
+**Recommended: 1, if the goal is genuinely one place to edit.** It is the only one that
+actually removes the fork, and the sparse desktop plate is the smaller price — the plate is
+a picture with a caption on it, not a paragraph. If he prefers full sentences on a desktop,
+2 is what we have and it works; 3 should only be opened if he wants the phone redesigned
+anyway.
+
+⚠️ **THE SIX SHORT LINES FOR 02, 04 AND 05 ARE DERIVED FROM HIS COPY, NOT WRITTEN BY HIM.**
+They are the one place in the step array that is not his words. **Flagged for approval** —
+this is exactly the "a lab that quietly writes new marketing" risk the QA README names.
+
+## 3 · The programme panel
+
+- "Here is what you're starting." → **"Your treatment starts here"**, on all three doors
+  (the string is generic).
+- **Included**, on `/hormone-therapy-bhrt/` only — his list is BHRT vocabulary. Three lines
+  where there were six.
+
+⚠️⚠️ **THREE PROMISES CAME OFF THAT LIST AND ONE OF THEM MATTERS.** Gone: "Detailed symptom
+assessment", "Analysis and interpretation of your blood test results", and **"4-week
+mentorship support after starting your treatment"**. The mentorship is a promise the client
+makes, it is *distinct* from step 06's aftercare month, and it is now made nowhere on that
+page. One `<li>` to put back.
+
+⚠️ **THE OTHER TWO DOORS KEEP THEIR OWN LISTS.** `/modern-menopause/` still carries the
+Modern Menopause Lifestyle Guide with Ms. Livia Rees — recovered client copy —
+and `/testosterone-top-up/` its Testosterone Protocol line. Aligning them is a decision, not
+a sync.
+
+⚠️ **"Science-based Supplements' suggestion"** is reproduced with his apostrophe. It reads
+like an error; left as written.
+
+- **Add now**, on **all five** pages that carry the panel. His two sentences replace one, and
+  inside-the-UAE and outside-it are now separate blocks because they are separate offers
+  (`.pg-t small + small` gives them air). `/testosterone-top-up/` had said "home or office"
+  where the others said "home"; his "home | office | hotel" supersedes both.
+
+## 4 · The add-on row on a phone — found while checking his copy, fixed
+
+His longer blurb exposed a layout the panel already had and nobody had looked at: `.pg-addon`
+is a three-part flex row — checkbox, copy, price — and the price is `white-space:nowrap`. On a
+350px card that leaves the copy about **120px**, so the blurb was setting **three words to a
+line and running the row eight lines deep**. It was ugly with the old one-sentence copy and
+unusable with his two.
+
+**`@media(max-width:520px)` now drops the figure under the copy**, indented to the copy's own
+left edge. The card came down from 1199px to 1097px on a 390 phone.
+
+⚠️ **THE STEPS LIST ALREADY DID EXACTLY THIS at exactly this breakpoint** — three columns to
+two, the duration dropping under the step name. The add-on row simply never followed it. They
+are the same row shape and they now share the same rule; keep them together.
+
 # Handoff addendum — 2026-08-24 (one pill in the doctors chapter · the flower opens on door 3 · the flower and its ground trade colours · the page stops scrolling sideways)
 
 Three calls of his and one thing the audit turned up on the way. Each is recorded at the code

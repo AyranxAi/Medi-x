@@ -1,5 +1,13 @@
 # /modern-menopause/ — build record, round 1 (2026-08-19)
 
+⚠️ **HIS COPY ROUND, 2026-08-24b** — the six petal cards carry his words and lead with their
+step number (shared block, so identical on all three doors), and the programme panel's heading
+is "Your treatment starts here". ⚠️ **THIS PAGE'S "Included" LIST WAS NOT TOUCHED**: his new
+three-line list is BHRT vocabulary and stops at that door. Aligning this one is a decision,
+not a sync. ⚠️ **"BHRT Prescription" is step 05's title on every door**, his wording, carried
+by the byte-identical block. Full account in [`HANDOFF.md`](../HANDOFF.md).
+
+
 **What this page is:** door 2 of `/hormone-balancing/` — *"Twelve months or more since
 your last period?"* Postmenopause, and the programme it sells is the client's own
 **menoSTART** (their name, recovered from medi-gyn.com: "Medi-Gyn's Modern Menopause

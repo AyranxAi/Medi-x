@@ -1,5 +1,10 @@
 # Peptide Therapy — `/peptide-therapy/` (first ship 2026-08-14)
 
+⚠️ **THE ADD-ON BLURB IS HIS, 2026-08-24b** — two sentences where there was one, inside the
+UAE and outside it split because they are separate offers. Replaced on all five pages that
+carry the panel, because it is one service described in one paragraph.
+
+
 ⚠️ **ONE "Book a consultation" IN THE DOCTORS CHAPTER SINCE 2026-08-24** — his call, "it
 should only have one book consultation", across every page that renders doctors. The pill
 under each name is gone; the chapter closes on one centred pill under the row, and the popup

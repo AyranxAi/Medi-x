@@ -4954,6 +4954,30 @@ try{
       function wake(ms){ busyUntil = Math.max(busyUntil, performance.now() + (ms||0)); if(!raf) raf = requestAnimationFrame(frame); }
       wake3D = function(){ wake(Math.max(DURms(), cssMs('--ps-grow-delay',0) + cssMs('--ps-grow-dur',DURms())) + 400); };
       petals.forEach(function(p){ p.addEventListener('pointerenter', function(){ wake(600); }); p.addEventListener('pointerleave', function(){ wake(600); }); });
+      /* ⚠️⚠️ THE CANVAS USED TO PARK ON A MID-TURN FRAME AND STAY THERE. His report,
+         2026-08-24: "why is the one with the red not on the right side? that's the one
+         that contains the words." It was not the maroon and it was not the geometry —
+         the layer simply STOPPED DRAWING before the DOM stopped moving, so the canvas
+         kept showing the flower from earlier in the turn while the card text had already
+         swapped. Proven by construction: reach a step by clicking and it differs from the
+         same step opened with ?step=N by 14.5% of the frame; force ONE more frame with
+         `__ps3d.wake()` — changing nothing else — and the difference goes to 0.00%.
+         WHY IT STOPPED: `dirty` is derived by comparing each box's rect key frame to
+         frame, and at the tail of an ease-out the boxes move sub-pixel amounts, so two
+         consecutive frames can hash the same key. `dirty` goes false, `busyUntil` has
+         passed, `raf` is not re-scheduled — and the rest of the transition then plays out
+         with nothing watching it. `wake3D()`'s fixed window cannot cover this: a
+         multi-seat roll runs `--ps-hop` per seat plus the grow, which outruns it.
+         THE FIX IS TO STOP GUESSING THE DURATION AND LISTEN FOR THE END. `transitionend`
+         bubbles, so one capturing listener on the stage hears every arm, reach and box
+         finish, and each one buys another frame. This is authoritative where a timer is a
+         guess, and it is why the timer above is kept but is no longer load-bearing.
+         ⚠️ transitioncancel MATTERS AS MUCH AS transitionend — a step change interrupts
+         the previous transition, and a cancelled transition still leaves the box somewhere
+         new. Without it, a fast double-click parks the canvas exactly as before. */
+      ['transitionend','transitioncancel'].forEach(function(ev){
+        stage.addEventListener(ev, function(){ wake(140); }, true);
+      });
       new ResizeObserver(function(){ resize(); wake(50); }).observe(stage);
       if(document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ wake(50); });
       canvas.addEventListener('webglcontextlost', function(e){ e.preventDefault(); root.classList.remove('ps-3d'); }, false);

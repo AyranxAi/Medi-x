@@ -227,18 +227,16 @@ for (const pageName of PAGES) {
              taken across a beat boundary matches while the piece is still in flight.
          ⚠️ THE RETRY IS NOT A TOLERANCE. `opaque` is either zero or dozens; there is no
          middle, so it cannot quietly widen a real failure into a pass.
-         ⚠️⚠️ THE MAROON CHECK IS STILL WRONG AND THE PAGE IS NOT. With the corrected
-         settle wait above — seating, morph and tweens all provably correct at every step —
-         this scan STILL returns 0.0px at some of them, while a screenshot of the same
-         frame shows the maroon exactly where it belongs, on the plate's right edge.
-         So the fault is in the SCAN, not in when it runs. Not yet ruled out: the single
-         sample row at 45% of the face height may miss a crescent thickest elsewhere on the
-         plate's curve; `dx + 30` requires maroon within 28px INSIDE the box edge, which is
-         an assumption about the crescent's width that was never measured; and the
-         `px[0] < 170` ceiling may reject a lit maroon.
-         ⚠️ UNTIL THAT IS FOUND, A MAROON FAILURE HERE IS NOT EVIDENCE ABOUT THE PAGE.
-         Judge it from the shots in .qa-out/process/, which are trustworthy now the wait
-         is. Do NOT delete the check to green the run — its subject is real. */
+         ⚠️⚠️ THE CAUSE WAS FOUND 2026-08-24d AND IT WAS NEVER THIS CHECK. The 3D layer
+         stopped drawing before the DOM stopped moving, so the canvas held a mid-turn frame
+         and every pixel test on it was reading a picture the page had already left behind.
+         Fixed at the source: a capturing transitionend/transitioncancel listener on the
+         stage now buys another frame whenever anything finishes moving. Proof by
+         construction: forcing one extra frame took a wrong-looking step from 14.5% of the
+         frame differing to 0.00%.
+         ⚠️ SO A `0.0px` HERE IS EVIDENCE ABOUT THE PAGE AGAIN — it was not, for three
+         rounds. If it returns, look for a new way the render loop can stop early before
+         suspecting the scan. */
       let r = await read();
       if (r.opaque === 0) {
         await page.evaluate(() => window.__ps3d && window.__ps3d.wake(120));

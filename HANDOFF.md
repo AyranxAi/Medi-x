@@ -342,45 +342,49 @@ also joined the strip list before `body.textContent` is read for the vocabulary 
 reason `<script>` is already on it: with JS on it is raw markup, and a rule about what the
 page *says* should not be reading HTML.
 
-**THE PAGE IS CORRECT. THE HARNESS IS NOT. AN EARLIER VERDICT IN THIS FILE WAS WRONG.**
+**FOUND AND FIXED 2026-08-24d — IT WAS A STALE FRAME, NOT THE MAROON AND NOT THE GEOMETRY.**
+He reported it: *"why is the one with the red not on the right side? that's the one that
+contains the words."* Two earlier verdicts in this file were wrong — a blank-framebuffer
+theory, then "the page is correct at every step". Both are superseded by this.
 
-Two checks in `process-sculpture.mjs` have failed intermittently for three rounds — `maroon
-inner body not revealed past the face (0.0px)` and `active zone drifted at step N` — on 1–3
-steps per page-and-viewport, on different steps each run, on pages whose bytes were identical
-to `main`. This file previously called the cause "not diagnosed" and offered a
-blank-framebuffer theory. **That theory was wrong.** Here is what is now established, and what
-is not.
+**THE CANVAS STOPPED DRAWING BEFORE THE FLOWER STOPPED MOVING.** The 3D layer quit its render
+loop while a CSS transition was still in flight; the transition then finished, the DOM boxes
+reached their seats, and nothing ever drew again. The canvas kept showing the flower from
+earlier in the turn while the card text had already swapped — so the maroon appeared to belong
+to a petal that was not carrying the words.
 
-**ESTABLISHED: the sculpture itself is right, at every step, on both viewports.** Instrumented
-at rest: exactly one arm at `data-slot="0"`, exactly one at plate width (430px against a
-resting leaf's 280), exactly one with morph influence 1, always the `.is-on` one — and the
-maroon on the plate's right at every step. Photographed with the plate's box outlined, the
-card is inside the plate and the maroon is on its right edge. What reads as a detached
-red-edged petal to its left is a resting leaf overlapping in front. **Anyone who thinks this
-chapter renders the maroon on the wrong piece is looking at a mid-turn frame.**
+**PROVEN THREE WAYS, and the third is proof by construction:**
 
-**ESTABLISHED AND FIXED: the settle wait was accepting mid-flight states.** It accepted *"the
-box grew past 1.15×, then two identical samples 300 ms apart"*, and the choreography is THREE
-BEATS — release, fold back, rise — so a piece is momentarily still BETWEEN beats. Measured:
-sampled 450 ms after `settled()`, the "plate" measures 280px, which is a resting leaf; at 3 s
-it measures 430px. The wait now checks the contract instead of stillness — `.is-on` AND seated
-at slot 0, box morphed to clearly the widest, 3D tweens landed, and only then two identical
-boxes. ⚠️ **Do not relax it back to a sleep**; a longer sleep hides the same race.
+| test | result |
+|---|---|
+| every step opened directly with `?step=N`, no turn ever running | all six agree — the composition IS fixed, as designed |
+| the same steps reached by clicking | desktop 2 and 5 differ by 14.5% of the frame; phone 2, 3, 5, 6 — exactly what he reported |
+| force ONE more frame with `__ps3d.wake()`, changing nothing else | **0.00%** — pixel-identical to the correct frame |
 
-**STILL OPEN: the maroon check fails even with the corrected wait.** With the seating and the
-morph provably correct, the scan still returns `0.0px` at some steps. So there is a SECOND
-fault, in the scan itself rather than in when it runs, and it has NOT been found. Candidates
-not yet ruled out: the single sample row at 45 % of the face height may miss a crescent that
-is thickest elsewhere on the plate's curve; the `dx + 30` reveal arithmetic requires maroon
-within 28px INSIDE the box edge, which is an assumption about the crescent's width that was
-never measured; and the `px[0] < 170` ceiling may reject a lit maroon.
+Nothing was ever in the wrong place. It had not been repainted.
 
-⚠️ **UNTIL THAT IS FOUND, A MAROON FAILURE FROM THIS HARNESS IS NOT EVIDENCE ABOUT THE PAGE.**
-Judge the maroon from `.qa-out/process/` shots, which are trustworthy now that the wait is.
+**WHY THE LOOP QUIT.** `dirty` is derived by comparing each box's rect key frame to frame, and
+at the tail of an ease-out the boxes move sub-pixel amounts — so two consecutive frames hash
+the same key, `dirty` goes false, `busyUntil` has passed, `raf` is not re-scheduled, and the
+remainder of the transition plays out unobserved. `wake3D()`'s fixed window cannot cover it: a
+multi-seat roll runs `--ps-hop` per seat plus the grow, which outruns the guess. That is why it
+hit some steps and not others, why no amount of waiting recovered it, and why a reload did.
 
-⚠️ **THE LESSON IS THE ONE `tools/qa/README.md` ALREADY RECORDS FOUR TIMES OVER: this harness
-family keeps measuring an animation instead of a page.** It has now done it a fifth time, and
-the tell was the same — a failure that moved between runs on bytes that did not.
+**THE FIX: STOP GUESSING THE DURATION, LISTEN FOR THE END.** One capturing `transitionend`
+listener on the stage hears every arm, reach and box finish and buys another frame.
+⚠️ **`transitioncancel` matters as much as `transitionend`** — a step change interrupts the
+previous transition, and a cancelled transition still leaves a box somewhere new; without it a
+fast double-click parks the canvas exactly as before. The old timer is kept but is no longer
+load-bearing.
+
+**THIS ALSO RETIRES THE HARNESS INTERMITTENCY.** `maroon inner body ... (0.0px)` and
+`active zone drifted` were this same stale frame all along — which is why they moved between
+runs on bytes that did not. The settle wait was rewritten in the same session to check the
+contract rather than stillness; both were symptoms of one cause.
+
+⚠️ **THE LESSON, AND IT IS THE ONE `tools/qa/README.md` ALREADY RECORDS: a render loop that
+decides it is finished by watching for stillness will stop early on any eased motion.**
+Stillness is a guess. The transition knows when it is over; ask it.
 
 ## Still open, unchanged by this round
 

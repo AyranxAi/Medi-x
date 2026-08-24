@@ -377,6 +377,24 @@ previous transition, and a cancelled transition still leaves a box somewhere new
 fast double-click parks the canvas exactly as before. The old timer is kept but is no longer
 load-bearing.
 
+**VERIFIED ACROSS ALL TWELVE FRAMES.** Every step reached by clicking now matches the same
+step opened directly with `?step=N`:
+
+| | 01 | 02 | 03 | 04 | 05 | 06 |
+|---|---|---|---|---|---|---|
+| desktop, before | ok | **14.48%** | ok | ok | **14.47%** | ok |
+| desktop, after | 0.00% | 0.02% | 0.00% | 0.00% | 0.00% | 0.00% |
+| phone, before | ok | **18.53%** | **18.46%** | ok | **18.46%** | **18.06%** |
+| phone, after | 0.00% | 0.00% | 0.00% | 0.00% | 0.00% | 0.00% |
+
+(Percentages are of the frame differing in the flower half. Desktop 02's residual 0.02% is
+the card's own text, which legitimately differs between the two routes.)
+
+⚠️ **THE ORACLE IS WORTH KEEPING: `?step=N` IS THE GROUND TRUTH FOR THIS CHAPTER.** Opened
+directly, no turn runs, so the frame is the composition as designed. Any step reached by
+clicking must match it outside the words. That is a cheap, exact regression test for anything
+that touches the turn, the render loop or the slot map — far better than eyeballing a flower.
+
 **THIS ALSO RETIRES THE HARNESS INTERMITTENCY.** `maroon inner body ... (0.0px)` and
 `active zone drifted` were this same stale frame all along — which is why they moved between
 runs on bytes that did not. The settle wait was rewritten in the same session to check the

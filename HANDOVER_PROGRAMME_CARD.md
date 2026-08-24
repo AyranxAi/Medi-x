@@ -233,8 +233,8 @@ This brief is one item. The standing lists are in
 [`testosterone-top-up/HANDOVER.md`](testosterone-top-up/HANDOVER.md) — including two that
 touch **this card** and should probably be settled in the same round:
 
-- **The Review consultation is still AED 750 + VAT on every card.** It was set alongside
-  the 950 that has since become 1,150 on the men's page. If the programme moved, the review
-  may have too.
+- ✅ *(settled 2026-08-24h — done, before the card work)* **The Review consultation is
+  AED 795 + VAT** on all three door cards. It did not follow the men's programme to 1,150.
+  Guarded from `trt-page.mjs` §1b across all three pages.
 - **"Detailed symptom assessment"** sits in the men's Included list while step 01 is now a
   **discovery call**, not an assessment.

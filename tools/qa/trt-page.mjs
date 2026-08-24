@@ -6,6 +6,10 @@
    The money is checked THREE WAYS: the static markup a no-JS reader gets, the
    derived figures after the script runs, and the arithmetic after the add-on is
    ticked. All three have to agree or the check fails.
+   ⚠️ IT ALSO GUARDS ONE FIGURE ON ALL THREE DOOR CARDS — the review consultation,
+   AED 795 + VAT since 2026-08-24h. That price is COPY, not script, and it stayed at
+   750 for days after the programme moved while every check in here ran green. A money
+   guard that only reads the script reads half the card. See section 1b.
    Run: npm install --no-save playwright@1.49.1 gsap@3.13.0 lenis@1.3.4
         && node tools/qa/trt-page.mjs                                          */
 import playwright from "playwright";
@@ -66,6 +70,26 @@ ok(/const BASE=1150,/.test(raw),             "the script's BASE is 1150");
    next person reads before touching the money. */
 ok(!/AED 9(50|97\.50)\b/.test(raw.replace(/<!--[\s\S]*?-->/g, "").replace(/\/\*[\s\S]*?\*\//g, "")),
    "no stray 950 / 997.50 left in copy OR in a build note");
+
+/* ── 1b · THE REVIEW CONSULTATION, AND IT IS NOT THIS PAGE'S NUMBER ──────────────
+   ⚠️ AED 795 + VAT (his figure, 2026-08-24h) SITS ON THREE DOOR CARDS and is the one
+   price on the card that NO SCRIPT TOUCHES — it is a <small> inside "What's not
+   included". That is exactly why it went stale: it was 750 for five days after the
+   men's programme moved to 1,150, and every money check in this file ran green
+   throughout, because none of them read copy.
+   ⚠️ IT IS CHECKED ON ALL THREE PAGES FROM HERE, out of this file's scope on purpose.
+   The failure mode is somebody revising it on the page they happen to have open, and a
+   men's-page-only check cannot see that. Two extra file reads, no browser.
+   ⚠️ THE POPUP PAGES ARE NOT IN THE LIST. /peptide-therapy/ and /functional-medicine/
+   carry "Review consultation — This is a new consultation." with NO figure. Adding one
+   there is a copy decision nobody has taken; asserting its absence would freeze it. */
+for (const dir of ["testosterone-top-up", "hormone-therapy-bhrt", "modern-menopause"]) {
+  const html = fs.readFileSync(path.join(ROOT, dir, "index.html"), "utf8");
+  ok(/A new consultation, AED 795 \+ VAT\./.test(html),
+     `${dir}: review consultation is AED 795 + VAT`);
+  ok(!/AED 750\b/.test(html.replace(/<!--[\s\S]*?-->/g, "").replace(/\/\*[\s\S]*?\*\//g, "")),
+     `${dir}: no stray 750 left in copy`);
+}
 
 /* ── 2 · the money the script derives, and the add-on arithmetic ───────────── */
 console.log("\n\x1b[1m2 · The money after the script runs\x1b[0m");

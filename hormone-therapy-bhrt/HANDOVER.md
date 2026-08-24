@@ -88,6 +88,7 @@ memory.
 | Hormones = the identical key | "yes for now" |
 | H1 = the direct one | "a. — for people who would find the page itself as thats more direct and still you. might be confusing" |
 | **Programme, AED 950 + VAT** | "consultation is actually 950+ vat and review is 750 + vat" — NOT the siblings' 1,150 |
+| **Review consultation, AED 795 + VAT** | "795 review consult" (2026-08-24h) — supersedes the 750 in the row above, on all three door cards |
 | Blood test only | "regarding dutch we stop for now onky blood test now" — no DUTCH anywhere, harness-asserted |
 | Home collection add-on | "we still have the optional add on of 1950 + vat for blood work in uae" |
 | The word "programme" | approved by the owner via him (relayed earlier the same day): the price buys assessment + blood reading + consultation, which is fairly a programme; "consultation" names only the meeting. The peptide page's consultation-only rule governs THAT page |
@@ -141,7 +142,8 @@ site) — no shipping time exists anywhere, do not invent one. Aftercare (a mont
 open calls) and the 4-week mentorship are two different promises; both stay.
 Money: 950.00 / VAT 47.50 / **997.50**; with collection 2,900 → 145.00 → **3,045.00**.
 Two decimals always. "What's not included" prices the Review consultation at **AED
-750 + VAT** (his figure). The start pill lands on `#book` until a payment provider
+795 + VAT** (his figure, 2026-08-24h — it was 750 until then, and it is the same 795
+on all three door cards, whose programmes are 950, 950 and 1,150). The start pill lands on `#book` until a payment provider
 exists (the siblings' recorded position).
 
 ### The month, mapped (04)

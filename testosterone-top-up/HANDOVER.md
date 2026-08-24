@@ -252,9 +252,11 @@ means touching the shared block, which he has now declined twice.
 
 **Also raised, smaller:**
 
-- **The Review consultation is still AED 750 + VAT.** His 2026-08-19 note set 950 and 750
-  together; only the first has been revised. If the men's programme is 1,150, the review
-  may not be 750.
+- ✅ *(settled)* **The Review consultation is AED 795 + VAT** — his figure of 2026-08-24h
+  ("795 review consult"). It did NOT follow the programme to 1,150: the same 795 now sits
+  on all three door cards, whose programmes are 950, 950 and 1,150. It is card copy, not
+  script, and `trt-page.mjs` §1b now asserts it on all three pages — the check that did
+  not exist is the reason it sat stale at 750 while every money check ran green.
 - **"Detailed symptom assessment"** sits in the Included list while step 01 is a discovery
   call, not an assessment.
 - **Step 06 gains "We will be checking in on you"** in her copy — a proactive outbound

@@ -82,8 +82,10 @@ Grounds alternate ivory/dawn unbroken.
 ## Money — ⚠️ INHERITED, NOT CONFIRMED FOR THIS PROGRAMME
 
 AED **950 + VAT** / VAT 47.50 / **997.50**, collection add-on 1,950 + VAT (→ 3,045.00),
-review 750 + VAT. The 950 is his figure of 2026-08-19, given while we were building door
-1. **He has not been asked whether menoSTART carries the same fee** — and menoSTART
+review **795 + VAT** (his figure of 2026-08-24h, shared with the other two door cards —
+it was 750 until then). The 950 is his figure of 2026-08-19, given while we were building
+door 1, and the review moving has NOT settled it.
+**He has not been asked whether menoSTART carries the same fee** — and menoSTART
 includes the Lifestyle Guide, which BHRT does not. If he gives another number, three
 figures change here and one in the features script.
 

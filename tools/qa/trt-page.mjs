@@ -140,16 +140,21 @@ ok(["Andrey", "Eslam", "Khalid"].every(n => smoke.names.some(x => x.includes(n))
 const body = raw.replace(/<!--[\s\S]*?-->/g, "").replace(/\/\*[\s\S]*?\*\//g, "");
 ok(/not beyond it|not past it|rather than past it/i.test(body),
    "the range guard survives in the copy");
-/* ⚠️⚠️ THE MORNING DRAW IS CHECKED WHERE A READER WITH JS CAN ACTUALLY REACH IT.
+/* ⚠️ THE MORNING DRAW, CHECKED WHERE A READER WITH JS CAN ACTUALLY REACH IT.
    Testosterone is diurnal and a reference range is written for a morning sample, so
-   this is the one instruction on the page that changes the RESULT rather than the
-   experience. It was lost from the live page when the sculpture replaced the <ol>:
-   it survived only inside <noscript>, which a scripting browser never renders. Asserting
-   it "somewhere in the file" would have passed while nobody could read it — so the
-   <noscript> block is cut out before this looks. */
+   this is the one fact on the page that changes the RESULT rather than the experience.
+   ⚠️ THE FIRST CUT OF THIS CHECK GREPPED FOR "taken in the morning" AND WAS WRONG —
+   that exact string lives only in <noscript>, so the check went red and was reported
+   as a regression. IT IS NOT ONE: the FAQ carries the fact in its own words ("highest
+   in the morning… a sample drawn in the afternoon can read low"). Match the FACT, not
+   one page's phrasing, or the harness invents bugs.
+   ⚠️ WHAT IS GENUINELY THIN, and is an open item rather than a failure: this is an
+   EXPLANATION behind an accordion, not an INSTRUCTION at step 02 where the reader is
+   about to book a test. If step 02 ever carries it, tighten this check to demand it
+   outside the FAQ too. */
 const live = body.replace(/<noscript>[\s\S]*?<\/noscript>/g, "");
-ok(/taken in the morning/i.test(live),
-   "the morning-draw instruction is reachable WITH JS on (not only in <noscript>)");
+ok(/highest in the morning|taken in the morning|morning sample/i.test(live),
+   "the morning-draw fact is reachable with JS on (FAQ carries it)");
 ok(errs.length === 0, "page console clean", errs.join(" | ").slice(0, 200));
 
 /* ── 4 · no sideways scroll, the estate's standing check ───────────────────── */

@@ -406,6 +406,14 @@ section{position:relative}
 .sec-pad{padding-top:clamp(90px,13vh,160px);padding-bottom:clamp(90px,13vh,160px)}
 .sec-head{display:flex;flex-direction:column;gap:22px;margin-bottom:clamp(44px,6.5vh,80px)}
 .sec-head h2{font-size:clamp(34px,4.6vw,62px);max-width:15em}
+/* ⚠️ THE LEDGER'S HEADING IS TWO SENTENCES — the only one on the estate that is, and it
+   arrived with Irina's round (2026-08-24g). At 1440 it broke as six words, then five, then
+   the bare word "picture." — a widow, and the <em> was split across the last two lines so
+   the accent read as a fragment. `balance` evens the measure instead.
+   ⚠️ SCOPED TO .ledger, NOT ADDED TO .sec-head h2 ABOVE. Every other h2 on this page holds
+   one or two clean lines at every width, and balancing a heading that does not wrap is a
+   no-op that quietly starts mattering the next time one of them grows. */
+.ledger .sec-head h2{text-wrap:balance}
 
 /* ─────────────────────────── 01 · SIGNALS (validation) ─────────────────────────── */
 .signals{background:var(--ivory)}
@@ -2104,15 +2112,23 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
         <span class="line">Testosterone</span>
         <span class="line"><em>top up.</em></span>
       </h1>
-      <!-- ⚠️ "into your range" IS THE PAGE'S WHOLE POSITION, and it is a clinical claim
-           worth defending: this is replacement to a normal range, NOT enhancement above
-           it. Every mention of dose on this page says the same thing. Do not let a copy
-           round soften it into "optimised levels" — that is the vocabulary of the
-           clinics this one is not. -->
+      <!-- ⚠️⚠️ THE STANDING NOTE HERE SAID "into your range" WAS THE PAGE'S WHOLE POSITION
+           AND MUST NOT BE SOFTENED BY A COPY ROUND. It was put to him on 2026-08-24g with
+           that warning quoted, and he chose Irina's line anyway: "exactly as she added",
+           on the ground that she owns the copy. THE OVERRULE IS DELIBERATE AND RECORDED —
+           this is not the drift the old note feared, it is the owner's call made with the
+           note in front of her.
+           ⚠️ WHERE THE CLAIM STILL LIVES, so nobody thinks it was lost: scene beat 4
+           ("not beyond it") and the fallback turn paragraph ("into your range rather than
+           past it"). `tools/qa/trt-page.mjs` ASSERTS IT SURVIVES SOMEWHERE IN THE COPY —
+           if a future round takes beat 4 as well, that check fails and this page stops
+           making the argument that separates it from the clinics that sell a vial. Read
+           this note before answering that failure.
+           ⚠️ "for men" WENT WITH IT. The kicker ("Men's Hormone Health · Testosterone")
+           and the H1 still carry the audience, so it is signalled twice above this line. -->
       <p class="hero-sub">
-        Medically supervised <strong>testosterone therapy for men</strong> —
-        your levels read from your own blood work, topped up into your range,
-        and monitored while you are on it.
+        Medically supervised <strong>testosterone therapy</strong>, tailored to your
+        individual results and monitored throughout your treatment.
       </p>
       <div class="hero-ctas">
         <!-- ⚠️ "Start the programme" AND THE WORD PROGRAMME ARE APPROVED FOR THIS PAGE —
@@ -2138,10 +2154,14 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
   <section class="define seg" id="define">
     <div class="seg-in">
       <!-- ⚠️ THE HEADLINE IS THE DOOR'S OWN HOOK, VERBATIM — the reader arrived by
-           clicking "Concerned about male hormone health?" on /hormone-balancing/, and the
-           first thing this page does is answer that exact question. Change the door's
-           hook over there and this h2 moves with it — two copies of one fact. -->
-      <h2 data-reveal>Concerned about male hormone health?</h2>
+           clicking it on /hormone-balancing/, and the first thing this page does is repeat
+           it back. Change the door's hook over there and this h2 moves with it — two
+           copies of one fact, and BOTH MOVED TOGETHER on 2026-08-24g.
+           ⚠️ IT USED TO BE A QUESTION ("Concerned about male hormone health?") and the
+           page answered it. Irina made it a statement and he took it — "keep her ideas as
+           she is the owner" — with the cost named first: this is now the only one of the
+           three doors that does not ask. See the tile's own note on the parent page. -->
+      <h2 data-reveal>Your male hormone health — Understood.</h2>
       <p class="seg-gloss">Andropause, named</p>
       <!-- The definition does exactly one job — name the stage — the sibling segments'
            rule ("define, then show"); the scene below is where it sends you. DRAFT.
@@ -2480,7 +2500,15 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
   <section class="ledger sec-pad" id="told">
     <div class="wrap">
       <div class="sec-head">
-        <h2 data-reveal>What you told <em>yourself</em></h2>
+        <!-- ⚠️ HER HEADING, 2026-08-24g ("use whatever she said"). It replaces "What you
+             told yourself", which was flagged as the section's own argument — it named the
+             eight excuses before the reader met them and the flip landed because of it.
+             He chose hers knowing that; she owns the copy. The eight rows are untouched,
+             which is the half she called "really clever".
+             ⚠️ TWO SENTENCES IN AN h2 IS NEW ON THESE PAGES and it wraps where the old
+             one did not — see `.ledger .sec-head h2` in the stylesheet for the balance. -->
+        <h2 data-reveal>Every symptom tells us a story. Testing helps us see the
+        <em>bigger picture</em>.</h2>
       </div>
       <p class="ledger-lede" data-reveal>
         Every one of these is a fair explanation. <strong>All of them at once is a
@@ -4125,7 +4153,15 @@ try{
        carried by the byte-identical block, and left that way on 2026-08-24e rather than
        forked. Forking step 05 is the first crack in the parity contract that keeps the
        three doors from drifting; a testosterone top-up IS bio-identical hormone therapy,
-       so the title is defensible where it stands. `label` keeps the resting leaf short. */
+       so the title is defensible where it stands. `label` keeps the resting leaf short.
+       ⚠️ A FORK OF 02–06 WAS BUILT AND REVERTED ON 2026-08-24g — his call, and the reason
+       is worth keeping: read side by side against /hormone-therapy-bhrt/, only steps 02,
+       05 and 06 carried genuinely new information. Step 03 was the same sentence reworded,
+       and step 04 DROPPED "A Zoom meeting" — the one line that tells the reader he does
+       not have to travel. His verdict: "its just the same thing and probably she used a
+       bot to fix it but the bot doesnt understand context from multiple pages."
+       ⚠️⚠️ ONE REAL BUG WAS FOUND WHILE THE FORK WAS UP AND IT IS STILL OPEN — the
+       morning-draw instruction. See the HANDOVER; it is not fixed by this block. */
     {n:'05', title:'BHRT Prescription', label:'Prescription', meta:'2-month supply',
      head:'Your treatment is prepared around you.',
      body:'Your personalised prescription is prepared based on your blood test results and your consultation with the doctor.',

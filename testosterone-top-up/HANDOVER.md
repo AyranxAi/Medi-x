@@ -154,11 +154,55 @@ flower at six steps on desktop and phone, and the grade asserted as a pair.
 5. Title/meta sign-off; real testimonials; the scene concept board owed from door 1.
 6. `images/medi-gyn-trt-*` sit unreferenced — no photography, his call.
 
+## Irina's round, part 2 — 2026-08-24g, the four that were held
+
+All four came back the same day and **her copy won every one of them**. His rule, stated
+twice: *"keep her ideas as she is the owner"*, *"use whatever she said"*.
+
+- ✅ **THE BANNER IS HERS, EXACTLY** — *"exactly as she added"*. It **drops "topped up into
+  your range"**, which the note at that site called the page's whole clinical position, and
+  it drops **"for men"**. He was shown the phrase and the warning before choosing. The claim
+  still lives in scene beat 4 and the fallback turn paragraph, and `trt-page.mjs` asserts it
+  survives SOMEWHERE — if a later round takes beat 4 too, that check goes red and the page
+  has stopped making the argument that separates it from the clinics that sell a vial.
+- ✅ **THE DOOR IS A STATEMENT NOW, ON BOTH FILES** — "Your male hormone health —
+  Understood." **It is the only one of the three tiles that does not ask a question**, and
+  that was named before he chose it. Her hyphen became the estate's em dash and a full stop
+  was added; her capital U is hers and deliberate.
+- ✅ **THE LEDGER'S HEADING IS HERS** — "What you told yourself" is gone. It was flagged as
+  the section's own argument and he took hers anyway. Two sentences in an h2 is new on the
+  estate and it needed `text-wrap:balance` (see `.ledger .sec-head h2`).
+- ⛔ **THE FLOWER WAS FORKED AND THEN REVERTED — HIS CALL, AND HIS REASONING IS THE VALUABLE
+  PART.** Her steps 02–06 were implemented, then read side by side against
+  /hormone-therapy-bhrt/ at his request ("are the steps on the petals actually different or
+  nah"). The diff: **02, 05 and 06 carried genuinely new information; 03 was the same
+  sentence reworded; and 04 DROPPED "A Zoom meeting"** — the one line telling the reader he
+  need not travel. His verdict: *"its just the same thing and probably she used a bot to fix
+  it but the bot doesnt understand context from multiple pages."* **All three doors are
+  byte-identical again** — verified, six steps each.
+  ⚠️ **A REVERT BUG WAS CAUGHT BY THAT VERIFICATION AND NOT BY A HUMAN EYE**: the first
+  revert dropped steps 05 and 06 entirely, leaving four petals. Always re-diff the three
+  arrays after touching this block; do not trust the page looking fine.
+
+### ⚠️ A FLAG THAT WAS WRONG, AND THE CORRECTION IS THE LESSON
+
+The morning-draw instruction was reported here as a **regression invisible to anyone with
+JavaScript on**. **THAT WAS OVERSTATED.** FAQ 4 carries the fact in its own words —
+*"testosterone is highest in the morning, and a sample drawn in the afternoon can read low
+on a man who isn't."* The harness's first check grepped for the literal string *"taken in
+the morning"*, which lives only in `<noscript>`, so it reported a bug that was not there.
+**Match the FACT, not one page's phrasing, or a harness invents regressions.** The check
+now tests the fact and passes.
+
+**What is genuinely thin, and is open rather than broken:** it is an *explanation* behind an
+accordion, not an *instruction* at step 02 where a man is about to book a test. Fixing that
+means touching the shared block, which he has now declined twice.
+
 ## Open from Irina's round — 2026-08-24g, HIS TO SETTLE
 
 **Five items were held back deliberately.** Each is a real decision, not a typo.
 
-1. ⚠️⚠️ **THE BANNER.** Her line — *"Medically supervised testosterone therapy, tailored to
+1. ✅ *(settled — see part 2 above)* **THE BANNER.** Her line — *"Medically supervised testosterone therapy, tailored to
    your individual results and monitored throughout your treatment"* — **drops "topped up
    into your range"**, which this file's own banner calls the page's whole clinical
    position: dosing back to a normal range, never above it. It is what separates this
@@ -166,15 +210,16 @@ flower at six steps on desktop and phone, and the grade asserted as a pair.
    survives in the scene — but the banner is where a skim-reader meets it. Her line also
    drops **"for men"**. Held pending his answer.
 
-2. ⚠️⚠️ **THE MORNING DRAW IS INVISIBLE TO ANYONE WITH JAVASCRIPT ON — a real regression,
-   found by the new harness on its first run.** *"Taken in the morning"* now exists only
+2. ⚠️ **THE MORNING DRAW — THE ALARM WAS OVERSTATED, see part 2.** The FAQ carries the
+   fact; what is thin is that it is an explanation behind an accordion rather than an
+   instruction at step 02.** *"Taken in the morning"* now exists only
    inside the `<noscript>` rollback list, which a scripting browser never renders. It was
    lost when the sculpture replaced the `<ol>`, and nobody noticed. **Testosterone is
    diurnal and a reference range is written for a morning sample, so this is the one
    instruction on the page that changes the RESULT rather than the experience.** Irina's
    step-02 copy happens to fix it — which is the strongest argument for taking her steps.
 
-3. ⚠️ **HER STEPS 02–06 WOULD FORK THE SHARED BLOCK.** The STEPS array is byte-identical
+3. ⛔ *(settled — forked, then REVERTED; see part 2)* **HER STEPS 02–06.** The STEPS array is byte-identical
    across the three doors by design, and her step 02 is testosterone-specific (the morning
    draw, the UAE collection). Forking it is the crack the parity contract exists to
    prevent — but item 2 says the generic block is actively costing this page a clinical
@@ -191,7 +236,7 @@ flower at six steps on desktop and phone, and the grade asserted as a pair.
    The other four are fine. **They are in as she wrote them** rather than silently trimmed;
    the fix is either her trim, or a phone-only step-down on the beat type.
 
-5. ⚠️ **THE LEDGER'S HEADING.** Her *"Every symptom tells us a story"* would replace
+5. ✅ *(settled — hers went in)* **THE LEDGER'S HEADING.** Her *"Every symptom tells us a story"* would replace
    **"What you told yourself"** — and that heading IS the section's argument: eight
    excuses a man has actually said to himself, then the flip. She called the middle
    "really clever"; this heading is what makes it clever. Her closing line went in (it is

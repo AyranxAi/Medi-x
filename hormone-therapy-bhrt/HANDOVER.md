@@ -7,9 +7,8 @@ every departure from her text is typographic and is recorded at the site it happ
 What moved: the hero sub, the definition, three scene beats, the whole of 04's copy, 05's
 lede, **three hormone dossiers became five**, and **the doctors row became three women**.
 
-**⚠️ SIX THINGS ARE FLAGGED FOR HER AND ONE IS URGENT — see "Open" at the foot.** The
-urgent one: *"Assisting anxiety via allopregnanolone"* on the Pregnenolone card reads, as
-written, as the hormone assisting the anxiety. It is one word and it is hers to change.
+**Three of the six flags raised against her copy came back the same day (2026-08-24g) and
+are settled below;** three are still open. See "Open" at the foot.
 
 ⚠️ **UK ENGLISH IS A SITE-WIDE RULE NOW** — his call the same day: *"the whole website,
 it's going to be UK English, not American, so we will always use personalised and not
@@ -20,6 +19,28 @@ identifiers (`scroll-behavior`), build comments (one deliberately spells the Ame
 `estradiol`, which he was asked about directly and chose to keep**: they are the
 international non-proprietary names, the ones on a prescription and in a patient's search
 box. That last one is in BRAND.md precisely so it is not re-litigated.
+
+⚠️⚠️ **PETAL 01 IS A DISCOVERY CALL, NOT AN ASSESSMENT — 2026-08-24g.** His words:
+*"Discovery call - NOT assessment"*. **This is a change of FACT, not of wording.** Step 01
+was a questionnaire the reader filled in alone, online; it is now **a call with a person**,
+and its job changed with it — it no longer collects her symptoms, it works out which
+specialist she should see. That is why the new body drops symptoms/history/goals: step 04
+is where those are taken.
+- ⚠️ **APPLIED TO ALL THREE SCULPTURE DOORS** (bhrt · modern-menopause · testosterone-top-up)
+  — the STEPS block is the parity contract and the copy carries no door's vocabulary, so
+  forking it here would have been the drift the contract exists to prevent. One line per
+  page to revert if he wants this page only.
+- ⚠️ **/peptide-therapy/ AND /functional-medicine/ STILL SAY "Your symptom assessment · A
+  questionnaire you complete online"** — on those two it is a LIVE `<ol>` in their own
+  "What happens next" panel, not the sculpture, and he did not name them. **If step 01 is
+  really a call now, those two pages are describing a step that no longer exists.** Two
+  lines; his call, and it is the first thing to settle from this round.
+- ⚠️ The `<noscript>` rollback list changed with it on all three: a reader without JS would
+  otherwise have been promised a form and then telephoned.
+- ⚠️ **`meta:'15 min'` IS UNCHANGED AND NOBODY HAS CHECKED IT** — it was the length of a
+  questionnaire. A discovery call may not be 15 minutes.
+- ⚠️ *"guide **them** to the right specialist"* → *"guide **you**"*. In his line "them"
+  can only attach to "your needs", and needs do not see specialists.
 
 ⚠️ **THE LITE PETAL, 2026-08-24e** — his call. The plate now carries the step's **number, name
 and duration only**; the sentence and the CTA moved to the editorial column (left on desktop,
@@ -201,28 +222,39 @@ its own, deliberately: the menu lists top services; the doors are the route in.
 
 ## Open — his to answer
 
-**⚠️ SIX OF THESE ARE IRINA'S OWN COPY, FLAGGED RATHER THAN GUESSED AT.** Her words were
-SET on his instruction ("do what irina has said"), so nothing below was changed on
-anyone's judgement — each is a question with a one-line answer she owns.
+**Six flags were raised against Irina's copy. THREE ARE SETTLED (2026-08-24g):**
 
-1. ⚠️⚠️ **"Assisting anxiety via allopregnanolone"** (Pregnenolone card). Read plainly it
-   says the hormone assists the *anxiety*. She almost certainly means it **eases** it. One
-   word. **This is the one to fix before the page goes live.**
-2. **"We look at yours."** replaced "**yours is the one we test**" in 04's lede. The old
-   sentence was recorded as LOAD-BEARING — it is what keeps the wheel an illustration
-   rather than a diagnosis, and "test" is the word doing the clinical work. Her line keeps
-   the sense and loses the verb. Restoring "Yours is the one we test." is one string.
+- ✅ **"Assisting anxiety" → "Easing anxiety"** — his call, "sure change it to ease". Her
+  draft said the hormone assists the *anxiety*. This is the only word in the five cards
+  that is not her draft.
+- ✅ **"Present in women too — in smaller, working doses" is BACK** on the Testosterone
+  card, as its sixth bullet — his call, "it's true though". See the note at the card for
+  what it is doing there; it is not a spare line.
+- ✅ **"We look at yours." STAYS** — his call, *"we look at yours is emotional hook"*, and
+  he is right on the substance too: the hedging the old sentence carried is still in the
+  lede around it ("**can** reflect", "Everyone's pattern is different") and in the close
+  ("it **may** be hormonal"). The wheel is not left reading as a diagnosis. Closed; do not
+  reopen it as a safety point.
+
+**Still open, and each is one string:**
+
+1. ⚠️ **/peptide-therapy/ and /functional-medicine/ still describe step 01 as "Your symptom
+   assessment · A questionnaire you complete online"** — see the petal-01 banner at the
+   head of this file. If step 01 is genuinely a discovery call now, those two pages
+   document a step that no longer exists. **This is the first thing to settle.**
+2. ⚠️ **`meta:'15 min'` on petal 01** was the length of a questionnaire, not of a call.
+   Unchanged because nobody has said what a discovery call runs to.
 3. **"…can be replaced with molecules identical to those your body naturally produces"**
-   (05's lede). This page's whole argument is **top-up**, not replacement — scene beat 4
-   says "So we top it up", and *replacement* is /modern-menopause/'s register, which this
-   page is under standing instruction not to blur into. "topped up with" is one phrase.
-4. **Testosterone lost "Present in women too — in smaller, working doses."** That line
-   pre-empted the one question a women's page invites the moment it names testosterone.
-   One `<li>` to put back.
-5. **Three claims sit in regulated categories** — "Immunity support", "Heart boosting"
+   (05's lede). Not a wrong sentence — "replacement" is in BHRT's own name, and Dr. Diana's
+   bio uses it. The issue is narrower: **the page now says both.** Scene beat 4 says "So we
+   top it up"; 05 says "replaced". Top-up is the perimenopause argument (the hormones still
+   work, they waver) and replacement is the menopause one (they have stopped), and keeping
+   the two doors apart is a standing instruction. "topped up with" is one phrase and makes
+   the page agree with itself.
+4. **Three claims sit in regulated categories** — "Immunity support", "Heart boosting"
    (cardiovascular) and "Up-regulator of growth hormone" (endocrine). Not blocking, but
    they should travel to a prescriber with the FAQ drafts and the wheel's day placements.
-6. **"for women with a menstrual cycle but who are noticing some change"** (hero). Set as
+5. **"for women with a menstrual cycle but who are noticing some change"** (hero). Set as
    she wrote it, with one article inserted ("a menstrual cycle") because it was missing.
    It still reads stiffly; *"for women who still have a menstrual cycle but are noticing
    some change"* is smoother and uses only her words. Her call.

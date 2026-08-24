@@ -2370,9 +2370,8 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
               <h2 class="ps-eyebrow">The Medi&#8209;Gyn process</h2>
               <p class="ps-head ps-swap-el" data-ps-head>Care begins with understanding you.</p>
               <div class="ps-rule" aria-hidden="true"></div>
-              <p class="ps-body ps-swap-el" data-ps-body>Our personalised process starts with a
-                comprehensive assessment of your symptoms, health history, and goals&#8202;&#8212;&#8202;so
-                we can create a plan that&#8217;s truly tailored to you.</p>
+              <p class="ps-body ps-swap-el" data-ps-body>We begin with understanding your
+                needs to guide you to the right specialist.</p>
               <nav class="ps-prog" aria-label="Process steps" data-ps-prog></nav>
               <div class="ps-arrows">
                 <button type="button" class="ps-arr" data-ps-prev aria-label="Previous step">
@@ -2400,7 +2399,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
 <!-- PS:HTML:END -->
       <noscript>
         <ol class="pg-steps pg-steps--page">
-          <li><span class="pg-n">01</span><span>Your symptom assessment<small>A questionnaire you complete online.</small></span><span class="pg-d">15 min</span></li>
+          <li><span class="pg-n">01</span><span>Discovery call<small>We begin with understanding your needs to guide you to the right specialist.</small></span><span class="pg-d">15 min</span></li>
           <li><span class="pg-n">02</span><span>Your blood work<small>At any laboratory, using the exact panel we send you — menopause care asks for markers a standard panel leaves out.</small></span><span class="pg-d">2–5 days</span></li>
           <li><span class="pg-n">03</span><span>Choose your doctor<small>You pick who you would like to see. They read your file first, then you choose a time with them.</small></span><span class="pg-d">same or next day</span></li>
           <li><span class="pg-n">04</span><span>Your consultation<small>Your doctor takes you through the findings, writes your prescription, and names the hormones you will be on.</small></span><span class="pg-d">60 min</span></li>
@@ -4251,9 +4250,24 @@ try{
      be UK English, not American" — his call 2026-08-24f. See BRAND.md for what the rule
      does and does not reach. ─────────────────────────────────────────────────────────── */
   var STEPS = [
-    {n:'01', title:'Assessment', meta:'15 min',
+    /* ⚠️⚠️ "DISCOVERY CALL", NOT "ASSESSMENT" — his call 2026-08-24g, and he named the
+       contrast himself: "Discovery call - NOT assessment". THIS IS A CHANGE OF FACT, NOT
+       OF WORDING. Step 01 was a questionnaire the reader filled in alone, online; it is
+       now a CALL WITH A PERSON, and its job changed with it — it no longer collects her
+       symptoms, it works out which specialist she should see. That is why the body no
+       longer mentions symptoms, history or goals: step 04 is where those are taken.
+       ⚠️ THE <noscript> ROLLBACK LIST STILL SAID "A questionnaire you complete online"
+       and was changed with this — it is the whole of the no-JS story and a reader without
+       JS would otherwise have been told to expect a form and then be phoned.
+       ⚠️ "guide THEM to the right specialist" → "guide YOU". His line read "understanding
+       your needs to guide them to the right specialist", where "them" can only attach to
+       "your needs" — and needs do not see specialists. The page speaks to her as "you"
+       throughout; this is that voice, not a rewrite.
+       ⚠️ 15 min IS UNCHANGED AND WORTH A LOOK — it was the length of a questionnaire.
+       A discovery call may not be 15 minutes; nobody has said. */
+    {n:'01', title:'Discovery call', meta:'15 min',
      head:'Care begins with understanding you.',
-     body:'Our personalised process starts with a comprehensive assessment of your symptoms, health history, and goals — so we can create a plan that’s truly tailored to you.',
+     body:'We begin with understanding your needs to guide you to the right specialist.',
      cta:'What to expect', href:'#book'},
     {n:'02', title:'Blood work', meta:'2–5 days',
      head:'We check key hormone and health markers.',

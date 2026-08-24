@@ -132,16 +132,31 @@ it.
 
 ## 5 · Open, roughly in the order I would take them
 
-**a · `/functional-medicine/` is three hops from home, and only through a door.** Measured on the
-actual markup: home links to `hormone-balancing` and `peptide-therapy` only; the hub links to the
-three doors and `peptide-therapy`; **the only pages linking to `functional-medicine` are the three
-doors.** Every other service sits at depth 1. It may be deliberate, but it does not look it —
-worth putting to him as a question, not a fix.
+**a · ⚠️ THE MENU'S "FUNCTIONAL MEDICINE" GOES TO TWO DIFFERENT PLACES DEPENDING ON WHICH PAGE
+YOU ARE STANDING ON.** On the three doors and on the page itself it points at the **in-repo**
+`/functional-medicine/`. On the **landing page, `/hormone-balancing/` and `/peptide-therapy/`**
+it still points off-site at `https://medi-gyn.com/functional-medicine/`, in a new tab.
+
+This is a **half-finished migration, and the repo's own comments show the pattern.** The menu's
+in-repo items were switched over one at a time, each on his call: Hormone Therapy on 2026-08-10
+(*"the destination is our own /hormone-balancing/ scroll-story page, no longer the WordPress
+site"*), Peptide Therapy on 2026-08-11. The doors, written later, say *"RELATIVE for the **three**
+in-repo items"*. The landing page, the hub and the peptide page still say **"both"** — they were
+written before the in-repo Functional Medicine page existed and were never revisited.
+
+**The fix is one line on three pages** — swap the absolute URL for the relative one and drop
+`target="_blank"`, exactly as the 08-10 comment describes doing for Hormone Therapy. ⚠️ **But the
+decision is his, not ours**: it changes where a real visitor lands, the previous two switches were
+each explicitly his call, and there may be content on the WordPress page that the in-repo one does
+not carry. **Ask before switching it.** (My first reading of this called it a depth problem — that
+Functional Medicine sat three clicks from home. That was wrong: it is one click from everywhere,
+it just leaves the site from half the pages.)
 
 **b · `/programs/` is an orphan.** "Booster Programs", 16K, last touched in the section-04 round,
 and **nothing on the site links to it and it links nowhere.** Establish whether it is a shipped
 page that lost its entry point or a lab leftover that should move to `archive/`. Do not delete it
-on your own reading.
+on your own reading. ⚠️ **HE HAS ASKED FOR THIS ONE TO WAIT** (2026-08-24) — leave it alone
+until he comes back to it.
 
 **c · Four controls are deliberately inert, and the list is worth re-checking with him.**
 `README.md` names them under *Deliberately unwired controls* — **Book consultation**, **Join

@@ -862,9 +862,14 @@ section{position:relative}
 
 /* ── the active card. Quiet: title · rule · meta · short copy · CTA — seated in
       the plate's clear field, left of the belly, as the reference has it. ──── */
+/* ⚠️ THE CARD IS CENTRED IN THE PLATE NOW, not stacked from its top. With a paragraph on
+   it the block had to start high (30% down) and run to the plate's foot; with three short
+   lines it reads as a label, and a label sits in the middle of the object it names. The
+   left inset stays generous — the plectrum's widest run is right of centre, and copy set
+   any further left rides up the curve. */
 .ps-card{
-  position:absolute;inset:0;padding:30% 22% 10% 29%;
-  display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;
+  position:absolute;inset:0;padding:19% 15% 17% 26%;
+  display:flex;flex-direction:column;align-items:flex-start;justify-content:center;
   opacity:0;visibility:hidden;transform:translateY(12px);pointer-events:none;
   transition:opacity var(--ps-swap) var(--ps-ease),
              transform var(--ps-swap) var(--ps-ease),
@@ -885,8 +890,13 @@ section{position:relative}
    numeral on the title's first baseline rather than centring it against a 40px line. */
 .ps-card-t{
   font-family:var(--serif);font-weight:400;font-variation-settings:"opsz" 40;
-  font-size:clamp(22px,4.9cqw,40px);line-height:1.05;color:#3A1A26;margin:0;
-  display:flex;align-items:baseline;gap:clamp(6px,1.05cqw,10px);
+  /* ⚠️ ONE RULE FOR BOTH SCREENS, AND THE FLOOR IS THE PART THAT MATTERS. cqw resolves
+     against the stage, and the plate is 66cqw on desktop AND phone — so a pure container
+     size scales correctly on its own. The first attempt at the lite petal kept a 30px
+     floor from the old paragraph card and the name overran the 231px phone plate; the
+     floor has to sit UNDER what the phone actually computes (350 x .072 = 25px). */
+  font-size:clamp(18px,6.6cqw,47px);line-height:1.04;color:#3A1A26;margin:0;
+  display:flex;align-items:baseline;gap:clamp(6px,1.15cqw,11px);
 }
 /* ⚠️ THE STEP NUMBER BORROWS .pg-n's GRAMMAR, NOT THE TITLE'S — small, tracked out,
    gold-deep. Set in Playfair at the title's own size it stops being a label and becomes the
@@ -904,32 +914,37 @@ section{position:relative}
 .ps-card-n{
   flex:none;
   font-family:var(--sans);font-weight:400;color:var(--gold-deep);
-  font-size:clamp(11px,1.75cqw,14px);letter-spacing:.14em;
+  font-size:clamp(10px,1.95cqw,16px);letter-spacing:.15em;
   font-variant-numeric:tabular-nums lining-nums;
 }
-.ps-card-rule{width:30px;height:1px;background:var(--gold);margin:clamp(10px,2.2cqw,18px) 0}
+.ps-card-rule{width:clamp(24px,4.6cqw,40px);height:1px;background:var(--gold);
+  margin:clamp(9px,2cqw,17px) 0}
 .ps-card-meta{
   font-family:var(--sans);font-weight:400;margin:0;
-  font-size:clamp(12.5px,1.85cqw,15px);color:var(--ink-soft);
+  font-size:clamp(12.5px,2.45cqw,19px);letter-spacing:.015em;color:var(--ink-soft);
 }
-.ps-card-p--m{display:none}   /* the phone's shorter petal copy; the media query swaps */
-.ps-card-p{
-  font-family:var(--sans);font-weight:300;margin:0;
-  font-size:clamp(13.5px,1.9cqw,15.5px);line-height:1.6;color:var(--ink);
-  max-width:26ch;margin-top:clamp(10px,2.2cqw,18px);
-}
-.ps-card-cta{
-  pointer-events:auto;display:inline-flex;align-items:center;gap:12px;
-  margin-top:clamp(14px,3cqw,26px);padding:11px 16px;
-  border:1px solid rgba(194,160,94,.8);background:rgba(255,253,249,.35);
-  font-family:var(--sans);font-weight:400;font-size:clamp(12px,1.75cqw,13.5px);
-  color:var(--burgundy);text-decoration:none;white-space:nowrap;
+/* ⚠️ .ps-card-p AND .ps-card-cta ARE DELETED, NOT HIDDEN — his call 2026-08-24e. The plate
+   carries the NAME; the sentence and the CTA are the column's (see .ps-ed-cta). The rules
+   that stood here sized prose to a 26ch measure inside a curved plate and stepped it down
+   again on a phone, which is the machinery a plate-with-a-paragraph needs and this one no
+   longer is. Bringing either back means bringing the two-version copy fork back with it. */
+
+/* ⚠️ THE STEP'S CTA, IN THE COLUMN. Sized in vw and not cqw: the column is not inside the
+   stage's container, so container units would resolve against the viewport here and swing
+   wildly between the two layouts. It is one element re-labelled per step, so it holds its
+   place in the tab order instead of six buttons taking turns. */
+.ps-ed-cta{
+  display:inline-flex;align-items:center;gap:12px;align-self:flex-start;
+  margin-top:clamp(20px,2.9vh,30px);padding:14px 22px;
+  border:1px solid rgba(194,160,94,.85);background:rgba(255,253,249,.5);
+  font-family:var(--sans);font-weight:400;font-size:clamp(12.5px,1vw,13.5px);
+  letter-spacing:.055em;color:var(--burgundy);text-decoration:none;white-space:nowrap;
   transition:background .3s var(--ps-ease),border-color .3s var(--ps-ease);
 }
-.ps-card-cta .arr{transition:transform .35s var(--ps-ease)}
-.ps-card-cta:hover{background:#FFFDF9;border-color:var(--gold-deep)}
-.ps-card-cta:hover .arr{transform:translateX(4px)}
-.ps-card-cta:focus-visible{outline:2px solid var(--gold-deep);outline-offset:3px}
+.ps-ed-cta .arr{transition:transform .35s var(--ps-ease)}
+.ps-ed-cta:hover{background:#FFFDF9;border-color:var(--gold-deep)}
+.ps-ed-cta:hover .arr{transform:translateX(4px)}
+.ps-ed-cta:focus-visible{outline:2px solid var(--gold-deep);outline-offset:3px}
 
 .ps-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
   clip:rect(0 0 0 0);white-space:nowrap;border:0}
@@ -959,14 +974,14 @@ section{position:relative}
   .ps-arm[data-slot="3"] .ps-lbl{--lox:-7.5cqw;--loy:-.7cqw}
   .ps-arm[data-slot="4"] .ps-lbl{--lox:-3.5cqw;--loy:7cqw}
   .ps-arm[data-slot="5"] .ps-lbl{--lox:1.9cqw;--loy:7.2cqw}
-  /* on the plate the copy is title · rule · meta · four short lines — no CTA;
-     the editorial underneath carries the step's full story */
-  .ps-card{padding:24% 16% 12% 30%}
-  .ps-card-cta,.ps-card-p--d{display:none}
-  .ps-card-p--m{display:block}
-  .ps-card-t{font-size:clamp(21px,5.4cqw,30px)}
-  .ps-card-meta{font-size:clamp(12.5px,2.4cqw,14px)}
-  .ps-card-p{font-size:clamp(13px,2.5cqw,14.5px);max-width:19ch;line-height:1.5}
+  /* ⚠️ THE PLATE NEEDS NO PHONE OVERRIDES ANY MORE, and that is the lite petal paying for
+     itself. It used to need four — a different padding, a smaller name, a smaller meta and
+     a whole second paragraph — because a plate carrying prose is a different problem at
+     175px than at 430. Carrying a name, it is the same problem at both, and the container
+     units above solve it once. The ONE thing the phone still tunes is the inset: the plate
+     is turned -18deg here, so the copy needs a touch more room off its left curve. */
+  .ps-card{padding:20% 14% 18% 29%}
+  .ps-ed-cta{margin-top:clamp(18px,2.4vh,26px);padding:13px 20px;font-size:13px}
 }
 @media(max-width:640px){
   .ps-prog{max-width:none}
@@ -979,7 +994,7 @@ section{position:relative}
   .ps-petal,.ps-arm,.ps-reach,.ps-cage,.ps-lbl{transition-duration:1ms}
   .ps-arm.is-on .ps-card{transition-delay:0s}
   .ps.ps-fading .ps-swap-el{transform:none}
-  .ps-card-cta .arr{transition:none}
+  .ps-ed-cta .arr{transition:none}
 }
 /* PS:CSS:END */
 
@@ -3965,6 +3980,17 @@ try{
   var prog  = root.querySelector('[data-ps-prog]');
   var head  = root.querySelector('[data-ps-head]');
   var body  = root.querySelector('[data-ps-body]');
+  /* ⚠️ THE STEP'S CTA LIVES IN THE COLUMN NOW, and it is built here rather than in the
+     markup so the <noscript> chapter stays exactly what it was. One element, re-labelled
+     on each step — not six that hide each other — so a reader's focus ring never lands on
+     a button belonging to a step they cannot see. */
+  var edCta = document.createElement('a');
+  edCta.className = 'ps-ed-cta';
+  body.insertAdjacentElement('afterend', edCta);
+  function paintCta(st){
+    edCta.setAttribute('href', st.href);
+    edCta.innerHTML = st.cta + ' <span class="arr" aria-hidden="true">&#8594;</span>';
+  }
   var live  = root.querySelector('[data-ps-live]');
 
   /* ── the six steps. One array. No markup is written twice. ──────────────────
@@ -3982,64 +4008,55 @@ try{
      ⚠️ THE `short` LINES FOR 02, 04 AND 05 WERE DERIVED FROM HIS OWN 2026-08-24 COPY, not
      written fresh, and they are the one place in this array that is not his words. Flagged
      for approval. ──────────────────────────────────────────────────────────────── */
+  /* ── the six steps. One array. No markup is written twice. ──────────────────
+     ⚠️⚠️ ONE PROSE STRING PER STEP SINCE 2026-08-24e, AND THAT IS THE WHOLE POINT OF THE
+     LITE PETAL. Until then each step carried FOUR — `head` and `body` for the editorial
+     column, `petal` for the desktop plate and `short` for the phone's — because the plate's
+     capacity changes with the screen (measured: 15 words on a phone, 25 on a desktop) and
+     the column's does not. His call: the plate carries the NAME, the column carries the
+     WORDS. So `petal` and `short` are gone, and `body` is the one sentence a reader gets on
+     either screen. A new line from him is now one line of work, not two, and none of it is
+     written by anyone but him.
+     ⚠️ `head` STAYS — it is the big Playfair line, and it is a headline, not a second
+     description. Do not let it grow into one.
+     ⚠️ STEP 02's `body` IS HIS 2026-08-24 COPY and reads as an expansion of its own `head`;
+     that is the one pair in the six that overlaps. Left as his words rather than tightened.
+     ⚠️ SENTENCE CASE, HIS CALL 2026-08-24e ("go for your suggestion"): "Blood work", not
+     "Blood Work"; "Choose your doctor", not "Choose your Doctor". The estate is sentence
+     case everywhere else and these were the only two headings that were not. "A Zoom
+     meeting" takes the brand's own casing by the same call — it was "A ZOOM Meeting".
+     ⚠️ "personalised", NOT "personalized", now in 01 as well as 03. 01 was held back on
+     2026-08-24 at his request; the spelling is the estate's British one and the exception
+     had no reason to outlive that round. ───────────────────────────────────────────── */
   var STEPS = [
     {n:'01', title:'Assessment', meta:'15 min',
      head:'Care begins with understanding you.',
-     body:'Our personalized process starts with a comprehensive assessment of your symptoms, health history, and goals — so we can create a plan that’s truly tailored to you.',
-     petal:'We begin with a comprehensive assessment of your symptoms, health history, and goals.',
-     short:'We begin with a full assessment of your symptoms, history and goals.',
+     body:'Our personalised process starts with a comprehensive assessment of your symptoms, health history, and goals — so we can create a plan that’s truly tailored to you.',
      cta:'What to expect', href:'#book'},
-    {n:'02', title:'Blood Work', meta:'2–5 days',
+    {n:'02', title:'Blood work', meta:'2–5 days',
      head:'We check key hormone and health markers.',
-     body:'Targeted blood work gives us a clearer picture of your hormone levels and overall health — helping us understand what may be happening beneath the surface.',
-     /* ⚠️ HIS COPY, 2026-08-24, with two typographic corrections recorded here and made
-        nowhere else: "health markets" → "health markers" (the subject is hormone markers,
-        and the line it replaces said markers), and the spaced hyphen → an em dash, which
-        is the estate's rule. A closing full stop was added to match the other five. */
-     petal:'We assess key hormone and health markers to build a clear picture of your health today — so your care is tailored to you.',
-     short:'We assess key hormone and health markers for a clear picture of your health today.',
+     body:'We assess key hormone and health markers to build a clear picture of your health today — so your care is tailored to you.',
      cta:'What to expect', href:'#book'},
-    /* ⚠️ "Personalised", not "Personalized" — his call 2026-08-24, and it is the estate's
-       own British spelling (the doctor bios carry the same correction: "rate of aging" →
-       "rate of ageing"). ⚠️ ONE AMERICAN SPELLING SURVIVES, in step 01's body, because he
-       asked for 01 to be left alone this round. Flagged, not fixed. */
-    {n:'03', title:'Choose your Doctor', meta:'Personalised match',
+    {n:'03', title:'Choose your doctor', meta:'Personalised match',
      head:'Choose the doctor who feels right for you.',
      body:'Choose the doctor who best aligns with your needs, preferences and care goals, so your experience feels personal from the beginning.',
-     petal:'Choose your preferred doctor and begin care with someone aligned with your needs.',
-     short:'Choose the doctor who feels right for you and begin your care with them.',
      cta:'Meet your doctors', href:'#doctors'},
     {n:'04', title:'Consultation', meta:'60 min',
      head:'We meet to review your health and create your plan.',
-     body:'You’ll meet with your chosen doctor for a comprehensive review of your symptoms, health history and goals, so together you can create a plan tailored to you.',
-     /* ⚠️ HIS COPY, 2026-08-24, AND IT NAMES THE CHANNEL — "A ZOOM Meeting". That is an
-        operational claim rather than a description, so it is his to make and his to
-        withdraw; it is reproduced exactly as he wrote it, capitals included. */
-     petal:'A ZOOM Meeting with your chosen Hormone Specialist for a comprehensive review of your symptoms, medical history, lifestyle and personal goals.',
-     short:'A ZOOM Meeting with your Hormone Specialist to review your symptoms, history and goals.',
+     body:'A Zoom meeting with your chosen Hormone Specialist for a comprehensive review of your symptoms, medical history, lifestyle and personal goals.',
      cta:'What to expect', href:'#book'},
-    /* ⚠️⚠️ "BHRT Prescription" IS HIS WORDING AND IT RUNS ON ALL THREE DOORS, INCLUDING
-       THE MEN'S. This block is byte-identical on /hormone-therapy-bhrt/,
-       /modern-menopause/ and /testosterone-top-up/ by contract, so the title he gave is
-       the title all three show. It is defensible — a testosterone top-up IS bio-identical
-       hormone therapy — but it is the one string in this array that names a therapy rather
-       than a step, and the estate's standing rule is that the doors must not blur.
-       ⚠️ IF HE WANTS IT PAGE-SPECIFIC, that is a `label`/`title` fork and it BREAKS THE
-       BYTE-IDENTICAL CONTRACT — read the parity note over the block before doing it.
-       ⚠️ THE RESTING LEAF KEEPS THE SHORT NAME. "BHRT Prescription" is two words too long
-       for the label seated on a resting petal, so `label` carries the short one and
-       `title` carries his. See the builder. */
+    /* ⚠️ "BHRT Prescription" RUNS ON ALL THREE DOORS, INCLUDING THE MEN'S — his wording,
+       carried by the byte-identical block, and left that way on 2026-08-24e rather than
+       forked. Forking step 05 is the first crack in the parity contract that keeps the
+       three doors from drifting; a testosterone top-up IS bio-identical hormone therapy,
+       so the title is defensible where it stands. `label` keeps the resting leaf short. */
     {n:'05', title:'BHRT Prescription', label:'Prescription', meta:'2-month supply',
      head:'Your treatment is prepared around you.',
-     body:'Once your plan is confirmed, your prescription is prepared around your individual needs so treatment feels considered, clear and easy to begin.',
-     petal:'Your personalised prescription is prepared based on your blood test results and your consultation with the doctor.',
-     short:'Your personalised prescription is prepared from your blood results and your consultation.',
+     body:'Your personalised prescription is prepared based on your blood test results and your consultation with the doctor.',
      cta:'Treatment details', href:'#book'},
     {n:'06', title:'Aftercare', meta:'1-Month care',
      head:'Ongoing care, always by your side.',
      body:'Our aftercare includes follow-up support, care adjustments where needed and continued guidance, so your treatment can evolve with you.',
-     petal:'We continue to support you with follow-up care, guidance and treatment adjustments where needed.',
-     short:'We stay by your side with follow-up care and adjustments where needed.',
      cta:'What to expect', href:'#book'}
   ];
 
@@ -4234,10 +4251,11 @@ try{
       +       st.n + '</span>' + st.title + '</h3>'
       +     '<span class="ps-card-rule" aria-hidden="true"></span>'
       +     '<p class="ps-card-meta">' + st.meta + '</p>'
-      +     '<p class="ps-card-p ps-card-p--d">' + st.petal + '</p>'
-      +     '<p class="ps-card-p ps-card-p--m">' + st.short + '</p>'
-      +     '<a class="ps-card-cta" href="' + st.href + '">' + st.cta
-      +       ' <span class="arr" aria-hidden="true">&#8594;</span></a>'
+      /* ⚠️ THE PLATE STOPS HERE — number, name, rule, duration. His call 2026-08-24e. The
+         sentence and the CTA moved to the editorial column, which is the same box on both
+         screens; the plate is not. Everything that used to overflow a 175px phone plate,
+         including a CTA that was measured being pushed clean off the card, now lives
+         somewhere with room. Putting prose back here reintroduces the two-version fork. */
       +   '</div>'
       + '</div>';
     cage.appendChild(p); reach.appendChild(cage); arm.appendChild(reach);
@@ -4264,6 +4282,10 @@ try{
     prog.appendChild(b);
     return b;
   });
+
+  /* the column's CTA has to be right before the first interaction, not only after one —
+     the chapter opens on step 01 and a reader may never change step at all */
+  paintCta(STEPS[0]);
 
   /* ── state ────────────────────────────────────────────────────────────────── */
   var cur = 0, seated = 0, tRelease = 0, tSettle = 0, tCopy = 0, tTurn = 0, tHop = 0;
@@ -4311,6 +4333,7 @@ try{
     tCopy = setTimeout(function(){
       head.textContent = STEPS[n].head;
       body.textContent = STEPS[n].body;
+      paintCta(STEPS[n]);
       root.classList.remove('ps-fading');
     }, RM ? 20 : 250);
 

@@ -1,3 +1,73 @@
+# Handoff addendum — 2026-08-24e (the lite petal: the plate carries the name, the column carries the words)
+
+His call, off a rendered side-by-side: **"regarding lite petal i think it is the right choice,
+just change the words i have given you to the bottom part for phone and on the windows on the
+left."** This is that, plus the three smaller calls decided in the same message.
+
+## 1 · What moved
+
+| | before | after |
+|---|---|---|
+| the plate | number, name, rule, meta, a sentence, a CTA | **number, name, rule, meta** |
+| the column | eyebrow, head, rule, body, dots | eyebrow, head, rule, **the step's sentence**, **the step's CTA**, dots |
+| prose strings per step | **four** — `head`, `body`, `petal`, `short` | **two** — `head`, `body` |
+| phone overrides for the plate | four (padding, name, meta, a second paragraph) | **one** (the inset, for the −18° turn) |
+
+⚠️⚠️ **THE COPY FORK IS GONE, AND THAT IS THE POINT OF THE WHOLE CHANGE.** The plate's capacity
+changes with the screen — measured at **15 words on a phone against 25 on a desktop** — so a
+sentence on it had to exist twice, and the second version was a rewrite rather than a trim. The
+column is the same box on both screens. **A new line from him is now one line of work, and none
+of the six is written by anyone but him.** `petal` and `short` are deleted; `body` is the one
+sentence a reader gets on either screen.
+
+⚠️ **`head` STAYS A HEADLINE.** It is the big Playfair line and it is not a second description.
+Step 02's pair is the one that overlaps — his sentence reads as an expansion of its own head —
+and it was left as his words rather than tightened.
+
+## 2 · The type, and why it needs no phone block
+
+**One rule serves both screens**, because `cqw` resolves against the stage and the plate is
+`66cqw` on desktop *and* phone. Measured after tuning: the name renders **43px on desktop and
+23px on a phone**, the meta **16 / 13**, and **every one of the twelve frames has zero spill**
+past the plate's edge.
+
+⚠️ **THE FLOOR OF THE CLAMP IS THE PART THAT BITES.** The first attempt kept a 30px floor
+inherited from the paragraph card, and the name overran the 231px phone plate — the floor has to
+sit *under* what the phone actually computes (350 × .066 ≈ 23px). If the name ever overruns
+again, look at the floor before the cap.
+
+⚠️ **THE CARD IS CENTRED IN THE PLATE NOW**, not stacked from its top. With a paragraph on it
+the block had to start 30% down and run to the foot; with three short lines it is a label, and a
+label sits in the middle of what it names. The left inset stays generous — the plectrum's widest
+run is right of centre, and copy set further left rides up the curve.
+
+⚠️ **THE CTA IS ONE ELEMENT RE-LABELLED PER STEP**, built by the script rather than in the
+markup so the `<noscript>` chapter is untouched. One element, not six taking turns, so a
+reader's focus ring never lands on a button belonging to a step they cannot see. It is sized in
+`vw`, not `cqw` — the column is outside the stage's container, where container units would
+resolve against the viewport and swing between the two layouts.
+
+## 3 · The three smaller calls
+
+- **Sentence case** — his "go for your suggestion". "Blood work", not "Blood Work"; "Choose your
+  doctor", not "Choose your Doctor". Those were the only two headings in the estate that were
+  not sentence case. **"A Zoom meeting"** takes the brand's own casing by the same call.
+- **"personalised" in step 01 as well as 03.** 01 was held back at his request on 2026-08-24;
+  the spelling is the estate's British one and the exception had no reason to outlive that round.
+- ⚠️ **THE 4-WEEK MENTORSHIP LINE STAYS OFF.** I recommended restoring it. **His answer: "it is
+  given to me by the owner they have removed it for a reason."** That is a decision from outside
+  this repo and it outranks the recommendation — recorded here so nobody helpfully puts it back
+  on the strength of the earlier note. The earlier note's reasoning is still true (it is a
+  distinct promise from step 06's aftercare month) and still does not change the answer.
+- **Step 05 stays "BHRT Prescription" on all three doors.** Not raised in his reply, and leaving
+  it is what the parity contract wants; forking it is the first crack.
+
+## 4 · What this retires
+
+**Three short phone lines that were mine, not his** — steps 02, 04 and 05 needed a shorter
+version for the plate and I derived them from his copy. They were the only words in that array
+not written by him. **They are gone.** The plate has no prose to shorten.
+
 # Handoff addendum — 2026-08-24b (his copy lands on the petals and the programme panel · the add-on row stops crushing itself on a phone)
 
 A copy round on top of the same day's structural one. Everything here is his words; the

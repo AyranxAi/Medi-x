@@ -205,6 +205,37 @@ the thing the bleed exists for. `clip` on one axis leaves the other `visible`.
 thirteen widths and had simply not been re-run since the sculpture landed. Run it after any
 change to the stage, the canvas inset, or the phone slot map.
 
+## The lite petal (2026-08-24e, his call)
+
+**The plate carries the name; the column carries the words.** Number, name, rule and meta on the
+plate — nothing else. The step's sentence and its CTA live in the editorial column, which is the
+left half on a desktop and the block below the flower on a phone.
+
+**This is what retired the copy fork.** The plate's capacity changes with the screen (15 words on
+a phone against 25 on a desktop); the column's does not. Each step carried FOUR prose strings and
+now carries two — `head`, a headline, and `body`, the one sentence a reader gets on either screen.
+`petal` and `short` are deleted.
+
+⚠️ **THE PLATE NEEDS NO PHONE OVERRIDES ANY MORE, and that is the change paying for itself.** It
+used to need four — its own padding, a smaller name, a smaller meta and a whole second paragraph
+— because a plate carrying prose is a different problem at 175px than at 430. Carrying a name it
+is the same problem at both, and `cqw` solves it once: the plate is `66cqw` on both screens, so a
+container-sized name scales correctly on its own. The only thing the phone still tunes is the
+inset, for the plate's −18° turn.
+
+⚠️ **THE FLOOR OF THE NAME'S CLAMP IS THE PART THAT BITES, NOT THE CAP.** The first attempt kept a
+30px floor inherited from the paragraph card and the name overran the 231px phone plate. The floor
+has to sit under what the phone computes — 350 × .066 ≈ 23px. Measured as shipped: **43px desktop,
+23px phone, zero spill past the plate on all twelve frames.**
+
+⚠️ **THE CARD IS CENTRED IN THE PLATE, not stacked from its top.** A paragraph had to start 30%
+down and run to the foot; a label sits in the middle of what it names. The left inset stays
+generous — the plectrum's widest run is right of centre and copy set further left rides the curve.
+
+⚠️ **THE CTA IS ONE ELEMENT RE-LABELLED PER STEP**, built by the script so `<noscript>` stays
+untouched, and sized in `vw` rather than `cqw` because the column sits outside the stage's
+container. One element and not six means the focus ring never lands on a hidden step's button.
+
 ## The copy, and the phone's ceiling (2026-08-24)
 
 His copy landed on the six cards, each now leading with its own number. **Step 01 was left

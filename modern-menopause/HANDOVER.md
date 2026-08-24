@@ -1,5 +1,12 @@
 # /modern-menopause/ — build record, round 1 (2026-08-19)
 
+⚠️ **THE LITE PETAL, 2026-08-24e** — his call. The plate now carries the step's **number, name
+and duration only**; the sentence and the CTA moved to the editorial column (left on desktop,
+below the flower on a phone). This retired the two-version copy fork: each step carried four
+prose strings and now carries two, and none of them is written by anyone but him. Full account
+in [`HANDOFF.md`](../HANDOFF.md) and
+[`HANDOVER_PROCESS_SCULPTURE.md`](../HANDOVER_PROCESS_SCULPTURE.md).
+
 ⚠️ **HIS COPY ROUND, 2026-08-24b** — the six petal cards carry his words and lead with their
 step number (shared block, so identical on all three doors), and the programme panel's heading
 is "Your treatment starts here". ⚠️ **THIS PAGE'S "Included" LIST WAS NOT TOUCHED**: his new

@@ -1,5 +1,15 @@
 # Scene QA harness
 
+⚠️ **RUN THE WEBGL HARNESSES ONE AT A TIME.** `process-sculpture.mjs`, `doors-shots.mjs`,
+`bhrt-shots.mjs` and `flower-frames.mjs` each drive a headless browser painting through
+SwiftShader — software WebGL, on the CPU. Two of them at once starve each other, and what
+starves first is every assertion that waits on wall-clock time rather than on state: the
+sculpture's header check drives a scroll in 40ms steps and reads the bar 900ms later, and
+under contention it returned **`hdr--hidden` still set on one door and a mid-transition
+`rgba(0,0,0,0)` background on another — both false**. Run alone, the same commit was green
+on all six page/width pairs. **A failure from a parallel run is not evidence of anything.
+Re-run it solo before you believe it.**
+
 ## The whole peptide page — `peptide-page.mjs`
 
 ```bash

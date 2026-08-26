@@ -50,13 +50,18 @@ await new Promise(r => srv.listen(0, r));
 const port = srv.address().port;
 
 /* the doctor count is page-specific and is asserted, not discovered: three on the men's
-   door (Dr. Nahla, a gynaecologist, is off it — editorial judgement, recorded) and four
-   everywhere else. A page that silently loses a doctor should fail here too. */
+   door (Dr. Nahla, a gynaecologist, is off it — editorial judgement, recorded), three on
+   the two women's doors, four on the two that still carry the peptide set. A page that
+   silently loses a doctor should fail here too. */
 const PAGES = [
-  { slug: 'modern-menopause',     docs: 4 },
-  /* ⚠️ THREE SINCE 2026-08-24f, AND IT IS THE ONLY PAGE THAT IS NOT THE PEPTIDE SET —
-     his call, three women (Dr. V · Dr. N · Dr. D). The count differing from its
-     siblings is the brief, not drift; bhrt-shots.mjs asserts the names and the order. */
+  /* ⚠️ THREE SINCE 2026-08-26, AND THEY ARE DOOR 1's THREE, VERBATIM — his call on
+     Irina's comments, "it should all just be women … copy exactly the doctors on hormone
+     balancing BHRT". Dr. Andrey, Dr. Eslam and Dr. Khalid came off THIS PAGE ONLY and
+     still live whole on /peptide-therapy/, /functional-medicine/ and
+     /testosterone-top-up/. doors-shots.mjs asserts the three names and their order. */
+  { slug: 'modern-menopause',     docs: 3 },
+  /* ⚠️ THREE SINCE 2026-08-24f — his call, three women (Dr. V · Dr. N · Dr. D).
+     bhrt-shots.mjs asserts the names and the order. */
   { slug: 'hormone-therapy-bhrt', docs: 3 },
   { slug: 'testosterone-top-up',  docs: 3 },
   { slug: 'functional-medicine',  docs: 4 },

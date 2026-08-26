@@ -1,3 +1,140 @@
+# Handoff addendum — 2026-08-26 (Irina's round on /modern-menopause/: the beat gets plainer, the card gets his list, the circle and the bar come out, and the row becomes three women)
+
+His message, in full: *"we are now handling modern menopause based on Irina's comments … 'quietens'
+becomes 'gets quieter' or something of this sort … and for the one with the payment, replace what
+is in Included with [three lines] … let's change it also for this and the menoSTART line,
+everything else in Included drops … also 2 sections after that will be removed, the circle and the
+bar — in this case make them an archive so if I want them ever again they can be back, but take
+them out now … additionally for the doctors it should all just be women, remove the men, copy
+exactly the doctors on hormone balancing BHRT."*
+
+**Everything below happened on `/modern-menopause/` and nowhere else.** No sibling page was
+touched, and door 1 was read from but never written to.
+
+## 1 · The scene's second beat
+
+`Then it quietens — and stays quiet.` → **`Then it gets quieter — and stays quiet.`**
+
+The repetition into the highlighted `quiet` is the original's and was kept: it is the word the
+whole scene turns on and the `<span class="w">` that lights it is unchanged. Six beats still, so
+`beats.length` and `SCHED.length` still index against each other — the constraint that throws on
+`SCHED[b][0]` if a `<p>` is ever added without a window.
+
+## 2 · The menoSTART card's Included list — SIX LINES OUT, FOUR IN
+
+| | before | after |
+|---|---|---|
+| Included | six lines, this page's own | **four** — door 1's three, plus this page's guide |
+| the menoSTART recap | `menoSTART — Modern Menopause Management.` | **unchanged, as he asked** |
+| Not included | four rows behind `+` | **untouched** |
+| the money | 950 / 47.50 / 997.50, add-on 1,950, review 795 | **untouched** |
+
+Gone: *Detailed symptom assessment* · *Analysis and interpretation of your blood test results* ·
+*Issuance of Hormone Balancing Protocol and Prescription* · *Issuance of Science-based
+Supplementation Plan* · *4-week mentorship support after starting your treatment*.
+
+⚠️⚠️ **THIS IS THE DOOR-1 ALIGNMENT THE 24th's NOTE SAID WOULD BE "A DECISION, NOT A SYNC".**
+It has been taken. The three lines are now byte-identical across both doors.
+
+⚠️ **IT IS FOUR LINES BECAUSE HE ASKED FOR FOUR.** Asked which Lifestyle Guide ships here — his
+"Hormone Balancing" wording or this page's own "Modern Menopause" one — he answered: *"make it 4
+line show everything so they can see altogether and decide."* So both stand, and the choice is
+visible on the rendered page instead of settled in a message. **This is a decision aid, not a
+final list**: as shipped the card offers a reader two guides, and one of them goes once the call
+is made. It is one `<li>`.
+
+⚠️ **MS. LIVIA REES SURVIVES ONLY ON LINE 4.** She has no portrait, no bio and no card anywhere
+in this repo; cutting that line cuts her from the site entirely. The Modern Menopause Lifestyle
+Guide delivered with her is client copy recovered from medi-gyn.com and is not ours to reword.
+
+⚠️ **THE 4-WEEK MENTORSHIP IS NOW PROMISED ON NEITHER DOOR.** It came off `/hormone-therapy-bhrt/`
+on the 24th and was flagged then as "one `<li>` to put back"; it has now come off this one too. It
+is a promise the client makes, it is distinct from step 06's aftercare month, and **the estate no
+longer makes it anywhere.** Still his to answer.
+
+## 3 · The circle and the bar — archived, not deleted
+
+**04 · The day, mapped** (the 24-hour dial) and **05 · The long view** (the life-bar and its three
+message cards) are out of the live page and are in
+[`archive/modern-menopause-sections/`](archive/modern-menopause-sections/) — markup, styles and
+script, **byte for byte as they were served**, six files and a README that carries the three
+insertion points and the restore checklist.
+
+⚠️ **THEY CAME OUT TOGETHER BECAUSE THEY READ AS ONE MOVEMENT** — the dial is the day, the bar is
+the life, one zoomed out of the other, and 05's `.lv-line` answers the argument 04 opens.
+Restoring one alone is fine but is a decision, not a paste.
+
+⚠️ **THE GROUND ALTERNATION SURVIVED, AND IT WAS CHECKED RATHER THAN ASSUMED.** The programme card
+closes on `--ps-ground #F0EBE7` and the doctors now open on `--dawn #F6E7E1`, so the beat still
+changes across the seam. Nothing else on the page referenced `.dial-*`, `.lv-*` or `.msg-*`, no
+navigation or sibling page linked `#day` or `#longview`, and the chapter banners past the cut were
+renumbered (doctors 05→**04**, stories 06→**05**, faq 07→**06**, call strip 08→**07**). The page
+has never printed a chapter number past 02, so nothing visible moved.
+
+⚠️ **THREE BREADCRUMBS MARK THE SEAMS** and name the archive directory, so a restore is findable
+by `grep -n "archive/modern-menopause-sections" modern-menopause/index.html`.
+
+## 4 · The doctors — door 1's three women, verbatim
+
+**Dr. Andrey Komissarov, Dr. Eslam Yakout and Dr. Khalid Shukri came off this page.** In their
+place: **Dr. Valentina Ghorashi · Dr. Nahla Ibrahim Elawady · Dr. Diana Makovskaia**, in that
+order, which is door 1's order and his.
+
+⚠️ **THEIR CARDS AND BIOS ARE UNTOUCHED AND STILL LIVE WHOLE** on `/peptide-therapy/`,
+`/functional-medicine/` and `/testosterone-top-up/`. Restore from any of those, never from memory.
+
+⚠️ **"COPY EXACTLY" WAS TAKEN LITERALLY, AND IT IS ASSERTED.** Both the doctors markup (218 lines)
+and the `.doc-grid` stylesheet region are **byte-identical to `/hormone-therapy-bhrt/`'s**, banners
+included. The recipe that proves it is written above the CSS region itself; run it before and after
+any edit to either page.
+
+⚠️ **THE 1181 CLIFF WENT WITH THE FOURTH DOCTOR.** The row is three-up from **901** now — door 1's
+number, measured there — and every portrait on this page got bigger for it (361px at 1440, against
+four's 268). The 701–900 tier is four tracks seating three cards, with the spans reset in both
+other tiers; a card still carrying `grid-column:2/span 2` in a 1- or 3-track grid is placed in an
+implicit extra column and widens the document, which is what the no-sideways-scroll check at
+thirteen widths is for.
+
+⚠️ **NO IMAGE WAS RE-ENCODED, RE-CROPPED OR RENAMED.** All three portraits were already in the
+repo and are the same files door 1 serves. `dr-diana-makovskaia-master.webp` and
+`dr-khalid-shukri-master.webp` stay unreferenced and must not be deleted.
+
+⚠️ **IT ANSWERS THIS PAGE'S OWN OPEN QUESTION** — the one recorded on Dr. Nahla's old card: *"on a
+BHRT page the BHRT gynaecologist LEADING the row is an argument worth putting to him."* It was put,
+and the answer was a different row.
+
+## 5 · The harnesses
+
+- **`tools/qa/doors-shots.mjs`** — the menopause row is `docs: 3`, `device: null`, and its
+  `sections` list lost `day` and `longview`. It gains **`docNames: [/Valentina/, /Nahla/, /Diana/]`,
+  asserted in order**, for the reason `bhrt-shots.mjs` asserts it over there: a "sync the doctors"
+  pass on any of the three pages that still carry the peptide set would silently put a man back on
+  this row, and a count alone would not notice a substitution. The dial branches are **left
+  standing and unreachable**, so restoring the sections is a config row plus a paste.
+- The page-side probe now **guards its selectors on `cfg`**. Unguarded,
+  `querySelectorAll(undefined)` is a valid call that searches for an `<undefined>` element and
+  quietly returns 0, and `deviceSel + '.' + armedCls` becomes the selector `"undefined.undefined"`
+  — so a door with no device chapter would not throw, it would report a device that is
+  present-but-empty, and the check would read as a real failure. The `else` branch asserts the
+  opposite thing on purpose: **zero labels, zero extra, zero ticks** — no orphan markup left behind
+  by the removal.
+- **`tools/qa/doctors-pill.mjs`** — `modern-menopause` is `docs: 3`.
+- `prog-card.mjs`, `trt-page.mjs` and `process-sculpture.mjs` needed no change: the money, the
+  "Not included" review line and the six petals are all untouched.
+
+## 6 · Still open — his to answer
+
+1. **Which Lifestyle Guide stays on the menoSTART card?** Both are on it right now, deliberately.
+   One `<li>` when he has looked at them together.
+2. **Does the 4-week mentorship go back?** It is promised on neither door now.
+3. **Does menoSTART still cost AED 950 + VAT?** The old blocking question is *narrower* now, not
+   answered: the two cards' Included lists match on three of four lines, which is an argument that
+   the fee matches too — but the fourth line is a deliverable BHRT does not carry, and he has still
+   never been asked.
+4. `<title>` / meta sign-off; real testimonials; the draft FAQ past a prescriber. Unchanged.
+5. The scene concept board owed from door 1. Unchanged.
+6. `images/medi-gyn-modern-menopause-*` still sit unreferenced — no photography, his call.
+
 # Handoff addendum — 2026-08-24e (the lite petal: the plate carries the name, the column carries the words)
 
 His call, off a rendered side-by-side: **"regarding lite petal i think it is the right choice,

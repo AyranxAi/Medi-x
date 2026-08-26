@@ -1,0 +1,47 @@
+/* ─────────────────────────── 04 · THE MONTH, MAPPED ───────────────────────
+   ⚠️ THE RING IS A STATE, NOT A WIDTH (the round-19b lesson, inherited): everything
+   absolute lives behind .dial-armed, which only the script adds, and only ≥760px.
+   the script adds, and only ≥900px — the measured floor (the outermost label
+   overhangs the 680px stage by ~70px, and 900 is where the wrap absorbs it).
+   Unarmed — no JS, a phone, a tablet, an old browser — the stage is a flowing chip
+   row and every flip still works: the readable column, with the same eight words. */
+.dial{background:var(--dawn)}
+.dial-lede,.dial-close{max-width:58ch;margin-top:18px;color:var(--ink-soft);
+  font-size:clamp(15px,1.25vw,17px);line-height:1.62}
+.dial-close{margin-top:clamp(24px,3.5vh,40px)}
+.dial-lede strong,.dial-close strong{font-weight:500;color:var(--burgundy)}
+.dial-stage{position:relative;margin:clamp(28px,4.5vh,52px) auto 0;max-width:680px}
+.dial-ring{display:none;width:100%;height:auto;color:var(--burgundy)}
+.dial-core-star{font-size:34px;fill:var(--gold-deep)}
+.dial-core-word{font-family:var(--sans);font-size:12px;letter-spacing:.22em;
+  text-transform:uppercase;fill:var(--ink-soft)}
+.dial-label{display:inline-flex;flex-direction:column;align-items:flex-start;gap:2px;
+  background:var(--ivory);border:1px solid var(--line);border-radius:14px;
+  padding:10px 16px;cursor:pointer;text-align:left;
+  transition:border-color .35s var(--ease),background .35s var(--ease)}
+.dial-label:hover{border-color:var(--gold)}
+.dl-time{font-family:var(--sans);font-weight:500;font-size:9.5px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--gold-deep)}
+.dl-word,.dl-ans{font-family:var(--accent);font-size:clamp(14px,1.2vw,16.5px);
+  color:var(--ink);white-space:nowrap}
+.dl-ans{display:none;color:var(--logo-red)}
+/* the flip — symptom → answer IN PLACE, the parent scene's replace-in-place grammar */
+.dial-label.flipped .dl-word{display:none}
+.dial-label.flipped .dl-ans{display:block}
+.dial-label.flipped{border-color:var(--logo-red);background:#FFFFFF}
+.dial-stage:not(.dial-armed){display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.dial-armed .dial-ring{display:block}
+/* armed: each label takes the seat the script derived from its data-day/data-r —
+   left/top are PERCENTAGES of the stage, so no resize handler is needed */
+.dial-armed .dial-label{position:absolute;left:var(--lx);top:var(--ly);
+  box-shadow:0 10px 30px rgba(46,34,40,.07);opacity:0;
+  transform:translate(-50%,-50%) translate(-26px,14px) scale(.94);
+  transition:opacity .7s var(--ease),transform .7s var(--ease),
+    border-color .35s var(--ease),background .35s var(--ease);
+  transition-delay:calc(var(--i)*90ms)}
+.dial-armed .dial-label:nth-of-type(even){
+  transform:translate(-50%,-50%) translate(22px,-16px) scale(.94)}
+.dial-armed.in .dial-label{opacity:1;transform:translate(-50%,-50%);transition-delay:calc(var(--i)*90ms),calc(var(--i)*90ms),0s,0s}
+@media(prefers-reduced-motion:reduce){
+  .dial-armed .dial-label{transition:none;opacity:1;transform:translate(-50%,-50%)}
+}

@@ -1,0 +1,55 @@
+  <!-- ══════════ 04 · THE DAY, MAPPED ══════════
+       THE SIBLING PAGE'S WHEEL, RE-DIALLED — and the change of dial IS the argument.
+       On /hormone-therapy-bhrt/ the symptoms are seated on a 28-DAY RING, because there
+       the cycle is still running and the symptoms keep its schedule. Here there is no
+       cycle to keep, so the ring becomes a 24-HOUR CLOCK: after menopause the pattern
+       that remains is CIRCADIAN — the 3 a.m. wake, the afternoon flush, the evening
+       flatness. Same engine, same flip grammar, one honest change of unit.
+       ⚠️ DO NOT PUT A 28-DAY RING ON THIS PAGE, and do not put a clock on that one.
+       Either swap would say the opposite of what its page is for.
+       ⚠️ THE HOURS ARE HONEST CLUSTERS, NOT DIAGNOSES — everyone's pattern differs, and
+       the lede SAYS SO ("yours is the one we test"). That sentence is load-bearing: cut
+       it and an illustration becomes a medical claim. Same rule as the sibling.
+       ⚠️ THE DIAL IS A STATE, NOT A WIDTH — everything absolute lives behind
+       .dial-armed, which the script adds only at ≥900px (measured on the sibling: below
+       that the outermost label's overhang widens the document). Unarmed = a flowing chip
+       row with every flip still working. The eight words here are the fallback chips'
+       eight, in the same order — change one list, change the other. -->
+  <section class="dial sec-pad" id="day">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 data-reveal>It keeps the <em>clock’s</em> schedule now</h2>
+      </div>
+      <p class="dial-lede" data-reveal>
+        One day, roughly. Without a cycle to follow, the pattern that remains runs on the
+        clock — the same wake, the same hour, the same flat stretch. Everyone’s day
+        differs; <strong>yours is the one we test</strong>. Tap a symptom to see what
+        we aim for.
+      </p>
+      <div class="dial-stage" data-dial>
+        <svg class="dial-ring" viewBox="0 0 640 640" aria-hidden="true">
+          <circle cx="320" cy="320" r="238" fill="none" stroke="currentColor" stroke-opacity=".28" stroke-width="1"/>
+          <circle cx="320" cy="320" r="188" fill="none" stroke="currentColor" stroke-opacity=".10" stroke-width="1"/>
+          <g class="dial-ticks" stroke="currentColor" stroke-width="1"></g>
+          <text x="320" y="312" text-anchor="middle" class="dial-core-star">✦</text>
+          <text x="320" y="342" text-anchor="middle" class="dial-core-word">one day</text>
+        </svg>
+        <!-- data-hour is the label's midpoint hour of 24 (midnight at the top, clockwise
+             — a clock face, read the way a clock is read); data-r is its radius in % of
+             the stage, hand-tuned and alternating because the small hours crowd the top
+             of the dial exactly where three labels want to sit. -->
+        <button type="button" class="dial-label" data-hour="2.5"  data-r="44" style="--i:0"><span class="dl-time">1–4 a.m.</span><span class="dl-word">3 a.m. waking</span><span class="dl-ans">Deep sleep</span></button>
+        <button type="button" class="dial-label" data-hour="4.5"  data-r="34" style="--i:1"><span class="dl-time">3–6 a.m.</span><span class="dl-word">Night sweats</span><span class="dl-ans">Cool nights</span></button>
+        <button type="button" class="dial-label" data-hour="7.5"  data-r="42" style="--i:2"><span class="dl-time">6–9 a.m.</span><span class="dl-word">Aching joints</span><span class="dl-ans">Easy movement</span></button>
+        <button type="button" class="dial-label" data-hour="11"   data-r="42" style="--i:3"><span class="dl-time">10 a.m.–noon</span><span class="dl-word">Brain fog</span><span class="dl-ans">Clear head</span></button>
+        <button type="button" class="dial-label" data-hour="14.5" data-r="44" style="--i:4"><span class="dl-time">2–4 p.m.</span><span class="dl-word">Hot flushes</span><span class="dl-ans">Steady warmth</span></button>
+        <button type="button" class="dial-label" data-hour="17"   data-r="34" style="--i:5"><span class="dl-time">4–6 p.m.</span><span class="dl-word">Flat mood</span><span class="dl-ans">Level days</span></button>
+        <button type="button" class="dial-label" data-hour="19.5" data-r="46" style="--i:6"><span class="dl-time">7–9 p.m.</span><span class="dl-word">Dryness</span><span class="dl-ans">Comfort back</span></button>
+        <button type="button" class="dial-label" data-hour="22"   data-r="40" style="--i:7"><span class="dl-time">9–11 p.m.</span><span class="dl-word">Wired, tired</span><span class="dl-ans">Sleep arrives</span></button>
+      </div>
+      <p class="dial-close" data-reveal>
+        A pattern that keeps time is a pattern we can measure —
+        <strong>and what we can measure, we can treat</strong>.
+      </p>
+    </div>
+  </section>

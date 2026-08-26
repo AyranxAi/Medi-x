@@ -998,125 +998,11 @@ section{position:relative}
 }
 /* PS:CSS:END */
 
-/* ─────────────────────────── 04 · THE MONTH, MAPPED ───────────────────────
-   ⚠️ THE RING IS A STATE, NOT A WIDTH (the round-19b lesson, inherited): everything
-   absolute lives behind .dial-armed, which only the script adds, and only ≥760px.
-   the script adds, and only ≥900px — the measured floor (the outermost label
-   overhangs the 680px stage by ~70px, and 900 is where the wrap absorbs it).
-   Unarmed — no JS, a phone, a tablet, an old browser — the stage is a flowing chip
-   row and every flip still works: the readable column, with the same eight words. */
-.dial{background:var(--dawn)}
-.dial-lede,.dial-close{max-width:58ch;margin-top:18px;color:var(--ink-soft);
-  font-size:clamp(15px,1.25vw,17px);line-height:1.62}
-.dial-close{margin-top:clamp(24px,3.5vh,40px)}
-.dial-lede strong,.dial-close strong{font-weight:500;color:var(--burgundy)}
-.dial-stage{position:relative;margin:clamp(28px,4.5vh,52px) auto 0;max-width:680px}
-.dial-ring{display:none;width:100%;height:auto;color:var(--burgundy)}
-.dial-core-star{font-size:34px;fill:var(--gold-deep)}
-.dial-core-word{font-family:var(--sans);font-size:12px;letter-spacing:.22em;
-  text-transform:uppercase;fill:var(--ink-soft)}
-.dial-label{display:inline-flex;flex-direction:column;align-items:flex-start;gap:2px;
-  background:var(--ivory);border:1px solid var(--line);border-radius:14px;
-  padding:10px 16px;cursor:pointer;text-align:left;
-  transition:border-color .35s var(--ease),background .35s var(--ease)}
-.dial-label:hover{border-color:var(--gold)}
-.dl-time{font-family:var(--sans);font-weight:500;font-size:9.5px;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--gold-deep)}
-.dl-word,.dl-ans{font-family:var(--accent);font-size:clamp(14px,1.2vw,16.5px);
-  color:var(--ink);white-space:nowrap}
-.dl-ans{display:none;color:var(--logo-red)}
-/* the flip — symptom → answer IN PLACE, the parent scene's replace-in-place grammar */
-.dial-label.flipped .dl-word{display:none}
-.dial-label.flipped .dl-ans{display:block}
-.dial-label.flipped{border-color:var(--logo-red);background:#FFFFFF}
-.dial-stage:not(.dial-armed){display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
-.dial-armed .dial-ring{display:block}
-/* armed: each label takes the seat the script derived from its data-day/data-r —
-   left/top are PERCENTAGES of the stage, so no resize handler is needed */
-.dial-armed .dial-label{position:absolute;left:var(--lx);top:var(--ly);
-  box-shadow:0 10px 30px rgba(46,34,40,.07);opacity:0;
-  transform:translate(-50%,-50%) translate(-26px,14px) scale(.94);
-  transition:opacity .7s var(--ease),transform .7s var(--ease),
-    border-color .35s var(--ease),background .35s var(--ease);
-  transition-delay:calc(var(--i)*90ms)}
-.dial-armed .dial-label:nth-of-type(even){
-  transform:translate(-50%,-50%) translate(22px,-16px) scale(.94)}
-.dial-armed.in .dial-label{opacity:1;transform:translate(-50%,-50%);transition-delay:calc(var(--i)*90ms),calc(var(--i)*90ms),0s,0s}
-@media(prefers-reduced-motion:reduce){
-  .dial-armed .dial-label{transition:none;opacity:1;transform:translate(-50%,-50%)}
-}
-
-/* ─────────────────────── 05 · THE LONG VIEW ────────────────────────────────────────
-   This page's infographic — a life drawn as one bar, with the proportion after the last
-   period as the whole argument. It is NOT the sibling's molecule overlay: see the
-   section's DOM banner for why each page gets the graphic its own argument needs.
-   ⚠️ THE BAR IS DRAWN BY PROPORTION, NOT BY PIXELS — the two fills are percentages of
-   the same track (≈64/36), so the picture stays true at every width and there is no
-   number in the CSS that a reader could mistake for a data point. The labels carry the
-   rounding ("around 51", "≈ a third") and the caption says the picture is approximate.
-   ⚠️ IT ANIMATES ONLY ONCE AND ONLY IF ASKED — .in is added by the same IntersectionObserver
-   the wheel uses; reduced motion gets the finished bar with no growth. */
-.longview{background:var(--ivory)}
-.lv-lede,.lv-line{max-width:58ch;margin-top:18px;color:var(--ink-soft);
-  font-size:clamp(15px,1.25vw,17px);line-height:1.62}
-.lv-lede strong,.lv-line strong{font-weight:500;color:var(--burgundy)}
-.lv-bar{position:relative;display:flex;width:100%;height:clamp(58px,7vw,86px);
-  margin-top:clamp(46px,6vh,72px);border-radius:8px;overflow:visible}
-.lv-fill{display:block;height:100%;border-radius:6px;transform-origin:left center;
-  transition:flex-grow 1.5s var(--ease)}
-.lv-fill--before{flex:0 1 64%;background:var(--cream);border:1px solid var(--line)}
-.lv-fill--after{flex:0 1 36%;margin-left:5px;
-  background:linear-gradient(100deg,var(--gold-tint),var(--dawn));
-  border:1px solid var(--gold);
-  box-shadow:0 14px 40px rgba(138,106,52,.13)}
-.lv-bar:not(.in) .lv-fill--after{flex-basis:0%}
-/* ⚠️ THE OFFSET CLEARS THE WHOLE TWO-LINE MARK, MEASURED OFF THE RENDER — at
-   clamp(30px,4vh,44px) the label's second line ("your last period") sat ON the bar's top
-   border at a 900px viewport, because the mark is ~32px tall and the offset was 36px. It
-   needs the mark's own height plus air, not a round number that looks like enough. */
-.lv-mark{position:absolute;left:64%;top:calc(-1 * clamp(54px,7vh,74px));
-  transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:2px;
-  text-align:center;white-space:nowrap}
-.lv-mark i{position:absolute;top:100%;left:50%;width:1px;
-  height:calc(clamp(54px,7vh,74px) + clamp(58px,7vw,86px));
-  background:var(--logo-red);opacity:.55}
-.lv-mark b{font-family:var(--accent);font-weight:400;font-size:clamp(14px,1.3vw,17px);
-  color:var(--logo-red)}
-.lv-mark small{font-family:var(--sans);font-weight:500;font-size:9.5px;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--ink-soft)}
-.lv-tag{position:absolute;top:calc(100% + 12px);font-family:var(--sans);font-weight:500;
-  font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
-.lv-tag--before{left:0}
-.lv-tag--after{right:0;color:var(--gold-deep);text-align:right}
-.lv-cap{margin-top:clamp(42px,5vh,58px);font-size:12.5px;color:var(--ink-soft);opacity:.85}
-@media(max-width:560px){
-  /* ⚠️ THE BAR GOES VERTICAL RATHER THAN SHRINKING. At 390 the two end tags collide
-     across a 350px track and "around 51" sets over the seam; stacked, the proportion is
-     still legible and every label has its own line. */
-  .lv-bar{flex-direction:column;height:auto;margin-top:22px}
-  .lv-fill{width:100%}
-  .lv-fill--before{flex:none;height:150px}
-  .lv-fill--after{flex:none;height:86px;margin-left:0;margin-top:5px}
-  .lv-bar:not(.in) .lv-fill--after{height:0;flex-basis:auto}
-  .lv-mark{position:static;transform:none;align-items:flex-start;text-align:left;
-    margin-top:8px;order:9}
-  .lv-mark i{display:none}
-  .lv-tag{position:static;display:block;margin-top:8px;text-align:left}
-  .lv-tag--after{text-align:left}
-  .lv-cap{margin-top:20px}
-}
-.msg-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:clamp(18px,2.4vw,34px);margin-top:clamp(30px,4.5vh,50px)}
-.msg-card{background:rgba(255,255,255,.55);border:1px solid var(--line);
-  border-radius:18px;padding:clamp(20px,2.2vw,30px)}
-.msg-kicker{font-family:var(--sans);font-weight:500;font-size:10.5px;
-  letter-spacing:.18em;text-transform:uppercase;color:var(--gold-deep)}
-.msg-card h3{font-size:clamp(21px,1.9vw,27px);margin-top:8px}
-.msg-card .pg-list{margin-top:14px}
-@media(max-width:980px){
-  .msg-grid{grid-template-columns:minmax(0,1fr)}
-  .msg-card{max-width:560px;margin-inline:auto;width:100%}
-}
+/* ⚠️ 04 · THE DAY, MAPPED and 05 · THE LONG VIEW WERE STYLED HERE UNTIL 2026-08-26.
+   Both blocks are archived verbatim in archive/modern-menopause-sections/
+   (`04-the-day-mapped.css`, `05-the-long-view.css`) and this is the seam they return
+   to. Nothing outside those sections used .dial-*, .lv-* or .msg-*, which is why the
+   removal is a clean lift and not a de-tangle. */
 
 
 /* ══ THE pg-* MONEY GRAMMAR — shared with the sibling pages' programme panels ══
@@ -1562,10 +1448,46 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
    line, both caps are released there, and the picture is the column — see the block
    below `.docs-cta`. Retuning either number here now moves the TABLET, not the page
    he looks at. */
+/* ⚠️⚠️ EVERYTHING FROM `.doc-grid{` TO THE 700px RESET IS /hormone-therapy-bhrt/'s,
+   BYTE FOR BYTE — ported 2026-08-26 with the row it dresses (his "copy exactly the
+   doctors on hormone balancing BHRT"). KEEP IT BYTE-IDENTICAL: the two doors now show
+   one row, and the cheapest way to guarantee they stay one row is that a diff of these
+   two regions comes back empty. From the repo root:
+     for f in modern-menopause hormone-therapy-bhrt; do \
+       sed -n '/^[.]doc-grid{/,/^@media(max-width:700px){/p' $f/index.html > /tmp/$f.css; done
+     diff /tmp/modern-menopause.css /tmp/hormone-therapy-bhrt.css
+   ⚠️ THAT RANGE STARTS BELOW THIS NOTE ON PURPOSE. An earlier cut of it opened on the
+   banner directly beneath, and since the recipe QUOTES that banner's own first words,
+   sed matched the recipe instead of the banner and the check compared this comment
+   against nothing. A verification pattern must not appear inside the thing it verifies.
+   ⚠️ ONE CROSS-REFERENCE BELOW POINTS OFF THIS PAGE, and it is not a mistake: the note
+   on the 701–900 tier reasons by analogy with `.msg-grid`, which is DOOR 1's messengers
+   grid. This page's own .msg-* went out with the long view on 2026-08-26 (see
+   archive/modern-menopause-sections/). The sentence was left standing rather than
+   localised, because the alternative is a one-word divergence that costs the diff above
+   — and the diff is worth more than the convenience of a local example.
+   ⚠️ THE FOUR-UP NOTE ABOVE NOW DESCRIBES A TIER THIS PAGE NO LONGER HAS. Its 1180 cliff
+   went with the fourth doctor; the numbers in it are still the measured record of what
+   four portraits cost and are why the row is three, so it is kept as history, not as a
+   description of the live page. The live cliff is 901, below. */
+/* ⚠️ THE ROW IS THREE, NOT FOUR, SINCE 2026-08-24f — and three is a KINDER number than
+   four was: the 1181 cliff that four needed is gone, three sit in a line from 901, and
+   every portrait on this page got bigger for it (361px at 1440, against four's 268).
+   ⚠️ THIS TIER (701–900) IS FOUR TRACKS SEATING THREE CARDS, for the reason `.msg-grid`
+   uses six to seat five: a span-2 card in a 4-track grid is exactly the repeat(2) track
+   it replaces, so the two-up row is unchanged to the pixel, and only the odd card moves —
+   nth-child(3) opens at track 2 and lands centred beneath the pair instead of hanging at
+   the left. The 62rem cap is the two-up ruler and still governs here.
+   ⚠️ THE SPANS MUST BE UNSET IN BOTH OTHER TIERS, not just overridden — a card still
+   carrying `grid-column:2/span 2` in a 1- or 3-track grid is placed in an IMPLICIT extra
+   column and widens the document. Both media queries below reset it; the harness's
+   no-sideways-scroll check at 13 widths is what catches it if one ever doesn't. */
 .doc-grid{
-  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
   gap:clamp(28px,4.5vw,72px);max-width:62rem;margin-inline:auto;
 }
+.doc{grid-column:span 2}
+.doc:nth-child(3){grid-column:2/span 2}
 .doc{display:flex;flex-direction:column;align-items:center;text-align:center}
 .doc-photo{
   position:relative;width:min(100%,27rem);aspect-ratio:1;
@@ -1637,8 +1559,22 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
    measured as the column passing back under the pill's 216, and the pill is gone, but the
    portrait is the reason the cliff stays: 247px of picture is the floor this row was
    composed at. */
-@media(min-width:1181px){
-  .doc-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(22px,2.4vw,34px);max-width:none}
+/* ⚠️ 901, NOT 1181 — THE CLIFF MOVED BECAUSE THE ROW GOT SHORTER. 1180 was measured for
+   FOUR portraits and the number it was solved against was 247px, the floor four could
+   still be portraits at. Three clear that floor far earlier: at 901 the column is ~260px
+   and at 1440 it is ~361px, up 35% on what four ever got. The old note's warning — "five
+   in a line is a column narrower than the pill and the row breaks rather than tightening"
+   — still stands for anyone adding a FOURTH back; it is why this is repeat(3) and not an
+   auto-fit that would silently reflow.
+   ⚠️ THE NAME'S 22px CEILING IS KEPT AND IT IS DELIBERATE. It was solved for exactly
+   "Dr. Nahla Ibrahim Elawady", the longest on the row, against four-up's 268px column;
+   this tier's narrowest column is 260px at 901, which is the SAME measure, so the number
+   still applies where it is tightest. It has room to grow at 1440 and was left alone
+   anyway — a name that holds one line at every width is worth more than a bigger name
+   that wraps at one. Re-measure her, not the average, before raising it. */
+@media(min-width:901px){
+  .doc-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(22px,2.4vw,34px);max-width:none}
+  .doc,.doc:nth-child(3){grid-column:auto}
   .doc-photo{width:100%}
   .doc h3{margin-top:clamp(14px,1.8vh,20px);font-size:clamp(19px,1.5vw,22px);text-wrap:balance}
   .doc-spec{margin-top:6px;font-size:clamp(12.5px,1vw,14px);line-height:1.5;max-width:none}
@@ -1646,6 +1582,7 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
 }
 @media(max-width:700px){
   .doc-grid{grid-template-columns:1fr;gap:48px}
+  .doc,.doc:nth-child(3){grid-column:auto}
 }
 
 /* ══ THE IDENTITY HEADER — HIS CALL 2026-08-14, off a rendered four-way board ═══
@@ -2419,7 +2356,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
        page's two canvases — the estate's shared-universe rule. A reader who has seen the
        sibling page recognises the water and watches it do the other thing. Change the
        WAVES block here and change it in the hero at the foot of this file.
-       THE STORY: the rhythm rolls (recognition) → it quietens and STAYS quiet, settling
+       THE STORY: the rhythm rolls (recognition) → it gets quieter and STAYS quiet, settling
        to one still line → the loss is NAMED while the water is flat (the gold beat:
        estrogen did more than keep time) → four columns RISE from that line, one per beat
        word — bone, brain, heart, skin — and the dawn comes up behind them.
@@ -2451,7 +2388,12 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
                a window there throws on SCHED[b][0]. ALL BEAT COPY IS DRAFT. -->
           <div class="scene-copy">
             <p class="scene-beat">For years, your body kept a rhythm.</p>
-            <p class="scene-beat">Then it quietens — and stays <span class="w">quiet</span>.</p>
+            <!-- ⚠️ "gets quieter", NOT "quietens" — his call 2026-08-26 on Irina's
+                 comments. Same beat, plainer verb: "quietens" is a word the reader has
+                 to stop on, and this beat is the one that has to land without a pause.
+                 The repetition into <span class="w">quiet</span> is the original's and
+                 is deliberate — the highlighted word is what the whole scene turns on. -->
+            <p class="scene-beat">Then it gets quieter — and stays <span class="w">quiet</span>.</p>
             <p class="scene-beat gold">But estrogen did more than keep time.</p>
             <p class="scene-beat">Bone. Brain. Heart. Skin — all of them were <span class="w">listening</span>.</p>
             <p class="scene-beat">So we replace what has gone — dosed from <em>your</em> labs.</p>
@@ -2631,14 +2573,47 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
             <div class="pc-rule" aria-hidden="true"></div>
             <div class="pg-blk pc-inc">
               <div class="pg-h"><span>Included</span></div>
+              <!-- ⚠️⚠️ HIS LIST, 2026-08-26 — THE DOOR-1 ALIGNMENT THAT THE 24th's NOTE SAID
+                   WOULD BE A DECISION AND NOT A SYNC. It has been made, and this is it: the
+                   three lines he wrote for /hormone-therapy-bhrt/ now open this card too,
+                   BYTE-IDENTICAL to that page's, and the six that stood here are gone —
+                   "Detailed symptom assessment", "Analysis and interpretation of your blood
+                   test results", "Issuance of Hormone Balancing Protocol and Prescription",
+                   "Issuance of Science-based Supplementation Plan" and "4-week mentorship
+                   support after starting your treatment". His words: "everything else in
+                   included drops".
+                   ⚠️ IT IS FOUR LINES, NOT THREE, AND THE FOURTH IS THE WHOLE REASON THIS
+                   CARD IS NOT A COPY OF DOOR 1's. Asked which Lifestyle Guide ships here —
+                   his "Hormone Balancing" wording or this page's own "Modern Menopause"
+                   one — he said: "make it 4 line show everything so they can see altogether
+                   and decide". So BOTH stand, and the choice is visible on the rendered
+                   page rather than settled in a message.
+                   ⚠️ LINES 3 AND 4 ARE TWO NAMES AND THEY MAY WELL BE ONE PRODUCT. Read as
+                   shipped, the card offers a reader two guides. That is the point for now —
+                   it is a decision aid, not the final list — but it is NOT a state to leave
+                   in front of a patient once the call is made. One of them goes; which one
+                   is his, and it is one <li>.
+                   ⚠️ MS. LIVIA REES SURVIVES ONLY ON LINE 4 and is named NOWHERE ELSE in
+                   this repo — no portrait, no bio, no card. Cutting that line cuts her from
+                   the site. The Modern Menopause Lifestyle Guide delivered with her is
+                   CLIENT COPY recovered from medi-gyn.com ("Peri-Menopause Fitness and
+                   Nutrition Expert"), not ours to reword; do not invent a card for her
+                   either.
+                   ⚠️ THE 4-WEEK MENTORSHIP IS NOW PROMISED ON NEITHER DOOR. It went off
+                   /hormone-therapy-bhrt/ on the 24th and was flagged then as "one <li> to
+                   put back"; it has now gone off this one too. It is a promise the client
+                   makes, it is distinct from step 06's aftercare month, and the estate no
+                   longer makes it anywhere. Still his to answer, and still one <li>.
+                   ⚠️ "Bioidentical" and "Supplements’ suggestion" ARE HIS FORMS, carried
+                   across unchanged from door 1 so a reader comparing the two cards sees the
+                   same sentence. The apostrophe is typographic, the estate's rule; his
+                   "Bioidenticsl" typo was corrected on door 1 and is recorded there. -->
               <ul class="pg-list">
-                <li>Detailed symptom assessment</li>
-                <li>Analysis and interpretation of your blood test results</li>
-                <li>Issuance of Hormone Balancing Protocol and Prescription</li>
-                <li>Issuance of Science-based Supplementation Plan</li>
+                <li>Prescription Issued Bioidentical Hormone Therapy</li>
+                <li>Science-based Supplements’ suggestion</li>
+                <li>Hormone Balancing Lifestyle Guide</li>
                 <li>The Modern Menopause Lifestyle Guide
                   <small>Nutrition and resistance training for this stage, with Ms. Livia Rees.</small></li>
-                <li>4-week mentorship support after starting your treatment</li>
               </ul>
             </div>
             <div class="pg-blk pg-blk--soft pc-exc">
@@ -2702,130 +2677,17 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
     </div>
   </section>
 
-  <!-- ══════════ 04 · THE DAY, MAPPED ══════════
-       THE SIBLING PAGE'S WHEEL, RE-DIALLED — and the change of dial IS the argument.
-       On /hormone-therapy-bhrt/ the symptoms are seated on a 28-DAY RING, because there
-       the cycle is still running and the symptoms keep its schedule. Here there is no
-       cycle to keep, so the ring becomes a 24-HOUR CLOCK: after menopause the pattern
-       that remains is CIRCADIAN — the 3 a.m. wake, the afternoon flush, the evening
-       flatness. Same engine, same flip grammar, one honest change of unit.
-       ⚠️ DO NOT PUT A 28-DAY RING ON THIS PAGE, and do not put a clock on that one.
-       Either swap would say the opposite of what its page is for.
-       ⚠️ THE HOURS ARE HONEST CLUSTERS, NOT DIAGNOSES — everyone's pattern differs, and
-       the lede SAYS SO ("yours is the one we test"). That sentence is load-bearing: cut
-       it and an illustration becomes a medical claim. Same rule as the sibling.
-       ⚠️ THE DIAL IS A STATE, NOT A WIDTH — everything absolute lives behind
-       .dial-armed, which the script adds only at ≥900px (measured on the sibling: below
-       that the outermost label's overhang widens the document). Unarmed = a flowing chip
-       row with every flip still working. The eight words here are the fallback chips'
-       eight, in the same order — change one list, change the other. -->
-  <section class="dial sec-pad" id="day">
-    <div class="wrap">
-      <div class="sec-head">
-        <h2 data-reveal>It keeps the <em>clock’s</em> schedule now</h2>
-      </div>
-      <p class="dial-lede" data-reveal>
-        One day, roughly. Without a cycle to follow, the pattern that remains runs on the
-        clock — the same wake, the same hour, the same flat stretch. Everyone’s day
-        differs; <strong>yours is the one we test</strong>. Tap a symptom to see what
-        we aim for.
-      </p>
-      <div class="dial-stage" data-dial>
-        <svg class="dial-ring" viewBox="0 0 640 640" aria-hidden="true">
-          <circle cx="320" cy="320" r="238" fill="none" stroke="currentColor" stroke-opacity=".28" stroke-width="1"/>
-          <circle cx="320" cy="320" r="188" fill="none" stroke="currentColor" stroke-opacity=".10" stroke-width="1"/>
-          <g class="dial-ticks" stroke="currentColor" stroke-width="1"></g>
-          <text x="320" y="312" text-anchor="middle" class="dial-core-star">✦</text>
-          <text x="320" y="342" text-anchor="middle" class="dial-core-word">one day</text>
-        </svg>
-        <!-- data-hour is the label's midpoint hour of 24 (midnight at the top, clockwise
-             — a clock face, read the way a clock is read); data-r is its radius in % of
-             the stage, hand-tuned and alternating because the small hours crowd the top
-             of the dial exactly where three labels want to sit. -->
-        <button type="button" class="dial-label" data-hour="2.5"  data-r="44" style="--i:0"><span class="dl-time">1–4 a.m.</span><span class="dl-word">3 a.m. waking</span><span class="dl-ans">Deep sleep</span></button>
-        <button type="button" class="dial-label" data-hour="4.5"  data-r="34" style="--i:1"><span class="dl-time">3–6 a.m.</span><span class="dl-word">Night sweats</span><span class="dl-ans">Cool nights</span></button>
-        <button type="button" class="dial-label" data-hour="7.5"  data-r="42" style="--i:2"><span class="dl-time">6–9 a.m.</span><span class="dl-word">Aching joints</span><span class="dl-ans">Easy movement</span></button>
-        <button type="button" class="dial-label" data-hour="11"   data-r="42" style="--i:3"><span class="dl-time">10 a.m.–noon</span><span class="dl-word">Brain fog</span><span class="dl-ans">Clear head</span></button>
-        <button type="button" class="dial-label" data-hour="14.5" data-r="44" style="--i:4"><span class="dl-time">2–4 p.m.</span><span class="dl-word">Hot flushes</span><span class="dl-ans">Steady warmth</span></button>
-        <button type="button" class="dial-label" data-hour="17"   data-r="34" style="--i:5"><span class="dl-time">4–6 p.m.</span><span class="dl-word">Flat mood</span><span class="dl-ans">Level days</span></button>
-        <button type="button" class="dial-label" data-hour="19.5" data-r="46" style="--i:6"><span class="dl-time">7–9 p.m.</span><span class="dl-word">Dryness</span><span class="dl-ans">Comfort back</span></button>
-        <button type="button" class="dial-label" data-hour="22"   data-r="40" style="--i:7"><span class="dl-time">9–11 p.m.</span><span class="dl-word">Wired, tired</span><span class="dl-ans">Sleep arrives</span></button>
-      </div>
-      <p class="dial-close" data-reveal>
-        A pattern that keeps time is a pattern we can measure —
-        <strong>and what we can measure, we can treat</strong>.
-      </p>
-    </div>
-  </section>
-
-  <!-- ══════════ 05 · THE LONG VIEW ══════════
-       THIS PAGE'S INFOGRAPHIC, AND IT IS DELIBERATELY NOT THE SIBLING'S MOLECULE.
-       /hormone-therapy-bhrt/ owns the identical-key proof (two estradiol skeletons
-       stamped from one <defs> and slid together) because ITS argument is "the molecule
-       is the same". This page's argument is different and bigger: menopause is not an
-       event to sit through, it is the opening of a THIRD OF A LIFE — so the graphic is a
-       lifeline, and the three cards name what has to be planned for across it.
-       ⚠️ THE NUMBERS ARE ROUNDED PUBLIC-HEALTH FIGURES, NOT CLINIC CLAIMS: menopause
-       around 51, life expectancy into the 80s, so roughly a third of life follows. They
-       are drawn as approximate BY DESIGN — the bar carries "around 51" and "≈ a third",
-       never a decimal. ⚠️ DO NOT SHARPEN THEM into precise statistics without a cited
-       source on the page; a precise number invites a challenge a rounded one does not.
-       ⚠️ THE BAR IS PURE CSS/SVG — no library, no data file. It reads at every width and
-       it degrades to its own caption if anything fails. -->
-  <section class="longview sec-pad" id="longview">
-    <div class="wrap">
-      <div class="sec-head">
-        <h2 data-reveal>A third of your life happens <em>after</em></h2>
-      </div>
-      <p class="lv-lede" data-reveal>
-        The average last period arrives around 51. Most women now live well into their
-        eighties. <strong>Menopause is not the last chapter — it is the start of the
-        longest one</strong>, and it is the one nobody was given a plan for.
-      </p>
-      <div class="lv-bar" data-lv aria-hidden="true">
-        <span class="lv-fill lv-fill--before"></span>
-        <span class="lv-fill lv-fill--after"></span>
-        <span class="lv-mark"><i></i><b>around 51</b><small>your last period</small></span>
-        <span class="lv-tag lv-tag--before">the years everyone plans for</span>
-        <span class="lv-tag lv-tag--after">≈ a third of your life</span>
-      </div>
-      <p class="lv-cap">A life, drawn roughly — the point is the proportion, not the decimals.</p>
-      <p class="lv-line" data-reveal>
-        Estrogen was never only about the cycle. <strong>It was read in tissue all over
-        your body</strong>, and those tissues keep listening for it long after the
-        bleeding stops. That is what this stage is really about.
-      </p>
-      <div class="msg-grid">
-        <article class="msg-card" data-reveal>
-          <p class="msg-kicker">Bone &amp; muscle</p>
-          <h3>The structure</h3>
-          <ul class="pg-list">
-            <li>Bone density falls fastest in the first years after menopause</li>
-            <li>Muscle needs load and protein to stay</li>
-            <li>Both are measurable, and both respond to a plan</li>
-          </ul>
-        </article>
-        <article class="msg-card" data-reveal>
-          <p class="msg-kicker">Brain &amp; heart</p>
-          <h3>The engine</h3>
-          <ul class="pg-list">
-            <li>Sleep, memory and word-finding all report in</li>
-            <li>Cardiovascular risk changes at this stage</li>
-            <li>Mood is a symptom here, not a character flaw</li>
-          </ul>
-        </article>
-        <article class="msg-card" data-reveal>
-          <p class="msg-kicker">Skin &amp; intimacy</p>
-          <h3>The comfort</h3>
-          <ul class="pg-list">
-            <li>Collagen, dryness and skin thinning are hormonal</li>
-            <li>Intimate comfort is treatable, often locally</li>
-            <li>Nobody should be enduring this quietly</li>
-          </ul>
-        </article>
-      </div>
-    </div>
-  </section>
+  <!-- ⚠️ 04 · THE DAY, MAPPED and 05 · THE LONG VIEW STOOD HERE UNTIL 2026-08-26 —
+       his call on Irina's comments, "the circle and the bar", and they were taken out
+       TOGETHER because they read as one movement: the dial is the day, the bar is the
+       life, and 05 answers the argument 04 opens. Archived whole and restorable by
+       paste — markup, styles and script — in archive/modern-menopause-sections/,
+       which carries the insertion points and everything that must not drift on the way
+       back (the clock is 24 hours and never a 28-day ring; the hours are clusters and
+       the lede that says so is load-bearing; the life figures stay rounded).
+       ⚠️ THE GROUND ALTERNATION SURVIVED THE CUT and was checked, not assumed: the
+       programme card closes on --ps-ground #F0EBE7 and the doctors open on --dawn
+       #F6E7E1, so the beat still changes across the seam. -->
 
   <div class="pxd" id="pxd" role="dialog" aria-modal="true" hidden>
     <div class="pxd-scrim" data-pxd-close></div>
@@ -2837,192 +2699,189 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
     </div>
   </div>
 
-  <!-- ══════════ 05 · THE DOCTORS ══════════
+  <!-- ══════════ 04 · THE DOCTORS ══════════
+       ⚠️ IT IS 04 NOW, NOT 05 — the two chapters that stood between the programme card
+       and this one (the 24-hour dial and the life-bar) came out on 2026-08-26 and are
+       archived in archive/modern-menopause-sections/. Restoring them puts this back to
+       05; nothing but these banner numbers depends on it, because the page has never
+       printed a chapter number past 02.
+       ⚠️⚠️ THIS CHAPTER IS /hormone-therapy-bhrt/'s, VERBATIM, SINCE 2026-08-26 — his
+       call on Irina's comments, "it should all just be women, remove the men, copy
+       exactly the doctors on hormone balancing BHRT". The banner below is door 1's own,
+       carried across with the row it describes so the two doors cannot drift apart; the
+       stylesheet's `.doc-grid` region was ported in the same commit and is byte-identical
+       to door 1's too. What follows is that page's record, and it is now this page's. -->
+
+  <!-- door 1's banner, carried across ═══════════════════════════════════════════
        HIS CALL 2026-08-14 — picture + specialization + "book consultation under their
        name", with an (i) on the portrait corner opening a popup of "the dr and their
        profession and history", × top-right, Book a consultation at the popup's foot.
-       ⚠️⚠️ "UNDER THEIR NAME" WAS WITHDRAWN 2026-08-24 — "it should only have one book
+       ⚠️ "UNDER THEIR NAME" WAS WITHDRAWN 2026-08-24 — "it should only have one book
        consultation". The pill is now the chapter's, once, under the row; see the
        `.docs-cta` note there and the banner over `.docs` in the stylesheet. Everything
        else in the 2026-08-14 brief stands.
+       ⚠️⚠️ THREE DOCTORS, ALL WOMEN, AND THE ORDER IS HIS — 2026-08-24f: "now we are
+       talking about only having 3 doctors on this page … as I said, female ones only",
+       with the order named outright: Dr. V, Dr. N, Dr. D. On a page about a woman's own
+       hormones, seen by a woman deciding whether to be examined, WHO IS ON THE ROW IS
+       PART OF THE OFFER, not a staffing detail. Read that way the instruction is a design
+       decision and it is recorded as one.
+       ⚠️ THIS PAGE'S ROW IS NOW UNIQUE IN THE ESTATE. Every other page still renders the
+       peptide four (Andrey · Eslam · Nahla · Khalid); this one no longer inherits from
+       them, so a future "sync the doctors" pass would silently undo his call. It is not
+       drift — it is the brief. Their cards, bios and all their recorded crop notes are
+       untouched on /peptide-therapy/, /functional-medicine/, /modern-menopause/ and
+       /testosterone-top-up/; restore from any of those, never from memory.
+       ⚠️ HANDOVER's OPEN QUESTION 2 IS CLOSED BY THIS. It asked "Doctor order: Nahla
+       first?" — the answer turned out to be a different row entirely, with a BHRT
+       gynaecologist leading it and Dr. Nahla second of three.
        ⚠️ THE BIOS ARE CLIENT COPY from the live medi-gyn.com doctor pages, reproduced
-       with typographic corrections only, each recorded here:
-         · "revealing root course of weight gain" → "root cause" (typo)
-         · "rate of aging" → "rate of ageing" (the site's own British spelling)
-         · straight quotes → typographic, spaced hyphens → em dashes
-       Unlike the tiles' draft copy these are his words — do not tighten in passing.
-       ⚠️ FOUR DOCTORS, AND THE SET IS THE PEPTIDE PAGE'S FOUR — his call for this page
-       2026-08-19 ("for doctors add what you can for now"): Dr. Nahla Ibrahim Elawady is
-       BACK in the slot the FM base gave to Ms. Richa Puri (a pharmacist, FM-only — her
-       card lives whole on /functional-medicine/). Dr. Nahla anchors this page's
-       discipline in her own credential line: BHRT & Sexual Health. All four here are
-       physicians, so the heading says "doctors" again, the peptide page's wording.
-       ⚠️ THEY LAND IN ONE LINE ABOVE 1180 SINCE 2026-08-17 — his call, and the 2×2 that
-       shipped with them on the 16th is now the tablet fallback only. The grid is the
-       only thing that changed: the markup, the order, the bios and the chooser are
-       untouched. What it costs and what holds it up is written over `.doc-grid` in the
-       stylesheet — READ THAT BLOCK BEFORE ADDING A FIFTH DOCTOR, because five in a line
-       is a column narrower than the pill and the row breaks rather than tightening.
-       ✅ ALL FOUR PORTRAITS ARE IN — he uploaded the last two to main as `images/dr .webp`
-       and `images/drr.webp` (2026-08-16) and they were git mv'd into place, round 4's
-       precedent: the MASTERS ARE NEVER RE-ENCODED, only renamed.
-         dr-andrey-komissarov-square.webp    1024²  · his upload, untouched
-         dr-eslam-yakout-square.webp          700²  · his upload, untouched
-         dr-nahla-ibrahim-elawady-square.webp 1024² · his upload, untouched (it arrived square)
-         dr-khalid-shukri-square-v2.webp     1024²  · BAKED — see below
-       ⚠️ DR. KHALID'S UPLOAD IS THE ONE THAT WAS NOT SQUARE: 1113×1414. His original is
-       kept beside the others as `dr-khalid-shukri-master.webp` and is the source both his
-       crops were cut from; it is not referenced by any markup and must not be deleted.
-       ⚠️⚠️ sy=120 CLIPPED HIS HAIR AND THE ROUND-6 NOTE THAT CHOSE IT WAS WRONG ON ITS OWN
-       TERMS — his call 2026-08-17, "his head is chopped off on the big pic". The note said
-       "120 keeps the arms AND the headroom"; MEASURED, IT KEPT NEITHER HEADROOM NOR HIS
-       HAIR. The topmost non-backdrop row of the master is 83, so a window opening at 120
-       started 37px INSIDE his hair, and the shipped square had a flat top where the
-       flyaways should be. Headroom above the subject, as a share of the frame:
-         Andrey 5.5%   ·   Nahla 7.4%   ·   Eslam 2.0%   ·   Khalid 0.0%
-       (Nahla's row applies on this page too — her card is the peptide page's, verbatim.)
-       He was the only one of the four touching row zero, which is why he was the only one
-       who looked decapitated. THE AUDITION THAT PICKED 120 ONLY EVER COMPARED 0 / 120 /
-       150 — every one of those three cuts hair, because the answer was below 83 and none
-       of the candidates was.
-       ⚠️ IT IS sy=53 NOW: 30px of real backdrop above row 83, which lands at 2.6% and
-       sits with Eslam's 2.0%. THE 67px IT GIVES UP AT THE FOOT IS THE PRICE AND IT IS THE
-       RIGHT ONE — his crossed forearms still read; sy=0 was rejected in round 6 for
-       cutting them and that judgement stands, which is why this is 53 and not 0.
-       ⚠️ NO PIXEL IS INVENTED. Padding the frame with sampled backdrop rgb(217,214,219)
-       was tried and rejected twice over: a 1414² side-padded square holds the whole master
-       but drops him to a visibly smaller figure than the other three, and a 1361² one only
-       softens the same mismatch. The master has 1414 rows and a full-width square can show
-       1113 of them — something has to go, and 67px of forearm costs less than his hair.
-       ⚠️ NEW BASENAME, NOT AN OVERWRITE — BRAND.md: "new filename, never an overwrite, no
-       cache can serve a stale frame". `dr-khalid-shukri-square.webp` STAYS IN THE REPO at
-       sy=120 and is now referenced by nothing; it is the served file for anyone holding
-       the old HTML, and deleting it is a broken image on their screen, not a tidy-up.
-       Re-bake with:
-         node tools/crop-portrait.mjs images/doctors/dr-khalid-shukri-master.webp <out> 0 53 1113 1024
-       ⚠️ THE HEAD CROPS WERE NEVER AFFECTED and were checked before touching anything:
-       Khalid's …-head-400 opens at sy=60 and measures 3.3% headroom, with Andrey at 5.0%,
-       Eslam 3.0% and Nahla 6.5% (this page's four). The bug was the big square only, exactly as he said.
-       The four …-head-400.webp head crops the bio panel's header uses are all baked with
-       the same tool; the two new ones were framed to match the two that shipped in round 5
-       (hair near the top edge, shoulders filling the bottom):
-         Nahla   … 145 35 640 400        Khalid … 250 60 700 400
-       ⚠️ THE MONOGRAM FALLBACK STAYS IN THE CODE ON ALL FOUR CARDS AND ALL FOUR CHOOSER
-       ROWS. It is the guard for a future rename, not scaffolding — round 4 kept it for the
-       same reason and it earned its place this round, when two of the four were missing for
-       a day. It simply never fires now. -->
+       with typographic corrections only. Every correction is recorded at the card it
+       belongs to — Dr. Valentina's and Dr. Diana's in their own banners below, Dr.
+       Nahla's on /peptide-therapy/, whose card hers still is verbatim. Unlike the tiles'
+       draft copy these are his words — do not tighten in passing.
+       ⚠️ ALL THREE PORTRAITS ARE IN. Two arrived square and one did not:
+         dr-valentina-ghorashi-square.webp     600² · his upload, untouched (arrived square)
+         dr-nahla-ibrahim-elawady-square.webp 1024² · his upload, untouched (arrived square)
+         dr-diana-makovskaia-square.webp       660² · BAKED from her 1024² master — see her
+                                                      banner for the window and the reason
+       The masters are never re-encoded, only renamed — round 4's precedent, and the
+       reason `dr-diana-makovskaia-master.webp` sits unreferenced beside the crop.
+       ⚠️ THE THREE …-head-400.webp crops the bio panel's header uses are baked with the
+       same tool and framed to match the ones that shipped in round 5 (hair near the top
+       edge, shoulders filling the bottom):
+         Valentina …  96  8 400 400      Diana … 292 22 450 400      Nahla … 145 35 640 400
+       ⚠️ THE MONOGRAM FALLBACK STAYS IN THE CODE ON ALL THREE CARDS (VG · NE · DM). It is
+       the guard for a future rename, not scaffolding — round 4 kept it for the same reason
+       and it earned its place when two of four portraits were missing for a day. It simply
+       never fires now. -->
   <section class="docs sec-pad" id="doctors">
     <div class="wrap">
       <div class="sec-head">
-        <!-- "Doctors" is TRUE again on this page — all four are physicians (the FM
-             sibling's "specialists" heading existed for its pharmacist card only). -->
+        <!-- "Doctors" is TRUE on this page — all three are physicians (the FM sibling's
+             "specialists" heading exists for its pharmacist card only). -->
         <h2 data-reveal>The doctors you’ll <em>meet</em></h2>
       </div>
+      <!-- ⚠️⚠️ THE ROW IS DOOR 1's THREE WOMEN, VERBATIM — his call 2026-08-26 on Irina's
+           comments: "for the doctors it should all just be women, remove the men, copy
+           exactly the doctors on hormone balancing BHRT". The block below is
+           /hormone-therapy-bhrt/'s `.doc-grid` copied BYTE FOR BYTE, banners and all, so
+           the two doors show one row and a fix on either is a fix on both. Same order,
+           his: Dr. Valentina · Dr. Nahla · Dr. Diana.
+           ⚠️ DR. ANDREY, DR. ESLAM AND DR. KHALID CAME OFF THIS PAGE ONLY. Their cards and
+           bios are untouched and still live whole on /peptide-therapy/,
+           /functional-medicine/ and /testosterone-top-up/; restore from any of those,
+           never from memory. The four-up row they needed went with them — see the 901
+           cliff over `.doc-grid` in the stylesheet, which is now door 1's three-up.
+           ⚠️ THE PORTRAITS ARE ALREADY IN THE REPO and are the same files door 1 serves;
+           nothing was re-encoded, re-cropped or renamed to land them here. Dr. Diana's
+           square is a BAKED CROP of her full-length master and the master must not be
+           deleted — the recipe is in her card's banner below.
+           ⚠️ IT ANSWERS THIS PAGE'S OWN OPEN QUESTION, the one recorded on Dr. Nahla's old
+           card: "on a BHRT page the BHRT gynaecologist LEADING the row is an argument
+           worth putting to him". It was put, and the answer was a different row. -->
       <div class="doc-grid">
+        <!-- ══ DR. VALENTINA GHORASHI — leads the row, 2026-08-24f ═══════════════════
+             ⚠️ THE ROW IS THREE WOMEN NOW AND THAT IS THE WHOLE POINT — his call,
+             "as I said, female ones only", with the order named: Dr. V, Dr. N, Dr. D.
+             This ANSWERS HANDOVER's open question 2 ("Doctor order: Nahla first?") in a
+             way the question did not anticipate: the BHRT gynaecologist leading is right,
+             and Dr. Valentina's 30 years and BHRT-first credential line lead her.
+             ⚠️ DR. ANDREY, DR. ESLAM AND DR. KHALID CAME OFF THIS PAGE. Their cards and
+             bios are untouched and still live on /peptide-therapy/, /functional-medicine/
+             and /testosterone-top-up/; restore from any of those, never from memory.
+             ⚠️ /modern-menopause/ LEFT THAT LIST ON 2026-08-26 — it used to be a fourth
+             place to restore them from, and it stopped being one the day it took this row
+             (his "copy exactly the doctors on hormone balancing BHRT"). The line was
+             corrected on BOTH pages in that commit, which is the only way it stays true
+             on either: this banner is now carried byte-for-byte by two doors, so a fact
+             that changes has to change twice or the copy silently rots on one of them.
+             ⚠️ HER PORTRAIT ARRIVED SQUARE AND IS UNTOUCHED — 600×600, his upload, the
+             Nahla precedent. It MEASURES against the row it joined: 5.3% headroom above
+             the subject and 56.7% crown-to-shoulder, against Nahla's 7.4% / 56.9%. That
+             second number is the one that matters — it is how BIG the head reads — and it
+             is why Dr. Diana's needed a crop and this one did not.
+             ⚠️ 600px IS THE SMALLEST MASTER ON ANY DOCTORS ROW. It covers the ≥901px
+             layout at ~1.7x and the 701–900 two-up at ~1.4x. Fine as shipped; if a bigger
+             file ever arrives, NEW BASENAME, never an overwrite (BRAND.md).
+             ⚠️ CLIENT COPY, reproduced with typographic corrections only — all recorded:
+               · a duplicated clause removed: "…symptoms of early menopause, which then led
+                 her to pursue advance training in challenging symptoms of early menopause
+                 herself." The sentence ate itself mid-way; the surviving half is hers.
+               · "resorting overall health" → "restoring" (typo)
+               · missing spaces restored: "individualised,evidence-based",
+                 "whole-bodyhormone", "Dr.Valentina", "“BHRT”Advanced", "Gynaecology– from"
+               · "symptoms relief" → "symptom relief"; "symptoms free" → "symptom-free"
+               · "MD." → "MD," (Nahla's form); headings to sentence case
+               · [BHRT] → (“BHRT”), the form Dr. Nahla's bio already uses
+             ⚠️ HER SECOND LANGUAGE IS FARSI, NOT "IRANIAN" — the source line read
+             "Iranian", which is the nationality; the language Iran speaks is Farsi
+             (Persian). Corrected here and FLAGGED: if the client wants the source's own
+             word back it is one string, but it is wrong as written. -->
         <article class="doc" data-reveal>
           <div class="doc-photo">
-            <img src="../images/doctors/dr-andrey-komissarov-square.webp" alt="Dr. Andrey Komissarov"
-                 loading="lazy" decoding="async" width="1024" height="1024">
-            <span class="doc-mono" aria-hidden="true">AK</span>
+            <img src="../images/doctors/dr-valentina-ghorashi-square.webp" alt="Dr. Valentina Ghorashi"
+                 loading="lazy" decoding="async" width="600" height="600">
+            <span class="doc-mono" aria-hidden="true">VG</span>
             <button type="button" class="doc-info" aria-haspopup="dialog"
-                    aria-label="About Dr. Andrey Komissarov">i</button>
+                    aria-label="About Dr. Valentina Ghorashi">i</button>
           </div>
-          <h3>Dr. Andrey Komissarov</h3>
-          <p class="doc-spec">MD, PhD — Internal, Integrative &amp; Functional Medicine</p>
+          <h3>Dr. Valentina Ghorashi</h3>
+          <p class="doc-spec">MD, DHA-Certified Gynaecologist &mdash; BHRT &amp; Holistic Women’s Health</p>
           <template class="doc-detail">
             <div class="pxd-hdr">
-              <span class="pxd-face"><img src="../images/doctors/dr-andrey-komissarov-head-400.webp" alt="" aria-hidden="true" width="400" height="400"></span>
+              <span class="pxd-face"><img src="../images/doctors/dr-valentina-ghorashi-head-400.webp" alt="" aria-hidden="true" width="400" height="400"></span>
               <div class="pxd-hdr-txt">
               <p class="pxd-kicker">The doctor · Medi-Gyn</p>
-            <h3>Dr. Andrey Komissarov</h3>
-            <p class="pxd-spec">MD, PhD — Internal, Integrative &amp; Functional Medicine, Dubai · Russian / English</p>
+            <h3>Dr. Valentina Ghorashi</h3>
+            <p class="pxd-spec">MD, DHA-Certified Gynaecologist | BHRT &amp; Holistic Women’s Health Specialist · English / Farsi</p>
               </div>
             </div>
+            <p>With over 30 years of clinical experience, Dr. Valentina Ghorashi is a highly
+            respected Gynaecologist, specialising in all stages of women’s hormonal health,
+            including the reproductive years and all stages of menopause. Dr. Valentina’s core
+            expertise lies in Bioidentical Hormone Therapy (“BHRT”), delivered through a deeply
+            individualised, evidence-based and whole-body approach.</p>
+            <p>With her kind and approachable nature, Dr. Valentina is known for her listening
+            skills while being loyal to her investigative, root-cause medical approach. This
+            gives patients the assurance of being heard, understood and supported.</p>
+            <p class="pxd-sub">Dr. Valentina’s story</p>
+            <p>Dr. Valentina practises a comprehensive, whole-body hormone therapy approach,
+            believing that your hormonal balance cannot be addressed in isolation. Her treatment
+            philosophy integrates hormonal health, metabolic function, emotional well-being, and
+            long-term vitality. Her goal goes beyond symptom relief to restoring overall health
+            and well-being, preparing women for confidence and ageing gracefully, symptom-free.</p>
+            <p class="pxd-sub">How her practice was shaped</p>
+            <p>Dr. Valentina’s dedication to Bioidentical Hormone Therapy is deeply personal.
+            Her journey began after experiencing persistent and challenging symptoms of early
+            menopause herself. That’s when she pursued advanced training in bioidentical hormone
+            therapy and holistic gynaecology. Since then, Dr. Valentina has successfully treated
+            thousands of women, supporting them through peri-, menopausal, and post-menopausal
+            stages following a tailored BHRT protocol and integrative care plans.</p>
+            <p class="pxd-sub">Education &amp; credentials</p>
             <ul class="pxd-list">
-              <li>Focus on identification and addressing the root causes of illness rather than just treating symptoms.</li>
-              <li>Uncovering underlying causes of illnesses, such as genetic predisposition, environmental negative factors, inflammation, toxicity, nutrient deficiencies or individual intolerability.</li>
-              <li>Combines evidence-based conventional medicine, genetics with complementary therapies and personalised care to optimise overall well-being.</li>
+              <li>Doctor of Medicine (MD) &mdash; since 1993</li>
+              <li>Specialisation in Obstetrics &amp; Gynaecology &mdash; from 2002</li>
+              <li>Iranian Board Certification in OB-GYN &mdash; from 2002</li>
+              <li>Medical Degree &amp; OB-GYN Training, Tabriz University, Iran</li>
+              <li>Bioidentical Hormone Therapy (“BHRT”) advanced training &amp; certifications</li>
+              <li>Diploma in Aesthetic Gynaecology</li>
+              <li>DHA-Certified Practitioner</li>
             </ul>
-            <p class="pxd-sub">Key areas of patient care</p>
-            <ul class="pxd-list">
-              <li>Prevention of any illness at its early stages with an effective healthcare protocol — BHRT, TRT, Peptides etc. — to treat illnesses before any disease develops.</li>
-              <li>Wellness and Longevity: measure and improve biological age by 5 to 15 years and slow down the rate of ageing to sustain lifelong vitality — BHRT, TRT, Peptides.</li>
-              <li>Health optimisation: check up and personalised treatment plans to achieve and maintain optimal physical and mental health.</li>
-              <li>Weight loss: revealing the root cause of weight gain in each particular individual, decrease weight and maintain it life-long.</li>
-              <li>Stress and chronic fatigue management: promote resilience, increase energy, initiative and life involvement level.</li>
-            </ul>
-            <p class="pxd-sub">Dr. Andrey’s story</p>
-            <p>Dr Andrey received his medical degree from the prestigious Moscow State Medical
-            University of Pirogov in Russia, completed advanced training, and earned a master’s
-            degree in Internal Medicine at the same university. Dr Andrey further honed his
-            skills with additional training at the State Institute for Advanced Training of
-            Doctors, where he was awarded the title of Clinical PhD.</p>
-            <p>Dr Andrey provides treatments specifically designed to meet the needs and concerns
-            of patients seeking to improve and maintain their quality of life, allowing them to
-            feel better, do more, and live longer. He offers comprehensive care and diagnostic
-            services resulting in patients’ long-term well-being.</p>
-            <p>Dr Andrey’s primary focus lies in optimising health and wellness across all facets
-            of life. He offers a more natural and functional alternative to the limitations of
-            traditional medicine. Dr Andrey’s mission is to empower individuals to take control
-            of their health in a holistic manner.</p>
-            <p>Dr Andrey utilises an effective combination of cutting-edge natural therapies, as
-            well as traditional treatments, underscoring his commitment to a truly integrated
-            approach to well-being.</p>
             <div class="pxd-cta"><a class="btn" href="#book">Book a consultation <span class="arr">→</span></a></div>
           </template>
         </article>
-        <article class="doc" data-reveal>
-          <div class="doc-photo">
-            <img src="../images/doctors/dr-eslam-yakout-square.webp" alt="Dr. Eslam Yakout"
-                 loading="lazy" decoding="async" width="700" height="700">
-            <span class="doc-mono" aria-hidden="true">EY</span>
-            <button type="button" class="doc-info" aria-haspopup="dialog"
-                    aria-label="About Dr. Eslam Yakout">i</button>
-          </div>
-          <h3>Dr. Eslam Yakout</h3>
-          <p class="doc-spec">Functional and Regenerative Medicine Doctor</p>
-          <template class="doc-detail">
-            <div class="pxd-hdr">
-              <span class="pxd-face"><img src="../images/doctors/dr-eslam-yakout-head-400.webp" alt="" aria-hidden="true" width="400" height="400"></span>
-              <div class="pxd-hdr-txt">
-              <p class="pxd-kicker">The doctor · Medi-Gyn</p>
-            <h3>Dr. Eslam Yakout</h3>
-            <p class="pxd-spec">Functional and Regenerative Medicine Doctor · English / Arabic</p>
-              </div>
-            </div>
-            <p>Dr. Eslam Yakout is a physician with over 20 years of clinical experience,
-            specialised in Functional and Regenerative Medicine. His work focuses on helping
-            patients restore balance and vitality through a personalised and holistic
-            approach.</p>
-            <p class="pxd-sub">Particular expertise</p>
-            <ul class="pxd-list">
-              <li>Autoimmune diseases and fibromyalgia — reducing chronic pain, inflammation, and fatigue through functional and regenerative protocols.</li>
-              <li>Gut microbiome health — using advanced testing to address dysbiosis, leaky gut, and their link to immunity and chronic disease.</li>
-              <li>Peptide therapies — applying cutting-edge peptides for healing, tissue repair, hormonal balance, and longevity.</li>
-              <li>Nutrigenomics — integrating genetic insights with nutrition, a field he studied in South Africa in 2005, to optimise cellular and metabolic health.</li>
-              <li>Acupuncture &amp; Traditional Chinese Medicine — drawing from training in China (2000–2004), Dr. Yakout integrates Eastern practices with modern medicine, offering a truly holistic model of care that addresses both root causes and overall well-being.</li>
-            </ul>
-            <p class="pxd-sub">Dr. Eslam’s story</p>
-            <p>By combining nutrition, functional medicine, regenerative therapies, and
-            traditional healing practices, Dr. Yakout provides a comprehensive approach to
-            healthcare that empowers patients to regain energy, resilience, and long-term
-            health.</p>
-            <div class="pxd-cta"><a class="btn" href="#book">Book a consultation <span class="arr">→</span></a></div>
-          </template>
-        </article>
-        <!-- ══ DR. NAHLA IBRAHIM ELAWADY — restored on this page 2026-08-19 ══
-             The FM base had swapped her for Ms. Richa Puri (a pharmacist, FM-only);
-             on a BHRT page the gynaecologist whose own credential line reads
-             "BHRT & Sexual Health" is the anchor, and his instruction was "add what
-             you can for now" — so the peptide page's four stand here, all physicians.
-             ⚠️ HER CARD AND BIO ARE THE PEPTIDE PAGE'S, VERBATIM — client copy from her
-             medi-gyn.com page, reproduced with that page's recorded typographic
-             corrections. Do not tighten in passing; edits belong on both pages or
-             neither.
-             ⚠️ SHE IS THIRD BECAUSE THAT IS THE SLOT THE BASE HAD OPEN, not because the
-             order was judged. On a BHRT page the BHRT gynaecologist LEADING the row is
-             an argument worth putting to him — it is two <article> blocks swapped, and
-             it is his call, not a tidy-up. -->
+        <!-- ══ DR. NAHLA IBRAHIM ELAWADY — second of three since 2026-08-24f ══
+             ⚠️ HER SLOT IS NOW A JUDGEMENT, NOT AN ACCIDENT. She was third here because
+             third was the slot the Functional-Medicine base happened to leave open; his
+             2026-08-24f order (Dr. V, Dr. N, Dr. D) places her deliberately, and the old
+             note's open question — "a BHRT gynaecologist LEADING the row is a question for
+             him" — is ANSWERED: one leads, she is the second of three, and all three are
+             women, which was the actual instruction.
+             ⚠️ HER CARD AND BIO REMAIN THE PEPTIDE PAGE'S, VERBATIM — client copy from her
+             medi-gyn.com page, with that page's recorded typographic corrections. Do not
+             tighten in passing; edits belong on both pages or neither. Nothing in her
+             block changed this round except the banner you are reading. -->
         <article class="doc" data-reveal>
           <div class="doc-photo">
             <img src="../images/doctors/dr-nahla-ibrahim-elawady-square.webp" alt="Dr. Nahla Ibrahim Elawady"
@@ -3078,71 +2937,66 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
             <div class="pxd-cta"><a class="btn" href="#book">Book a consultation <span class="arr">→</span></a></div>
           </template>
         </article>
-        <!-- ══ DR. KHALID SHUKRI — added 2026-08-16, his call ════════════════════════════
-             ⚠️ CLIENT COPY from his medi-gyn.com page. Corrections, all recorded:
-               · "Having had a 40 years of experience" → "Having had 40 years"
-               · "the root cause of the diseases" → "the root cause of disease"
-               · "Double fellowship Critical Care Medicine, Fellowship Functional and
-                 Metabolic medicine" → connective words restored; the qualifications
-                 themselves are unchanged
-               · "a vibrant, energetic, and productive, healthy, and happy lifespan" → the
-                 comma run cleaned; every adjective kept
-             ⚠️ "ANTI-AGEING" IS BRITISH HERE AND "ANTI-AGING" IS AMERICAN, AND BOTH ARE
-             CORRECT ON PURPOSE — the site's own spelling is "ageing" (see "Anti Ageing" in
-             the eight tiles), but the AMERICAN ACADEMY OF ANTI-AGING is a proper noun and
-             keeps its own spelling. Do not make these agree.
-             ⚠️ HIS OWN COPY NAMES THE FUNCTIONAL MEDICINE APPROACH — "a unique Functional
-             Medicine approach … in identifying the root cause of disease" is his page's
-             second paragraph. He is fourth only because that is the sibling page's order,
-             inherited; if this page should lead with him (or with Dr. Andrey's FM title),
-             it is <article> blocks and chooser rows swapped, and it is the client's call,
-             not a tidy-up. -->
+        <!-- ══ DR. DIANA MAKOVSKAIA — added 2026-08-24f, his call ═══════════════════════
+             ⚠️ HER SQUARE IS BAKED, NOT HER UPLOAD — his master is a FULL-LENGTH studio
+             shot and it was the one portrait on this row that could not go in as it
+             arrived. MEASURED: her crown sits at row 48 of 1024 and her head reads ~25% of
+             the frame, against Dr. Valentina's 56.7% and Dr. Nahla's 56.9%. Dropped in
+             raw she would have been HALF the head of the two women beside her, which reads
+             as a different photo shoot rather than a different doctor.
+             The window is 660² at (120, 8), which lands her at 6.1% headroom and 54.8%
+             crown-to-shoulder — inside the row's band on both counts. Re-bake with:
+               node tools/crop-portrait.mjs images/doctors/dr-diana-makovskaia-master.webp <out> 120 8 660 660
+             ⚠️ A TIGHTER 565² WAS CUT FIRST AND REJECTED: it matched the head scale even
+             better but cut her CROSSED FOREARMS, and the pose does not read without them
+             — she is holding a raised hand at her collar, which without the arms looks
+             like a gesture interrupted. 660 keeps the arms and costs ~2% of head scale.
+             ⚠️ THE MASTER IS KEPT BESIDE THE CROP as `dr-diana-makovskaia-master.webp` —
+             the Dr. Khalid precedent. It is referenced by no markup and must not be
+             deleted; it is the source every future re-frame is cut from.
+             ⚠️ CLIENT COPY, reproduced with typographic corrections only — all recorded:
+               · "gynecologist" × 2 and "gynecology" → "gynaecologist" / "gynaecology"
+                 (his UK-English instruction 2026-08-24f, and the estate's existing spelling)
+               · headings to sentence case; "&" kept where her copy has it
+             ⚠️ SHE IS "DHA-LICENSED" WHERE THE OTHER TWO ARE "DHA-CERTIFIED" — that is
+             what her own page says and the two are not the same credential, so they were
+             NOT made to agree. Flagged for him rather than tidied. -->
         <article class="doc" data-reveal>
           <div class="doc-photo">
-            <img src="../images/doctors/dr-khalid-shukri-square-v2.webp" alt="Dr. Khalid Shukri"
-                 loading="lazy" decoding="async" width="1024" height="1024">
-            <span class="doc-mono" aria-hidden="true">KS</span>
+            <img src="../images/doctors/dr-diana-makovskaia-square.webp" alt="Dr. Diana Makovskaia"
+                 loading="lazy" decoding="async" width="660" height="660">
+            <span class="doc-mono" aria-hidden="true">DM</span>
             <button type="button" class="doc-info" aria-haspopup="dialog"
-                    aria-label="About Dr. Khalid Shukri">i</button>
+                    aria-label="About Dr. Diana Makovskaia">i</button>
           </div>
-          <h3>Dr. Khalid Shukri</h3>
-          <p class="doc-spec">MD, FCCM — American Board Certified, Anti-Ageing &amp; Regenerative Medicine</p>
+          <h3>Dr. Diana Makovskaia</h3>
+          <p class="doc-spec">MD, DHA-Licensed Gynaecologist &mdash; Hormonal Health</p>
           <template class="doc-detail">
             <div class="pxd-hdr">
-              <span class="pxd-face"><img src="../images/doctors/dr-khalid-shukri-head-400.webp" alt="" aria-hidden="true" width="400" height="400"></span>
+              <span class="pxd-face"><img src="../images/doctors/dr-diana-makovskaia-head-400.webp" alt="" aria-hidden="true" width="400" height="400"></span>
               <div class="pxd-hdr-txt">
               <p class="pxd-kicker">The doctor · Medi-Gyn</p>
-            <h3>Dr. Khalid Shukri</h3>
-            <p class="pxd-spec">MD, FCCM — American Board Certified Physician in Anti-Ageing &amp; Regenerative Medicine · English / Arabic</p>
+            <h3>Dr. Diana Makovskaia</h3>
+            <p class="pxd-spec">MD, DHA-Licensed Gynaecologist | Hormonal Health Specialist · English / Russian</p>
               </div>
             </div>
-            <p>Having had 40 years of experience in the medical field, from internal medicine
-            through to:</p>
+            <p>Dr. Diana Makovskaia is a dedicated gynaecologist with over 10 years of clinical
+            experience, specialising in aesthetic gynaecology, hormonal health, and menopause
+            management. She is passionate about restoring both function and confidence through
+            advanced intimate rejuvenation procedures while supporting women through
+            perimenopause and menopause with evidence-based hormone therapy and holistic care.
+            Known for her empathetic and personalised approach, Dr. Diana is committed to
+            identifying the root causes of health concerns and providing tailored treatment
+            plans that promote lifelong wellness and vitality.</p>
+            <p class="pxd-sub">Areas of expertise</p>
             <ul class="pxd-list">
-              <li>Bioidentical Hormone Therapy</li>
-              <li>Peptide Therapy &amp; Peptide Bioregulators</li>
-              <li>Healthspan &amp; Lifespan treatments</li>
-              <li>Science-driven Longevity Supplements</li>
-              <li>Preventive medicine protocols</li>
-              <li>Cancer prevention treatments</li>
-              <li>Quantum therapy treatments</li>
-            </ul>
-            <p class="pxd-sub">Dr. Khalid’s approach</p>
-            <p>With his extensive years of experience and vast up-to-date knowledge, Dr. Shukri
-            presents a unique Functional Medicine approach, combined with epigenetic and
-            wellness technology, in identifying the root cause of disease.</p>
-            <p>His treatments include detection, prevention and reversal, and setting up
-            bespoke lifestyle protocols through advanced wellness technology — designed to
-            empower patients to optimise and restore their health, and to live a vibrant,
-            energetic, productive, healthy and happy lifespan.</p>
-            <p class="pxd-sub">Accreditation</p>
-            <ul class="pxd-list">
-              <li>American Board Certified in Anti-Ageing, Regenerative Medicine &amp; Reproductive Medicine</li>
-              <li>Physician in Dignitary and Protective Medicine</li>
-              <li>Double fellowship in Critical Care Medicine</li>
-              <li>Fellowship in Functional and Metabolic Medicine</li>
-              <li>Certified Practitioner, Bioresonance / Zyto / Oligo Scans</li>
-              <li>Fellow of Functional and Metabolic Medicine, American Academy of Anti-Aging</li>
+              <li>Hormonal health</li>
+              <li>Bioidentical Hormone Replacement Therapy (BHRT)</li>
+              <li>Perimenopause &amp; menopause management</li>
+              <li>Intimate rejuvenation procedures</li>
+              <li>Personalised women’s healthcare</li>
+              <li>Root cause medicine</li>
+              <li>Holistic women’s wellness</li>
             </ul>
             <div class="pxd-cta"><a class="btn" href="#book">Book a consultation <span class="arr">→</span></a></div>
           </template>
@@ -3161,7 +3015,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
     </div>
   </section>
 
-  <!-- ══════════ 06 · STORIES ══════════ -->
+  <!-- ══════════ 05 · STORIES ══════════ -->
   <section class="stories sec-pad" id="stories">
     <div class="wrap">
       <div class="sec-head">
@@ -3197,7 +3051,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
     </div>
   </section>
 
-  <!-- ══════════ 07 · FAQ ══════════ -->
+  <!-- ══════════ 06 · FAQ ══════════ -->
   <section class="faq sec-pad" id="faq">
     <div class="wrap faq-grid">
       <div class="faq-side">
@@ -3302,7 +3156,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
     </div>
   </section>
 
-  <!-- ══════════ 08 · THE CALL STRIP ═══════════════════════════════════════════════════
+  <!-- ══════════ 07 · THE CALL STRIP ═══════════════════════════════════════════════════
        Small, before the footer. See the CSS block for why it is this size, why she is on
        the left, and what it replaced. His line, verbatim, with the offer in the accent.
        ⚠️ id="book" MUST STAY — the hero's red pill and 07's "Ask us directly" both point
@@ -4299,81 +4153,9 @@ try{
     sync();
   }
 
-  /* ══ THE DAY DIAL — the BHRT wheel's engine, re-dialled to 24 hours ══════════════
-     ⚠️ THE UNIT IS THE ARGUMENT: the sibling seats symptoms on a 28-day ring because
-     its reader still cycles; this page's reader does not, so the pattern that remains
-     is circadian and the dial is a CLOCK. Midnight at the top, clockwise, read the way
-     a clock is read. Do not "harmonise" the two pages onto one unit.
-     ⚠️ A state, not a width (the round-19b lesson): everything absolute lives behind
-     .dial-armed, added here and only at ≥900px — measured on the sibling, where the
-     outermost label's overhang widened the document at 760. Unarmed = a flowing chip
-     row, flips intact.
-     ⚠️ EVERY SIXTH HOUR IS A LONG TICK — midnight, 6, noon, 18 — which is what makes a
-     circle read as a clock rather than a pie. (The sibling marks every 7th: a week.) */
-  {
-    const stage = document.querySelector("[data-dial]");
-    if(stage){
-      /* the 28 ticks, drawn once — every 7th longer, the week's own rhythm */
-      const g = stage.querySelector(".dial-ticks");
-      if(g){
-        let ticks="";
-        for(let d=0; d<24; d++){
-          const a=(d/24)*2*Math.PI - Math.PI/2;
-          const long = d%6===0;
-          const r0=238-(long?14:7), r1=238;
-          const x0=320+r0*Math.cos(a), y0=320+r0*Math.sin(a);
-          const x1=320+r1*Math.cos(a), y1=320+r1*Math.sin(a);
-          ticks+=`<line x1="${x0.toFixed(1)}" y1="${y0.toFixed(1)}" x2="${x1.toFixed(1)}" y2="${y1.toFixed(1)}" stroke-opacity="${long?.42:.20}"/>`;
-        }
-        g.innerHTML=ticks;
-      }
-      const labels=[...stage.querySelectorAll(".dial-label")];
-      labels.forEach(b=>{
-        const hour=parseFloat(b.dataset.hour), r=parseFloat(b.dataset.r);
-        const a=(hour/24)*2*Math.PI - Math.PI/2;
-        b.style.setProperty("--lx",(50+r*Math.cos(a)).toFixed(2)+"%");
-        b.style.setProperty("--ly",(50+r*Math.sin(a)).toFixed(2)+"%");
-        b.addEventListener("click",()=>b.classList.toggle("flipped"));
-      });
-      /* ⚠️ 900, NOT 760 — MEASURED. The stage caps at 680px and the outermost label
-         (day 9, r=42%) overhangs it by ~70px of its own half-width; at 760 the wrap's
-         inner width IS the stage width, so the overhang widened the document by 22px
-         (scrollWidth 782 at a 760 viewport — the harness caught it). At 900 the wrap
-         leaves ~110px of slack a side and the overhang lands inside it. */
-      const wide = matchMedia("(min-width:900px)");
-      const arm = () => stage.classList.toggle("dial-armed", wide.matches);
-      arm();
-      (wide.addEventListener?wide.addEventListener("change",arm):wide.addListener(arm));
-      /* the assembly — scattered words settle onto the ring as the section arrives.
-         Reduced motion and ?probe=1 ship it assembled (the CSS transition is gated
-         on the media query; .in is still added so the states match). */
-      if("IntersectionObserver" in window){
-        const io=new IntersectionObserver(es=>{
-          if(es[0].isIntersecting){ stage.classList.add("in"); io.disconnect(); }
-        },{threshold:.35});
-        io.observe(stage);
-      } else stage.classList.add("in");
-      if(reduce) stage.classList.add("in");
-    }
-  }
-
-  /* ══ THE LONG VIEW — the bar grows once, and only if motion is welcome ══════════
-     The markup ships the bar at its true proportions; .in is what lets the "after"
-     half grow into place. Reduced motion and no-JS get the finished picture with no
-     growth, which is why the CSS holds the grown state and `:not(.in)` holds the
-     collapsed one rather than the other way round. */
-  {
-    const bar = document.querySelector("[data-lv]");
-    if(bar){
-      if(reduce || !("IntersectionObserver" in window)) bar.classList.add("in");
-      else {
-        const io=new IntersectionObserver(es=>{
-          if(es[0].isIntersecting){ bar.classList.add("in"); io.disconnect(); }
-        },{threshold:.45});
-        io.observe(bar);
-      }
-    }
-  }
+  /* ⚠️ THE DAY DIAL AND THE LONG-VIEW BAR CAME OUT HERE, 2026-08-26 — his call on
+     Irina's comments. Both engines are archived whole in archive/modern-menopause-sections/
+     (`04-the-day-mapped.js`, `05-the-long-view.js`); this is where they go back. */
 })();
 </script>
 

@@ -26,14 +26,28 @@ const PAGES = [
   {
     slug: 'modern-menopause', tag: 'meno',
     title: /Modern Menopause/, payoff: 'Onward.', sceneId: 'horizon',
-    docs: 4, hasNahla: true,
-    device: 'dial', deviceSel: '[data-dial]', armedCls: 'dial-armed',
-    labelSel: '.dial-label', labels: 8, ticks: 24,
-    extra: '[data-lv]',                         /* the long-view bar */
+    /* ⚠️ THREE DOCTORS SINCE 2026-08-26, AND THEY ARE DOOR 1's THREE — his call on
+       Irina's comments, "it should all just be women … copy exactly the doctors on
+       hormone balancing BHRT". `docNames` is asserted IN ORDER for the same reason
+       bhrt-shots.mjs asserts it over there: a "sync the doctors" pass on any of the
+       four pages that still carry the peptide set would silently put a man back on
+       this row, and the count alone would not notice a substitution. */
+    docs: 3, hasNahla: true, docNames: [/Valentina/, /Nahla/, /Diana/],
+    /* ⚠️ NO DEVICE CHAPTER ON THIS DOOR SINCE 2026-08-26. The 24-hour dial and the
+       long-view bar came out together (his call, "the circle and the bar") and are
+       archived whole in archive/modern-menopause-sections/. The harness's dial
+       branches below are LEFT STANDING and simply unreachable — restoring the
+       sections is this config row plus a paste, never a rewrite of the checks. To put
+       them back: device 'dial', deviceSel '[data-dial]', armedCls 'dial-armed',
+       labelSel '.dial-label', labels 8, ticks 24, extra '[data-lv]', extraCount 1,
+       and 'day' + 'longview' back into `sections` after 'programme'. */
+    device: null,
     /* the vocabulary each page must NOT contain — the "don't mix the doors" rule */
+    money: ['AED 950.00', 'AED 47.50', 'AED 997.50'],
+    addon: ['AED 145.00', 'AED 3,045.00'],
     banned: /DUTCH|still cycling and noticing|Testosterone Top Up/i,
     mustSay: /menoSTART/,
-    sections: ['programme', 'day', 'longview', 'doctors', 'stories', 'faq', 'book'],
+    sections: ['programme', 'doctors', 'stories', 'faq', 'book'],
   },
   {
     slug: 'testosterone-top-up', tag: 'trt',
@@ -41,7 +55,11 @@ const PAGES = [
     docs: 3, hasNahla: false,
     device: 'ledger', deviceSel: '[data-ledger]', armedCls: 'in',
     labelSel: '.ledger-list li', labels: 8, ticks: 0,
-    extra: '.mk-card',                          /* the four monitoring markers */
+    extra: '.mk-card', extraCount: 4,           /* the four monitoring markers */
+    /* ⚠️ 1,150, NOT 950 — this door's own price since its programme moved. The four
+       numbers are trt-page.mjs's, which is the file that owns them. */
+    money: ['AED 1,150.00', 'AED 57.50', 'AED 1,207.50'],
+    addon: ['AED 155.00', 'AED 3,255.00'],
     banned: /DUTCH|menoSTART|Modern Menopause|Top-Up|Testosterone Replacement Therapy in Dubai/i,
     mustSay: /Testosterone Top Up/,
     sections: ['programme', 'told', 'markers', 'doctors', 'stories', 'faq', 'book'],
@@ -155,10 +173,16 @@ for (const P of PAGES) {
       faq: document.querySelectorAll('.faq-item').length,
       stories: document.querySelectorAll('.story').length,
       chips: document.querySelectorAll('.chip').length,
-      labels: document.querySelectorAll(cfg.labelSel).length,
-      armed: !!document.querySelector(cfg.deviceSel + '.' + cfg.armedCls),
+      /* ⚠️ GUARDED ON cfg, NOT ASSUMED PRESENT — a door may have no device chapter at
+         all (see /modern-menopause/ above). Unguarded, `querySelectorAll(undefined)`
+         is a VALID call that searches for an <undefined> element and quietly returns
+         0, and `deviceSel + '.' + armedCls` becomes the selector "undefined.undefined"
+         — so a missing config would not throw, it would report a device that is
+         present-but-empty and the check would read as a real failure. */
+      labels: cfg.labelSel ? document.querySelectorAll(cfg.labelSel).length : 0,
+      armed:  cfg.deviceSel ? !!document.querySelector(cfg.deviceSel + '.' + cfg.armedCls) : null,
       ticks: document.querySelectorAll('.dial-ticks line').length,
-      extra: document.querySelectorAll(cfg.extra).length,
+      extra: cfg.extra ? document.querySelectorAll(cfg.extra).length : 0,
       sub: document.getElementById('pg-sub')?.textContent,
       vat: document.getElementById('pg-vat')?.textContent,
       total: document.getElementById('pg-total')?.textContent,
@@ -186,14 +210,33 @@ for (const P of PAGES) {
     ok(d.rollback === 6, 'six steps in the <noscript> rollback list', String(d.rollback));
     ok(d.docs === P.docs, `${P.docs} doctors`, d.names.join(' · '));
     ok(/Nahla/.test(d.names.join()) === P.hasNahla, `Dr. Nahla ${P.hasNahla ? 'on' : 'off'} this row`);
+    if (P.docNames)
+      ok(P.docNames.every((re, i) => re.test(d.names[i] || '')),
+         'the doctors row is the named three, in order', d.names.join(' · '));
     ok(d.faq === 6, 'six FAQ items', String(d.faq));
     ok(d.stories === 3, 'three stories', String(d.stories));
-    ok(d.chips === 8 && d.labels === P.labels, 'eight chips = eight device rows', `${d.chips}/${d.labels}`);
-    ok(d.armed, `${P.device} armed on desktop`);
-    if (P.ticks) ok(d.ticks === P.ticks, `${P.ticks} dial ticks`, String(d.ticks));
-    ok(d.extra === (P.device === 'dial' ? 1 : 4), `${P.device === 'dial' ? 'long-view bar' : 'four markers'} present`, String(d.extra));
-    ok(d.sub === 'AED 950.00' && d.vat === 'AED 47.50' && d.total === 'AED 997.50',
-       'money: 950.00 / 47.50 / 997.50', `${d.sub} ${d.vat} ${d.total}`);
+    /* the eight fallback chips are the SCENE's and survive a door losing its device
+       chapter; only the device half of the old "8 chips = 8 rows" pairing is gated */
+    ok(d.chips === 8, 'eight scene-fallback chips', String(d.chips));
+    if (P.device) {
+      ok(d.labels === P.labels, `${P.labels} device rows`, String(d.labels));
+      ok(d.armed, `${P.device} armed on desktop`);
+      if (P.ticks) ok(d.ticks === P.ticks, `${P.ticks} dial ticks`, String(d.ticks));
+      ok(d.extra === P.extraCount, `${P.extraCount} ${P.device === 'dial' ? 'long-view bar' : 'markers'} present`, String(d.extra));
+    } else {
+      ok(d.labels === 0 && d.extra === 0 && d.ticks === 0,
+         'no device chapter, and no orphan markup left behind by its removal',
+         `${d.labels}/${d.extra}/${d.ticks}`);
+    }
+    /* ⚠️ THE FIGURES ARE THE DOOR'S OWN AND COME FROM ITS CONFIG ROW. They were written
+       into this shared line as literals — door 2's 950/47.50/997.50, asserted against
+       BOTH doors — and had been failing on /testosterone-top-up/ since its programme
+       moved to AED 1,150. The money there is real and correct (trt-page.mjs guards it in
+       four places and is green); it was this check that was wrong, and it was wrong in
+       the one way a hardcoded expectation always fails — quietly, on the page it was not
+       written for. Fixed in passing 2026-08-26; it is not part of that round's work. */
+    ok(d.sub === P.money[0] && d.vat === P.money[1] && d.total === P.money[2],
+       `money: ${P.money.join(' / ')}`, `${d.sub} ${d.vat} ${d.total}`);
     ok(!P.banned.test(d.body), 'no foreign-door vocabulary, no DUTCH',
        (d.body.match(P.banned) || []).join());
     ok(P.mustSay.test(d.body), `speaks its own programme name`);
@@ -207,8 +250,8 @@ for (const P of PAGES) {
       vat: document.getElementById('pg-vat').textContent,
       total: document.getElementById('pg-total').textContent,
     }));
-    ok(m2.row && m2.vat === 'AED 145.00' && m2.total === 'AED 3,045.00',
-       'add-on: 145.00 VAT, 3,045.00 total', `${m2.vat} ${m2.total}`);
+    ok(m2.row && m2.vat === P.addon[0] && m2.total === P.addon[1],
+       `add-on: ${P.addon[0]} VAT, ${P.addon[1]} total`, `${m2.vat} ${m2.total}`);
 
     /* the dial's flip (menopause only — the ledger has no flip by design) */
     if (P.device === 'dial') {
@@ -264,11 +307,13 @@ for (const P of PAGES) {
     const rm = await page.evaluate(cfg => ({
       scene: document.documentElement.classList.contains('js-scene'),
       chips: document.querySelectorAll('.chip').length,
-      device: !!document.querySelector(cfg.deviceSel),
+      /* guarded for the same reason the desktop probe is — see there. A door with no
+         device chapter must not have `undefined` compiled into a selector. */
+      device: cfg.deviceSel ? !!document.querySelector(cfg.deviceSel) : null,
     }), P);
     ok(!rm.scene, 'reduced motion: scene stands down (fallback path)');
     ok(rm.chips === 8, 'reduced motion: the eight chips stand');
-    ok(rm.device, 'reduced motion: the device still renders');
+    if (P.device) ok(rm.device, 'reduced motion: the device still renders');
     ok(errs.length === 0, 'reduced motion console clean', errs.join(' | ').slice(0, 200));
     await page.screenshot({ path: path.join(OUT, `${P.tag}-reduced-top.png`) });
     await ctx.close();

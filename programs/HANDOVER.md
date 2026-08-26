@@ -58,16 +58,59 @@ WordPress page's stale 750). **Verify against the live pages before real marketi
   programmes are to carry a headline price like the doors' AED 950, the Included panel takes
   a `pg-amt`-style figure and a money block — a round of its own, with his numbers.
 
+---
+
+# Round two, 2026-08-26 — the doors' aesthetics, whole
+
+**His ask:** *"copy the aesthetics of the services — the same flower for the how it works
+and the pricings as well … doctor page, feedback, footer and so on."* The page now runs the
+doors' full chapter set:
+
+| chapter | provenance |
+|---|---|
+| 05 · The programme | **The flower, byte-identical** — the PS:CSS/HTML/JS blocks make this page a FOURTH carrier of the parity contract (NEXT_ITERATIONS §2, updated). The six steps are the doors' six because the intake is the same intake. Below it, **two programme cards** in the door card's own grammar. |
+| 06 · The doctors | Door 1's three-women row (Dr. V · Dr. N · Dr. D), markup carried verbatim including every per-card record; client-copy bios untouched; ONE pill under the row. ⚠️ The doors' banners still say the row is "carried byte-for-byte by two doors" — it is three pages now; correcting those two lines is a doors edit and was not made in passing. |
+| 07 · Stories | The doors' fader (one voice at a time, dots, no auto-advance under reduced motion). ⚠️ PLACEHOLDER QUOTES, like every rail on the estate — replace before real marketing. |
+| 08 · FAQ | Three client-approved answers VERBATIM from /hormone-balancing/ (change them there or nowhere) + three booster drafts flagged for him and a prescriber. |
+
+## ⚠️ THE TWO DECISION BOARDS — his pick deletes the losers
+
+The cards ship with **no package figure**, because none exists for the plus programmes:
+the doors' AED 950 + VAT buys assessment + blood-work reading + consultation, and whether
+the plus programmes (gut holds TWO consultations) sell at that figure has never been said.
+The money slot reads *"Priced at your consultation"* in the estate's quoted-first voice.
+The boards, ?tone=/?boost= precedent:
+
+- **`?price=950`** — the doors' figure on both cards, static doors' arithmetic
+  (950 → 47.50 → 997.50). When he names real figures the `.pc-var` blocks take them;
+  if the figures differ per programme, each card takes its own, and the collection
+  add-on becomes the doors' live `pg-addon` toggle again (per card, with IDs made
+  unique — the static preview deliberately carries none).
+- **`?cards=stacked`** — one full-width 41/59 door card per programme instead of the
+  side-by-side slim pair.
+
+## Learned this round (each one cost a red run)
+
+- **The doors' `button{}` reset is load-bearing for every ported chapter** — without it
+  the FAQ rows and petal hits render the UA button box.
+- **`minmax(0,1fr)`, never bare `1fr`, a THIRD time** — the pair grid: a flex card's
+  min-content is its widest child (+104px at 320). Same lesson as `.f-grid` in round one.
+- **`.pc-var` must be scoped** — bare `.pc-var{display:none}` loses to
+  `.prog-card .pc-price{display:flex}` and the 950 figure showed by default.
+- **The slim card is FLEX, not grid** — same `order` interleave, and `margin-top:auto`
+  on the CTA is what closes two unequal cards on one line.
+- **The flower's arrows are a phone control** (`display:none` above 900) — QA clicks
+  them at 390, and petal hits serve desktop.
+
 ## Verifying
 
 ```bash
-python3 -m http.server 8410           # from the repo root
-# widths 320–1920: no sideways scroll; header states; burger; + rows; reveal;
-# beats draw; hub pill wired — the round's sweep lived in a temp harness and
-# came back ALL GREEN 2026-08-26; re-create from this list or promote into
-# tools/qa/ if this page starts changing often.
-node tools/qa/boost-contrast.mjs      # the hub section that links here — 12/12 after wiring
+npm install --no-save playwright@1.49.1 gsap@3.13.0 lenis@1.3.4 sharp   # ⚠️ ONE install — separate runs prune each other
+node tools/qa/programs-page.mjs [--shots]   # THE PAGE, end to end — parity §0, widths, flower, cards+boards, doctors, fader, FAQ
+node tools/qa/boost-contrast.mjs            # the hub section that links here
 ```
+
+⚠️ Run harnesses one at a time — the SwiftShader rule, `tools/qa/README.md`.
 
 ⚠️ `.f-grid` on phones is `minmax(0,1fr)`, **not** `1fr` — the doors' fix, re-learned here:
 a bare `1fr` track refuses to shrink under `.f-news`'s 22rem preferred width and drags a

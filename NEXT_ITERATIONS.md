@@ -56,6 +56,15 @@ As shipped: CSS `4d192d81e3e8`, HTML `c292a500add1`, JS `786e22822822`. **Three 
 block or you are not done.** A one-door "quick fix" is how the three drift apart, and nothing
 warns you — the pages each look fine alone.
 
+⚠️ **2026-08-26 — `/programs/` IS A FOURTH CARRIER.** The booster-programmes page took the
+flower on his ask ("the same flower for the how it works"), byte-identical, so add `programs`
+to the loop above: **four matching rows per block now** (`tools/qa/programs-page.mjs` §0
+asserts it on every run). Two block hashes have moved legitimately since the paragraph above
+was written (HTML `95463c5391ea`, JS `d2ee51cad3aa`), and one pre-existing drift is on record:
+**the men's PS:JS differs by one comment** — the fork-and-revert note of 2026-08-24g — so its
+JS hash is `ab64ee862292`. Comment-only, no behaviour; erasing it to restore parity would
+falsify the record, so the harness tolerates exactly two JS sums and no more.
+
 ⚠️ **THE SCRIPT TRADES SEATS; IT NEVER WRITES COORDINATES.** Six polar seats are defined in CSS,
 keyed by `data-slot` — `--pang`, `--prad`, `--pw`, `--pa`, `--pz`, `--prot`. The script only
 swaps which petal holds which `data-slot`, plus whole turns in `--pturn` / `--protturn`. **If you

@@ -1,7 +1,7 @@
 # Scene QA harness
 
 ⚠️ **RUN THE WEBGL HARNESSES ONE AT A TIME.** `process-sculpture.mjs`, `doors-shots.mjs`,
-`bhrt-shots.mjs` and `flower-frames.mjs` each drive a headless browser painting through
+`bhrt-shots.mjs`, `programs-page.mjs` and `flower-frames.mjs` each drive a headless browser painting through
 SwiftShader — software WebGL, on the CPU. Two of them at once starve each other, and what
 starves first is every assertion that waits on wall-clock time rather than on state: the
 sculpture's header check drives a scroll in 40ms steps and reads the bar 900ms later, and

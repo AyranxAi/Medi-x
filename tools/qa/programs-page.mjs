@@ -12,6 +12,7 @@
    node tools/qa/programs-page.mjs            checks only
    node tools/qa/programs-page.mjs --shots    also writes shots to /tmp/programs-qa/ */
 import { chromium } from 'playwright';
+import sharp from 'sharp';
 import { createServer } from 'node:http';
 import { readFileSync, existsSync, readdirSync, mkdirSync } from 'node:fs';
 import { execSync } from 'node:child_process';
@@ -94,6 +95,79 @@ const ok = (cond, msg) => { console.log((cond ? '  ✓ ' : '  ✗ ') + msg); if 
     ok(over <= 0, `${w}px${over > 0 ? ` sideways +${over}px` : ''}`);
     await page.close();
   }
+}
+
+/* ── 2b · the head (round four): the split hero, the chips, the flip pair ── */
+{
+  console.log('2b · the head');
+  const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+  await page.goto(`${BASE}/programs/?probe=1`, { waitUntil: 'networkidle' });
+  await page.waitForTimeout(800);
+  ok(await page.evaluate(() => document.querySelectorAll('.bhero-pane img').length) === 2,
+    'hero: two panes');
+  /* worst-2% contrast behind ivory copy on photographs — the boost-contrast
+     method: hide the copy, photograph its own rectangle, read the pixels.
+     Every scrim floor is a measured minimum, not taste (BRAND.md); this is
+     the measurement, for the hero sub (4.5, small), the hero headline (3,
+     large) and the flip fronts' copy (4.5 — the em line is under large). */
+  async function worst2(target, hide){
+    const box = await page.evaluate(([t, h]) => {
+      const r = document.querySelector(t).getBoundingClientRect();
+      document.querySelector(h).style.visibility = 'hidden';
+      return { x: Math.max(0, r.x), y: Math.max(0, r.y), width: r.width, height: r.height };
+    }, [target, hide]);
+    await page.waitForTimeout(250);
+    const clip = await page.screenshot({ clip: box });
+    await page.evaluate(h => { document.querySelector(h).style.visibility = ''; }, hide);
+    const { data, info } = await sharp(clip).raw().toBuffer({ resolveWithObject: true });
+    const lin = c => { c /= 255; return c <= .04045 ? c / 12.92 : ((c + .055) / 1.055) ** 2.4; };
+    const lums = [];
+    for (let i = 0; i < data.length; i += info.channels)
+      lums.push(.2126 * lin(data[i]) + .7152 * lin(data[i + 1]) + .0722 * lin(data[i + 2]));
+    lums.sort((a, b) => b - a);
+    const worst = lums[Math.floor(lums.length * .02)]; /* brightest 2% — worst case for ivory copy */
+    const IVORY_L = .932; /* relative luminance of #FAF7F1 */
+    return (IVORY_L + .05) / (worst + .05);
+  }
+  const rSub = await worst2('.bhero-sub', '.bhero-copy');
+  ok(rSub >= 4.5, `hero sub worst-2% contrast ${rSub.toFixed(2)} against the 4.5 floor`);
+  const rH1 = await worst2('.bhero-copy h1', '.bhero-copy');
+  ok(rH1 >= 3, `hero headline worst-2% contrast ${rH1.toFixed(2)} against the 3 floor`);
+  await page.evaluate(() => document.getElementById('systems').scrollIntoView({ behavior: 'instant' }));
+  await page.waitForTimeout(700);
+  const rFlip = await worst2('.flip .flip-front-copy', '.flip .flip-front-copy');
+  ok(rFlip >= 4.5, `flip front copy worst-2% contrast ${rFlip.toFixed(2)} against the 4.5 floor`);
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.waitForTimeout(400);
+  ok(await page.evaluate(() => document.querySelectorAll('.ask .chip').length) === 7,
+    'the question: seven chips');
+  if (SHOTS) {
+    await page.screenshot({ path: OUT + 'hero-1440.png' });
+    await page.evaluate(() => document.getElementById('systems').scrollIntoView({ behavior: 'instant' }));
+    await page.waitForTimeout(500);
+    await page.screenshot({ path: OUT + 'flip-front-1440.png' });
+  }
+  await page.close();
+  /* the flip runs behind html.js, so it is tested WITHOUT probe */
+  const p2 = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+  await p2.goto(`${BASE}/programs/`, { waitUntil: 'networkidle' });
+  await p2.evaluate(() => document.getElementById('systems').scrollIntoView({ behavior: 'instant' }));
+  await p2.waitForTimeout(900);
+  await p2.click('.flip .flip-cue');
+  await p2.waitForTimeout(1000);
+  const flipped = await p2.evaluate(() => {
+    const c = document.querySelector('.flip');
+    return c.classList.contains('flipped')
+      && c.querySelector('.flip-back').getAttribute('aria-hidden') === 'false'
+      && c.querySelector('.flip-front').hasAttribute('inert');
+  });
+  ok(flipped, 'a card turns: back live, front inert');
+  if (SHOTS) await p2.screenshot({ path: OUT + 'flip-back-1440.png' });
+  await p2.click('.flip.flipped .flip-back .flip-cue');
+  await p2.waitForTimeout(1000);
+  ok(await p2.evaluate(() => !document.querySelector('.flip').classList.contains('flipped')),
+    'and turns back');
+  await p2.close();
 }
 
 /* ── 3 · the flower ── */

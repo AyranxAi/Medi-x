@@ -95,13 +95,14 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
             color:var(--logo-red);text-decoration:none;transition:gap .3s var(--ease)}
 .link-arrow:hover{gap:15px}
 
-/* ─────────────────────────── HEADER — the estate bar, in its red key ──────────
-   Ported from the hub, with ONE deliberate divergence: the DEFAULT state here is
-   the red-on-transparent key (red mark, red-outlined controls), not the frosted
-   ivory-glass one. The hub and the doors open on a photograph or a dark scene, so
-   their bar starts in the ivory key and turns red when the ivory strip scrolls
-   in; this page is ivory from its first pixel, and ivory glass on ivory ground is
-   an invisible bar. Same fade-in-place behaviour, same solid state past 240px. */
+/* ─────────────────────────── HEADER — the estate bar, back in the ivory key ───
+   ROUND FOUR: the page opens on the dark split hero now, so the round-one red key
+   (which existed because the old head was ivory from its first pixel) reverses to
+   the hub's original — frosted ivory-glass controls and the IVORY mark over the
+   photographs, the red key returning with the solid bar. The red wordmark has no
+   contrast on the burgundy marble; that is the whole reason for the ivory mark
+   default, and it is the one divergence from the hub (whose pale silk carried the
+   red mark at every state). Same fade-in-place behaviour, same 240px solid. */
 .hdr{
   position:fixed;z-index:60;inset:0 0 auto 0;
   display:flex;align-items:center;justify-content:space-between;
@@ -130,35 +131,47 @@ body.nav-open .hdr{background:transparent;border-bottom-color:transparent;backdr
 .mark{display:inline-flex;padding:.2rem 0;transition:opacity .25s var(--ease)}
 .mark:hover{opacity:.78}
 .mark__img{display:block;height:var(--logo-h);width:auto}
-.mark__img--ivory{display:none} /* red mark at every scroll state; ivory only over the open menu */
+.mark__img--red{display:none} /* ivory mark over the hero; the red returns with the solid bar */
+.hdr--solid .mark__img--ivory{display:none}
+.hdr--solid .mark__img--red{display:block}
 .hdr__right{display:flex;align-items:center;gap:.7rem}
 .globe,.wapp{
   -webkit-appearance:none;appearance:none;padding:0;cursor:pointer;
   width:2.75rem;height:2.75rem;border-radius:999px;
-  border:1px solid var(--logo-red);
-  background:transparent;color:var(--logo-red);
+  border:1px solid rgba(250,247,241,.6);
+  background:rgba(46,34,40,.45);color:var(--ivory);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
   display:grid;place-content:center;
   transition:background-color .3s var(--ease),border-color .3s var(--ease),color .3s var(--ease);
 }
-.globe:hover,.wapp:hover{background:var(--logo-red);color:var(--ivory)}
+.globe:hover,.wapp:hover{border-color:var(--ivory);background:rgba(46,34,40,.6)}
+.hdr--solid .globe,.hdr--solid .wapp{
+  border-color:var(--logo-red);background:transparent;color:var(--logo-red);
+  backdrop-filter:none;-webkit-backdrop-filter:none;
+}
+.hdr--solid .globe:hover,.hdr--solid .wapp:hover{border-color:var(--logo-red);background:var(--logo-red);color:var(--ivory)}
 .globe svg{width:19px;height:19px}
 .wapp svg{width:16px;height:16px} /* 16 not 19: full-bleed trademark, optically level with the globe */
 .burger{
   -webkit-appearance:none;appearance:none;cursor:pointer;padding:0;
   width:2.75rem;height:2.75rem;border-radius:999px;
-  border:1px solid var(--logo-red);
-  background:transparent;
+  border:1px solid rgba(250,247,241,.6);
+  background:rgba(46,34,40,.45);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
   display:grid;place-content:center;gap:5px;
   justify-items:end;
   transition:background-color .3s var(--ease),border-color .3s var(--ease);
 }
-.burger:hover{background:var(--logo-red)}
-.burger:hover span{background:var(--ivory)}
+.burger:hover{border-color:var(--ivory);background:rgba(46,34,40,.6)}
+.hdr--solid .burger{border-color:var(--logo-red);background:transparent;backdrop-filter:none;-webkit-backdrop-filter:none}
+.hdr--solid .burger:hover{border-color:var(--logo-red);background:var(--logo-red)}
+.hdr--solid .burger:hover span{background:var(--ivory)}
 .burger span{
-  display:block;width:20px;height:1px;background:var(--logo-red);
+  display:block;width:20px;height:1px;background:var(--ivory);
   transition:transform .38s var(--ease),opacity .2s linear,width .38s var(--ease),
     background-color .3s var(--ease);
 }
+.hdr--solid .burger span{background:var(--logo-red)}
 .burger span:nth-child(2){width:13px}
 .burger:hover span:nth-child(2){width:22px}
 body.nav-open .globe,body.nav-open .wapp{
@@ -220,88 +233,185 @@ body.nav-open .nav li{
   .js [data-reveal]{opacity:1;transform:none;transition:none}
 }
 
-/* ── 00 · Threshold ─────────────────────────────────────────────────────── */
-.thresh{padding:clamp(120px,17vh,190px) 0 clamp(58px,8vh,92px)}
-.thresh h1{font-size:clamp(42px,6.2vw,86px);margin-top:26px;text-wrap:balance}
-.thresh > .wrap > p:not(.kicker){font-size:clamp(15px,1.35vw,18px);color:var(--ink-soft);line-height:1.8;
-          max-width:42ch;margin-top:26px;text-wrap:balance}
-/* the index — two rows, one per programme, so a reader who already knows her
-   question is one press from her answer. A row is a whole target, like the
-   not-included rows on the door cards. */
-.ix{margin-top:clamp(48px,7vh,86px);border-top:1px solid var(--line)}
-.ix a{display:grid;grid-template-columns:auto 1fr auto;align-items:baseline;gap:clamp(18px,3vw,44px);
-      padding:clamp(18px,2.6vh,26px) 0;border-bottom:1px solid var(--line);
-      text-decoration:none;transition:background-color .3s var(--ease)}
-.ix a:hover{background:rgba(241,231,210,.45)}
-.ix .ix-n{font-family:var(--accent);font-size:clamp(20px,2vw,28px);color:var(--gold-text);line-height:1}
-.ix .ix-t{font-family:var(--serif);font-weight:450;font-size:clamp(19px,2.1vw,30px);color:var(--ink)}
-.ix .ix-t em{color:var(--logo-red);font-size:.82em;margin-left:.28em}
-.ix .ix-l{font-size:13px;color:var(--ink-soft);letter-spacing:.02em;justify-self:end;
-          display:inline-flex;align-items:center;gap:10px;white-space:nowrap}
-.ix .ix-l svg{color:var(--logo-red)}
-@media (max-width:640px){ .ix .ix-l span{display:none} }
+/* ─────────────────────────── THE HERO — the two worlds, split ───────────────
+   ROUND FOUR, 2026-08-26 — his call ("the first parts are ugly … the same as
+   what we did for the others: the question, animation, and 2 cards side by
+   side that flip"). The editorial threshold, the two chapter plates and their
+   mechanism bands are RETIRED to archive/programs-sections/ (restorable by
+   paste); this head replaces them with the doors' own opening arc — hero,
+   question, offer.
+   ⚠️ THE GROUNDS ARE HIS OWN UNUSED UPLOADS, found staged in /images and
+   referenced by nothing: medi-gyn-gut-health-hero-* (the plated dish on
+   burgundy marble) and medi-gyn-energy-hero-* (the brass pendulum). Both
+   orientations existed before this round did — the hero these files were
+   waiting for. Encoded through tools/encode-plate.mjs to hero-boost-*-1672 /
+   -941 (AVIF+WebP, new basenames, BRAND.md's caching rule; the PNG masters
+   stay untouched beside them).
+   ⚠️ THE SPLIT IS THE THESIS: two panes, one headline. The copy is
+   bottom-left over a measured scrim — worst-2% contrast behind the copy box
+   is asserted by tools/qa/programs-page.mjs on every run, the estate's
+   boost-contrast method. Lightening this scrim means re-measuring, not
+   eyeballing. */
+.bhero{position:relative;min-height:100svh;display:flex;align-items:flex-end;
+  overflow:hidden;background:var(--ink)}
+.bhero-panes{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr}
+.bhero-pane{position:relative;overflow:hidden}
+.bhero-pane picture{display:contents}
+.bhero-pane img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+/* each pane's subject sits right-of-centre in its frame; at half width the
+   crop keeps the subject by biasing toward it */
+.bhero-pane--gut img{object-position:62% 50%}
+.bhero-pane--energy img{object-position:58% 50%}
+.bhero-tag{position:absolute;top:calc(24px + max(1rem,env(safe-area-inset-top)) + var(--logo-h));
+  left:clamp(18px,2.4vw,34px);z-index:2;
+  font-family:var(--accent);font-size:12px;letter-spacing:.3em;text-transform:uppercase;
+  color:rgba(250,247,241,.85);text-shadow:0 1px 14px rgba(20,9,13,.55)}
+/* ⚠️ THE SCRIM IS ONE GRADIENT ACROSS BOTH PANES — the seam belongs to the
+   photographs; a per-pane scrim would draw a second one. The floor value is
+   what the harness measures; see the banner above. */
+.bhero-scrim{position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(20,9,13,.18) 0%,rgba(20,9,13,0) 26%,
+    rgba(20,9,13,0) 40%,rgba(20,9,13,.52) 62%,rgba(20,9,13,.92) 100%)}
+.bhero-copy{position:relative;z-index:2;width:100%;
+  padding-top:18vh;padding-bottom:clamp(84px,13vh,140px)}
+.kicker--ivory{color:var(--rose)}
+.kicker--ivory::after{background:rgba(250,247,241,.35)}
+.bhero-copy h1{color:var(--ivory);font-size:clamp(44px,6.6vw,94px);margin-top:24px;
+  max-width:11em;text-wrap:balance}
+.bhero-copy h1 em{color:var(--rose)}
+.bhero-sub{margin-top:clamp(20px,3vh,32px);max-width:36em;color:rgba(250,247,241,.92);
+  font-size:clamp(16.5px,1.5vw,21px);font-weight:300;line-height:1.75}
+.bhero-ctas{display:flex;gap:16px;margin-top:clamp(28px,4vh,44px);flex-wrap:wrap}
+/* the hero secondary — an ivory outline for a dark ground; the estate's
+   .btn.on-dark died with the banner it served, and this is its return with a
+   ground to stand on */
+.btn.hero-ghost{background:transparent;color:var(--ivory);
+  border:1px solid rgba(250,247,241,.65);backdrop-filter:none;-webkit-backdrop-filter:none}
+.btn.hero-ghost:hover{background:rgba(250,247,241,.16);border-color:var(--ivory)}
+/* the hub's scroll hint, in the ivory key */
+.bhero-hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:3;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  color:rgba(250,247,241,.75);font-size:10px;letter-spacing:.3em;text-transform:uppercase}
+.bhero-hint .tick{width:1px;height:44px;background:rgba(250,247,241,.3);position:relative;overflow:hidden}
+.bhero-hint .tick::after{content:"";position:absolute;top:-50%;left:0;width:100%;height:50%;
+  background:var(--gold);animation:bdrip 2.1s var(--ease) infinite}
+@keyframes bdrip{0%{top:-50%}100%{top:110%}}
+@media (prefers-reduced-motion:reduce){ .bhero-hint .tick::after{animation:none} }
+@media (max-width:760px){
+  /* the panes stack — the pair survives on a phone as top and bottom, and the
+     copy sits over the lower (energy) pane where the scrim floor is */
+  .bhero-panes{grid-template-columns:1fr;grid-template-rows:1fr 1fr}
+  .bhero-tag{top:auto;bottom:14px}
+  .bhero-pane--gut .bhero-tag{bottom:auto;top:calc(18px + max(1rem,env(safe-area-inset-top)) + var(--logo-h))}
+  .bhero-copy{padding-bottom:clamp(84px,13vh,120px)}
+  .bhero-copy h1{font-size:clamp(38px,10.5vw,52px)}
+  .bhero-ctas .btn{width:100%;justify-content:center}
+}
 
-/* ── The chapter plate ─────────────────────────────────────────────────── */
-.chapter{position:relative;background:var(--ivory);overflow:hidden;
-         min-height:min(94vh,880px);display:grid;align-items:center}
-/* ⚠️ .wrap MUST be width:100% here. As a grid item in an auto track it sizes to
-   max-content — 587px — and `margin:0 auto` then centres the copy over the
-   object at every width. Both chapters looked centre-aligned because of this. */
-.chapter > .wrap{width:100%}
-.chapter + .chapter,
-.chapter--seam{border-top:1px solid var(--line)}
-.plate{position:absolute;inset:0;pointer-events:none}
-/* The plate's own ground is near-neutral (#FDFCFC); the page is warm ivory
-   (#FAF7F1). Bled edge-to-edge they show a cool seam. multiply makes the
-   plate's white resolve to the ivory underneath while the object keeps its
-   shading — no seam, no card, no scrim. Only safe for an object on white. */
-.plate picture{display:contents}
-.plate img{position:absolute;top:50%;right:0;transform:translateY(-50%);
-           height:104%;width:auto;mix-blend-mode:multiply;
-           filter:saturate(1.5) sepia(.045)}
-/* Row two mirrors — the eye crosses the column and the two read as a spread,
-   not a list.
-   ⚠️ ONLY THE GUT PLATE MAY FLIP. The mitochondria plate carries a drawn ATP
-   structure with real lettering (OH, P, N, HN); scaleX(-1) mirrors those into
-   gibberish. Gut is pure form, so it flips for free. If a future plate carries
-   any lettering, it is a no-flip plate — ask for a left-subject crop instead. */
-.chapter--flip .plate img{right:auto;left:0;transform:translateY(-50%) scaleX(-1)}
-.chapter--flip .col{margin-left:auto}
+/* ─────────────────────────── THE QUESTION ───────────────────────────────────
+   The doors' empathy beat in the signals grammar: the recognisable days as
+   chips, cascading in. Every chip is a line the page already claims — the
+   pick band's symptoms and the mechanism copy, compressed — so nothing here
+   is new medicine. */
+.ask{background:var(--ivory)}
+.ask .sec-head h2{max-width:19em}
+.chips{display:flex;flex-wrap:wrap;gap:14px;margin-top:clamp(36px,5vh,56px);max-width:980px}
+.chip{font-family:var(--accent);font-size:clamp(15px,1.5vw,19px);color:var(--burgundy);
+  border:1px solid var(--line);border-radius:999px;padding:12px 26px;background:var(--ivory);
+  transition:background .4s var(--ease),border-color .4s var(--ease),transform .4s var(--ease)}
+.chip:hover{background:var(--gold-tint);border-color:var(--gold);transform:translateY(-2px)}
+/* the cascade: the reveal engine lights them; --i staggers them */
+.js .chips .chip[data-reveal]{transition-delay:calc(var(--i)*70ms)}
+.js .chips .chip[data-reveal].is-in{transition-delay:calc(var(--i)*70ms)}
+.ask-close{margin-top:clamp(40px,6vh,64px);max-width:36em;
+  font-size:clamp(16px,1.4vw,19px);color:var(--ink-soft);line-height:1.8}
+.ask-close strong{font-weight:500;color:var(--burgundy)}
 
-.col{position:relative;z-index:2;max-width:32rem;padding:clamp(56px,8vh,96px) 0}
-/* The numeral is BRAND's "decorative glint" — --gold measures 2.13:1 on this
-   ground, under even the 3:1 large-text floor, so it is marked decorative and
-   carries no information the heading does not already give. */
-.num{font-family:var(--accent);font-size:clamp(46px,4.6vw,64px);color:var(--gold);
-     line-height:1;margin-bottom:18px;display:block}
-.chapter h2{font-size:clamp(34px,4.4vw,62px);margin-top:22px}
-.chapter h2 em{display:block;color:var(--logo-red);font-size:.72em;margin-top:6px}
-.chapter .lede{font-size:clamp(16px,1.45vw,20px);line-height:1.75;color:var(--ink-soft);
-               margin-top:28px;max-width:32ch;text-wrap:balance}
-
-/* ── The mechanism, drawn ────────────────────────────────────────────────── */
-.mech{background:var(--cream);padding:clamp(80px,11vh,140px) 0}
-.mech .head{display:flex;flex-direction:column;gap:22px;margin-bottom:clamp(44px,6vh,72px)}
-.mech h3{font-size:clamp(26px,2.6vw,38px);max-width:20ch}
-.beats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--line)}
-.beat{padding:34px 30px 0 0;border-right:1px solid var(--line);position:relative}
-.beat:last-child{border-right:0}
-.beat:not(:last-child){padding-right:34px}
-.beat .b-n{font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.28em;
-           color:var(--gold-text);text-transform:uppercase}
-.beat p{font-size:15px;line-height:1.75;color:var(--ink);margin-top:16px;max-width:26ch}
-.beat svg{margin-top:26px;display:block;color:var(--gold-text);opacity:.85}
-/* The diagrams draw themselves in as the row arrives — every shape carries
-   pathLength="1", so one dash rule serves all of them regardless of true
-   length. This is the page's one flourish; reduced motion shows them whole. */
-.js .beat svg.draw *{stroke-dasharray:1;stroke-dashoffset:1}
-.js .beat.is-in svg.draw *{stroke-dashoffset:0;
-  transition:stroke-dashoffset 1.2s var(--ease) .25s}
-.js .beat.is-in:nth-child(2) svg.draw *{transition-delay:.4s}
-.js .beat.is-in:nth-child(3) svg.draw *{transition-delay:.55s}
-.js .beat.is-in:nth-child(4) svg.draw *{transition-delay:.7s}
+/* ─────────────────────────── THE FLIP PAIR ──────────────────────────────────
+   Two cards side by side; the front is the offer, the back is the science —
+   his ask, the peptide ring's card-with-a-back-face device at pair scale.
+   ⚠️ FACES STACK IN ONE GRID CELL (the story-rail trick), so the card is as
+   tall as its TALLER face and nothing jumps on flip; absolute faces would
+   collapse the card. The 3D flip lives behind html.js — without script both
+   faces render in flow, front then back, which is the whole no-JS story.
+   ⚠️ THE FLIP HAS AN EXPLICIT CUE ON BOTH FACES. A card that only flips on
+   hover is invisible on touch and a card that flips on bare click swallows
+   the back's link — the cue is a real <button>, the card's surface also
+   flips, and links stay links.
+   ⚠️ THE HIDDEN FACE IS inert AND aria-hidden — backface-visibility hides
+   pixels, not the accessibility tree. The script owns both attributes.
+   ⚠️ THE FRONTS ARE HIS GOLD ANATOMY UPLOADS (his pick over the porcelain
+   pair, 2026-08-26) — gut-gold / energy-gold, encoded to flip-*-gold-1400.
+   Dark faces, so the copy key is ivory/rose over a measured foot scrim. */
+.duo{background:var(--cream)}
+.duo-sub{font-size:clamp(15px,1.35vw,18px);color:var(--ink-soft);line-height:1.8;
+  max-width:44ch;margin-top:-24px}
+.duo-sub strong{font-weight:500;color:var(--burgundy)}
+.duo-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:clamp(20px,2.6vw,40px);margin-top:clamp(38px,5.5vh,60px)}
+.flip{perspective:1600px}
+.flip-inner{display:grid}
+.flip-face{grid-area:1/1;border-radius:18px;overflow:hidden;min-height:100%}
+.js .flip-inner{transform-style:preserve-3d;transition:transform .85s var(--ease)}
+.js .flip.flipped .flip-inner{transform:rotateY(180deg)}
+.js .flip-face{backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.js .flip-back{transform:rotateY(180deg)}
 @media (prefers-reduced-motion:reduce){
-  .js .beat svg.draw *{stroke-dasharray:none;stroke-dashoffset:0}
+  .js .flip-inner{transition:none}
+}
+/* no-JS: both faces in flow, the back gets breathing room */
+html:not(.js) .flip-face{grid-area:auto}
+html:not(.js) .flip-back{margin-top:14px}
+.flip-front{position:relative;background:var(--ink);display:flex;align-items:flex-end;
+  min-height:clamp(420px,46vw,560px);cursor:pointer}
+.flip-front picture{display:contents}
+.flip-front>picture>img,.flip-front>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+/* ⚠️ THE COPY-ZONE ALPHA IS A MEASURED MINIMUM, NOT TASTE — the gold glow
+   behind the gut title reads ~0.78 relative luminance, and worst-2% maths puts
+   the floor for ivory copy at ≥.85 opacity over it. programs-page.mjs measures
+   this rectangle on every run; lightening it means re-measuring, not eyeballing. */
+.flip-front::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(20,9,13,0) 20%,rgba(20,9,13,.88) 52%,
+    rgba(20,9,13,.97) 100%)}
+.flip-front-copy{position:relative;z-index:2;padding:clamp(22px,2.6vw,36px)}
+.flip-num{font-family:var(--accent);font-size:clamp(13px,1.1vw,15px);letter-spacing:.3em;
+  color:var(--gold);display:block;margin-bottom:10px}
+.flip-front h3{color:var(--ivory);font-size:clamp(24px,2.4vw,34px);line-height:1.12}
+/* gold-tint, NOT rose — rose (L≈.37) cannot clear 4.5:1 over the artwork's
+   glow on any scrim that leaves the artwork visible; the pale gold tint
+   (L≈.80) tracks ivory and belongs to the gold key of the faces themselves */
+.flip-front h3 em{display:block;color:var(--gold-tint);font-size:.78em;margin-top:5px}
+.flip-front p{color:rgba(250,247,241,.88);font-size:clamp(14px,1.2vw,16.5px);
+  line-height:1.65;margin-top:12px;max-width:30ch}
+.flip-cue{display:inline-flex;align-items:center;gap:9px;margin-top:18px;
+  font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--ivory);padding:10px 18px;
+  border:1px solid rgba(250,247,241,.45);border-radius:999px;background:rgba(46,34,40,.35);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);cursor:pointer;
+  transition:background .3s var(--ease),border-color .3s var(--ease)}
+.flip-cue:hover{background:rgba(46,34,40,.6);border-color:var(--ivory)}
+.flip-cue svg{transition:transform .5s var(--ease)}
+.flip-cue:hover svg{transform:rotate(180deg)}
+.flip-back{background:var(--burgundy);color:var(--ivory);cursor:pointer;
+  display:flex;flex-direction:column;padding:clamp(24px,2.8vw,40px)}
+.flip-kicker{font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.32em;
+  text-transform:uppercase;color:var(--rose)}
+.flip-back h4{font-family:var(--serif);font-weight:450;color:var(--ivory);
+  font-size:clamp(20px,1.9vw,27px);line-height:1.2;margin-top:14px;max-width:20ch}
+.flip-beats{list-style:none;margin-top:clamp(18px,2.2vh,26px);
+  border-top:1px solid rgba(250,247,241,.18)}
+.flip-beats li{display:grid;grid-template-columns:auto 1fr;gap:14px;
+  padding:clamp(11px,1.4vh,15px) 0;border-bottom:1px solid rgba(250,247,241,.18);
+  font-size:clamp(13.5px,1.1vw,15px);line-height:1.6;color:rgba(250,247,241,.92)}
+.flip-beats li:last-child{border-bottom:0}
+.flip-beats b{font-family:var(--accent);font-weight:400;font-size:11px;letter-spacing:.2em;
+  color:var(--gold);padding-top:.2em}
+.flip-back .link-arrow{color:var(--rose);margin-top:auto;padding-top:16px}
+.flip-back .link-arrow:hover{color:var(--ivory)}
+.flip-back .flip-cue{align-self:flex-start;margin-top:14px}
+@media (max-width:860px){
+  .duo-grid{grid-template-columns:minmax(0,1fr)}
+  .flip-front{min-height:min(120vw,480px)}
 }
 
 /* ── In practice ────────────────────────────────────────────────────────── */
@@ -1690,18 +1800,6 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
 
 /* ── Phone ──────────────────────────────────────────────────────────────── */
 @media (max-width:860px){
-  .chapter{min-height:0;display:block}
-  .plate{position:relative;inset:auto;height:56vh}
-  .plate picture{display:contents}
-  .plate img{position:absolute;top:0;right:0;left:0;transform:none;height:100%;width:100%;
-             object-fit:cover;object-position:50% 22%}
-  .chapter--flip .plate img{transform:scaleX(-1)}
-  .col{max-width:none;padding:clamp(30px,5vh,44px) var(--pad) clamp(52px,8vh,70px)}
-  .chapter--flip .col{margin-left:0}
-  .beats{grid-template-columns:1fr}
-  .beat{border-right:0;border-bottom:1px solid var(--line);padding:26px 0 26px}
-  .beat:last-child{border-bottom:0}
-  .beat p{max-width:none}
   .cols{grid-template-columns:1fr;gap:34px}
   .pick-pair{grid-template-columns:1fr}
   .pick-col{padding-right:0}
@@ -1757,135 +1855,152 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
 
 <main id="top">
 
-<!-- ══════════ 00 · THRESHOLD ══════════ -->
-<section class="thresh">
-  <div class="wrap">
-    <p class="kicker">Booster programmes</p>
+<!-- ══════════ 00 · HERO — the two worlds, split ══════════
+     His grounds, found staged and unused in /images (see the CSS banner). The
+     copy is the retired threshold's, verbatim — the words survived the round;
+     only the room they stand in changed. -->
+<section class="bhero" id="hero">
+  <div class="bhero-panes" aria-hidden="true">
+    <div class="bhero-pane bhero-pane--gut">
+      <picture>
+        <source media="(max-width:760px)" type="image/avif" srcset="../images/hero-boost-gut-phone-941.avif">
+        <source media="(max-width:760px)" srcset="../images/hero-boost-gut-phone-941.webp">
+        <source type="image/avif" srcset="../images/hero-boost-gut-wide-1672.avif">
+        <img src="../images/hero-boost-gut-wide-1672.webp" alt="" decoding="async" fetchpriority="high">
+      </picture>
+      <span class="bhero-tag">01 · Gut Health</span>
+    </div>
+    <div class="bhero-pane bhero-pane--energy">
+      <picture>
+        <source media="(max-width:760px)" type="image/avif" srcset="../images/hero-boost-energy-phone-941.avif">
+        <source media="(max-width:760px)" srcset="../images/hero-boost-energy-phone-941.webp">
+        <source type="image/avif" srcset="../images/hero-boost-energy-wide-1672.avif">
+        <img src="../images/hero-boost-energy-wide-1672.webp" alt="" decoding="async" fetchpriority="high">
+      </picture>
+      <span class="bhero-tag">02 · Energy</span>
+    </div>
+  </div>
+  <div class="bhero-scrim" aria-hidden="true"></div>
+  <div class="wrap bhero-copy">
+    <p class="kicker kicker--ivory">Booster programmes</p>
     <h1 data-reveal>Two ways to go <em>further</em>.</h1>
-    <p data-reveal>Pair your hormone care with the systems that amplify it. Neither replaces
-       your protocol — each one is the reason the protocol lands.</p>
-    <div class="ix" data-reveal>
-      <a href="#gut">
-        <span class="ix-n" aria-hidden="true">01</span>
-        <span class="ix-t">Hormone Therapy<em>+ Gut Health</em></span>
-        <span class="ix-l"><span>Absorption, clearance, a dose that holds</span>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M12 5v14m0 0l-6-6m6 6l6-6"/></svg></span>
-      </a>
-      <a href="#energy">
-        <span class="ix-n" aria-hidden="true">02</span>
-        <span class="ix-t">Hormone Therapy<em>+ Energy</em></span>
-        <span class="ix-l"><span>Mitochondria, ATP, afternoons that stay</span>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M12 5v14m0 0l-6-6m6 6l6-6"/></svg></span>
-      </a>
+    <p class="bhero-sub" data-reveal>Pair your hormone care with the systems that amplify
+       it. Neither replaces your protocol — each one is the reason the protocol lands.</p>
+    <div class="bhero-ctas" data-reveal>
+      <a class="btn" href="#" data-book>Book a discovery call <span class="arr">→</span></a>
+      <a class="btn hero-ghost" href="#systems">See the two systems <span class="arr">→</span></a>
     </div>
   </div>
+  <div class="bhero-hint" aria-hidden="true"><span>Scroll</span><span class="tick"></span></div>
 </section>
 
-<!-- ══════════ 01 · GUT ══════════ -->
-<!-- Gut is the flipped row: pure form, no lettering, safe to mirror. -->
-<section class="chapter chapter--flip chapter--seam" id="gut">
-  <div class="plate">
-    <!-- Portrait crop for phones via a plain <picture> source — the browser picks
-         ONE file. Two <img> toggled with CSS would download both. -->
-    <picture>
-      <source media="(max-width:640px)" srcset="../images/exec-5ad4237a-fd88-456a-9a6e-0b452f7869d9.png">
-      <img src="../images/exec-6de342a3-ec11-49b9-96d7-b6729fe8f1ea.png" alt="" aria-hidden="true" decoding="async">
-    </picture>
-  </div>
+<!-- ══════════ 01 · THE QUESTION ══════════
+     The doors' empathy beat. Every chip is a claim the page already makes —
+     the pick band's symptoms and the mechanism copy, compressed to a line. -->
+<section class="ask sec-pad" id="ask">
   <div class="wrap">
-    <div class="col" data-reveal>
-      <span class="num" aria-hidden="true">01</span>
-      <h2>Hormone Therapy<em>+ Gut Health</em></h2>
-      <p class="lede">Balance begins in the gut — so what we rebalance actually
-         lands, and stays landed.</p>
+    <div class="sec-head">
+      <p class="kicker">The question</p>
+      <h2 data-reveal>Your protocol is right. So why is the day still <em>wrong</em>?</h2>
     </div>
+    <div class="chips">
+      <div class="chip" data-reveal style="--i:0">Strong one week, thin the next</div>
+      <div class="chip" data-reveal style="--i:1">Bloating that arrived with the hormones</div>
+      <div class="chip" data-reveal style="--i:2">“Normal” labs, abnormal days</div>
+      <div class="chip" data-reveal style="--i:3">The 3 p.m. fade</div>
+      <div class="chip" data-reveal style="--i:4">Recovery takes days it didn’t use to</div>
+      <div class="chip" data-reveal style="--i:5">The fog lifts — the battery doesn’t</div>
+      <div class="chip" data-reveal style="--i:6">You never quite keep what the dose gives</div>
+    </div>
+    <p class="ask-close" data-reveal>If these are your afternoons, the answer is usually not
+       a stronger dose — it is <strong>the system beside the hormones</strong>. There are
+       two, and each card turns.</p>
   </div>
 </section>
 
-<section class="mech" aria-labelledby="mech-gut">
+<!-- ══════════ 02 · THE TWO SYSTEMS — the flip pair ══════════
+     Front: the offer, on his gold anatomy uploads. Back: the science — the
+     retired mechanism bands' four beats, VERBATIM (the words are settled; see
+     archive/programs-sections/ for the bands themselves). The estrogen INN
+     spelling and every clinical claim carry across unchanged. -->
+<section class="duo sec-pad" id="systems">
   <div class="wrap">
-    <div class="head">
-      <p class="kicker">Why it belongs here</p>
-      <h3 id="mech-gut" data-reveal>Your gut decides how much of your dose you keep.</h3>
+    <div class="sec-head">
+      <h2 data-reveal>Two systems. One <em>programme</em>.</h2>
     </div>
-    <div class="beats">
-      <!-- ⚠️ "Estrogen", not "oestrogen" — BRAND.md, his call 2026-08-24f: the
-           estate keeps the international non-proprietary names. -->
-      <div class="beat">
-        <p class="b-n">01</p>
-        <p>Estrogen leaves the liver bound and inactive, and heads for the gut.</p>
-        <svg class="draw" width="54" height="26" viewBox="0 0 54 26" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path pathLength="1" d="M1 13h40m0 0l-7-7m7 7l-7 7"/></svg>
-      </div>
-      <div class="beat">
-        <p class="b-n">02</p>
-        <p>There, certain bacteria carry β-glucuronidase — the enzyme that unbinds it again.</p>
-        <svg class="draw" width="54" height="26" viewBox="0 0 54 26" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><circle pathLength="1" cx="10" cy="13" r="6"/><path pathLength="1" d="M16 13h12"/><circle pathLength="1" cx="34" cy="13" r="6"/></svg>
-      </div>
-      <div class="beat">
-        <p class="b-n">03</p>
-        <p>Unbound, it re-enters circulation. Too little activity and levels fall short of the dose; too much and they overshoot it.</p>
-        <svg class="draw" width="54" height="26" viewBox="0 0 54 26" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path pathLength="1" d="M1 21c8 0 8-16 16-16s8 16 16 16 8-16 16-16"/></svg>
-      </div>
-      <div class="beat">
-        <p class="b-n">04</p>
-        <p>So we read the terrain before we adjust the dose — and the same dose starts behaving.</p>
-        <svg class="draw" width="54" height="26" viewBox="0 0 54 26" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path pathLength="1" d="M1 13h52M14 8v10M27 4v18M40 8v10"/></svg>
-      </div>
+    <p class="duo-sub" data-reveal><strong>Take one, or both — the fee is the same.</strong>
+       Turn a card for the science; the programme below holds the rest.</p>
+    <div class="duo-grid">
+      <article class="flip" data-reveal data-sysname="Gut Health">
+        <div class="flip-inner">
+          <div class="flip-face flip-front">
+            <picture>
+              <source type="image/avif" srcset="../images/flip-gut-gold-1400.avif">
+              <img src="../images/flip-gut-gold-1400.webp" alt="" loading="lazy" decoding="async" width="1400" height="902">
+            </picture>
+            <div class="flip-front-copy">
+              <span class="flip-num" aria-hidden="true">01</span>
+              <h3>Hormone Therapy <em>+ Gut Health</em></h3>
+              <p>Balance begins in the gut — so what we rebalance actually lands, and stays landed.</p>
+              <button type="button" class="flip-cue" data-flip aria-expanded="false">The science
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20 8a8.5 8.5 0 1 0 1 6M21 3v5h-5"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="flip-face flip-back">
+            <p class="flip-kicker">Why it belongs here</p>
+            <h4>Your gut decides how much of your dose you keep.</h4>
+            <ol class="flip-beats">
+              <li><b>01</b><span>Estrogen leaves the liver bound and inactive, and heads for the gut.</span></li>
+              <li><b>02</b><span>There, certain bacteria carry β-glucuronidase — the enzyme that unbinds it again.</span></li>
+              <li><b>03</b><span>Unbound, it re-enters circulation. Too little activity and levels fall short of the dose; too much and they overshoot it.</span></li>
+              <li><b>04</b><span>So we read the terrain before we adjust the dose — and the same dose starts behaving.</span></li>
+            </ol>
+            <a class="link-arrow" href="#programme">Inside the programme
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
+            <button type="button" class="flip-cue" data-flip aria-expanded="true">Turn back
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 8a8.5 8.5 0 1 1-1 6M3 3v5h5"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="flip" data-reveal data-sysname="Energy">
+        <div class="flip-inner">
+          <div class="flip-face flip-front">
+            <picture>
+              <source type="image/avif" srcset="../images/flip-energy-gold-1400.avif">
+              <img src="../images/flip-energy-gold-1400.webp" alt="" loading="lazy" decoding="async" width="1400" height="787">
+            </picture>
+            <div class="flip-front-copy">
+              <span class="flip-num" aria-hidden="true">02</span>
+              <h3>Hormone Therapy <em>+ Energy</em></h3>
+              <p>Mitochondrial support layered over your protocol — energy built at the cellular level.</p>
+              <button type="button" class="flip-cue" data-flip aria-expanded="false">The science
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20 8a8.5 8.5 0 1 0 1 6M21 3v5h-5"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="flip-face flip-back">
+            <p class="flip-kicker">Why it belongs here</p>
+            <h4>Hormones give the instruction. Mitochondria carry it out.</h4>
+            <ol class="flip-beats">
+              <li><b>01</b><span>Every instruction a hormone gives is paid for in ATP — made here, and nowhere else.</span></li>
+              <li><b>02</b><span>Perimenopause thins that machinery — fewer mitochondria, working less cleanly.</span></li>
+              <li><b>03</b><span>Which is how a protocol can be correct on paper and the afternoon still disappears.</span></li>
+              <li><b>04</b><span>So we rebuild the machinery alongside the hormones, and the day comes back with them.</span></li>
+            </ol>
+            <a class="link-arrow" href="#programme">Inside the programme
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
+            <button type="button" class="flip-cue" data-flip aria-expanded="true">Turn back
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 8a8.5 8.5 0 1 1-1 6M3 3v5h5"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
     </div>
   </div>
 </section>
-
-
-<!-- ══════════ 02 · ENERGY ══════════ -->
-<!-- Energy never flips: the ATP structure beside the object is real lettering. -->
-<section class="chapter chapter--seam" id="energy">
-  <div class="plate">
-    <picture>
-      <source media="(max-width:640px)" srcset="../images/medigyn-porcelain-mitochondria-atp-portrait.png">
-      <img src="../images/medigyn-porcelain-mitochondria-atp-desktop.png" alt="" aria-hidden="true" loading="lazy" decoding="async">
-    </picture>
-  </div>
-  <div class="wrap">
-    <div class="col" data-reveal>
-      <span class="num" aria-hidden="true">02</span>
-      <h2>Hormone Therapy<em>+ Energy</em></h2>
-      <p class="lede">Mitochondrial support layered over your protocol — energy
-         built at the cellular level.</p>
-    </div>
-  </div>
-</section>
-
-<section class="mech" aria-labelledby="mech-energy">
-  <div class="wrap">
-    <div class="head">
-      <p class="kicker">Why it belongs here</p>
-      <h3 id="mech-energy" data-reveal>Hormones give the instruction. Mitochondria carry it out.</h3>
-    </div>
-    <div class="beats">
-      <div class="beat">
-        <p class="b-n">01</p>
-        <p>Every instruction a hormone gives is paid for in ATP — made here, and nowhere else.</p>
-        <svg class="draw" width="54" height="26" viewBox="0 0 54 26" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path pathLength="1" d="M1 13h14m0 0l5-6 6 12 6-12 5 6h14"/></svg>
-      </div>
-      <div class="beat">
-        <p class="b-n">02</p>
-        <p>Perimenopause thins that machinery — fewer mitochondria, working less cleanly.</p>
-        <svg class="draw" width="54" height="26" viewBox="0 0 54 26" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><ellipse pathLength="1" cx="16" cy="13" rx="13" ry="8"/><ellipse pathLength="1" cx="40" cy="13" rx="8" ry="5" opacity=".45"/></svg>
-      </div>
-      <div class="beat">
-        <p class="b-n">03</p>
-        <p>Which is how a protocol can be correct on paper and the afternoon still disappears.</p>
-        <svg class="draw" width="54" height="26" viewBox="0 0 54 26" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path pathLength="1" d="M1 5h44"/><path pathLength="1" d="M1 13h30"/><path pathLength="1" d="M1 21h16"/></svg>
-      </div>
-      <div class="beat">
-        <p class="b-n">04</p>
-        <p>So we rebuild the machinery alongside the hormones, and the day comes back with them.</p>
-        <svg class="draw" width="54" height="26" viewBox="0 0 54 26" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path pathLength="1" d="M1 21c10 0 14-16 26-16s16 8 26 8"/></svg>
-      </div>
-    </div>
-  </div>
-</section>
-
 
 <!-- ══════════ 03 · IN PRACTICE ══════════ -->
 <section class="practice">
@@ -2690,7 +2805,7 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
         if (en.isIntersecting){ en.target.classList.add("is-in"); io.unobserve(en.target); }
       });
     }, {threshold:.18, rootMargin:"0px 0px -8% 0px"});
-    document.querySelectorAll("[data-reveal], .beat").forEach(el => io.observe(el));
+    document.querySelectorAll("[data-reveal]").forEach(el => io.observe(el));
   }
 
 
@@ -2884,6 +2999,36 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
     if (im.complete && im.naturalWidth === 0) bad();
     im.addEventListener("error", bad);
   });
+
+
+  /* ══ the flip pair — the card surface and the cue both turn it; links stay
+     links. The hidden face is inert + aria-hidden: backface-visibility hides
+     pixels, not the accessibility tree. Gated on html.js — without the reveal
+     engine both faces stand in flow, which is the whole no-JS story, and
+     ?probe=1 photographs that same still layout. */
+  if (document.documentElement.classList.contains("js")){
+    document.querySelectorAll(".flip").forEach(card => {
+      const front = card.querySelector(".flip-front");
+      const back  = card.querySelector(".flip-back");
+      if (!front || !back) return;
+      function setFlip(on){
+        card.classList.toggle("flipped", on);
+        front.toggleAttribute("inert", on);
+        front.setAttribute("aria-hidden", String(on));
+        back.toggleAttribute("inert", !on);
+        back.setAttribute("aria-hidden", String(!on));
+        card.querySelectorAll("[data-flip]").forEach(b =>
+          b.setAttribute("aria-expanded", String(on)));
+        const cue = (on ? back : front).querySelector("[data-flip]");
+        if (cue && card.contains(document.activeElement)) cue.focus({preventScroll:true});
+      }
+      setFlip(false);
+      card.addEventListener("click", e => {
+        if (e.target.closest("a")) return;
+        setFlip(!card.classList.contains("flipped"));
+      });
+    });
+  }
 
   /* mock booking action — the estate's unwired-control convention */
   document.querySelectorAll("[data-book]").forEach(b => b.addEventListener("click", e => e.preventDefault()));

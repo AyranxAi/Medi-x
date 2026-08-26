@@ -1,0 +1,145 @@
+<!-- ══ THE EDITORIAL HEAD OF /programs/, ROUNDS 1–3 — RETIRED 2026-08-26 (round four) ══
+     His call: "the first parts are ugly … the same as what we did for the others —
+     the question, animation, and two cards that flip." Removed whole and restorable
+     by paste: the threshold with its two-row index, the two porcelain chapter
+     plates (gut mirrored left — the no-flip rule for the lettered ATP plate is in
+     the comments below), and the two four-beat mechanism bands with their
+     self-drawing diagrams (pathLength="1", one dash rule).
+     ⚠️ THE MECHANISM COPY DID NOT DIE — the four beats of each band live verbatim
+     on the flip cards' backs in the live page. Restoring these bands alongside the
+     flip pair would say everything twice; restore INSTEAD of, not beside.
+     ⚠️ The matching CSS (thresh/ix, chapter/plate, mech/beats + their phone rules
+     and the beat-draw animation) was deleted from the page in the same commit —
+     recover it from git history at that commit, not from memory.
+     Insertion point: immediately after <main id="top">, replacing the hero +
+     question + flip sections. -->
+<!-- ══════════ 00 · THRESHOLD ══════════ -->
+<section class="thresh">
+  <div class="wrap">
+    <p class="kicker">Booster programmes</p>
+    <h1 data-reveal>Two ways to go <em>further</em>.</h1>
+    <p data-reveal>Pair your hormone care with the systems that amplify it. Neither replaces
+       your protocol — each one is the reason the protocol lands.</p>
+    <div class="ix" data-reveal>
+      <a href="#gut">
+        <span class="ix-n" aria-hidden="true">01</span>
+        <span class="ix-t">Hormone Therapy<em>+ Gut Health</em></span>
+        <span class="ix-l"><span>Absorption, clearance, a dose that holds</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M12 5v14m0 0l-6-6m6 6l6-6"/></svg></span>
+      </a>
+      <a href="#energy">
+        <span class="ix-n" aria-hidden="true">02</span>
+        <span class="ix-t">Hormone Therapy<em>+ Energy</em></span>
+        <span class="ix-l"><span>Mitochondria, ATP, afternoons that stay</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M12 5v14m0 0l-6-6m6 6l6-6"/></svg></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 01 · GUT ══════════ -->
+<!-- Gut is the flipped row: pure form, no lettering, safe to mirror. -->
+<section class="chapter chapter--flip chapter--seam" id="gut">
+  <div class="plate">
+    <!-- Portrait crop for phones via a plain <picture> source — the browser picks
+         ONE file. Two <img> toggled with CSS would download both. -->
+    <picture>
+      <source media="(max-width:640px)" srcset="../images/exec-5ad4237a-fd88-456a-9a6e-0b452f7869d9.png">
+      <img src="../images/exec-6de342a3-ec11-49b9-96d7-b6729fe8f1ea.png" alt="" aria-hidden="true" decoding="async">
+    </picture>
+  </div>
+  <div class="wrap">
+    <div class="col" data-reveal>
+      <span class="num" aria-hidden="true">01</span>
+      <h2>Hormone Therapy<em>+ Gut Health</em></h2>
+      <p class="lede">Balance begins in the gut — so what we rebalance actually
+         lands, and stays landed.</p>
+    </div>
+  </div>
+</section>
+
+<section class="mech" aria-labelledby="mech-gut">
+  <div class="wrap">
+    <div class="head">
+      <p class="kicker">Why it belongs here</p>
+      <h3 id="mech-gut" data-reveal>Your gut decides how much of your dose you keep.</h3>
+    </div>
+    <div class="beats">
+      <!-- ⚠️ "Estrogen", not "oestrogen" — BRAND.md, his call 2026-08-24f: the
+           estate keeps the international non-proprietary names. -->
+      <div class="beat">
+        <p class="b-n">01</p>
+        <p>Estrogen leaves the liver bound and inactive, and heads for the gut.</p>
+        <svg class="draw" width="54" height="26" viewBox="0 0 54 26" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path pathLength="1" d="M1 13h40m0 0l-7-7m7 7l-7 7"/></svg>
+      </div>
+      <div class="beat">
+        <p class="b-n">02</p>
+        <p>There, certain bacteria carry β-glucuronidase — the enzyme that unbinds it again.</p>
+        <svg class="draw" width="54" height="26" viewBox="0 0 54 26" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><circle pathLength="1" cx="10" cy="13" r="6"/><path pathLength="1" d="M16 13h12"/><circle pathLength="1" cx="34" cy="13" r="6"/></svg>
+      </div>
+      <div class="beat">
+        <p class="b-n">03</p>
+        <p>Unbound, it re-enters circulation. Too little activity and levels fall short of the dose; too much and they overshoot it.</p>
+        <svg class="draw" width="54" height="26" viewBox="0 0 54 26" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path pathLength="1" d="M1 21c8 0 8-16 16-16s8 16 16 16 8-16 16-16"/></svg>
+      </div>
+      <div class="beat">
+        <p class="b-n">04</p>
+        <p>So we read the terrain before we adjust the dose — and the same dose starts behaving.</p>
+        <svg class="draw" width="54" height="26" viewBox="0 0 54 26" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path pathLength="1" d="M1 13h52M14 8v10M27 4v18M40 8v10"/></svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════ 02 · ENERGY ══════════ -->
+<!-- Energy never flips: the ATP structure beside the object is real lettering. -->
+<section class="chapter chapter--seam" id="energy">
+  <div class="plate">
+    <picture>
+      <source media="(max-width:640px)" srcset="../images/medigyn-porcelain-mitochondria-atp-portrait.png">
+      <img src="../images/medigyn-porcelain-mitochondria-atp-desktop.png" alt="" aria-hidden="true" loading="lazy" decoding="async">
+    </picture>
+  </div>
+  <div class="wrap">
+    <div class="col" data-reveal>
+      <span class="num" aria-hidden="true">02</span>
+      <h2>Hormone Therapy<em>+ Energy</em></h2>
+      <p class="lede">Mitochondrial support layered over your protocol — energy
+         built at the cellular level.</p>
+    </div>
+  </div>
+</section>
+
+<section class="mech" aria-labelledby="mech-energy">
+  <div class="wrap">
+    <div class="head">
+      <p class="kicker">Why it belongs here</p>
+      <h3 id="mech-energy" data-reveal>Hormones give the instruction. Mitochondria carry it out.</h3>
+    </div>
+    <div class="beats">
+      <div class="beat">
+        <p class="b-n">01</p>
+        <p>Every instruction a hormone gives is paid for in ATP — made here, and nowhere else.</p>
+        <svg class="draw" width="54" height="26" viewBox="0 0 54 26" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path pathLength="1" d="M1 13h14m0 0l5-6 6 12 6-12 5 6h14"/></svg>
+      </div>
+      <div class="beat">
+        <p class="b-n">02</p>
+        <p>Perimenopause thins that machinery — fewer mitochondria, working less cleanly.</p>
+        <svg class="draw" width="54" height="26" viewBox="0 0 54 26" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><ellipse pathLength="1" cx="16" cy="13" rx="13" ry="8"/><ellipse pathLength="1" cx="40" cy="13" rx="8" ry="5" opacity=".45"/></svg>
+      </div>
+      <div class="beat">
+        <p class="b-n">03</p>
+        <p>Which is how a protocol can be correct on paper and the afternoon still disappears.</p>
+        <svg class="draw" width="54" height="26" viewBox="0 0 54 26" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path pathLength="1" d="M1 5h44"/><path pathLength="1" d="M1 13h30"/><path pathLength="1" d="M1 21h16"/></svg>
+      </div>
+      <div class="beat">
+        <p class="b-n">04</p>
+        <p>So we rebuild the machinery alongside the hormones, and the day comes back with them.</p>
+        <svg class="draw" width="54" height="26" viewBox="0 0 54 26" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path pathLength="1" d="M1 21c10 0 14-16 26-16s16 8 26 8"/></svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+

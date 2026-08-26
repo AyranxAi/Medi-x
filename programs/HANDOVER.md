@@ -75,6 +75,38 @@ doors' full chapter set:
 
 ---
 
+# Round four, 2026-08-26 — the head rebuilt: hero, question, flip pair
+
+**His call:** *"the first parts are ugly … the same as what we did for the others — the
+question, animation, and 2 cards side by side that flip."* The editorial head (threshold +
+index, two porcelain chapter plates, two mechanism bands) is **retired whole to
+`archive/programs-sections/00-editorial-head-round3.html`**, restorable by paste. In its
+place, the doors' opening arc:
+
+- **The split hero** — HIS OWN UNUSED UPLOADS, found staged in `/images` and referenced by
+  nothing: `medi-gyn-gut-health-hero-*` (the dish on burgundy marble) and
+  `medi-gyn-energy-hero-*` (the brass pendulum), both orientations. Encoded through
+  `tools/encode-plate.mjs` → `hero-boost-*-1672/-941` AVIF+WebP (new basenames; masters
+  untouched). Two panes, one headline, one scrim; panes stack on phones.
+- **The question** — the signals-chip device: seven chips, each a claim the page already
+  makes, cascading on `--i` stagger; no new medicine.
+- **The flip pair** — front: the offer on HIS gold anatomy uploads (his pick over the
+  porcelain pair; `gut-gold`/`energy-gold` → `flip-*-gold-1400`); back (burgundy): the
+  retired mechanism bands' four beats VERBATIM. Faces stack in one grid cell (the
+  story-rail trick) so the card takes the taller face; the 3D turn lives behind `html.js`
+  (no-JS renders both faces in flow); the hidden face is `inert` + `aria-hidden`; the cue
+  is a real button and the whole surface turns, links excepted.
+- **The header returns to the ivory key** (frosted glass, ivory mark) — the round-one red
+  key existed because the old head was ivory from its first pixel; the red mark has no
+  contrast on the marble. Red returns with the solid bar.
+- ⚠️ **EVERY SCRIM HERE IS A MEASURED MINIMUM** — the harness's `worst2()` (the
+  boost-contrast method) photographs the copy rectangles on every run: hero sub ≥4.5,
+  hero headline ≥3, flip-front copy ≥4.5. The front title's accent is **gold-tint, not
+  rose** — rose (L≈.37) cannot clear 4.5:1 over the artwork's glow on any scrim that
+  leaves the artwork visible; that is arithmetic, recorded at the rule.
+- A no-WebP-fallback note: the beat-draw animation and the `pathLength` trick left with
+  the mechanism bands; the reveal engine no longer observes `.beat`.
+
 # Round three, 2026-08-26 — Irina's correction: one card, one fee, one or two systems
 
 **Her call, relayed by him:** *"it's not either or actually — it's one or two, which is

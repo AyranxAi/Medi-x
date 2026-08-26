@@ -125,43 +125,88 @@ const ok = (cond, msg) => { console.log((cond ? '  ✓ ' : '  ✗ ') + msg); if 
   await phone.close();
 }
 
-/* ── 4 · the pair of cards and the two boards ── */
+/* ── 4 · the composed card — one programme, two systems, one fee ──
+   Irina's model (2026-08-26): systems are additive, the price never moves.
+   The peptide grammar: state on the tiles, the script a view of it. */
 {
-  console.log('4 · the cards');
+  console.log('4 · the composed card');
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
   await page.goto(`${BASE}/programs/?probe=1`, { waitUntil: 'networkidle' });
   const c = await page.evaluate(() => ({
     cards: document.querySelectorAll('#cards-grid .prog-card').length,
+    tiles: document.querySelectorAll('.sys-tile').length,
+    bothOn: [...document.querySelectorAll('.sys-tile')].every(t => t.getAttribute('aria-pressed') === 'true'),
+    recap: document.getElementById('sys-recap').textContent,
     details: document.querySelectorAll('#cards-grid details.pc-more').length,
     varsHidden: [...document.querySelectorAll('.pc-var')].every(el => getComputedStyle(el).display === 'none'),
-    words: document.querySelectorAll('.pc-price--word').length,
+    word: !!document.querySelector('.pc-price--word'),
     /* textContent, NOT innerHTML — the section banner's comment also says 795,
        and a comment is not a price a reader can see */
     fee795: document.getElementById('cards-grid').textContent.match(/AED 795 \+ VAT/g)?.length || 0,
     mentorship: /mentorship/i.test(document.querySelector('#cards-grid').textContent),
   }));
-  ok(c.cards === 2, 'two cards');
-  ok(c.details === 8, 'eight + rows');
+  ok(c.cards === 1, 'ONE composed card');
+  ok(c.tiles === 2 && c.bothOn, 'two system tiles, both on by default');
+  ok(/Gut Health and Energy/.test(c.recap), `recap names both (${c.recap.trim()})`);
+  ok(c.details === 4, 'four + rows');
   ok(c.varsHidden, 'price board hidden by default (incl. the flexed figure)');
-  ok(c.words === 2, 'both money slots read "Priced at your consultation"');
-  ok(c.fee795 === 2, `the 795 review fee on both cards (${c.fee795})`);
-  ok(!c.mentorship, 'no mentorship promise on either card');
+  ok(c.word, 'the money slot reads "Priced at your consultation"');
+  ok(c.fee795 === 1, `the 795 review fee, once (${c.fee795})`);
+  ok(!c.mentorship, 'no mentorship promise on the card');
+  /* unticking a system collapses ITS rows and only its rows */
+  const toggled = await page.evaluate(() => {
+    document.querySelector('.sys-tile[data-sys="energy"]').click();
+    const off = [...document.querySelectorAll('#sys-list li.off')];
+    return {
+      offSys: [...new Set(off.map(li => li.dataset.sys))].join(','),
+      offN: off.length,
+      recap: document.getElementById('sys-recap').textContent,
+    };
+  });
+  ok(toggled.offSys === 'energy' && toggled.offN === 3, `energy off collapses its 3 rows (${toggled.offSys}/${toggled.offN})`);
+  ok(/Gut Health\./.test(toggled.recap), `recap follows the choice (${toggled.recap.trim()})`);
+  /* the last system cannot be unticked — a programme never has zero systems */
+  ok(await page.evaluate(() => {
+    document.querySelector('.sys-tile[data-sys="gut"]').click();
+    return document.querySelector('.sys-tile[data-sys="gut"]').getAttribute('aria-pressed') === 'true';
+  }), 'unticking the last system is refused');
   ok(await page.evaluate(() => { const d = document.querySelector('#cards-grid details.pc-more');
     d.querySelector('summary').click(); return d.open; }), '+ row opens');
   if (SHOTS) {
     await page.evaluate(() => document.getElementById('cards-grid').scrollIntoView({ behavior: 'instant' }));
-    await page.waitForTimeout(400);
+    await page.waitForTimeout(600);
     await page.screenshot({ path: OUT + 'cards-default-1440.png' });
   }
+  /* the priced board: live doors' arithmetic, and THE FEE NEVER MOVES with the
+     systems — the assertion Irina's promise turns on */
   await page.goto(`${BASE}/programs/?probe=1&price=950`, { waitUntil: 'networkidle' });
-  ok(await page.evaluate(() =>
-    [...document.querySelectorAll('.pc-var.pg-amt')].every(el => getComputedStyle(el).display !== 'none') &&
-    [...document.querySelectorAll('.pc-price--word')].every(el => getComputedStyle(el).display === 'none')),
-    '?price=950 swaps the figure in');
-  await page.goto(`${BASE}/programs/?probe=1&cards=stacked`, { waitUntil: 'networkidle' });
-  ok(await page.evaluate(() => { const g = document.getElementById('cards-grid');
-    return g.classList.contains('prog-grid--card') && !g.querySelector('.prog-card--slim'); }),
-    '?cards=stacked serves full-width door cards');
+  const priced = await page.evaluate(() => ({
+    fig: getComputedStyle(document.querySelector('.pc-var.pg-amt')).display !== 'none',
+    word: getComputedStyle(document.querySelector('.pc-price--word')).display === 'none',
+    second: !document.getElementById('pg-row-second').hidden,
+    total: document.getElementById('pg-total').textContent,
+  }));
+  ok(priced.fig && priced.word, '?price=950 swaps the figure in');
+  ok(priced.second, 'second-system row shows at AED 0.00 with both on');
+  ok(priced.total === 'AED 997.50', `total ${priced.total}`);
+  const constant = await page.evaluate(() => {
+    document.querySelector('.sys-tile[data-sys="energy"]').click();
+    return { second: document.getElementById('pg-row-second').hidden,
+             total: document.getElementById('pg-total').textContent };
+  });
+  ok(constant.second && constant.total === 'AED 997.50',
+    `dropping a system moves NOTHING in the money (${constant.total})`);
+  const addon = await page.evaluate(() => {
+    document.getElementById('pg-addon').click();
+    return { row: !document.getElementById('pg-row-addon').hidden,
+             total: document.getElementById('pg-total').textContent };
+  });
+  ok(addon.row && addon.total === 'AED 3,045.00', `collection ticks in live (${addon.total})`);
+  if (SHOTS) {
+    await page.evaluate(() => document.getElementById('cards-grid').scrollIntoView({ behavior: 'instant' }));
+    await page.waitForTimeout(600);
+    await page.screenshot({ path: OUT + 'cards-price950-1440.png' });
+  }
   await page.close();
 }
 

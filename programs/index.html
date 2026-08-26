@@ -1129,88 +1129,99 @@ body.nav-open .nav li{
 body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds still under the overlay */
 
 
-/* ══ THE PAIR — this page's one addition to the card grammar ══════════════════
-   Two programmes, two cards, side by side under the one flower: the page's own
-   diptych instinct (the chapter plates, the hub's two bands) carried into the
-   money chapter. Each card runs the door card's PHONE interleave at every width
-   via .prog-card--slim below — a 41/59 split composed for 1180px cannot live in
-   a ~560px column, which is the width the original single-column card was
-   composed at (see .prog-grid--card's 560 cap).
-   ⚠️ DECISION SCAFFOLDING, LIKE ?tone= AND ?boost= BEFORE IT — two boards ride
-   this section until he picks, then the losers are DELETED, not disabled:
-     ?cards=stacked  — one full-width door card per programme, stacked
-     ?price=950      — the doors' AED 950 + VAT package figure on both cards
-   The DEFAULT shows no package figure, because none exists for the plus
-   programmes anywhere: the doors' 950 buys assessment + blood-work reading +
-   consultation, and whether the plus programmes (one of them with TWO
-   consultations) sell at the same figure is HIS call, not an inference. The
-   default card says "Priced at your consultation" in the money slot instead —
-   the estate's own "quoted to you first, before you pay" voice. When he names
-   figures, the hidden .pc-var money blocks take them and the scaffolding goes. */
-/* minmax(0,1fr), never bare 1fr — the doors' recorded lesson, needed here a
-   third time on this page: a flex card's min-content is its widest child, and
-   a bare 1fr track grows to it instead of wrapping the text (+104px at 320). */
-.prog-grid--pair{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,2.4vw,38px);
-  max-width:1180px;margin-left:auto;margin-right:auto}
-.prog-grid--pair .prog-card{position:static}
-@media(max-width:860px){
-  .prog-grid--pair{grid-template-columns:minmax(0,1fr);gap:26px}
+/* ══ THE COMPOSED CARD — one programme, two systems, one fee ══════════════════
+   IRINA'S CALL, 2026-08-26 (relayed by him): "it's not either or actually —
+   it's one or two, which is still the same price." That corrected the model the
+   PAIR of cards was built on: the systems are not two purchases, they are two
+   MODULES of one programme, additive, at one fee. So the pair and its
+   ?cards=stacked board are DELETED, not parked — the question they existed to
+   settle (how to present two separate purchases) is no longer a true question.
+   ⚠️ THE GRAMMAR IS THE PEPTIDE PAGE'S, DELIBERATELY — his own reference ("in
+   the peptides at least it's dynamic where whatever you add will be seen"):
+   the chosen state lives ON the tiles (aria-pressed), the script is a VIEW of
+   it (recap phrase, list rows, the AED 0.00 second-system row), everything is
+   authored in HTML, and the price does not change with the choice. A reader
+   with no JS sees the whole programme — both systems' rows, no boxes ticked —
+   which is the truthful static reading.
+   ⚠️ AT LEAST ONE SYSTEM IS ALWAYS ON. Unticking the last one is refused
+   silently: a programme with zero systems is not a state this offer has.
+   ⚠️ DEFAULT IS BOTH ON — the full programme is the anchor, and removing reads
+   as giving something up. If he prefers the "watch the price not move when I
+   add" telling, flipping the second tile's initial aria-pressed is one
+   attribute; flagged in HANDOVER. */
+.sys-blk .pg-h{margin-bottom:4px}
+.sys-tile{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:6px 14px;
+  align-items:center;width:100%;text-align:left;margin-top:12px;
+  padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:none;
+  transition:border-color .3s var(--ease),background-color .3s var(--ease)}
+.sys-tile:hover{border-color:var(--ink-soft);background:rgba(255,255,255,.6)}
+.sys-tile[aria-pressed="true"]{border-color:rgba(138,106,52,.75);background:var(--gold-tint)}
+.sys-tile:focus-visible{outline:2px solid var(--logo-red);outline-offset:2px}
+.sys-thumb{width:76px;height:56px;border-radius:6px;object-fit:cover;display:block;
+  transition:opacity .3s var(--ease),filter .3s var(--ease)}
+.sys-tile[aria-pressed="false"] .sys-thumb{opacity:.45;filter:saturate(.4)}
+.sys-tile[aria-pressed="false"] .sys-name,
+.sys-tile[aria-pressed="false"] .sys-line{color:var(--ink-soft)}
+.sys-name{display:block;font-family:var(--serif);font-weight:450;
+  font-size:clamp(16.5px,1.5vw,20px);line-height:1.2;color:var(--ink)}
+.sys-name em{color:var(--logo-red)}
+.sys-line{display:block;font-size:12.5px;line-height:1.45;color:var(--ink-soft);margin-top:3px}
+/* the tick square — the pg-addon box's own material, same states */
+.sys-tile .pg-box{flex:none;width:21px;height:21px;font-size:12px;
+  border:1px solid var(--ink-soft);display:flex;align-items:center;justify-content:center;
+  color:transparent}
+.sys-tile[aria-pressed="true"] .pg-box{background:var(--ink);border-color:var(--ink);color:var(--ivory)}
+.sys-note{margin-top:12px;font-size:12.5px;line-height:1.5;color:var(--ink-soft)}
+.sys-note strong{font-weight:500;color:var(--burgundy)}
+
+/* ── the live Included list: rows collapse when their system is off.
+   Each li is a one-row grid so 1fr→0fr animates the height; the inner wrapper
+   owns the overflow. The gold tick ::before sits on the li itself, outside the
+   clip, so it fades with the row instead of poking out of it. ── */
+.prog-card #sys-list li{display:grid;grid-template-rows:1fr;
+  transition:grid-template-rows .45s var(--ease),opacity .4s var(--ease),
+    margin-top .45s var(--ease)}
+.prog-card #sys-list li>.li-in{overflow:hidden;min-height:0}
+.prog-card #sys-list li.off{grid-template-rows:0fr;opacity:0;margin-top:0;pointer-events:none}
+.prog-card #sys-list li.off::before{opacity:0}
+.prog-card #sys-list li::before{transition:opacity .3s var(--ease)}
+@media (prefers-reduced-motion:reduce){
+  .prog-card #sys-list li,.prog-card #sys-list li::before,
+  .sys-thumb{transition:none}
 }
-/* the slim card = the door card's ≤1024 interleave, unconditionally.
-   Same order values; the source block is at the card's own media query
-   below — change one, change both. FLEX, not grid: `order` interleaves the
-   same way, and it buys the one thing the pair needs that the stacked door
-   card does not — `margin-top:auto` on the CTA anchors both pills to the
-   card floor, so two cards of unequal content close on one line (the same
-   judgement as the door card's own floor-anchored sum, by flex's means). */
-.prog-card--slim{display:flex;flex-direction:column}
-.prog-card--slim .pc-col{display:contents}
-.prog-card--slim .pc-quote-note{order:4}
-.prog-card--slim .prog-cta{margin-top:auto;padding-top:clamp(22px,2.4vw,28px)}
-.prog-card--slim .pxd-kicker{order:1}
-.prog-card--slim h3{order:2;font-size:clamp(24px,2.2vw,31px)}
-.prog-card--slim .pg-recap{order:3}
-.prog-card--slim .pc-price{order:4;margin-top:12px;justify-content:flex-start;
-  font-size:clamp(30px,2.8vw,40px)}
-.prog-card--slim .pc-rule{display:none}
-.prog-card--slim .pc-inc{order:5}
-.prog-card--slim .pc-add{order:6}
-.prog-card--slim .pc-exc{order:7}
-.prog-card--slim .pg-sum{order:8;border-top:1px solid rgba(194,160,94,.34);
-  padding-top:clamp(22px,2.4vw,30px)}
-.prog-card--slim .prog-cta{order:9}
-/* the programme names carry their + in the accent red, as everywhere on this page */
-.prog-card h3 em{color:var(--logo-red);font-style:italic}
-/* the no-figure money slot: the promise where the number will stand. Serif italic,
-   NOT the accent — a word set in the figure's own face reads as a price that
-   failed to load rather than as a sentence. */
+
+/* the no-figure money slot (unchanged from the boards round) */
 .prog-card .pc-price--word{font-family:var(--serif);font-style:italic;
   font-variant-numeric:normal;white-space:normal;justify-content:flex-start;
   font-size:clamp(19px,1.7vw,24px);line-height:1.3;color:var(--ink)}
 .prog-card .pc-quote-note{font-size:12.5px;line-height:1.5;color:var(--ink-soft);
   margin-top:8px}
-/* variant scaffolding: hidden until the board asks for it.
-   ⚠️ Scoped to .prog-card — a bare .pc-var{display:none} loses to
-   `.prog-card .pc-price{display:flex}` (0,2,0 against 0,1,0) and the 950
-   figure showed by default. The figure re-takes its flex when the board is on. */
+.prog-card .pc-quote-note strong{font-weight:500;color:var(--burgundy)}
+
+/* the collection service, told once in the right column: an info box in the
+   default board (a checkbox cannot sum into a card that shows no base figure),
+   the doors' live pg-addon toggle on the ?price=950 board. */
+.pc-add-info{margin-top:0;padding:clamp(17px,1.7vw,24px);
+  border:1px solid rgba(194,160,94,.5);border-radius:10px}
+.pc-add-info .pc-addon-label{display:block;font-family:var(--serif);
+  font-size:clamp(16px,1.45vw,20px);color:var(--gold-deep);margin-bottom:7px}
+.pc-add-info p{font-size:clamp(14px,1.12vw,15.5px);line-height:1.55;color:var(--ink)}
+.pc-add-info .pn-fig{font-family:var(--accent);white-space:nowrap;color:var(--ink)}
+.pc-add-info .pn-fig small{font-family:var(--sans);font-weight:500;font-size:10px;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin-left:4px}
+
+/* ── the ?price=950 board — the one board left standing. The figure is still
+   HIS open question (the doors' 950 buys one consultation; the gut system holds
+   two), so the default stays wordless and this board shows the doors' figure
+   with the doors' LIVE arithmetic — single card now, so the doors' #pg-* IDs
+   and the addon toggle return without a duplicate-ID hazard.
+   ⚠️ Scoped to .prog-card — a bare .pc-var loses to `.prog-card .pc-price`. */
 .prog-card .pc-var{display:none}
 html.price-950 .prog-card .pc-var{display:block}
+html.price-950 .prog-card .pg-addon.pc-var{display:grid}
 html.price-950 .prog-card .pc-price.pc-var{display:flex}
-html.price-950 .pc-price--word,html.price-950 .pc-quote-note{display:none}
-/* the shared collection note under the pair — ONE service, so it is said once,
-   not once per card. The pg-addon box's dress without its checkbox: nothing here
-   is tickable while the base figure is undecided, and a checkbox that sums into
-   nothing is worse than a sentence (the pg grammar's own rule). */
-.pair-note{max-width:1180px;margin:clamp(20px,2.4vw,38px) auto 0;
-  border:1px solid rgba(194,160,94,.5);border-radius:10px;background:rgba(255,255,255,.55);
-  padding:clamp(17px,1.7vw,24px)}
-.pair-note .pc-addon-label{display:block;font-family:var(--serif);
-  font-size:clamp(16px,1.45vw,20px);color:var(--gold-deep);margin-bottom:7px}
-.pair-note p{font-size:clamp(14px,1.12vw,15.5px);line-height:1.55;color:var(--ink)}
-.pair-note .pn-fig{font-family:var(--accent);white-space:nowrap;color:var(--ink)}
-.pair-note .pn-fig small{font-family:var(--sans);font-weight:500;font-size:10px;
-  letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin-left:4px}
-.pair-note .pg-note{margin-top:8px}
+html.price-950 .pc-price--word,html.price-950 .pc-quote-note,
+html.price-950 .pc-add-info{display:none}
 
 /* the doctors' ground — the doors' dawn, same token, measured over there */
 .docs{background:var(--dawn)}
@@ -1933,38 +1944,48 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
         </ul>
       </div>
     </div>
-    <p class="pick-foot" data-reveal>You do not have to choose blind. <strong>Both begin the
-       same way — labs first</strong> — and the discovery call exists to make exactly this
-       decision with you.</p>
+    <!-- IRINA'S CALL, 2026-08-26: one system or two, the same fee — so the band's
+         close stops asking the reader to pick and starts telling her she need not. -->
+    <p class="pick-foot" data-reveal>You do not have to choose. <strong>One programme fee
+       covers one system — or both.</strong> The discovery call is for deciding which
+       to lead with.</p>
   </div>
 </section>
 
 <!-- ══════════ 05 · THE PROGRAMME — how it works, and what it costs ══════════
-     THE DOORS' CENTREPIECE, CARRIED HERE ON HIS ASK (2026-08-26, round two of this
-     page: "copy the aesthetics of the services, have the same flower for the how it
-     works and the pricings as well"). The flower is the doors' process sculpture,
-     byte-identical (see the CSS banner: FOUR carriers of the parity contract now);
-     the six steps are the doors' six because the intake IS the same intake — the
-     discovery call, the labs, the chosen doctor, the consultation, the prescription,
-     the aftercare month. What is this page's own is the pair of cards below it.
-     ⚠️⚠️ NO PACKAGE FIGURE IS SHOWN BY DEFAULT, AND THAT IS A QUESTION FOR HIM, NOT
-     A FINISHED STATE. The doors sell their consultation package at AED 950 + VAT
-     (his figure, 2026-08-19). Whether the PLUS programmes sell at the same figure —
-     the gut programme holds TWO consultations where the doors hold one — has never
-     been said, and the WordPress source pages show no package price either. Until he
-     names figures, the money slot carries "Priced at your consultation" in the
-     estate's quoted-first voice, and the two boards below show him the alternatives:
-       ?price=950      the doors' figure on both cards, with the doors' arithmetic
-       ?cards=stacked  one full-width door card per programme instead of the pair
-     HIS PICK DELETES THE LOSERS — the ?tone= / ?boost= precedent.
-     ⚠️ THE AED 795 + VAT REVIEW FIGURE on both cards is the estate's settled number
-     (2026-08-24h) and it is card copy — no script reads it.
-     ⚠️ THE 4-WEEK MENTORSHIP IS ON NEITHER CARD — the owner's removal (2026-08-24,
+     THE DOORS' CENTREPIECE, CARRIED ON HIS ASK (2026-08-26, round two: "copy the
+     aesthetics of the services … the same flower for the how it works and the
+     pricings as well"). The flower is the doors' process sculpture, byte-identical
+     (see the CSS banner: FOUR carriers of the parity contract); the six steps are
+     the doors' six because the intake IS the same intake.
+     ⚠️⚠️ IRINA'S CORRECTION, 2026-08-26 (round three, relayed by him): the two
+     systems are NOT either/or — a patient takes ONE OR BOTH, AT THE SAME PRICE.
+     The pair of per-system cards this section carried for a day was built on the
+     separate-purchase reading and is DELETED with its ?cards=stacked board — the
+     question that board existed to settle stopped being a true question. ONE door
+     card now composes the programme in the peptide page's additive grammar: two
+     system tiles carry the state, the recap and the Included rows are a view of
+     it, and the fee does not move with the choice. On the priced board the second
+     system prints as its own row at AED 0.00 — the offer, made visible.
+     ⚠️⚠️ STILL NO PACKAGE FIGURE BY DEFAULT, AND THAT REMAINS HIS QUESTION. The
+     doors' AED 950 + VAT buys one consultation package; the gut system holds a
+     second consultation, and no figure for the composed programme has been named.
+     The money slot reads "Priced at your consultation" in the estate's
+     quoted-first voice, and ONE board remains for his pick:
+       ?price=950   the doors' figure, with the doors' LIVE arithmetic — the
+                    single card lets the #pg-* IDs and the collection toggle
+                    return without a duplicate-ID hazard.
+     When he names the real figure, BASE moves once in the script, the static
+     .pg-amt moves with it (they disagree the moment someone edits one), and the
+     board scaffolding is deleted.
+     ⚠️ THE AED 795 + VAT REVIEW FIGURE is the estate's settled number (2026-08-24h)
+     and is card copy — no script reads it.
+     ⚠️ THE 4-WEEK MENTORSHIP IS ON NEITHER LIST — the owner's removal (2026-08-24,
      re-affirmed 2026-08-26 on the doors) reaches this page; the source BHRT-Plus
-     page still advertises it, and restoring it is his call and one <li> per card.
-     ⚠️ THE COLLECTION ADD-ON IS A NOTE HERE, NOT A TOGGLE — one service said once
-     under the pair; a checkbox cannot sum into a card that shows no base figure.
-     When figures land, it becomes the doors' pg-addon toggle again, per card. -->
+     page still advertises it, and restoring it is his call and one <li>.
+     ⚠️ THE COLLECTION is an info box on the default board (a checkbox cannot sum
+     into a card that shows no base figure) and the doors' live pg-addon toggle on
+     the priced board. -->
 <section class="programme sec-pad" id="programme">
 <!-- PS:HTML:START -->
       <!-- ══════════ THE PROCESS SCULPTURE ══════════
@@ -2024,29 +2045,64 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
       </noscript>
 
     <div class="wrap">
-      <div class="prog-grid prog-grid--pair" id="cards-grid">
-        <aside class="prog-card prog-card--slim" data-reveal>
+      <div class="prog-grid prog-grid--card" id="cards-grid">
+        <aside class="prog-card" data-reveal>
           <div class="pc-col pc-col--l">
-            <p class="pxd-kicker">The programme · 01</p>
-            <h3>Hormone Therapy <em>+ Gut Health</em></h3>
-            <p class="pg-recap">Balance begins in the gut — <b>so what we rebalance
-              lands, and stays landed.</b></p>
+            <p class="pxd-kicker">The programme</p>
+            <h3>Your treatment starts here</h3>
+            <!-- the recap is the peptide panel's device: it names what is chosen,
+                 in the grid's order, and the script only rewrites this one line -->
+            <p class="pg-recap" id="sys-recap">Hormone care with <b>Gut Health</b> and <b>Energy</b>.</p>
             <div class="pc-rule" aria-hidden="true"></div>
+            <div class="pg-blk sys-blk">
+              <div class="pg-h"><span>Your systems — one, or both</span></div>
+              <!-- ⚠️ THE THUMBS ARE THE HUB'S OWN BOOST BANDS (images/boost/…),
+                   cropped by object-fit — the same two photographs a visitor met
+                   on the hub's cards, so the tiles read as the same two things. -->
+              <button type="button" class="sys-tile" data-sys="gut" aria-pressed="true">
+                <img class="sys-thumb" src="../images/boost/gut-estradiol-figure-pale-1200x760.webp"
+                     alt="" aria-hidden="true" loading="lazy" decoding="async" width="1200" height="760">
+                <span>
+                  <span class="sys-name">Gut Health <em>· absorption &amp; clearance</em></span>
+                  <span class="sys-line">So what we rebalance lands, and stays landed.</span>
+                </span>
+                <span class="pg-box" aria-hidden="true">✓</span>
+              </button>
+              <button type="button" class="sys-tile" data-sys="energy" aria-pressed="true">
+                <img class="sys-thumb" src="../images/boost/energy-atp-clinician-1200x760.webp"
+                     alt="" aria-hidden="true" loading="lazy" decoding="async" width="1200" height="760">
+                <span>
+                  <span class="sys-name">Energy <em>· mitochondrial support</em></span>
+                  <span class="sys-line">Energy built at the cellular level.</span>
+                </span>
+                <span class="pg-box" aria-hidden="true">✓</span>
+              </button>
+              <!-- ⚠️ IRINA'S PROMISE, 2026-08-26, AND IT IS THE SENTENCE THE WHOLE
+                   CARD TURNS ON — "one or two, which is still the same price". -->
+              <p class="sys-note"><strong>One fee, either way</strong> — the programme
+                 costs the same with one system or both.</p>
+            </div>
             <div class="pg-blk pc-inc">
               <div class="pg-h"><span>Included</span></div>
-              <!-- content recovered from medi-gyn.com's "Hormone Balancing for BHRT
-                   Plus" (egress-blocked; via search snippets), set in the door cards'
-                   own forms where the same item exists there. Verify against the live
-                   page before real marketing. -->
-              <ul class="pg-list">
-                <li>Two consultations — hormone, and functional medicine
-                  <small>Your symptoms, history and current health, read by both disciplines together.</small></li>
-                <li>Prescription Issued Bioidentical Hormone Therapy</li>
-                <li>Prescription of science-driven gut health supplements
-                  <small>Chosen against your functional test results, not from a menu.</small></li>
-                <li>Your bespoke hormone balancing &amp; gut health protocol
-                  <small>Explained by your doctor — over Zoom, or in person.</small></li>
-                <li>Hormone Balancing Lifestyle Guide</li>
+              <!-- rows are tagged by system; "both" rows never collapse. Content
+                   recovered from the two medi-gyn.com source pages (egress-blocked;
+                   via search snippets), set in the door cards' forms. Verify against
+                   the live pages before real marketing. -->
+              <ul class="pg-list" id="sys-list">
+                <li data-sys="both"><div class="li-in">Prescription Issued Bioidentical Hormone Therapy</div></li>
+                <li data-sys="both"><div class="li-in">Your bespoke protocol, explained by your doctor
+                  <small>Over Zoom, or in person.</small></div></li>
+                <li data-sys="gut"><div class="li-in">Functional medicine consultation — the gut, read beside your hormones
+                  <small>Your terrain mapped before anything is added.</small></div></li>
+                <li data-sys="gut"><div class="li-in">Prescription of science-driven gut health supplements
+                  <small>Chosen against your functional test results, not from a menu.</small></div></li>
+                <li data-sys="gut"><div class="li-in">Hormone Balancing Lifestyle Guide</div></li>
+                <li data-sys="energy"><div class="li-in">Menopause &amp; mitochondria optimisation consultation
+                  <small>Your hormone results and functional testing, read together.</small></div></li>
+                <li data-sys="energy"><div class="li-in">Prescription of science-driven micronutrient supplements
+                  <small>For the hormonal glands and immune system — ATP in the cell, oxygen to the organs.</small></div></li>
+                <li data-sys="energy"><div class="li-in">The Modern Menopause Lifestyle Guide
+                  <small>Hormone-friendly, science-based, written for daily use.</small></div></li>
               </ul>
             </div>
             <div class="pg-blk pg-blk--soft pc-exc">
@@ -2059,83 +2115,46 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
                 <li><details class="pc-more"><summary>Supplementation products</summary>
                   <small>Products are charged separately.</small></details></li>
                 <li><details class="pc-more"><summary>Review consultation</summary>
-                  <small>A new consultation, AED 795 + VAT.</small></details></li>
-              </ul>
-            </div>
-          </div>
-          <div class="pc-col pc-col--r">
-            <p class="pc-price pc-price--word">Priced at your consultation</p>
-            <p class="pc-quote-note">Your protocol is quoted to you first — always before you pay.</p>
-            <!-- ?price=950 board — STATIC preview figures, the doors' arithmetic
-                 (950 → 47.50 → 997.50). No IDs, nothing script-driven: two cards
-                 with live #pg-sub/#pg-total IDs would be a duplicate-ID hazard. -->
-            <p class="pc-price pg-amt pc-var">AED 950 <small>+ VAT</small></p>
-            <div class="pg-sum pc-var">
-              <div class="pg-row"><span>Programme</span><span>AED 950.00</span></div>
-              <div class="pg-row"><span>VAT 5%</span><span>AED 47.50</span></div>
-              <div class="pg-row pg-row--total"><span>Total today</span><span>AED 997.50</span></div>
-            </div>
-            <div class="prog-cta"><a class="btn" href="#book">Start with the discovery call <span class="arr">→</span></a></div>
-          </div>
-        </aside>
-
-        <aside class="prog-card prog-card--slim" data-reveal>
-          <div class="pc-col pc-col--l">
-            <p class="pxd-kicker">The programme · 02</p>
-            <h3>Hormone Therapy <em>+ Energy</em></h3>
-            <p class="pg-recap">Mitochondrial support layered over your protocol —
-              <b>energy built at the cellular level.</b></p>
-            <div class="pc-rule" aria-hidden="true"></div>
-            <div class="pg-blk pc-inc">
-              <div class="pg-h"><span>Included</span></div>
-              <!-- content recovered from medi-gyn.com's "Modern Menopause Management"
-                   (egress-blocked; via search snippets), same discipline as the gut
-                   card's list. Verify against the live page before real marketing. -->
-              <ul class="pg-list">
-                <li>Menopause &amp; mitochondria optimisation consultation
-                  <small>One functional medicine session — your hormone results and functional testing, read together.</small></li>
-                <li>Prescription Issued Bioidentical Hormone Therapy
-                  <small>A two-month personalised protocol first, to see how your body answers.</small></li>
-                <li>Prescription of science-driven micronutrient supplements
-                  <small>For the hormonal glands and immune system — ATP in the cell, oxygen to the organs.</small></li>
-                <li>The Modern Menopause Lifestyle Guide
-                  <small>Hormone-friendly, science-based, written for daily use.</small></li>
-              </ul>
-            </div>
-            <div class="pg-blk pg-blk--soft pc-exc">
-              <div class="pg-h"><span>Not included</span></div>
-              <ul class="pg-list">
-                <li><details class="pc-more"><summary>Blood tests</summary>
-                  <small>Home blood sample collection fees are separate.</small></details></li>
-                <li><details class="pc-more"><summary>Your hormone therapy</summary>
-                  <small>Once your prescription is issued, we will price it before your payment.</small></details></li>
-                <li><details class="pc-more"><summary>Supplementation products</summary>
-                  <small>Products are charged separately.</small></details></li>
-                <li><details class="pc-more"><summary>Review consultation</summary>
                   <small>A new consultation, AED 795 + VAT — your levels re-read at two months, and the prescription renewed.</small></details></li>
               </ul>
             </div>
           </div>
           <div class="pc-col pc-col--r">
             <p class="pc-price pc-price--word">Priced at your consultation</p>
-            <p class="pc-quote-note">Your protocol is quoted to you first — always before you pay.</p>
+            <p class="pc-quote-note"><strong>One fee — whether you run one system or
+              both.</strong> Your protocol is quoted to you first, always before you pay.</p>
+            <!-- ?price=950 board — the doors' figure, LIVE arithmetic (single card,
+                 so the doors' IDs return safely). The board dies or the words do,
+                 the moment he names the real figure. -->
             <p class="pc-price pg-amt pc-var">AED 950 <small>+ VAT</small></p>
+            <div class="pg-blk pc-add">
+              <div class="pc-add-info">
+                <span class="pc-addon-label">Home blood sample collection · UAE</span>
+                <p>Anywhere in the UAE — home, office or hotel — <span class="pn-fig">AED 1,950 <small>+ VAT</small></span>.</p>
+              </div>
+              <button type="button" class="pg-addon pc-var" id="pg-addon" aria-pressed="false">
+                <span class="pg-box" aria-hidden="true">✓</span>
+                <span class="pg-t"><span class="pc-addon-label">Optional add-on</span>Home blood sample collection · UAE
+                  <small>Anywhere in the UAE — home, office or hotel.</small>
+                </span>
+                <span class="pg-p">AED 1,950 <small>+ VAT</small></span>
+              </button>
+              <p class="pg-note">Patients outside the UAE can do their blood tests at any
+              laboratory at their destination.</p>
+            </div>
             <div class="pg-sum pc-var">
-              <div class="pg-row"><span>Programme</span><span>AED 950.00</span></div>
-              <div class="pg-row"><span>VAT 5%</span><span>AED 47.50</span></div>
-              <div class="pg-row pg-row--total"><span>Total today</span><span>AED 997.50</span></div>
+              <div class="pg-row"><span>Programme</span><span id="pg-sub">AED 950.00</span></div>
+              <!-- the row this model exists for: it appears when the second system
+                   is on, and it adds nothing. Two decimals — a money column lines
+                   up or it does not. -->
+              <div class="pg-row" id="pg-row-second"><span>Your second system</span><span>AED 0.00</span></div>
+              <div class="pg-row" id="pg-row-addon" hidden><span>Home blood sample collection</span><span id="pg-addon-amt">AED 1,950.00</span></div>
+              <div class="pg-row"><span>VAT 5%</span><span id="pg-vat">AED 47.50</span></div>
+              <div class="pg-row pg-row--total"><span>Total today</span><span id="pg-total">AED 997.50</span></div>
             </div>
             <div class="prog-cta"><a class="btn" href="#book">Start with the discovery call <span class="arr">→</span></a></div>
           </div>
         </aside>
-      </div>
-
-      <!-- one service, said once — see the section banner -->
-      <div class="pair-note" data-reveal>
-        <span class="pc-addon-label">Home blood sample collection · UAE</span>
-        <p>Anywhere in the UAE — home, office or hotel — <span class="pn-fig">AED 1,950 <small>+ VAT</small></span>.</p>
-        <p class="pg-note">Patients outside the UAE can do their blood tests at any
-        laboratory at their destination.</p>
       </div>
     </div>
   </section>
@@ -2490,12 +2509,15 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
           </div></div>
         </div>
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false">Can I do both programmes?<span class="ind" aria-hidden="true"></span></button>
+          <button class="faq-q" aria-expanded="false">Can I take both systems?<span class="ind" aria-hidden="true"></span></button>
           <div class="faq-a"><div class="faq-a-in">
-            <p>They are built to layer over one protocol, and both begin the same way —
-            labs first. Which one fits your results, whether to run them in sequence, and
-            which comes first is <strong>exactly what the free discovery call is for</strong>:
-            ten minutes, and Irina will point you to the right one.</p>
+            <!-- IRINA'S PROMISE, 2026-08-26, relayed by him — a commercial claim,
+                 stated once here and once on the card; change both or neither. -->
+            <p>Yes — and it costs nothing more. <strong>The programme fee is the same
+            whether you run one system or both</strong>; they are built to layer over one
+            protocol, and both begin the same way — labs first. Which to lead with is
+            exactly what the free discovery call is for: ten minutes, and Irina will
+            point you to the right order.</p>
           </div></div>
         </div>
         <div class="faq-item">
@@ -2672,23 +2694,62 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
   }
 
 
-  /* ══ the decision boards — ?price=950 and ?cards=stacked ══════════════════
-     Scaffolding for HIS pick, the ?tone=/?boost= precedent: the URL switch
-     serves the alternatives on the real page, the winner is kept, the switch
-     and the losers are DELETED. See the programme section's banner. */
+  /* ══ the price board — ?price=950, the one board left ═════════════════════
+     ?cards=stacked died with the pair on Irina's correction (2026-08-26): the
+     systems are one programme, not two purchases. The figure question is still
+     his to answer, so the board stays until it is. */
   {
     const params = new URLSearchParams(location.search);
     if (params.get("price") === "950") document.documentElement.classList.add("price-950");
-    if (params.get("cards") === "stacked"){
-      const grid = document.getElementById("cards-grid");
-      if (grid){
-        grid.classList.remove("prog-grid--pair");
-        grid.classList.add("prog-grid--card");
-        grid.style.maxWidth = "1180px";
-        grid.style.rowGap = "clamp(28px,4vh,46px)";
-        grid.querySelectorAll(".prog-card").forEach(c => c.classList.remove("prog-card--slim"));
-      }
+  }
+
+  /* ══ THE SYSTEMS — the peptide page's additive grammar, sized to two ═══════
+     STATE ONLY, the peptide rule verbatim: every tile, row and word is authored
+     in the HTML above; this writes aria-pressed and .off, fills two strings and
+     does one sum. The tiles are the truth; everything else is a view of them.
+     ⚠️ IRINA'S MODEL, 2026-08-26: one system or two, the SAME price — so the
+     Programme row never moves, and the second system prints AED 0.00 when it
+     joins. At least one system is always on; unticking the last is refused.
+     ⚠️ THE ARITHMETIC IS THE DOORS' CONFIRMED CONVENTION (VAT-exclusive base,
+     5% on top; two decimals always) and BASE=950 is the ?price=950 board's
+     figure, NOT a settled fact — the sums only ever show on that board. */
+  {
+    const tiles = [...document.querySelectorAll(".sys-tile")];
+    const NAMES = { gut: "Gut Health", energy: "Energy" };
+    const BASE = 950, ADDON = 1950, VAT = .05;
+    let addon = false;
+    const money = n => "AED " + n.toLocaleString("en-US", {minimumFractionDigits:2, maximumFractionDigits:2});
+    const el = id => document.getElementById(id);
+    const picked = () => tiles.filter(t => t.getAttribute("aria-pressed") === "true")
+                              .map(t => t.dataset.sys);
+    function sync(){
+      const on = picked();
+      document.querySelectorAll("#sys-list li").forEach(li => {
+        const s = li.dataset.sys;
+        li.classList.toggle("off", s !== "both" && !on.includes(s));
+      });
+      /* the recap names the choice in the tiles' order, the peptide rule */
+      const r = el("sys-recap");
+      if (r) r.innerHTML = "Hormone care with " +
+        (on.length === 2 ? "<b>Gut Health</b> and <b>Energy</b>" : "<b>" + NAMES[on[0]] + "</b>") + ".";
+      if (el("pg-row-second")) el("pg-row-second").hidden = on.length < 2;
+      const sub = BASE + (addon ? ADDON : 0);
+      if (el("pg-sub"))       el("pg-sub").textContent       = money(BASE);
+      if (el("pg-row-addon")) el("pg-row-addon").hidden      = !addon;
+      if (el("pg-addon-amt")) el("pg-addon-amt").textContent = money(ADDON);
+      if (el("pg-vat"))       el("pg-vat").textContent       = money(sub * VAT);
+      if (el("pg-total"))     el("pg-total").textContent     = money(sub + sub * VAT);
+      if (el("pg-addon"))     el("pg-addon").setAttribute("aria-pressed", String(addon));
     }
+    tiles.forEach(t => t.addEventListener("click", () => {
+      const on = t.getAttribute("aria-pressed") === "true";
+      if (on && picked().length === 1) return; /* a programme never has zero systems */
+      t.setAttribute("aria-pressed", String(!on));
+      sync();
+    }));
+    const a = el("pg-addon");
+    if (a) a.addEventListener("click", () => { addon = !addon; sync(); });
+    if (tiles.length) sync();
   }
 
   /* FAQ accordion — the doors' engine, verbatim */

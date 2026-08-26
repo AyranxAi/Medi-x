@@ -73,7 +73,39 @@ doors' full chapter set:
 | 07 · Stories | The doors' fader (one voice at a time, dots, no auto-advance under reduced motion). ⚠️ PLACEHOLDER QUOTES, like every rail on the estate — replace before real marketing. |
 | 08 · FAQ | Three client-approved answers VERBATIM from /hormone-balancing/ (change them there or nowhere) + three booster drafts flagged for him and a prescriber. |
 
-## ⚠️ THE TWO DECISION BOARDS — his pick deletes the losers
+---
+
+# Round three, 2026-08-26 — Irina's correction: one card, one fee, one or two systems
+
+**Her call, relayed by him:** *"it's not either or actually — it's one or two, which is
+still the same price."* That corrected the model round two's PAIR of cards was built on:
+the systems are two MODULES of one programme, additive, at one fee. The pair and its
+`?cards=stacked` board are **deleted, not parked** — the question they settled stopped
+being true. What stands now is **one door card that composes the programme in the peptide
+page's grammar** (his own reference: "in the peptides it's dynamic — whatever you add will
+be seen"):
+
+- **Two system tiles** (the hub's own boost-band photographs as thumbs) carry the state
+  on `aria-pressed` — the peptide rule: the tiles are the truth, the script is a view.
+- The **recap** names the choice ("Hormone care with Gut Health and Energy."), the
+  **Included rows collapse and return** per system (`grid-template-rows 1fr→0fr`,
+  reduced-motion instant), and **at least one system is always on** — unticking the last
+  is refused.
+- **The fee never moves.** On the `?price=950` board the doors' live arithmetic returned
+  (single card, so the `#pg-*` IDs and the collection toggle are safe again) and the
+  second system prints as its own row at **AED 0.00** — the offer, made visible. The
+  harness asserts the total does not change when a system is dropped.
+- Default is **both systems on** (the full programme is the anchor). If he prefers the
+  "watch the price not move when I add" telling, the second tile's initial
+  `aria-pressed` is one attribute.
+- Irina's promise is stated in patient copy exactly twice — the card's `.sys-note` and
+  the FAQ's "Can I take both systems?" — change both or neither. The pick band's foot
+  now says the reader need not choose.
+
+## ~~THE TWO DECISION BOARDS~~ — round two's record, superseded above
+
+**`?cards=stacked` is deleted (round three); `?price=950` still stands** — the figure
+question below remains exactly as open as when this was written.
 
 The cards ship with **no package figure**, because none exists for the plus programmes:
 the doors' AED 950 + VAT buys assessment + blood-work reading + consultation, and whether

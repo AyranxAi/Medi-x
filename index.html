@@ -1803,7 +1803,24 @@ h1 em,h2 em{font-family:var(--font-editorial);font-style:italic;font-weight:450;
 @media (min-width:640px){ .pw__chip--xtra{display:inline-flex} }
 .pw__more{font-size:12px;font-weight:500;letter-spacing:.025em;color:rgba(250,247,241,.7)}
 @media (min-width:640px){ .pw__more{display:none} }
-/* inert for now — no href, no pointer events; wired up later */
+/* ⚠️⚠️ THE CTA IS LIVE SINCE 2026-08-26, AND IT WAS INERT FOR A REASON THAT WAS A BUG,
+   NOT A DECISION. The line that stood here said "inert for now — no href, no pointer
+   events; wired up later", and the effect was that NO pathway button in this chapter was
+   reachable, href or not: `.pw__layer` is `pointer-events:none`, nothing re-enabled the
+   pill, so the full-bleed `.pw__trigger` behind it took every click and pressing
+   "Explore pathway" COLLAPSED THE PANEL instead of following the link. Pathway 01 had
+   carried a real relative href since 2026-08-11 and had never once been followable.
+   ⚠️ THE `[href]` GUARD IS THE WHOLE SUBTLETY. Pathway 04 (Healthy Aging) has no page to
+   go to yet and so has no href, and an <a> without one is not a link — it is text. Left
+   unguarded, `pointer-events:auto` would make that dead pill SWALLOW clicks and the panel
+   would stop collapsing when a reader pressed it, which is worse than today. Guarded, 04
+   stays click-through and behaves exactly as it does now. When it gets a page, adding the
+   href is what turns the button on — one attribute, no CSS.
+   ⚠️ HOVER IS UNAFFECTED, CHECKED NOT ASSUMED: `pwHover` reads `elementFromPoint` and then
+   `closest('.pw__panel')`, so it does not care whether the trigger or the pill is on top.
+   ⚠️ THE TRIGGER'S CLICK HANDLER IS BOUND TO THE BUTTON, NOT DELEGATED ON THE PANEL, so a
+   click landing on the pill does not also toggle the accordion. Nothing needed stopping. */
+.pw__cta[href]{pointer-events:auto}
 /* the pathway CTA wears the same frosted pill as every chapter action.
    It sits under a row of .pw__chip, which are ALSO hairline pills — what
    keeps the two apart is the size step (49px vs 26px), the heavier border
@@ -3334,7 +3351,12 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
          target="_blank" came off for this one item only — a same-site page should not
          spawn a tab; the five external hand-offs below keep theirs. -->
     <li style="--i:0"><a href="hormone-balancing/" data-i18n="nav.hormone">Hormone Therapy</a></li>
-    <li style="--i:1"><a href="https://medi-gyn.com/functional-medicine/" target="_blank" rel="noopener" data-i18n="nav.functional">Functional Medicine</a></li>
+    <!-- FUNCTIONAL MEDICINE POINTS HOME TOO, 2026-08-26 — same rule as the two around it:
+         our own /functional-medicine/ page, relative href for the mirror, target="_blank"
+         off with the external URL. It moved with pathway 02's button in the same commit.
+         ⚠️ FOUR OF THE SIX ITEMS ARE STILL EXTERNAL and correctly so — About Us, Shop,
+         Events and (in the footer) Press, Our Team have no page in this repo. -->
+    <li style="--i:1"><a href="functional-medicine/" data-i18n="nav.functional">Functional Medicine</a></li>
     <!-- PEPTIDE THERAPY POINTS HOME TOO, 2026-08-14 — same rule as Hormone Therapy
          above: the destination is our own /peptide-therapy/ scroll-story page now.
          Relative href for the mirror; target="_blank" came off with the external URL. -->
@@ -3795,7 +3817,18 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
             <span class="pw__more" data-i18n="pw.more">+2 more</span>
           </div>
           <div class="pw__rise">
-            <a class="pw__cta" href="https://medi-gyn.com/functional-medicine/" target="_blank" rel="noopener" data-i18n="pw.cta">Explore pathway
+            <!-- PATHWAY 02 POINTS HOME NOW, 2026-08-26 — the last of the three external
+                 hand-offs to come in, and it follows pathway 01's rule to the letter (see
+                 the note there): RELATIVE href so the Pages mirror under /Medi-x/ keeps
+                 resolving, and `target`/`rel` come off because a same-site page should
+                 replace this one rather than spawn a tab. /functional-medicine/ has been
+                 in this repo since 2026-08-18; the button was still sending readers to
+                 WordPress for a page we already own.
+                 ⚠️ THE MENU ITEM MOVED IN THE SAME COMMIT — nav > li --i:1. The two are
+                 one service and this file's own note says they change together; leaving
+                 them split would send the same reader to two different pages depending on
+                 which control they pressed. -->
+            <a class="pw__cta" href="functional-medicine/" data-i18n="pw.cta">Explore pathway
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
             </a>
           </div>
@@ -3858,21 +3891,27 @@ html[dir="rtl"] .f-social,html[dir="rtl"] .sband__belt{direction:ltr}
            where the copy and the deepest part of the scrim land — it is the
            brightest plate in the section, so it governs the contrast floor and was
            measured with the rest (numbers on .pw__scrim--closed above).
-           ⚠️ THE CTA CARRIES NO href. medi-gyn.com has /peptide-therapy/,
-           /functional-medicine/ and /modern-menopause/, but no healthy-aging or
-           longevity page was confirmed, and a pathway button that 404s is worse
-           than one that waits. Give it the real URL and it matches 02/03 exactly:
-           href + target + rel, one line.
-           Worth knowing before that is treated as this panel's own gap: NO pathway
-           CTA in this section is reachable today, href or not. .pw__layer is
-           pointer-events:none and nothing re-enables .pw__cta, so the full-bleed
-           .pw__trigger takes every click and elementFromPoint at the button's own
-           centre returns the trigger — pressing "Explore pathway" collapses the
-           panel instead of following the link. Verified on 01, which has had a
-           real relative href since 2026-08-11. So 04 is not the odd one out; it is
-           the only one honest about it. Fixing the section means pointer-events:
-           auto on .pw__cta (and letting the click stop there), which turns three
-           external hand-offs live at once — a deliberate change, not a tidy-up. -->
+           ⚠️ THE CTA CARRIES NO href, AND SINCE 2026-08-26 IT IS THE ONLY ONE THAT
+           DOES NOT. His call that day: "make the explore pathway actually work for all
+           the services — for healthy aging there is nothing yet, but for the ones that
+           have, please do." 01, 02 and 03 are live and go to our own pages; this one
+           waits, because no healthy-aging or longevity page has been confirmed anywhere
+           and a pathway button that 404s is worse than one that waits.
+           ⚠️ TURNING IT ON IS ONE ATTRIBUTE, NOT A CSS CHANGE. `.pw__cta[href]` carries
+           the `pointer-events:auto` that makes these buttons reachable (read the banner
+           over it in the stylesheet — the guard is deliberate), so the moment this <a>
+           gets an href it behaves exactly like 01–03. Give it a RELATIVE href with no
+           target/rel if the page lands in this repo; the absolute + target + rel form is
+           for external hand-offs only, and there are none left in this chapter.
+           ⚠️ UNTIL THEN IT MUST STAY hrefLESS RATHER THAN href="#". Without an href the
+           pill is click-through, so pressing it still collapses the panel, which is what
+           it has always done and is the honest behaviour for a button with nowhere to go.
+           An href="#" would make it swallow the click and do nothing.
+           [HISTORY] Until 2026-08-26 NO pathway CTA in this chapter was reachable, href
+           or not — `.pw__layer` is pointer-events:none and nothing re-enabled the pill,
+           so the full-bleed `.pw__trigger` took every click. Pathway 01 had carried a real
+           relative href since 2026-08-11 and had never once been followable. 04 was not
+           the odd one out then; it was the only one honest about it. -->
       <div class="pw__panel" data-active="false">
         <img class="pw__img" src="images/path-04-healthy-aging.webp" loading="lazy"
              data-i18n-alt="pw4.alt" alt="A woman with long silver hair and bare shoulders turning back towards the camera, warm sunlight falling across a sheer curtain behind her."

@@ -152,11 +152,15 @@ not carry. **Ask before switching it.** (My first reading of this called it a de
 Functional Medicine sat three clicks from home. That was wrong: it is one click from everywhere,
 it just leaves the site from half the pages.)
 
-**b · `/programs/` is an orphan.** "Booster Programs", 16K, last touched in the section-04 round,
-and **nothing on the site links to it and it links nowhere.** Establish whether it is a shipped
-page that lost its entry point or a lab leftover that should move to `archive/`. Do not delete it
-on your own reading. ⚠️ **HE HAS ASKED FOR THIS ONE TO WAIT** (2026-08-24) — leave it alone
-until he comes back to it.
+**b · ~~`/programs/` is an orphan.~~ RESOLVED 2026-08-26 — he came back to it.** The wait he
+asked for on 2026-08-24 ended with his request for "a separate page (1 page for both)" for the
+two booster programmes. The lab draft was built out into the full page — estate header/nav,
+Included / Not-included panels per programme (content recovered from the two medi-gyn.com
+source pages, which are egress-blocked; recovered via search snippets), the call strip and the
+true-copy footer — and the hub's `#boosters` pill is now **wired to `../programs/`**
+(`data-soon` off, exactly as that section's comment said would happen once the page had an
+address). `programs/HANDOVER.md` is the record; the open questions that round left (package
+pricing, the mentorship line, plate encoding, i18n) live there.
 
 **c · Four controls are deliberately inert, and the list is worth re-checking with him.**
 `README.md` names them under *Deliberately unwired controls* — **Book consultation**, **Join

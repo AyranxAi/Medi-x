@@ -46,11 +46,18 @@ WordPress page's stale 750). **Verify against the live pages before real marketi
 
 ## ⚠️ Decisions honoured, and the one line that is his to restore
 
-- **The 4-week mentorship is on NEITHER Included list**, though the source BHRT-Plus page
-  still advertises it. The owner removed the promise from every door ("they have removed it
-  for a reason", 2026-08-24; "everything else in included drops", 2026-08-26) and this page
-  follows. If the plus programmes are meant to keep it, that is his call and one `<li>` per
-  list.
+- ⚠️ **The 4-week mentorship is absent here — and it went BACK on the doors the same day.**
+  This page's list was written while the promise was removed estate-wide ("they have removed
+  it for a reason", 2026-08-24); it was then **restored on all three doors** on 2026-08-26
+  ("Included goes back to six lines"), which landed on `main` after this page was built. The
+  reasoning behind the absence has expired, and the source BHRT-Plus page advertises the
+  mentorship too. **Put it to him** — it is one `<li>`, and it is a content call rather than
+  a sync, because the composed list is per-system.
+- ⚠️ **Same for the protocol name.** Each door now names its own in line 3 (BHRT / Hormone
+  Balancing / TRT), guarded by `tools/qa/included-parity.mjs`, which walks **the three doors
+  only** — this page is deliberately outside it. Ours still reads the older unsuffixed
+  "Prescription Issued Bioidentical Hormone Therapy". Which name a booster programme prints
+  is his.
 - **No package price is stated anywhere on the page.** The source pages carry old WordPress
   figures (BHRT AED 3,450 / 3 months; supplements from AED 1,800) that the door cards no
   longer quote — the doors' "we will price it — before you pay" voice is used instead. The

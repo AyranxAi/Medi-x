@@ -153,11 +153,30 @@ conversation with Irina**, not an edit.
   It is the best available reading and it is **not a substitute for opening those two pages**.
   Verify before real marketing.
 
-### c · THE 4-WEEK MENTORSHIP IS PROMISED NOWHERE, INCLUDING HERE
+### c · ⚠️ THIS PAGE IS ONE ROUND BEHIND THE DOORS ON TWO LINES — CAUGHT AT THE MERGE
 
-The source BHRT-Plus page still advertises "4-week close mentorship". The owner removed that
-promise from every door (2026-08-24, re-affirmed 2026-08-26) and this page follows. It is
-distinct from step 06's aftercare month. **Still his to answer, and still one `<li>`.**
+While this page was being built, **`main` moved**: a same-day round restored the doors'
+Included lists to six lines and gave each door its own protocol name (`64f430e`). This page
+was written against the state before it, so two things are now out of step. **Neither was
+"fixed" on the way in, and that is deliberate** — the composed card's list is per-system, so
+both are content calls for him, not syncs:
+
+- **The 4-week mentorship.** Removed estate-wide on 2026-08-24 ("they have removed it for a
+  reason"), which is why it is absent here — then **restored on all three doors** the same
+  day. The reasoning this page's absence rests on has expired, and the source BHRT-Plus page
+  advertises the promise too. It is distinct from step 06's aftercare month. **One `<li>`,
+  and it needs his word.**
+- **The protocol name.** Line 3 on each door now reads "…Protocol (BHRT)" / "…Hormone
+  Balancing Protocol (BHRT)" / "…Testosterone Therapy Protocol (TRT)", guarded by the new
+  `tools/qa/included-parity.mjs`. That harness walks **the three doors only** and this page
+  is rightly outside it; ours still reads the older unsuffixed form. What a *booster*
+  programme should name is his call.
+
+⚠️ **The lesson for the next round is the merge itself.** Two commits sat on this branch
+from an earlier session and reached `main` independently while this work ran; a third landed
+that touched a file this branch had also edited. `git merge origin/main` resolved it cleanly,
+but **the copy divergence above would not have shown up in any harness** — it took reading
+the doors' lists next to this page's. Re-read them after any merge that touches a door.
 
 ### d · SMALLER, AND EACH IS ONE EDIT
 

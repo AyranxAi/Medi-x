@@ -53,16 +53,22 @@ const PAGES = [
     slug: 'testosterone-top-up', tag: 'trt',
     title: /Testosterone Top Up/, payoff: 'Back.', sceneId: 'slope',
     docs: 3, hasNahla: false,
-    device: 'ledger', deviceSel: '[data-ledger]', armedCls: 'in',
-    labelSel: '.ledger-list li', labels: 8, ticks: 0,
-    extra: '.mk-card', extraCount: 4,           /* the four monitoring markers */
+    /* ⚠️ NO DEVICE CHAPTER ON THIS DOOR SINCE 2026-08-26 — the ledger and the four
+       monitoring markers came out together (his call, the same two-chapter cut made on
+       all three doors that day) and are archived whole in
+       archive/testosterone-top-up-sections/. The dial/ledger branches below are LEFT
+       STANDING and simply unreachable; restoring the sections is this config row plus a
+       paste. To put them back: device 'ledger', deviceSel '[data-ledger]', armedCls 'in',
+       labelSel '.ledger-list li', labels 8, ticks 0, extra '.mk-card', extraCount 4, and
+       'told' + 'markers' back into `sections` after 'programme'. */
+    device: null,
     /* ⚠️ 1,150, NOT 950 — this door's own price since its programme moved. The four
        numbers are trt-page.mjs's, which is the file that owns them. */
     money: ['AED 1,150.00', 'AED 57.50', 'AED 1,207.50'],
     addon: ['AED 155.00', 'AED 3,255.00'],
     banned: /DUTCH|menoSTART|Modern Menopause|Top-Up|Testosterone Replacement Therapy in Dubai/i,
     mustSay: /Testosterone Top Up/,
-    sections: ['programme', 'told', 'markers', 'doctors', 'stories', 'faq', 'book'],
+    sections: ['programme', 'doctors', 'stories', 'faq', 'book'],
   },
 ];
 
@@ -224,6 +230,12 @@ for (const P of PAGES) {
       if (P.ticks) ok(d.ticks === P.ticks, `${P.ticks} dial ticks`, String(d.ticks));
       ok(d.extra === P.extraCount, `${P.extraCount} ${P.device === 'dial' ? 'long-view bar' : 'markers'} present`, String(d.extra));
     } else {
+      /* ⚠️ BOTH DOORS TAKE THIS BRANCH SINCE 2026-08-26, so nothing in the file exercises
+         the device path any more. It is kept rather than deleted because the measurements
+         behind those checks (the 900px arming floor, 28 ticks, eight labels) are not
+         recoverable from a page that no longer has the chapter — see each door's archive
+         README. This branch is the one that runs today, and it asserts the REMOVAL was
+         clean rather than asserting nothing. */
       ok(d.labels === 0 && d.extra === 0 && d.ticks === 0,
          'no device chapter, and no orphan markup left behind by its removal',
          `${d.labels}/${d.extra}/${d.ticks}`);

@@ -1,5 +1,28 @@
 # /hormone-therapy-bhrt/ — build record, round 1 (2026-08-19)
 
+⚠️⚠️ **TWO CHAPTERS CAME OUT, 2026-08-26** — his call, the same cut he made on
+`/modern-menopause/` earlier the same day, extended to the other two doors: *"what you did
+by removing the 2 sections after the consultation page on this, do also for the other 2
+pages — remove those 2 but make it retrievable."*
+
+**04 · The month, mapped** (the 28-day ring) and **05 · What are hormones** (the identical
+key and the five dossiers) are **out of the live page and archived whole**, restorable by
+paste, in [`archive/hormone-therapy-bhrt-sections/`](../archive/hormone-therapy-bhrt-sections/).
+Read that README before restoring either — it carries **four** insertion points, not three,
+and the one people miss is 04's heading-balance rule up in the section shell.
+
+⚠️ **THE PAGE'S ARGUMENT IS THINNER FOR IT AND THAT IS WORTH SAYING PLAINLY.** 05 was this
+page's proof — *the molecule is identical* — and 04 was the reason a reader believed her
+symptoms had a schedule. What remains between the programme card and the doctors is
+nothing; the card now hands straight over to the row. The scene still makes the emotional
+case and the FAQ still answers the clinical one, but **the demonstration is gone**, and if
+the page ever reads as assertion rather than proof, this is why.
+
+⚠️ **THE CHECKS ARE GATED, NOT DELETED.** `HAS_DEVICE` at the top of
+`tools/qa/bhrt-shots.mjs` is `false`; every month/messenger assertion is still written
+below it, so a restore is a paste plus one word. While it is false the else-branch asserts
+the removal was clean — zero labels, zero `.msg-card`s, zero `.key-stage` uses.
+
 ⚠️⚠️ **IRINA'S COPY ROUND, 2026-08-24f** — the largest copy change since the page shipped,
 and **the words are Irina's**. His instruction when a heading's meaning was queried:
 *"do what irina has said, the one i pasted"*. Her copy was therefore SET, not edited;
@@ -98,13 +121,21 @@ memory.
 
 hero (Tide, drawn) → define (the door's own hook, verbatim) → THE TIDE scroll scene
 (fallback: signals chips + turn) → **03 the programme** (six steps + the card) →
-**04 the month, mapped** (cycle wheel) → **05 what are hormones** (identical key +
-**five dossiers**, 3 + 2 centred) → **docs (3, all women)** → stories (3) → faq (6) →
-final (Irina) → footer.
+**04 docs (3, all women)** → 05 stories (3) → 06 faq (6) → final (Irina) → footer.
 
-Grounds: porcelain(03) → dawn(04) → ivory(05) → dawn(docs) → ivory(stories) → dawn(faq)
-→ ivory(final). The scene exits its dawn onto 03 — the parent's measured seam, measured
-against ivory before 03 took its own ground; ten values, and not re-measured since.
+⚠️ **04 · THE MONTH, MAPPED and 05 · WHAT ARE HORMONES STOOD BETWEEN THE CARD AND THE
+DOCTORS UNTIL 2026-08-26** (§ banner above), and the chapters past them were renumbered
+when they went — docs 05→04, stories 06→05, faq 07→06, call strip 08→07. The page has
+never printed a chapter number past 02, so nothing visible moved; the numbers are the
+banners' and the record's.
+
+Grounds: porcelain(03) → dawn(docs) → ivory(stories) → dawn(faq) → ivory(final).
+⚠️ **THE ALTERNATION SURVIVED THE CUT AND WAS MEASURED, NOT ASSUMED** — the card closes on
+`--ps-ground #F0EBE7` and the doctors open on `--dawn #F6E7E1`, so the beat still changes
+across the new seam. The two values it used to run through (dawn for 04, ivory for 05) come
+back on their own if the chapters do. The scene exits its dawn onto 03 — the parent's
+measured seam, measured against ivory before 03 took its own ground; ten values, and not
+re-measured since.
 
 ⚠️ **03's COLOURS TRADED ENDS ON 2026-08-24** — the flower's cream `#F0EBE7` came off the
 petals and became the chapter's ground (`--ps-ground`), and the petals took `--ivory
@@ -189,14 +220,21 @@ are DRAFT perimenopause questions — "Will BHRT stop my periods?" especially ne
 prescriber's eyes. Final strip + footer inherited; WhatsApp prefills say "hormone
 therapy support".
 
-## QA — `tools/qa/bhrt-shots.mjs`, all green (43 checks, 2026-08-24f)
+## QA — `tools/qa/bhrt-shots.mjs`, all green
 
 Screenshot pass (scene stops ×8 at 1440/390, page chapters d+p, reduced-motion) +
-smoke: 6 beats · 6 steps · **3 docs, order-asserted** · 6 FAQ · 3 stories · 8 labels = 8
-chips · 28 ticks · 2 `<use>` · money three ways · add-on arithmetic · flip works ·
-no DUTCH/BOZAT · no Modern-Menopause vocabulary · wheel unarmed on phones · no
-sideways scroll at 13 widths (320–1920) · reduced-motion falls back clean · hero
-canvas alive.
+smoke: 6 beats · 6 steps · **3 docs, order-asserted** · 6 FAQ · 3 stories · 8 scene-fallback
+chips · money three ways · add-on arithmetic · no DUTCH/BOZAT · no Modern-Menopause
+vocabulary · no sideways scroll at 13 widths (320–1920) · reduced-motion falls back clean ·
+hero canvas alive · **chapters 04 and 05 gone with no orphan markup left behind**.
+
+⚠️ **EIGHT CHECKS ARE GATED BEHIND `HAS_DEVICE`, NOT DELETED** (2026-08-26): 8 month labels
+= 8 chips · ring armed with 28 ticks · the label flip · 5 `.msg-card`s and their span map ·
+2 stamped `<use>` skeletons · the key locked under reduced motion · the `month` and
+`messengers` shots, desktop and phone. Flip the flag at the top of the file to `true` and
+they all run again. They were kept rather than deleted because **the measurements behind
+them are not recoverable from a page that no longer has the chapter** — the 900px arming
+floor and the 28 ticks were solved once, against markup that is now in the archive.
 
 **Six checks were added this round**, and each guards a decision that a well-meaning
 later pass would otherwise undo silently:

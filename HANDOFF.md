@@ -1,3 +1,140 @@
+# Handoff addendum — 2026-08-26b (the same two-chapter cut on doors 1 and 3: the ring, the key, the ledger and the markers all come out)
+
+His call, straight after the /modern-menopause/ round: *"what you did by removing the 2
+sections after the consultation page on this, do also for the other 2 pages — remove those 2
+but make it retrievable."*
+
+**All three doors now hand over from the programme card straight to the doctors.** Nothing
+stands between them on any page.
+
+## 1 · What came out
+
+| door | 04 | 05 | archive |
+|---|---|---|---|
+| `/modern-menopause/` (2026-08-26a) | the 24-hour dial | the life-bar + 3 cards | `archive/modern-menopause-sections/` |
+| `/hormone-therapy-bhrt/` | the **28-day ring** | the **identical key** + 5 dossiers | `archive/hormone-therapy-bhrt-sections/` |
+| `/testosterone-top-up/` | the **ledger** | the **four markers** | `archive/testosterone-top-up-sections/` |
+
+Every one is archived **byte for byte as it was served**, in the pieces each was made of,
+with a README carrying the insertion points and the rules that must not drift on the way
+back. Nothing was rewritten on the way out.
+
+## 2 · ⚠️ FOUR SEAMS ON DOORS 1 AND 3, NOT THREE
+
+Door 2 had three (CSS · HTML · JS). **Doors 1 and 3 each have four**, and the fourth is the
+one a restorer will miss: chapter 04 on both pages carried a **one-line heading-balance
+rule** that lives at the top of the stylesheet, in the section shell, nowhere near the rest
+of its styles — `.month .sec-head h2{text-wrap:balance}` on door 1 and
+`.ledger .sec-head h2{text-wrap:balance}` on door 3.
+
+Both are kept **at the head of their chapter's `.css` file** rather than left in the page
+matching nothing. Door 1's exists because Irina's heading breaks with `rhythm.` alone on the
+last line and **the widow is the emphasised word**; door 3's because the ledger's heading is
+two sentences, the only one on the estate that is. Each page carries a breadcrumb at that
+seam naming the archive.
+
+⚠️ `05 · What we measure` on door 3 has **no `.js`** — its four cards are static. Two files,
+not three, and that is not an omission.
+
+## 3 · What this costs, said plainly
+
+- **Door 1 loses its proof.** 05 was the identical key — two estradiol skeletons stamped
+  from one `<defs>` and slid together — and the page's argument is literally *the molecule
+  is identical*. The scene still makes the emotional case and the FAQ the clinical one, but
+  **the demonstration is gone**. If the page ever reads as assertion rather than proof,
+  that is why.
+- **Door 3 loses two of the three things that made it a different door.** Its handover
+  names three deliberate departures from door 1; departures 2 and 3 *were* these chapters.
+  The sharper loss is the four markers: that reader is deciding whether to trust a clinic he
+  found online in a market full of places that will sell him a vial, and the named-tests
+  panel was the answer. It is now made nowhere on the page.
+
+Both are recorded at the top of each page's HANDOVER and in the archive READMEs. His call
+stands; this is the flag, not an argument.
+
+## 4 · Verified, not asserted
+
+For each door, both checks were executed:
+
+1. **Every block is an exact substring of that page's `index.html` as it was served** — the
+   archive is the page, not a transcription.
+2. **Pasting them all back at the four seams reproduces the served original byte for byte**,
+   compared against the pre-removal commit, in every region.
+
+## 5 · ⚠️ A BUG I INTRODUCED AND CAUGHT — READ THIS ONE
+
+Door 3's script block header read *"The programme card · the ledger"* over a **multi-line**
+comment. Retitling it, I replaced only the FIRST LINE and closed the new comment with `*/` —
+which orphaned the remaining two lines of the original comment as bare JavaScript.
+
+**`SyntaxError: Unexpected identifier 'small'`. The whole money script died**, so the add-on
+toggle stopped working and the card silently stopped adding up. `trt-page.mjs` caught both:
+the arithmetic check and `page console clean`.
+
+Two things worth keeping from it:
+
+- **A comment retitle is not a one-line edit when the comment is more than one line.** The
+  closing `*/` belongs to the whole block, and replacing the opening line without it leaves
+  prose where statements go.
+- **The failure was invisible in the markup and total in the browser.** Every inline
+  `<script>` on all three doors is now syntax-checked, and every CSS comment on all three is
+  checked for balance — the same class of error in a `<style>` fails *silently*, by
+  swallowing rules rather than throwing.
+
+## 6 · The harnesses — gated, never deleted
+
+Every assertion that reached into a removed chapter is still written where it was, behind
+one flag per file:
+
+- **`tools/qa/bhrt-shots.mjs`** — `HAS_DEVICE = false`. Gated: 8 month labels = 8 chips ·
+  ring armed with 28 ticks · the label flip · 5 `.msg-card`s and their span map · 2 stamped
+  `<use>` skeletons · the key locked under reduced motion · the `month` and `messengers`
+  shots on desktop and phone.
+- **`tools/qa/trt-page.mjs`** — `HAS_DEVICE = false`. Gated: 8 ledger rows, 4 markers.
+- **`tools/qa/doors-shots.mjs`** — the `testosterone-top-up` row is `device: null` with its
+  eight keys listed in a comment for restoring. **Both doors now take the else-branch**, so
+  nothing in that file exercises the device path any more; it is kept because the
+  measurements behind those checks — the 900px arming floor, the 28 ticks, the eight labels
+  — **are not recoverable from a page that no longer has the chapter.**
+
+⚠️ **EVERY ELSE-BRANCH ASSERTS THE OPPOSITE RATHER THAN NOTHING**: zero labels, zero extra,
+zero ticks, zero `.msg-card`s, zero `.key-stage` uses, zero `.mk-card`s — i.e. the removal
+was clean and no orphan markup was left behind. A gate that checked nothing would let a
+half-finished restore pass.
+
+## 7 · One shared banner corrected on two doors
+
+The doctors row's stylesheet banner — byte-identical across doors 1 and 2 since 2026-08-26a
+— reasoned by analogy with `.msg-grid` ("four tracks seating three, for the reason
+`.msg-grid` uses six to seat five"). **`.msg-grid` now exists on no page**: it was door 1's
+messengers grid and door 2's long-view grid, and both went the same day.
+
+The sentence was rewritten **on both pages identically**, to spell the technique out instead
+of pointing at an example. That keeps the byte-identity the doctors row depends on — a
+shared banner has to change on every door that carries it or it rots on the ones it does
+not. The recipe proving the two regions still match is in each page's stylesheet.
+
+## 8 · Also true of both doors
+
+- **The ground alternation survived, measured not assumed** — the card closes on
+  `--ps-ground #F0EBE7` and the doctors open on `--dawn #F6E7E1` on both, so the beat still
+  changes across the new seam.
+- **Chapters renumbered** in their banners: docs 05→04, stories 06→05, faq 07→06, call
+  strip 08→07. Neither page has ever printed a chapter number past 02, so nothing visible
+  moved.
+- **No dead anchors, no orphan selectors.** No navigation linked `#month`, `#messengers`,
+  `#told` or `#markers`; nothing outside the chapters used `.month-*`, `.key-*`, `.msg-*`,
+  `.ledger-*`, `.lg-*` or `.mk-*`. ⚠️ `.ledger` also appears in `peptide-page.mjs` and
+  `programme-lab.mjs` — **different things entirely** (peptide's retired section 06, and a
+  lab page's included/excluded list), and neither was touched.
+
+## 9 · Still open
+
+Unchanged and deliberately not asked this round, at his instruction (*"the questions you
+have keep it and ask me on another session"*). They are recorded at the foot of
+`/modern-menopause/HANDOVER.md`: which Lifestyle Guide stays on the menoSTART card, whether
+the 4-week mentorship goes back, and whether menoSTART carries AED 950 + VAT.
+
 # Handoff addendum — 2026-08-26 (Irina's round on /modern-menopause/: the beat gets plainer, the card gets his list, the circle and the bar come out, and the row becomes three women)
 
 His message, in full: *"we are now handling modern menopause based on Irina's comments … 'quietens'

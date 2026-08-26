@@ -21,6 +21,21 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '.
 const OUT  = path.join(ROOT, '.qa-out', 'bhrt');
 mkdirSync(OUT, { recursive: true });
 
+/* ⚠️ 04 · THE MONTH, MAPPED and 05 · WHAT ARE HORMONES CAME OFF THIS PAGE ON 2026-08-26 —
+   his call, the same two-chapter cut made on all three doors that day. Both are archived
+   whole in archive/hormone-therapy-bhrt-sections/, restorable by paste.
+   ⚠️ THEIR CHECKS ARE GATED, NOT DELETED, AND THAT IS DELIBERATE. Every assertion that
+   reached into either chapter — eight month labels against eight fallback chips, the ring
+   armed with 28 ticks, the flip, the five .msg-cards and their span map, the two stamped
+   skeletons in .key-stage, the key shipping locked under reduced motion — is still written
+   below, unchanged, behind this one flag. Flip it to true and they all run again, so a
+   RESTORE IS A PASTE PLUS ONE WORD rather than a re-derivation of checks nobody has the
+   measurements for any more.
+   ⚠️ WHILE IT IS false THE else-BRANCHES ASSERT THE OPPOSITE: zero month labels, zero
+   .msg-cards, zero .key-stage uses — i.e. no orphan markup was left behind by the removal.
+   A gate that checks nothing would let a half-finished restore pass. */
+const HAS_DEVICE = false;
+
 const MIME = { html:'text/html', js:'text/javascript', mjs:'text/javascript', css:'text/css',
   webp:'image/webp', avif:'image/avif', png:'image/png', svg:'image/svg+xml',
   woff2:'font/woff2', ico:'image/x-icon' };
@@ -156,9 +171,11 @@ for (const [w, h, tag] of [[1440, 900, 'd'], [390, 844, 'p']]) {
      'the row is Valentina · Nahla · Diana, in that order', smoke.names.join(' · '));
   ok(!smoke.names.some(n => /Andrey|Eslam|Khalid|Puri/.test(n)),
      'no doctor from the peptide four is back on this page', smoke.names.join(' · '));
-  ok(smoke.msgs === 5, 'five hormone dossiers', String(smoke.msgs));
-  ok(smoke.msgCols[3] === '2' && smoke.msgCols[4] === '4',
-     'the two precursors are centred beneath the three', smoke.msgCols.join(','));
+  if (HAS_DEVICE) {
+    ok(smoke.msgs === 5, 'five hormone dossiers', String(smoke.msgs));
+    ok(smoke.msgCols[3] === '2' && smoke.msgCols[4] === '4',
+       'the two precursors are centred beneath the three', smoke.msgCols.join(','));
+  }
   ok(smoke.noteOut, 'the international blood-test line is outside the priced toggle');
   ok(!/outside the UAE/i.test(smoke.addonName || ''),
      'the add-on button\'s accessible name no longer carries it', String(smoke.addonName).slice(0, 120));
@@ -166,9 +183,16 @@ for (const [w, h, tag] of [[1440, 900, 'd'], [390, 844, 'p']]) {
      smoke.usSpell.join(' · '));
   ok(smoke.faq === 6, 'six FAQ items', String(smoke.faq));
   ok(smoke.stories === 3, 'three stories', String(smoke.stories));
-  ok(smoke.labels === 8 && smoke.chips === 8, 'eight month labels = eight fallback chips', `${smoke.labels}/${smoke.chips}`);
-  ok(smoke.armed && smoke.ticks === 28, 'month wheel armed with 28 ticks', `armed=${smoke.armed} ticks=${smoke.ticks}`);
-  ok(smoke.keyUses === 2, 'identical key: two stamped skeletons', String(smoke.keyUses));
+  ok(smoke.chips === 8, 'eight scene-fallback chips', String(smoke.chips));
+  if (HAS_DEVICE) {
+    ok(smoke.labels === 8, 'eight month labels = eight fallback chips', `${smoke.labels}/${smoke.chips}`);
+    ok(smoke.armed && smoke.ticks === 28, 'month wheel armed with 28 ticks', `armed=${smoke.armed} ticks=${smoke.ticks}`);
+    ok(smoke.keyUses === 2, 'identical key: two stamped skeletons', String(smoke.keyUses));
+  } else {
+    ok(smoke.labels === 0 && smoke.keyUses === 0 && smoke.msgs === 0,
+       'chapters 04 and 05 are gone, and no orphan markup was left behind',
+       `${smoke.labels}/${smoke.keyUses}/${smoke.msgs}`);
+  }
   ok(smoke.sub === 'AED 950.00' && smoke.vat === 'AED 47.50' && smoke.total === 'AED 997.50',
      'money: 950.00 / 47.50 / 997.50', `${smoke.sub} ${smoke.vat} ${smoke.total}`);
   ok(!smoke.banned, 'no DUTCH, no BOZAT anywhere');
@@ -192,16 +216,20 @@ for (const [w, h, tag] of [[1440, 900, 'd'], [390, 844, 'p']]) {
      'add-on: row shown, 145.00 VAT, 3,045.00 total', `${money2.vat} ${money2.total}`);
 
   /* the flip — symptom → answer in place */
-  const flip = await page.evaluate(() => {
-    const b = document.querySelector('.month-label');
-    b.click();
-    const cs = getComputedStyle(b.querySelector('.ml-ans'));
-    return { flipped: b.classList.contains('flipped'), ansShown: cs.display !== 'none' };
-  });
-  ok(flip.flipped && flip.ansShown, 'month label flips to its answer');
+  if (HAS_DEVICE) {
+    const flip = await page.evaluate(() => {
+      const b = document.querySelector('.month-label');
+      b.click();
+      const cs = getComputedStyle(b.querySelector('.ml-ans'));
+      return { flipped: b.classList.contains('flipped'), ansShown: cs.display !== 'none' };
+    });
+    ok(flip.flipped && flip.ansShown, 'month label flips to its answer');
+  }
 
   /* full-page shots */
-  for (const [id, name] of [['programme','programme'],['month','month'],['messengers','messengers'],['doctors','docs'],['book','final']]) {
+  for (const [id, name] of [['programme','programme'],
+                            ...(HAS_DEVICE ? [['month','month'],['messengers','messengers']] : []),
+                            ['doctors','docs'],['book','final']]) {
     await page.evaluate(id => document.getElementById(id)?.scrollIntoView(), id);
     await settle(700);
     await page.screenshot({ path: path.join(OUT, `page-d-${name}.png`) });
@@ -214,13 +242,16 @@ for (const [w, h, tag] of [[1440, 900, 'd'], [390, 844, 'p']]) {
   const { ctx, page } = await mk(390, 844);
   await page.goto(`${URL_}?probe=1`, { waitUntil: 'networkidle' });
   await settle(600);
-  const m = await page.evaluate(() => ({
-    armed: !!document.querySelector('[data-month].month-armed'),
-    labels: document.querySelectorAll('.month-label').length,
-  }));
-  ok(!m.armed && m.labels === 8, 'phone: wheel unarmed, eight chips flow', `armed=${m.armed}`);
+  if (HAS_DEVICE) {
+    const m = await page.evaluate(() => ({
+      armed: !!document.querySelector('[data-month].month-armed'),
+      labels: document.querySelectorAll('.month-label').length,
+    }));
+    ok(!m.armed && m.labels === 8, 'phone: wheel unarmed, eight chips flow', `armed=${m.armed}`);
+  }
   await page.screenshot({ path: path.join(OUT, 'page-p-top.png') });
-  for (const [id, name] of [['programme','programme'],['month','month'],['messengers','messengers']]) {
+  for (const [id, name] of [['programme','programme'],
+                            ...(HAS_DEVICE ? [['month','month'],['messengers','messengers']] : [])]) {
     await page.evaluate(id => document.getElementById(id)?.scrollIntoView(), id);
     await settle(600);
     await page.screenshot({ path: path.join(OUT, `page-p-${name}.png`) });
@@ -248,7 +279,7 @@ for (const [w, h, tag] of [[1440, 900, 'd'], [390, 844, 'p']]) {
     chips: document.querySelectorAll('.chip').length,
   }));
   ok(!rm.sceneClass, 'reduced motion: scene stands down (fallback path)');
-  ok(!rm.keyArmed, 'reduced motion: identical key ships locked');
+  if (HAS_DEVICE) ok(!rm.keyArmed, 'reduced motion: identical key ships locked');
   ok(rm.chips === 8, 'reduced motion: the eight chips stand');
   ok(errs.length === 0, 'reduced motion console clean', errs.join(' | ').slice(0, 200));
   await page.screenshot({ path: path.join(OUT, 'reduced-top.png') });

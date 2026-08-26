@@ -401,15 +401,11 @@ section{position:relative}
 .sec-pad{padding-top:clamp(90px,13vh,160px);padding-bottom:clamp(90px,13vh,160px)}
 .sec-head{display:flex;flex-direction:column;gap:22px;margin-bottom:clamp(44px,6.5vh,80px)}
 .sec-head h2{font-size:clamp(34px,4.6vw,62px);max-width:15em}
-/* ⚠️ 04's HEADING IS THE ONLY ONE ON THE PAGE THAT WRAPS, so it is the only one that
-   needs balancing. Irina's line ("It supports your natural cycle rhythm.") is seven words
-   where the one it replaced was five, and at 1440 it broke as six words then the bare
-   word "rhythm." — a widow, and a bad one, because the widow IS the emphasised word.
-   `balance` splits it evenly instead and the <em> keeps its own line's weight.
-   It is scoped to .month rather than added to .sec-head h2 above: every other h2 on the
-   page holds one line at every width, and balancing a single-line heading is a no-op that
-   would quietly start mattering the next time one of them grows. */
-.month .sec-head h2{text-wrap:balance}
+/* ⚠️ 04's HEADING-BALANCE RULE WENT WITH ITS CHAPTER, 2026-08-26. It was one line —
+   `.month .sec-head h2{text-wrap:balance}` — and it is kept with the section it serves
+   in archive/hormone-therapy-bhrt-sections/04-the-month-mapped.css rather than left
+   here matching nothing. It is the FAR-FROM-THE-OTHERS piece of that restore: the other
+   two CSS seams are down in the stylesheet, this one is up here in the section shell. */
 
 /* ─────────────────────────── 01 · SIGNALS (validation) ─────────────────────────── */
 .signals{background:var(--ivory)}
@@ -1002,113 +998,12 @@ section{position:relative}
 }
 /* PS:CSS:END */
 
-/* ─────────────────────────── 04 · THE MONTH, MAPPED ───────────────────────
-   ⚠️ THE RING IS A STATE, NOT A WIDTH (the round-19b lesson, inherited): everything
-   absolute lives behind .month-armed, which only the script adds, and only ≥760px.
-   the script adds, and only ≥900px — the measured floor (the outermost label
-   overhangs the 680px stage by ~70px, and 900 is where the wrap absorbs it).
-   Unarmed — no JS, a phone, a tablet, an old browser — the stage is a flowing chip
-   row and every flip still works: the readable column, with the same eight words. */
-.month{background:var(--dawn)}
-.month-lede,.month-close{max-width:58ch;margin-top:18px;color:var(--ink-soft);
-  font-size:clamp(15px,1.25vw,17px);line-height:1.62}
-.month-close{margin-top:clamp(24px,3.5vh,40px)}
-.month-lede strong,.month-close strong{font-weight:500;color:var(--burgundy)}
-.month-stage{position:relative;margin:clamp(28px,4.5vh,52px) auto 0;max-width:680px}
-.month-ring{display:none;width:100%;height:auto;color:var(--burgundy)}
-.month-core-star{font-size:34px;fill:var(--gold-deep)}
-.month-core-word{font-family:var(--sans);font-size:12px;letter-spacing:.22em;
-  text-transform:uppercase;fill:var(--ink-soft)}
-.month-label{display:inline-flex;flex-direction:column;align-items:flex-start;gap:2px;
-  background:var(--ivory);border:1px solid var(--line);border-radius:14px;
-  padding:10px 16px;cursor:pointer;text-align:left;
-  transition:border-color .35s var(--ease),background .35s var(--ease)}
-.month-label:hover{border-color:var(--gold)}
-.ml-day{font-family:var(--sans);font-weight:500;font-size:9.5px;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--gold-deep)}
-.ml-word,.ml-ans{font-family:var(--accent);font-size:clamp(14px,1.2vw,16.5px);
-  color:var(--ink);white-space:nowrap}
-.ml-ans{display:none;color:var(--logo-red)}
-/* the flip — symptom → answer IN PLACE, the parent scene's replace-in-place grammar */
-.month-label.flipped .ml-word{display:none}
-.month-label.flipped .ml-ans{display:block}
-.month-label.flipped{border-color:var(--logo-red);background:#FFFFFF}
-.month-stage:not(.month-armed){display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
-.month-armed .month-ring{display:block}
-/* armed: each label takes the seat the script derived from its data-day/data-r —
-   left/top are PERCENTAGES of the stage, so no resize handler is needed */
-.month-armed .month-label{position:absolute;left:var(--lx);top:var(--ly);
-  box-shadow:0 10px 30px rgba(46,34,40,.07);opacity:0;
-  transform:translate(-50%,-50%) translate(-26px,14px) scale(.94);
-  transition:opacity .7s var(--ease),transform .7s var(--ease),
-    border-color .35s var(--ease),background .35s var(--ease);
-  transition-delay:calc(var(--i)*90ms)}
-.month-armed .month-label:nth-of-type(even){
-  transform:translate(-50%,-50%) translate(22px,-16px) scale(.94)}
-.month-armed.in .month-label{opacity:1;transform:translate(-50%,-50%);transition-delay:calc(var(--i)*90ms),calc(var(--i)*90ms),0s,0s}
-@media(prefers-reduced-motion:reduce){
-  .month-armed .month-label{transition:none;opacity:1;transform:translate(-50%,-50%)}
-}
-
-/* ─────────────────────── 05 · WHAT ARE HORMONES — the identical key ────────────────
-   Default CSS is the LOCKED state (the two skeletons coincident): no-JS ships the
-   proof already made. The script arms the offset, then the approach transitions in
-   when the stage arrives on screen. Reduced motion never arms. */
-.messengers{background:var(--ivory)}
-.msg-lede{max-width:58ch;margin-top:18px;color:var(--ink-soft);
-  font-size:clamp(15px,1.25vw,17px);line-height:1.62}
-.msg-lede strong{font-weight:500;color:var(--burgundy)}
-.key-stage{position:relative;max-width:600px;margin:clamp(26px,4vh,46px) auto 0}
-.key-stage svg{width:100%;height:auto;display:block}
-.key-yours,.key-ours{fill:none;stroke-width:1.6}
-.key-yours{stroke:var(--ink);opacity:.55}
-.key-ours{stroke:var(--gold-deep)}
-.key-armed .key-ours{transform:translate(120px,-26px) rotate(4deg);
-  transform-origin:230px 190px}
-.key-armed.key-locked .key-ours{transform:none;
-  transition:transform 1.4s var(--ease) .15s}
-.key-tags{display:flex;justify-content:center;gap:26px;margin-top:6px;flex-wrap:wrap}
-.key-tag{font-family:var(--sans);font-weight:500;font-size:10.5px;letter-spacing:.14em;
-  text-transform:uppercase;display:inline-flex;align-items:center;gap:8px}
-.key-tag::before{content:"";width:16px;height:1px;background:currentColor}
-.key-tag--yours{color:var(--ink-soft)}
-.key-tag--ours{color:var(--gold-deep)}
-.key-line{max-width:58ch;margin:clamp(20px,3vh,30px) auto 0;text-align:center;
-  color:var(--ink-soft);font-size:clamp(15px,1.25vw,17px);line-height:1.62}
-.key-line strong{font-weight:500;color:var(--burgundy)}
-/* ⚠️ SIX TRACKS TO SEAT FIVE CARDS — the grid went 3→5 on 2026-08-24f and a plain
-   repeat(3) leaves the last two hanging at the left. Six tracks with every card at
-   `span 2` is ARITHMETICALLY THE SAME WIDTH as repeat(3) — a span-2 card is 2t+g, and
-   with t=(W−5g)/6 that is exactly (W−2g)/3, the repeat(3) track — so row 1 is unchanged
-   to the pixel and only row 2 moves: cards 4 and 5 open at tracks 2 and 4, which lands
-   the pair dead centre under the three.
-   ⚠️ THE CENTRING IS POSITIONAL — nth-child(4) and (5). Reorder the <article>s and the
-   layout follows the SLOT, not the hormone. The order is the pathway (the three sex
-   hormones, then their two precursors) and the layout is drawn from it. */
-.msg-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));
-  gap:clamp(18px,2.4vw,34px);margin-top:clamp(30px,4.5vh,50px)}
-.msg-card{grid-column:span 2}
-.msg-card:nth-child(4){grid-column:2/span 2}
-.msg-card:nth-child(5){grid-column:4/span 2}
-.msg-card{background:rgba(255,255,255,.55);border:1px solid var(--line);
-  border-radius:18px;padding:clamp(20px,2.2vw,30px)}
-.msg-kicker{font-family:var(--sans);font-weight:500;font-size:10.5px;
-  letter-spacing:.18em;text-transform:uppercase;color:var(--gold-deep)}
-/* ⚠️ STEPPED DOWN FOR THE EPITHETS — the h3s were two words ("The builder") and are now
-   four to six ("The stronger brother of both sisters"). At the old clamp's 27px ceiling
-   the longest ran to three lines in a 250px column and the five cards stopped rhyming.
-   `text-wrap:balance` is the doctors' row's own fix, for the same reason. */
-.msg-card h3{font-size:clamp(18px,1.45vw,21px);margin-top:8px;line-height:1.2;
-  text-wrap:balance}
-.msg-card .pg-list{margin-top:14px}
-/* ⚠️ THE SPANS MUST BE UNSET HERE, NOT JUST THE TEMPLATE — a card still carrying
-   `grid-column:2/span 2` in a one-track grid is placed in an IMPLICIT second column and
-   the page grows sideways. `grid-column:auto` on all five is the whole fix. */
-@media(max-width:980px){
-  .msg-grid{grid-template-columns:minmax(0,1fr)}
-  .msg-card,.msg-card:nth-child(4),.msg-card:nth-child(5){grid-column:auto}
-  .msg-card{max-width:560px;margin-inline:auto;width:100%}
-}
+/* ⚠️ 04 · THE MONTH, MAPPED and 05 · WHAT ARE HORMONES WERE STYLED HERE UNTIL
+   2026-08-26. Both blocks are archived verbatim in archive/hormone-therapy-bhrt-sections/
+   (`04-the-month-mapped.css`, `05-the-messengers.css`) and this is the seam they
+   return to. ⚠️ `.msg-*` WENT WITH 05 — it was the messengers chapter's five-card grid,
+   and the doctors' row banner below still reasons by analogy with it. See the note
+   above `.doc-grid` for why that reference was left standing. */
 
 
 /* ══ THE pg-* MONEY GRAMMAR — shared with the sibling pages' programme panels ══
@@ -1557,9 +1452,11 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
 /* ⚠️ THE ROW IS THREE, NOT FOUR, SINCE 2026-08-24f — and three is a KINDER number than
    four was: the 1181 cliff that four needed is gone, three sit in a line from 901, and
    every portrait on this page got bigger for it (361px at 1440, against four's 268).
-   ⚠️ THIS TIER (701–900) IS FOUR TRACKS SEATING THREE CARDS, for the reason `.msg-grid`
-   uses six to seat five: a span-2 card in a 4-track grid is exactly the repeat(2) track
-   it replaces, so the two-up row is unchanged to the pixel, and only the odd card moves —
+   ⚠️ THIS TIER (701–900) IS FOUR TRACKS SEATING THREE CARDS, the same trick `.msg-grid`
+   used to seat five in six until 2026-08-26 — the technique outliving its example, which
+   is why it is spelled out here rather than pointed at: a span-2 card in a 4-track grid is
+   exactly the repeat(2) track it replaces, so the two-up row is unchanged to the pixel,
+   and only the odd card moves —
    nth-child(3) opens at track 2 and lands centred beneath the pair instead of hanging at
    the left. The 62rem cap is the two-up ruler and still governs here.
    ⚠️ THE SPANS MUST BE UNSET IN BOTH OTHER TIERS, not just overridden — a card still
@@ -2740,210 +2637,17 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
     </div>
   </section>
 
-  <!-- ══════════ 04 · THE MONTH, MAPPED ══════════
-       HIS PICK 2026-08-19 ("ship a for now") — the symptoms showcase, concept A: her
-       month drawn as a ring (the brand's own ✦ ring motif), with the symptoms placed
-       WHERE THEY LAND in it. The reveal is the argument: the symptoms keep the cycle's
-       schedule, which is how we know they are hormonal — and the flip (symptom →
-       answer, in place) is the parent scene's own approved replace-in-place grammar.
-       ⚠️ THE EIGHT WORDS ARE THE FALLBACK CHIPS' EIGHT, IN THE SAME ORDER — the parent
-       page's vocabulary rule. Change one list, change the other. Two words max is his
-       recorded discipline. ALL DRAFT, including the day placements.
-       ⚠️ THE DAY PLACEMENTS ARE HONEST CLUSTERS, NOT DIAGNOSES — late-luteal is where
-       the mood/sleep/fog cluster genuinely sits, but everyone's pattern differs, and
-       the lede SAYS SO ("Yours is the one we test"). A copy pass that deletes that
-       sentence turns an illustration into a medical claim; it is load-bearing.
-       ⚠️ THE RING IS A STATE, NOT A WIDTH (the round-19b lesson): the wheel layout
-       lives behind .month-armed, which only the script adds, and only ≥900px (measured
-       — see the script's note: below that the outermost label's overhang widens the
-       document). No-JS, reduced-motion and narrower screens read the same eight as a
-       flowing chip row — a page
-       whose script never ran is a readable column. The flip works in BOTH layouts. -->
-  <section class="month sec-pad" id="month">
-    <div class="wrap">
-      <div class="sec-head">
-        <h2 data-reveal>It supports your natural cycle <em>rhythm</em>.</h2>
-      </div>
-      <p class="month-lede" data-reveal>
-        One month, roughly. Perimenopause symptoms aren’t random — they can reflect the
-        way your hormones are changing. Everyone’s pattern is different. <strong>We look
-        at yours.</strong> Tap a symptom to see how it changes once you are on hormone
-        therapy.
-      </p>
-      <div class="month-stage" data-month>
-        <svg class="month-ring" viewBox="0 0 640 640" aria-hidden="true">
-          <circle cx="320" cy="320" r="238" fill="none" stroke="currentColor" stroke-opacity=".28" stroke-width="1"/>
-          <circle cx="320" cy="320" r="188" fill="none" stroke="currentColor" stroke-opacity=".10" stroke-width="1"/>
-          <g class="month-ticks" stroke="currentColor" stroke-width="1"></g>
-          <text x="320" y="312" text-anchor="middle" class="month-core-star">✦</text>
-          <text x="320" y="342" text-anchor="middle" class="month-core-word">one month</text>
-        </svg>
-        <!-- data-day is the label's midpoint day of 28 (D1 at 12 o'clock, clockwise);
-             data-r is its radius in % of the stage — hand-tuned, alternating, because
-             days 24–28 and 1–4 are NEIGHBOURS on a ring (late luteal meets menstrual)
-             and eight labels at one radius collide exactly there. The script places
-             them; the chip-row fallback ignores both attributes. -->
-        <button type="button" class="month-label" data-day="2.5"  data-r="44" style="--i:0"><span class="ml-day">Days 1–4</span><span class="ml-word">Erratic cycles</span><span class="ml-ans">Cycles settle</span></button>
-        <button type="button" class="month-label" data-day="9"    data-r="42" style="--i:1"><span class="ml-day">Days 7–11</span><span class="ml-word">Unsteady energy</span><span class="ml-ans">Real energy</span></button>
-        <button type="button" class="month-label" data-day="14"   data-r="42" style="--i:2"><span class="ml-day">Days 13–15</span><span class="ml-word">The headaches</span><span class="ml-ans">Fewer, milder</span></button>
-        <button type="button" class="month-label" data-day="18"   data-r="42" style="--i:3"><span class="ml-day">Days 17–19</span><span class="ml-word">Tender, bloated</span><span class="ml-ans">At ease</span></button>
-        <button type="button" class="month-label" data-day="22"   data-r="44" style="--i:4"><span class="ml-day">Days 21–23</span><span class="ml-word">Short fuse</span><span class="ml-ans">Steady moods</span></button>
-        <button type="button" class="month-label" data-day="24"   data-r="34" style="--i:5"><span class="ml-day">Days 23–25</span><span class="ml-word">Brain fog</span><span class="ml-ans">Clear head</span></button>
-        <button type="button" class="month-label" data-day="26"   data-r="48" style="--i:6"><span class="ml-day">Days 25–27</span><span class="ml-word">3 a.m. waking</span><span class="ml-ans">Deep sleep</span></button>
-        <button type="button" class="month-label" data-day="27.6" data-r="34" style="--i:7"><span class="ml-day">Days 27–28</span><span class="ml-word">Low, flat days</span><span class="ml-ans">Yourself again</span></button>
-      </div>
-      <p class="month-close" data-reveal>
-        If your symptoms follow a pattern, it may be hormonal — <strong>and if these are
-        hormones, then these can be measured, understood, and treated</strong>.
-      </p>
-    </div>
-  </section>
-
-  <!-- ══════════ 05 · WHAT ARE HORMONES — the messengers, and the identical key ══════════
-       HIS YES 2026-08-19 ("yes for now") — the infographic, concept A: three small
-       dossiers name the three hormones this therapy tops up, and ONE proof crowns them:
-       two skeletal drawings of estradiol — the one your body makes and the one we
-       prescribe — slide onto each other and match line for line. "Identical. Not
-       similar." is the entire BHRT argument as a picture, and it is the clinic's own
-       claim (their copy, recovered: bioidentical hormones "have the same molecule as
-       human body hormone molecules"; plant-derived).
-       ⚠️ THE SKELETONS ARE THE SAME <g> STAMPED TWICE (<use>) — identical by
-       construction, which is the argument. Redrawing one by hand breaks the proof.
-       The drawing is estradiol's real steroid skeleton (three hexes, one pentagon,
-       phenolic OH at C3, OH at C17) simplified to hairlines; it is aria-hidden
-       decoration and the caption carries the meaning.
-       ⚠️ REDUCED MOTION AND NO-JS SHIP THE LOCKED STATE — the two skeletons already
-       coincident. The slide is a grace note, never the content. -->
-  <section class="messengers sec-pad" id="messengers">
-    <div class="wrap">
-      <div class="sec-head">
-        <h2 data-reveal>What are hormones?</h2>
-      </div>
-      <p class="msg-lede" data-reveal>
-        Hormones are your body’s messengers, carrying signals from one organ to another.
-        Your entire hormone family shapes much of the story — and, when needed, can be
-        replaced with molecules <strong>identical to those your body naturally
-        produces</strong>.
-      </p>
-      <div class="key-stage" data-key>
-        <svg viewBox="0 0 560 320" aria-hidden="true">
-          <defs>
-            <!-- estradiol, simplified skeletal: A-ring aromatic (left), B, C hexes, D pentagon;
-                 HO– at C3 (left), –OH at C17 (upper right) -->
-            <g id="estradiol-skeleton" fill="none" stroke-linejoin="round" stroke-linecap="round">
-              <path d="M96 178 L96 138 L131 118 L166 138 L166 178 L131 198 Z"/>
-              <path d="M103 143 L124 131 M103 173 L124 185 M159 143 L159 173"/>
-              <path d="M166 138 L201 118 L236 138 L236 178 L201 198 L166 178"/>
-              <path d="M236 138 L271 118 L306 138 L306 178 L271 198 L236 178"/>
-              <path d="M306 138 L341 124 L362 152 L341 181 L306 178"/>
-              <path d="M271 118 L271 96"/>
-              <text x="60" y="184" class="key-atom">HO</text>
-              <path d="M96 178 L78 188"/>
-              <text x="352" y="112" class="key-atom">OH</text>
-              <path d="M341 124 L349 106"/>
-            </g>
-          </defs>
-          <use class="key-yours" href="#estradiol-skeleton" x="60" y="40"/>
-          <use class="key-ours"  href="#estradiol-skeleton" x="60" y="40"/>
-        </svg>
-        <div class="key-tags" aria-hidden="true">
-          <span class="key-tag key-tag--yours">the estradiol your body makes</span>
-          <span class="key-tag key-tag--ours">the estradiol we prescribe</span>
-        </div>
-      </div>
-      <p class="key-line" data-reveal>
-        <strong>Identical. Not similar.</strong> Bioidentical means the same molecule
-        your body already makes — plant-derived, then matched atom for atom. Your
-        receptors can’t tell the difference. That’s the point.
-      </p>
-      <!-- ⚠️⚠️ FIVE DOSSIERS SINCE 2026-08-24f, NOT THREE — his call, and the two new ones are
-           a DIFFERENT TIER, not two more of the same: pregnenolone and DHEA are the
-           PRECURSORS the three sex hormones are made from, which is exactly what their
-           epithets say (grandmother → mother → the sisters and the brother). The grid
-           seats them that way on purpose — three across, then the two centred beneath —
-           so the break between row 1 and row 2 reads as the pathway rather than as an
-           orphan row. See `.msg-grid` in the stylesheet before reordering: the centring
-           is nth-child(4)/(5) and it is positional, so moving a card moves the layout.
-           ⚠️ THE COPY IS IRINA'S, and it is HER WORDS — corrections were typographic only,
-           each recorded here and nowhere else:
-             · "Metal agility" → "Mental agility" (typo)
-             · "allopregnenolone" → "allopregnanolone" (the molecule's real spelling)
-             · "neuro steroid" → "neurosteroid" (the standard single word), twice
-             · "Up regulator of Growth Hormone" → "Up-regulator of growth hormone"
-             · a stray empty bullet under Testosterone, dropped
-             · Title Case bullets and h3s → the estate's sentence case (his 2026-08-24e call)
-           ⚠️ "EASING", NOT "ASSISTING" — his call 2026-08-24g, "sure change it to ease".
-           Her draft read "Assisting anxiety via allopregnanolone", which says the hormone
-           assists the ANXIETY. Put to him as the one line to settle before launch; this is
-           the settled form and it is the only word in the five cards that is not her draft.
-           ⚠️ "Immunity support", "Heart boosting" and "Up-regulator of growth hormone" are
-           efficacy claims in three regulated categories. They travel with the FAQ drafts
-           and the wheel's day placements to a prescriber — see HANDOVER's open list.
-           ⚠️ "Present in women too — in smaller, working doses" IS BACK AS THE SIXTH BULLET —
-           his call 2026-08-24g, "it's true though". It is the only line on the five cards
-           that survives from the three they replaced, and it is doing a job none of the
-           others do: it answers, before she asks it, why a page about a woman's hormones is
-           offering her testosterone at all. Without it the card names a hormone most
-           readers file as male and lets her draw her own conclusion. Do not drop it in a
-           tightening pass. -->
-      <div class="msg-grid">
-        <article class="msg-card" data-reveal>
-          <p class="msg-kicker">Estradiol · estrogen</p>
-          <h3>The active sister of progesterone</h3>
-          <ul class="pg-list">
-            <li>Bone density, joint and muscle</li>
-            <li>Immunity support</li>
-            <li>Heart boosting</li>
-            <li>Memory and mood enhancer</li>
-            <li>The cycle’s first half</li>
-            <li>Skin booster</li>
-          </ul>
-        </article>
-        <article class="msg-card" data-reveal>
-          <p class="msg-kicker">Progesterone</p>
-          <h3>The calmer sister of estrogen</h3>
-          <ul class="pg-list">
-            <li>Sleep depth and continuity</li>
-            <li>Mood steadiness</li>
-            <li>Quieting the nervous system</li>
-            <li>The cycle’s second half</li>
-          </ul>
-        </article>
-        <article class="msg-card" data-reveal>
-          <p class="msg-kicker">Testosterone</p>
-          <h3>The stronger brother of both sisters</h3>
-          <ul class="pg-list">
-            <li>Desire and drive</li>
-            <li>Muscle and strength</li>
-            <li>Motivation and focus</li>
-            <li>Energy and determination</li>
-            <li>Brain and cognitive drive</li>
-            <li>Present in women too — in smaller, working doses</li>
-          </ul>
-        </article>
-        <article class="msg-card" data-reveal>
-          <p class="msg-kicker">Pregnenolone</p>
-          <h3>The grandmother of all hormones</h3>
-          <ul class="pg-list">
-            <li>Mental agility — short-term memory, learning and cognitive health</li>
-            <li>Mood, stress and cortisol regulator</li>
-            <li>Quieting the nervous system</li>
-            <li>Easing anxiety via allopregnanolone — a vital neurosteroid in women</li>
-          </ul>
-        </article>
-        <article class="msg-card" data-reveal>
-          <p class="msg-kicker">DHEA</p>
-          <h3>The mother of all hormones</h3>
-          <ul class="pg-list">
-            <li>Brain health: DHEA-S as a neurosteroid</li>
-            <li>Mood and cortisol regulator</li>
-            <li>Libido and sexual health</li>
-            <li>Up-regulator of growth hormone</li>
-          </ul>
-        </article>
-      </div>
-    </div>
-  </section>
+  <!-- ⚠️ 04 · THE MONTH, MAPPED and 05 · WHAT ARE HORMONES STOOD HERE UNTIL 2026-08-26
+       — his call, the same two-chapter cut made on /modern-menopause/ the same day
+       ("remove those 2 but make it retrievable"). Archived whole and restorable by
+       paste — markup, styles and script — in archive/hormone-therapy-bhrt-sections/,
+       which carries the insertion points and the rules that must not drift on the way
+       back (the ring is 28 DAYS and never a 24-hour clock; the month's eight labels are
+       honest clusters and the lede that says so is load-bearing; the two estradiol
+       skeletons are STAMPED FROM ONE <defs> and that is the whole proof).
+       ⚠️ THE GROUND ALTERNATION SURVIVED THE CUT and was checked, not assumed: the
+       programme card closes on --ps-ground #F0EBE7 and the doctors open on --dawn
+       #F6E7E1, so the beat still changes across the seam. -->
 
   <!-- THE DIALOG SHELL — one shell, every popup on the page (the doctors' bios open in
        it; the core script binds it by id). It lived inside the siblings' services
@@ -2959,7 +2663,14 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
     </div>
   </div>
 
-  <!-- ══════════ 05 · THE DOCTORS ══════════
+  <!-- ══════════ 04 · THE DOCTORS ══════════
+       ⚠️ IT IS 04 NOW, NOT 05 — the two chapters that stood between the programme card
+       and this one (the month wheel and the identical key) came out on 2026-08-26 and
+       are archived in archive/hormone-therapy-bhrt-sections/. Restoring them puts this
+       back to 05; nothing but these banner numbers depends on it, because the page has
+       never printed a chapter number past 02. -->
+
+  <!-- the chapter's own banner ══════════════════════════════════════════════════
        HIS CALL 2026-08-14 — picture + specialization + "book consultation under their
        name", with an (i) on the portrait corner opening a popup of "the dr and their
        profession and history", × top-right, Book a consultation at the popup's foot.
@@ -3244,7 +2955,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
     </div>
   </section>
 
-  <!-- ══════════ 06 · STORIES ══════════ -->
+  <!-- ══════════ 05 · STORIES ══════════ -->
   <section class="stories sec-pad" id="stories">
     <div class="wrap">
       <div class="sec-head">
@@ -3280,7 +2991,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
     </div>
   </section>
 
-  <!-- ══════════ 07 · FAQ ══════════ -->
+  <!-- ══════════ 06 · FAQ ══════════ -->
   <section class="faq sec-pad" id="faq">
     <div class="wrap faq-grid">
       <div class="faq-side">
@@ -3376,7 +3087,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
     </div>
   </section>
 
-  <!-- ══════════ 08 · THE CALL STRIP ═══════════════════════════════════════════════════
+  <!-- ══════════ 07 · THE CALL STRIP ═══════════════════════════════════════════════════
        Small, before the footer. See the CSS block for why it is this size, why she is on
        the left, and what it replaced. His line, verbatim, with the offer in the accent.
        ⚠️ id="book" MUST STAY — the hero's red pill and 07's "Ask us directly" both point
@@ -4366,9 +4077,12 @@ try{
 </html>
 
 <script>
-/* ═══════════ The programme card · the month wheel · the identical key ═══════════
-   Three small engines, none of which the page NEEDS to be readable — the recorded
-   discipline: a page whose script never ran is a readable column. */
+/* ═══════════ The programme card ═══════════
+   ⚠️ IT WAS THREE ENGINES UNTIL 2026-08-26 — "the programme card · the month wheel ·
+   the identical key". The other two left with their chapters (see the seam below and
+   archive/hormone-therapy-bhrt-sections/). One small engine now, and the recorded
+   discipline it was written under still holds: none of it is needed for the page to be
+   readable, because a page whose script never ran is a readable column. */
 (function(){
   const probe = new URLSearchParams(location.search).has("probe");
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches || probe;
@@ -4408,79 +4122,10 @@ try{
     sync();
   }
 
-  /* ══ THE MONTH WHEEL — a state, not a width (the round-19b lesson) ═══════════════
-     The ring layout lives behind .month-armed, which only this script adds, and only
-     at ≥760px: no-JS, phones and anything that fails here read the eight as a flowing
-     chip row. The FLIP works in both layouts — it is a class toggle, not geometry.
-     ⚠️ data-day is the label's midpoint day of 28: D1 at 12 o'clock, clockwise —
-     a clock face of one month. data-r is its radius in % of the stage, hand-tuned
-     per label because days 24–28 and 1–4 are NEIGHBOURS on the ring and one shared
-     radius collides exactly there. */
-  {
-    const stage = document.querySelector("[data-month]");
-    if(stage){
-      /* the 28 ticks, drawn once — every 7th longer, the week's own rhythm */
-      const g = stage.querySelector(".month-ticks");
-      if(g){
-        let ticks="";
-        for(let d=0; d<28; d++){
-          const a=(d/28)*2*Math.PI - Math.PI/2;
-          const long = d%7===0;
-          const r0=238-(long?14:7), r1=238;
-          const x0=320+r0*Math.cos(a), y0=320+r0*Math.sin(a);
-          const x1=320+r1*Math.cos(a), y1=320+r1*Math.sin(a);
-          ticks+=`<line x1="${x0.toFixed(1)}" y1="${y0.toFixed(1)}" x2="${x1.toFixed(1)}" y2="${y1.toFixed(1)}" stroke-opacity="${long?.42:.20}"/>`;
-        }
-        g.innerHTML=ticks;
-      }
-      const labels=[...stage.querySelectorAll(".month-label")];
-      labels.forEach(b=>{
-        const day=parseFloat(b.dataset.day), r=parseFloat(b.dataset.r);
-        const a=(day/28)*2*Math.PI - Math.PI/2;
-        b.style.setProperty("--lx",(50+r*Math.cos(a)).toFixed(2)+"%");
-        b.style.setProperty("--ly",(50+r*Math.sin(a)).toFixed(2)+"%");
-        b.addEventListener("click",()=>b.classList.toggle("flipped"));
-      });
-      /* ⚠️ 900, NOT 760 — MEASURED. The stage caps at 680px and the outermost label
-         (day 9, r=42%) overhangs it by ~70px of its own half-width; at 760 the wrap's
-         inner width IS the stage width, so the overhang widened the document by 22px
-         (scrollWidth 782 at a 760 viewport — the harness caught it). At 900 the wrap
-         leaves ~110px of slack a side and the overhang lands inside it. */
-      const wide = matchMedia("(min-width:900px)");
-      const arm = () => stage.classList.toggle("month-armed", wide.matches);
-      arm();
-      (wide.addEventListener?wide.addEventListener("change",arm):wide.addListener(arm));
-      /* the assembly — scattered words settle onto the ring as the section arrives.
-         Reduced motion and ?probe=1 ship it assembled (the CSS transition is gated
-         on the media query; .in is still added so the states match). */
-      if("IntersectionObserver" in window){
-        const io=new IntersectionObserver(es=>{
-          if(es[0].isIntersecting){ stage.classList.add("in"); io.disconnect(); }
-        },{threshold:.35});
-        io.observe(stage);
-      } else stage.classList.add("in");
-      if(reduce) stage.classList.add("in");
-    }
-  }
-
-  /* ══ THE IDENTICAL KEY — two skeletons, one slide ════════════════════════════════
-     Default CSS is the LOCKED state (coincident), so no-JS ships the proof already
-     made. This script ARMS the offset first (no transition), then lets the approach
-     transition in when the stage scrolls into view. Reduced motion never arms. */
-  {
-    const stage = document.querySelector("[data-key]");
-    if(stage && !reduce && "IntersectionObserver" in window){
-      stage.classList.add("key-armed");
-      const io=new IntersectionObserver(es=>{
-        if(es[0].isIntersecting){
-          /* two frames, so the armed offset is painted before the transition runs */
-          requestAnimationFrame(()=>requestAnimationFrame(()=>stage.classList.add("key-locked")));
-          io.disconnect();
-        }
-      },{threshold:.55});
-      io.observe(stage);
-    }
-  }
+  /* ⚠️ THE MONTH WHEEL AND THE IDENTICAL KEY CAME OUT HERE, 2026-08-26 — his call,
+     the same cut he made on /modern-menopause/ two chapters earlier that day. Both
+     engines are archived whole in archive/hormone-therapy-bhrt-sections/
+     (`04-the-month-mapped.js`, `05-the-messengers.js`); this is where they go back. */
 })();
 </script>
 

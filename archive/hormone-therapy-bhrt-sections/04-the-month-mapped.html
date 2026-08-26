@@ -1,0 +1,58 @@
+  <!-- ══════════ 04 · THE MONTH, MAPPED ══════════
+       HIS PICK 2026-08-19 ("ship a for now") — the symptoms showcase, concept A: her
+       month drawn as a ring (the brand's own ✦ ring motif), with the symptoms placed
+       WHERE THEY LAND in it. The reveal is the argument: the symptoms keep the cycle's
+       schedule, which is how we know they are hormonal — and the flip (symptom →
+       answer, in place) is the parent scene's own approved replace-in-place grammar.
+       ⚠️ THE EIGHT WORDS ARE THE FALLBACK CHIPS' EIGHT, IN THE SAME ORDER — the parent
+       page's vocabulary rule. Change one list, change the other. Two words max is his
+       recorded discipline. ALL DRAFT, including the day placements.
+       ⚠️ THE DAY PLACEMENTS ARE HONEST CLUSTERS, NOT DIAGNOSES — late-luteal is where
+       the mood/sleep/fog cluster genuinely sits, but everyone's pattern differs, and
+       the lede SAYS SO ("Yours is the one we test"). A copy pass that deletes that
+       sentence turns an illustration into a medical claim; it is load-bearing.
+       ⚠️ THE RING IS A STATE, NOT A WIDTH (the round-19b lesson): the wheel layout
+       lives behind .month-armed, which only the script adds, and only ≥900px (measured
+       — see the script's note: below that the outermost label's overhang widens the
+       document). No-JS, reduced-motion and narrower screens read the same eight as a
+       flowing chip row — a page
+       whose script never ran is a readable column. The flip works in BOTH layouts. -->
+  <section class="month sec-pad" id="month">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 data-reveal>It supports your natural cycle <em>rhythm</em>.</h2>
+      </div>
+      <p class="month-lede" data-reveal>
+        One month, roughly. Perimenopause symptoms aren’t random — they can reflect the
+        way your hormones are changing. Everyone’s pattern is different. <strong>We look
+        at yours.</strong> Tap a symptom to see how it changes once you are on hormone
+        therapy.
+      </p>
+      <div class="month-stage" data-month>
+        <svg class="month-ring" viewBox="0 0 640 640" aria-hidden="true">
+          <circle cx="320" cy="320" r="238" fill="none" stroke="currentColor" stroke-opacity=".28" stroke-width="1"/>
+          <circle cx="320" cy="320" r="188" fill="none" stroke="currentColor" stroke-opacity=".10" stroke-width="1"/>
+          <g class="month-ticks" stroke="currentColor" stroke-width="1"></g>
+          <text x="320" y="312" text-anchor="middle" class="month-core-star">✦</text>
+          <text x="320" y="342" text-anchor="middle" class="month-core-word">one month</text>
+        </svg>
+        <!-- data-day is the label's midpoint day of 28 (D1 at 12 o'clock, clockwise);
+             data-r is its radius in % of the stage — hand-tuned, alternating, because
+             days 24–28 and 1–4 are NEIGHBOURS on a ring (late luteal meets menstrual)
+             and eight labels at one radius collide exactly there. The script places
+             them; the chip-row fallback ignores both attributes. -->
+        <button type="button" class="month-label" data-day="2.5"  data-r="44" style="--i:0"><span class="ml-day">Days 1–4</span><span class="ml-word">Erratic cycles</span><span class="ml-ans">Cycles settle</span></button>
+        <button type="button" class="month-label" data-day="9"    data-r="42" style="--i:1"><span class="ml-day">Days 7–11</span><span class="ml-word">Unsteady energy</span><span class="ml-ans">Real energy</span></button>
+        <button type="button" class="month-label" data-day="14"   data-r="42" style="--i:2"><span class="ml-day">Days 13–15</span><span class="ml-word">The headaches</span><span class="ml-ans">Fewer, milder</span></button>
+        <button type="button" class="month-label" data-day="18"   data-r="42" style="--i:3"><span class="ml-day">Days 17–19</span><span class="ml-word">Tender, bloated</span><span class="ml-ans">At ease</span></button>
+        <button type="button" class="month-label" data-day="22"   data-r="44" style="--i:4"><span class="ml-day">Days 21–23</span><span class="ml-word">Short fuse</span><span class="ml-ans">Steady moods</span></button>
+        <button type="button" class="month-label" data-day="24"   data-r="34" style="--i:5"><span class="ml-day">Days 23–25</span><span class="ml-word">Brain fog</span><span class="ml-ans">Clear head</span></button>
+        <button type="button" class="month-label" data-day="26"   data-r="48" style="--i:6"><span class="ml-day">Days 25–27</span><span class="ml-word">3 a.m. waking</span><span class="ml-ans">Deep sleep</span></button>
+        <button type="button" class="month-label" data-day="27.6" data-r="34" style="--i:7"><span class="ml-day">Days 27–28</span><span class="ml-word">Low, flat days</span><span class="ml-ans">Yourself again</span></button>
+      </div>
+      <p class="month-close" data-reveal>
+        If your symptoms follow a pattern, it may be hormonal — <strong>and if these are
+        hormones, then these can be measured, understood, and treated</strong>.
+      </p>
+    </div>
+  </section>

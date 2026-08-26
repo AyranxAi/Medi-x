@@ -1,0 +1,24 @@
+/* ─────────────────────── 05 · WHAT WE MEASURE ──────────────────────────────────────
+   The trust piece — the client's own four monitoring markers as a quadrant.
+   ⚠️ FOUR CARDS, AND THE COUNT IS THE CLIENT'S: their own copy names Testosterone Total,
+   Haematocrit, Estradiol and PSA. A fifth card would be an invention. */
+.markers{background:var(--ivory)}
+.msg-lede{max-width:58ch;margin-top:18px;color:var(--ink-soft);
+  font-size:clamp(15px,1.25vw,17px);line-height:1.62}
+.msg-lede strong{font-weight:500;color:var(--burgundy)}
+.mk-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(18px,2.4vw,30px);margin-top:clamp(30px,4.5vh,50px)}
+.mk-card{position:relative;background:rgba(255,255,255,.55);border:1px solid var(--line);
+  border-radius:18px;padding:clamp(22px,2.4vw,32px);
+  transition:border-color .4s var(--ease)}
+.mk-card:hover{border-color:var(--gold)}
+.mk-n{font-family:var(--accent);font-size:11.5px;letter-spacing:.2em;color:var(--gold-deep)}
+.mk-card h3{font-size:clamp(20px,1.8vw,26px);margin-top:10px}
+.mk-what{margin-top:6px;font-family:var(--serif);font-weight:450;
+  font-variation-settings:"opsz" 30;font-style:italic;
+  font-size:clamp(15px,1.4vw,18px);color:var(--logo-red)}
+.mk-why{margin-top:12px;font-size:13.5px;line-height:1.6;color:var(--ink-soft)}
+.mk-note{max-width:58ch;margin-top:clamp(26px,3.5vh,40px);font-size:13.5px;
+  line-height:1.7;color:var(--ink-soft)}
+.mk-note strong{font-weight:500;color:var(--burgundy)}
+@media(max-width:760px){ .mk-grid{grid-template-columns:minmax(0,1fr)} }

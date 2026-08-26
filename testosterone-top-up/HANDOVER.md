@@ -1,5 +1,31 @@
 # /testosterone-top-up/ — build record, round 1 (2026-08-19)
 
+⚠️⚠️ **TWO CHAPTERS CAME OUT, 2026-08-26** — his call, the same cut made on
+`/modern-menopause/` and `/hormone-therapy-bhrt/` the same day: *"what you did by removing
+the 2 sections after the consultation page on this, do also for the other 2 pages — remove
+those 2 but make it retrievable."*
+
+**04 · What you told yourself** (the ledger) and **05 · What we measure** (the four
+monitoring markers) are **out of the live page and archived whole**, restorable by paste, in
+[`archive/testosterone-top-up-sections/`](../archive/testosterone-top-up-sections/). Read
+that README before restoring either — it carries **four** insertion points, not three, and
+the one people miss is the ledger's heading-balance rule up in the section shell.
+
+⚠️⚠️ **THIS CUT TOOK TWO OF THE THREE THINGS THAT MADE THIS DOOR DIFFERENT.** The three
+deliberate departures below are the page's own record of why it is not a recolour of door 1
+— and departures 2 and 3 **were** these two chapters. The ledger was the symptom device and
+the markers were the trust piece; what is left of the list is the scene. **The four markers
+are the sharper loss**: this reader is deciding whether to trust a clinic he found online in
+a market full of places that will sell him a vial, and the named-tests panel was the answer
+to that. It is now made nowhere on the page. Flagged, not argued — his call stands.
+
+⚠️ **THE CHECKS ARE GATED, NOT DELETED.** `HAS_DEVICE` at the top of
+`tools/qa/trt-page.mjs` is `false`, and the `testosterone-top-up` row in
+`tools/qa/doors-shots.mjs` carries `device: null`. Every ledger and marker assertion is
+still written behind them, so a restore is a paste plus one word in each file. While they
+are false both else-branches assert the removal was clean — zero ledger rows, zero
+`.mk-card`s.
+
 ⚠️⚠️ **IRINA'S ROUND, PART 1 — 2026-08-24g.** Her notes on this page were reviewed before
 implementation and **only the settled half is in**. What landed: the PRICE, her definition,
 her six beats, her monitoring panel, her ledger close. **Five items are still open and are
@@ -66,11 +92,14 @@ harness watches the difference. The directory is hyphenated because that is URL 
    *into* the range and **never above its ceiling** (replacement, not enhancement), and
    **the history is never redrawn** (the weight function protects the left half — the
    years already lived do not move). Neither is negotiable without a prescriber.
-2. **The symptom device is a ledger, not a dial.** Nothing here keeps a schedule, so what
-   a man actually has is twenty years of reasonable explanations. The left column names
-   the explanation, the right names the measurable thing. ⚠️ **The left column must stay
+2. ~~**The symptom device is a ledger, not a dial.**~~ **ARCHIVED 2026-08-26** — the
+   argument is kept here because it is why the chapter looked the way it did, and a restore
+   that forgets it rebuilds the wrong picture. Nothing here keeps a schedule, so what a man
+   actually has is twenty years of reasonable explanations. The left column names the
+   explanation, the right names the measurable thing. ⚠️ **The left column must stay
    sympathetic** — every sentence in it is true; the page is not calling him a liar.
-3. **The infographic is the monitoring panel, not education.** He is not asking what
+3. ~~**The infographic is the monitoring panel, not education.**~~ **ARCHIVED 2026-08-26**,
+   and kept here for the same reason as 2. He is not asking what
    testosterone is; he is deciding whether to trust a clinic he found online in a market
    full of places that will sell him a vial. So the chapter is **the four markers** —
    Testosterone Total, Haematocrit, Estradiol, PSA — **the client's own list**, recovered
@@ -138,8 +167,13 @@ keeps its own. `node tools/qa/doctors-pill.mjs` guards it on all five pages.
 ## QA
 
 `node tools/qa/doors-shots.mjs` (shared with door 2) — green, including: 3 doctors and
-Nahla asserted **off** the row, the ledger armed, four markers, the money three ways, no
-menoSTART/"Modern Menopause"/"Top-Up" anywhere, **no 404s**, 13 widths, reduced motion.
+Nahla asserted **off** the row, the money three ways (**this door's own 1,150 / 57.50 /
+1,207.50**, moved into the config row on 2026-08-26 — it had been asserting door 2's 950
+against both doors and failing here silently since the price changed), no
+menoSTART/"Modern Menopause"/"Top-Up" anywhere, **no 404s**, 13 widths, reduced motion, and
+**chapters 04 and 05 gone with no orphan markup left behind**.
+`node tools/qa/trt-page.mjs` — the money three ways plus the review figure on all three door
+cards; the ledger and marker counts are gated behind `HAS_DEVICE` since 2026-08-26.
 `node tools/qa/process-sculpture.mjs` (shared with doors 1 and 2 since 2026-08-24) — the
 flower at six steps on desktop and phone, and the grade asserted as a pair.
 `node tools/qa/doctors-pill.mjs` — one pill in the doctors chapter, three doctors, three popups.

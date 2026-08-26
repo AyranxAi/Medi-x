@@ -1,0 +1,59 @@
+/* ─────────────────────── 05 · WHAT ARE HORMONES — the identical key ────────────────
+   Default CSS is the LOCKED state (the two skeletons coincident): no-JS ships the
+   proof already made. The script arms the offset, then the approach transitions in
+   when the stage arrives on screen. Reduced motion never arms. */
+.messengers{background:var(--ivory)}
+.msg-lede{max-width:58ch;margin-top:18px;color:var(--ink-soft);
+  font-size:clamp(15px,1.25vw,17px);line-height:1.62}
+.msg-lede strong{font-weight:500;color:var(--burgundy)}
+.key-stage{position:relative;max-width:600px;margin:clamp(26px,4vh,46px) auto 0}
+.key-stage svg{width:100%;height:auto;display:block}
+.key-yours,.key-ours{fill:none;stroke-width:1.6}
+.key-yours{stroke:var(--ink);opacity:.55}
+.key-ours{stroke:var(--gold-deep)}
+.key-armed .key-ours{transform:translate(120px,-26px) rotate(4deg);
+  transform-origin:230px 190px}
+.key-armed.key-locked .key-ours{transform:none;
+  transition:transform 1.4s var(--ease) .15s}
+.key-tags{display:flex;justify-content:center;gap:26px;margin-top:6px;flex-wrap:wrap}
+.key-tag{font-family:var(--sans);font-weight:500;font-size:10.5px;letter-spacing:.14em;
+  text-transform:uppercase;display:inline-flex;align-items:center;gap:8px}
+.key-tag::before{content:"";width:16px;height:1px;background:currentColor}
+.key-tag--yours{color:var(--ink-soft)}
+.key-tag--ours{color:var(--gold-deep)}
+.key-line{max-width:58ch;margin:clamp(20px,3vh,30px) auto 0;text-align:center;
+  color:var(--ink-soft);font-size:clamp(15px,1.25vw,17px);line-height:1.62}
+.key-line strong{font-weight:500;color:var(--burgundy)}
+/* ⚠️ SIX TRACKS TO SEAT FIVE CARDS — the grid went 3→5 on 2026-08-24f and a plain
+   repeat(3) leaves the last two hanging at the left. Six tracks with every card at
+   `span 2` is ARITHMETICALLY THE SAME WIDTH as repeat(3) — a span-2 card is 2t+g, and
+   with t=(W−5g)/6 that is exactly (W−2g)/3, the repeat(3) track — so row 1 is unchanged
+   to the pixel and only row 2 moves: cards 4 and 5 open at tracks 2 and 4, which lands
+   the pair dead centre under the three.
+   ⚠️ THE CENTRING IS POSITIONAL — nth-child(4) and (5). Reorder the <article>s and the
+   layout follows the SLOT, not the hormone. The order is the pathway (the three sex
+   hormones, then their two precursors) and the layout is drawn from it. */
+.msg-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));
+  gap:clamp(18px,2.4vw,34px);margin-top:clamp(30px,4.5vh,50px)}
+.msg-card{grid-column:span 2}
+.msg-card:nth-child(4){grid-column:2/span 2}
+.msg-card:nth-child(5){grid-column:4/span 2}
+.msg-card{background:rgba(255,255,255,.55);border:1px solid var(--line);
+  border-radius:18px;padding:clamp(20px,2.2vw,30px)}
+.msg-kicker{font-family:var(--sans);font-weight:500;font-size:10.5px;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--gold-deep)}
+/* ⚠️ STEPPED DOWN FOR THE EPITHETS — the h3s were two words ("The builder") and are now
+   four to six ("The stronger brother of both sisters"). At the old clamp's 27px ceiling
+   the longest ran to three lines in a 250px column and the five cards stopped rhyming.
+   `text-wrap:balance` is the doctors' row's own fix, for the same reason. */
+.msg-card h3{font-size:clamp(18px,1.45vw,21px);margin-top:8px;line-height:1.2;
+  text-wrap:balance}
+.msg-card .pg-list{margin-top:14px}
+/* ⚠️ THE SPANS MUST BE UNSET HERE, NOT JUST THE TEMPLATE — a card still carrying
+   `grid-column:2/span 2` in a one-track grid is placed in an IMPLICIT second column and
+   the page grows sideways. `grid-column:auto` on all five is the whole fix. */
+@media(max-width:980px){
+  .msg-grid{grid-template-columns:minmax(0,1fr)}
+  .msg-card,.msg-card:nth-child(4),.msg-card:nth-child(5){grid-column:auto}
+  .msg-card{max-width:560px;margin-inline:auto;width:100%}
+}

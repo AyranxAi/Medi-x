@@ -1,0 +1,57 @@
+/* ⚠️ 04's HEADING IS THE ONLY ONE ON THE PAGE THAT WRAPS, so it is the only one that
+   needs balancing. Irina's line ("It supports your natural cycle rhythm.") is seven words
+   where the one it replaced was five, and at 1440 it broke as six words then the bare
+   word "rhythm." — a widow, and a bad one, because the widow IS the emphasised word.
+   `balance` splits it evenly instead and the <em> keeps its own line's weight.
+   It is scoped to .month rather than added to .sec-head h2 above: every other h2 on the
+   page holds one line at every width, and balancing a single-line heading is a no-op that
+   would quietly start mattering the next time one of them grows. */
+.month .sec-head h2{text-wrap:balance}
+
+/* ─────────────────────────── 04 · THE MONTH, MAPPED ───────────────────────
+   ⚠️ THE RING IS A STATE, NOT A WIDTH (the round-19b lesson, inherited): everything
+   absolute lives behind .month-armed, which only the script adds, and only ≥760px.
+   the script adds, and only ≥900px — the measured floor (the outermost label
+   overhangs the 680px stage by ~70px, and 900 is where the wrap absorbs it).
+   Unarmed — no JS, a phone, a tablet, an old browser — the stage is a flowing chip
+   row and every flip still works: the readable column, with the same eight words. */
+.month{background:var(--dawn)}
+.month-lede,.month-close{max-width:58ch;margin-top:18px;color:var(--ink-soft);
+  font-size:clamp(15px,1.25vw,17px);line-height:1.62}
+.month-close{margin-top:clamp(24px,3.5vh,40px)}
+.month-lede strong,.month-close strong{font-weight:500;color:var(--burgundy)}
+.month-stage{position:relative;margin:clamp(28px,4.5vh,52px) auto 0;max-width:680px}
+.month-ring{display:none;width:100%;height:auto;color:var(--burgundy)}
+.month-core-star{font-size:34px;fill:var(--gold-deep)}
+.month-core-word{font-family:var(--sans);font-size:12px;letter-spacing:.22em;
+  text-transform:uppercase;fill:var(--ink-soft)}
+.month-label{display:inline-flex;flex-direction:column;align-items:flex-start;gap:2px;
+  background:var(--ivory);border:1px solid var(--line);border-radius:14px;
+  padding:10px 16px;cursor:pointer;text-align:left;
+  transition:border-color .35s var(--ease),background .35s var(--ease)}
+.month-label:hover{border-color:var(--gold)}
+.ml-day{font-family:var(--sans);font-weight:500;font-size:9.5px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--gold-deep)}
+.ml-word,.ml-ans{font-family:var(--accent);font-size:clamp(14px,1.2vw,16.5px);
+  color:var(--ink);white-space:nowrap}
+.ml-ans{display:none;color:var(--logo-red)}
+/* the flip — symptom → answer IN PLACE, the parent scene's replace-in-place grammar */
+.month-label.flipped .ml-word{display:none}
+.month-label.flipped .ml-ans{display:block}
+.month-label.flipped{border-color:var(--logo-red);background:#FFFFFF}
+.month-stage:not(.month-armed){display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.month-armed .month-ring{display:block}
+/* armed: each label takes the seat the script derived from its data-day/data-r —
+   left/top are PERCENTAGES of the stage, so no resize handler is needed */
+.month-armed .month-label{position:absolute;left:var(--lx);top:var(--ly);
+  box-shadow:0 10px 30px rgba(46,34,40,.07);opacity:0;
+  transform:translate(-50%,-50%) translate(-26px,14px) scale(.94);
+  transition:opacity .7s var(--ease),transform .7s var(--ease),
+    border-color .35s var(--ease),background .35s var(--ease);
+  transition-delay:calc(var(--i)*90ms)}
+.month-armed .month-label:nth-of-type(even){
+  transform:translate(-50%,-50%) translate(22px,-16px) scale(.94)}
+.month-armed.in .month-label{opacity:1;transform:translate(-50%,-50%);transition-delay:calc(var(--i)*90ms),calc(var(--i)*90ms),0s,0s}
+@media(prefers-reduced-motion:reduce){
+  .month-armed .month-label{transition:none;opacity:1;transform:translate(-50%,-50%)}
+}

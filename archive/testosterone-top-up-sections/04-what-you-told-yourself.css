@@ -1,0 +1,53 @@
+/* ⚠️ THE LEDGER'S HEADING IS TWO SENTENCES — the only one on the estate that is, and it
+   arrived with Irina's round (2026-08-24g). At 1440 it broke as six words, then five, then
+   the bare word "picture." — a widow, and the <em> was split across the last two lines so
+   the accent read as a fragment. `balance` evens the measure instead.
+   ⚠️ SCOPED TO .ledger, NOT ADDED TO .sec-head h2 ABOVE. Every other h2 on this page holds
+   one or two clean lines at every width, and balancing a heading that does not wrap is a
+   no-op that quietly starts mattering the next time one of them grows. */
+.ledger .sec-head h2{text-wrap:balance}
+
+/* ─────────────────────────── 04 · THE LEDGER ───────────────────────────────────────
+   The men's symptom device — see the section's DOM banner for why this door gets a
+   ledger where the two women's doors get a dial.
+   ⚠️ THE REVEAL IS THE ARGUMENT: the left column (what he told himself) is present from
+   the start; the right column (the measurable name) ARRIVES. Both halves ship visible
+   under reduced motion and without JS — .ledger-list without .in is the finished state,
+   and the transition only exists to stagger the arrival. A page whose script never ran
+   still reads as two honest columns.
+   ⚠️ THE RULE BETWEEN THE COLUMNS IS THE PICTURE. It is the only vertical line in the
+   chapter and it does the work a diagram would: two accounts of one man, side by side. */
+.ledger{background:var(--dawn)}
+.ledger-lede,.ledger-close{max-width:58ch;margin-top:18px;color:var(--ink-soft);
+  font-size:clamp(15px,1.25vw,17px);line-height:1.62}
+.ledger-close{margin-top:clamp(26px,3.5vh,40px)}
+.ledger-lede strong,.ledger-close strong{font-weight:500;color:var(--burgundy)}
+.ledger-list{list-style:none;margin-top:clamp(28px,4vh,46px);border-top:1px solid var(--line)}
+.ledger-list li{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);
+  align-items:baseline;gap:clamp(16px,3vw,48px);
+  padding-block:clamp(15px,2vh,20px);border-bottom:1px solid var(--line);position:relative}
+/* the rule between the two accounts */
+.ledger-list li::after{content:"";position:absolute;top:0;bottom:0;
+  left:calc(55.55% - clamp(8px,1.5vw,24px));width:1px;background:var(--line)}
+.lg-said{font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30;
+  font-style:italic;font-size:clamp(16px,1.6vw,21px);line-height:1.4;color:var(--ink-soft)}
+.lg-real{font-family:var(--sans);font-weight:500;font-size:clamp(12px,1.05vw,13.5px);
+  letter-spacing:.14em;text-transform:uppercase;color:var(--logo-red)}
+.ledger-list.in .lg-real,.ledger-list:not(.in) .lg-real{opacity:1}
+@media(prefers-reduced-motion:no-preference){
+  .ledger-list.armed .lg-real{opacity:0;transform:translateX(-14px);
+    transition:opacity .6s var(--ease),transform .6s var(--ease);
+    transition-delay:calc(var(--i)*70ms)}
+  .ledger-list.armed.in .lg-real{opacity:1;transform:none}
+}
+@media(max-width:620px){
+  /* ⚠️ ONE COLUMN ON A PHONE, AND THE RULE GOES HORIZONTAL WITH IT. At 390 the quote
+     needs the full measure; side by side it set three lines against one word. Stacked,
+     the pair still reads as a pair because the label sits directly under its own
+     sentence and the row's own border closes it. */
+  .ledger-list li{grid-template-columns:minmax(0,1fr);gap:8px}
+  .ledger-list li::after{display:none}
+  .lg-real{padding-left:16px;position:relative}
+  .lg-real::before{content:"";position:absolute;left:0;top:.5em;width:9px;height:1px;
+    background:var(--logo-red)}
+}

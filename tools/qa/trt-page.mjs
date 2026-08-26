@@ -17,6 +17,16 @@ import http from "http"; import fs from "fs"; import path from "path";
 import { fileURLToPath } from "url";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..");
+
+/* ⚠️ 04 · WHAT YOU TOLD YOURSELF and 05 · WHAT WE MEASURE CAME OFF THIS PAGE ON 2026-08-26 —
+   his call, the same two-chapter cut made on all three doors that day. Both are archived
+   whole in archive/testosterone-top-up-sections/, restorable by paste.
+   ⚠️ THEIR CHECKS ARE GATED, NOT DELETED. The eight ledger rows against the eight fallback
+   chips, and the four monitoring markers, are still written below behind this one flag;
+   flip it to true and both run again, so a RESTORE IS A PASTE PLUS ONE WORD.
+   ⚠️ WHILE IT IS false THE else-BRANCH ASSERTS THE OPPOSITE — zero ledger rows, zero
+   .mk-cards — i.e. no orphan markup was left behind by the removal. */
+const HAS_DEVICE = false;
 const PORT = 8123;
 const URL_ = `http://127.0.0.1:${PORT}/testosterone-top-up/`;
 const MIME = {".html":"text/html",".webp":"image/webp",".png":"image/png",".avif":"image/avif",
@@ -145,9 +155,16 @@ const smoke = await page.evaluate(() => ({
 ok(smoke.beats === 6,    "six scene beats", String(smoke.beats));
 ok(smoke.steps === 6,    "six petals", String(smoke.steps));
 ok(smoke.rollback === 6, "six steps in the no-JS rollback list", String(smoke.rollback));
-ok(smoke.markers === 4,  "four monitoring markers", String(smoke.markers));
-ok(smoke.ledger === 8 && smoke.chips === 8,
-   "eight ledger rows = eight fallback chips", `${smoke.ledger}/${smoke.chips}`);
+ok(smoke.chips === 8,    "eight scene-fallback chips", String(smoke.chips));
+if (HAS_DEVICE) {
+  ok(smoke.markers === 4,  "four monitoring markers", String(smoke.markers));
+  ok(smoke.ledger === 8,
+     "eight ledger rows = eight fallback chips", `${smoke.ledger}/${smoke.chips}`);
+} else {
+  ok(smoke.markers === 0 && smoke.ledger === 0,
+     "chapters 04 and 05 are gone, and no orphan markup was left behind",
+     `${smoke.ledger}/${smoke.markers}`);
+}
 /* ⚠️ THIS ROW IS PURELY MALE — his instruction 2026-08-24g. It is the mirror of
    /hormone-therapy-bhrt/, which is purely female by the same call. A "sync the
    doctors" pass on another page is what this check exists to refuse. */

@@ -22,18 +22,25 @@ site. This is a deliberate choice and everything below assumes it.
 | `/hormone-therapy-bhrt/` | ✅ | ✅ |
 | `/modern-menopause/` | ✅ | ✅ |
 | `/testosterone-top-up/` | ✅ | ✅ |
+| `/programs/` | ✅ | ✅ |
 | `/functional-medicine/` | — | ✅ |
 | `/peptide-therapy/` | — | ✅ |
 | `/hormone-balancing/` | — | — |
 | `/` (home) | — | — |
-| `/programs/` | — | — |
 
-**The three pages with the flower are "the doors".** They share the process sculpture and are
-reached from `/hormone-balancing/`, which is the hub above them.
+**The three pages with the flower AND a service door behind them are "the doors".** They share
+the process sculpture and are reached from `/hormone-balancing/`, which is the hub above them.
+⚠️ **`/programs/` CARRIES THE FLOWER TOO SINCE 2026-08-26 but is NOT a door** — it is the
+booster-programmes page, reached from the hub's `#boosters` pill, and it sells two modules of
+one programme rather than one service. It is a **fourth carrier of the parity contract** in §2
+all the same: an edit to the sculpture is now four files, not three.
 
-**The doctors chapter carries exactly one `Book a consultation`** on each of its five pages — his
-call, done. It sits under the grid as `.docs-cta`, not on the cards. Each doctor's own popup
-keeps its own `.pxd-cta`; that one is not the pill he was counting.
+**The doctors chapter carries exactly one `Book a consultation`** on each of the pages that
+render it — his call, done. It sits under the grid as `.docs-cta`, not on the cards. Each
+doctor's own popup keeps its own `.pxd-cta`; that one is not the pill he was counting.
+⚠️ `tools/qa/doctors-pill.mjs` walks **five** pages and does not know about `/programs/`; that
+page asserts its own one-pill rule in `tools/qa/programs-page.mjs` §5. Adding it to the
+five-page walk is a one-line change and worth doing next time that file is open.
 
 ---
 
@@ -161,15 +168,24 @@ not carry. **Ask before switching it.** (My first reading of this called it a de
 Functional Medicine sat three clicks from home. That was wrong: it is one click from everywhere,
 it just leaves the site from half the pages.)
 
-**b · ~~`/programs/` is an orphan.~~ RESOLVED 2026-08-26 — he came back to it.** The wait he
-asked for on 2026-08-24 ended with his request for "a separate page (1 page for both)" for the
-two booster programmes. The lab draft was built out into the full page — estate header/nav,
-Included / Not-included panels per programme (content recovered from the two medi-gyn.com
-source pages, which are egress-blocked; recovered via search snippets), the call strip and the
-true-copy footer — and the hub's `#boosters` pill is now **wired to `../programs/`**
-(`data-soon` off, exactly as that section's comment said would happen once the page had an
-address). `programs/HANDOVER.md` is the record; the open questions that round left (package
-pricing, the mentorship line, plate encoding, i18n) live there.
+**b · ~~`/programs/` is an orphan.~~ SHIPPED 2026-08-26 — he came back to it, and it is now a
+real page.** The wait he asked for on 2026-08-24 ended with his request for "a separate page
+(1 page for both)". Four rounds later it carries the flower (a **fourth carrier** of §2's
+parity contract), the doors' doctors chapter, a composed programme card, a photographic hero
+and a flip pair; the hub's `#boosters` pill is **wired to `../programs/`** (`data-soon` off,
+exactly as that section's comment said would happen once the page had an address).
+
+⚠️ **ITS ONE BLOCKING QUESTION IS THE PACKAGE FIGURE, AND IT IS HIS.** The page ships with no
+price — the money slot reads "Priced at your consultation" — because none has ever been named
+for the composed programme, and the doors' 950 buys a package with one consultation where the
+Gut system carries two. The `?price=950` board shows the alternative on the real page; his pick
+deletes it. **Do not invent a figure here.**
+
+Records: [`HANDOVER_BOOSTER_PROGRAMMES.md`](HANDOVER_BOOSTER_PROGRAMMES.md) is the round —
+what happened, whose call, what will bite. [`programs/HANDOVER.md`](programs/HANDOVER.md) is
+the page, round by round. Everything still open (the figure, the unsigned FAQ drafts and
+placeholder testimonials, the recovered-not-read Included lists, the mentorship line, i18n)
+lives in the first of those.
 
 **c · Four controls are deliberately inert, and the list is worth re-checking with him.**
 `README.md` names them under *Deliberately unwired controls* — **Book consultation**, **Join

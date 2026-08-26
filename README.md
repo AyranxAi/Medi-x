@@ -20,6 +20,13 @@ when `index.html` *was* the site. There are now **eight pages** — the landing 
 `/programs/`. Everything it says about zero-build, zero-dependency single files is still exactly
 true of each of them; the file tree is what has moved on.
 
+**`/programs/` — the booster programmes — went live 2026-08-26** and is no longer the orphan the
+older notes describe. It is reached from the hub's `#boosters` pill, carries the doors' process
+sculpture (a fourth carrier of the parity contract) and their doctors chapter, and sells **one
+programme with two systems at one fee**. Its record is
+[`programs/HANDOVER.md`](programs/HANDOVER.md); the round that built it is
+[`HANDOVER_BOOSTER_PROGRAMMES.md`](HANDOVER_BOOSTER_PROGRAMMES.md).
+
 ## Architecture
 
 The site is **one static HTML file with zero dependencies and no build step**.

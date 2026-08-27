@@ -44,7 +44,9 @@ const PAGES = [
     device: null,
     /* the vocabulary each page must NOT contain — the "don't mix the doors" rule */
     money: ['AED 950.00', 'AED 47.50', 'AED 997.50'],
-    addon: ['AED 145.00', 'AED 3,045.00'],
+    /* ⚠️ THE DUBAI FIGURE since 2026-08-27 (owner's correction: 1,850 Dubai / 2,150
+       other emirates, two exclusive toggles). #pg-addon is the Dubai box. */
+    addon: ['AED 140.00', 'AED 2,940.00'],
     banned: /DUTCH|still cycling and noticing|Testosterone Top Up/i,
     mustSay: /menoSTART/,
     sections: ['programme', 'doctors', 'stories', 'faq', 'book'],
@@ -65,7 +67,9 @@ const PAGES = [
     /* ⚠️ 1,150, NOT 950 — this door's own price since its programme moved. The four
        numbers are trt-page.mjs's, which is the file that owns them. */
     money: ['AED 1,150.00', 'AED 57.50', 'AED 1,207.50'],
-    addon: ['AED 155.00', 'AED 3,255.00'],
+    /* ⚠️ THE DUBAI FIGURE since 2026-08-27 (owner's correction: 1,850 Dubai / 2,150
+       other emirates, two exclusive toggles). #pg-addon is the Dubai box. */
+    addon: ['AED 150.00', 'AED 3,150.00'],
     banned: /DUTCH|menoSTART|Modern Menopause|Top-Up|Testosterone Replacement Therapy in Dubai/i,
     mustSay: /Testosterone Top Up/,
     sections: ['programme', 'doctors', 'stories', 'faq', 'book'],

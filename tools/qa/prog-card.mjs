@@ -117,7 +117,7 @@ for (const [dir, figure] of [['hormone-therapy-bhrt', 'AED 950'],
       excPlain: c.querySelectorAll('.pc-exc .pg-list li:not(:has(.pc-more))').length,
       noteOut: !!note && !document.querySelector('#pg-addon .pg-note'),
       addonName: document.getElementById('pg-addon')?.textContent.replace(/\s+/g, ' ').trim(),
-      ids:    ['pg-sub', 'pg-vat', 'pg-total', 'pg-addon-amt', 'pg-addon', 'pg-row-addon']
+      ids:    ['pg-sub', 'pg-vat', 'pg-total', 'pg-addon-amt', 'pg-addon', 'pg-addon2', 'pg-row-addon']
                 .filter(i => !document.getElementById(i)),
       rowHid: getComputedStyle(document.getElementById('pg-row-addon')).display,
       tracks: getComputedStyle(c).gridTemplateColumns.split(' ').length,

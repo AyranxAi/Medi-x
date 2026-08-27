@@ -110,6 +110,21 @@
   --gold-tint:#F1E7D2;
   --ink:#2E2228;           /* dark plum */
   --ink-soft:#6A585F;
+  /* ⚠️ THE DOOR'S OWN ACCENT — 2026-08-27, the owner's call via the user: each door page
+     wears its orb's colour from /hormone-balancing/ (burgundy · rose · gold). This door's
+     orb is the burgundy one, so --door is --burgundy's value and --door-deep is the same
+     ink: it measures 10.28:1 on the rose dawn, the WORST of its light grounds, so it
+     clears the 4.5 body floor everywhere the gold accents used to stand (BRAND.md's
+     method; re-measure if a ground moves). --door-tint is the burgundy blushed to the
+     gold-tint's weight, for the chip hover and ::selection washes.
+     ⚠️ WHAT THE THEME DOES NOT TOUCH: CTAs keep --logo-red (the one-red rule); the money
+     card and the process sculpture keep their shared gold grammar; the dark .turn band
+     keeps its SOLVED champagne accents; the scene keeps its measured stage colours. Only
+     the light-ground accent chrome wears the door: kicker dashes, the scroll drip, the
+     chip hover, .chapter-mark, .seg-gloss and ::selection. */
+  --door:#5C1F31;
+  --door-deep:#5C1F31;
+  --door-tint:#F2E1E2;
   --serif:"Playfair","Playfair Display",Didot,"Times New Roman",Georgia,serif;
   --sans:"MediGyn NOW",Jost,ui-sans-serif,system-ui,-apple-system,sans-serif;
   --accent:"MediGyn Megante",Optima,Georgia,serif;
@@ -193,7 +208,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);
   clip-path:inset(50%);white-space:nowrap}
 img{max-width:100%}
-::selection{background:var(--gold-tint);color:var(--burgundy)}
+::selection{background:var(--door-tint);color:var(--burgundy)}
 
 /* ─────────────────────────── UTILITIES ─────────────────────────── */
 .wrap{max-width:1280px;margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}
@@ -201,8 +216,8 @@ img{max-width:100%}
   font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.32em;
   text-transform:uppercase;color:var(--logo-red);display:flex;align-items:center;gap:14px;
 }
-.kicker::before{content:"";width:34px;height:1px;background:var(--gold)}
-.chapter-mark{font-family:var(--accent);font-size:13px;letter-spacing:.24em;color:var(--gold-deep)}
+.kicker::before{content:"";width:34px;height:1px;background:var(--door)}
+.chapter-mark{font-family:var(--accent);font-size:13px;letter-spacing:.24em;color:var(--door-deep)}
 .btn{
   display:inline-flex;align-items:center;gap:12px;
   font-family:var(--sans);font-weight:500;font-size:13px;letter-spacing:.12em;text-transform:uppercase;
@@ -387,7 +402,7 @@ body.nav-open .nav li{
 .hero-ctas{display:flex;gap:16px;margin-top:clamp(30px,4.4vh,48px);flex-wrap:wrap}
 .hero-hint{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:10px;color:var(--ink-soft);font-size:10px;letter-spacing:.3em;text-transform:uppercase}
 .hero-hint .tick{width:1px;height:44px;background:var(--line);position:relative;overflow:hidden}
-.hero-hint .tick::after{content:"";position:absolute;top:-50%;left:0;width:100%;height:50%;background:var(--gold);animation:drip 2.1s var(--ease) infinite}
+.hero-hint .tick::after{content:"";position:absolute;top:-50%;left:0;width:100%;height:50%;background:var(--door);animation:drip 2.1s var(--ease) infinite}
 @keyframes drip{0%{top:-50%}100%{top:110%}}
 
 /* ── A round-7 HERO-SCOPED GLACIER block stood here and was COLLAPSED in round 9, once
@@ -416,7 +431,7 @@ section{position:relative}
   border:1px solid var(--line);border-radius:999px;padding:12px 26px;background:var(--ivory);
   transition:background .4s var(--ease),border-color .4s var(--ease),transform .4s var(--ease);
 }
-.chip:hover{background:var(--gold-tint);border-color:var(--gold);transform:translateY(-2px)}
+.chip:hover{background:var(--door-tint);border-color:var(--door);transform:translateY(-2px)}
 .signals-close{margin-top:clamp(44px,6vh,68px);max-width:32em;font-size:clamp(16px,1.35vw,19px);color:var(--ink-soft);line-height:1.8}
 .signals-close strong{font-weight:500;color:var(--burgundy)}
 
@@ -506,7 +521,7 @@ section{position:relative}
 .seg .kicker{justify-content:center}
 /* the section's own headline, at the same scale as every other chapter head */
 .seg h2{font-size:clamp(34px,4.6vw,62px);max-width:16em;margin-inline:auto}
-.seg .kicker::after{content:"";width:34px;height:1px;background:var(--gold)}
+.seg .kicker::after{content:"";width:34px;height:1px;background:var(--door)}
 /* ⚠️ EVERY PLAYFAIR BELOW RE-PINS THE OPTICAL SIZE, and this is not decoration.
    The stylesheet pins font-variation-settings:"opsz" 30 on h1,h2,h3 only (line ~54;
    BRAND.md records the 450/30 pairing). Anything else inherits the browser default
@@ -529,8 +544,11 @@ section{position:relative}
      which is what bought the separate --gold-gloss. On ivory it measures 4.685. The
      workaround's subject is gone, so the workaround goes; see the token block.
      ⚠️ IF THIS GROUND EVER DARKENS AGAIN, RE-MEASURE BEFORE ASSUMING. 4.685 is 0.185 of
-     margin, and it is the tightest pairing in this section. */
-  color:var(--gold-gloss);
+     margin, and it is the tightest pairing in this section.
+     ⚠️ --door-deep SINCE 2026-08-27 — the door theme (see the token block). On this page
+     it is the burgundy, 10.28:1 on the dawn, so the tight-margin story above is history
+     here; it still governs the gold pages. */
+  color:var(--door-deep);
 }
 /* ⚠️ 48ch, NOT 34 — his call 2026-08-16 ("make it wider by a little bit so that it's not
    that crammed"), shipped in the same commit that cut the sentence out of the definition.
@@ -2291,9 +2309,14 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
              "consultation" names only the meeting. The peptide page's 2026-08-17
              consultation-only correction governs THAT page's panel, not this one.
              The pill lands on #programme (the chapter that sells it); the chapter's own
-             pill is the one that routes to #book. -->
+             pill is the one that routes to #book.
+             ⚠️ THE SECOND PILL BOOKS THE FREE CALL NOW — owner's call 2026-08-27, relayed
+             by the user, and it is the same change on all three doors: the hero secondary
+             was "How it works" (→ the scene) and is now the free 10-minute discovery call,
+             the label the final chapter already sells. The scene keeps its id and the
+             scroll still reaches it; only this route into it is spent on booking. -->
         <a class="btn" href="#programme">Start the programme <span class="arr">→</span></a>
-        <a class="btn ghost" href="#tide">How it works</a>
+        <a class="btn ghost" href="#book">Book a free discovery call</a>
       </div>
     </div>
     <div class="hero-hint" aria-hidden="true"><span>Scroll</span><span class="tick"></span></div>
@@ -2359,8 +2382,12 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
                payoff, and a child door repeating it would spend the parent's ending
                twice. One word, with the dot every approved headline on these pages ends
                with. (The sibling rule stands: a long title overruns a 390px stage at the
-               44px floor, and a title that wraps is not this grammar.) -->
-          <p class="scene-title" aria-hidden="true">Steady.</p>
+               44px floor, and a title that wraps is not this grammar.)
+               ⚠️ "Stable.", NOT "Steady." — owner's call 2026-08-27, relayed by the user:
+               "remove the word steady and replace it with the word stable", applied to
+               every visible steady on this page. The reasoning above (one word, the dot,
+               not BHRT) is untouched — only the word moved. -->
+          <p class="scene-title" aria-hidden="true">Stable.</p>
           <!-- ⚠️ SIX BEATS, NONE PAST TWO LINES — the sibling page's cut ("we have put too
                much…") is inherited as a constraint rather than repeated as a mistake.
                SCHED at the foot of the file has six windows; beats.length and SCHED.length
@@ -2402,10 +2429,14 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
                rule: the fallback gets the identical vocabulary, not a second draft).
                Change one list, change the other. Two-words-max is his recorded
                discipline from the parent scene ("2 words max — low libido, no energy").
-               ALL DRAFT. -->
+               ALL DRAFT.
+               ⚠️ "Unstable energy" SAID "Unsteady energy" UNTIL 2026-08-27 — the owner's
+               steady→stable rename. The archived month wheel
+               (archive/hormone-therapy-bhrt-sections/) still carries the old word;
+               sync it if the wheel ever comes back. -->
           <div class="chips" data-chips>
             <span class="chip">Erratic cycles</span>
-            <span class="chip">Unsteady energy</span>
+            <span class="chip">Unstable energy</span>
             <span class="chip">The headaches</span>
             <span class="chip">Tender, bloated</span>
             <span class="chip">Short fuse</span>
@@ -2417,7 +2448,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
             You still cycle — and something is different. <strong>Both are true.</strong>
             In perimenopause two hormones begin to waver while the month carries on,
             and the symptoms land on its schedule. That schedule is how we know it's
-            hormonal — and with your own labs, exactly what to steady.
+            hormonal — and with your own labs, exactly what to stabilise.
           </p>
         </div>
       </section>
@@ -2620,9 +2651,18 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
           <div class="pc-col pc-col--r">
             <p class="pc-price pg-amt">AED 950 <small>+ VAT</small></p>
             <div class="pg-blk pc-add">
+              <!-- ⚠️ ONE COLLECTION BECAME TWO ON 2026-08-27 — the owner's correction,
+                   relayed by the user: Dubai is AED 1,850 + VAT ("it is 1850 +vat not
+                   1950") and the other emirates are AED 2,150 + VAT, each in its own
+                   box. The 1,950 the notes above this card still quote is the figure's
+                   HISTORY, not its value. The two toggles are mutually exclusive in the
+                   script — a reader is in one place — and the same change shipped on all
+                   three door pages. /functional-medicine/, /programs/ and
+                   /peptide-therapy/ still sell the single 1,950 box and are NOT touched
+                   by this round; they are flagged in the handoff. -->
               <button type="button" class="pg-addon" id="pg-addon" aria-pressed="false">
                 <span class="pg-box" aria-hidden="true">✓</span>
-                <span class="pg-t"><span class="pc-addon-label">Optional add-on</span>Home blood sample collection · UAE
+                <span class="pg-t"><span class="pc-addon-label">Optional add-on</span>Home blood sample collection · Dubai
                   <!-- ⚠️ HIS COPY, 2026-08-24, AND IT IS TWO SENTENCES WHERE THERE WAS ONE — inside the
                   UAE and outside it are now separate lines, because they are separate offers.
                   The spaced hyphens around "home | office | hotel" became em dashes, the
@@ -2644,16 +2684,32 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
                        ⚠️ IT CANNOT GO BEHIND A + LIKE THE FOUR NOT-INCLUDED ROWS. This is a
                        <button>, and <details> is interactive content — nesting it here is invalid
                        HTML and the toggle stops working. -->
-                  <small>Anywhere in the UAE — home, office or hotel.</small>
+                  <small>Anywhere in Dubai — home, office or hotel.</small>
               </span>
-                <span class="pg-p">AED 1,950 <small>+ VAT</small></span>
+                <span class="pg-p">AED 1,850 <small>+ VAT</small></span>
               </button>
-              <p class="pg-note">Patients outside the UAE can do their blood tests at any
-              laboratory at their destination.</p>
+              <button type="button" class="pg-addon" id="pg-addon2" aria-pressed="false">
+                <span class="pg-box" aria-hidden="true">✓</span>
+                <span class="pg-t"><span class="pc-addon-label">Optional add-on</span>Home blood sample collection · Other Emirates
+                  <small>Home, office or hotel — across the other six emirates.</small>
+              </span>
+                <span class="pg-p">AED 2,150 <small>+ VAT</small></span>
+              </button>
+              <!-- ⚠️ THE NOTE STAYS OUTSIDE THE BUTTONS — the 2026-08-24f accessibility
+                   fix holds: a <button>'s subtree is its accessible name, and what to do
+                   when neither toggle is for you is not part of what either buys.
+                   2026-08-27 rewording, owner's copy via the user ("For other countries -
+                   Ask our team - we may have another nearby you"); the second sentence
+                   keeps the standing promise the old note made — tests abroad are read
+                   too — because it answers the question the international reader
+                   actually has. -->
+              <p class="pg-note">For other countries — ask our team; we may have a partner
+              laboratory near you. Your blood tests can also be done at any laboratory at
+              your destination.</p>
             </div>
             <div class="pg-sum">
               <div class="pg-row"><span>Programme</span><span id="pg-sub">AED 950.00</span></div>
-              <div class="pg-row" id="pg-row-addon" hidden><span>Home blood sample collection</span><span id="pg-addon-amt">AED 1,950.00</span></div>
+              <div class="pg-row" id="pg-row-addon" hidden><span>Home blood sample collection</span><span id="pg-addon-amt">AED 1,850.00</span></div>
               <div class="pg-row"><span>VAT 5%</span><span id="pg-vat">AED 47.50</span></div>
               <div class="pg-row pg-row--total"><span>Total today</span><span id="pg-total">AED 997.50</span></div>
             </div>
@@ -2987,7 +3043,13 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
     <div class="wrap">
       <div class="sec-head">
         <!-- no kicker — the sibling pages' call, inherited -->
-        <h2 data-reveal>What came <em>back</em> first.</h2>
+        <!-- ⚠️ "In their own words." SINCE 2026-08-27 — the owner asked for a plainer
+             testimonials label ("happy customers / satisfied customers" were floated);
+             "customers" was set aside because these are patients, and this label keeps
+             the section honest about what it is: their sentences, not our claims. The
+             same heading shipped on all three doors; the dot is the approved headline
+             grammar. It replaced "What came back first." -->
+        <h2 data-reveal>In their <em>own</em> words.</h2>
       </div>
       <!-- ⚠️ THE REVEAL LIVES ON THE RAIL, NOT ON EACH STORY — each .story is held at
            opacity 0 by the carousel and lit with .is-on; a per-story reveal fights the
@@ -3091,7 +3153,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
         <div class="faq-item">
           <button class="faq-q" aria-expanded="false">Will BHRT stop my periods?<span class="ind" aria-hidden="true"></span></button>
           <div class="faq-a"><div class="faq-a-in">
-            <p>That is not its job here. In perimenopause the aim is to <strong>steady the
+            <p>That is not its job here. In perimenopause the aim is to <strong>stabilise the
             rhythm you still have</strong> — topping up what has begun to waver, at doses
             read from your labs — not to switch your cycle off. Many women find their
             cycles become more predictable, not absent.</p>
@@ -3669,7 +3731,9 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
      4 THE DAWN   (.79–1)    — the ground rises from the waterline (the inherited
                                .790–.835 window: nothing is on screen while the ground
                                is mid-flight), the waves warm to the deep accent, the
-                               brand's ring opens and "Steady." lands inside it.
+                               brand's ring opens and "Stable." lands inside it.
+                               (It said "Steady." until 2026-08-27 — the owner's
+                               steady→stable rename; the beat structure is untouched.)
 
    ⚠️ THE LATCH IS THE SIBLINGS' — progress high-water-marks, so an ordinary scroll-up
    never un-steadies the water. Replay is the deliberate way back; seeking is the one
@@ -4125,27 +4189,37 @@ try{
      ⚠️ AED 1,950 IS HIS FIGURE for the collection, standing from the siblings and
      re-confirmed for this page 2026-08-19 ("we still have the optional add on of
      1950 + vat for blood work in uae").
+     ⚠️⚠️ SUPERSEDED 2026-08-27 — the owner's correction, relayed by the user: the
+     collection is AED 1,850 + VAT in DUBAI and AED 2,150 + VAT in the OTHER EMIRATES,
+     two toggles, mutually exclusive because a reader is in one place. The new sums:
+     950 → 47.50 → 997.50 alone; with Dubai 2,800 → 140.00 → 2,940.00; with the other
+     emirates 3,100 → 155.00 → 3,255.00. The 2026-08-19 quote above is kept as the
+     figure's history.
      ⚠️ ALWAYS TWO DECIMALS, even on whole figures — a money column lines up or it
      does not (the siblings' recorded rule).
      ⚠️ THE FIRST ROW IS THE PROGRAMME AND ONLY THE PROGRAMME — the collection gets
      its own row, shown only while it is actually being bought (the 2026-08-17
      lesson: a base row that silently swallows the add-on reads as the wrong price). */
   {
-    const BASE=950, ADDON=1950, VAT=.05;
-    let addon=false;
+    const BASE=950, VAT=.05, ADDONS={dubai:1850, uae:2150};
+    let addon=null;   /* 'dubai' | 'uae' | null — the toggles are exclusive: one place */
     const money = n => "AED " + n.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
     const el = id => document.getElementById(id);
     function sync(){
-      const sub = BASE + (addon?ADDON:0);
+      const amt = addon ? ADDONS[addon] : 0;
+      const sub = BASE + amt;
       if(el("pg-sub"))   el("pg-sub").textContent   = money(BASE);
       if(el("pg-row-addon")) el("pg-row-addon").hidden = !addon;
-      if(el("pg-addon-amt")) el("pg-addon-amt").textContent = money(ADDON);
+      if(el("pg-addon-amt")) el("pg-addon-amt").textContent = money(amt || ADDONS.dubai);
       if(el("pg-vat"))   el("pg-vat").textContent   = money(sub*VAT);
       if(el("pg-total")) el("pg-total").textContent = money(sub+sub*VAT);
-      if(el("pg-addon")) el("pg-addon").setAttribute("aria-pressed", String(addon));
+      if(el("pg-addon"))  el("pg-addon").setAttribute("aria-pressed", String(addon==="dubai"));
+      if(el("pg-addon2")) el("pg-addon2").setAttribute("aria-pressed", String(addon==="uae"));
     }
-    const a = el("pg-addon");
-    if(a) a.addEventListener("click", ()=>{ addon=!addon; sync(); });
+    [["pg-addon","dubai"],["pg-addon2","uae"]].forEach(([id,key])=>{
+      const b = el(id);
+      if(b) b.addEventListener("click", ()=>{ addon = (addon===key ? null : key); sync(); });
+    });
     sync();
   }
 

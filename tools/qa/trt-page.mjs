@@ -132,10 +132,12 @@ const m2 = await page.evaluate(() => ({
 }));
 /* ⚠️ THE PROGRAMME ROW MUST NOT MOVE when the add-on is ticked — the 2026-08-17
    lesson, recorded at the money block: a base row that swallows the add-on reads
-   as the wrong price. 3,100 is the SUBTOTAL and appears nowhere as a row. */
-ok(m2.row && m2.sub === "AED 1,150.00" && m2.vat === "AED 155.00"
-   && m2.total === "AED 3,255.00" && m2.pressed === "true",
-   "with collection: row shown, base unmoved, 155.00 VAT, 3,255.00 total",
+   as the wrong price. 3,000 is the SUBTOTAL and appears nowhere as a row.
+   ⚠️ THE DUBAI FIGURE since 2026-08-27 (owner's correction: 1,850 Dubai / 2,150
+   other emirates, two exclusive toggles). #pg-addon is the Dubai box. */
+ok(m2.row && m2.sub === "AED 1,150.00" && m2.vat === "AED 150.00"
+   && m2.total === "AED 3,150.00" && m2.pressed === "true",
+   "with collection: row shown, base unmoved, 150.00 VAT, 3,150.00 total",
    `${m2.sub} ${m2.vat} ${m2.total}`);
 await page.click("#pg-addon");
 

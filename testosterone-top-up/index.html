@@ -163,6 +163,16 @@
      rendered contrast rather than pinning this literal, so it will tell you which way
      the ground has moved rather than merely noticing the token changed. */
   --gold-gloss:#7F6230;
+  /* ⚠️ THE DOOR THEME, AND WHY THIS PAGE HAS NO --door TOKENS — 2026-08-27, the owner's
+     call via the user: each door page wears its orb's colour from /hormone-balancing/
+     (burgundy · rose · gold). THIS door's orb is the GOLD one, and the estate's gold
+     already dresses exactly the accent set the theme names on the siblings (kicker
+     dashes, the scroll drip, the chip hover, .chapter-mark, .seg-gloss, ::selection) —
+     so the theme here is the page as it stands. The siblings carry --door /
+     --door-deep / --door-tint and retarget those rules; mapping them here would mean
+     collapsing --gold-deep and --gold-gloss into one "deep", which the --gold-gloss
+     note above forbids. If this door's orb ever changes colour, add the three tokens
+     the way /modern-menopause/ did and retarget the same six rule sites. */
   --ease:cubic-bezier(.22,.61,.36,1);
   --swing:cubic-bezier(.34,.75,.24,1);  /* the dots’ width, round 18 */
   --pad:clamp(20px,4.5vw,72px);
@@ -2279,8 +2289,12 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
              consultation-only correction governs THAT page's panel, not this one.
              The pill lands on #programme (the chapter that sells it); the chapter's own
              pill is the one that routes to #book. -->
+        <!-- ⚠️ THE SECOND PILL BOOKS THE FREE CALL NOW — owner's call 2026-08-27, relayed
+             by the user, the same change on all three doors: the hero secondary was
+             "How it works" (→ the scene) and is now the free 10-minute discovery call.
+             The scene keeps its id and the scroll still reaches it. -->
         <a class="btn" href="#programme">Start the programme <span class="arr">→</span></a>
-        <a class="btn ghost" href="#slope">How it works</a>
+        <a class="btn ghost" href="#book">Book a free discovery call</a>
       </div>
     </div>
     <div class="hero-hint" aria-hidden="true"><span>Scroll</span><span class="tick"></span></div>
@@ -2323,6 +2337,17 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
       <p class="seg-def" data-reveal>Testosterone can begin to decline gradually from your
       <em>40s</em> — often around 1% a year. The change can be subtle, but it can be
       measured.</p>
+      <!-- ⚠️ THE SECOND SENTENCE IS THE STAKES — the client's ask, 2026-08-27, relayed by
+           the user: "put something that will make it be taken more seriously as men dont
+           really care that much". It raises the stakes with facts, not fear: the systems
+           named are the ones low testosterone is actually implicated in (muscle, bone,
+           metabolism, mood, drive — the same vocabulary as the chips and the
+           signals-close below), and the closing clause is the page's whole argument in
+           one line. Do not sharpen it into a scare — the ledger's rule about staying
+           sympathetic governs this sentence too. -->
+      <p class="seg-def" data-reveal>This is health, not vanity. Muscle, bone, metabolism,
+      mood and drive all run on it — and a decline you never measure is one you never
+      <em>treat</em>.</p>
     </div>
   </section>
 
@@ -2645,9 +2670,16 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
           <div class="pc-col pc-col--r">
             <p class="pc-price pg-amt">AED 1,150 <small>+ VAT</small></p>
             <div class="pg-blk pc-add">
+              <!-- ⚠️ ONE COLLECTION BECAME TWO ON 2026-08-27 — the owner's correction,
+                   relayed by the user: Dubai is AED 1,850 + VAT and the other emirates
+                   are AED 2,150 + VAT, each in its own box, mutually exclusive in the
+                   script because a reader is in one place. The 1,950 the notes above
+                   still quote is the figure's HISTORY. Same change on all three door
+                   pages; /functional-medicine/, /programs/ and /peptide-therapy/ still
+                   sell the single 1,950 box and are flagged in the handoff. -->
               <button type="button" class="pg-addon" id="pg-addon" aria-pressed="false">
                 <span class="pg-box" aria-hidden="true">✓</span>
-                <span class="pg-t"><span class="pc-addon-label">Optional add-on</span>Home blood sample collection · UAE
+                <span class="pg-t"><span class="pc-addon-label">Optional add-on</span>Home blood sample collection · Dubai
                   <!-- ⚠️ HIS COPY, 2026-08-24, AND IT IS TWO SENTENCES WHERE THERE WAS ONE — inside the
                   UAE and outside it are now separate lines, because they are separate offers.
                   The spaced hyphens around "home | office | hotel" became em dashes, the
@@ -2669,16 +2701,28 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
                        ⚠️ IT CANNOT GO BEHIND A + LIKE THE FOUR NOT-INCLUDED ROWS. This is a
                        <button>, and <details> is interactive content — nesting it here is invalid
                        HTML and the toggle stops working. -->
-                  <small>Anywhere in the UAE — home, office or hotel.</small>
+                  <small>Anywhere in Dubai — home, office or hotel.</small>
               </span>
-                <span class="pg-p">AED 1,950 <small>+ VAT</small></span>
+                <span class="pg-p">AED 1,850 <small>+ VAT</small></span>
               </button>
-              <p class="pg-note">Patients outside the UAE can do their blood tests at any
-              laboratory at their destination.</p>
+              <button type="button" class="pg-addon" id="pg-addon2" aria-pressed="false">
+                <span class="pg-box" aria-hidden="true">✓</span>
+                <span class="pg-t"><span class="pc-addon-label">Optional add-on</span>Home blood sample collection · Other Emirates
+                  <small>Home, office or hotel — across the other six emirates.</small>
+              </span>
+                <span class="pg-p">AED 2,150 <small>+ VAT</small></span>
+              </button>
+              <!-- ⚠️ THE NOTE STAYS OUTSIDE THE BUTTONS — the 2026-08-24f accessibility
+                   fix holds. 2026-08-27 rewording, owner's copy via the user; the second
+                   sentence keeps the old note's standing promise that tests abroad are
+                   read too. -->
+              <p class="pg-note">For other countries — ask our team; we may have a partner
+              laboratory near you. Your blood tests can also be done at any laboratory at
+              your destination.</p>
             </div>
             <div class="pg-sum">
               <div class="pg-row"><span>Programme</span><span id="pg-sub">AED 1,150.00</span></div>
-              <div class="pg-row" id="pg-row-addon" hidden><span>Home blood sample collection</span><span id="pg-addon-amt">AED 1,950.00</span></div>
+              <div class="pg-row" id="pg-row-addon" hidden><span>Home blood sample collection</span><span id="pg-addon-amt">AED 1,850.00</span></div>
               <div class="pg-row"><span>VAT 5%</span><span id="pg-vat">AED 57.50</span></div>
               <div class="pg-row pg-row--total"><span>Total today</span><span id="pg-total">AED 1,207.50</span></div>
             </div>
@@ -2995,7 +3039,10 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
     <div class="wrap">
       <div class="sec-head">
         <!-- no kicker — the sibling pages' call, inherited -->
-        <h2 data-reveal>What came <em>back</em> first.</h2>
+        <!-- ⚠️ "In their own words." SINCE 2026-08-27 — the owner asked for a plainer
+             testimonials label; "customers" was set aside because these are patients.
+             Same heading on all three doors; it replaced "What came back first." -->
+        <h2 data-reveal>In their <em>own</em> words.</h2>
       </div>
       <!-- ⚠️ THE REVEAL LIVES ON THE RAIL, NOT ON EACH STORY — each .story is held at
            opacity 0 by the carousel and lit with .is-on; a per-story reveal fights the
@@ -4077,27 +4124,37 @@ try{
      ⚠️ AED 1,950 IS HIS FIGURE for the collection, standing from the siblings and
      re-confirmed for this page 2026-08-19 ("we still have the optional add on of
      1950 + vat for blood work in uae").
+     ⚠️⚠️ SUPERSEDED 2026-08-27 — the owner's correction, relayed by the user: the
+     collection is AED 1,850 + VAT in DUBAI and AED 2,150 + VAT in the OTHER EMIRATES,
+     two toggles, mutually exclusive because a reader is in one place. The new sums:
+     1,150 → 57.50 → 1,207.50 alone; with Dubai 3,000 → 150.00 → 3,150.00; with the
+     other emirates 3,300 → 165.00 → 3,465.00. The 2026-08-19 quote above is kept as
+     the figure's history.
      ⚠️ ALWAYS TWO DECIMALS, even on whole figures — a money column lines up or it
      does not (the siblings' recorded rule).
      ⚠️ THE FIRST ROW IS THE PROGRAMME AND ONLY THE PROGRAMME — the collection gets
      its own row, shown only while it is actually being bought (the 2026-08-17
      lesson: a base row that silently swallows the add-on reads as the wrong price). */
   {
-    const BASE=1150, ADDON=1950, VAT=.05;
-    let addon=false;
+    const BASE=1150, VAT=.05, ADDONS={dubai:1850, uae:2150};
+    let addon=null;   /* 'dubai' | 'uae' | null — the toggles are exclusive: one place */
     const money = n => "AED " + n.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
     const el = id => document.getElementById(id);
     function sync(){
-      const sub = BASE + (addon?ADDON:0);
+      const amt = addon ? ADDONS[addon] : 0;
+      const sub = BASE + amt;
       if(el("pg-sub"))   el("pg-sub").textContent   = money(BASE);
       if(el("pg-row-addon")) el("pg-row-addon").hidden = !addon;
-      if(el("pg-addon-amt")) el("pg-addon-amt").textContent = money(ADDON);
+      if(el("pg-addon-amt")) el("pg-addon-amt").textContent = money(amt || ADDONS.dubai);
       if(el("pg-vat"))   el("pg-vat").textContent   = money(sub*VAT);
       if(el("pg-total")) el("pg-total").textContent = money(sub+sub*VAT);
-      if(el("pg-addon")) el("pg-addon").setAttribute("aria-pressed", String(addon));
+      if(el("pg-addon"))  el("pg-addon").setAttribute("aria-pressed", String(addon==="dubai"));
+      if(el("pg-addon2")) el("pg-addon2").setAttribute("aria-pressed", String(addon==="uae"));
     }
-    const a = el("pg-addon");
-    if(a) a.addEventListener("click", ()=>{ addon=!addon; sync(); });
+    [["pg-addon","dubai"],["pg-addon2","uae"]].forEach(([id,key])=>{
+      const b = el(id);
+      if(b) b.addEventListener("click", ()=>{ addon = (addon===key ? null : key); sync(); });
+    });
     sync();
   }
 

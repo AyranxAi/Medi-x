@@ -2254,19 +2254,38 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
                  the moment he names the real figure. -->
             <p class="pc-price pg-amt pc-var">AED 950 <small>+ VAT</small></p>
             <div class="pg-blk pc-add">
+              <!-- ⚠️ ONE COLLECTION BECAME TWO ON 2026-08-27 — the owner's correction,
+                   relayed by the user, the same day it landed on the three door pages:
+                   Dubai is AED 1,850 + VAT and the other emirates are AED 2,150 + VAT.
+                   The word-mode info names both in one line; the ?price=950 board gets
+                   the doors' two exclusive toggles. The 1,950 the notes above still
+                   quote is the figure's HISTORY. -->
               <div class="pc-add-info">
-                <span class="pc-addon-label">Home blood sample collection · UAE</span>
-                <p>Anywhere in the UAE — home, office or hotel — <span class="pn-fig">AED 1,950 <small>+ VAT</small></span>.</p>
+                <span class="pc-addon-label">Home blood sample collection</span>
+                <p>Home, office or hotel — Dubai <span class="pn-fig">AED 1,850 <small>+ VAT</small></span>,
+                other emirates <span class="pn-fig">AED 2,150 <small>+ VAT</small></span>.</p>
               </div>
               <button type="button" class="pg-addon pc-var" id="pg-addon" aria-pressed="false">
                 <span class="pg-box" aria-hidden="true">✓</span>
-                <span class="pg-t"><span class="pc-addon-label">Optional add-on</span>Home blood sample collection · UAE
-                  <small>Anywhere in the UAE — home, office or hotel.</small>
+                <span class="pg-t"><span class="pc-addon-label">Optional add-on</span>Home blood sample collection · Dubai
+                  <small>Anywhere in Dubai — home, office or hotel.</small>
                 </span>
-                <span class="pg-p">AED 1,950 <small>+ VAT</small></span>
+                <span class="pg-p">AED 1,850 <small>+ VAT</small></span>
               </button>
-              <p class="pg-note">Patients outside the UAE can do their blood tests at any
-              laboratory at their destination.</p>
+              <button type="button" class="pg-addon pc-var" id="pg-addon2" aria-pressed="false">
+                <span class="pg-box" aria-hidden="true">✓</span>
+                <span class="pg-t"><span class="pc-addon-label">Optional add-on</span>Home blood sample collection · Other Emirates
+                  <small>Home, office or hotel — across the other six emirates.</small>
+                </span>
+                <span class="pg-p">AED 2,150 <small>+ VAT</small></span>
+              </button>
+              <!-- ⚠️ THE NOTE STAYS OUTSIDE THE BUTTONS — the 2026-08-24f accessibility
+                   fix holds. 2026-08-27 rewording, owner's copy via the user; the second
+                   sentence keeps the old note's standing promise that tests abroad are
+                   read too. -->
+              <p class="pg-note">For other countries — ask our team; we may have a partner
+              laboratory near you. Your blood tests can also be done at any laboratory at
+              your destination.</p>
             </div>
             <div class="pg-sum pc-var">
               <div class="pg-row"><span>Programme</span><span id="pg-sub">AED 950.00</span></div>
@@ -2274,7 +2293,7 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
                    is on, and it adds nothing. Two decimals — a money column lines
                    up or it does not. -->
               <div class="pg-row" id="pg-row-second"><span>Your second system</span><span>AED 0.00</span></div>
-              <div class="pg-row" id="pg-row-addon" hidden><span>Home blood sample collection</span><span id="pg-addon-amt">AED 1,950.00</span></div>
+              <div class="pg-row" id="pg-row-addon" hidden><span>Home blood sample collection</span><span id="pg-addon-amt">AED 1,850.00</span></div>
               <div class="pg-row"><span>VAT 5%</span><span id="pg-vat">AED 47.50</span></div>
               <div class="pg-row pg-row--total"><span>Total today</span><span id="pg-total">AED 997.50</span></div>
             </div>
@@ -2842,8 +2861,11 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
   {
     const tiles = [...document.querySelectorAll(".sys-tile")];
     const NAMES = { gut: "Gut Health", energy: "Energy" };
-    const BASE = 950, ADDON = 1950, VAT = .05;
-    let addon = false;
+    /* ⚠️ THE COLLECTION SPLIT 2026-08-27 — the owner's correction, relayed by the user:
+       Dubai 1,850 + VAT, other emirates 2,150 + VAT, two exclusive toggles (a reader is
+       in one place). Board-only sums, like everything here. */
+    const BASE = 950, VAT = .05, ADDONS = { dubai: 1850, uae: 2150 };
+    let addon = null;   /* 'dubai' | 'uae' | null */
     const money = n => "AED " + n.toLocaleString("en-US", {minimumFractionDigits:2, maximumFractionDigits:2});
     const el = id => document.getElementById(id);
     const picked = () => tiles.filter(t => t.getAttribute("aria-pressed") === "true")
@@ -2859,13 +2881,15 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
       if (r) r.innerHTML = "Hormone care with " +
         (on.length === 2 ? "<b>Gut Health</b> and <b>Energy</b>" : "<b>" + NAMES[on[0]] + "</b>") + ".";
       if (el("pg-row-second")) el("pg-row-second").hidden = on.length < 2;
-      const sub = BASE + (addon ? ADDON : 0);
+      const amt = addon ? ADDONS[addon] : 0;
+      const sub = BASE + amt;
       if (el("pg-sub"))       el("pg-sub").textContent       = money(BASE);
       if (el("pg-row-addon")) el("pg-row-addon").hidden      = !addon;
-      if (el("pg-addon-amt")) el("pg-addon-amt").textContent = money(ADDON);
+      if (el("pg-addon-amt")) el("pg-addon-amt").textContent = money(amt || ADDONS.dubai);
       if (el("pg-vat"))       el("pg-vat").textContent       = money(sub * VAT);
       if (el("pg-total"))     el("pg-total").textContent     = money(sub + sub * VAT);
-      if (el("pg-addon"))     el("pg-addon").setAttribute("aria-pressed", String(addon));
+      if (el("pg-addon"))     el("pg-addon").setAttribute("aria-pressed", String(addon === "dubai"));
+      if (el("pg-addon2"))    el("pg-addon2").setAttribute("aria-pressed", String(addon === "uae"));
     }
     tiles.forEach(t => t.addEventListener("click", () => {
       const on = t.getAttribute("aria-pressed") === "true";
@@ -2873,8 +2897,10 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
       t.setAttribute("aria-pressed", String(!on));
       sync();
     }));
-    const a = el("pg-addon");
-    if (a) a.addEventListener("click", () => { addon = !addon; sync(); });
+    [["pg-addon", "dubai"], ["pg-addon2", "uae"]].forEach(([id, key]) => {
+      const b = el(id);
+      if (b) b.addEventListener("click", () => { addon = (addon === key ? null : key); sync(); });
+    });
     if (tiles.length) sync();
   }
 

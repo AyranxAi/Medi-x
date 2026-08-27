@@ -518,8 +518,13 @@ const run = async () => {
      p1.stepOrder.indexOf('Your peptides arrive') < p1.stepOrder.indexOf('Aftercare'), true);
   is('10a six included lines', p1.incl, 6);
   const copy = await page.evaluate(() => document.querySelector('.pxd-body').textContent);
-  has('11 the collection is a team at your home, not a kit', copy, 'comes to your home');
-  has('11g at his real figure, not my placeholder', copy, 'AED 1,950');
+  /* ⚠️ 11's NEEDLE FOLLOWED THE COPY, TWICE. "comes to your home" died with his 2026-08-24
+     rewrite ("Our team arrives to collect…") and the check had been failing since; the
+     figure split on 2026-08-27 (owner's correction: 1,850 Dubai / 2,150 other emirates,
+     two exclusive toggles), so 11g pins the Dubai figure and 11i the other-emirates one. */
+  has('11 the collection is a team at your home, not a kit', copy, 'Our team arrives');
+  has('11g at his real figure, not my placeholder', copy, 'AED 1,850');
+  has('11i and the other-emirates figure beside it', copy, 'AED 2,150');
   is('11h and nothing on the page is marked tbc', /price tbc/i.test(copy), false);
   has('11a the assessment is online', copy, 'complete online');
   has('11b the read is same or next day', copy, 'same or next day');
@@ -553,7 +558,9 @@ const run = async () => {
   const p2 = await page.evaluate(() => ({
     total: document.querySelector('#pg-total').textContent.trim()
   }));
-  is('12 the add-on moves the total', p2.total, 'AED 3,255.00');
+  /* ⚠️ THE DUBAI FIGURE since 2026-08-27 (owner's correction: 1,850 Dubai / 2,150
+     other emirates, two exclusive toggles). #pg-addon is the Dubai box. */
+  is('12 the add-on moves the total', p2.total, 'AED 3,150.00');
   await page.click('#pg-addon');
   await page.waitForTimeout(300);
   is('12c and back again',
@@ -569,11 +576,13 @@ const run = async () => {
      panel is a dispute after payment, and it is exactly the kind of fault that survives
      review because both numbers look right on their own screen. */
 
-  /* ⚠️ NOT A CHECKOUT: close, the one add-on, Start. Every extra control in there
-     is another chance to hesitate at the last moment before payment. */
+  /* ⚠️ NOT A CHECKOUT: close, the add-ons, Start. Every extra control in there
+     is another chance to hesitate at the last moment before payment.
+     ⚠️ FOUR SINCE 2026-08-27 — the collection split into two exclusive toggles
+     (Dubai / other emirates), so the one add-on became two. Still no checkout. */
   const controls = await page.evaluate(() =>
     document.querySelectorAll('.pxd-panel button, .pxd-panel a').length);
-  is('13 the panel carries three controls', controls, 3);
+  is('13 the panel carries four controls', controls, 4);
 
   /* ⚠️ HIS "the cards are not swipeable". A fixed overlay's inner scroller chains
      its drag to the locked body unless told not to; assert the panel is a real

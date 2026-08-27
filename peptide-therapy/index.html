@@ -3015,9 +3015,16 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
 
       <div class="pg-blk">
         <div class="pg-h"><span>Add now</span></div>
+        <!-- ⚠️ ONE COLLECTION BECAME TWO ON 2026-08-27 — the owner's correction, relayed
+             by the user, the same day it landed on the three door pages: Dubai is
+             AED 1,850 + VAT and the other emirates are AED 2,150 + VAT, each in its own
+             box, mutually exclusive in the script because a reader is in one place.
+             The 1,950 the notes above still quote is the figure's HISTORY. His long
+             2026-08-24 sentence stays on the Dubai box, scoped to Dubai; the second box
+             takes the doors' short line rather than repeating it. -->
         <button type="button" class="pg-addon" id="pg-addon" aria-pressed="false">
           <span class="pg-box" aria-hidden="true">✓</span>
-          <span class="pg-t">Home blood sample collection · UAE
+          <span class="pg-t">Home blood sample collection · Dubai
             <!-- ⚠️ HIS COPY, 2026-08-24, AND IT IS TWO SENTENCES WHERE THERE WAS ONE — inside the
             UAE and outside it are now separate lines, because they are separate offers.
             The spaced hyphens around "home | office | hotel" became em dashes, the
@@ -3028,13 +3035,24 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
             ⚠️ THE SECOND SENTENCE LEFT THIS BUTTON ON 2026-08-24f — it is the `.pg-note`
             below, outside the <button>. See the stylesheet at `.pg-note` for why. -->
             <small>Our team arrives to collect your required blood test sample anywhere in
-            the UAE — home | office | hotel — and provides you with the results at the
+            Dubai — home | office | hotel — and provides you with the results at the
             earliest.</small>
         </span>
-          <span class="pg-p">AED 1,950 <small>+ VAT</small></span>
+          <span class="pg-p">AED 1,850 <small>+ VAT</small></span>
         </button>
-        <p class="pg-note">Patients outside the UAE can do their blood tests at any
-        laboratory at their destination.</p>
+        <button type="button" class="pg-addon" id="pg-addon2" aria-pressed="false">
+          <span class="pg-box" aria-hidden="true">✓</span>
+          <span class="pg-t">Home blood sample collection · Other Emirates
+            <small>Home, office or hotel — across the other six emirates.</small>
+        </span>
+          <span class="pg-p">AED 2,150 <small>+ VAT</small></span>
+        </button>
+        <!-- ⚠️ THE NOTE STAYS OUTSIDE THE BUTTONS — the 2026-08-24f accessibility fix
+             holds. 2026-08-27 rewording, owner's copy via the user; the second sentence
+             keeps the old note's standing promise that tests abroad are read too. -->
+        <p class="pg-note">For other countries — ask our team; we may have a partner
+        laboratory near you. Your blood tests can also be done at any laboratory at
+        your destination.</p>
       </div>
 
       <div class="pg-blk pg-blk--soft">
@@ -3113,7 +3131,7 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
              numbers drop their fils put "AED 1,207.50" and "AED 3,255" in one column,
              which reads as a formatting fault rather than a total. -->
         <div class="pg-row"><span>Consultation</span><span id="pg-sub">AED 1,150.00</span></div>
-        <div class="pg-row" id="pg-row-addon" hidden><span>Home blood sample collection</span><span id="pg-addon-amt">AED 1,950.00</span></div>
+        <div class="pg-row" id="pg-row-addon" hidden><span>Home blood sample collection</span><span id="pg-addon-amt">AED 1,850.00</span></div>
         <div class="pg-row"><span>VAT 5%</span><span id="pg-vat">AED 57.50</span></div>
         <div class="pg-row pg-row--total"><span>Total today</span><span id="pg-total">AED 1,207.50</span></div>
       </div>
@@ -3158,7 +3176,8 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
        assertion would say so. `git show 9bd43af:peptide-therapy/index.html` has it whole.
        ⚠️ WHAT WAS IN IT IS NOT LOST — the excluded column's two facts are the only things
        here the panel did not already carry, and they are live in the programme panel:
-       diagnostics-and-home-collection is step 02 + the AED 1,950 add-on, and
+       diagnostics-and-home-collection is step 02 + the collection add-on (1,850 Dubai /
+       2,150 other emirates since 2026-08-27), and
        "prescriptions are personalised, priced before you pay" is the panel's own line.
        If either ever leaves the panel, THAT is when this content has actually gone.
        ⚠️⚠️ ITS GROUND DID NOT VANISH WITH IT — IT MOVED. This section was the IVORY BEAT
@@ -4766,9 +4785,14 @@ try{
      ⚠️ IT WAS THE RIGHT THING TO KEEP ASKING ABOUT. A base read as inclusive understates
      every total by 5%, the error only surfaces at the moment money is taken, and it is
      precisely what a customer disputes after paying.
-     ⚠️ AED 1,950 IS HIS FIGURE, replacing the 350 I had invented. */
-  var BASE = 1150, ADDON = 1950, VAT = 0.05;
-  var addon = false;
+     ⚠️ AED 1,950 IS HIS FIGURE, replacing the 350 I had invented.
+     ⚠️⚠️ SUPERSEDED 2026-08-27 — the owner's correction, relayed by the user, the same
+     day it landed on the three door pages: AED 1,850 + VAT in DUBAI and AED 2,150 + VAT
+     in the OTHER EMIRATES, two toggles, mutually exclusive because a reader is in one
+     place. New sums: 1,150 → 57.50 → 1,207.50 alone; with Dubai 3,000 → 150.00 →
+     3,150.00; with the other emirates 3,300 → 165.00 → 3,465.00. */
+  var BASE = 1150, VAT = 0.05, ADDONS = { dubai: 1850, uae: 2150 };
+  var addon = null;   /* 'dubai' | 'uae' | null — the toggles are exclusive: one place */
 
   /* ⚠️ ALWAYS TWO DECIMALS IN THE SUMMARY, even when the figure is whole. Letting
      round numbers drop their fils put "AED 1,207.50" and "AED 3,255" in the same
@@ -4802,18 +4826,21 @@ try{
        against the word Consultation, when 1,950 of it is the nurse. So the collection
        gets its own row, shown only when it is actually being bought. VAT and the total
        still work off `sub`, so the arithmetic he confirmed is untouched. */
-    var sub = BASE + (addon ? ADDON : 0), vat = sub * VAT;
+    var amt = addon ? ADDONS[addon] : 0;
+    var sub = BASE + amt, vat = sub * VAT;
     document.getElementById("pg-sub").textContent   = money(BASE);
     var arow = document.getElementById("pg-row-addon");
     if (arow) {
       arow.hidden = !addon;
       var aamt = document.getElementById("pg-addon-amt");
-      if (aamt) aamt.textContent = money(ADDON);
+      if (aamt) aamt.textContent = money(amt || ADDONS.dubai);
     }
     document.getElementById("pg-vat").textContent   = money(vat);
     document.getElementById("pg-total").textContent = money(sub + vat);
     var a = document.getElementById("pg-addon");
-    if (a) a.setAttribute("aria-pressed", addon);
+    if (a) a.setAttribute("aria-pressed", String(addon === "dubai"));
+    var a2 = document.getElementById("pg-addon2");
+    if (a2) a2.setAttribute("aria-pressed", String(addon === "uae"));
   }
   /* ⚠️⚠️ THIS FUNCTION READS AND NO LONGER WRITES — round 18, and it is the whole point
      of the seam. Until the ring landed, this script kept the chosen goals in an array and
@@ -4866,7 +4893,8 @@ try{
   document.addEventListener("pathways:change", sync);
 
   document.addEventListener("click", function(e){
-    if (e.target.closest("#pg-addon")){ addon = !addon; return syncPanel(); }
+    if (e.target.closest("#pg-addon")){ addon = (addon === "dubai" ? null : "dubai"); return syncPanel(); }
+    if (e.target.closest("#pg-addon2")){ addon = (addon === "uae" ? null : "uae"); return syncPanel(); }
     if (e.target.closest("#px-tray-go")){
       var tpl = document.getElementById("prog-panel");
       if (tpl && window.__openPxd){

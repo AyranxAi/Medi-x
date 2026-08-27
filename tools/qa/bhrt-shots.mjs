@@ -212,8 +212,10 @@ for (const [w, h, tag] of [[1440, 900, 'd'], [390, 844, 'p']]) {
     total: document.getElementById('pg-total').textContent,
     pressed: document.getElementById('pg-addon').getAttribute('aria-pressed'),
   }));
-  ok(money2.row && money2.vat === 'AED 145.00' && money2.total === 'AED 3,045.00' && money2.pressed === 'true',
-     'add-on: row shown, 145.00 VAT, 3,045.00 total', `${money2.vat} ${money2.total}`);
+  /* ⚠️ THE DUBAI FIGURE since 2026-08-27 (owner's correction: 1,850 Dubai / 2,150
+     other emirates, two exclusive toggles). #pg-addon is the Dubai box. */
+  ok(money2.row && money2.vat === 'AED 140.00' && money2.total === 'AED 2,940.00' && money2.pressed === 'true',
+     'add-on: row shown, 140.00 VAT, 2,940.00 total', `${money2.vat} ${money2.total}`);
 
   /* the flip — symptom → answer in place */
   if (HAS_DEVICE) {

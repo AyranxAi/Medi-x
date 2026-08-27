@@ -275,7 +275,9 @@ const ok = (cond, msg) => { console.log((cond ? '  ✓ ' : '  ✗ ') + msg); if 
     return { row: !document.getElementById('pg-row-addon').hidden,
              total: document.getElementById('pg-total').textContent };
   });
-  ok(addon.row && addon.total === 'AED 3,045.00', `collection ticks in live (${addon.total})`);
+  /* ⚠️ THE DUBAI FIGURE since 2026-08-27 (owner's correction: 1,850 Dubai / 2,150
+     other emirates, two exclusive toggles). #pg-addon is the Dubai box. */
+  ok(addon.row && addon.total === 'AED 2,940.00', `collection ticks in live (${addon.total})`);
   if (SHOTS) {
     await page.evaluate(() => document.getElementById('cards-grid').scrollIntoView({ behavior: 'instant' }));
     await page.waitForTimeout(600);

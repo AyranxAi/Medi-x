@@ -131,8 +131,9 @@
      finally looks like its orb without being the colour of its orb.
      ⚠️ THE ACCENT GOLD IS THE ORB'S OWN, AND IT IS BRIGHTER THAN THE ESTATE'S — #DAAF63,
      measured off the artwork (its p50). It dresses the five DARK-ground accents only:
-     the preloader ✦, .turn .chapter-mark, .turn-quote .gold, .turn-list .star and
-     .scene-beat.gold. ⚠️ --gold #C2A05E IS UNCHANGED and still dresses every LIGHT-ground
+     the preloader ✦ and .scene-beat.gold. (It dressed three more — .turn's chapter
+     mark, quote accent and list stars — until 02 · The correction was removed on
+     2026-08-28e; those live on in the archived region.) ⚠️ --gold #C2A05E IS UNCHANGED and still dresses every LIGHT-ground
      accent, because a brighter gold on ivory is a fainter line, not a richer one. The
      rule this page now follows: THE GOLD BRIGHTENS WHERE THE GROUND IS DARK.
      ⚠️ THE DARKS ARE LIT RATHER THAN FLAT — the scene glow became a real amber bloom
@@ -546,65 +547,12 @@ section{position:relative}
 .signals-close strong{font-weight:500;color:var(--burgundy)}
 
 /* ─────────────────────────── 02 · THE TURN (dark) ─────────────────────────── */
-/* ══ THE BAND IS A WARM NEAR-BLACK SINCE 2026-08-28d — black & gold. var(--burgundy)
-   holds #241D12 on this page (the token block carries the argument), so the band moved
-   WITH the token, exactly the way the round-14 restoration below was designed to work.
-   ⚠️ THE ACCENTS ON IT BRIGHTENED RATHER THAN HELD: the champagne #C2A05E became the
-   orb's own #DAAF63, because the ground it stands on went from L* 21.9 to L* 11.6 and a
-   solved-for-5.00:1 value is answering a question that is no longer being asked. It
-   measures 8.17:1 now and the band reads as gold on black instead of gold on brown. The
-   ivory body carries 15.59. The static-twin rule below is UNCHANGED and was honoured:
-   the stage took the same near-black in the same commit, so both paths show one grade.
-   ══ THE BAND IS BURGUNDY AGAIN — round 14 (2026-08-16), the plum reversal.
-   ⚠️ THIS BAND IS SECTION 3'S STATIC TWIN — it is what a reduced-motion or no-JS visitor
-   sees INSTEAD of the web scene (.scene-fallback). It has to hold whatever colour the
-   stage holds, or the accessibility path shows a different page from the animated one.
-   That rule is why it went cool WITH the stage on 2026-08-16 and why it comes back WITH it
-   now; it is the one thing about this band that must never be decided on its own.
-   ⚠️ THE COOL VALUES IT HELD, kept here because reversing a grade twice is cheaper than
-   re-deriving it, and the arithmetic behind each one is not obvious:
-     ground   --burgundy #5C1F31 → was #003A5F  (L* 21.86 → 23.18, C* 29.9 → 26.7, h 6°→267°)
-     accents  champagne  #C2A05E → was #95ABBF  (SOLVED not picked: the champagne carried
-                                    exactly 5.00:1 on the burgundy, so the steel was the
-                                    glacier family's chroma at whatever L* returned 5.00:1)
-     the glow --rose     #C79A92 → was #87A8C5  (L* 67.52 held)
-   ⚠️ THE GLOW LEFT THE ROSE ON 2026-08-28 — the gold door round. It is --gold #C2A05E
-   now, the rose's luminance twin (L* 67.59 against 67.52), so the .16 alpha carries the
-   same weight it always did. The row above stays as the record of the cool grade; a
-   future glacier round converts the GOLD at its own L*, not the rose.
-   ⚠️ THE CONTRAST THE WARM VALUES CARRY IS THE ONE THAT SHIPPED FOR ROUNDS 1–8 and it is
-   the better of the two: the champagne measures 5.00:1 on the burgundy against the steel's
-   4.66, and the band reads as a composition rather than as a quieter version of one.
-   ⚠️ --burgundy THE TOKEN WAS UNTOUCHED THROUGHOUT — it never took a temperature, which is
-   why this band could be restored by pointing at it again rather than by picking a colour.
-   It also dresses the preloader, ::selection, the FAQ marks, the × and the story dots, so
-   the preloader and this band finally agree again. */
-.turn{background:var(--burgundy);color:var(--ivory);overflow:hidden}
-.turn .chapter-mark{color:#DAAF63}
-.turn-quote{
-  font-family:var(--quote);font-weight:400;
-  font-size:clamp(30px,4.4vw,60px);line-height:1.22;color:var(--ivory);max-width:16em;
-}
-.turn-quote .gold{color:#DAAF63} /* the solved accent — see the .turn note */
-.turn-cols{display:grid;grid-template-columns:1fr 1fr;gap:clamp(36px,5vw,90px);margin-top:clamp(48px,7vh,84px)}
-/* the four ivory alphas below are the WARM ivory 250,247,241 again (round 14). The alphas
-   never moved across either grade — only the ink did — so body copy is back to the 7.60:1
-   it measured on the burgundy, from the 7.29 it measured on the slate. */
-.turn-cols p{font-size:clamp(15px,1.25vw,18px);font-weight:300;color:rgba(250,247,241,.78);line-height:1.85}
-.turn-cols p strong{font-weight:500;color:var(--ivory)}
-.turn-list{list-style:none;display:flex;flex-direction:column}
-.turn-list li{
-  display:flex;align-items:baseline;gap:18px;padding:18px 0;border-bottom:1px solid rgba(250,247,241,.16);
-  font-family:var(--serif);font-size:clamp(19px,1.9vw,26px);color:var(--ivory);
-}
-.turn-list li:first-child{border-top:1px solid rgba(250,247,241,.16)}
-.turn-list .star{color:#DAAF63;font-size:.65em} /* the solved accent — see the .turn note */
-/* ⚠️ THE GLOW IS THE ORB'S GOLD SINCE 2026-08-28d — 218,175,99 is #DAAF63, the same
-   value the band's accents took, and its far stop is the band itself at alpha 0.
-   It brightened with them for the same reason: the ground underneath went to a
-   near-black, and a glow tuned for a plum ground disappears on one. */
-.turn-glow{position:absolute;right:-18vw;top:-20vh;width:60vw;height:60vw;border-radius:50%;
-  background:radial-gradient(circle,rgba(218,175,99,.16) 0%,rgba(36,29,18,0) 62%);pointer-events:none}
+/* ⚠️ THE .turn REGION WENT WITH ITS SECTION — 2026-08-28e. Its rules matched nothing
+   once the markup left, so they are kept WITH the section they dress, in
+   archive/testosterone-top-up-sections/02-the-correction.css, rather than left here.
+   ⚠️ THE ONE THING A RESTORER MUST KNOW: that region carried the round-14 plum-reversal
+   record and the black-&-gold accent note, both of which reason about values that live
+   in the TOKEN BLOCK, not in the region. Read the token block first. */
 
 /* ⚠️ .link-arrow IS NOT ON THIS PAGE — it is the sister page's "go and read"
    material, and nothing here routes anywhere yet (see the 04 note). The day the
@@ -2310,7 +2258,7 @@ html.js-scene{--glass-fill:rgba(30,24,17,.45);--glass-hi:rgba(30,24,17,.58);
 
 /* ─────────────────────────── RESPONSIVE ─────────────────────────── */
 @media (max-width:980px){
-  .turn-cols{grid-template-columns:1fr}
+  /* .turn-cols went with 02 · The correction, 2026-08-28e (see the archive) */
   .story-rail{grid-template-columns:1fr}
   .faq-grid{grid-template-columns:1fr}
   .faq-side{position:static}
@@ -2607,39 +2555,24 @@ html.js-scene{--glass-fill:rgba(30,24,17,.45);--glass-hi:rgba(30,24,17,.58);
         </div>
       </section>
 
-      <section class="turn sec-pad">
-        <div class="turn-glow" aria-hidden="true"></div>
-        <div class="wrap">
-          <p class="chapter-mark" data-reveal>02 · THE CORRECTION</p>
-          <p class="turn-quote" style="margin-top:30px" data-reveal>
-            This isn't about becoming someone else.
-            <span class="gold">It's about getting back to yourself.</span>
-          </p>
-          <div class="turn-cols">
-            <!-- The quote above is the PARENT page's own approved turn — inherited
-                 verbatim, because this page is that page's door 1 and the promise is
-                 the same promise. The paragraph below is draft in his register;
-                 "identical to the ones your body already makes" is the estate's
-                 approved BHRT definition. -->
-            <!-- "evidence-based customised Testosterone Replacement Therapy (TRT) for
-                 men… ensuring safe, effective, and medically supervised care" is the
-                 client's own line, recovered from medi-gyn.com; this paragraph is draft
-                 written to sit under it. -->
-            <p data-reveal>
-              A <strong>Testosterone Top Up</strong> replenishes what has slipped — dosed
-              from your own blood work, into your range rather than past it, and reviewed
-              on the markers that keep it safe.
-              <strong>Personalised, evidence-based, medically supervised.</strong>
-            </p>
-            <ul class="turn-list">
-              <li data-reveal><span class="star">✦</span> Energy that lasts the day</li>
-              <li data-reveal><span class="star">✦</span> Strength the gym answers</li>
-              <li data-reveal><span class="star">✦</span> Drive — and interest — back</li>
-              <li data-reveal><span class="star">✦</span> Feeling like <i>you</i> — again</li>
-            </ul>
-          </div>
-        </div>
-      </section>
+      <!-- ⚠️ "02 · THE CORRECTION" WAS REMOVED HERE — 2026-08-28e, his call:
+           "this is not approved … remove it". It was never approved, and the comment
+           that shipped with it claimed it was: it said the quote was the PARENT page's
+           "approved turn — inherited verbatim". It was not. /hormone-balancing/ reads
+           "02 · THE TURN" over "This is not the end of feeling like yourself. It's the
+           beginning of getting yourself back." Both the chapter name and the quote here
+           were rewrites, present in no other file and in no earlier commit.
+           ⚠️ IT LIVED INSIDE .scene-fallback, so with JS on it never rendered at all —
+           only no-JS and reduced-motion visitors ever saw it. That is also why it kept
+           appearing in review screenshots: ?probe=1 disables the scene and shows this
+           fallback, so the whole review set was photographing a state most visitors
+           never reach. Shoot the real page as well as the probe page.
+           ⚠️ WHAT THE ACCESSIBILITY PATH LOSES: the fallback now runs .signals alone,
+           so a reduced-motion reader gets the symptom chips and goes straight to the
+           programme. The scene's argument — decline is normal, it is measurable, it is
+           correctable — is made to them nowhere. Flagged, not argued.
+           Archived byte-for-byte, restorable by paste, in
+           archive/testosterone-top-up-sections/02-the-correction.{html,css}. -->
     </div>
   </div>
 
@@ -3851,7 +3784,10 @@ html.js-scene{--glass-fill:rgba(30,24,17,.45);--glass-hi:rgba(30,24,17,.58);
 
   /* big statement: split-line rise — after fonts load, so lines break on the real faces */
   document.fonts.ready.then(() => {
-    document.querySelectorAll(".hl, .turn-quote").forEach(el => {
+    /* ⚠️ .turn-quote dropped from this list 2026-08-28e — its section is archived.
+     Put it back if 02 · The correction is ever restored, or its headline lands
+     without the split-line rise every other big statement gets. */
+    document.querySelectorAll(".hl").forEach(el => {
       try{
         const split = new SplitText(el, {type:"lines", linesClass:"sline"});
         gsap.set(split.lines, {overflow:"hidden"});

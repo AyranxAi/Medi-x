@@ -1,0 +1,59 @@
+/* ══ THE BAND IS A WARM NEAR-BLACK SINCE 2026-08-28d — black & gold. var(--burgundy)
+   holds #241D12 on this page (the token block carries the argument), so the band moved
+   WITH the token, exactly the way the round-14 restoration below was designed to work.
+   ⚠️ THE ACCENTS ON IT BRIGHTENED RATHER THAN HELD: the champagne #C2A05E became the
+   orb's own #DAAF63, because the ground it stands on went from L* 21.9 to L* 11.6 and a
+   solved-for-5.00:1 value is answering a question that is no longer being asked. It
+   measures 8.17:1 now and the band reads as gold on black instead of gold on brown. The
+   ivory body carries 15.59. The static-twin rule below is UNCHANGED and was honoured:
+   the stage took the same near-black in the same commit, so both paths show one grade.
+   ══ THE BAND IS BURGUNDY AGAIN — round 14 (2026-08-16), the plum reversal.
+   ⚠️ THIS BAND IS SECTION 3'S STATIC TWIN — it is what a reduced-motion or no-JS visitor
+   sees INSTEAD of the web scene (.scene-fallback). It has to hold whatever colour the
+   stage holds, or the accessibility path shows a different page from the animated one.
+   That rule is why it went cool WITH the stage on 2026-08-16 and why it comes back WITH it
+   now; it is the one thing about this band that must never be decided on its own.
+   ⚠️ THE COOL VALUES IT HELD, kept here because reversing a grade twice is cheaper than
+   re-deriving it, and the arithmetic behind each one is not obvious:
+     ground   --burgundy #5C1F31 → was #003A5F  (L* 21.86 → 23.18, C* 29.9 → 26.7, h 6°→267°)
+     accents  champagne  #C2A05E → was #95ABBF  (SOLVED not picked: the champagne carried
+                                    exactly 5.00:1 on the burgundy, so the steel was the
+                                    glacier family's chroma at whatever L* returned 5.00:1)
+     the glow --rose     #C79A92 → was #87A8C5  (L* 67.52 held)
+   ⚠️ THE GLOW LEFT THE ROSE ON 2026-08-28 — the gold door round. It is --gold #C2A05E
+   now, the rose's luminance twin (L* 67.59 against 67.52), so the .16 alpha carries the
+   same weight it always did. The row above stays as the record of the cool grade; a
+   future glacier round converts the GOLD at its own L*, not the rose.
+   ⚠️ THE CONTRAST THE WARM VALUES CARRY IS THE ONE THAT SHIPPED FOR ROUNDS 1–8 and it is
+   the better of the two: the champagne measures 5.00:1 on the burgundy against the steel's
+   4.66, and the band reads as a composition rather than as a quieter version of one.
+   ⚠️ --burgundy THE TOKEN WAS UNTOUCHED THROUGHOUT — it never took a temperature, which is
+   why this band could be restored by pointing at it again rather than by picking a colour.
+   It also dresses the preloader, ::selection, the FAQ marks, the × and the story dots, so
+   the preloader and this band finally agree again. */
+.turn{background:var(--burgundy);color:var(--ivory);overflow:hidden}
+.turn .chapter-mark{color:#DAAF63}
+.turn-quote{
+  font-family:var(--quote);font-weight:400;
+  font-size:clamp(30px,4.4vw,60px);line-height:1.22;color:var(--ivory);max-width:16em;
+}
+.turn-quote .gold{color:#DAAF63} /* the solved accent — see the .turn note */
+.turn-cols{display:grid;grid-template-columns:1fr 1fr;gap:clamp(36px,5vw,90px);margin-top:clamp(48px,7vh,84px)}
+/* the four ivory alphas below are the WARM ivory 250,247,241 again (round 14). The alphas
+   never moved across either grade — only the ink did — so body copy is back to the 7.60:1
+   it measured on the burgundy, from the 7.29 it measured on the slate. */
+.turn-cols p{font-size:clamp(15px,1.25vw,18px);font-weight:300;color:rgba(250,247,241,.78);line-height:1.85}
+.turn-cols p strong{font-weight:500;color:var(--ivory)}
+.turn-list{list-style:none;display:flex;flex-direction:column}
+.turn-list li{
+  display:flex;align-items:baseline;gap:18px;padding:18px 0;border-bottom:1px solid rgba(250,247,241,.16);
+  font-family:var(--serif);font-size:clamp(19px,1.9vw,26px);color:var(--ivory);
+}
+.turn-list li:first-child{border-top:1px solid rgba(250,247,241,.16)}
+.turn-list .star{color:#DAAF63;font-size:.65em} /* the solved accent — see the .turn note */
+/* ⚠️ THE GLOW IS THE ORB'S GOLD SINCE 2026-08-28d — 218,175,99 is #DAAF63, the same
+   value the band's accents took, and its far stop is the band itself at alpha 0.
+   It brightened with them for the same reason: the ground underneath went to a
+   near-black, and a glow tuned for a plum ground disappears on one. */
+.turn-glow{position:absolute;right:-18vw;top:-20vh;width:60vw;height:60vw;border-radius:50%;
+  background:radial-gradient(circle,rgba(218,175,99,.16) 0%,rgba(36,29,18,0) 62%);pointer-events:none}

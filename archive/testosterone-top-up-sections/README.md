@@ -92,3 +92,56 @@ Nothing outside these chapters used `.ledger-*`, `.lg-*` or `.mk-*`, no navigati
 **those are different things entirely** (peptide's retired section 06, and a lab page's
 included/excluded list) and neither was touched. That was checked before the cut, which is
 why the removal is these files, two harness flags and nothing else.
+
+---
+
+## `02 · THE CORRECTION` — removed 2026-08-28e
+
+**His call: _"this is not approved … remove it, double check please."_** It was double
+checked, and two things came back.
+
+### 1 · It was never approved, and the file claimed it was
+
+The comment shipping above the quote read: *"The quote above is the PARENT page's own
+approved turn — inherited verbatim."* Both halves are false:
+
+| | `/hormone-balancing/` (the approved one) | what shipped here |
+|---|---|---|
+| chapter | `02 · THE TURN` | `02 · THE CORRECTION` |
+| quote | "This is not the end of feeling like yourself. It's the beginning of getting yourself back." | "This isn't about becoming someone else. It's about getting back to yourself." |
+
+The string appears in **no other file and in no earlier commit** — `git log -S` returns
+only the commit that created this page. It was written fresh, reworded from the approved
+line, and labelled as inherited. ⚠️ **A comment is not provenance. Check `git log -S`
+before trusting a claim that copy is inherited or approved.**
+
+### 2 · ⚠️⚠️ IT WAS INSIDE `.scene-fallback`, SO WITH JS ON IT NEVER RENDERED
+
+`.scene-fallback` is `display:none` under `html.js-scene`, so this band — and `.signals`
+above it — only ever reached **no-JS and reduced-motion visitors**. Verified on the live
+page: with JS on, `.turn` computes to `offsetHeight 0` and `visible false`.
+
+**This is also why it kept turning up in review screenshots.** `?probe=1` makes the scene
+script return early, which means `js-scene` is never set and the fallback renders — so a
+harness-style screenshot photographs a page state most visitors never reach.
+**Shoot the real page as well as the probe page.**
+
+### What the accessibility path loses
+
+The fallback now runs `.signals` alone: a reduced-motion reader gets the symptom chips
+and goes straight to the programme. The scene's argument — the decline is normal, it is
+measurable, it is correctable — is made to them **nowhere**. Flagged, not argued.
+
+### Restoring
+
+Two files, both byte-for-byte as served:
+
+- `02-the-correction.html` → paste back inside `<div class="scene-fallback">`,
+  immediately after the `.signals` section's `</section>` (the breadcrumb in
+  `index.html` marks the exact seam).
+- `02-the-correction.css` → paste back above the `.link-arrow` note in the stylesheet.
+
+⚠️ The CSS region carries the round-14 plum-reversal record and the black-&-gold accent
+note, both of which reason about values that live in the **token block**, not in the
+region. Read the token block first. ⚠️ If it is restored, the copy question is still
+open — restore the parent's approved wording, or get this wording approved.

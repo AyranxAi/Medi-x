@@ -110,40 +110,68 @@
      than the pairing he approved, which is the composition he asked to be changed. */
   --ps-ground:#F0EBE7;
   --line:#DED4C2;
-  /* ⚠️⚠️ THE GOLD GRADE — 2026-08-28c, HIS CALL, PUT TO HIM AS THREE QUESTIONS AND
-     ANSWERED: "what i mean by yellow is yellow optimize … there will no longer be a
-     burgundy on the animation and the color pallet switch from ink to the yellow …
-     i want this to feel like itself because its its own service". Scope confirmed:
-     EVERYTHING DARK leaves the plum/burgundy family for the champagne family — the
-     stage, the band, the preloader, both inks. The CTAs and the wordmark KEEP the one
-     red (his answer), and the yellow is the estate's champagne, not a sunnier one.
-     ⚠️ THE METHOD IS THE GLACIER GRADE'S OWN, RUN TOWARD GOLD: every value converted
-     to CIE LCh, L* AND C* HELD, hue rotated to the champagne axis (h 81.7°, the mean
-     of --gold 83.8° and --gold-deep 79.7°). Holding L* holds relative luminance
-     EXACTLY, so every measured contrast pairing on the page survives to the second
-     decimal — verified, not assumed: ivory on the band 11.58→11.60, champagne on the
-     band 5.004→5.009, ink on ivory 14.28→14.20, ink-soft on the dawn 5.50→5.48, the
-     ps-dot's #F6EFE4 10.84→10.86. The plum era's values, for a straight reversal:
-       --burgundy #5C1F31 (L* 21.86, C* 29.9)   --ink #2E2228 (L* 14.83, C* 7.2)
-       --ink-soft #6A585F                        stage/BG_A/GOLD_DEEP/STONE: see the
-                                                 scene script's constants note
+  /* ⚠️⚠️ BLACK & GOLD — 2026-08-28d, AND IT REPLACES THE GRADE OF THE SAME DAY.
+     28c rotated every dark surface into the champagne family at HELD L* and C*. It was
+     arithmetically perfect and it looked wrong, and his verdict is the rule worth
+     keeping: "this is more brown than gold … give me something more vibrant or similar
+     to this (darker is ok too)" — sent with the orb artwork itself.
+     ⚠️⚠️ WHY 28c COULD NEVER HAVE WORKED, AND IT IS COLORIMETRY, NOT TASTE. A large
+     field at a gold hue and a LOW lightness IS brown — that is what brown is. The orb
+     reads gold because it is light and luminous: sampled off
+     images/service-circle-testosterone-replacement-gold.webp, its whole chromatic body
+     sits at L* 39–93, and it contains no dark at all. Holding the plum's lightness while
+     rotating its hue therefore guaranteed mud, and it also inherited the plum's LOW
+     CHROMA — --ink came out at 35% of the saturation available at its lightness,
+     --ink-soft at 18%, BG_A at 46%. Muted gold at low lightness is the definition of
+     brown. No amount of hue-tuning fixes a dark field; the structure has to change.
+     ⚠️ SO THE STRUCTURE CHANGED: THE DARKS STOP BEING A COLOUR. They are a warm
+     near-black now (L* 10–12, chroma low ON PURPOSE — at this lightness chroma only
+     reads as brown), and ALL the gold moved into the accents, which sit ON the black
+     where gold actually reads as gold. That is the whole idea, and it is why this page
+     finally looks like its orb without being the colour of its orb.
+     ⚠️ THE ACCENT GOLD IS THE ORB'S OWN, AND IT IS BRIGHTER THAN THE ESTATE'S — #DAAF63,
+     measured off the artwork (its p50). It dresses the five DARK-ground accents only:
+     the preloader ✦, .turn .chapter-mark, .turn-quote .gold, .turn-list .star and
+     .scene-beat.gold. ⚠️ --gold #C2A05E IS UNCHANGED and still dresses every LIGHT-ground
+     accent, because a brighter gold on ivory is a fainter line, not a richer one. The
+     rule this page now follows: THE GOLD BRIGHTENS WHERE THE GROUND IS DARK.
+     ⚠️ THE DARKS ARE LIT RATHER THAN FLAT — the scene glow became a real amber bloom
+     (rgba(139,78,17,.45), the orb's own dark tone) instead of a near-black glow that did
+     nothing, and the turn glow brightened with the accents. A flat black field was the
+     other way this could have gone wrong.
+     ⚠️ MEASURED, ALL OF IT — nothing here is held-by-construction any more, so every
+     pairing was re-checked rather than inherited: --ink on ivory 16.45, on the dawn
+     14.62; --ink-soft 5.62 / 4.99; --gold-gloss on the dawn 4.73 (still the tightest on
+     the page); ivory on the band 15.59; the orb gold on the band 8.17; ivory on the
+     stage 17.39; the line on the RISEN ground 5.46.
+     ⚠️⚠️ THAT LAST NUMBER IS THE BUG THIS ROUND CAUGHT. The first cut of black-and-gold
+     brightened GOLD_DEEP with everything else — but GOLD_DEEP is the colour the scene
+     draws with once the ground has RISEN TO THE DAWN, so brightening it put a pale gold
+     line on a pale gold ground and the figure all but vanished (2.3:1, seen in a render,
+     not in a number). It is #8B4E11 now — the orb's own darkest chromatic tone, 5.46:1.
+     ⚠️ A DARK-GROUND GOLD AND A LIGHT-GROUND GOLD ARE TWO DIFFERENT DECISIONS and this
+     file now proves it twice: --gold vs #DAAF63 above, GOLD vs GOLD_DEEP in the script.
+     THE PLUM ERA'S VALUES, for a straight reversal:
+       --burgundy #5C1F31   --ink #2E2228   --ink-soft #6A585F
+       (28c's intermediate bronzes: #453103 / #2B251B / #645C4F — a closed dead end,
+        recorded only so nobody re-derives them thinking they were never tried)
      ⚠️ THE TOKEN NAMED --burgundy IS A FOSSIL ON THIS PAGE AND CANNOT BE RENAMED:
      the shared PS block references var(--burgundy) (.ps-dot[aria-current]) and its
      bytes are md5-locked across the three doors — the VALUE is the only reachable
-     lever, which is exactly why the grade is a token edit here where round 9's
-     glacier had to re-point rules. On this page the name means "the deep one".
+     lever. On this page the name means "the deep one", and it is now a near-black.
      ⚠️ WHAT DID NOT MOVE: --logo-red and --red-hover (the one-red rule, his explicit
-     answer), --rose (brand law, now unreferenced here but the estate's), every gold,
-     every light ground. The siblings are untouched — this grade is door 3's own. */
-  --burgundy:#453103;      /* the deep bronze — the champagne family at the wine's exact L* and C* */
+     answer — and they read BETTER against black than they did against plum), --rose
+     (brand law; the estate menu still uses it, see the .nav note), --gold and every
+     light ground bar the dawn. The siblings are untouched — this is door 3's own. */
+  --burgundy:#241D12;      /* the deep one — a warm near-black, not a colour. See above. */
   --rose:#C79A92;
   --logo-red:#8E2D3A;      /* the one red */
   --red-hover:#A33648;
   --gold:#C2A05E;          /* the accent role — gold again */
   --gold-deep:#8A6A34;
   --gold-tint:#F1E7D2;
-  --ink:#2B251B;           /* dark bronze — was the plum #2E2228; the gold grade, see above */
-  --ink-soft:#645C4F;
+  --ink:#1E1811;           /* warm near-black — body ink, the nav's old ground, the stage. See above. */
+  --ink-soft:#6E6152;
   --serif:"Playfair","Playfair Display",Didot,"Times New Roman",Georgia,serif;
   --sans:"MediGyn NOW",Jost,ui-sans-serif,system-ui,-apple-system,sans-serif;
   --accent:"MediGyn Megante",Optima,Georgia,serif;
@@ -157,7 +185,7 @@
   --quote-story:"Cormorant Garamond",Georgia,serif;
   /* ⚠️ THE DAWN, AS A TOKEN. This is the exact colour the scene's ground rises TO, and
      section 03 stands on it so the handoff has no seam.
-     ⚠️ IT MUST STAY EQUAL TO BG_B IN THE SCENE SCRIPT (`const BG_B=[244,233,211]`). Two
+     ⚠️ IT MUST STAY EQUAL TO BG_B IN THE SCENE SCRIPT (`const BG_B=[247,233,201]`). Two
      copies of one colour in two languages; there is no way to share them in a zero-build
      single file, so they are cross-referenced at both sites instead. Change one, change
      the other, or 03 grows a seam that is 2 RGB values wide and impossible to spot.
@@ -186,7 +214,11 @@
      the three dawn sections (.define, .docs, .faq) and the scene's risen ground stop
      wearing door 1's ROSE — inherited when this page was built from the sister's shell —
      and wear this door's gold.
-     ⚠️ #F4E9D3 IS DERIVED, NOT PICKED — the gold family at the rose dawn's exact weight
+     ⚠️ #F7E9C9 SINCE 2026-08-28d — the dawn was #F4E9D3 for one round; black & gold
+     re-sampled it off the orb itself (its p96) so the page's light gold and its dark
+     gold come from one artwork. The 28c derivation it replaced, kept because the
+     METHOD is still how a ground gets picked here:
+     ⚠️ #F4E9D3 WAS DERIVED, NOT PICKED — the gold family at the rose dawn's exact weight
      (L* 92.67 against 92.65; the mirror of /modern-menopause/'s --door-tint, which is
      "the rose lightened to the gold-tint's weight"). Because the luminance is held,
      EVERY measured pairing on the dawn survives unchanged: ink 12.68, ink-soft 5.50,
@@ -196,7 +228,7 @@
      ⚠️ A ROLLBACK IS FOUR SITES, ONE DECISION: this token back to #F6E7E1, BG_B back to
      [246,231,225] in the scene script (the cross-reference above), and the scene italics
      and the turn glow back to --rose. Reverting fewer than all four mixes the two doors. */
-  --dawn:#F4E9D3;          /* the gold dawn — a section ground, and BG_B's twin */
+  --dawn:#F7E9C9;          /* the gold dawn, off the orb — a section ground, BG_B's twin */
   /* ⚠️⚠️ THIS TOKEN WAS RETIRED AND RESTORED INSIDE ONE DAY (2026-08-17), and the round
      trip is the note. It was collapsed into --gold-deep when the page went to a single
      ivory ground — on ivory #8A6A34 measures 4.685 and clears the floor — and it came
@@ -301,8 +333,9 @@ img{max-width:100%}
 .progress{position:fixed;top:0;left:0;height:2px;width:100%;transform-origin:0 50%;transform:scaleX(0);background:var(--gold);z-index:200}
 
 /* ─────────────────────────── PRELOADER ─────────────────────────── */
-/* ⚠️ THE PRELOADER IS BRONZE SINCE 2026-08-28c — it rides var(--burgundy), which the gold
-   grade re-valued (his scope answer named the loading screen). The ivory mark and gold ✦
+/* ⚠️ THE PRELOADER IS A WARM NEAR-BLACK SINCE 2026-08-28d — it rides var(--burgundy),
+   which black & gold re-valued (his scope answer named the loading screen), and its ✦
+   brightened to the orb's #DAAF63 with the other dark-ground accents. The ivory mark and gold ✦
    keep their exact contrast because the ground's L* is held. ⚠️ FLAGGED, NOT FIXED: the
    FAVICON's ground is still the estate's A9/burgundy on every page including this one —
    the tab icon and this page's preloader no longer share a ground. Estate-wide asset,
@@ -312,7 +345,7 @@ img{max-width:100%}
 /* ⚠️ THE ✦ STAYS GOLD BY LITERAL — it is the favicon's shared spark on the same burgundy
    (now: on this page, the same BRONZE — see the preloader note above),
    and the one mark that must match across every page (HANDOVER round 7: "it stays"). */
-.preloader .mark .star{color:#C2A05E;font-size:.6em;vertical-align:.25em;padding:0 .18em}
+.preloader .mark .star{color:#DAAF63;font-size:.6em;vertical-align:.25em;padding:0 .18em}
 
 /* ─────────────────────────── HEADER — ported from the Medi✦X landing bar ─────────────────────────── */
 .hdr{
@@ -355,12 +388,12 @@ body.nav-open .hdr{background:transparent;border-bottom-color:transparent;backdr
   -webkit-appearance:none;appearance:none;padding:0;cursor:pointer;
   width:2.75rem;height:2.75rem;border-radius:999px;
   border:1px solid rgba(250,247,241,.6);
-  background:rgba(43,37,27,.45);color:var(--ivory);
+  background:rgba(30,24,17,.45);color:var(--ivory);
   backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
   display:grid;place-content:center;
   transition:background-color .3s var(--ease),border-color .3s var(--ease),color .3s var(--ease);
 }
-.globe:hover,.wapp:hover{border-color:var(--ivory);background:rgba(43,37,27,.6)}
+.globe:hover,.wapp:hover{border-color:var(--ivory);background:rgba(30,24,17,.6)}
 .globe svg{width:19px;height:19px}
 .wapp svg{width:16px;height:16px} /* 16 not 19: full-bleed trademark, optically level with the globe */
 .hdr--solid .globe,.hdr--solid .wapp{
@@ -372,13 +405,13 @@ body.nav-open .hdr{background:transparent;border-bottom-color:transparent;backdr
   -webkit-appearance:none;appearance:none;cursor:pointer;padding:0;
   width:2.75rem;height:2.75rem;border-radius:999px;
   border:1px solid rgba(250,247,241,.6);
-  background:rgba(43,37,27,.45);
+  background:rgba(30,24,17,.45);
   backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
   display:grid;place-content:center;gap:5px;
   justify-items:end; /* the short middle line sits flush right */
   transition:background-color .3s var(--ease),border-color .3s var(--ease);
 }
-.burger:hover{border-color:var(--ivory);background:rgba(43,37,27,.6)}
+.burger:hover{border-color:var(--ivory);background:rgba(30,24,17,.6)}
 .hdr--solid .burger{border-color:var(--logo-red);background:transparent;backdrop-filter:none;-webkit-backdrop-filter:none}
 .hdr--solid .burger:hover{border-color:var(--logo-red);background:var(--logo-red)}
 .hdr--solid .burger:hover span{background:var(--ivory)}
@@ -391,7 +424,7 @@ body.nav-open .hdr{background:transparent;border-bottom-color:transparent;backdr
 .burger span:nth-child(2){width:13px}
 .burger:hover span:nth-child(2){width:22px}
 body.nav-open .globe,body.nav-open .wapp,body.nav-open .burger{
-  border-color:rgba(250,247,241,.6);background:rgba(43,37,27,.45);color:var(--ivory);
+  border-color:rgba(250,247,241,.6);background:rgba(30,24,17,.45);color:var(--ivory);
   backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
 }
 body.nav-open .burger span{background:var(--ivory)}
@@ -405,7 +438,7 @@ body.nav-open{overflow:hidden}
 /* overlay menu — the SITE's six destinations, same as the landing page */
 .nav{
   position:fixed;inset:0;z-index:50;
-  background:var(--ink);
+  background:#2E2228;   /* PINNED — see the .nav note */
   display:flex;align-items:center;justify-content:flex-end;
   padding:6.5rem clamp(1.25rem,7vw,7rem) 3rem;
   opacity:0;visibility:hidden;
@@ -413,14 +446,23 @@ body.nav-open{overflow:hidden}
   overflow-y:auto;
 }
 body.nav-open .nav{opacity:1;visibility:visible}
-/* ⚠️ THE OVERLAY WEARS THE GRADE TOO — 2026-08-28c. Its ground is var(--ink), which is
-   bronze now, so the estate's rose radial (rgba(199,154,146,.22)) became the gold at the
-   rose's own weight, and the link hover follows below. The SIBLINGS keep the rose pair;
-   this page's menu had already left "identical estate chrome" the moment its ground
-   token moved, so the accents move with it rather than staining it pink. */
+/* ⚠️⚠️ THE MENU IS PINNED TO ESTATE CHROME AND DOES NOT WEAR THIS DOOR — 2026-08-28d,
+   put to him and recommended. 28c let the overlay follow var(--ink) and swapped its rose
+   accents for gold; that was reverted, and the reasoning is worth keeping because it is
+   the general rule for this estate: THE MENU IS NAVIGATION, NOT A PAGE. It is the one
+   surface a reader uses to LEAVE, it is byte-identical on all eight pages, and a menu
+   that changes colour depending on which page you opened it from reads as a bug rather
+   than as a theme — you would see it flip plum→gold→rose while moving between doors.
+   ⚠️ SO THE GROUND IS PINNED AS A LITERAL, #2E2228 — the ESTATE's ink, deliberately NOT
+   var(--ink), which on this page is now a near-black. This is the one place on the page
+   where a token was refused on purpose; without the pin the overlay would darken with
+   the body ink and drift from the siblings on its own. The rose radial and the rose
+   link hover below are the estate's and are restored with it.
+   ⚠️ IF THE OTHER DOORS EVER TAKE THEMES, THIS DECISION IS THE PRECEDENT: theme the
+   page, never the menu. Reversing it is this literal plus the two rose values. */
 .nav::before{
   content:"";position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(120% 90% at 88% 12%,rgba(194,160,94,.22),transparent 62%);
+  background:radial-gradient(120% 90% at 88% 12%,rgba(199,154,146,.22),transparent 62%);
 }
 .nav ol{list-style:none;margin:0;padding:0;position:relative;width:100%;max-width:46rem}
 .nav li{border-top:1px solid rgba(222,212,194,.14);opacity:0;transform:translateY(14px)}
@@ -437,7 +479,7 @@ body.nav-open .nav li{
   font-weight:500;line-height:1.25;letter-spacing:-.01em;
   transition:color .25s var(--ease),padding-left .35s var(--ease);
 }
-.nav a:hover{color:var(--gold);padding-left:.7rem} /* was --rose — the gold grade; same L*, 5.00:1 either way */
+.nav a:hover{color:var(--rose);padding-left:.7rem}
 .nav a em{
   font-style:normal;font-family:var(--sans);font-size:.6rem;font-weight:400;
   letter-spacing:.28em;color:var(--gold);opacity:.85;min-width:2.4em;
@@ -504,13 +546,15 @@ section{position:relative}
 .signals-close strong{font-weight:500;color:var(--burgundy)}
 
 /* ─────────────────────────── 02 · THE TURN (dark) ─────────────────────────── */
-/* ══ THE BAND IS BRONZE SINCE 2026-08-28c — the gold grade. var(--burgundy) holds
-   #453103 on this page now (the wine at its own L* and C*, rotated to the champagne
-   axis — the token block's note), so this band moved WITH the token, exactly the way
-   the round-14 restoration below was designed to work. The champagne accents did not
-   move and still carry their solved 5.00:1 (5.009 measured on the bronze); the ivory
-   body still carries 11.6. The static-twin rule below is UNCHANGED and was honoured:
-   the stage left the plum in the same commit, so both paths show one grade.
+/* ══ THE BAND IS A WARM NEAR-BLACK SINCE 2026-08-28d — black & gold. var(--burgundy)
+   holds #241D12 on this page (the token block carries the argument), so the band moved
+   WITH the token, exactly the way the round-14 restoration below was designed to work.
+   ⚠️ THE ACCENTS ON IT BRIGHTENED RATHER THAN HELD: the champagne #C2A05E became the
+   orb's own #DAAF63, because the ground it stands on went from L* 21.9 to L* 11.6 and a
+   solved-for-5.00:1 value is answering a question that is no longer being asked. It
+   measures 8.17:1 now and the band reads as gold on black instead of gold on brown. The
+   ivory body carries 15.59. The static-twin rule below is UNCHANGED and was honoured:
+   the stage took the same near-black in the same commit, so both paths show one grade.
    ══ THE BAND IS BURGUNDY AGAIN — round 14 (2026-08-16), the plum reversal.
    ⚠️ THIS BAND IS SECTION 3'S STATIC TWIN — it is what a reduced-motion or no-JS visitor
    sees INSTEAD of the web scene (.scene-fallback). It has to hold whatever colour the
@@ -536,12 +580,12 @@ section{position:relative}
    It also dresses the preloader, ::selection, the FAQ marks, the × and the story dots, so
    the preloader and this band finally agree again. */
 .turn{background:var(--burgundy);color:var(--ivory);overflow:hidden}
-.turn .chapter-mark{color:#C2A05E}
+.turn .chapter-mark{color:#DAAF63}
 .turn-quote{
   font-family:var(--quote);font-weight:400;
   font-size:clamp(30px,4.4vw,60px);line-height:1.22;color:var(--ivory);max-width:16em;
 }
-.turn-quote .gold{color:#C2A05E} /* the solved accent — see the .turn note */
+.turn-quote .gold{color:#DAAF63} /* the solved accent — see the .turn note */
 .turn-cols{display:grid;grid-template-columns:1fr 1fr;gap:clamp(36px,5vw,90px);margin-top:clamp(48px,7vh,84px)}
 /* the four ivory alphas below are the WARM ivory 250,247,241 again (round 14). The alphas
    never moved across either grade — only the ink did — so body copy is back to the 7.60:1
@@ -554,11 +598,13 @@ section{position:relative}
   font-family:var(--serif);font-size:clamp(19px,1.9vw,26px);color:var(--ivory);
 }
 .turn-list li:first-child{border-top:1px solid rgba(250,247,241,.16)}
-.turn-list .star{color:#C2A05E;font-size:.65em} /* the solved accent — see the .turn note */
-/* the glow is --gold at the rose's own weight since 2026-08-28 (the gold door round) —
-   see the cool-values record above. 194,160,94 IS --gold #C2A05E spelt in rgba. */
+.turn-list .star{color:#DAAF63;font-size:.65em} /* the solved accent — see the .turn note */
+/* ⚠️ THE GLOW IS THE ORB'S GOLD SINCE 2026-08-28d — 218,175,99 is #DAAF63, the same
+   value the band's accents took, and its far stop is the band itself at alpha 0.
+   It brightened with them for the same reason: the ground underneath went to a
+   near-black, and a glow tuned for a plum ground disappears on one. */
 .turn-glow{position:absolute;right:-18vw;top:-20vh;width:60vw;height:60vw;border-radius:50%;
-  background:radial-gradient(circle,rgba(194,160,94,.16) 0%,rgba(69,49,3,0) 62%);pointer-events:none}
+  background:radial-gradient(circle,rgba(218,175,99,.16) 0%,rgba(36,29,18,0) 62%);pointer-events:none}
 
 /* ⚠️ .link-arrow IS NOT ON THIS PAGE — it is the sister page's "go and read"
    material, and nothing here routes anywhere yet (see the 04 note). The day the
@@ -1421,7 +1467,7 @@ section{position:relative}
   opacity:0;transition:opacity .35s var(--ease)}
 .pxd[hidden]{display:none}
 .pxd.on{opacity:1}
-.pxd-scrim{position:absolute;inset:0;background:rgba(43,37,27,.55);
+.pxd-scrim{position:absolute;inset:0;background:rgba(30,24,17,.55);
   backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 .pxd-panel{position:relative;background:var(--ivory);border:1px solid var(--line);
   border-radius:2px;width:min(620px,100%);max-height:min(84svh,760px);overflow-y:auto;
@@ -1441,7 +1487,7 @@ section{position:relative}
      and data-lenis-prevent on the element keeps Lenis off it even if this page is
      ever given syncTouch (it is smoothWheel-only today). */
   overscroll-behavior:contain;touch-action:pan-y;-webkit-overflow-scrolling:touch;
-  padding:clamp(26px,3.6vw,46px);box-shadow:0 30px 80px rgba(17,11,2,.35);
+  padding:clamp(26px,3.6vw,46px);box-shadow:0 30px 80px rgba(13,9,2,.35);
   transform:translateY(12px);transition:transform .45s var(--ease)}
 .pxd.on .pxd-panel{transform:none}
 .pxd-x{position:absolute;top:14px;right:14px;width:38px;height:38px;flex:none;
@@ -1567,14 +1613,14 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
 .doc.no-photo .doc-mono{display:grid}
 .doc-info{
   position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;
-  border:1px solid rgba(250,247,241,.65);background:rgba(43,37,27,.38);
+  border:1px solid rgba(250,247,241,.65);background:rgba(30,24,17,.38);
   color:var(--ivory);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
   font-family:var(--serif);font-style:italic;font-size:18px;line-height:1;
   display:grid;place-content:center;
   transition:background .3s var(--ease),border-color .3s var(--ease),
     color .3s var(--ease);
 }
-.doc-info:hover,.doc-info:focus-visible{background:rgba(43,37,27,.62);border-color:var(--ivory)}
+.doc-info:hover,.doc-info:focus-visible{background:rgba(30,24,17,.62);border-color:var(--ivory)}
 .doc.no-photo .doc-info{border-color:var(--logo-red);background:transparent;color:var(--logo-red);backdrop-filter:none;-webkit-backdrop-filter:none}
 .doc.no-photo .doc-info:hover,.doc.no-photo .doc-info:focus-visible{background:var(--logo-red);color:var(--ivory)}
 .doc h3{
@@ -2123,14 +2169,15 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
    ⚠️ --ink WAS NEVER TOUCHED, on either grade. It is the page's TEXT ink and it dresses
    .scene-beat.light and .scene-title — type standing on the RISEN ground, exactly like
    every heading in every other chapter. */
-/* ⚠️ THE STAGE LEFT THE PLUM ON 2026-08-28c — the gold grade, his call ("no longer a
-   burgundy on the animation"). #2B251B is the plum #2E2228 at its own L* and C*, hue
-   rotated to the champagne axis — it MUST STAY EQUAL to --ink and to INK in the scene
-   script, exactly as the plum did. The round-14 record above still governs a return to
-   the cool grade; it converts from THESE values now. */
-.scene-stage{height:100svh;width:100%;position:relative;overflow:hidden;background:#2B251B;--scene-fg:var(--ivory)}
+/* ⚠️ THE STAGE IS A WARM NEAR-BLACK — 2026-08-28d, black & gold (the token block carries
+   the whole argument). #1E1811 MUST STAY EQUAL to --ink and to INK in the scene script,
+   exactly as the plum did before it. ⚠️ It is deliberately LOW CHROMA: at this lightness
+   chroma reads as brown, and the gold on this stage is carried by the line, the beads
+   and the accents, never by the ground. The round-14 record above still governs a return
+   to the cool grade; it converts from THESE values now. */
+.scene-stage{height:100svh;width:100%;position:relative;overflow:hidden;background:#1E1811;--scene-fg:var(--ivory)}
 .scene-glow{position:absolute;right:-22vw;top:-26vh;width:72vw;height:72vw;border-radius:50%;pointer-events:none;
-  background:radial-gradient(circle,rgba(69,49,3,.38) 0%,rgba(43,37,27,0) 62%)}
+  background:radial-gradient(circle,rgba(139,78,17,.45) 0%,rgba(30,24,17,0) 62%)}
 .scene-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 /* the payoff word — Megante at display size, the voice the chapter marks wear.
    ⚠️ MEGANTE, NOT PLAYFAIR, inherited from the sister scene with its reason: at
@@ -2156,7 +2203,7 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
    belt to that braces: it separates the glyph from the particle field either way. */
 .scene-beat{position:absolute;left:0;right:0;top:0;opacity:0;font-family:var(--serif);
   font-size:clamp(27px,3.5vw,49px);line-height:1.22;   /* his 1.16x, chosen in the figure room */
-  color:var(--ivory);text-shadow:0 1px 24px rgba(43,37,27,.62)}
+  color:var(--ivory);text-shadow:0 1px 24px rgba(30,24,17,.62)}
 .scene-beat.light{color:var(--ink);text-shadow:0 1px 24px rgba(250,247,241,.8)}
 /* ⚠️ THE ITALICS ARE --gold SINCE 2026-08-28 — the gold door round. They were --rose
    (back since round 14; before that #87A8C5, only ever the rose at its own lightness on
@@ -2181,7 +2228,7 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
    large-text floor but a visibly quieter voice — so round 9 cut #8FA5B8, the same steel at
    the champagne's weight, 6.46:1. Any future grade that moves --gold has to answer this
    measurement again, and a var() here would hide the question. */
-.scene-beat.gold{color:#C2A05E}
+.scene-beat.gold{color:#DAAF63}
 /* ══ THE SCENE CONTROLS — NEW 2026-08-11 ══════════════════════════════════════
    Skip, replay and step, at the foot of the pinned stage.
    ⚠️ THEY CROSS-FADE WITH "SCROLL TO LISTEN" RATHER THAN SITTING BESIDE IT. Both
@@ -2229,8 +2276,8 @@ html.js-scene .scene-ctrl{
      rest of the stage. The 2026-08-16 cool grade had translated the same slot to
      #050D14; a future cool round converts #110B02 at its own L* and C*. */
   box-shadow:inset 0 1px 0 var(--glass-top,rgba(255,255,255,.34)),
-             inset 0 -1px 0 rgba(17,11,2,.06),
-             0 6px 20px rgba(17,11,2,.16);
+             inset 0 -1px 0 rgba(13,9,2,.06),
+             0 6px 20px rgba(13,9,2,.16);
   transition:background .3s var(--ease),border-color .3s var(--ease),transform .2s var(--ease);
   cursor:pointer;
 }
@@ -2238,7 +2285,7 @@ html.js-scene .scene-ctrl{
   background:var(--glass-hi,rgba(255,255,255,.22));transform:translateY(-1px)}
 /* pre-first-frame defaults only (2026-08-13): the scene script now drives all four
    glass properties per frame at every width, flipping them when the whole ground does */
-html.js-scene{--glass-fill:rgba(43,37,27,.45);--glass-hi:rgba(43,37,27,.58);
+html.js-scene{--glass-fill:rgba(30,24,17,.45);--glass-hi:rgba(30,24,17,.58);
               --glass-line:rgba(255,255,255,.26);--glass-top:rgba(255,255,255,.30)}
 @media(max-width:560px){
   .scene-ctrl{gap:8px;font-size:9.5px}
@@ -2864,8 +2911,8 @@ html.js-scene{--glass-fill:rgba(43,37,27,.45);--glass-hi:rgba(43,37,27,.58);
        argument; the four markers are named tests and not a promise of results).
        ⚠️ THE GROUND ALTERNATION SURVIVED THE CUT and was checked, not assumed: the
        programme card closes on --ps-ground #F0EBE7 and the doctors open on --dawn
-       #F4E9D3 (the gold dawn since 2026-08-28; it was the rose #F6E7E1 when this was
-       first checked, and the step survived the recolour: 1.017 then, 1.017 now),
+       #F7E9C9 (the gold dawn; it was the rose #F6E7E1 when this was first checked,
+       and the step survived every recolour since: 1.017 then, 1.017 now),
        so the beat still changes across the seam. -->
 
   <div class="pxd" id="pxd" role="dialog" aria-modal="true" hidden>
@@ -3873,23 +3920,35 @@ html.js-scene{--glass-fill:rgba(43,37,27,.45);--glass-hi:rgba(43,37,27,.58);
 
   const mobile = matchMedia("(max-width:760px)").matches;
 
-  /* ⚠️ THE GOLD GRADE, 2026-08-28c — the scene's plum/wine constants rotated to the
-     champagne axis at held L* and C* (the token block's note carries the method):
-       INK   [46,34,40] #2E2228 → [43,37,27] #2B251B  (must stay equal to --ink and
-                                                       the .scene-stage literal)
-       BG_A  [42,27,32] #2A1B20 → [37,30,20] #251E14
-       GOLD_DEEP [163,54,72] #A33648 → [121,87,0] #795700 — THIS was "the burgundy on
-         the animation": the line, the beads and the band once the ground rises were
-         drawn in the estate's wine red. They are true deep gold now; on the risen
-         gold dawn the line carries 5.49:1 against the wine's 5.49.
-       STONE [176,154,156] #B09A9C → [168,158,144] #A89E90 (the drifting beads, rose-
-         grey to sand; 6.25:1 on the new stage against 6.23 on the old)
-     GOLD and CHAMP were already the champagne family and did not move. */
-  const INK=[43,37,27], IVORY=[250,247,241];
+  /* ⚠️⚠️ BLACK & GOLD, 2026-08-28d — the scene's constants, and the ONE PLACE ON THE PAGE
+     WHERE TWO GOLDS ARE TWO DECISIONS. Read this before touching any of the four.
+       INK   [30,24,17] #1E1811 — the risen-copy ink AND the stage; must stay equal to
+             --ink and to the .scene-stage literal.
+       BG_A  [24,18,9]  #181209 — the canvas ground. Warm near-black, low chroma on
+             purpose (chroma at this lightness is brown; see the token block).
+       GOLD  [218,175,99] #DAAF63 — the orb's own gold, sampled off the artwork. This is
+             the DARK-GROUND gold: the line, the range band and the marks while the
+             stage is still black. 9.12:1 there.
+       GOLD_DEEP [139,78,17] #8B4E11 — the orb's own DARKEST chromatic tone, and it is
+             NOT a darker shade of GOLD for tidiness. It is the colour the scene draws
+             with once the ground has RISEN TO THE DAWN (every `dw>.5` branch below), so
+             it stands on #F7E9C9, not on black.
+       STONE [212,185,138] #D4B98A — the drifting beads, sand. 9.83:1 on the stage.
+     ⚠️⚠️ THE BUG THIS RECORDS, BECAUSE IT WILL BE RE-INTRODUCED BY ANYONE "UNIFYING THE
+     GOLDS": the first cut of this grade brightened GOLD_DEEP along with GOLD. On the
+     dark stage that looked right; on the risen dawn it put a pale gold line on a pale
+     gold ground and the whole figure all but disappeared — 2.3:1, where 4.5 is the
+     floor. NOTHING THREW AND NO NUMBER MOVED THAT ANYONE WAS WATCHING; it was caught in
+     a rendered frame at p .93 and nowhere else. GOLD_DEEP is dark BECAUSE ITS GROUND IS
+     LIGHT. If you ever change one of these two, render p .40 AND p .93 before believing
+     it. The plum era's values: INK #2E2228 · BG_A #2A1B20 · GOLD #C9A46A ·
+     GOLD_DEEP #A33648 (the wine red that was "the burgundy on the animation") ·
+     STONE #B09A9C. CHAMP has never moved. */
+  const INK=[30,24,17], IVORY=[250,247,241];
   /* ⚠️ BG_B IS THE GOLD DAWN SINCE 2026-08-28 — it MUST STAY EQUAL to --dawn in the token
-     block (the cross-reference lives on that token). [244,233,211] is #F4E9D3. */
-  const BG_A=[37,30,20], BG_B=[244,233,211];
-  const GOLD=[201,164,106], GOLD_DEEP=[121,87,0], CHAMP=[236,214,178], STONE=[168,158,144];
+     block (the cross-reference lives on that token). [247,233,201] is #F7E9C9. */
+  const BG_A=[24,18,9], BG_B=[247,233,201];
+  const GOLD=[218,175,99], GOLD_DEEP=[139,78,17], CHAMP=[236,214,178], STONE=[212,185,138];
   const ss=(a,b,x)=>{x=Math.max(0,Math.min(1,(x-a)/(b-a)));return x*x*(3-2*x)};
   const mix=(a,b,k)=>a+(b-a)*k;
   const mixC=(A,B,k)=>[Math.round(mix(A[0],B[0],k)),Math.round(mix(A[1],B[1],k)),Math.round(mix(A[2],B[2],k))];
@@ -3953,9 +4012,9 @@ html.js-scene{--glass-fill:rgba(43,37,27,.45);--glass-hi:rgba(43,37,27,.58);
     stage.style.setProperty("--scene-fg", rgba(mixC(IVORY,INK,ss(.798,.824,p)),1));
     const gl=dw>.55;
     stage.style.setProperty("--ctrl-fg",  gl?rgba(INK,1):rgba(IVORY,1));
-    stage.style.setProperty("--glass-fill", gl?"rgba(255,255,255,.20)":"rgba(43,37,27,.45)");
-    stage.style.setProperty("--glass-hi",   gl?"rgba(255,255,255,.34)":"rgba(43,37,27,.58)");
-    stage.style.setProperty("--glass-line", gl?"rgba(43,37,27,.22)":"rgba(255,255,255,.26)");
+    stage.style.setProperty("--glass-fill", gl?"rgba(255,255,255,.20)":"rgba(30,24,17,.45)");
+    stage.style.setProperty("--glass-hi",   gl?"rgba(255,255,255,.34)":"rgba(30,24,17,.58)");
+    stage.style.setProperty("--glass-line", gl?"rgba(30,24,17,.22)":"rgba(255,255,255,.26)");
     stage.style.setProperty("--glass-top",  gl?"rgba(255,255,255,.55)":"rgba(255,255,255,.30)");
     glow.style.opacity=(1-ss(.70,.80,p)).toFixed(3);
     hint.style.opacity=(1-ss(.030,.072,p)).toFixed(3);

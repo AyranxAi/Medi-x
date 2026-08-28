@@ -111,7 +111,7 @@ memory.
 | Hormones = the identical key | "yes for now" |
 | H1 = the direct one | "a. — for people who would find the page itself as thats more direct and still you. might be confusing" |
 | **Programme, AED 950 + VAT** | "consultation is actually 950+ vat and review is 750 + vat" — NOT the siblings' 1,150 |
-| **Review consultation, AED 795 + VAT** | "795 review consult" (2026-08-24h) — supersedes the 750 in the row above, on all three door cards |
+| ~~**Review consultation, AED 795 + VAT**~~ **SUPERSEDED 2026-08-28** | "795 review consult" (2026-08-24h) — superseded by the two-row split: repeat prescription **750 + VAT**, repeat consultation **395 + VAT**. His 750 above was the prescription all along |
 | Blood test only | "regarding dutch we stop for now onky blood test now" — no DUTCH anywhere, harness-asserted |
 | Home collection add-on | "we still have the optional add on of 1950 + vat for blood work in uae" |
 | The word "programme" | approved by the owner via him (relayed earlier the same day): the price buys assessment + blood reading + consultation, which is fairly a programme; "consultation" names only the meeting. The peptide page's consultation-only rule governs THAT page |
@@ -176,6 +176,8 @@ Two decimals always. "What's not included" prices the Review consultation at **A
 795 + VAT** (his figure, 2026-08-24h — it was 750 until then, and it is the same 795
 on all three door cards, whose programmes are 950, 950 and 1,150). The start pill lands on `#book` until a payment provider
 exists (the siblings' recorded position).
+
+⚠️ **SUPERSEDED 2026-08-28 — the review row is now TWO rows.** Repeat prescription **AED 750 + VAT** (issued without a face-to-face consultation) and repeat consultation **AED 395 + VAT** (a Zoom follow-up). The 795 is retired: it was one figure standing for two services. His 2026-08-19 "review is 750 + vat" was the PRESCRIPTION all along. The paragraph above is left as the record of what was true then — see `HANDOFF.md`, the 2026-08-28 addendum.
 
 ### The month, mapped (04)
 Eight symptoms seated on a 28-day ring where they land in the month; tap flips each

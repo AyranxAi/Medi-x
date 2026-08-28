@@ -1205,8 +1205,10 @@ section{position:relative}
    ⚠️ A CROSS LABELS A ROW; A + OPENS IT. "Blood tests · not included" raises the
    question "then what do I pay, and to whom?", and the sentence that answered it
    was the first thing the simplification deleted. Behind a +, that sentence is on
-   the card without being on screen. The AED 795 review fee lives here and NOWHERE
-   ELSE ON THE SITE — deleting these disclosures deletes a price.
+   the card without being on screen. The repeat-prescription (AED 750 + VAT) and
+   repeat-consultation (AED 395 + VAT) fees live here and NOWHERE ELSE ON THE SITE —
+   deleting these disclosures deletes two prices. It was ONE fee, "Review consultation
+   AED 795 + VAT", until the owner's 2026-08-28 clarification split it in two.
    ⚠️ IT IS <details>, NOT JAVASCRIPT. This page ships a no-JS rollback for its six
    steps and static figures for its money; a disclosure needing a script would be
    the one place a reader with JS off is simply told less.
@@ -2502,13 +2504,19 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
        ⚠️⚠️ AED 950 + VAT IS HIS FIGURE FOR THIS PAGE (2026-08-19: "consultation is
        actually 950+ vat and review is 750 + vat") — NOT the siblings' 1,150. The
        arithmetic below is written from 950. Change it and re-do all three sums.
-       ⚠️⚠️ THE REVIEW HALF OF THAT QUOTE IS SUPERSEDED. The review consultation
-       is AED 795 + VAT from 2026-08-24h ("795 review consult"); the 750 above is left
-       standing because the sentence is a RECORD OF WHAT HE SAID, not a live price.
-       ⚠️ IT IS ONE FIGURE ON THREE DOOR CARDS — this page, /modern-menopause/ and
-       /testosterone-top-up/ all quote it in "What's not included", and the two POPUP
-       pages carry the same line WITHOUT a figure. Revise it on one card and the
-       estate disagrees with itself. It is card copy: no script reads it.
+       ⚠️⚠️ THE REVIEW HALF OF THAT QUOTE RESOLVED ON 2026-08-28, AND HIS 750 WAS
+       RIGHT ALL ALONG — it names the REPEAT PRESCRIPTION (issued without a
+       face-to-face consultation), which is one of TWO services the card now lists.
+       The other is the REPEAT CONSULTATION, AED 395 + VAT, a follow-up with your
+       doctor over Zoom. The AED 795 of 2026-08-24h is retired: it was one figure
+       standing for both, and it matched neither.
+       ⚠️ THEY ARE TWO FIGURES ON THREE DOOR CARDS — this page, /modern-menopause/ and
+       /testosterone-top-up/ quote both in "What's not included", byte-identical.
+       The two POPUP pages (/peptide-therapy/, /functional-medicine/) carry a single
+       figureless "Review consultation" line, and /programs/ still quotes the retired
+       795 — SEE THE HANDOVER; that page was outside the owner's "3 services" scope.
+       Revise on one card and the estate disagrees with itself. Card copy: no script
+       reads either figure.
        ⚠️ BLOOD WORK ONLY — his call 2026-08-19 ("regarding dutch we stop for now onky
        blood test now"). No DUTCH, no DUTCH Plus, anywhere on this page; the harness
        asserts the absence, same as the peptide flow.
@@ -2645,8 +2653,30 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
                   <small>Once your prescription is issued, we will price it before your payment.</small></details></li>
                 <li><details class="pc-more"><summary>Supplementation products</summary>
                   <small>Products are charged separately.</small></details></li>
-                <li><details class="pc-more"><summary>Review consultation</summary>
-                  <small>A new consultation, AED 795 + VAT.</small></details></li>
+                <!-- ⚠️⚠️ TWO ROWS SINCE 2026-08-28, WHERE ONE STOOD — the owner's
+                     clarification, relayed by the user: "Repeat prescription is 750 + vat
+                     which is a prescription issued without a doctor face 2face" and
+                     "repeat constulation is 395 + vat which is when you want to speak to
+                     a doctor via a zoom meeting". They are two different services and were
+                     being sold as one line called "Review consultation" at AED 795 + VAT.
+                     ⚠️ THIS RETIRES 795 FROM THE ESTATE. It also explains the 750/795 knot
+                     the notes above this card record: his 2026-08-19 "review is 750 + vat"
+                     was the REPEAT PRESCRIPTION, and 2026-08-24h's "795 review consult"
+                     collapsed both services into one figure that was neither. Nothing here
+                     is a price rise or cut — it is one row splitting into the two things
+                     it was always describing.
+                     ⚠️ THE PRESCRIPTION COSTS MORE THAN THE ZOOM CALL, AND THAT IS HIS
+                     FIGURE, NOT A TRANSPOSITION — put to him in these words and left as
+                     given. If a reader ever asks why the cheaper option is the one with a
+                     doctor in it, that is a question for him, not a bug to "fix" here.
+                     ⚠️ BOTH ROWS ARE CARD COPY — no script reads either figure, which is
+                     exactly why the 750 could sit wrong for four days without a harness
+                     noticing. tools/qa/trt-page.mjs now pins both strings on all three
+                     doors; that is the guard that was missing. -->
+                <li><details class="pc-more"><summary>Repeat prescription</summary>
+                  <small>Your prescription re-issued without a face-to-face consultation, AED 750 + VAT.</small></details></li>
+                <li><details class="pc-more"><summary>Repeat consultation</summary>
+                  <small>A follow-up with your doctor over Zoom, AED 395 + VAT.</small></details></li>
               </ul>
             </div>
           </div>
@@ -4183,8 +4213,12 @@ try{
   /* ══ THE PROGRAMME CARD — the money, and only the money ══════════════════════════
      ⚠️⚠️ AED 950 IS HIS FIGURE FOR THIS PAGE (2026-08-19: "consultation is actually
      950+ vat and review is 750 + vat") — NOT the siblings' 1,150. ⚠️ THE REVIEW HALF
-     OF THAT QUOTE IS STALE: it is 795 since 2026-08-24h. Nothing here reads it — the
-     review is card copy in "What's not included" and never enters these sums. The base is
+     OF THAT QUOTE CAME BACK, 2026-08-28: his "review is 750 + vat" was the REPEAT
+     PRESCRIPTION all along, and 750 is live again under that name. The 795 that stood
+     between (2026-08-24h) is retired — it had collapsed the prescription and the Zoom
+     repeat consultation (AED 395 + VAT) into one figure that was neither. Nothing here
+     reads either — both are card copy in "What's not included" and never enter these
+     sums. The base is
      VAT-EXCLUSIVE and 5% is added on top, the arithmetic he confirmed over there
      ("1150 is exclusive so plus 5% tax is more"): 950 → 47.50 → 997.50, or with the
      collection 2,900 → 145.00 → 3,045.00.

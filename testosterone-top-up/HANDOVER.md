@@ -286,7 +286,9 @@ means touching the shared block, which he has now declined twice.
 
 **Also raised, smaller:**
 
-- ✅ *(settled)* **The Review consultation is AED 795 + VAT** — his figure of 2026-08-24h
+- ⚠️ *(SUPERSEDED 2026-08-28 — split into repeat prescription AED 750 + VAT and repeat
+  consultation AED 395 + VAT; see `HANDOFF.md`, the 2026-08-28 addendum. Left below as the
+  record of what was settled then.)* **The Review consultation is AED 795 + VAT** — his figure of 2026-08-24h
   ("795 review consult"). It did NOT follow the programme to 1,150: the same 795 now sits
   on all three door cards, whose programmes are 950, 950 and 1,150. It is card copy, not
   script, and `trt-page.mjs` §1b now asserts it on all three pages — the check that did

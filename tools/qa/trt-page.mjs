@@ -6,10 +6,12 @@
    The money is checked THREE WAYS: the static markup a no-JS reader gets, the
    derived figures after the script runs, and the arithmetic after the add-on is
    ticked. All three have to agree or the check fails.
-   ⚠️ IT ALSO GUARDS ONE FIGURE ON ALL THREE DOOR CARDS — the review consultation,
-   AED 795 + VAT since 2026-08-24h. That price is COPY, not script, and it stayed at
-   750 for days after the programme moved while every check in here ran green. A money
-   guard that only reads the script reads half the card. See section 1b.
+   ⚠️ IT ALSO GUARDS TWO FIGURES ON ALL THREE DOOR CARDS — the repeat prescription
+   (AED 750 + VAT) and the repeat consultation (AED 395 + VAT), the owner's 2026-08-28
+   split of the one "Review consultation AED 795 + VAT" row. Those prices are COPY, not
+   script, and the figure sat wrong for days after the programme moved while every check
+   in here ran green. A money guard that only reads the script reads half the card.
+   See section 1b.
    Run: npm install --no-save playwright@1.49.1 gsap@3.13.0 lenis@1.3.4
         && node tools/qa/trt-page.mjs                                          */
 import playwright from "playwright";
@@ -81,12 +83,16 @@ ok(/const BASE=1150,/.test(raw),             "the script's BASE is 1150");
 ok(!/AED 9(50|97\.50)\b/.test(raw.replace(/<!--[\s\S]*?-->/g, "").replace(/\/\*[\s\S]*?\*\//g, "")),
    "no stray 950 / 997.50 left in copy OR in a build note");
 
-/* ── 1b · THE REVIEW CONSULTATION, AND IT IS NOT THIS PAGE'S NUMBER ──────────────
-   ⚠️ AED 795 + VAT (his figure, 2026-08-24h) SITS ON THREE DOOR CARDS and is the one
-   price on the card that NO SCRIPT TOUCHES — it is a <small> inside "What's not
-   included". That is exactly why it went stale: it was 750 for five days after the
-   men's programme moved to 1,150, and every money check in this file ran green
-   throughout, because none of them read copy.
+/* ── 1b · THE REPEAT FEES, AND THEY ARE NOT THIS PAGE'S NUMBERS ─────────────────
+   ⚠️ AED 750 + VAT (repeat prescription) and AED 395 + VAT (repeat consultation) SIT ON
+   THREE DOOR CARDS and are the two prices on the card that NO SCRIPT TOUCHES — each is
+   a <small> inside "What's not included". That is exactly why this went wrong before:
+   one row said 750 for five days after the men's programme moved to 1,150, then said a
+   blended 795 that matched neither service, and every money check in this file ran
+   green throughout, because none of them read copy.
+   ⚠️ THE 2026-08-28 SPLIT IS WHY THERE ARE TWO: the owner's clarification that a
+   prescription re-issued without a face-to-face consultation and a Zoom follow-up are
+   different services at different prices.
    ⚠️ IT IS CHECKED ON ALL THREE PAGES FROM HERE, out of this file's scope on purpose.
    The failure mode is somebody revising it on the page they happen to have open, and a
    men's-page-only check cannot see that. Two extra file reads, no browser.
@@ -95,10 +101,18 @@ ok(!/AED 9(50|97\.50)\b/.test(raw.replace(/<!--[\s\S]*?-->/g, "").replace(/\/\*[
    there is a copy decision nobody has taken; asserting its absence would freeze it. */
 for (const dir of ["testosterone-top-up", "hormone-therapy-bhrt", "modern-menopause"]) {
   const html = fs.readFileSync(path.join(ROOT, dir, "index.html"), "utf8");
-  ok(/A new consultation, AED 795 \+ VAT\./.test(html),
-     `${dir}: review consultation is AED 795 + VAT`);
-  ok(!/AED 750\b/.test(html.replace(/<!--[\s\S]*?-->/g, "").replace(/\/\*[\s\S]*?\*\//g, "")),
-     `${dir}: no stray 750 left in copy`);
+  /* ⚠️ ONE ROW BECAME TWO ON 2026-08-28 (the owner's clarification), and the guard
+     below INVERTED with it. It used to read "no stray 750 left in copy" — 750 was the
+     superseded figure and its reappearance meant a stale card. 750 is now the LIVE
+     repeat-prescription fee, so the copy must carry it; what must not appear is the
+     retired 795. Both figures are pinned per door because neither is scripted: they
+     are card copy, and card copy is what drifted unnoticed for four days last time. */
+  ok(/Your prescription re-issued without a face-to-face consultation, AED 750 \+ VAT\./.test(html),
+     `${dir}: repeat prescription is AED 750 + VAT`);
+  ok(/A follow-up with your doctor over Zoom, AED 395 \+ VAT\./.test(html),
+     `${dir}: repeat consultation is AED 395 + VAT`);
+  ok(!/AED 795\b/.test(html.replace(/<!--[\s\S]*?-->/g, "").replace(/\/\*[\s\S]*?\*\//g, "")),
+     `${dir}: the retired 795 is gone from visible copy`);
 }
 
 /* ── 2 · the money the script derives, and the add-on arithmetic ───────────── */

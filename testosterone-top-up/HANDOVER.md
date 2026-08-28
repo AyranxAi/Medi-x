@@ -1,6 +1,23 @@
 # /testosterone-top-up/ — build record, round 1 (2026-08-19)
 
-⚠️ **THE PAGE WEARS ITS GOLD — 2026-08-28b.** His call (*"actually use the colors …
+⚠️⚠️ **THE GOLD GRADE — 2026-08-28c. EVERYTHING DARK LEFT THE PLUM/BURGUNDY FAMILY.**
+His correction of the "b" round below, put to him as three questions and answered:
+*"yellow optimize … no longer a burgundy on the animation … the color pallet switch
+from ink to the yellow … its its own service testosterone based."* The stage, the band,
+the preloader, both inks and the scene's wine-red `GOLD_DEEP` (`#A33648` — the constant
+that draws the line and beads, misnamed gold) are all champagne-family now — CIE LCh,
+**L\* and C\* held**, hue to 81.7°, so every contrast pairing survived by construction
+(worst drift 0.08). The CTAs and the wordmark keep the one red — his answer.
+`--burgundy` now holds `#453103` and is a **name-fossil that cannot be renamed** (the
+PS shared block references it by name and its bytes are md5-locked across the doors).
+The nav overlay's rose radial and hover went gold with their bronze ground, this page
+only. The plum-era values are recorded at the token block and at the scene constants
+for a straight reversal. ⚠️ The estate FAVICON keeps its burgundy ground on a page
+that no longer has one — flagged, his call. Full account in
+[`HANDOFF.md`](../HANDOFF.md), the 2026-08-28c addendum.
+
+⚠️ **THE PAGE WEARS ITS GOLD — 2026-08-28b** *(the lighter half of the same day; the
+grade above finished the job).* His call (*"actually use the colors …
 make the testosterone that colors theme … transform the page"*): `--dawn` is the **gold
 dawn `#F4E9D3`** (was door 1's rose `#F6E7E1`), `BG_B` in the scene script moved with it
 per the cross-reference, the scene's italics and held words are `--gold`, and the turn

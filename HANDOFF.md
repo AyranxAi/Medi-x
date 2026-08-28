@@ -1,3 +1,115 @@
+# Handoff addendum — 2026-08-28c (THE GOLD GRADE: everything dark on /testosterone-top-up/ leaves the plum/burgundy family — "yellow optimize", so the page is its own service)
+
+**Read this first if you are the next chat — it supersedes the "b" addendum below in
+depth, not in fact.** The "b" round (below) recoloured the page's rose surfaces and he
+came back with the correction that defines this round: *"what i mean by yellow is yellow
+optimize so imagine there will no longer be a burgundy on the animation and the color
+pallet switch from ink to the yellow … i want this to feel like itself because its its
+own service testosterone based."* Put to him as three questions and **answered
+explicitly**: scope is **everything dark** (the animation's stage, the burgundy band,
+the preloader, both inks — zero burgundy on the page); the **CTAs and wordmark keep the
+one red**; the yellow is the **estate's champagne**, not a sunnier one.
+On `claude/medi-x-services-colors-p0o878`, one page touched.
+
+---
+
+## 1 · The method — the glacier grade's own, run toward gold
+
+Round 9 once converted this page to a cool steel palette by converting every warm
+surface to **CIE LCh, holding L\* and C\*, rotating hue** (h≈256°); round 14 reversed
+it. This round runs the same machine toward **h 81.7°** — the mean of `--gold` (83.8°)
+and `--gold-deep` (79.7°), the champagne axis. **Holding L\* holds relative luminance
+exactly, so every contrast pairing on the page survives by construction** — verified
+numerically, not assumed (§3).
+
+| role | plum era | gold grade | L* · C* |
+|---|---|---|---|
+| `--ink` (body text, nav ground, stage) | `#2E2228` | **`#2B251B`** | 14.83 · 7.2 held |
+| `--ink-soft` | `#6A585F` | **`#645C4F`** | 39.36 · 8.8 held |
+| `--burgundy` (band, preloader, accents) | `#5C1F31` | **`#453103`** | 21.86 · 29.9 held |
+| scene `BG_A` | `#2A1B20` | **`#251E14`** | 11.83 · 8.4 held |
+| scene `GOLD_DEEP` | `#A33648` | **`#795700`** | 39.40 · 48.3→48.1 (gamut) |
+| scene `STONE` beads | `#B09A9C` | **`#A89E90`** | 65.55 · 8.7 held |
+| shadow near-black | `#14090D` | **`#110B02`** | 3.37 · 4.3 held |
+
+All the ink-family **rgba glass tints** (`46,34,40` → `43,37,27`), the **scene glow**
+and turn-glow scrim (`92,31,49` → `69,49,3`) and the **shadow blacks** (`20,9,13` →
+`17,11,2`) moved with their parents.
+
+**⚠️ "THE BURGUNDY ON THE ANIMATION" HAD A NAME, AND IT WAS `GOLD_DEEP`.** The scene
+constant that draws the line, the beads and the range band once the ground rises was
+`#A33648` — the estate's wine-red hover ink, misnamed gold. It is **true deep gold
+`#795700`** now, and the risen frame finally carries no red: 5.49:1 on the gold dawn,
+exactly what the wine carried.
+
+---
+
+## 2 · Two structural facts the next chat must know
+
+**⚠️⚠️ THE TOKEN NAMED `--burgundy` IS A FOSSIL ON THIS PAGE AND CANNOT BE RENAMED.**
+The shared PS block references `var(--burgundy)` (`.ps-dot[aria-current]`) and its bytes
+are md5-locked across the three doors — so the **value** is the only reachable lever,
+and the grade is a token edit where round 9's glacier had to re-point rules. On this
+page the name now means "the deep one". The full note sits above the token.
+
+**⚠️ THE NAV OVERLAY LEFT "ESTATE CHROME" WITH ITS OWN GROUND.** The menu's ground is
+`var(--ink)`; once that went bronze, keeping the estate's rose radial and rose link
+hover would have left pink stains on a gold page. Both went gold **on this page only**
+(`rgba(194,160,94,.22)`, hover `var(--gold)` — same L\*, 5.00:1 either way). The
+siblings keep the rose pair; the "b" addendum's claim that the nav is untouchable
+estate chrome died when the ground token moved.
+
+---
+
+## 3 · The invariants, verified old : new
+
+ivory body on the band 11.583 : 11.595 · champagne on the band 5.004 : **5.009** (the
+SOLVED value survives) · ink on ivory 14.28 : 14.20 · ink-soft on the gold dawn 5.496 :
+5.475 · burgundy-role text on ivory 11.58 : 11.60 · ::selection text on gold-tint 10.09 :
+10.10 · ivory on BG_A 15.39 : 15.41 · gold italics on BG_A 6.649 : 6.657 · STONE bead on
+the stage 6.229 : 6.245 · the line on the risen dawn 5.487 : 5.491 · the PS dot's
+`#F6EFE4` on the band colour 10.844 : 10.855. **Worst drift on the page: 0.08.**
+
+---
+
+## 4 · What did NOT move, each on purpose
+
+`--logo-red` and `--red-hover` — **his explicit answer**: the CTAs and the wordmark stay
+the one red (`.btn:hover`'s `rgba(163,54,72,.94)` is the red hover, not a stray).
+`--rose` — brand law, now unreferenced on this page but the estate's. Every gold and
+every light ground (the gold dawn, ivory, cream, porcelain) — already the destination.
+The siblings — **untouched; this grade is door 3's own.**
+
+**⚠️ FLAGGED, NOT FIXED: THE FAVICON.** Its ground is the estate's burgundy on every
+tab including this page's, and the preloader it used to match is bronze now. The favicon
+is an estate-wide asset; splitting it per-page is his call, recorded at the preloader.
+
+---
+
+## 5 · QA
+
+`trt-page.mjs`, `doors-shots.mjs` (13 widths, reduced motion, consoles clean),
+`process-sculpture.mjs`, PS:CSS and PS:HTML md5 parity across the three doors — green.
+Rendered and looked at top to bottom, desktop and phone: hero, define, the scene dark
+and risen, signals, the bronze band, the nav overlay, programme, doctors, stories, faq,
+book. The plum-era values are recorded at the token block and the scene constants for a
+straight reversal.
+
+---
+
+## 6 · Open
+
+1. **The siblings, under this round's standard.** "It's its own service" now defines
+   what a door theme means. Door 1's darks are already the plum/wine family (its own),
+   door 2 rides the same estate plum ink — whether door 2 gets a rose-family grade of
+   its own darks is **a question for him, not an inference**.
+2. **The favicon** (§4) — burgundy ground on a page that no longer has one.
+3. Everything in the "b" addendum's §5 and the 2026-08-27/28 addendum's §10 still
+   stands (the PS:JS md5 caveat, the non-verbatim menopause subtext, /programs/' 795,
+   750>395, placeholder testimonials).
+
+---
+
 # Handoff addendum — 2026-08-28b (the gold door wears its gold: the testosterone dawn, the scene's italics and the turn glow leave the rose)
 
 **Read this first if you are the next chat.** One ask, one page. His words: *"actually

@@ -78,6 +78,10 @@
    ⚠️ THE ONE RED, THE BURGUNDY, THE ROSE AND BOTH INKS DID NOT MOVE — on either grade,
    ever. That is what made this reversible at all: the brand law never took a temperature,
    so only the surfaces had to travel.
+   ⚠️⚠️ SUPERSEDED IN PART, 2026-08-28c — THE GOLD GRADE: on THIS page the burgundy and
+   both inks HAVE now moved (to the champagne family at held L* and C*; the note above
+   --burgundy carries the whole of it). The one red and the rose still have never moved,
+   and the sentence above stays as the record of rounds 9 and 14.
    ⚠️ THE THREE "WARM SURVIVORS" ARE NO LONGER SURVIVORS AND THEIR PINS ARE NOW REDUNDANT,
    not wrong — the preloader's ✦ and the turn band's two golds are pinned as literals equal
    to what the tokens now resolve to. They are LEFT PINNED on purpose: each pin carries the
@@ -106,15 +110,40 @@
      than the pairing he approved, which is the composition he asked to be changed. */
   --ps-ground:#F0EBE7;
   --line:#DED4C2;
-  --burgundy:#5C1F31;
+  /* ⚠️⚠️ THE GOLD GRADE — 2026-08-28c, HIS CALL, PUT TO HIM AS THREE QUESTIONS AND
+     ANSWERED: "what i mean by yellow is yellow optimize … there will no longer be a
+     burgundy on the animation and the color pallet switch from ink to the yellow …
+     i want this to feel like itself because its its own service". Scope confirmed:
+     EVERYTHING DARK leaves the plum/burgundy family for the champagne family — the
+     stage, the band, the preloader, both inks. The CTAs and the wordmark KEEP the one
+     red (his answer), and the yellow is the estate's champagne, not a sunnier one.
+     ⚠️ THE METHOD IS THE GLACIER GRADE'S OWN, RUN TOWARD GOLD: every value converted
+     to CIE LCh, L* AND C* HELD, hue rotated to the champagne axis (h 81.7°, the mean
+     of --gold 83.8° and --gold-deep 79.7°). Holding L* holds relative luminance
+     EXACTLY, so every measured contrast pairing on the page survives to the second
+     decimal — verified, not assumed: ivory on the band 11.58→11.60, champagne on the
+     band 5.004→5.009, ink on ivory 14.28→14.20, ink-soft on the dawn 5.50→5.48, the
+     ps-dot's #F6EFE4 10.84→10.86. The plum era's values, for a straight reversal:
+       --burgundy #5C1F31 (L* 21.86, C* 29.9)   --ink #2E2228 (L* 14.83, C* 7.2)
+       --ink-soft #6A585F                        stage/BG_A/GOLD_DEEP/STONE: see the
+                                                 scene script's constants note
+     ⚠️ THE TOKEN NAMED --burgundy IS A FOSSIL ON THIS PAGE AND CANNOT BE RENAMED:
+     the shared PS block references var(--burgundy) (.ps-dot[aria-current]) and its
+     bytes are md5-locked across the three doors — the VALUE is the only reachable
+     lever, which is exactly why the grade is a token edit here where round 9's
+     glacier had to re-point rules. On this page the name means "the deep one".
+     ⚠️ WHAT DID NOT MOVE: --logo-red and --red-hover (the one-red rule, his explicit
+     answer), --rose (brand law, now unreferenced here but the estate's), every gold,
+     every light ground. The siblings are untouched — this grade is door 3's own. */
+  --burgundy:#453103;      /* the deep bronze — the champagne family at the wine's exact L* and C* */
   --rose:#C79A92;
   --logo-red:#8E2D3A;      /* the one red */
   --red-hover:#A33648;
   --gold:#C2A05E;          /* the accent role — gold again */
   --gold-deep:#8A6A34;
   --gold-tint:#F1E7D2;
-  --ink:#2E2228;           /* dark plum */
-  --ink-soft:#6A585F;
+  --ink:#2B251B;           /* dark bronze — was the plum #2E2228; the gold grade, see above */
+  --ink-soft:#645C4F;
   --serif:"Playfair","Playfair Display",Didot,"Times New Roman",Georgia,serif;
   --sans:"MediGyn NOW",Jost,ui-sans-serif,system-ui,-apple-system,sans-serif;
   --accent:"MediGyn Megante",Optima,Georgia,serif;
@@ -272,9 +301,16 @@ img{max-width:100%}
 .progress{position:fixed;top:0;left:0;height:2px;width:100%;transform-origin:0 50%;transform:scaleX(0);background:var(--gold);z-index:200}
 
 /* ─────────────────────────── PRELOADER ─────────────────────────── */
+/* ⚠️ THE PRELOADER IS BRONZE SINCE 2026-08-28c — it rides var(--burgundy), which the gold
+   grade re-valued (his scope answer named the loading screen). The ivory mark and gold ✦
+   keep their exact contrast because the ground's L* is held. ⚠️ FLAGGED, NOT FIXED: the
+   FAVICON's ground is still the estate's A9/burgundy on every page including this one —
+   the tab icon and this page's preloader no longer share a ground. Estate-wide asset,
+   his call; recorded in the handover. */
 .preloader{position:fixed;inset:0;background:var(--burgundy);z-index:300;display:flex;align-items:center;justify-content:center}
 .preloader .mark{font-family:var(--serif);font-size:clamp(28px,4vw,46px);color:var(--ivory);letter-spacing:.02em}
-/* ⚠️ THE ✦ STAYS GOLD BY LITERAL — it is the favicon's shared spark on the same burgundy,
+/* ⚠️ THE ✦ STAYS GOLD BY LITERAL — it is the favicon's shared spark on the same burgundy
+   (now: on this page, the same BRONZE — see the preloader note above),
    and the one mark that must match across every page (HANDOVER round 7: "it stays"). */
 .preloader .mark .star{color:#C2A05E;font-size:.6em;vertical-align:.25em;padding:0 .18em}
 
@@ -319,12 +355,12 @@ body.nav-open .hdr{background:transparent;border-bottom-color:transparent;backdr
   -webkit-appearance:none;appearance:none;padding:0;cursor:pointer;
   width:2.75rem;height:2.75rem;border-radius:999px;
   border:1px solid rgba(250,247,241,.6);
-  background:rgba(46,34,40,.45);color:var(--ivory);
+  background:rgba(43,37,27,.45);color:var(--ivory);
   backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
   display:grid;place-content:center;
   transition:background-color .3s var(--ease),border-color .3s var(--ease),color .3s var(--ease);
 }
-.globe:hover,.wapp:hover{border-color:var(--ivory);background:rgba(46,34,40,.6)}
+.globe:hover,.wapp:hover{border-color:var(--ivory);background:rgba(43,37,27,.6)}
 .globe svg{width:19px;height:19px}
 .wapp svg{width:16px;height:16px} /* 16 not 19: full-bleed trademark, optically level with the globe */
 .hdr--solid .globe,.hdr--solid .wapp{
@@ -336,13 +372,13 @@ body.nav-open .hdr{background:transparent;border-bottom-color:transparent;backdr
   -webkit-appearance:none;appearance:none;cursor:pointer;padding:0;
   width:2.75rem;height:2.75rem;border-radius:999px;
   border:1px solid rgba(250,247,241,.6);
-  background:rgba(46,34,40,.45);
+  background:rgba(43,37,27,.45);
   backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
   display:grid;place-content:center;gap:5px;
   justify-items:end; /* the short middle line sits flush right */
   transition:background-color .3s var(--ease),border-color .3s var(--ease);
 }
-.burger:hover{border-color:var(--ivory);background:rgba(46,34,40,.6)}
+.burger:hover{border-color:var(--ivory);background:rgba(43,37,27,.6)}
 .hdr--solid .burger{border-color:var(--logo-red);background:transparent;backdrop-filter:none;-webkit-backdrop-filter:none}
 .hdr--solid .burger:hover{border-color:var(--logo-red);background:var(--logo-red)}
 .hdr--solid .burger:hover span{background:var(--ivory)}
@@ -355,7 +391,7 @@ body.nav-open .hdr{background:transparent;border-bottom-color:transparent;backdr
 .burger span:nth-child(2){width:13px}
 .burger:hover span:nth-child(2){width:22px}
 body.nav-open .globe,body.nav-open .wapp,body.nav-open .burger{
-  border-color:rgba(250,247,241,.6);background:rgba(46,34,40,.45);color:var(--ivory);
+  border-color:rgba(250,247,241,.6);background:rgba(43,37,27,.45);color:var(--ivory);
   backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
 }
 body.nav-open .burger span{background:var(--ivory)}
@@ -377,9 +413,14 @@ body.nav-open{overflow:hidden}
   overflow-y:auto;
 }
 body.nav-open .nav{opacity:1;visibility:visible}
+/* ⚠️ THE OVERLAY WEARS THE GRADE TOO — 2026-08-28c. Its ground is var(--ink), which is
+   bronze now, so the estate's rose radial (rgba(199,154,146,.22)) became the gold at the
+   rose's own weight, and the link hover follows below. The SIBLINGS keep the rose pair;
+   this page's menu had already left "identical estate chrome" the moment its ground
+   token moved, so the accents move with it rather than staining it pink. */
 .nav::before{
   content:"";position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(120% 90% at 88% 12%,rgba(199,154,146,.22),transparent 62%);
+  background:radial-gradient(120% 90% at 88% 12%,rgba(194,160,94,.22),transparent 62%);
 }
 .nav ol{list-style:none;margin:0;padding:0;position:relative;width:100%;max-width:46rem}
 .nav li{border-top:1px solid rgba(222,212,194,.14);opacity:0;transform:translateY(14px)}
@@ -396,7 +437,7 @@ body.nav-open .nav li{
   font-weight:500;line-height:1.25;letter-spacing:-.01em;
   transition:color .25s var(--ease),padding-left .35s var(--ease);
 }
-.nav a:hover{color:var(--rose);padding-left:.7rem}
+.nav a:hover{color:var(--gold);padding-left:.7rem} /* was --rose — the gold grade; same L*, 5.00:1 either way */
 .nav a em{
   font-style:normal;font-family:var(--sans);font-size:.6rem;font-weight:400;
   letter-spacing:.28em;color:var(--gold);opacity:.85;min-width:2.4em;
@@ -463,7 +504,14 @@ section{position:relative}
 .signals-close strong{font-weight:500;color:var(--burgundy)}
 
 /* ─────────────────────────── 02 · THE TURN (dark) ─────────────────────────── */
-/* ══ THE BAND IS BURGUNDY AGAIN — round 14 (2026-08-16), the plum reversal.
+/* ══ THE BAND IS BRONZE SINCE 2026-08-28c — the gold grade. var(--burgundy) holds
+   #453103 on this page now (the wine at its own L* and C*, rotated to the champagne
+   axis — the token block's note), so this band moved WITH the token, exactly the way
+   the round-14 restoration below was designed to work. The champagne accents did not
+   move and still carry their solved 5.00:1 (5.009 measured on the bronze); the ivory
+   body still carries 11.6. The static-twin rule below is UNCHANGED and was honoured:
+   the stage left the plum in the same commit, so both paths show one grade.
+   ══ THE BAND IS BURGUNDY AGAIN — round 14 (2026-08-16), the plum reversal.
    ⚠️ THIS BAND IS SECTION 3'S STATIC TWIN — it is what a reduced-motion or no-JS visitor
    sees INSTEAD of the web scene (.scene-fallback). It has to hold whatever colour the
    stage holds, or the accessibility path shows a different page from the animated one.
@@ -510,7 +558,7 @@ section{position:relative}
 /* the glow is --gold at the rose's own weight since 2026-08-28 (the gold door round) —
    see the cool-values record above. 194,160,94 IS --gold #C2A05E spelt in rgba. */
 .turn-glow{position:absolute;right:-18vw;top:-20vh;width:60vw;height:60vw;border-radius:50%;
-  background:radial-gradient(circle,rgba(194,160,94,.16) 0%,rgba(92,31,49,0) 62%);pointer-events:none}
+  background:radial-gradient(circle,rgba(194,160,94,.16) 0%,rgba(69,49,3,0) 62%);pointer-events:none}
 
 /* ⚠️ .link-arrow IS NOT ON THIS PAGE — it is the sister page's "go and read"
    material, and nothing here routes anywhere yet (see the 04 note). The day the
@@ -1373,7 +1421,7 @@ section{position:relative}
   opacity:0;transition:opacity .35s var(--ease)}
 .pxd[hidden]{display:none}
 .pxd.on{opacity:1}
-.pxd-scrim{position:absolute;inset:0;background:rgba(46,34,40,.55);
+.pxd-scrim{position:absolute;inset:0;background:rgba(43,37,27,.55);
   backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 .pxd-panel{position:relative;background:var(--ivory);border:1px solid var(--line);
   border-radius:2px;width:min(620px,100%);max-height:min(84svh,760px);overflow-y:auto;
@@ -1393,7 +1441,7 @@ section{position:relative}
      and data-lenis-prevent on the element keeps Lenis off it even if this page is
      ever given syncTouch (it is smoothWheel-only today). */
   overscroll-behavior:contain;touch-action:pan-y;-webkit-overflow-scrolling:touch;
-  padding:clamp(26px,3.6vw,46px);box-shadow:0 30px 80px rgba(20,9,13,.35);
+  padding:clamp(26px,3.6vw,46px);box-shadow:0 30px 80px rgba(17,11,2,.35);
   transform:translateY(12px);transition:transform .45s var(--ease)}
 .pxd.on .pxd-panel{transform:none}
 .pxd-x{position:absolute;top:14px;right:14px;width:38px;height:38px;flex:none;
@@ -1519,14 +1567,14 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
 .doc.no-photo .doc-mono{display:grid}
 .doc-info{
   position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;
-  border:1px solid rgba(250,247,241,.65);background:rgba(46,34,40,.38);
+  border:1px solid rgba(250,247,241,.65);background:rgba(43,37,27,.38);
   color:var(--ivory);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
   font-family:var(--serif);font-style:italic;font-size:18px;line-height:1;
   display:grid;place-content:center;
   transition:background .3s var(--ease),border-color .3s var(--ease),
     color .3s var(--ease);
 }
-.doc-info:hover,.doc-info:focus-visible{background:rgba(46,34,40,.62);border-color:var(--ivory)}
+.doc-info:hover,.doc-info:focus-visible{background:rgba(43,37,27,.62);border-color:var(--ivory)}
 .doc.no-photo .doc-info{border-color:var(--logo-red);background:transparent;color:var(--logo-red);backdrop-filter:none;-webkit-backdrop-filter:none}
 .doc.no-photo .doc-info:hover,.doc.no-photo .doc-info:focus-visible{background:var(--logo-red);color:var(--ivory)}
 .doc h3{
@@ -2060,6 +2108,11 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
      ⚠️ the italics left the rose on 2026-08-28 (the gold door round): they are --gold
      #C2A05E now, L* 67.59 — the same slot at the same lightness a third time. A future
      cool grade converts the GOLD at its own L*; the row above records the rose era.
+     ⚠️⚠️ THE WHOLE WARM COLUMN ABOVE IS THE PLUM ERA, CLOSED 2026-08-28c — the gold
+     grade rotated the stage, BG_A, the glow, the beads and both inks into the champagne
+     family at held L* and C* (the token block and the scene script's constants note
+     carry the current↔plum mapping). A future cool grade converts the BRONZE values at
+     their own L* and C*; this table stays as the record of how rounds 9/14 did it.
    THE TWO GRADES ARE THE SAME PICTURE BY MEASUREMENT — every pair survived the rotation to
    within 0.05, which is what "the same value" has to mean if it means anything. Warm first,
    cool second:
@@ -2070,9 +2123,14 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
    ⚠️ --ink WAS NEVER TOUCHED, on either grade. It is the page's TEXT ink and it dresses
    .scene-beat.light and .scene-title — type standing on the RISEN ground, exactly like
    every heading in every other chapter. */
-.scene-stage{height:100svh;width:100%;position:relative;overflow:hidden;background:#2E2228;--scene-fg:var(--ivory)}
+/* ⚠️ THE STAGE LEFT THE PLUM ON 2026-08-28c — the gold grade, his call ("no longer a
+   burgundy on the animation"). #2B251B is the plum #2E2228 at its own L* and C*, hue
+   rotated to the champagne axis — it MUST STAY EQUAL to --ink and to INK in the scene
+   script, exactly as the plum did. The round-14 record above still governs a return to
+   the cool grade; it converts from THESE values now. */
+.scene-stage{height:100svh;width:100%;position:relative;overflow:hidden;background:#2B251B;--scene-fg:var(--ivory)}
 .scene-glow{position:absolute;right:-22vw;top:-26vh;width:72vw;height:72vw;border-radius:50%;pointer-events:none;
-  background:radial-gradient(circle,rgba(92,31,49,.38) 0%,rgba(46,34,40,0) 62%)}
+  background:radial-gradient(circle,rgba(69,49,3,.38) 0%,rgba(43,37,27,0) 62%)}
 .scene-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 /* the payoff word — Megante at display size, the voice the chapter marks wear.
    ⚠️ MEGANTE, NOT PLAYFAIR, inherited from the sister scene with its reason: at
@@ -2098,7 +2156,7 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
    belt to that braces: it separates the glyph from the particle field either way. */
 .scene-beat{position:absolute;left:0;right:0;top:0;opacity:0;font-family:var(--serif);
   font-size:clamp(27px,3.5vw,49px);line-height:1.22;   /* his 1.16x, chosen in the figure room */
-  color:var(--ivory);text-shadow:0 1px 24px rgba(46,34,40,.62)}
+  color:var(--ivory);text-shadow:0 1px 24px rgba(43,37,27,.62)}
 .scene-beat.light{color:var(--ink);text-shadow:0 1px 24px rgba(250,247,241,.8)}
 /* ⚠️ THE ITALICS ARE --gold SINCE 2026-08-28 — the gold door round. They were --rose
    (back since round 14; before that #87A8C5, only ever the rose at its own lightness on
@@ -2166,11 +2224,13 @@ html.js-scene .scene-ctrl{
   background:var(--glass-fill,rgba(255,255,255,.12));
   backdrop-filter:blur(22px) saturate(180%);
   -webkit-backdrop-filter:blur(22px) saturate(180%);
-  /* the two shadow blacks are the warm near-black #14090D translated at its own L* and C*
-     to #050D14 — same rule as the rest of the stage (2026-08-16) */
+  /* the two shadow blacks: the plum near-black #14090D went to the champagne family's
+     #110B02 (17,11,2) on 2026-08-28c — the gold grade, L* and C* held, same rule as the
+     rest of the stage. The 2026-08-16 cool grade had translated the same slot to
+     #050D14; a future cool round converts #110B02 at its own L* and C*. */
   box-shadow:inset 0 1px 0 var(--glass-top,rgba(255,255,255,.34)),
-             inset 0 -1px 0 rgba(20,9,13,.06),
-             0 6px 20px rgba(20,9,13,.16);
+             inset 0 -1px 0 rgba(17,11,2,.06),
+             0 6px 20px rgba(17,11,2,.16);
   transition:background .3s var(--ease),border-color .3s var(--ease),transform .2s var(--ease);
   cursor:pointer;
 }
@@ -2178,7 +2238,7 @@ html.js-scene .scene-ctrl{
   background:var(--glass-hi,rgba(255,255,255,.22));transform:translateY(-1px)}
 /* pre-first-frame defaults only (2026-08-13): the scene script now drives all four
    glass properties per frame at every width, flipping them when the whole ground does */
-html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
+html.js-scene{--glass-fill:rgba(43,37,27,.45);--glass-hi:rgba(43,37,27,.58);
               --glass-line:rgba(255,255,255,.26);--glass-top:rgba(255,255,255,.30)}
 @media(max-width:560px){
   .scene-ctrl{gap:8px;font-size:9.5px}
@@ -3813,11 +3873,23 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
 
   const mobile = matchMedia("(max-width:760px)").matches;
 
-  const INK=[46,34,40], IVORY=[250,247,241];
+  /* ⚠️ THE GOLD GRADE, 2026-08-28c — the scene's plum/wine constants rotated to the
+     champagne axis at held L* and C* (the token block's note carries the method):
+       INK   [46,34,40] #2E2228 → [43,37,27] #2B251B  (must stay equal to --ink and
+                                                       the .scene-stage literal)
+       BG_A  [42,27,32] #2A1B20 → [37,30,20] #251E14
+       GOLD_DEEP [163,54,72] #A33648 → [121,87,0] #795700 — THIS was "the burgundy on
+         the animation": the line, the beads and the band once the ground rises were
+         drawn in the estate's wine red. They are true deep gold now; on the risen
+         gold dawn the line carries 5.49:1 against the wine's 5.49.
+       STONE [176,154,156] #B09A9C → [168,158,144] #A89E90 (the drifting beads, rose-
+         grey to sand; 6.25:1 on the new stage against 6.23 on the old)
+     GOLD and CHAMP were already the champagne family and did not move. */
+  const INK=[43,37,27], IVORY=[250,247,241];
   /* ⚠️ BG_B IS THE GOLD DAWN SINCE 2026-08-28 — it MUST STAY EQUAL to --dawn in the token
      block (the cross-reference lives on that token). [244,233,211] is #F4E9D3. */
-  const BG_A=[42,27,32], BG_B=[244,233,211];
-  const GOLD=[201,164,106], GOLD_DEEP=[163,54,72], CHAMP=[236,214,178], STONE=[176,154,156];
+  const BG_A=[37,30,20], BG_B=[244,233,211];
+  const GOLD=[201,164,106], GOLD_DEEP=[121,87,0], CHAMP=[236,214,178], STONE=[168,158,144];
   const ss=(a,b,x)=>{x=Math.max(0,Math.min(1,(x-a)/(b-a)));return x*x*(3-2*x)};
   const mix=(a,b,k)=>a+(b-a)*k;
   const mixC=(A,B,k)=>[Math.round(mix(A[0],B[0],k)),Math.round(mix(A[1],B[1],k)),Math.round(mix(A[2],B[2],k))];
@@ -3881,9 +3953,9 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
     stage.style.setProperty("--scene-fg", rgba(mixC(IVORY,INK,ss(.798,.824,p)),1));
     const gl=dw>.55;
     stage.style.setProperty("--ctrl-fg",  gl?rgba(INK,1):rgba(IVORY,1));
-    stage.style.setProperty("--glass-fill", gl?"rgba(255,255,255,.20)":"rgba(46,34,40,.45)");
-    stage.style.setProperty("--glass-hi",   gl?"rgba(255,255,255,.34)":"rgba(46,34,40,.58)");
-    stage.style.setProperty("--glass-line", gl?"rgba(46,34,40,.22)":"rgba(255,255,255,.26)");
+    stage.style.setProperty("--glass-fill", gl?"rgba(255,255,255,.20)":"rgba(43,37,27,.45)");
+    stage.style.setProperty("--glass-hi",   gl?"rgba(255,255,255,.34)":"rgba(43,37,27,.58)");
+    stage.style.setProperty("--glass-line", gl?"rgba(43,37,27,.22)":"rgba(255,255,255,.26)");
     stage.style.setProperty("--glass-top",  gl?"rgba(255,255,255,.55)":"rgba(255,255,255,.30)");
     glow.style.opacity=(1-ss(.70,.80,p)).toFixed(3);
     hint.style.opacity=(1-ss(.030,.072,p)).toFixed(3);

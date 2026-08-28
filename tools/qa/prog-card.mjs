@@ -15,8 +15,10 @@
    So the phone order is asserted by MEASURED POSITION, not by class.
 
    It also guards what the redesign was careful about:
-     · the four not-included rows each keep a <details> — the AED 795 review fee
-       lives inside one of them and NOWHERE ELSE ON THE SITE
+     · the five not-included rows each keep a <details> — the repeat-prescription
+       (AED 750 + VAT) and repeat-consultation (AED 395 + VAT) fees live inside two
+       of them and NOWHERE ELSE ON THE SITE. It was four rows and one AED 795 fee
+       until the owner's 2026-08-28 clarification split that row in two.
      · the figure keeps its .pg-amt class, LAST in the attribute, because
        trt-page.mjs reads the no-JS price through it
      · .pg-note stays outside #pg-addon (the 2026-08-24f accessibility fix)
@@ -128,9 +130,9 @@ for (const [dir, figure] of [['hormone-therapy-bhrt', 'AED 950'],
   ok(st.priceR, 'the figure sits in the right column');
   ok(/\bpg-amt$/.test(st.amtCls || ''), '.pg-amt is LAST in the figure\'s class list', st.amtCls);
   ok((st.priceTx || '').startsWith(figure), `the figure reads ${figure}`, st.priceTx);
-  ok(st.mores.length === 4, 'four not-included rows are disclosures', String(st.mores.length));
+  ok(st.mores.length === 5, 'five not-included rows are disclosures', String(st.mores.length));
   ok(st.mores.every(m => m.sum && m.sml), 'every + has a label and a sentence to open onto');
-  ok(st.mores.every(m => m.shut), 'all four start closed');
+  ok(st.mores.every(m => m.shut), 'all five start closed');
   ok(st.excPlain === 0, 'no not-included row was left without its +', String(st.excPlain));
   ok(st.noteOut, 'the outside-UAE note is present and OUTSIDE the priced toggle');
   ok(!/outside the UAE/i.test(st.addonName || ''),

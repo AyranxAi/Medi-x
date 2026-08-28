@@ -133,6 +133,8 @@ now match on three of four lines, which is an argument that the fee matches too 
 fourth line is still a deliverable BHRT does not carry, and he has still never been asked.
 Nothing on the card moved: 950 / 47.50 / 997.50, add-on 1,950, review 795.
 
+⚠️ **SUPERSEDED 2026-08-28 — the review row is now TWO rows.** Repeat prescription **AED 750 + VAT** (issued without a face-to-face consultation) and repeat consultation **AED 395 + VAT** (a Zoom follow-up). The 795 is retired: it was one figure standing for two services. His 2026-08-19 "review is 750 + vat" was the PRESCRIPTION all along. The paragraph above is left as the record of what was true then — see `HANDOFF.md`, the 2026-08-28 addendum.
+
 ## QA
 
 `node tools/qa/doors-shots.mjs` — covers this page and door 3 from one config table.

@@ -1,3 +1,261 @@
+# Handoff addendum — 2026-08-27/28 (the owner's round on the three doors: the free call takes the second pill, the collection splits by emirate, the review row splits in two, and each door wears its orb)
+
+**Read this first if you are the next chat.** One session, three passes: a copy-and-theme
+round on the three doors (2026-08-27), his two corrections to it the same day, and the
+repeat-fees clarification (2026-08-28). Everything below is **on `main`**. The working
+branch is `claude/web-pages-content-updates-ddfu1m` and carries the same commits.
+
+The three doors are `/hormone-therapy-bhrt/`, `/modern-menopause/` and
+`/testosterone-top-up/`. "The two popup pages" are `/peptide-therapy/` and
+`/functional-medicine/`, which render the same programme content through a modal.
+
+---
+
+## 1 · What he asked for, and what it became
+
+| his words | where it landed |
+|---|---|
+| *"for all the service page replace the other cta with Book Discovery Call"* | the hero's **second** pill on all three doors: "How it works" → **"Book a free discovery call"** → `#book` |
+| *"or do you think Book Free Discovery call would be better?"* | **yes, with "free"** — put to him, he took it. Sentence case with the article, the estate's button grammar |
+| *"remove the word steady and replace it with the word stable"* | **the scene's payoff word only** — see §2, this is the one that needed a correction |
+| *"it is 1850 +vat not 1950"* | the collection add-on, **Dubai AED 1,850 + VAT** |
+| *"another box … for other emirates … 2150+ Vat"* | a second toggle, **AED 2,150 + VAT**, mutually exclusive with the first |
+| *"For other countries - Ask our team - we may have another nearby you"* | the `.pg-note` under both boxes, plus the old note's standing promise (see §3) |
+| *"for the feedback section replace the word with Happy customers or satisfied customers"* | **"In their own words."** — "customers" set aside: these are patients (§4) |
+| *"make M in Menopause capital"* | `Modern Menopause management.` — h1 and `<meta name="description">` |
+| *"copy the subtext directly from the original medi-gyn modern meno pause link"* | **partially — see §6, THE ONE OPEN ITEM** |
+| *"make it to be taken more seriously as men dont really care that much"* | the stakes sentence under the testosterone definition (§5) |
+| *"we need to make that theme for the pages … burgundy … pink? … yellow"* | confirmed against the real orbs: **burgundy · rose · gold** (§7) |
+| *"Repeat prescription is 750 + vat … repeat constulation is 395 + vat"* | the "Review consultation AED 795" row split in two (§8) |
+
+---
+
+## 2 · ⚠️ "Stable." IS THE PAYOFF WORD AND NOTHING ELSE
+
+The first pass read *"replace the word steady"* as estate-wide and renamed four things on
+`/hormone-therapy-bhrt/`. **His correction: _"for bhrt the stable is the last word"_.**
+
+| site | now | note |
+|---|---|---|
+| `.scene-title` (the word in the ring) | **"Stable."** | the change he asked for |
+| the fallback chip | "Unsteady energy" | reverted — also matches the archived month wheel |
+| `.signals-close` | "exactly what to steady" | reverted |
+| the FAQ answer | "steady the rhythm you still have" | reverted |
+
+The scene beats never contained the word. `archive/hormone-therapy-bhrt-sections/` still
+says "Unsteady energy" and is **now consistent again** — it was briefly out of step.
+
+---
+
+## 3 · The collection add-on: one box became two, EVERYWHERE
+
+His *"for all the bloodtest the one we have now"* extended the split past the three doors.
+**Six pages carry it. No shipped page shows `AED 1,950` any more** — on all eight
+`index.html` files every remaining mention is a code comment recording the figure's
+history. ⚠️ **Two bench files still show the old figure and were left alone on purpose:**
+`peptide-therapy/goals-lab.html` and `peptide-therapy/programme-band-lab.html`. They are
+`-lab` experiments, not linked from any page, and they record what was tried at the time —
+the same reason the archive keeps its own copies. Sweep them only if a lab is ever promoted.
+
+| page | base | with Dubai | with other emirates |
+|---|---|---|---|
+| `/hormone-therapy-bhrt/`, `/modern-menopause/` | 950 → 997.50 | 2,800 → 140.00 → **2,940.00** | 3,100 → 155.00 → **3,255.00** |
+| `/testosterone-top-up/` | 1,150 → 1,207.50 | 3,000 → 150.00 → **3,150.00** | 3,300 → 165.00 → **3,465.00** |
+| `/peptide-therapy/`, `/functional-medicine/` | 1,150 → 1,207.50 | same as above | same as above |
+| `/programs/` | board-only (`?price=950`) | 2,940.00 | 3,255.00 |
+
+**⚠️ THE TWO TOGGLES ARE MUTUALLY EXCLUSIVE, AND THAT IS THE WHOLE MODEL.** A reader is in
+one place. Ticking one unticks the other; ticking the same one again clears it. The state
+is `'dubai' | 'uae' | null`, not two booleans — two booleans would let someone buy both
+collections, which is not a thing that exists. The second button is `#pg-addon2` on every
+page. `#pg-addon-amt` falls back to the Dubai figure when nothing is ticked, so the hidden
+row never prints `AED 0.00`.
+
+**⚠️ THE `.pg-note` KEEPS TWO SENTENCES ON PURPOSE.** His line is the first; the second
+("Your blood tests can also be done at any laboratory at your destination") is the old
+note's standing promise, kept deliberately — I put the question to him and he said
+*"2 okay for now"*. It answers what the international reader actually asks. It stays
+**outside** both `<button>`s: the 2026-08-24f accessibility fix (a button's whole subtree
+is its accessible name) still governs.
+
+---
+
+## 4 · The testimonials heading
+
+**"In their own words."** on all three doors, replacing "What came back first."
+
+He floated *"Happy customers or satisfied customers"* and asked for a better idea.
+"Customers" was set aside because **these are patients**, and "happy/satisfied" is a claim
+the clinic makes about them; this label is honest about what the section is — their
+sentences. The dot is the approved headline grammar. The three quotes underneath are still
+the **placeholders** flagged in earlier rounds — real patient voices before any marketing.
+
+---
+
+## 5 · `/testosterone-top-up/` — the stakes sentence
+
+A **second `.seg-def`** under the definition, which is new on these pages (the siblings
+have one):
+
+> This is health, not vanity. Muscle, bone, metabolism, mood and drive all run on it —
+> and a decline you never measure is one you never *treat*.
+
+Stakes through facts, not fear. The systems named are the ones low testosterone is actually
+implicated in, and they are the **same vocabulary as the chips and the `.signals-close`**
+below it. ⚠️ The ledger's standing rule — *the left column must stay sympathetic* — governs
+this sentence too. Do not sharpen it into a scare.
+
+---
+
+## 6 · ⚠️⚠️ THE ONE OPEN ITEM — `/modern-menopause/`'s hero subtext is NOT verbatim
+
+He gave permission to lift the subtext from **medi-gyn.com/modern-menopause/** directly,
+because *"we just invested stuff"* in the drafted one.
+
+**medi-gyn.com is unreachable from the build environment** — the network egress policy
+blocks the domain at the gateway (403 on CONNECT), and archive mirrors and reader proxies
+with it. So the shipped paragraph is **assembled from Medi-Gyn's own recorded sentences**
+(recovered from search results and from what this repo had already quoted in earlier
+rounds) — *"every woman has her own menopause"*, *"self-rediscovery and re-invention"*,
+*"science-backed"*, *"Modern Menopause Management"*:
+
+> Every woman has her own menopause. **menoSTART** — Medi-Gyn's Modern Menopause
+> Management programme — is a personalised, science-backed plan of self-rediscovery and
+> re-invention for the years after your last period.
+
+**It is their language, not invented copy — but it is not the page's exact paragraph.**
+The `<!-- -->` above it in the file says so and flags it for a verbatim swap.
+
+**→ NEXT CHAT: ask him to paste the exact paragraph, or get the domain allowed, and swap
+it in.** Same standing offer for the testosterone hero, whose lines the page already had.
+
+⚠️ **"after your last period" SURVIVES ANY REWRITE.** It is the door-2 audience filter
+(his *"i dont want you to mix both"*, 2026-08-19). A woman still cycling belongs on door 1.
+
+---
+
+## 7 · The door themes — burgundy · rose · gold
+
+Confirmed against the real orb images on `/hormone-balancing/`, not guessed:
+
+| door | orb | tokens |
+|---|---|---|
+| `/hormone-therapy-bhrt/` | `service-circle-hormone-therapy-burgundy.webp` | `--door #5C1F31` · `--door-deep #5C1F31` · `--door-tint #F2E1E2` |
+| `/modern-menopause/` | `service-circle-modern-menopause-rose.webp` | `--door #C79A92` · `--door-deep #8C5148` · `--door-tint #F9E4DE` |
+| `/testosterone-top-up/` | `service-circle-testosterone-replacement-gold.webp` | **none — see below** |
+
+**⚠️ `--door-deep` IS A MEASURED VALUE, NOT A PICKED ONE.** `--rose` is a 2.06:1 wash and
+can never be text. `#8C5148` is the rose darkened in-family until it clears the 4.5 body
+floor on the **worst** ground it stands on: **5.15:1 on the rose dawn**, 5.24 on the
+porcelain, 5.80 on ivory. BRAND.md's method. Re-measure if a ground moves.
+
+**⚠️ THE GOLD DOOR HAS NO `--door` TOKENS ON PURPOSE.** The estate's gold already dresses
+exactly the six rule sites the theme names, so the theme there **is** the page as it
+stands. Mapping tokens in would mean collapsing `--gold-deep` and `--gold-gloss` into one
+"deep", which the `--gold-gloss` note forbids — that token is a *function of the ground*.
+Its token block records this. If that orb ever changes colour, add the three tokens the way
+`/modern-menopause/` did and retarget the same six sites.
+
+**⚠️ WHAT THE THEME DOES NOT TOUCH,** and each exclusion is load-bearing: CTAs keep
+`--logo-red` (**the one-red rule**); the money card and the process sculpture keep their
+shared gold grammar; the dark `.turn` band keeps its **SOLVED** champagne accents (5.00:1,
+derived not chosen); the scene keeps its measured stage colours. Only the light-ground
+accent chrome wears the door — **six sites**: `.kicker::before`, `.seg .kicker::after`,
+`.hero-hint .tick::after`, `.chip:hover`, `.chapter-mark`, `.seg-gloss`, `::selection`.
+
+---
+
+## 8 · The repeat fees — one row became two (2026-08-28)
+
+> *"Repeat prescription is 750 + vat which is a prescription issued without a doctor face
+> 2face"* · *"repeat constulation is 395 + vat which is when you want to speak to a doctor
+> via a zoom meeting"*
+
+"What's not included" had **one** row — *Review consultation, AED 795 + VAT* — that was
+selling **two different services** under one name and one figure. It is now two rows on all
+three doors, byte-identical:
+
+| row | copy | fee |
+|---|---|---|
+| Repeat prescription | "Your prescription re-issued without a face-to-face consultation" | **AED 750 + VAT** |
+| Repeat consultation | "A follow-up with your doctor over Zoom" | **AED 395 + VAT** |
+
+**⚠️ THIS RESOLVES THE 750/795 KNOT THE OLD NOTES RECORD, AND HIS FIRST FIGURE WAS RIGHT.**
+His 2026-08-19 *"review is 750 + vat"* was the **repeat prescription** all along.
+2026-08-24h's *"795 review consult"* collapsed both services into one figure that matched
+neither, and the notes then blamed the 750 for being stale. **795 is now retired from the
+estate.** Nothing here is a price rise or cut — one row split into the two things it was
+always describing.
+
+**⚠️ THE PRESCRIPTION COSTS MORE THAN THE ZOOM CALL (750 vs 395), AND THAT IS HIS FIGURE.**
+Put to him in exactly those words and left as given. It is counterintuitive to a reader —
+the cheaper option is the one with a doctor in it — and a patient needing a renewal may
+rationally book the 395 instead. **Not a bug. If it is ever revisited, it is his call.**
+
+**⚠️ BOTH ARE CARD COPY — NO SCRIPT READS EITHER FIGURE.** That is precisely why the wrong
+number sat on the card for days last time while every money check ran green.
+`tools/qa/trt-page.mjs` §1b now pins **both strings on all three doors** and asserts 795 is
+gone from visible copy; `prog-card.mjs` counts **five** disclosure rows, not four.
+
+**⚠️ `/programs/` STILL QUOTES THE RETIRED 795** — his scope this time was *"across 3
+services"*, and that page prices a different product with its own extra clause ("your levels
+re-read at two months, and the prescription renewed"). **It is a live contradiction with the
+three doors and it is the second thing to raise with him.** The two popup pages carry a
+figureless "Review consultation — This is a new consultation." line and so contradict
+nothing; adding figures there is a copy decision nobody has taken.
+
+---
+
+## 9 · The harnesses, and what changed in them
+
+Everything below ran green before the push.
+
+| harness | what moved |
+|---|---|
+| `prog-card.mjs` | guards `#pg-addon2`; **five** not-included rows, not four |
+| `trt-page.mjs` | §1b pins **both** repeat fees on all three doors; the old "no stray 750" guard **inverted** — 750 is live copy now, 795 is what must not appear. Dubai sums |
+| `doors-shots.mjs`, `bhrt-shots.mjs` | Dubai add-on sums |
+| `programs-page.mjs` | Dubai total (2,940.00); still asserts the 795 on `/programs/`, which is still true there |
+| `services-choice.mjs` | 11's needle, 12's total, 13's control count (**four** now — two toggles) |
+
+**⚠️ `services-choice.mjs` CHECK 11 HAD BEEN FAILING BEFORE THIS ROUND AND NOBODY KNEW.**
+Its needle was `'comes to your home'`, which **his own 2026-08-24 rewrite deleted** ("Our
+team arrives to collect…"). It is now pinned to `'Our team arrives'`. Worth knowing that a
+red check can sit in this suite unnoticed — nothing runs it automatically.
+
+Run them with:
+
+```
+npm install --no-save playwright@1.49.1 gsap@3.13.0 lenis@1.3.4 sharp
+node tools/qa/prog-card.mjs        # the card's shape + both toggles, three doors
+node tools/qa/trt-page.mjs         # the money three ways + both repeat fees
+node tools/qa/doors-shots.mjs      # doors 2 and 3, end to end
+node tools/qa/bhrt-shots.mjs       # door 1, end to end
+node tools/qa/services-choice.mjs  # the peptide programme panel (109 checks)
+node tools/qa/programs-page.mjs    # needs sharp
+node tools/qa/peptide-page.mjs tools/qa/fm-shots.mjs
+```
+
+⚠️ `programs-page.mjs` needs **sharp**, which the other harnesses do not — install it in the
+same command or that one dies on an import error that looks like a missing browser.
+
+---
+
+## 10 · Open, in the order worth raising
+
+1. **The `/modern-menopause/` subtext is not verbatim** (§6) — needs his paste or a network
+   allowance. The only item in this round that is knowingly unfinished.
+2. **`/programs/` still says AED 795** (§8) — a live contradiction with the three doors.
+3. **750 > 395** (§8) — flagged to him, left as given. Confirm it is not a transposition.
+4. **The testimonial quotes are still placeholders** on all three doors (§4).
+5. **Still standing from earlier rounds, untouched here:** whether menoSTART carries the
+   same 950 as BHRT (he has never been asked, and menoSTART includes the Lifestyle Guide);
+   the closing chapter's pill still reads "Book a discovery call" without "free" — left
+   deliberately, its heading already says "free 10-minute" one line above.
+
+
+---
+
 # Handoff addendum — 2026-08-26b (the same two-chapter cut on doors 1 and 3: the ring, the key, the ledger and the markers all come out)
 
 His call, straight after the /modern-menopause/ round: *"what you did by removing the 2

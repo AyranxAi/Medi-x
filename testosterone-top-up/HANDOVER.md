@@ -1,5 +1,14 @@
 # /testosterone-top-up/ — build record, round 1 (2026-08-19)
 
+⚠️ **THE PAGE WEARS ITS GOLD — 2026-08-28b.** His call (*"actually use the colors …
+make the testosterone that colors theme … transform the page"*): `--dawn` is the **gold
+dawn `#F4E9D3`** (was door 1's rose `#F6E7E1`), `BG_B` in the scene script moved with it
+per the cross-reference, the scene's italics and held words are `--gold`, and the turn
+band's glow is the gold at the rose's weight. Every new value is the old one's
+**luminance twin**, so every measured pairing on the page held without re-derivation —
+the arithmetic is on the `--dawn` token. Rollback is four sites, one decision. Full
+account in [`HANDOFF.md`](../HANDOFF.md), the 2026-08-28b addendum.
+
 ⚠️⚠️ **TWO CHAPTERS CAME OUT, 2026-08-26** — his call, the same cut made on
 `/modern-menopause/` and `/hormone-therapy-bhrt/` the same day: *"what you did by removing
 the 2 sections after the consultation page on this, do also for the other 2 pages — remove

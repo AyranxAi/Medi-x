@@ -1,3 +1,117 @@
+# Handoff addendum — 2026-08-28b (the gold door wears its gold: the testosterone dawn, the scene's italics and the turn glow leave the rose)
+
+**Read this first if you are the next chat.** One ask, one page. His words: *"actually
+use the colors ive mentioned for the services pages … make the testosterone that colors
+theme … transform the page to have that color, base it on that … lets start with that."*
+The 2026-08-27 round (§7 of the addendum below) confirmed the door themes — burgundy ·
+rose · gold — and deliberately left the gold door **unchanged**, because its six accent
+sites were already gold. This message is his answer to that outcome: **the theme must be
+seen, not deduced.** Everything here is on `claude/medi-x-services-colors-p0o878`, one
+page touched: `/testosterone-top-up/`.
+
+---
+
+## 1 · What moved, and the one idea behind all of it
+
+**Every rose surface on the page moved to its gold LUMINANCE TWIN** — the gold family at
+the rose's exact weight — so the page recolours while every measured contrast pairing
+holds to the second decimal. Nothing was re-derived because nothing needed to be; that is
+the entire method, and it is why this round is four sites and not forty.
+
+| site | was | is | the twin |
+|---|---|---|---|
+| `--dawn` (grounds of `.define` · `.docs` · `.faq`) | `#F6E7E1`, door 1's rose dawn | **`#F4E9D3`, the gold dawn** | L* 92.67 vs 92.65 |
+| `BG_B` in the scene script | `[246,231,225]` | `[244,233,211]` | the `--dawn` cross-reference — the two copies moved together |
+| `.scene-beat em` / `.scene-beat .w` | `var(--rose)` | `var(--gold)` | L* 67.59 vs 67.52 · 6.65:1 on the dark stage vs 6.63 |
+| `.turn-glow` | `rgba(199,154,146,.16)` | `rgba(194,160,94,.16)` | same twin, alpha untouched |
+
+**⚠️ #F4E9D3 IS DERIVED, NOT PICKED** — the mirror of `/modern-menopause/`'s
+`--door-tint` ("the rose lightened to the gold-tint's weight", inverted: the gold-tint
+family lifted to the rose dawn's weight). Verified on the new ground before shipping,
+BRAND.md's arithmetic: ink 12.68, ink-soft 5.50, the kicker's red 6.74, `.seg-gloss`'s
+`--gold-gloss` **4.72** (the 4.5-floor pairing that bought that token its existence), the
+ground beats against ivory **1.126** and the porcelain **1.017** — all the old numbers.
+And it is *more* chromatic than the rose dawn was (R−B spread 33 against 21), so it reads
+gold rather than off-ivory. The full arithmetic and the rollback recipe live on the
+`--dawn` token in the page.
+
+**⚠️ A ROLLBACK IS FOUR SITES, ONE DECISION** — the token, BG_B, the italics, the glow.
+Reverting fewer than all four dresses the page in two doors at once.
+
+**A pleasing detail worth keeping:** the scene's held words ("decade", "range") now speak
+the same colour as the scene's own gold line and range band — the rose was door 1's voice
+in a scene that was already drawn in this door's.
+
+---
+
+## 2 · What was NOT touched, and each exclusion is load-bearing
+
+- **CTAs keep `--logo-red`** — the one-red rule, as on the siblings' themes.
+- **The nav's rose hover and rose radial** — estate chrome, byte-matched on every page
+  including the burgundy door; a door theme does not reach the shared overlay.
+- **The sculpture and the money card** — the shared gold grammar; the PS marked ranges
+  were not entered (see §4).
+- **The `.turn` band's champagne accents** — SOLVED values (5.00:1, derived not chosen).
+  Only its *glow* moved, and the band now reads all-gold over the burgundy instead of
+  gold-with-one-rose-stain.
+- **The scene's stage constants** — BG_A, the burgundy scene-glow, the STONE beads,
+  GOLD/CHAMP. The stage was already this door's composition; only its *destination*
+  (BG_B) moved, and only because the `--dawn` cross-reference commands it.
+- **The `--rose` token** — BRAND LAW, untouched; the estate nav still points at it.
+- **Still no `--door` tokens on this page, still on purpose** — mapping the siblings'
+  three-token shape here would collapse `--gold-deep` and `--gold-gloss` into one
+  "deep", which the `--gold-gloss` note forbids (it is a function of the ground). The
+  theme is spelt in the estate's own gold tokens; the token block's door-theme note
+  records the whole of it.
+
+---
+
+## 3 · QA — all green before the push
+
+`trt-page.mjs` (money three ways, shape, console clean, nine widths) ·
+`doors-shots.mjs` (both doors end to end, 13 widths, no 404s, reduced motion) ·
+`process-sculpture.mjs` (the flower at six steps, desktop and phone, the grade pair) ·
+`prog-card.mjs` · `doctors-pill.mjs`. Rendered and *looked at*, per the `--dawn` token's
+own 2026-08-17 lesson (a seam test cannot see a field): hero, define, scene dark and
+risen, signals, turn, programme, doctors, stories, faq, book — desktop and phone.
+
+⚠️ `peptide-page.mjs` pins `'--dawn': '#F6E7E1'` **for the peptide page**, which is
+untouched and still rose. If a future round themes the popup pages, that pin is the one
+that will fire.
+
+---
+
+## 4 · ⚠️ FOUND IN PASSING — the PS:JS range is NOT byte-identical any more, and it was
+not this round
+
+The standing recipe "md5 the marked ranges on all three pages; they agree" is now true
+of **PS:CSS and PS:HTML only**. Door 3's **PS:JS** differs from the siblings by one
+comment block — the 2026-08-24g fork-and-revert record ("A FORK OF 02–06 WAS BUILT AND
+REVERTED…"), written into the shared block on this page only. It predates this round
+(verified against `main` before any edit here) and the *code* in the range is identical;
+it is the prose that forked. Nobody has decided whether that comment should be copied to
+the siblings or the recipe's wording softened — **flag it rather than "fixing" it**, since
+the record is door-3-specific by content.
+
+---
+
+## 5 · Open, in the order worth raising
+
+1. **"Lets start with that" implies the siblings are next — but check what "next" means
+   before doing anything.** Door 2's dawn IS its own rose already, and door 1's rose dawn
+   is the burgundy's own family wash — by the standard this round set ("the theme must be
+   seen"), both siblings arguably already wear their orbs in their grounds, and the
+   testosterone page was the only genuine mismatch. If he wants doors 1 and 2 *stronger*,
+   that is a new derivation each (a burgundy-family dawn for door 1 would be the parallel
+   move), not a copy of this one.
+2. **The PS:JS md5 caveat** (§4) — his call whether the fork/revert comment stays door-3
+   only.
+3. **Everything in the 2026-08-27/28 addendum's §10 still stands** — the non-verbatim
+   `/modern-menopause/` subtext, `/programs/` still quoting the retired 795, the 750>395
+   confirmation, the placeholder testimonials.
+
+---
+
 # Handoff addendum — 2026-08-27/28 (the owner's round on the three doors: the free call takes the second pill, the collection splits by emirate, the review row splits in two, and each door wears its orb)
 
 **Read this first if you are the next chat.** One session, three passes: a copy-and-theme
@@ -149,7 +263,11 @@ can never be text. `#8C5148` is the rose darkened in-family until it clears the 
 floor on the **worst** ground it stands on: **5.15:1 on the rose dawn**, 5.24 on the
 porcelain, 5.80 on ivory. BRAND.md's method. Re-measure if a ground moves.
 
-**⚠️ THE GOLD DOOR HAS NO `--door` TOKENS ON PURPOSE.** The estate's gold already dresses
+**⚠️ THE GOLD DOOR HAS NO `--door` TOKENS ON PURPOSE.** *(PARTLY SUPERSEDED 2026-08-28b —
+see the addendum above. The token shape still holds — no `--door` tokens, for the reason
+below — but "the theme there is the page as it stands" is retired: his answer was that the
+theme must be SEEN, and the page's rose surfaces — the dawn grounds, the scene italics, the
+turn glow — now wear the gold at the rose's own luminance.)* The estate's gold already dresses
 exactly the six rule sites the theme names, so the theme there **is** the page as it
 stands. Mapping tokens in would mean collapsing `--gold-deep` and `--gold-gloss` into one
 "deep", which the `--gold-gloss` note forbids — that token is a *function of the ground*.

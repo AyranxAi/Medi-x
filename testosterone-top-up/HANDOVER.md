@@ -1,6 +1,26 @@
 # /testosterone-top-up/ — build record, round 1 (2026-08-19)
 
-⚠️⚠️ **THE GOLD GRADE — 2026-08-28c. EVERYTHING DARK LEFT THE PLUM/BURGUNDY FAMILY.**
+⚠️⚠️ **BLACK & GOLD — 2026-08-28d. THE DARKS STOP BEING A COLOUR.** His verdict on the
+same day's grade, sent with the orb artwork: *"this is more brown than gold … more
+vibrant or similar to this (darker is ok too)"*, then *"black and gold but readable
+aswell and cool"*. **28c could not have worked and the reason is colorimetry, not
+taste: a large field at a gold hue and a low lightness IS brown** — the orb reads gold
+because it is light (its whole chromatic body is L\* 39–93, no dark in it at all). So
+the darks became a warm near-black (`--ink #1E1811`, band/preloader `#241D12`, canvas
+`#181209`, **low chroma on purpose**) and all the gold moved into the accents at the
+orb's own `#DAAF63`. ⚠️ **`--gold #C2A05E` is unchanged for light grounds** — the rule
+is *the gold brightens where the ground is dark*. ⚠️ **One bug caught in a render and in
+no number:** brightening `GOLD_DEEP` put a pale line on the risen pale ground (2.3:1);
+it is `#8B4E11` now, 5.46:1 — **render p .40 AND p .93 before moving either gold.**
+⚠️ **The menu went back to estate chrome** (ground pinned as the literal `#2E2228`) —
+theme the page, never the menu. ⚠️ **RAISED AND UNRESOLVED: `#stories`** — the landing
+page dropped testimonials on 2026-08-01 (his call) and the doors still carry three
+*invented* quotes; his decision, and do not show it in a review set meanwhile. Every
+pairing re-measured and clear. Full account in [`HANDOFF.md`](../HANDOFF.md), the
+2026-08-28d addendum.
+
+⚠️ **THE GOLD GRADE — 2026-08-28c** *(SUPERSEDED by the above — kept as the record of a
+dead end).* **EVERYTHING DARK LEFT THE PLUM/BURGUNDY FAMILY.**
 His correction of the "b" round below, put to him as three questions and answered:
 *"yellow optimize … no longer a burgundy on the animation … the color pallet switch
 from ink to the yellow … its its own service testosterone based."* The stage, the band,

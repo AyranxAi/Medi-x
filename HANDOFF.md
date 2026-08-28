@@ -1,3 +1,154 @@
+# Handoff addendum — 2026-08-28d (BLACK & GOLD on /testosterone-top-up/ — the darks stop being a colour, and the reason 28c could never have worked)
+
+**Read this first. It supersedes the 28c addendum below, which is now a record of a dead
+end.** He saw 28c and answered with the orb artwork attached: *"this is more brown than
+gold … give me something more vibrant or similar to this (darker is ok too)"*, then
+*"i want it to be black and gold but readable aswell and cool"*.
+
+---
+
+## 1 · ⚠️⚠️ WHY 28c COULD NEVER HAVE WORKED — COLORIMETRY, NOT TASTE
+
+28c rotated every dark surface into the champagne family at **held L\* and C\***. The
+arithmetic was perfect and the result was brown, and the reason is worth carrying
+forward as a rule:
+
+**A large field at a gold hue and a low lightness IS brown. That is what brown is.**
+The orb reads gold because it is *light and luminous* — sampled off
+`images/service-circle-testosterone-replacement-gold.webp`, its whole chromatic body
+sits at **L\* 39–93 and contains no dark at all**. Holding the plum's lightness while
+rotating its hue therefore guaranteed mud.
+
+It compounded that by inheriting the plum's **low chroma**: `--ink` came out at **35%**
+of the saturation available at its lightness, `--ink-soft` at **18%**, `BG_A` at **46%**.
+Muted gold at low lightness is the definition of brown. **No hue-tuning fixes a dark
+field — the structure has to change.** (Two intermediate attempts confirmed it: a
+full-vibrancy amber at the orb's own hue still read brown, because it was still dark.)
+
+---
+
+## 2 · What black & gold actually does
+
+**The darks stop being a colour**; all the gold moves into the accents, where it sits
+*on* black and reads as gold.
+
+| | 28c (brown) | now |
+|---|---|---|
+| `--ink` (body, stage) | `#2B251B` | **`#1E1811`** warm near-black |
+| `--ink-soft` | `#645C4F` | **`#6E6152`** |
+| `--burgundy` (band, preloader) | `#453103` | **`#241D12`** |
+| canvas `BG_A` | `#251E14` | **`#181209`** |
+| `--dawn` | `#F4E9D3` | **`#F7E9C9`** — re-sampled off the orb (its p96) |
+| dark-ground accents | `#C2A05E` | **`#DAAF63`** — the orb's own gold (its p50) |
+| canvas `GOLD` (dark ground) | `#C9A46A` | **`#DAAF63`** |
+| canvas `STONE` beads | `#A89E90` | **`#D4B98A`** |
+
+**⚠️ THE LOW CHROMA ON THE DARKS IS DELIBERATE, NOT LAZINESS.** At L\* 10–12, chroma is
+the thing that reads as brown. Anyone "enriching" those three values re-creates 28c.
+
+**⚠️ THE RULE THIS ROUND ESTABLISHES: THE GOLD BRIGHTENS WHERE THE GROUND IS DARK.**
+`--gold #C2A05E` is **unchanged** and still dresses every light-ground accent — a
+brighter gold on ivory is a fainter line, not a richer one. `#DAAF63` dresses exactly
+five dark-ground sites: the preloader ✦, `.turn .chapter-mark`, `.turn-quote .gold`,
+`.turn-list .star`, `.scene-beat.gold`.
+
+**The darks are lit, not flat** — the scene glow became a real amber bloom (the orb's
+`#8B4E11` at .45) where it had been a near-black glow doing nothing.
+
+---
+
+## 3 · ⚠️⚠️ THE BUG THAT NUMBERS DID NOT CATCH — read before touching either gold
+
+The first cut of black & gold brightened **`GOLD_DEEP`** along with everything else. But
+`GOLD_DEEP` is the colour the scene draws with **once the ground has RISEN to the dawn**
+(every `dw>.5` branch) — so it put a pale gold line on a pale gold ground and the whole
+figure all but disappeared: **2.3:1, where 4.5 is the floor.**
+
+**Nothing threw, and no number anyone was watching moved.** It was caught in a rendered
+frame at p .93 and nowhere else. It is `#8B4E11` now — the orb's own *darkest* chromatic
+tone — at **5.46:1**.
+
+**`GOLD_DEEP` is dark BECAUSE ITS GROUND IS LIGHT.** The dark-ground gold and the
+light-ground gold are two decisions, not one value awaiting tidying. **If either moves,
+render p .40 AND p .93 before believing it.**
+
+---
+
+## 4 · Readability — measured, not inherited
+
+28c's contrasts held *by construction* (L\* was held). Nothing is held now, so every
+pairing was re-measured. All clear:
+
+`--ink` on ivory **16.45** · on the dawn **14.62** · on the porcelain **14.86** ·
+`--ink-soft` **5.62 / 4.99 / 5.08** · `--gold-gloss` on the dawn **4.73** (still the
+page's tightest) · the one red on ivory **7.59** · ivory on the band **15.59** · the orb
+gold on the band **8.17** · ivory on the stage **17.39** · the line on the risen ground
+**5.46** · ground beats: dawn/ivory 1.125, dawn/porcelain 1.017.
+
+---
+
+## 5 · The menu went back to estate chrome — and it sets a precedent
+
+28c let the overlay follow `var(--ink)` and swapped its rose accents for gold. **Reverted.**
+The menu is **navigation, not a page**: it is the surface a reader uses to *leave*, it is
+byte-identical on all eight pages, and one that changes colour depending on which page you
+opened it from reads as a bug — you would watch it flip plum→gold→rose while moving
+between doors.
+
+Its ground is now **pinned as the literal `#2E2228`**, deliberately *not* `var(--ink)` —
+**the one place on this page where a token was refused on purpose.** Without the pin the
+overlay darkens with the body ink and drifts from the siblings on its own.
+
+**⚠️ IF THE OTHER DOORS EVER TAKE THEMES, THIS IS THE PRECEDENT: theme the page, never
+the menu.**
+
+---
+
+## 6 · ⚠️⚠️ RAISED BY HIM AND NOT YET RESOLVED — the testimonials contradiction
+
+His words: *"there are certain sections that we have hidden already on the main page, why
+are you even showcasing me those things knowing that i no longer approve of them?"*
+
+**He is right, and it is a live estate-wide contradiction, not a presentation slip:**
+
+- The landing page's **rotating patient testimonials were removed on 2026-08-01, his own
+  call** (chapter 08 became photographs only). The note is at `index.html` §s7.
+- **All three doors still carry a testimonials section** — "In their own words." — and its
+  three quotes are **invented placeholders** ("Omar, 46", "James, 52", "Rashid, 41"), as
+  the markup itself says: *"they read finished and they are NOT."*
+
+So the estate removed testimonials from the front door for lack of real ones, and kept a
+fabricated set on the three service pages. **The decision is his: hide `#stories` on the
+three doors (archive it the way the 2026-08-26 chapters were), or supply real quotes.**
+Nothing was changed this round — it is a content decision across three pages.
+
+**⚠️ UNTIL IT IS ANSWERED, DO NOT PUT `#stories` IN FRONT OF HIM IN A REVIEW SET.** The
+render script at `.qa-out/final.mjs` already skips it, with the reason in a comment.
+
+---
+
+## 7 · QA
+
+`trt-page.mjs` and `doors-shots.mjs` green · PS:CSS and PS:HTML md5 parity across the
+three doors re-verified after every substitution · CSS comment balance checked (199/199 —
+the 2026-08-26 lesson: an unbalanced comment swallows rules *silently*) · rendered top to
+bottom at 1440 and 390, and the scene at p .25/.40/.70/.93.
+
+---
+
+## 8 · Open
+
+1. **The testimonials contradiction** (§6) — his call, and the oldest thing on this list
+   now has a deadline attached: the doors are shipping with invented quotes.
+2. **The siblings.** Door 1 and door 2 are still on the estate plum. Black & gold is
+   door 3's answer to *"its its own service"*; the parallel move for the others is a
+   question for him, not an inference — and §5's precedent applies to any of them.
+3. **The favicon** still has a burgundy ground on a page whose preloader is now near-black.
+4. Everything in the 2026-08-27/28 addendum's §10 stands (the non-verbatim menopause
+   subtext, `/programs/` still quoting the retired 795, 750>395).
+
+---
+
 # Handoff addendum — 2026-08-28c (THE GOLD GRADE: everything dark on /testosterone-top-up/ leaves the plum/burgundy family — "yellow optimize", so the page is its own service)
 
 **Read this first if you are the next chat — it supersedes the "b" addendum below in

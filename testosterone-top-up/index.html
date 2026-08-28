@@ -128,7 +128,7 @@
   --quote-story:"Cormorant Garamond",Georgia,serif;
   /* ⚠️ THE DAWN, AS A TOKEN. This is the exact colour the scene's ground rises TO, and
      section 03 stands on it so the handoff has no seam.
-     ⚠️ IT MUST STAY EQUAL TO BG_B IN THE SCENE SCRIPT (`const BG_B=[246,231,225]`). Two
+     ⚠️ IT MUST STAY EQUAL TO BG_B IN THE SCENE SCRIPT (`const BG_B=[244,233,211]`). Two
      copies of one colour in two languages; there is no way to share them in a zero-build
      single file, so they are cross-referenced at both sites instead. Change one, change
      the other, or 03 grows a seam that is 2 RGB values wide and impossible to spot.
@@ -150,7 +150,24 @@
      the WRONG instrument for "what does 5,000px of one colour feel like", and nothing
      in the review asked that. A seam test cannot see a field. If a ground is ever
      reconsidered again, render the whole page top to bottom FIRST. */
-  --dawn:#F6E7E1;          /* the rose dawn — a section ground, and BG_B's twin */
+  /* ⚠️ THE DAWN WENT GOLD ON 2026-08-28 — the door theme, made VISIBLE. The 2026-08-27
+     round left this page unchanged on purpose (its accent chrome was already gold), and
+     his answer was that the theme should be seen — "actually use the colours … make the
+     testosterone that colours theme … transform the page". This is the move that does it:
+     the three dawn sections (.define, .docs, .faq) and the scene's risen ground stop
+     wearing door 1's ROSE — inherited when this page was built from the sister's shell —
+     and wear this door's gold.
+     ⚠️ #F4E9D3 IS DERIVED, NOT PICKED — the gold family at the rose dawn's exact weight
+     (L* 92.67 against 92.65; the mirror of /modern-menopause/'s --door-tint, which is
+     "the rose lightened to the gold-tint's weight"). Because the luminance is held,
+     EVERY measured pairing on the dawn survives unchanged: ink 12.68, ink-soft 5.50,
+     the kicker's red 6.74, .seg-gloss's --gold-gloss 4.72 (the 4.5-floor pairing that
+     bought that token its existence), and the ground beats against ivory (1.126) and
+     the porcelain (1.017) to the third decimal. Re-run the arithmetic before moving it.
+     ⚠️ A ROLLBACK IS FOUR SITES, ONE DECISION: this token back to #F6E7E1, BG_B back to
+     [246,231,225] in the scene script (the cross-reference above), and the scene italics
+     and the turn glow back to --rose. Reverting fewer than all four mixes the two doors. */
+  --dawn:#F4E9D3;          /* the gold dawn — a section ground, and BG_B's twin */
   /* ⚠️⚠️ THIS TOKEN WAS RETIRED AND RESTORED INSIDE ONE DAY (2026-08-17), and the round
      trip is the note. It was collapsed into --gold-deep when the page went to a single
      ivory ground — on ivory #8A6A34 measures 4.685 and clears the floor — and it came
@@ -163,16 +180,25 @@
      rendered contrast rather than pinning this literal, so it will tell you which way
      the ground has moved rather than merely noticing the token changed. */
   --gold-gloss:#7F6230;
-  /* ⚠️ THE DOOR THEME, AND WHY THIS PAGE HAS NO --door TOKENS — 2026-08-27, the owner's
-     call via the user: each door page wears its orb's colour from /hormone-balancing/
-     (burgundy · rose · gold). THIS door's orb is the GOLD one, and the estate's gold
-     already dresses exactly the accent set the theme names on the siblings (kicker
-     dashes, the scroll drip, the chip hover, .chapter-mark, .seg-gloss, ::selection) —
-     so the theme here is the page as it stands. The siblings carry --door /
-     --door-deep / --door-tint and retarget those rules; mapping them here would mean
-     collapsing --gold-deep and --gold-gloss into one "deep", which the --gold-gloss
-     note above forbids. If this door's orb ever changes colour, add the three tokens
-     the way /modern-menopause/ did and retarget the same six rule sites. */
+  /* ⚠️ THE DOOR THEME, AND WHY THIS PAGE STILL HAS NO --door TOKENS — 2026-08-27, the
+     owner's call via the user: each door page wears its orb's colour from
+     /hormone-balancing/ (burgundy · rose · gold). THIS door's orb is the GOLD one, and
+     the estate's gold already dresses exactly the accent set the theme names on the
+     siblings (kicker dashes, the scroll drip, the chip hover, .chapter-mark, .seg-gloss,
+     ::selection) — so that round changed nothing here on purpose.
+     ⚠️ 2026-08-28 — HIS ANSWER: THE THEME MUST BE SEEN, NOT DEDUCED. So this page now
+     wears the gold in its GROUNDS as well as its chrome: --dawn is the gold dawn (its
+     own note above), the scene's italics and held words are --gold instead of --rose,
+     and the turn band's glow is the gold at the rose's own weight. The accent set is
+     unchanged — it was already the theme.
+     ⚠️ THE TOKEN SHAPE STILL DIFFERS FROM THE SIBLINGS, AND STILL ON PURPOSE. They carry
+     --door / --door-deep / --door-tint and retarget six rules; mapping those here would
+     mean collapsing --gold-deep and --gold-gloss into one "deep", which the --gold-gloss
+     note above forbids (it is a function of the ground, not a shade). This door's theme
+     is spelt in the estate's own gold tokens instead — --gold for the chrome, --gold-gloss
+     where the 4.5 floor bites, --gold-tint for the washes, and the gold dawn for the
+     grounds. If this door's orb ever changes colour, THEN add the three tokens the way
+     /modern-menopause/ did, retarget the six rule sites, and re-derive the dawn. */
   --ease:cubic-bezier(.22,.61,.36,1);
   --swing:cubic-bezier(.34,.75,.24,1);  /* the dots’ width, round 18 */
   --pad:clamp(20px,4.5vw,72px);
@@ -450,6 +476,10 @@ section{position:relative}
                                     exactly 5.00:1 on the burgundy, so the steel was the
                                     glacier family's chroma at whatever L* returned 5.00:1)
      the glow --rose     #C79A92 → was #87A8C5  (L* 67.52 held)
+   ⚠️ THE GLOW LEFT THE ROSE ON 2026-08-28 — the gold door round. It is --gold #C2A05E
+   now, the rose's luminance twin (L* 67.59 against 67.52), so the .16 alpha carries the
+   same weight it always did. The row above stays as the record of the cool grade; a
+   future glacier round converts the GOLD at its own L*, not the rose.
    ⚠️ THE CONTRAST THE WARM VALUES CARRY IS THE ONE THAT SHIPPED FOR ROUNDS 1–8 and it is
    the better of the two: the champagne measures 5.00:1 on the burgundy against the steel's
    4.66, and the band reads as a composition rather than as a quieter version of one.
@@ -477,8 +507,10 @@ section{position:relative}
 }
 .turn-list li:first-child{border-top:1px solid rgba(250,247,241,.16)}
 .turn-list .star{color:#C2A05E;font-size:.65em} /* the solved accent — see the .turn note */
+/* the glow is --gold at the rose's own weight since 2026-08-28 (the gold door round) —
+   see the cool-values record above. 194,160,94 IS --gold #C2A05E spelt in rgba. */
 .turn-glow{position:absolute;right:-18vw;top:-20vh;width:60vw;height:60vw;border-radius:50%;
-  background:radial-gradient(circle,rgba(199,154,146,.16) 0%,rgba(92,31,49,0) 62%);pointer-events:none}
+  background:radial-gradient(circle,rgba(194,160,94,.16) 0%,rgba(92,31,49,0) 62%);pointer-events:none}
 
 /* ⚠️ .link-arrow IS NOT ON THIS PAGE — it is the sister page's "go and read"
    material, and nothing here routes anywhere yet (see the 04 note). The day the
@@ -2025,6 +2057,9 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
      and broke the rule a second time.)
      beads STONE   #B09A9C → was #93A1AE   (L* 65.55 held)
      the italics   #C79A92 → was #87A8C5   (L* 67.52 held)
+     ⚠️ the italics left the rose on 2026-08-28 (the gold door round): they are --gold
+     #C2A05E now, L* 67.59 — the same slot at the same lightness a third time. A future
+     cool grade converts the GOLD at its own L*; the row above records the rose era.
    THE TWO GRADES ARE THE SAME PICTURE BY MEASUREMENT — every pair survived the rotation to
    within 0.05, which is what "the same value" has to mean if it means anything. Warm first,
    cool second:
@@ -2065,16 +2100,18 @@ footer .fw{max-width:1400px;margin:0 auto;position:relative}
   font-size:clamp(27px,3.5vw,49px);line-height:1.22;   /* his 1.16x, chosen in the figure room */
   color:var(--ivory);text-shadow:0 1px 24px rgba(46,34,40,.62)}
 .scene-beat.light{color:var(--ink);text-shadow:0 1px 24px rgba(250,247,241,.8)}
-/* ⚠️ --rose IS BACK IN THE SCENE (round 14). It was displaced by #87A8C5 — itself only
-   --rose at its own lightness, never a new accent — for one reason: with the stage cool, a
-   lone warm italic on a slate ground is a stain rather than an accent. That reason expired
-   with the slate. Measured: the italic carries 6.63:1 on the warm stage against the 6.64
-   it carried on the cool one, so this is a hue decision with no contrast consequence.
-   ⚠️ THE TOKEN NEVER MOVED — --rose #C79A92 is BRAND LAW and was untouched on both grades;
-   only this scene stopped pointing at it. */
-.scene-beat em{font-style:italic;color:var(--rose)}
+/* ⚠️ THE ITALICS ARE --gold SINCE 2026-08-28 — the gold door round. They were --rose
+   (back since round 14; before that #87A8C5, only ever the rose at its own lightness on
+   the cool grade). --gold #C2A05E is the rose's luminance twin — L* 67.59 against 67.52,
+   6.65:1 on the dark stage against the rose's 6.63 — so this is a hue decision with no
+   contrast consequence, the third time this exact slot has changed hue at held L*. On
+   this page the rose was door 1's voice; the italic accent now speaks in this door's own.
+   ⚠️ THE TOKEN NEVER MOVED — --rose #C79A92 is BRAND LAW and is untouched (the estate
+   nav still uses it); only this scene stopped pointing at it. Rollback is two var()s,
+   taken WITH the dawn and the turn glow or not at all — see the --dawn note. */
+.scene-beat em{font-style:italic;color:var(--gold)}
 /* the held word — blooms in a beat after its sentence lands */
-.scene-beat .w{display:inline-block;font-style:italic;color:var(--rose);opacity:0;
+.scene-beat .w{display:inline-block;font-style:italic;color:var(--gold);opacity:0;
   transform:translateY(.35em) scale(.92);filter:blur(5px);
   transition:opacity .8s var(--ease),transform .8s var(--ease),filter .8s var(--ease)}
 .scene-beat .w.on{opacity:1;transform:none;filter:blur(0)}
@@ -2767,7 +2804,9 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
        argument; the four markers are named tests and not a promise of results).
        ⚠️ THE GROUND ALTERNATION SURVIVED THE CUT and was checked, not assumed: the
        programme card closes on --ps-ground #F0EBE7 and the doctors open on --dawn
-       #F6E7E1, so the beat still changes across the seam. -->
+       #F4E9D3 (the gold dawn since 2026-08-28; it was the rose #F6E7E1 when this was
+       first checked, and the step survived the recolour: 1.017 then, 1.017 now),
+       so the beat still changes across the seam. -->
 
   <div class="pxd" id="pxd" role="dialog" aria-modal="true" hidden>
     <div class="pxd-scrim" data-pxd-close></div>
@@ -3775,7 +3814,9 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
   const mobile = matchMedia("(max-width:760px)").matches;
 
   const INK=[46,34,40], IVORY=[250,247,241];
-  const BG_A=[42,27,32], BG_B=[246,231,225];
+  /* ⚠️ BG_B IS THE GOLD DAWN SINCE 2026-08-28 — it MUST STAY EQUAL to --dawn in the token
+     block (the cross-reference lives on that token). [244,233,211] is #F4E9D3. */
+  const BG_A=[42,27,32], BG_B=[244,233,211];
   const GOLD=[201,164,106], GOLD_DEEP=[163,54,72], CHAMP=[236,214,178], STONE=[176,154,156];
   const ss=(a,b,x)=>{x=Math.max(0,Math.min(1,(x-a)/(b-a)));return x*x*(3-2*x)};
   const mix=(a,b,k)=>a+(b-a)*k;

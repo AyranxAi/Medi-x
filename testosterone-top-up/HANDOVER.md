@@ -1,5 +1,20 @@
 # /testosterone-top-up/ — build record, round 1 (2026-08-19)
 
+⚠️⚠️ **THE HERO IS THE DUNE NOW — 2026-08-29, his pick.** The round began with his finding
+that the Slope figure was invisible under the copy — *"the line is kinda being hidden by
+the message"* — and ran through a 22-concept idea board plus a full-scale preview, both as
+artifacts, before touching this file. His calls, all recorded in the hero script's header
+comment: the scroll scene below is **untouched** and still tells the slope; the hero is a
+single dune crest at first light (the morning of the draw, step 02); and the sun is
+**risen, never hidden** — *"i want it revealed … risen like an idea"*. Below 1024px the
+sun sits in the sky step above the crest at x .80 because a desktop-height sun sat behind
+the sub text there (measured); do not move it back into the text zone or behind the crest.
+The `.hero::after` **radial wash is gone** with its reasoning left in the CSS — it was
+what buried the old figure; only the foot fade (now 78%) remains for the seam into 03.
+`#silk`, the still at 21.7 s, the 11 s breath / ~80 s crossing discipline, and the
+no-photography rule all survive. The old Slope draw is retrievable from git history at
+this file's hero block.
+
 ⚠️⚠️ **TWO CHAPTERS CAME OUT, 2026-08-26** — his call, the same cut made on
 `/modern-menopause/` and `/hormone-therapy-bhrt/` the same day: *"what you did by removing
 the 2 sections after the consultation page on this, do also for the other 2 pages — remove

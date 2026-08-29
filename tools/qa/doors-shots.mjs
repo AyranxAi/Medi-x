@@ -206,7 +206,17 @@ for (const P of PAGES) {
            raw markup, so its tags and attributes land in body.textContent and a vocabulary
            rule about what the PAGE SAYS starts reading HTML. Its copy is still asserted —
            by the rollback count above, which is what it is for. */
-        c.querySelectorAll('script,style,template,noscript').forEach(n => n.remove());
+        /* ⚠️ <nav> JOINED THE STRIP LIST 2026-08-29e, for the same reason as the two
+           above: the site menu now NAMES every service on every page (his call — the
+           three doors and /programs/ were unreachable from it), so a BHRT page legitimately
+           carries the words "Modern Menopause" in its chrome. That is not the page SAYING
+           anything about menopause, which is what this rule is for; the sentence above
+           says it — "a vocabulary rule about what the PAGE SAYS has to read what a reader
+           can read" — and a reader reads the menu as the site's index, not as this page's
+           copy. ⚠️ NOTHING GOES UNGUARDED BY THIS: the menu's exact contents are asserted
+           item by item, on all eight pages, by tools/qa/nav-services.mjs. Strip it here
+           and the rule goes back to meaning what it was written to mean. */
+        c.querySelectorAll('script,style,template,noscript,nav').forEach(n => n.remove());
         return c.textContent; })(),
       ids: [...document.querySelectorAll('main section[id]')].map(e => e.id),
       links: [...document.querySelectorAll('a[href]')].map(a => a.getAttribute('href')).filter(h => h && !h.startsWith('#') && !/^https?:|^mailto:/.test(h)),

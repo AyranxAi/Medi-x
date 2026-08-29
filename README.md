@@ -143,6 +143,28 @@ When the real booking flow lands, the follow-up action moves with every other `#
 and needs no separate decision. Its record is
 [`HANDOVER_RETURNING_BAND.md`](HANDOVER_RETURNING_BAND.md).
 
+## The menu
+
+The hamburger menu is a full-screen overlay carried on **all eight pages** (each with its
+own relative paths). Since 2026-08-29 it groups the four hormone-therapy destinations —
+**Hormone Therapy BHRT**, **Modern Menopause**, **Testosterone Top Up** and **Booster
+Programmes** — under *Hormone Therapy*, revealed by a chevron:
+
+- **The label and the chevron are two separate targets.** "Hormone Therapy" is still a
+  link straight to `/hormone-balancing/` (one tap); the chevron is a `<button>` that only
+  expands. A row that is both a link and a toggle is unpredictable under a thumb.
+- **The group ships open on the four pages it contains**, with the current page marked —
+  in the markup, not by script, so it survives JS never loading.
+- **The four labels are English in every language, on purpose.** `t()` falls back to the
+  English dictionary, so the keys exist in `"en"` only. They are proper names, and
+  translating brand copy is the owner's call. ⚠️ A `data-i18n` key that exists in *no*
+  dictionary resolves to `''` and **blanks the element** — so never add one without its
+  English entry.
+
+`NAV:CSS` and `NAV:JS` are byte-identical across the eight pages; `tools/qa/nav-services.mjs`
+asserts that plus the group's shape, every destination, the chevron's 44px target and all
+six languages.
+
 ## Accessibility
 
 Interactive elements carry ARIA labels (translated per language), the pathway

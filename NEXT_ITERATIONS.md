@@ -218,6 +218,50 @@ putting it in two places is what the slot map exists to prevent.
 ⚠️ **`ps-card-p` AND `ps-card-cta` ARE DELETED, NOT HIDDEN.** The plate carries a step's number,
 name, rule and duration. **Prose on the plate is the thing this round removed** — see §4.
 
+⚠️⚠️ **2026-08-29e — THE MENU HAS A FOURTH CONTRACT NOW: `NAV:CSS` / `NAV:JS`, ON EIGHT
+PAGES.** Four pages the menu never showed — the three doors and `/programs/` — now sit
+under Hormone Therapy behind a chevron. **Eight files, not four**, because every page
+carries its own copy of the nav.
+
+```bash
+for f in index.html hormone-balancing modern-menopause hormone-therapy-bhrt \
+         testosterone-top-up programs functional-medicine peptide-therapy; do
+  p=$([ "$f" = index.html ] && echo index.html || echo $f/index.html)
+  for b in CSS JS; do printf "%-24s %-4s " "$p" "$b"
+    sed -n "/NAV:$b:START/,/NAV:$b:END/p" "$p" | md5sum | cut -c1-12
+  done
+done
+```
+
+**Eight matching rows per block.** ⚠️ **THE MARKUP CANNOT BE BYTE-IDENTICAL** — each page
+needs its own relative prefix and its own `aria-current` — so `nav-services.mjs` asserts
+*shape* instead: same items, same order, every destination a real 200, exactly one current
+mark on the pages that have one.
+
+⚠️ **HE CHOSE THE ACCORDION OVER THE ALWAYS-VISIBLE LIST**, off a four-way rendered board.
+The recommendation here was the nested-always-visible one, because an accordion adds a tap
+to reach the very pages it is meant to surface. **His call stands**; two refinements were
+built to pay back what it costs, and neither is decoration:
+- **The label and the chevron are separate targets.** "Hormone Therapy" is still a link to
+  the hub (one tap, exactly as before); the chevron is a `<button>` that only expands. A
+  parent that is both is the classic phone-menu trap.
+- **The group ships OPEN on the four pages it contains**, with the current page marked —
+  so the extra tap is spent by the readers least likely to need it. It is open in the
+  *markup*, not by script, so it survives JS never loading.
+
+⚠️⚠️ **THE FOUR NEW LABELS ARE ENGLISH-ONLY AND THAT IS A DELIBERATE, TESTED CHOICE.**
+`t()` falls back to `DICT.en`, so keys added to **"en" only** show in all six languages. A
+key missing from *every* dictionary resolves to `''`, and `setText` **blanks the element**
+— `''` is not `null` and the guard only catches `null`. Proven: deleting the four English
+keys blanks all four rows in **all six languages**. They are not translated because they
+are proper names and because that is his copy to write, not ours.
+
+⚠️ **STILL OPEN — THE TWO WORDPRESS MENU LINKS.** "Functional Medicine" reaches your own
+page from six pages and the **WordPress** one from `/hormone-balancing/` and
+`/peptide-therapy/`. Put to him 2026-08-29e; his answer was *"not sure — remind me
+later"*, so **this is the reminder** and nothing was touched. It is two lines. Check the
+in-repo page carries what the WordPress one does before switching.
+
 ---
 
 ## 3 · Verifying anything
@@ -228,6 +272,7 @@ node tools/qa/doors-shots.mjs         # the three doors: 13 widths, sideways scr
 node tools/qa/doctors-pill.mjs        # one pill per doctors chapter, five pages × three widths
 node tools/qa/bhrt-shots.mjs          # the BHRT page end to end
 node tools/qa/returning-band.mjs      # the band: parity, the count, the fold, 320px, states
+node tools/qa/nav-services.mjs        # the menu's service group, eight pages, six languages
 ```
 
 ⚠️⚠️ **RUN THEM ONE AT A TIME, AND NEVER BELIEVE A FAILURE FROM A PARALLEL RUN.** They each drive

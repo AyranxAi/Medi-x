@@ -194,6 +194,36 @@ the stability check runs. Probed on a failing run the element was present, `disp
 visible, opacity 1, with the flower built and no page errors — and the same commit passed
 ALL GREEN on a solo re-run. Re-run it alone before believing a failure here.
 
+## The menu's service group — `nav-services.mjs`
+
+```bash
+node tools/qa/nav-services.mjs
+```
+
+The four pages the menu never showed (three doors + `/programs/`) now sit under Hormone
+Therapy behind a chevron, on **eight** pages. 60-odd checks: block parity, the group's
+shape on every page, every destination a real 200, the chevron's behaviour and target
+size, and all six languages.
+
+⚠️ **THE NAV MARKUP CANNOT BE BYTE-IDENTICAL** — each page needs its own relative prefix
+and its own `aria-current` — so parity is asserted on **shape**: the same four items in
+the same order, resolving to real files, with exactly one current mark on the pages that
+hold one. Only `NAV:CSS` and `NAV:JS` are hashed, and those must match on all eight.
+
+⚠️⚠️ **§4 IS THE ONE THAT WOULD HAVE SHIPPED A BUG.** `t()` returns `''` for a key missing
+from every dictionary, and `setText` **applies it** — the `val==null` guard does not catch
+`''`. So a `data-i18n` attribute without a key **blanks the row in every language**.
+Proven on purpose: deleting the four English keys blanks all four rows in all six
+languages. The keys live in `"en"` only and every other language falls back to them.
+
+⚠️ **§3 MEASURES THE CHEVRON'S HIT AREA, NOT ITS GLYPH.** The glyph is 11px and the target
+is 44×44 — the padding *is* the control. A shrunk hit area still looks perfect in a
+screenshot and is unusable with a thumb, so the number is asserted.
+
+⚠️ **§3 ALSO CLICKS THE LABEL AND FOLLOWS IT.** The label and the chevron are deliberately
+two targets: the label must still reach the hub in one tap. If someone ever "simplifies"
+the row into a single toggle, that check fails rather than the friction quietly returning.
+
 ## One pill in the doctors chapter — `doctors-pill.mjs`
 
 ```bash

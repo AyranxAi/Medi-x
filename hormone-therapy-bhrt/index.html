@@ -2379,6 +2379,68 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
   *{transition-duration:.01ms!important}
 }
 </style>
+<style>
+
+/* NAV:CSS:START */
+/* ─────────────── THE MENU'S SERVICE GROUP — his call 2026-08-29e ──────────────────
+   Four pages the menu never showed (the three doors and the booster programmes) now
+   live under Hormone Therapy, revealed by a chevron. He chose the accordion off a
+   four-way board; the two refinements below are what stop it costing what an accordion
+   usually costs, and BOTH are load-bearing:
+
+   ⚠️⚠️ THE LABEL AND THE CHEVRON ARE TWO SEPARATE TARGETS. "Hormone Therapy" stays a
+   real link to the hub; the chevron beside it is a real <button> that only expands. A
+   parent that is BOTH a link and a toggle is the classic phone-menu trap — tap it and
+   nobody can predict whether they travel or the list opens — and every site that ships
+   it ends up bolting a chevron on anyway. This starts there. The hub therefore still
+   costs ONE tap, exactly as it does today, and a door costs two.
+   ⚠️ THE CHEVRON'S HIT AREA IS 44px AND THE GLYPH IS 11px. The padding is the target;
+   shrink it to fit the glyph and the control becomes unusable on a phone. Apple's floor
+   is 44, and this sits on the row's right edge where a thumb already is.
+   ⚠️ THE GROUP OPENS ITSELF ON ITS OWN PAGES — see NAV:JS. A reader standing on Modern
+   Menopause opens the menu and finds the group already expanded with her page marked,
+   so the extra tap the accordion costs is spent by the people least likely to need it.
+
+   ⚠️ THE SUB-ITEMS CARRY NO HAIRLINE OF THEIR OWN. Every .nav li has a top border and
+   giving the children one flattens them back into the list — the indent, the gold dash
+   and the smaller type are the whole hierarchy. */
+.nav-row{display:flex;align-items:baseline}
+.nav-row > a{flex:1 1 auto;min-width:0}
+.nav-toggle{
+  flex:none;display:flex;align-items:center;justify-content:center;
+  width:44px;height:44px;margin:-.4rem -.6rem -.4rem 0;padding:0;
+  border:0;background:none;color:rgba(250,247,241,.66);cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.nav-toggle svg{width:11px;height:11px;display:block;transition:transform .32s var(--ease)}
+.nav-toggle[aria-expanded="true"] svg{transform:rotate(180deg)}
+.nav-toggle:hover{color:var(--rose)}
+.nav-toggle:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.nav-sub{list-style:none;margin:.1rem 0 .55rem;padding:0}
+.nav-sub li{border-top:0!important;opacity:0;transform:translateY(14px)}
+body.nav-open .nav-sub li{
+  opacity:1;transform:none;
+  transition:opacity .5s var(--ease),transform .5s var(--ease);
+  transition-delay:calc(var(--i)*60ms);
+}
+.nav-sub a{
+  padding:.3rem 0 .3rem 1.5rem;gap:.75rem;
+  font-size:clamp(.84rem,1.6vw,1.02rem);color:rgba(250,247,241,.72);
+}
+.nav-sub a::before{content:"";width:16px;height:1px;background:var(--gold);opacity:.55;flex:none;align-self:center}
+.nav-sub a:hover{color:var(--rose);padding-left:1.9rem}
+/* the page you are standing on, marked rather than omitted — the doors used to have no
+   self-link at all, which left a reader with no way to tell where she was */
+.nav-sub a[aria-current]{color:var(--rose)}
+.nav-sub a[aria-current]::before{opacity:1;width:26px}
+/* About / Shop / Events are hand-offs off the estate, not services — quieter */
+.nav-util a{font-size:clamp(.9rem,1.9vw,1.1rem);color:rgba(250,247,241,.66)}
+@media(prefers-reduced-motion:reduce){
+  .nav-toggle svg{transition:none}
+  body.nav-open .nav-sub li{transition:none;transition-delay:0s}
+}
+/* NAV:CSS:END */
+</style>
 </head>
 <body>
 
@@ -2423,14 +2485,50 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
          lists the top services only — the doors are the route in. The Hormone Therapy
          item is therefore the closest thing to a self-link and stays a real link (the
          way back to the parent), not a dead one. -->
-    <li style="--i:0"><a href="../hormone-balancing/">Hormone Therapy</a></li>
-    <li style="--i:1"><a href="../functional-medicine/">Functional Medicine</a></li>
-    <li style="--i:2"><a href="../peptide-therapy/">Peptide Therapy</a></li>
-    <li style="--i:3"><a href="https://medi-gyn.com/about-us/" target="_blank" rel="noopener">About Us</a></li>
-    <li style="--i:4"><a href="https://medi-gyn.com/shop/" target="_blank" rel="noopener">Shop</a></li>
-    <li style="--i:5"><a href="https://medi-gyn.com/educational-events/" target="_blank" rel="noopener">Events</a></li>
+        <li style="--i:0">
+      <span class="nav-row">
+        <a href="../hormone-balancing/">Hormone Therapy</a>
+        <button type="button" class="nav-toggle" data-nav-toggle
+                aria-expanded="true" aria-controls="nav-services"
+                aria-label="Show hormone therapy services"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 4.5 6 8.5l4-4"/></svg></button>
+      </span>
+      <ul class="nav-sub" id="nav-services">
+        <li style="--i:1"><a href="../hormone-therapy-bhrt/" aria-current="page">Hormone Therapy BHRT</a></li>
+        <li style="--i:2"><a href="../modern-menopause/">Modern Menopause</a></li>
+        <li style="--i:3"><a href="../testosterone-top-up/">Testosterone Top Up</a></li>
+        <li style="--i:4"><a href="../programs/">Booster Programmes</a></li>
+      </ul>
+    </li>
+    <li style="--i:5"><a href="../functional-medicine/">Functional Medicine</a></li>
+    <li style="--i:6"><a href="../peptide-therapy/">Peptide Therapy</a></li>
+    <li style="--i:7" class="nav-util"><a href="https://medi-gyn.com/about-us/" target="_blank" rel="noopener">About Us</a></li>
+    <li style="--i:8" class="nav-util"><a href="https://medi-gyn.com/shop/" target="_blank" rel="noopener">Shop</a></li>
+    <li style="--i:9" class="nav-util"><a href="https://medi-gyn.com/educational-events/" target="_blank" rel="noopener">Events</a></li>
   </ol>
 </nav>
+<!-- NAV:JS:START -->
+<script>
+/* ═══ THE MENU'S SERVICE GROUP ══════════════════════════════════════════════════════
+   One chevron, one group. Byte-identical on all eight pages — it finds its targets by
+   attribute, never by page, so nothing here knows which page it is on.
+   ⚠️ THE GROUP IS OPEN BEFORE THIS RUNS IF IT HOLDS THE CURRENT PAGE. The markup ships
+   with aria-expanded and [hidden] already correct, so a reader on Modern Menopause sees
+   her group open even if this script never loads. This only handles the CLICK.
+   ⚠️ hidden IS THE STATE, not a class — it keeps the sub-list out of the tab order and
+   out of the accessibility tree while collapsed, which a class cannot do. */
+(function(){
+  var t = document.querySelector('[data-nav-toggle]');
+  if(!t) return;
+  var sub = document.getElementById(t.getAttribute('aria-controls'));
+  if(!sub) return;
+  t.addEventListener('click', function(){
+    var open = t.getAttribute('aria-expanded') === 'true';
+    t.setAttribute('aria-expanded', String(!open));
+    sub.hidden = open;
+  });
+})();
+</script>
+<!-- NAV:JS:END -->
 
 <main id="top">
 

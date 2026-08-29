@@ -154,8 +154,15 @@ for (const [w, h, tag] of [[1440, 900, 'd'], [390, 844, 'p']]) {
     sub:     document.getElementById('pg-sub')?.textContent,
     vat:     document.getElementById('pg-vat')?.textContent,
     total:   document.getElementById('pg-total')?.textContent,
-    banned:  /DUTCH|BOZAT/i.test(document.body.textContent),
-    menoMix: /menoSTART|Modern Menopause/i.test(document.body.textContent),
+    /* ⚠️ THE MENU IS NOT THIS PAGE'S COPY — 2026-08-29e. The site menu now names every
+       service on every page (his call; the doors were unreachable from it), so this page
+       legitimately carries "Modern Menopause" in its chrome. These two rules are about
+       what the PAGE SAYS, so they read the body with <nav> and <script> taken out — the
+       same cut doors-shots.mjs makes, and for the same reason. The menu's own contents
+       are asserted item by item by tools/qa/nav-services.mjs, so nothing is lost. */
+    copy:    (() => { const c = document.body.cloneNode(true);
+               c.querySelectorAll('script,style,template,noscript,nav').forEach(n => n.remove());
+               return c.textContent; })(),
     order:   [...document.querySelectorAll('main > section, main > div[id]')].map(e => e.id || e.className.split(' ')[0]),
   }));
   ok(smoke.beats === 6, 'six scene beats', String(smoke.beats));
@@ -195,8 +202,8 @@ for (const [w, h, tag] of [[1440, 900, 'd'], [390, 844, 'p']]) {
   }
   ok(smoke.sub === 'AED 950.00' && smoke.vat === 'AED 47.50' && smoke.total === 'AED 997.50',
      'money: 950.00 / 47.50 / 997.50', `${smoke.sub} ${smoke.vat} ${smoke.total}`);
-  ok(!smoke.banned, 'no DUTCH, no BOZAT anywhere');
-  ok(!smoke.menoMix, 'no Modern Menopause vocabulary on this page');
+  ok(!/DUTCH|BOZAT/i.test(smoke.copy), 'no DUTCH, no BOZAT anywhere');
+  ok(!/menoSTART|Modern Menopause/i.test(smoke.copy), 'no Modern Menopause vocabulary on this page');
 
   /* full-page top shot BEFORE any interaction — page.click() auto-scrolls, and a
      "top" shot taken after it photographs the middle of the page */

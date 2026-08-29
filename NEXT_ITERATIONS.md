@@ -17,16 +17,19 @@ as a fast-forward, so the two point at the same history and either name is fine 
 `index.html` with its CSS and JS inline, served as-is. Open one in a browser and that is the
 site. This is a deliberate choice and everything below assumes it.
 
-| | flower | doctors chapter |
-|---|---|---|
-| `/hormone-therapy-bhrt/` | ✅ | ✅ |
-| `/modern-menopause/` | ✅ | ✅ |
-| `/testosterone-top-up/` | ✅ | ✅ |
-| `/programs/` | ✅ | ✅ |
-| `/functional-medicine/` | — | ✅ |
-| `/peptide-therapy/` | — | ✅ |
-| `/hormone-balancing/` | — | — |
-| `/` (home) | — | — |
+| | flower | returning band | doctors chapter |
+|---|---|---|---|
+| `/hormone-therapy-bhrt/` | ✅ | ✅ | ✅ |
+| `/modern-menopause/` | ✅ | ✅ | ✅ |
+| `/testosterone-top-up/` | ✅ | ✅ | ✅ |
+| `/programs/` | ✅ | ✅ | ✅ |
+| `/functional-medicine/` | — | — | ✅ |
+| `/peptide-therapy/` | — | — | ✅ |
+| `/hormone-balancing/` | — | — | — |
+| `/` (home) | — | — | — |
+
+**The returning band goes exactly where the flower goes** (2026-08-29) — it is the line
+*under* the six steps and has no meaning on a page without them. Its contract is in §2.
 
 **The three pages with the flower AND a service door behind them are "the doors".** They share
 the process sculpture and are reached from `/hormone-balancing/`, which is the hub above them.
@@ -72,6 +75,48 @@ was written (HTML `95463c5391ea`, JS `d2ee51cad3aa`), and one pre-existing drift
 JS hash is `ab64ee862292`. Comment-only, no behaviour; erasing it to restore parity would
 falsify the record, so the harness tolerates exactly two JS sums and no more.
 
+⚠️ **2026-08-29 — THE RETURNING-PATIENT BAND IS A FIFTH BLOCK WITH ITS OWN MARKERS, AND IT
+DELIBERATELY DOES NOT TOUCH THE FOUR ABOVE.** A patient already on a protocol needs two
+things the six steps do not carry — a follow-up, and a repeat of her prescription — so a
+compact band now sits under the flower on all four carriers: eyebrow, heading, two
+outlined actions, ~184px on a desktop and ~228px stacked on a phone.
+
+**It is NOT inside `PS:*`, and that is the point.** The three PS sums above are unchanged
+by it — verify with the same loop; they still read `4d192d81e3e8` / `95463c5391ea` /
+`d2ee51cad3aa` (+ `ab64ee862292` on the men's door). The band carries **`RB:CSS` and
+`RB:HTML`** instead, on the same four pages, under the same rule: **four matching rows or
+you are not done.**
+
+```bash
+for p in hormone-therapy-bhrt modern-menopause testosterone-top-up programs; do
+  for b in CSS HTML; do printf "%-22s %-4s " "$p" "$b"
+    sed -n "/RB:$b:START/,/RB:$b:END/p" "$p/index.html" | md5sum | cut -c1-12
+  done
+done
+```
+
+As shipped: CSS `b6006f334c70`, HTML `327a9675ebea`.
+
+⚠️⚠️ **THE BAND IS NOT A SEVENTH STEP AND MUST NEVER BE MADE ONE.** Six petals, six seats,
+01–06 — the count is the contract the slot map exists to hold. Nothing in the band is
+numbered, nothing goes on a petal, and the progress row does not count it.
+⚠️ **`.rb`'s MARGIN IS ARITHMETIC, NOT TASTE.** `.ps-grid` stands at `min(80svh,880px)`, so
+a reader framing the flower from its own top has 20svh of slack underneath. `21vh` of
+separation puts the band past the fold at the two heights a desktop actually is — 900
+(720 + 189 = 909) and 1080 (864 + 227 = 1091). **Shorten it and the band appears inside
+the flower's viewport**, which is the one thing this block was asked not to do.
+Above ~1100px of viewport the flower caps at 880px and no fixed gap clears the fold
+without whitespace that reads as broken; the cap stays at 240px. `returning-band.mjs`
+§3 is the guard, and it fails on purpose when the margin is cut.
+
+⚠️ **NEITHER ACTION IS A NEW FLOW, AND README's "deliberately unwired" LIST STAYS TRUE.**
+Book a follow-up → `#book`, the call strip every `Book a consultation` pill already points
+at; Repeat prescription → the clinic's **own** WhatsApp line, the same number and the same
+deep-link form the footer and hero use. No placeholder URL was invented for either.
+⚠️ **THE WHATSAPP TEXT IS THE ONE LINE THAT IS NOT PER-PAGE** — the band is byte-identical
+on four carriers, and a service *request* is not a service *enquiry*, so it does not name
+the door it was sent from. Forking it per door is how RB drifts.
+
 ⚠️ **THE SCRIPT TRADES SEATS; IT NEVER WRITES COORDINATES.** Six polar seats are defined in CSS,
 keyed by `data-slot` — `--pang`, `--prad`, `--pw`, `--pa`, `--pz`, `--prot`. The script only
 swaps which petal holds which `data-slot`, plus whole turns in `--pturn` / `--protturn`. **If you
@@ -90,6 +135,7 @@ node tools/qa/process-sculpture.mjs   # the flower: geometry, grade, header, thr
 node tools/qa/doors-shots.mjs         # the three doors: 13 widths, sideways scroll, reduced motion
 node tools/qa/doctors-pill.mjs        # one pill per doctors chapter, five pages × three widths
 node tools/qa/bhrt-shots.mjs          # the BHRT page end to end
+node tools/qa/returning-band.mjs      # the band: parity, the count, the fold, 320px, states
 ```
 
 ⚠️⚠️ **RUN THEM ONE AT A TIME, AND NEVER BELIEVE A FAILURE FROM A PARALLEL RUN.** They each drive

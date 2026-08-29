@@ -12,7 +12,9 @@ Live: https://medi-x-gin.vercel.app
 still open, what is settled and must not be re-opened, and what to run before trusting a change.
 [`HANDOFF.md`](HANDOFF.md) and [`HANDOVER_PROCESS_SCULPTURE.md`](HANDOVER_PROCESS_SCULPTURE.md)
 are the record of what was built and why, newest first, and each page keeps its own
-`HANDOVER.md`.
+`HANDOVER.md`. The newest round is
+[`HANDOVER_RETURNING_BAND.md`](HANDOVER_RETURNING_BAND.md) — the compact band under the
+flower for patients already on a protocol (2026-08-29).
 
 ⚠️ **THE ARCHITECTURE SECTION BELOW DESCRIBES THE LANDING PAGE, NOT THE ESTATE.** It was written
 when `index.html` *was* the site. There are now **eight pages** — the landing page, the
@@ -131,6 +133,15 @@ designed — do not "fix" them by pointing them at placeholder URLs:
 - **Hormone quiz** (chapter 01) — the feature is not yet built.
 - **Newsletter Join** — collects the address but is not yet connected to a
   CRM (planned: Zoho, with source tracking).
+
+⚠️ **The returning-patient band (2026-08-29) adds no destination of its own, and this list
+is why.** The band under the flower on the four carriers offers *Book a follow-up* and
+*Repeat prescription*; both point at destinations the estate already has — `#book`, the
+call strip every "Book a consultation" pill uses, and the clinic's own WhatsApp line, the
+same number and deep-link form as the footer. Nothing here was pointed at a placeholder.
+When the real booking flow lands, the follow-up action moves with every other `#book` link
+and needs no separate decision. Its record is
+[`HANDOVER_RETURNING_BAND.md`](HANDOVER_RETURNING_BAND.md).
 
 ## Accessibility
 

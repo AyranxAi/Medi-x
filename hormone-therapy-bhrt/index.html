@@ -1015,6 +1015,108 @@ section{position:relative}
   .ps-ed-cta .arr{transition:none}
 }
 /* PS:CSS:END */
+/* RB:CSS:START */
+/* ─────────────── 03b · THE RETURNING-PATIENT BAND — one quiet line under the flower ──
+   A patient who is already on a protocol does not need the six steps; she needs the two
+   doors the journey does not carry — a follow-up with her doctor, and a repeat of her
+   prescription. This is that line, and it is a BAND, not a chapter: content height, a
+   hairline, two outlined actions, nothing else.
+
+   ⚠️⚠️ IT IS NOT PART OF THE SCULPTURE AND MUST NEVER BECOME A SEVENTH STEP. The flower
+   carries SIX petals and SIX numbered seats and that count is a contract (see the slot
+   map above). This block lives OUTSIDE the PS:CSS markers on purpose: the four carriers'
+   PS hashes are unchanged by it, so §2's parity loop still reads four matching rows.
+   ⚠️ IT HAS ITS OWN PARITY MARKERS INSTEAD — RB:CSS / RB:HTML, on the same four pages,
+   for the same reason: a one-page "quick fix" is how the estate drifts.
+
+   ⚠️ THE MARGIN IS THE WHOLE REASON THE BAND IS NOT IN THE FLOWER'S VIEWPORT, and it is
+   arithmetic, not taste. `.ps-grid` stands at min(80svh,880px), so a reader who has the
+   flower framed from its own top has 20svh of slack under it. 21vh of separation puts the
+   band's hairline PAST the fold at the two heights a desktop actually is — 900 (720 of
+   flower + 189 = 909) and 1080 (864 + 227 = 1091) — so the complete flower viewport
+   contains no returning-patient UI, and the band is the first thing a scroll reveals.
+   ⚠️ ABOVE ~1100px OF VIEWPORT THE FLOWER CAPS AT 880px AND NO FIXED GAP CAN CLEAR THE
+   FOLD without whitespace that reads as a broken page (1440 tall would want 560px). The
+   cap stays at 240px; at those heights the chapter's own top padding is inside the frame
+   too, which is the slack the arithmetic above spends.
+   ⚠️ THE FLOWER'S CANVAS BLEEDS DOWNWARD — .ps-gl is inset:-18% and .ps clips only the
+   x axis — so a whisper of petal shadow sits above the hairline. That is the client's
+   reference, not a leak; do not "fix" it by clipping .ps on both axes (the note on
+   overflow-x:clip in the block above says what that costs).
+
+   ⚠️ NO CARD, NO RADIUS, NO SHADOW. The estate's rounded pills are --btn-radius; this is
+   a square hairline box because the band must read as quieter than everything near it. */
+.rb{margin-top:clamp(104px,21vh,240px)}
+/* the hairline and the padding sit on the INNER box, inside .wrap, so the divider starts
+   and ends on the content grid's edges rather than bleeding to the viewport. */
+.rb-inner{border-top:1px solid rgba(194,160,94,.42);padding:26px 0}
+/* --gold-gloss, NOT --gold-deep — the same measurement the flower's eyebrow records two
+   blocks up: this is small uppercase on --ps-ground, where gold-deep is 4.233 against a
+   4.5 floor and gold-gloss is 4.805. The ground is shared, so the token is too. */
+.rb-eyebrow{
+  font-family:var(--accent);font-weight:400;font-size:12px;line-height:1.2;
+  letter-spacing:.24em;text-transform:uppercase;color:var(--gold-gloss);margin:0;
+}
+/* set in the HTML as sentence case and uppercased here — the estate's rule for every
+   eyebrow it owns, and what keeps a screen reader from spelling the words out. */
+.rb-head{
+  font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30;
+  font-size:clamp(24px,2.1vw,29px);line-height:1.15;letter-spacing:-.005em;
+  color:var(--burgundy);margin:9px 0 0;
+}
+/* TWO EQUAL COLUMNS, and the max-width is what stops them stretching to 1150px of wrap
+   and turning a quiet line into a pair of billboards. minmax(0,1fr) twice, not 1fr twice:
+   a long label in a grid track with an implicit `auto` minimum is the sideways-scroll bug
+   the doors' sweep exists to catch. */
+.rb-actions{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:16px;max-width:980px;margin-top:18px;
+}
+/* ⚠️ EVERY STATE KEEPS THE BOX THE SAME SIZE. Hover and press move COLOUR only; focus is
+   an `outline`, which paints outside the border box and reflows nothing; the arrow's nudge
+   is a transform on a flex-none span. Change the border WIDTH on any state and the two
+   actions jump by a pixel — which is the one thing a returning patient's muscle memory
+   notices. */
+.rb-act{
+  display:flex;align-items:center;gap:14px;min-width:0;min-height:56px;padding:0 20px;
+  border:1px solid rgba(194,160,94,.6);background:rgba(255,253,249,.5);
+  color:var(--burgundy);text-decoration:none;
+  transition:background-color .3s var(--ease),border-color .3s var(--ease);
+}
+.rb-ico{flex:none;display:flex;color:var(--burgundy)}
+.rb-ico svg{width:22px;height:22px;display:block}
+/* the label is --ink-soft on the band's ground: 5.53, comfortably over the 4.5 floor, and
+   over it again on the lighter fill the box paints under it. NOT nowrap — at 320px the
+   line fits with room to spare, and if a future label does not, wrapping is the failure
+   that costs height instead of the failure that costs a sideways scrollbar. */
+.rb-lbl{
+  font-family:var(--sans);font-weight:400;font-size:15px;line-height:1.3;
+  letter-spacing:.01em;color:var(--ink-soft);min-width:0;
+}
+.rb-arr{flex:none;margin-left:auto;display:flex;color:var(--burgundy);
+  transition:transform .35s var(--ease)}
+.rb-arr svg{width:18px;height:18px;display:block}
+.rb-act:hover{background:#FFFDF9;border-color:var(--gold-deep)}
+.rb-act:hover .rb-arr{transform:translateX(4px)}
+.rb-act:active{background:var(--gold-tint)}
+.rb-act:focus-visible{outline:2px solid var(--gold-deep);outline-offset:3px}
+
+/* ── the phone: ONE COLUMN, 8px apart, 52px of target each. The two actions stack rather
+      than halve — at 320px a two-up row leaves 122px a side, which truncates the longer
+      label and puts the arrow on top of the word. ───────────────────────────────── */
+@media(max-width:900px){
+  .rb{margin-top:clamp(72px,10vh,120px)}
+  .rb-inner{padding:24px 0}
+  .rb-head{font-size:clamp(23px,5.6vw,26px);margin-top:8px}
+  .rb-actions{grid-template-columns:minmax(0,1fr);gap:8px;max-width:none;margin-top:16px}
+  .rb-act{min-height:52px;padding:0 16px;gap:12px}
+  .rb-lbl{font-size:14.5px}
+}
+@media(prefers-reduced-motion:reduce){
+  .rb-act,.rb-arr{transition:none}
+  .rb-act:hover .rb-arr{transform:none}
+}
+/* RB:CSS:END */
 
 /* ⚠️ 04 · THE MONTH, MAPPED and 05 · WHAT ARE HORMONES WERE STYLED HERE UNTIL
    2026-08-26. Both blocks are archived verbatim in archive/hormone-therapy-bhrt-sections/
@@ -2587,6 +2689,88 @@ html.js-scene{--glass-fill:rgba(46,34,40,.45);--glass-hi:rgba(46,34,40,.58);
           <li><span class="pg-n">06</span><span>Aftercare<small>Call us any time for a month — symptoms, questions, anything that isn’t clear.</small></span><span class="pg-d">1 month</span></li>
         </ol>
       </noscript>
+
+<!-- RB:HTML:START -->
+      <!-- ══════════ THE RETURNING-PATIENT BAND ══════════
+           The six steps are the road IN. This is the line for a reader already on it: a
+           follow-up with her doctor, or a repeat of the prescription she is already on.
+           Read the .rb block in the <style> for why it is a band and not a chapter.
+           ⚠️⚠️ IT IS NOT A SEVENTH STEP AND MUST NEVER BE MADE ONE. The flower keeps SIX
+           petals and SIX seats, 01-06; nothing here is numbered, nothing here goes on a
+           petal, and the two actions are not part of the journey the progress row counts.
+           ⚠️ IT SITS AFTER THE FLOWER'S <noscript> ROLLBACK, not before it — the list is
+           the sculpture's own no-JS half and belongs to the block above. This band needs
+           no script at all, so it stands whether the flower renders or the list does.
+           ⚠️ THE TWO DESTINATIONS ARE THE ESTATE'S OWN, NOT NEW FLOWS — the point of the
+           band is to shorten a path that already exists, and inventing a second booking
+           route would be the duplicate the estate's notes keep warning about:
+             · Book a follow-up  → #book, the call strip every "Book a consultation" pill
+               on this page already points at. Same anchor, same behaviour, no new
+               machinery — and the deliberately-unwired list in README.md stays true,
+               because this adds no destination of its own.
+             · Repeat prescription → the clinic's WhatsApp line, the SAME number and the
+               same deep-link form the footer and the hero already use. It is the one
+               channel that reaches the clinic today, and a repeat prescription (issued
+               without a face-to-face, AED 750 + VAT — see the programme card) is exactly
+               what a reader uses it for. The text is the ONE line that is not per-page:
+               the band is byte-identical on all four carriers and a service request is
+               not a service enquiry, so it does not name the door it was sent from.
+           ⚠️ NO INTERMEDIATE STEP. Both are plain <a>s straight at the destination — no
+           "Continue care" gate, no dialog, nothing to dismiss. -->
+      <aside class="rb" aria-labelledby="rb-head">
+        <div class="wrap">
+          <div class="rb-inner">
+            <p class="rb-eyebrow">Already a patient?</p>
+            <h2 class="rb-head" id="rb-head">Continue your care</h2>
+            <div class="rb-actions">
+              <a class="rb-act" href="#book">
+                <span class="rb-ico">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"
+                       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="3.4" y="5.4" width="17.2" height="15.2" rx="1.6"/>
+                    <path d="M8.2 3.1v4.2M15.8 3.1v4.2M3.4 10.4h17.2"/>
+                  </svg>
+                </span>
+                <span class="rb-lbl">Book a follow-up</span>
+                <span class="rb-arr">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M5 12h14m0 0-6-6m6 6-6 6"/>
+                  </svg>
+                </span>
+              </a>
+              <!-- ⚠️ target="_blank" + rel="noopener" IS THE ESTATE'S FORM for this link and
+                   the footer's WhatsApp anchor is the pattern; the number is the same
+                   placeholder the rest of the estate carries (README's note). -->
+              <a class="rb-act" target="_blank" rel="noopener"
+                 href="https://api.whatsapp.com/send/?phone=971555450797&amp;text=Hello%2C%20I%20would%20like%20to%20request%20a%20repeat%20prescription.&amp;type=phone_number&amp;app_absent=0">
+                <span class="rb-ico">
+                  <!-- the compounded bottle, with the ℞ drawn as strokes rather than set as
+                       <text> — a glyph here would inherit whichever face resolved first and
+                       land at a different size on every platform. -->
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"
+                       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="5.9" y="3.2" width="12.2" height="3.5" rx=".9"/>
+                    <path d="M7.2 6.7h9.6v12.5a1.6 1.6 0 0 1-1.6 1.6H8.8a1.6 1.6 0 0 1-1.6-1.6V6.7Z"/>
+                    <g stroke-width="1.15">
+                      <path d="M9.9 16.7V9.9h2.2a1.6 1.6 0 0 1 0 3.2H9.9"/>
+                      <path d="m12.2 13.3 1.5 1.6M12.4 16.8l2.6-2.7M15 16.8l-2.6-2.7"/>
+                    </g>
+                  </svg>
+                </span>
+                <span class="rb-lbl">Repeat prescription</span>
+                <span class="rb-arr">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M5 12h14m0 0-6-6m6 6-6 6"/>
+                  </svg>
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </aside>
+<!-- RB:HTML:END -->
 
     <div class="wrap">
       <div class="prog-grid prog-grid--card">

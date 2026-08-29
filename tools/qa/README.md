@@ -1,7 +1,7 @@
 # Scene QA harness
 
 ⚠️ **RUN THE WEBGL HARNESSES ONE AT A TIME.** `process-sculpture.mjs`, `doors-shots.mjs`,
-`bhrt-shots.mjs`, `programs-page.mjs` and `flower-frames.mjs` each drive a headless browser painting through
+`bhrt-shots.mjs`, `programs-page.mjs`, `returning-band.mjs` and `flower-frames.mjs` each drive a headless browser painting through
 SwiftShader — software WebGL, on the CPU. Two of them at once starve each other, and what
 starves first is every assertion that waits on wall-clock time rather than on state: the
 sculpture's header check drives a scroll in 40ms steps and reads the bar 900ms later, and
@@ -75,6 +75,66 @@ node tools/qa/scene-shots.mjs
 `?scene=<0..1>` freezes the stage at any progress and `window.__scene.p` reports where the
 story actually is. `?layout=side` selects the right/left composition; omit it for the
 default centred scene. `?probe=1` swaps the scene for its static fallback.
+
+## The returning-patient band — `returning-band.mjs`
+
+```bash
+npm install playwright@1.49.1 gsap@3.13.0 lenis@1.3.4
+node tools/qa/returning-band.mjs [--shots]
+```
+
+The band added 2026-08-29 under the flower on all four carriers: eyebrow, heading, two
+outlined actions. **131 checks** — parity, the flower's count, desktop and phone geometry,
+320px, the two destinations, every interaction state, the page mid-load with its webfonts
+still coming, and the page with JavaScript off.
+
+⚠️ **THE TWO CHECKS THAT MATTER ARE THE COUNT AND THE FOLD**, and both were made to fail
+on purpose before they were trusted:
+
+- **The count.** A seventh entry spliced into the script's `STEPS` array is caught three
+  ways — `PS:JS` drifts off its pinned sum, `.ps-arm` returns 7, and the progress row
+  reads `07 01 02 03 04 05 06`. The band must never become a seventh step, and this is
+  what says so.
+- **The fold.** `.ps` is scrolled to the very top of the viewport — the strictest framing
+  a reader can give the flower — and the band's top must be a full viewport below it.
+  Shortening `.rb`'s margin to 20px fails it at 1440×900 (740 < 900), 1920×1080 and
+  1280×800. On a phone the check is the same shape and passes on the flower's own height
+  (988 ≥ 844 at 390) rather than on a margin.
+
+⚠️ **§0 PINS THE PS SUMS RATHER THAN COMPARING THEM.** The band lives *outside* the
+`PS:*` markers so it cannot move the flower's blocks; a compare-only check would be happy
+with four matching rows of the wrong sum, which is exactly what a well-meaning edit to the
+sculpture would produce. The pinned values are `CSS 4d192d81e3e8`, `HTML 95463c5391ea`,
+`JS d2ee51cad3aa` — plus `ab64ee862292` for the men's door, whose JS carries the one
+recorded comment of 2026-08-24g. The band has its **own** markers, `RB:CSS` and
+`RB:HTML`, asserted aligned across the same four pages.
+
+⚠️ **THE `<noscript>` ROLLBACK IS COUNTED AS TEXT, NOT QUERIED.** `.pg-steps li` returns
+**0** once JS has run — the flower moved that list into `<noscript>`, whose contents are a
+single text node. This is the dead selector `NEXT_ITERATIONS.md` §3 records staying green
+for weeks, and the first run of this file walked straight into it. It counts `<li>` in the
+`<noscript>`'s `textContent` instead.
+
+⚠️ **§7 MEASURES FROM THE OFFSET PARENT, NOT THE VIEWPORT.** `page.hover()` scrolls the
+element into view, so a `getBoundingClientRect()` comparison reports the *scroll* as a
+layout shift and fails on a page that never moved — it did, on the first run. Walking
+`offsetLeft`/`offsetTop` is scroll-independent, which is what "hover, focus and press
+change nothing but paint" actually needs to assert.
+
+⚠️ **§8 IS THE LOADING STATE AND §9 IS THE NO-JS ONE**, because "preserve the layout
+across hover, focus, pressed and loading" has to mean something testable. §8 blocks every
+`woff2`: the label swaps from the fallback's metrics to MediGyn NOW's, which changes the
+*word's* width, and the box must not follow it — it does not, because the arrow is pushed
+by `margin-left:auto` rather than sized by content and the height is a `min-height`. §9
+loads with `javaScriptEnabled:false`: `.ps` is `display:none` until the script reveals it,
+so the band has to stand next to the `<noscript>` rollback as readily as next to the
+flower. It is plain markup with no script of its own, and §9 is what keeps it that way.
+
+⚠️ **THE DOORS PULL GSAP AND LENIS FROM jsdelivr AND A SANDBOX HAS NO ROUTE TO IT.** Left
+alone the three doors load without their motion libraries and the console fills with
+tunnel failures that read as a page bug. This file serves both from `node_modules`, the
+same way `doors-shots.mjs` does; without it the three doors fail "no console errors" and
+`/programs/` passes, which is a difference in the *environment*, not in the pages.
 
 ## One pill in the doctors chapter — `doctors-pill.mjs`
 

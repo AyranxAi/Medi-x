@@ -62,6 +62,10 @@ for p in hormone-therapy-bhrt modern-menopause testosterone-top-up; do
 done
 ```
 
+⚠️ **THE SUMS IN THE PARAGRAPH BELOW ARE HISTORY — see the 2026-08-29c note further down
+for the live ones.** Two blocks moved that day: `PS:CSS` took a comment correction and
+`PS:JS` took the slab's token reader.
+
 As shipped: CSS `4d192d81e3e8`, HTML `c292a500add1`, JS `786e22822822`. **Three matching rows per
 block or you are not done.** A one-door "quick fix" is how the three drift apart, and nothing
 warns you — the pages each look fine alone.
@@ -149,6 +153,52 @@ deep-link form the footer and hero use. No placeholder URL was invented for eith
 ⚠️ **THE WHATSAPP TEXT IS THE ONE LINE THAT IS NOT PER-PAGE** — the band is byte-identical
 on four carriers, and a service *request* is not a service *enquiry*, so it does not name
 the door it was sent from. Forking it per door is how RB drifts.
+
+⚠️⚠️ **2026-08-29c — THE PETAL SLAB WEARS THE ORB, AND TWO PS BLOCKS MOVED.** His call:
+*"the petals have their own color on the side… making it pink or gold the same color as the
+orb"*. **The live sums are now:**
+
+```
+PS:CSS   d26faf55bae9      PS:HTML  95463c5391ea
+PS:JS    c9d5a3e2365d      (+ c288ab493d44 on the men's door — the 2026-08-24g comment)
+```
+
+**`PS:JS` IS STILL BYTE-IDENTICAL — the colour is not in it.** The script reads four
+tokens off `:root` (`--ps-slab`, `--ps-slab-top`, `--ps-slab-mid`, `--ps-slab-foot`) and
+paints both the 3D material and the SVG fallback's ramp from them. Each page sets its own;
+**`/hormone-therapy-bhrt/` sets none on purpose** — it is the burgundy door and the
+fallbacks *are* the shipped burgundy, so deleting any page's tokens restores the original
+sculpture rather than breaking it.
+
+| page | slab | ramp |
+|---|---|---|
+| `/hormone-therapy-bhrt/` | — (falls back) | the shipped burgundy |
+| `/modern-menopause/` | `#A1213B` rose-bolder | `#D02F4F` `#AE1E3B` `#90132C` |
+| `/testosterone-top-up/` | `#9F7123` gold-bolder | `#CD9432` `#AC7920` `#8F6214` |
+| `/programs/` | `#9F7123` (shares gold) | same |
+
+⚠️⚠️ **THE RENDERED SLAB IS NOT THE TOKEN, AND THIS COST A ROUND.** The scene's lighting
+lifts and desaturates the material: `#4E1A28` leaves as `#5F3D43`. The first attempt kept
+the burgundy's darkness and rotated only the hue — every spec looked distinct in a swatch
+and the **rendered** slab moved by **eight of 255**. He looked at it and said he could see
+no difference; he was right and the measurement agreed. Saturation *and* lightness are
+what survive the lighting. **Judge this on a render, never on the hex** —
+`returning-band.mjs` §7c samples the painted canvas and asserts the three doors separate
+by ≥30.
+
+⚠️ **THIS RE-OPENS A RECORDED EXCLUSION.** `HANDOFF.md` §7 says the door theme leaves the
+sculpture alone ("the money card and the process sculpture keep their shared gold
+grammar"). That still holds for the **six accent sites**; the slab is a material in a 3D
+scene, not accent chrome on a light ground, so none of that block's contrast arithmetic
+applies to it. His call, on the record, not a drift.
+
+⚠️ **THE PHONE CROP IS ACCEPTED, NOT FIXED (2026-08-29c).** `PS:CSS` moved only to correct
+a false claim: it used to say *"nothing visible is lost — on a phone what gets clipped is
+what was off-screen anyway"*. **Measured by lifting the clip:** the art runs 30px past the
+viewport at 320, 38 at 360, 43 at 390, 51 at 430 — what goes is the plate's right
+shoulder, sliced to a flat edge. Nothing is lost on the left or on a desktop. He was shown
+renders of three options and chose to leave it; the two that were built and measured are
+recorded in the CSS comment for whoever reopens it.
 
 ⚠️ **THE SCRIPT TRADES SEATS; IT NEVER WRITES COORDINATES.** Six polar seats are defined in CSS,
 keyed by `data-slot` — `--pang`, `--prad`, `--pw`, `--pa`, `--pz`, `--prot`. The script only

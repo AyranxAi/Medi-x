@@ -84,10 +84,30 @@ node tools/qa/returning-band.mjs [--shots]
 ```
 
 The strip added 2026-08-29 under the flower on all four carriers: eyebrow, heading, two
-outlined actions, dressed in each door's orb. **164 checks** — parity, the flower's count,
+outlined actions, dressed in each door's orb. **180 checks** — parity, the flower's count,
 desktop and phone geometry, 320px, the two destinations, the per-door theming and its
 contrast arithmetic, every interaction state, the page mid-load with its webfonts still
 coming, and the page with JavaScript off.
+
+⚠️⚠️ **§7c IS THE PETAL SLAB, AND IT SAMPLES THE RENDERED CANVAS BECAUSE THE SPEC LIES.**
+The slab colour is read by `PS:JS` from four `:root` tokens, so one byte-identical script
+paints a burgundy door, a rose door and two gold pages. Asserting the *tokens* would have
+been useless: the scene's lighting lifts and desaturates the material, so `#4E1A28` leaves
+as `#5F3D43`. The first attempt at this theming rotated hue at the original darkness, and
+the **rendered** slab moved by eight of 255 — invisible on the page while every spec check
+passed. §7c screenshots the plate's right shoulder, averages the darkest 12% of the
+window, and asserts both the exact painted colour and that the three doors separate by
+**≥30**. It also asserts the sample actually *found* the slab (luminance < 150) — without
+that, a window that misses reports the plate's ivory as though it were an answer.
+
+⚠️ **THE SCROLL IN §7c TOOK THREE ATTEMPTS AND EACH FAILURE IS A DIFFERENT LESSON.**
+(1) `scrollIntoView` alone left the window off the bottom on `/programs/`, which Playwright
+rejects outright. (2) Clamping the window to the viewport stopped the crash and quietly
+slid the sample onto the plate's ivory — **a wrong answer is worse than an error**, and
+the luminance guard exists because of it. (3) The real cause was **Lenis**: its smooth
+scroll is still animating when the rect is read, so the measurement describes a page that
+has already moved. `?probe=1` does not stop it. Stop Lenis, jump with `window.scrollTo`,
+wait, then measure in a separate pass.
 
 ⚠️ **§7b IS THE ORB, AND IT RE-DERIVES THE CONTRAST FROM PIXELS RATHER THAN TRUSTING THE
 COMMENT.** One byte-identical line — `var(--door-tint,var(--gold-tint))` — has to resolve
@@ -111,12 +131,13 @@ on purpose before they were trusted:
   1280×800. On a phone the check is the same shape and passes on the flower's own height
   (988 ≥ 844 at 390) rather than on a margin.
 
-⚠️ **§0 PINS THE PS SUMS RATHER THAN COMPARING THEM.** The band lives *outside* the
-`PS:*` markers so it cannot move the flower's blocks; a compare-only check would be happy
-with four matching rows of the wrong sum, which is exactly what a well-meaning edit to the
-sculpture would produce. The pinned values are `CSS 4d192d81e3e8`, `HTML 95463c5391ea`,
-`JS d2ee51cad3aa` — plus `ab64ee862292` for the men's door, whose JS carries the one
-recorded comment of 2026-08-24g. The band has its **own** markers, `RB:CSS` and
+⚠️ **§0 PINS THE PS SUMS RATHER THAN COMPARING THEM.** A compare-only check would be
+happy with four matching rows of the *wrong* sum, which is exactly what a well-meaning
+edit to the sculpture would produce. The pinned values are `CSS d26faf55bae9`,
+`HTML 95463c5391ea`, `JS c9d5a3e2365d` — plus `c288ab493d44` for the men's door, whose JS
+carries the one recorded comment of 2026-08-24g. **Both CSS and JS moved on 2026-08-29c**
+(the phone-crop correction and the slab's token reader); when a pin legitimately moves,
+move it here *and* in `NEXT_ITERATIONS.md` §2, or the next reader trusts a dead number. The band has its **own** markers, `RB:CSS` and
 `RB:HTML`, asserted aligned across the same four pages.
 
 ⚠️ **THE `<noscript>` ROLLBACK IS COUNTED AS TEXT, NOT QUERIED.** `.pg-steps li` returns
@@ -154,6 +175,24 @@ alone the three doors load without their motion libraries and the console fills 
 tunnel failures that read as a page bug. This file serves both from `node_modules`, the
 same way `doors-shots.mjs` does; without it the three doors fail "no console errors" and
 `/programs/` passes, which is a difference in the *environment*, not in the pages.
+
+⚠️ **`process-sculpture.mjs`'s SLAB SCAN IS COLOUR-AGNOSTIC SINCE 2026-08-29c, and the
+reason is worth reading before you tune it.** It used to identify the slab as
+`R > G+22 && R < 170 && B < 130` — a burgundy-shaped window — and the slab stopped being
+burgundy that day. Measured on its own scan line: burgundy reads R 96-135, **rose reads
+R 170-190**, gold reads R 168-188. The `R < 170` ceiling returned **zero** hits on
+`/modern-menopause/` and failed all six steps on a flower that was rendering perfectly.
+It now tests "strongly coloured and dark" — `chroma > 20 && luminance < 200` — which has
+margin on both sides (slab chroma is 27+ on burgundy and 80+ on rose and gold; the ivory
+face never exceeds 16) and needs no edit for a future orb. **It still fails on purpose:**
+paint `--ps-slab` the same near-white as the face and all six steps go red.
+
+⚠️ **`programs-page.mjs`'s PHONE-ARROW CLICK IS A KNOWN FLAKE.** `page.click('[data-ps-next]')`
+can time out waiting for actionability: the arrow sits below the fold at 390×844, so
+Playwright scrolls it into view, and **Lenis's inertia means the box is still moving** when
+the stability check runs. Probed on a failing run the element was present, `display:flex`,
+visible, opacity 1, with the flower built and no page errors — and the same commit passed
+ALL GREEN on a solo re-run. Re-run it alone before believing a failure here.
 
 ## One pill in the doctors chapter — `doctors-pill.mjs`
 

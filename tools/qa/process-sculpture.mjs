@@ -163,9 +163,20 @@ for (const pageName of PAGES) {
         const stage = root.querySelector('[data-ps-stage]').getBoundingClientRect();
         const act   = root.querySelector('.ps-arm.is-on');
         const face  = act.querySelector('.ps-face').getBoundingClientRect();
-        /* the maroon must physically show past the plate's right edge — depth, not
+        /* the slab must physically show past the plate's right edge — depth, not
            decoration. WebGL live: read the framebuffer just right of the plate's box
-           at mid-height and walk inward until a maroon pixel turns up (R well over G).
+           at mid-height and walk inward until a SLAB pixel turns up.
+           ⚠️⚠️ THE TEST IS "STRONGLY COLOURED AND DARK", NOT "MAROON" — 2026-08-29c.
+           It used to read `R > G+22 && R < 170 && B < 130`, which is a burgundy-shaped
+           window, and the slab stopped being burgundy that day: it now wears each door's
+           orb (--ps-slab, see the PS:JS token reader). MEASURED on this very scan line —
+           burgundy R 96-135, ROSE R 170-190, gold R 168-188 — so the `R < 170` ceiling
+           returned ZERO hits on /modern-menopause/ and failed all six steps on a flower
+           that was rendering perfectly.
+           The replacement is colour-agnostic and has margin on both sides: on all three
+           doors the slab's chroma is 27 or more (rose and gold are 80+) while the ivory
+           face never exceeds 16, and the slab's luminance never exceeds 158 while the
+           face is near-white. Any future orb passes this without another edit.
            SVG fallback: the inner body's box must extend past the face path. */
         let maroonReveal = 0, opaque = 0;
         if (root.classList.contains('ps-3d')) {
@@ -180,7 +191,9 @@ for (const pageName of PAGES) {
                them means the framebuffer read back blank, which is a statement about
                the read and not about the maroon; see the caller. */
             if (px[3] > 200) opaque++;
-            if (px[3] > 200 && px[0] > px[1] + 22 && px[0] < 170 && px[2] < 130) { maroonReveal = Math.max(maroonReveal, dx + 30); }
+            const chroma = Math.max(px[0], px[1], px[2]) - Math.min(px[0], px[1], px[2]);
+            const slabLum = .2126*px[0] + .7152*px[1] + .0722*px[2];
+            if (px[3] > 200 && chroma > 20 && slabLum < 200) { maroonReveal = Math.max(maroonReveal, dx + 30); }
           }
         } else {
           opaque = 1;

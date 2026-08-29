@@ -1,4 +1,4 @@
-# Handover — the returning-patient band (2026-08-29, two rounds)
+# Handover — the returning-patient band, and the flower's slab (2026-08-29, three rounds)
 
 **Two rounds, one block.** A compact strip now sits under the flower on all four carriers,
 for a reader who is already on a protocol and needs neither the six steps nor a discovery
@@ -143,6 +143,80 @@ note on `overflow-x:clip` in the PS block says what that costs.
 
 ---
 
+## 5c · Round three — the petal slab wears the orb, and a false comment comes out
+
+> *"the petals have their own color on the side right currently all is burgundy? can you
+> give me a set of colors… maybe making it pink or gold the same color as the orb"*
+
+**The slab is the deep edge under the plate** — a maroon backing petal in the 3D scene,
+plus a three-stop ramp in the SVG fallback. Both live in `PS:JS`, which is byte-identical
+on four pages, so the colour was moved OUT of the script and into four `:root` tokens:
+
+```css
+--ps-slab  --ps-slab-top  --ps-slab-mid  --ps-slab-foot
+```
+
+| page | slab | ramp |
+|---|---|---|
+| `/hormone-therapy-bhrt/` | **none set** | the fallbacks *are* the shipped burgundy |
+| `/modern-menopause/` | `#A1213B` rose-bolder | `#D02F4F` `#AE1E3B` `#90132C` |
+| `/testosterone-top-up/` | `#9F7123` gold-bolder | `#CD9432` `#AC7920` `#8F6214` |
+| `/programs/` | `#9F7123` (not a door — shares gold) | same |
+
+⚠️ **DELETING A PAGE'S TOKENS RESTORES THE 2026-08-21 SCULPTURE**, because the script's
+fallbacks are the original values rather than black. That is the rollback.
+
+⚠️⚠️ **THE RENDERED SLAB IS NOT THE TOKEN, AND THIS IS THE ROUND'S REAL LESSON.** The
+scene's lighting lifts and desaturates whatever the material is given: `#4E1A28` leaves as
+`#5F3D43`. **The first attempt kept the shipped burgundy's darkness and rotated only the
+hue.** Every candidate looked distinct as a swatch; on the page the rendered slab moved by
+**eight of 255**. He said he could not see a difference — he was right, and the
+measurement agreed:
+
+| spec | renders as | Δ from burgundy |
+|---|---|---|
+| `#4E1A28` burgundy | `#5F3D43` | — |
+| `#4E211A` rose-terracotta | `#5F403C` | **8 — invisible** |
+| `#A1213B` rose-bolder | `#A9404F` | **75 — shipped** |
+| `#9F7123` gold-bolder | `#A77B40` | **95 — shipped** |
+
+**Saturation and lightness survive the lighting; hue alone does not.** Judge this on a
+render, never on the hex. `returning-band.mjs` §7c samples the painted canvas and asserts
+the three doors separate by ≥30 — the check the first attempt would have failed.
+
+⚠️ **THIS RE-OPENS A RECORDED EXCLUSION, DELIBERATELY.** `HANDOFF.md` §7 says the door
+theme leaves the sculpture alone. That still holds for the **six accent sites**; the slab
+is a material in a 3D scene, not accent chrome on a light ground, so none of that block's
+contrast arithmetic reaches it. His call, on the record.
+
+### The phone crop — measured, and deliberately left
+
+He asked how the flower looked on mobile before this work. **Answer: identical.** Rendered
+both builds from a worktree at the pre-band commit, four phone widths — chapter height,
+stage, plate, petal count and overflow all matched to the pixel. The band changed nothing.
+
+**But the flower IS cropped on phones, and always was.** By lifting `overflow-x:clip` and
+comparing painted extent:
+
+| viewport | art ends (shipped) | unclipped | cut |
+|---|---|---|---|
+| 320 | 316 | 346 | 30px |
+| 390 | 389 | 432 | **43px** |
+| 430 | 429 | 480 | 51px |
+
+What goes is the plate's right shoulder, sliced to a flat vertical edge. Nothing is lost
+on the left or on a desktop. **The code claimed otherwise** — *"nothing visible is lost…
+what gets clipped is what was off-screen anyway"* — and that comment is now corrected with
+the numbers, because a false claim in this repo outlives the person who wrote it.
+
+**He was shown renders of three options and chose to leave it.** The two that were built
+and measured are recorded in the CSS for whoever reopens it: shrink the stage to 88%
+(plate 231→203px), or tighten the ring (`--prad` 17.285→8.6cqw on slot 0, slots 1 and 5
+eased in; plate stays 231px, art ends at 362 of 390). The second is the better picture and
+edits a composition traced from the client's own phone reference — his to reopen.
+
+---
+
 ## 5b · The orb — one line, four pages, three grounds
 
 His ask was for the strip to carry the door's colour. The estate already had the token:
@@ -244,7 +318,7 @@ reproduced deliberately in the harness (§6). One column, 8px apart, 52px of tar
 ## 6 · Verifying it
 
 ```bash
-node tools/qa/returning-band.mjs            # 131 checks
+node tools/qa/returning-band.mjs            # 180 checks
 node tools/qa/returning-band.mjs --shots    # + frames to /tmp/rb-qa/
 ```
 

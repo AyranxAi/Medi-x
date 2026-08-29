@@ -172,7 +172,25 @@
      --door-deep / --door-tint and retarget those rules; mapping them here would mean
      collapsing --gold-deep and --gold-gloss into one "deep", which the --gold-gloss
      note above forbids. If this door's orb ever changes colour, add the three tokens
-     the way /modern-menopause/ did and retarget the same six rule sites. */
+     the way /modern-menopause/ did and retarget the same six rule sites.
+     ⚠️ THE SLAB IS THE ONE PLACE THIS PAGE DOES CARRY THE ORB (2026-08-29) — the four
+     --ps-slab tokens below. The reasoning above still holds for the six ACCENT sites,
+     which stay on the estate's gold; the slab is a material in a 3D scene, not accent
+     chrome on a light ground, so none of the --gold-deep/--gold-gloss contrast
+     arithmetic applies to it. */
+  /* ⚠️ THE PETAL SLAB — the deep edge under the plate, his call 2026-08-29 ("making it
+     pink or gold the same color as the orb"). PS:JS reads these four and paints both the
+     3D material and the SVG fallback's ramp; the block itself stays byte-identical on all
+     four carriers. Delete these and the flower returns to the shipped burgundy.
+     ⚠️⚠️ THESE ARE NOT SWATCH COLOURS AND MUST NOT BE JUDGED AS ONE. The scene's lighting
+     lifts and desaturates the material: #9F7123 leaves as #A77B40 on the page. The first
+     attempt kept the burgundy's darkness and rotated only the hue — it moved the rendered
+     slab by EIGHT of 255 and was invisible, which is why these sit high in saturation AND
+     lightness. Re-measure on a render, never on the hex. */
+  --ps-slab:#9F7123;
+  --ps-slab-top:#CD9432;
+  --ps-slab-mid:#AC7920;
+  --ps-slab-foot:#8F6214;
   --ease:cubic-bezier(.22,.61,.36,1);
   --swing:cubic-bezier(.34,.75,.24,1);  /* the dots’ width, round 18 */
   --pad:clamp(20px,4.5vw,72px);
@@ -681,10 +699,23 @@ section{position:relative}
      flower's own shadow at the chapter's top and foot — the thing the bleed exists for.
      `clip` on one axis leaves the other `visible`, so the vertical bleed is untouched and
      nothing scrolls. Do not "simplify" it to hidden.
-     ⚠️ NOTHING VISIBLE IS LOST. On a phone what gets clipped is what was off-screen
-     anyway; on a desktop the stage is capped well inside the wrap and the bleed never
-     reaches this edge. `tools/qa/doors-shots.mjs` sweeps thirteen widths and is where
-     this failed — the sweep had not been re-run since the sculpture landed. */
+     ⚠️⚠️ SOMETHING VISIBLE *IS* LOST ON A PHONE, AND THE LINE THAT USED TO STAND HERE
+     SAID OTHERWISE. It read "nothing visible is lost — on a phone what gets clipped is
+     what was off-screen anyway". MEASURED 2026-08-29, by lifting the clip and comparing
+     the painted extent: the art runs 30px past the viewport at 320, 38 at 360, 43 at 390
+     and 51 at 430. What goes is the plate's right shoulder — the slab's curve is sliced
+     to a flat vertical edge on every phone. Nothing is lost on the left (the art starts
+     ~8px in) and nothing is lost on a desktop, where the stage is capped well inside the
+     wrap; the claim was only ever wrong about phones.
+     ⚠️ IT STAYS. His call 2026-08-29, put to him with renders of all three options: the
+     crop is accepted rather than fixed. The two that were built and measured, if it is
+     ever reopened — SHRINK the stage to 88% (whole flower fits; plate 231px → 203px and
+     the labels shrink with it) or TIGHTEN the ring (--prad 17.285cqw → 8.6cqw on slot 0
+     with slots 1 and 5 eased in; plate stays 231px, art ends at 362 of 390, nothing
+     cropped). The second is the better picture and edits a composition traced from the
+     client's own phone reference, which is why it is his to reopen and not ours.
+     ⚠️ `tools/qa/doors-shots.mjs` sweeps thirteen widths for the DOCUMENT overflow this
+     clip exists to prevent — it passes, and it is not a check on the crop above. */
   overflow-x:clip;
 }
 .ps.ps-on{display:block}
@@ -4437,6 +4468,33 @@ try{
   var root = document.getElementById('process');
   if(!root) return;
 
+  /* ── THE SLAB WEARS ITS DOOR'S ORB ─────────────────────────────────────────────
+     ⚠️⚠️ THIS BLOCK IS BYTE-IDENTICAL ON ALL FOUR CARRIERS AND MUST STAY THAT WAY.
+     The colour is NOT written here — it is read from the page's own :root tokens, so
+     one script serves a burgundy door, a rose door and two gold pages without a fork.
+     Each page defines --ps-slab / --ps-slab-top / --ps-slab-mid / --ps-slab-foot next
+     to its --door tokens; a page that defines none gets the shipped burgundy back.
+     ⚠️ THE FALLBACKS ARE THE ORIGINAL VALUES, so deleting a page's tokens restores the
+     2026-08-21 sculpture exactly rather than painting it black.
+     ⚠️ IT IS READ ONCE, HERE. The 3D layer and the SVG fallback both consume SLAB, and
+     reading it twice is how the two halves of one object drift apart.
+     ⚠️ THE RENDERED COLOUR IS NOT THE TOKEN. The scene's lighting lifts and desaturates
+     whatever the material is given — #4E1A28 leaves as #5F3D43 — so a token chosen for
+     how it looks in a swatch will disappoint. Measured, 2026-08-29: a pure hue rotation
+     at the original darkness moved the rendered slab by EIGHT of 255 and was invisible
+     on the page. Saturation and lightness are what survive the lighting; hue alone is
+     not. Re-measure on the render, never on the hex. */
+  function slabTok(name, fb){
+    var v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    return /^#[0-9a-fA-F]{6}$/.test(v) ? v : fb;
+  }
+  var SLAB = {
+    base: slabTok('--ps-slab',      '#4E1A28'),
+    top:  slabTok('--ps-slab-top',  '#7B2C49'),
+    mid:  slabTok('--ps-slab-mid',  '#5A1A30'),
+    foot: slabTok('--ps-slab-foot', '#3B0E1C')
+  };
+
   /* container-query units carry the whole composition; a browser without them gets
      the chapter's original list, injected from the approved <noscript> copy */
   if(!(window.CSS && CSS.supports && CSS.supports('width','1cqw'))){
@@ -4683,8 +4741,8 @@ try{
     +   '<stop offset="1" stop-color="#D9C39E" stop-opacity=".12"/></linearGradient>'
     /* the maroon slab: wine at the top, near-black at the foot */
     + '<linearGradient id="psMaroon" x1=".3" y1="0" x2=".6" y2="1">'
-    +   '<stop offset="0" stop-color="#7B2C49"/><stop offset=".5" stop-color="#5A1A30"/>'
-    +   '<stop offset="1" stop-color="#3B0E1C"/></linearGradient>'
+    +   '<stop offset="0" stop-color="' + SLAB.top + '"/><stop offset=".5" stop-color="' + SLAB.mid + '"/>'
+    +   '<stop offset="1" stop-color="' + SLAB.foot + '"/></linearGradient>'
     + '<filter id="psBlurC" x="-30%" y="-30%" width="160%" height="160%">'
     +   '<feGaussianBlur stdDeviation="11"/></filter>'
     + '<filter id="psBlurS" x="-40%" y="-40%" width="180%" height="180%">'
@@ -5006,7 +5064,7 @@ try{
          the flower now stands on (--ps-ground). The two swapped places; that swap IS the
          change he asked for, so neither half means anything without the other. */
       var IVORY = {color:0xFAF7F1, roughness:.62, metalness:0, sheen:.2, sheenRoughness:.8, sheenColor:0xFFFFFF, envMapIntensity:1};
-      var MAROON = {color:0x4E1A28, roughness:.6, metalness:0, clearcoat:.12, clearcoatRoughness:.6, envMapIntensity:.5};
+      var MAROON = {color:parseInt(SLAB.base.slice(1), 16), roughness:.6, metalness:0, clearcoat:.12, clearcoatRoughness:.6, envMapIntensity:.5};
 
       /* ── the petal, as a mesh. One grid over the face (so the relief is sampled
             everywhere, not only at the outline), a quarter-round rim of radius r, a

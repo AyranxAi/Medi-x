@@ -12,6 +12,7 @@
    node tools/qa/returning-band.mjs            checks only
    node tools/qa/returning-band.mjs --shots    also writes shots to /tmp/rb-qa/ */
 import { chromium } from 'playwright';
+import sharp from 'sharp';
 import { createServer } from 'node:http';
 import { readFileSync, existsSync, readdirSync, mkdirSync } from 'node:fs';
 import { execSync } from 'node:child_process';
@@ -87,8 +88,12 @@ const sum = (p, b) => execSync(
   /* ⚠️ THESE THREE ARE THE SHIPPED PS SUMS AND THEY ARE PINNED, not merely compared to
      each other: the band lives outside the PS markers precisely so it cannot move them,
      and four matching rows of the WRONG sum would pass a compare-only check. */
-  const PS_PINNED = { CSS:['4d192d81e3e8'], HTML:['95463c5391ea'],
-                      JS:['d2ee51cad3aa','ab64ee862292'] };  /* the men's one-comment drift, 2026-08-24g */
+  /* ⚠️ MOVED 2026-08-29c and both moves are recorded: PS:CSS took the correction to the
+     phone-crop claim (comment only), PS:JS took the slab token reader (behaviour, but
+     identical on all four). The men's door still carries its extra 2026-08-24g comment,
+     which is why JS has two legal sums and CSS has one. */
+  const PS_PINNED = { CSS:['d26faf55bae9'], HTML:['95463c5391ea'],
+                      JS:['c9d5a3e2365d','c288ab493d44'] };
   for (const b of ['CSS','HTML','JS']) {
     const rows = PAGES.map(p => `${p}:${sum(p, 'PS:' + b)}`);
     const bad = PAGES.filter(p => !PS_PINNED[b].includes(sum(p, 'PS:' + b)));
@@ -471,6 +476,80 @@ const sum = (p, b) => execSync(
   }
   /* three distinct grounds across four pages — the gold door and /programs/ share one */
   ok(seen.size === 3, `three distinct grounds across the four carriers — ${seen.size}`);
+}
+
+/* ── 7c · THE PETAL SLAB wears the orb too — from tokens, not from a forked script ──
+   PS:JS is byte-identical on four pages, so the slab colour is read from each page's
+   :root. This asserts what each page actually PAINTS, sampled off the rendered canvas —
+   the spec hex is not the answer, because the scene's lighting lifts and desaturates it
+   (that gap is the whole reason the first attempt at this was invisible). */
+{
+  console.log('7c · the slab: per-door, sampled off the render');
+  const WANT = {                       /* spec, and the rendered slab it must produce */
+    'hormone-therapy-bhrt': { spec: null,      rend: [95, 61, 67]  },  /* no tokens → shipped burgundy */
+    'modern-menopause':     { spec: '#A1213B', rend: [169, 64, 79] },  /* rose-bolder */
+    'testosterone-top-up':  { spec: '#9F7123', rend: [167, 123, 64] }, /* gold-bolder */
+    'programs':             { spec: '#9F7123', rend: [167, 123, 64] },
+  };
+  const lum = (r, g, b) => .2126*r + .7152*g + .0722*b;
+  const seen = [];
+  for (const p of PAGES) {
+    const page = await open({ viewport: { width: 1200, height: 820 }, deviceScaleFactor: 2 });
+    await page.goto(`${BASE}/${p}/?probe=1`, { waitUntil: 'networkidle' });
+    await page.waitForTimeout(2200);
+    const tok = await page.evaluate(() => {
+      const cs = getComputedStyle(document.documentElement);
+      return { slab: cs.getPropertyValue('--ps-slab').trim() || null,
+               gl: !!document.querySelector('.ps.ps-3d') };
+    });
+    ok(tok.slab === WANT[p].spec, `${p}: --ps-slab ${tok.slab || '(none — falls back to burgundy)'}`);
+    /* sample the slab off the plate's right shoulder, darkest 12% of the window */
+    /* ⚠️ STOP LENIS, SCROLL INSTANTLY, THEN MEASURE IN A SEPARATE PASS. This is the
+       third attempt and the first two are worth recording. scrollIntoView alone left the
+       window off the bottom on /programs/ (Playwright rejects an out-of-frame clip
+       outright). Clamping the window stopped the crash and quietly slid the sample onto
+       the plate's ivory — a wrong answer instead of an error. The real cause is Lenis:
+       its smooth scroll is still animating when the rect is read, so the measurement
+       describes a page that has already moved. Stop it, jump, settle, then measure. */
+    await page.evaluate(() => {
+      if (window.__lenis) window.__lenis.stop();
+      const pl = document.querySelector('.ps-arm[data-slot="0"] .ps-petal');
+      const r = pl.getBoundingClientRect();
+      window.scrollTo(0, r.top + window.scrollY - (window.innerHeight - r.height) / 2);
+    });
+    await page.waitForTimeout(900);
+    const clip = await page.evaluate(() => {
+      const r = document.querySelector('.ps-arm[data-slot="0"] .ps-petal').getBoundingClientRect();
+      const vh = window.innerHeight;
+      if (r.top < 0 || r.bottom > vh) throw new Error('plate not fully in frame: ' + JSON.stringify([r.top, r.bottom, vh]));
+      return { x: Math.round(r.right - 40), y: Math.round(r.top + r.height * 0.28), width: 70, height: 200 };
+    });
+    await page.waitForTimeout(600);
+    const shot = await page.screenshot({ clip });
+    const { data, info } = await sharp(shot).raw().toBuffer({ resolveWithObject: true });
+    const px = [];
+    for (let i = 0; i < data.length; i += info.channels) px.push([data[i], data[i+1], data[i+2]]);
+    px.sort((a, b) => lum(...a) - lum(...b));
+    const n = Math.max(1, Math.floor(px.length * 0.12));
+    const avg = px.slice(0, n).reduce((a, q) => [a[0]+q[0]/n, a[1]+q[1]/n, a[2]+q[2]/n], [0,0,0]).map(Math.round);
+    /* ⚠️ THE SAMPLE MUST HAVE SEEN THE SLAB. The slab is far darker than everything
+       around it; if the darkest 12% of the window is not actually dark, the window
+       missed and any colour it reports is fiction. This is the check that would have
+       caught the clamped-window bug instead of letting it report the plate. */
+    const w = WANT[p].rend;
+    ok(lum(...avg) < 150, `${p}: the window actually found the slab (lum ${Math.round(lum(...avg))} < 150)`);
+    const d = Math.round(Math.hypot(avg[0]-w[0], avg[1]-w[1], avg[2]-w[2]));
+    ok(d <= 14, `${p}: paints rgb(${avg.join(',')}), expected rgb(${w.join(',')}) — off by ${d}`);
+    seen.push(avg);
+    await page.close();
+  }
+  /* ⚠️ THE POINT OF THE WHOLE ROUND: the doors must be TELLABLE APART on the page. The
+     first attempt passed every spec check and failed this one at 8 of 255. */
+  const sep = (a, b) => Math.round(Math.hypot(a[0]-b[0], a[1]-b[1], a[2]-b[2]));
+  ok(sep(seen[0], seen[1]) >= 30, `burgundy vs rose separate by ${sep(seen[0], seen[1])} (need ≥30)`);
+  ok(sep(seen[0], seen[2]) >= 30, `burgundy vs gold separate by ${sep(seen[0], seen[2])} (need ≥30)`);
+  ok(sep(seen[1], seen[2]) >= 30, `rose vs gold separate by ${sep(seen[1], seen[2])} (need ≥30)`);
+  ok(sep(seen[2], seen[3]) <= 6,  `gold door and /programs/ share one slab — ${sep(seen[2], seen[3])}`);
 }
 
 /* ── 8 · the LOADING state: fonts not there yet, box the same size ──────────────

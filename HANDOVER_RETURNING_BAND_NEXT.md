@@ -14,8 +14,11 @@ Live at `bd8b829`. Four carriers: `/hormone-therapy-bhrt/`, `/modern-menopause/`
 
 > **2026-08-29, later — THE CHANGE HAS BEGUN, AS A PREVIEW.** His approved comp moves the
 > returning doors INTO the process chapter's editorial column: "Already a patient?" under
-> the 01–06 dots, then two flat landscape cards (icon · serif title · subtitle — the comp's
-> gold tick was cut the same day, it only ate height). It is
+> the 01–06 dots, then two slim rows — icon and serif title on one line, nothing else.
+> Three same-day cuts flattened the comp's card: the gold tick went, then the subtitles
+> and the stacked layout ("say everything via the title"), and the titles became the
+> matched pair **"Repeat consultation / Repeat prescription"** — the estate's real
+> service names. It is
 > live on **`/hormone-therapy-bhrt/` only**, **desktop only**, and the cards **link
 > nowhere yet** — all three his explicit calls, made for judging it in place. The block is
 > `RC:PREVIEW:CSS / RC:PREVIEW:HTML` in that page; read its banner before touching it.

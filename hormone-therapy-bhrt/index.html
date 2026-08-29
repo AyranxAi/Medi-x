@@ -125,6 +125,20 @@
   --door:#5C1F31;
   --door-deep:#5C1F31;
   --door-tint:#F2E1E2;
+  /* ⚠️ THE PETAL SLAB — the deep edge under the plate, his call 2026-08-29 ("making it
+     pink or gold the same color as the orb"), re-seated 2026-08-29d. PS:JS reads these
+     four and paints both the 3D material and the SVG fallback's ramp; the block itself
+     stays byte-identical on all four carriers. Delete these and the flower returns to the
+     shipped burgundy.
+     ⚠️⚠️ THESE ARE NOT SWATCH COLOURS AND MUST NOT BE JUDGED AS ONE. The scene's lighting
+     lifts and desaturates the material: #A1213B leaves as #A9404F on the page. The first
+     attempt kept the burgundy's darkness and rotated only the hue — it moved the rendered
+     slab by EIGHT of 255 and was invisible, which is why these sit high in saturation AND
+     lightness. Re-measure on a render, never on the hex. */
+  --ps-slab:#A1213B;
+  --ps-slab-top:#D02F4F;
+  --ps-slab-mid:#AE1E3B;
+  --ps-slab-foot:#90132C;
   --serif:"Playfair","Playfair Display",Didot,"Times New Roman",Georgia,serif;
   --sans:"MediGyn NOW",Jost,ui-sans-serif,system-ui,-apple-system,sans-serif;
   --accent:"MediGyn Megante",Optima,Georgia,serif;

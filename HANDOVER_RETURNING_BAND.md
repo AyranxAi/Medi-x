@@ -156,12 +156,20 @@ on four pages, so the colour was moved OUT of the script and into four `:root` t
 --ps-slab  --ps-slab-top  --ps-slab-mid  --ps-slab-foot
 ```
 
-| page | slab | ramp |
-|---|---|---|
-| `/hormone-therapy-bhrt/` | **none set** | the fallbacks *are* the shipped burgundy |
-| `/modern-menopause/` | `#A1213B` rose-bolder | `#D02F4F` `#AE1E3B` `#90132C` |
-| `/testosterone-top-up/` | `#9F7123` gold-bolder | `#CD9432` `#AC7920` `#8F6214` |
-| `/programs/` | `#9F7123` (not a door — shares gold) | same |
+| page | orb | slab | ramp |
+|---|---|---|---|
+| `/hormone-therapy-bhrt/` | burgundy | `#A1213B` crimson | `#D02F4F` `#AE1E3B` `#90132C` |
+| `/modern-menopause/` | rose | `#C9366C` **pink** | `#D36990` `#D23770` `#BE235C` |
+| `/testosterone-top-up/` | gold | `#9F7123` gold-bolder | `#CD9432` `#AC7920` `#8F6214` |
+| `/programs/` | — | `#9F7123` (shares gold) | same |
+
+⚠️ **RE-SEATED 2026-08-29d.** The crimson shipped on the menopause door for a few hours and
+he moved it: *"the one on modern meno should actually be on the hormone therapy bhrt"*.
+He is right about the families — BHRT's orb is the burgundy one and crimson belongs to it;
+the menopause orb is the **rose** one, so that door wanted an actual pink, which is what
+`#C9366C` is. Rendered separation: crimson↔pink 56, crimson↔gold 61, pink↔gold 82.
+**The alternative on the board was `#BD5664` (dusty)** — truer to the soft `--rose #C79A92`
+of the orb image, less bold. One token per page if he wants it.
 
 ⚠️ **DELETING A PAGE'S TOKENS RESTORES THE 2026-08-21 SCULPTURE**, because the script's
 fallbacks are the original values rather than black. That is the rollback.

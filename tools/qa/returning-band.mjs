@@ -485,10 +485,14 @@ const sum = (p, b) => execSync(
    (that gap is the whole reason the first attempt at this was invisible). */
 {
   console.log('7c · the slab: per-door, sampled off the render');
+  /* ⚠️ RE-SEATED 2026-08-29d on his call: the crimson moved from the menopause door to
+     BHRT (its orb is the burgundy one, and crimson is that family), and the menopause
+     door — whose orb is the ROSE one — took a true pink. No page is on the burgundy
+     fallback any more; the fallback path is still exercised by the code, not by a page. */
   const WANT = {                       /* spec, and the rendered slab it must produce */
-    'hormone-therapy-bhrt': { spec: null,      rend: [95, 61, 67]  },  /* no tokens → shipped burgundy */
-    'modern-menopause':     { spec: '#A1213B', rend: [169, 64, 79] },  /* rose-bolder */
-    'testosterone-top-up':  { spec: '#9F7123', rend: [167, 123, 64] }, /* gold-bolder */
+    'hormone-therapy-bhrt': { spec: '#A1213B', rend: [169, 64, 78]  },  /* crimson */
+    'modern-menopause':     { spec: '#C9366C', rend: [208, 76, 117] },  /* pink */
+    'testosterone-top-up':  { spec: '#9F7123', rend: [167, 123, 64] },  /* gold-bolder */
     'programs':             { spec: '#9F7123', rend: [167, 123, 64] },
   };
   const lum = (r, g, b) => .2126*r + .7152*g + .0722*b;
@@ -546,9 +550,9 @@ const sum = (p, b) => execSync(
   /* ⚠️ THE POINT OF THE WHOLE ROUND: the doors must be TELLABLE APART on the page. The
      first attempt passed every spec check and failed this one at 8 of 255. */
   const sep = (a, b) => Math.round(Math.hypot(a[0]-b[0], a[1]-b[1], a[2]-b[2]));
-  ok(sep(seen[0], seen[1]) >= 30, `burgundy vs rose separate by ${sep(seen[0], seen[1])} (need ≥30)`);
-  ok(sep(seen[0], seen[2]) >= 30, `burgundy vs gold separate by ${sep(seen[0], seen[2])} (need ≥30)`);
-  ok(sep(seen[1], seen[2]) >= 30, `rose vs gold separate by ${sep(seen[1], seen[2])} (need ≥30)`);
+  ok(sep(seen[0], seen[1]) >= 30, `crimson vs pink separate by ${sep(seen[0], seen[1])} (need ≥30)`);
+  ok(sep(seen[0], seen[2]) >= 30, `crimson vs gold separate by ${sep(seen[0], seen[2])} (need ≥30)`);
+  ok(sep(seen[1], seen[2]) >= 30, `pink vs gold separate by ${sep(seen[1], seen[2])} (need ≥30)`);
   ok(sep(seen[2], seen[3]) <= 6,  `gold door and /programs/ share one slab — ${sep(seen[2], seen[3])}`);
 }
 

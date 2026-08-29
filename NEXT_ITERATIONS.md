@@ -170,12 +170,21 @@ paints both the 3D material and the SVG fallback's ramp from them. Each page set
 fallbacks *are* the shipped burgundy, so deleting any page's tokens restores the original
 sculpture rather than breaking it.
 
-| page | slab | ramp |
-|---|---|---|
-| `/hormone-therapy-bhrt/` | — (falls back) | the shipped burgundy |
-| `/modern-menopause/` | `#A1213B` rose-bolder | `#D02F4F` `#AE1E3B` `#90132C` |
-| `/testosterone-top-up/` | `#9F7123` gold-bolder | `#CD9432` `#AC7920` `#8F6214` |
-| `/programs/` | `#9F7123` (shares gold) | same |
+| page | orb | slab | ramp |
+|---|---|---|---|
+| `/hormone-therapy-bhrt/` | burgundy | `#A1213B` crimson | `#D02F4F` `#AE1E3B` `#90132C` |
+| `/modern-menopause/` | rose | `#C9366C` **pink** | `#D36990` `#D23770` `#BE235C` |
+| `/testosterone-top-up/` | gold | `#9F7123` gold-bolder | `#CD9432` `#AC7920` `#8F6214` |
+| `/programs/` | — (not a door) | `#9F7123` (shares gold) | same |
+
+⚠️ **RE-SEATED 2026-08-29d, HIS CALL** — the crimson began on the menopause door and moved
+to BHRT, because BHRT's orb is the **burgundy** one and crimson is that family; the
+menopause door, whose orb is the **rose** one, took a true pink instead. Rendered
+separation: crimson↔pink **56**, crimson↔gold **61**, pink↔gold **82**.
+⚠️ **NO PAGE IS ON THE BURGUNDY FALLBACK ANY MORE.** The fallback path is still live in the
+script and still the rollback — delete a page's four tokens and its flower returns to the
+2026-08-21 burgundy — but no page exercises it, so a broken token reader would now show up
+as a *wrong* colour rather than as a silent revert. `returning-band.mjs` §7c pins all four.
 
 ⚠️⚠️ **THE RENDERED SLAB IS NOT THE TOKEN, AND THIS COST A ROUND.** The scene's lighting
 lifts and desaturates the material: `#4E1A28` leaves as `#5F3D43`. The first attempt kept

@@ -4468,17 +4468,10 @@ try{
     lw.addColorStop(0,"rgba(243,222,186,0)"); lw.addColorStop(1,"rgba(243,222,186,.30)");
     c.fillStyle=lw; c.fillRect(0,0,W,H);
 
-    /* ripples — wind lines, spacing opens toward the viewer */
-    c.strokeStyle="rgba(138,106,52,.09)"; c.lineWidth=1;
-    for(let i=0;i<9;i++){
-      const yy=H*(g.peakY+.06)+Math.pow(i,1.35)*H*.022;
-      c.beginPath();
-      for(let px=0;px<=W;px+=9){
-        const py=yy+Math.sin(px*.016+i*1.8)*2.4+Math.sin(px*.005+i)*3.5;
-        px===0?c.moveTo(px,py):c.lineTo(px,py);
-      }
-      c.stroke();
-    }
+    /* ⚠️ THE WIND RIPPLES ARE OUT — his call 2026-08-29, on the live page: "remove the
+       lines on the dune ------ thats weird i dont want it". Nine faint stroked lines
+       across the sand read as ruled lines, not as wind. Do not reinstate them; if the
+       sand ever needs texture again it has to come from tone, not from strokes. */
 
     /* grain — seeded, stable frame to frame */
     const r=lcg(41);

@@ -79,7 +79,7 @@ falsify the record, so the harness tolerates exactly two JS sums and no more.
 DELIBERATELY DOES NOT TOUCH THE FOUR ABOVE.** A patient already on a protocol needs two
 things the six steps do not carry — a follow-up, and a repeat of her prescription — so a
 compact band now sits under the flower on all four carriers: eyebrow, heading, two
-outlined actions, ~184px on a desktop and ~228px stacked on a phone.
+outlined actions, ~232px on a desktop and ~270px stacked on a phone.
 
 **It is NOT inside `PS:*`, and that is the point.** The three PS sums above are unchanged
 by it — verify with the same loop; they still read `4d192d81e3e8` / `95463c5391ea` /
@@ -95,7 +95,40 @@ for p in hormone-therapy-bhrt modern-menopause testosterone-top-up programs; do
 done
 ```
 
-As shipped: CSS `b6006f334c70`, HTML `327a9675ebea`.
+As shipped: CSS `a1ead3db21c7`, HTML `327a9675ebea`.
+
+⚠️⚠️ **2026-08-29b — THE BAND WEARS ITS DOOR'S ORB, FROM ONE BYTE-IDENTICAL LINE.** His
+round: bigger actions, and a colour behind the strip so it separates from the flower above
+and the money card below — *"that color varies on what color the original orb is"*.
+`background:var(--door-tint,var(--gold-tint))` does it with **no fork**: the burgundy door
+serves `#F2E1E2`, the rose door `#F9E4DE`, and the gold door and `/programs/` — which
+carry **no `--door` tokens on purpose** (§7 of `HANDOFF.md`) — fall through to
+`--gold-tint #F1E7D2`. The eyebrow rides the same fallback on `--door-deep`. Three
+distinct grounds across four pages, and `RB:CSS` stays one sum.
+
+⚠️ **THE GROUND MOVED, SO THE CONTRAST WAS RE-MEASURED** — the rule `--gold-gloss`'s token
+block states ("it is a function of the ground; anyone who darkens the ground must bring it
+back") fires on any edit to that line. Measured, small floor 4.5 / large 3.0:
+
+| | eyebrow | heading | label on the button fill |
+|---|---|---|---|
+| burgundy `#F2E1E2` | **9.817** (`--door-deep`) | 9.817 | 5.863 |
+| rose `#F9E4DE` | **5.074** (`--door-deep`) | 10.133 | 5.965 |
+| gold `#F1E7D2` | **4.632** (`--gold-gloss`) | 10.087 | 5.934 |
+
+⚠️ **4.632 IS THE TIGHTEST PAIR IN THE ESTATE'S NEW WORK** and it is the gold pages'
+eyebrow. `--gold-deep` on that ground is **4.080 and FAILS** — the same trap the flower's
+own eyebrow records. Deepen `--gold-tint` and the gloss goes under too. `returning-band.mjs`
+§7b re-derives all twelve numbers **from the rendered pixels**, so a token move fails the
+run rather than the audit.
+⚠️ **THE THEME TOUCHES THE GROUND AND THE EYEBROW, NOTHING ELSE.** Hairlines, button
+borders and the heading keep the shared gold/burgundy grammar — the same exclusion the
+door theme draws around the money card and the sculpture. The strip wears the orb; it does
+not repaint the chapter, and §7b asserts `.programme`'s own ground is still `#F0EBE7`.
+
+**The strip is ~232px on a desktop and ~270px stacked on a phone** since the actions grew
+to 72px / 64px. Both still content height (232 is 26% of a 900 viewport) and the fold
+arithmetic below is unchanged — it measures the strip's TOP, which did not move.
 
 ⚠️⚠️ **THE BAND IS NOT A SEVENTH STEP AND MUST NEVER BE MADE ONE.** Six petals, six seats,
 01–06 — the count is the contract the slot map exists to hold. Nothing in the band is

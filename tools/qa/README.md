@@ -83,10 +83,20 @@ npm install playwright@1.49.1 gsap@3.13.0 lenis@1.3.4
 node tools/qa/returning-band.mjs [--shots]
 ```
 
-The band added 2026-08-29 under the flower on all four carriers: eyebrow, heading, two
-outlined actions. **131 checks** — parity, the flower's count, desktop and phone geometry,
-320px, the two destinations, every interaction state, the page mid-load with its webfonts
-still coming, and the page with JavaScript off.
+The strip added 2026-08-29 under the flower on all four carriers: eyebrow, heading, two
+outlined actions, dressed in each door's orb. **164 checks** — parity, the flower's count,
+desktop and phone geometry, 320px, the two destinations, the per-door theming and its
+contrast arithmetic, every interaction state, the page mid-load with its webfonts still
+coming, and the page with JavaScript off.
+
+⚠️ **§7b IS THE ORB, AND IT RE-DERIVES THE CONTRAST FROM PIXELS RATHER THAN TRUSTING THE
+COMMENT.** One byte-identical line — `var(--door-tint,var(--gold-tint))` — has to resolve
+to three different grounds across four pages, so §7b asserts each page's resolved ground
+and eyebrow, then computes all twelve contrast ratios from `getComputedStyle`. It
+composites the translucent button fill over the strip's ground **by hand**: the computed
+style hands back the `rgba`, not what the eye receives, and reading it raw would report
+the label's contrast against a colour no reader ever sees. It also pins `.programme`'s own
+ground at `#F0EBE7` — the theme dresses the strip, never the chapter.
 
 ⚠️ **THE TWO CHECKS THAT MATTER ARE THE COUNT AND THE FOLD**, and both were made to fail
 on purpose before they were trusted:
@@ -114,6 +124,15 @@ recorded comment of 2026-08-24g. The band has its **own** markers, `RB:CSS` and
 single text node. This is the dead selector `NEXT_ITERATIONS.md` §3 records staying green
 for weeks, and the first run of this file walked straight into it. It counts `<li>` in the
 `<noscript>`'s `textContent` instead.
+
+⚠️ **TWO MORE HARNESS BUGS, BOTH FOUND BY THE ORB ROUND AND BOTH WORTH KNOWING.**
+(1) The grid check compared `.rb-inner`'s left edge with `.ps .wrap`'s — but a `.wrap`
+rect is its **border** box and `--pad` sits *inside* it, so the comparison was off by up
+to 72px and failed on pages that were perfectly aligned. It compares against `.ps-ed`,
+the flower's editorial column, which is the edge the strip actually has to meet.
+(2) The "arrow is right-aligned" check used `right - arr.right < 24` while the desktop
+padding was **also** 24 — so it measured the padding itself as a failure the moment the
+buttons grew. Thresholds that happen to equal a layout value are a trap; it is `<= 26` now.
 
 ⚠️ **§7 MEASURES FROM THE OFFSET PARENT, NOT THE VIEWPORT.** `page.hover()` scrolls the
 element into view, so a `getBoundingClientRect()` comparison reports the *scroll* as a

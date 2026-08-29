@@ -1017,11 +1017,10 @@ section{position:relative}
 }
 /* PS:CSS:END */
 /* RB:CSS:START */
-/* ─────────────── 03b · THE RETURNING-PATIENT BAND — one quiet line under the flower ──
+/* ─────────────── 03b · THE RETURNING-PATIENT BAND — one quiet strip under the flower ──
    A patient who is already on a protocol does not need the six steps; she needs the two
    doors the journey does not carry — a follow-up with her doctor, and a repeat of her
-   prescription. This is that line, and it is a BAND, not a chapter: content height, a
-   hairline, two outlined actions, nothing else.
+   prescription. This is that strip: eyebrow, heading, two outlined actions, nothing else.
 
    ⚠️⚠️ IT IS NOT PART OF THE SCULPTURE AND MUST NEVER BECOME A SEVENTH STEP. The flower
    carries SIX petals and SIX numbered seats and that count is a contract (see the slot
@@ -1030,48 +1029,78 @@ section{position:relative}
    ⚠️ IT HAS ITS OWN PARITY MARKERS INSTEAD — RB:CSS / RB:HTML, on the same four pages,
    for the same reason: a one-page "quick fix" is how the estate drifts.
 
+   ⚠️⚠️ THE BAND WEARS ITS DOOR'S ORB, AND IT DOES IT WITH ONE BYTE-IDENTICAL LINE.
+   `var(--door-tint,var(--gold-tint))` resolves per page with no fork: the burgundy door
+   serves #F2E1E2, the rose door #F9E4DE, and the gold door and /programs/ — which carry
+   NO --door tokens on purpose (2026-08-27: "the estate's gold already dresses the six
+   sites the theme names, so the theme there IS the page as it stands") — fall through to
+   --gold-tint #F1E7D2. The eyebrow rides the same fallback on --door-deep. Adding the
+   colour per page would have forked RB four ways; the cascade does it for free.
+   ⚠️ THE GROUND MOVED, SO THE CONTRAST WAS RE-MEASURED — the rule --gold-gloss's token
+   block states ("it is a function of the ground; anyone who darkens the ground must bring
+   it back") fires on any change to this line. Measured on the three grounds this strip
+   now stands on, small-text floor 4.5, large 3.0:
+     eyebrow  --door-deep on --door-tint   9.817 burgundy · 5.074 rose
+              --gold-gloss on --gold-tint  4.632 gold — and --gold-deep is 4.080, FAILS,
+              which is the same trap the flower's eyebrow records two blocks up
+     heading  --burgundy   9.817 · 10.133 · 10.087
+     label    --ink-soft on the button fill  5.863 · 5.965 · 5.934
+   ⚠️ 4.632 IS THE TIGHTEST PAIR IN THE STRIP and it is the gold pages' eyebrow. Deepen
+   --gold-tint and it goes under; re-measure before touching either token.
+   ⚠️ THE THEME TOUCHES THE GROUND AND THE EYEBROW, NOTHING ELSE. The hairlines, the
+   button borders and the heading keep the estate's shared gold/burgundy grammar — the
+   same exclusion the door theme's own note draws around the money card and the
+   sculpture. The strip wears the orb; it does not repaint the chapter.
+
    ⚠️ THE MARGIN IS THE WHOLE REASON THE BAND IS NOT IN THE FLOWER'S VIEWPORT, and it is
    arithmetic, not taste. `.ps-grid` stands at min(80svh,880px), so a reader who has the
    flower framed from its own top has 20svh of slack under it. 21vh of separation puts the
-   band's hairline PAST the fold at the two heights a desktop actually is — 900 (720 of
+   band's top edge PAST the fold at the two heights a desktop actually is — 900 (720 of
    flower + 189 = 909) and 1080 (864 + 227 = 1091) — so the complete flower viewport
-   contains no returning-patient UI, and the band is the first thing a scroll reveals.
+   contains no returning-patient UI, and the strip is the first thing a scroll reveals.
    ⚠️ ABOVE ~1100px OF VIEWPORT THE FLOWER CAPS AT 880px AND NO FIXED GAP CAN CLEAR THE
    FOLD without whitespace that reads as a broken page (1440 tall would want 560px). The
    cap stays at 240px; at those heights the chapter's own top padding is inside the frame
    too, which is the slack the arithmetic above spends.
    ⚠️ THE FLOWER'S CANVAS BLEEDS DOWNWARD — .ps-gl is inset:-18% and .ps clips only the
-   x axis — so a whisper of petal shadow sits above the hairline. That is the client's
-   reference, not a leak; do not "fix" it by clipping .ps on both axes (the note on
-   overflow-x:clip in the block above says what that costs).
+   x axis — so a whisper of petal shadow sits above the strip's top edge. That is the
+   client's reference, not a leak; do not "fix" it by clipping .ps on both axes (the note
+   on overflow-x:clip in the block above says what that costs).
 
-   ⚠️ NO CARD, NO RADIUS, NO SHADOW. The estate's rounded pills are --btn-radius; this is
-   a square hairline box because the band must read as quieter than everything near it. */
-.rb{margin-top:clamp(104px,21vh,240px)}
-/* the hairline and the padding sit on the INNER box, inside .wrap, so the divider starts
-   and ends on the content grid's edges rather than bleeding to the viewport. */
-.rb-inner{border-top:1px solid rgba(194,160,94,.42);padding:26px 0}
-/* --gold-gloss, NOT --gold-deep — the same measurement the flower's eyebrow records two
-   blocks up: this is small uppercase on --ps-ground, where gold-deep is 4.233 against a
-   4.5 floor and gold-gloss is 4.805. The ground is shared, so the token is too. */
+   ⚠️ NO CARD, NO RADIUS, NO SHADOW, AND NEVER 100vh. The colour is what separates the
+   strip from the flower above and the money card below — it is a BAND, and the moment it
+   grows a radius or a shadow it becomes the second hero this block exists not to be. */
+.rb{
+  margin-top:clamp(104px,21vh,240px);
+  margin-bottom:clamp(64px,8vh,104px);
+  /* full bleed: .rb is a block child of the section, which carries no side padding, so
+     the colour runs edge to edge while .wrap holds the copy on the content grid. */
+  background:var(--door-tint,var(--gold-tint));
+  border-top:1px solid rgba(194,160,94,.38);
+  border-bottom:1px solid rgba(194,160,94,.38);
+}
+.rb-inner{padding:40px 0}
+/* --door-deep where the door has one, --gold-gloss where it does not. NOT --gold-deep on
+   either path: it measures 4.080 on --gold-tint against a 4.5 floor, silently. */
 .rb-eyebrow{
   font-family:var(--accent);font-weight:400;font-size:12px;line-height:1.2;
-  letter-spacing:.24em;text-transform:uppercase;color:var(--gold-gloss);margin:0;
+  letter-spacing:.24em;text-transform:uppercase;margin:0;
+  color:var(--door-deep,var(--gold-gloss));
 }
 /* set in the HTML as sentence case and uppercased here — the estate's rule for every
    eyebrow it owns, and what keeps a screen reader from spelling the words out. */
 .rb-head{
   font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30;
   font-size:clamp(24px,2.1vw,29px);line-height:1.15;letter-spacing:-.005em;
-  color:var(--burgundy);margin:9px 0 0;
+  color:var(--burgundy);margin:10px 0 0;
 }
 /* TWO EQUAL COLUMNS, and the max-width is what stops them stretching to 1150px of wrap
-   and turning a quiet line into a pair of billboards. minmax(0,1fr) twice, not 1fr twice:
+   and turning a quiet strip into a pair of billboards. minmax(0,1fr) twice, not 1fr twice:
    a long label in a grid track with an implicit `auto` minimum is the sideways-scroll bug
    the doors' sweep exists to catch. */
 .rb-actions{
   display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:16px;max-width:980px;margin-top:18px;
+  gap:16px;max-width:980px;margin-top:22px;
 }
 /* ⚠️ EVERY STATE KEEPS THE BOX THE SAME SIZE. Hover and press move COLOUR only; focus is
    an `outline`, which paints outside the border box and reflows nothing; the arrow's nudge
@@ -1079,39 +1108,42 @@ section{position:relative}
    actions jump by a pixel — which is the one thing a returning patient's muscle memory
    notices. */
 .rb-act{
-  display:flex;align-items:center;gap:14px;min-width:0;min-height:56px;padding:0 20px;
+  display:flex;align-items:center;gap:16px;min-width:0;min-height:72px;padding:0 24px;
   border:1px solid rgba(194,160,94,.6);background:rgba(255,253,249,.5);
   color:var(--burgundy);text-decoration:none;
   transition:background-color .3s var(--ease),border-color .3s var(--ease);
 }
 .rb-ico{flex:none;display:flex;color:var(--burgundy)}
-.rb-ico svg{width:22px;height:22px;display:block}
-/* the label is --ink-soft on the band's ground: 5.53, comfortably over the 4.5 floor, and
-   over it again on the lighter fill the box paints under it. NOT nowrap — at 320px the
-   line fits with room to spare, and if a future label does not, wrapping is the failure
-   that costs height instead of the failure that costs a sideways scrollbar. */
+.rb-ico svg{width:26px;height:26px;display:block}
+/* the label is --ink-soft on the button's fill — 5.86 / 5.97 / 5.93 on the three doors,
+   comfortably over the 4.5 floor. NOT nowrap: at 320px the line fits with room to spare,
+   and if a future label does not, wrapping is the failure that costs height instead of
+   the failure that costs a sideways scrollbar. */
 .rb-lbl{
-  font-family:var(--sans);font-weight:400;font-size:15px;line-height:1.3;
+  font-family:var(--sans);font-weight:400;font-size:16px;line-height:1.3;
   letter-spacing:.01em;color:var(--ink-soft);min-width:0;
 }
 .rb-arr{flex:none;margin-left:auto;display:flex;color:var(--burgundy);
   transition:transform .35s var(--ease)}
-.rb-arr svg{width:18px;height:18px;display:block}
+.rb-arr svg{width:20px;height:20px;display:block}
 .rb-act:hover{background:#FFFDF9;border-color:var(--gold-deep)}
 .rb-act:hover .rb-arr{transform:translateX(4px)}
-.rb-act:active{background:var(--gold-tint)}
+/* pressed = the raised fill sinks to the strip's own ground, so the press reads as depth
+   and takes the door's colour for free. --ink-soft on it is 5.24 / 5.41 / 5.39. */
+.rb-act:active{background:var(--door-tint,var(--gold-tint))}
 .rb-act:focus-visible{outline:2px solid var(--gold-deep);outline-offset:3px}
 
-/* ── the phone: ONE COLUMN, 8px apart, 52px of target each. The two actions stack rather
+/* ── the phone: ONE COLUMN, 8px apart, 64px of target each. The two actions stack rather
       than halve — at 320px a two-up row leaves 122px a side, which truncates the longer
       label and puts the arrow on top of the word. ───────────────────────────────── */
 @media(max-width:900px){
-  .rb{margin-top:clamp(72px,10vh,120px)}
-  .rb-inner{padding:24px 0}
+  .rb{margin-top:clamp(72px,10vh,120px);margin-bottom:clamp(48px,6vh,80px)}
+  .rb-inner{padding:32px 0}
   .rb-head{font-size:clamp(23px,5.6vw,26px);margin-top:8px}
-  .rb-actions{grid-template-columns:minmax(0,1fr);gap:8px;max-width:none;margin-top:16px}
-  .rb-act{min-height:52px;padding:0 16px;gap:12px}
-  .rb-lbl{font-size:14.5px}
+  .rb-actions{grid-template-columns:minmax(0,1fr);gap:8px;max-width:none;margin-top:18px}
+  .rb-act{min-height:64px;padding:0 18px;gap:14px}
+  .rb-ico svg{width:24px;height:24px}
+  .rb-lbl{font-size:15.5px}
 }
 @media(prefers-reduced-motion:reduce){
   .rb-act,.rb-arr{transition:none}

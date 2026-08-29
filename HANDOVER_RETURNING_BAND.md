@@ -1,8 +1,14 @@
-# Handover — the returning-patient band (2026-08-29)
+# Handover — the returning-patient band (2026-08-29, two rounds)
 
-**One round, one block.** A compact band now sits under the flower on all four carriers,
+**Two rounds, one block.** A compact strip now sits under the flower on all four carriers,
 for a reader who is already on a protocol and needs neither the six steps nor a discovery
 call. Eyebrow, heading, two outlined actions. Nothing else.
+
+**Round two (his):** *"im thinking of making the buttons bigger perhaps? and also
+separating it from the flower and the payment below by adding a color behind it (and that
+color varies on what color the original orb is)"* — the actions went 56→**72px** (64 on a
+phone), and the strip took a full-bleed ground keyed to each door's orb. §5b is that
+round; everything else below survived it unchanged.
 
 ```
 ALREADY A PATIENT?
@@ -21,9 +27,10 @@ band is the line *under* the six steps and means nothing without them.
 
 | | |
 |---|---|
-| **is** | a content-height band — ~184px desktop, ~228px stacked on a phone |
+| **is** | a content-height strip — ~232px desktop, ~270px stacked on a phone |
 | **is** | two direct links, on the estate's own destinations |
 | **is** | its own parity block, `RB:CSS` / `RB:HTML`, on four pages |
+| **is** | dressed in its door's orb — three grounds, **one** byte-identical line (§5b) |
 | **is not** | a seventh step. The flower keeps **six petals and six seats, 01–06** |
 | **is not** | a chapter, hero, card, modal, sticky bar or floating panel — no `100vh`, `position:static`, no radius, no shadow |
 | **is not** | a new flow. Neither action invents a destination (§3) |
@@ -59,7 +66,7 @@ for p in hormone-therapy-bhrt modern-menopause testosterone-top-up programs; do
 done
 ```
 
-As shipped: **CSS `b6006f334c70`, HTML `327a9675ebea`. Four matching rows or you are not
+As shipped: **CSS `a1ead3db21c7`, HTML `327a9675ebea`. Four matching rows or you are not
 done.**
 
 In the DOM the band is a sibling **after** `.ps`, inside `#programme`, placed after the
@@ -136,25 +143,85 @@ note on `overflow-x:clip` in the PS block says what that costs.
 
 ---
 
+## 5b · The orb — one line, four pages, three grounds
+
+His ask was for the strip to carry the door's colour. The estate already had the token:
+`--door-tint`, confirmed against the real orb images on `/hormone-balancing/` in the
+2026-08-27 round, and already used by `::selection` and `.chip:hover`.
+
+```css
+.rb{background:var(--door-tint,var(--gold-tint))}
+.rb-eyebrow{color:var(--door-deep,var(--gold-gloss))}
+```
+
+| page | orb | ground | eyebrow |
+|---|---|---|---|
+| `/hormone-therapy-bhrt/` | burgundy | `--door-tint` `#F2E1E2` | `--door-deep` `#5C1F31` |
+| `/modern-menopause/` | rose | `--door-tint` `#F9E4DE` | `--door-deep` `#8C5148` |
+| `/testosterone-top-up/` | gold | `--gold-tint` `#F1E7D2` | `--gold-gloss` `#7F6230` |
+| `/programs/` | — (not a door) | `--gold-tint` `#F1E7D2` | `--gold-gloss` `#7F6230` |
+
+⚠️ **THE FALLBACK IS WHAT KEEPS `RB` ONE SUM.** The gold door carries **no `--door`
+tokens on purpose** — `HANDOFF.md` §7: *"the estate's gold already dresses exactly the six
+rule sites the theme names, so the theme there is the page as it stands"* — and
+`/programs/` is not a door at all. Writing the colour per page would have forked the block
+four ways and ended the parity contract; `var(--x, var(--y))` lets the cascade do it.
+**If the gold door is ever given `--door` tokens, this strip picks them up with no edit.**
+
+⚠️ **THE GROUND MOVED, SO EVERYTHING ON IT WAS RE-MEASURED.** `--gold-gloss`'s token block
+says it plainly — *it is a function of the ground; anyone who darkens the ground must
+bring it back*. Small floor 4.5, large 3.0:
+
+| | eyebrow | heading | label on fill | icon + arrow |
+|---|---|---|---|---|
+| burgundy `#F2E1E2` | **9.817** | 9.817 | 5.863 | 10.976 |
+| rose `#F9E4DE` | **5.074** | 10.133 | 5.965 | 11.167 |
+| gold `#F1E7D2` | **4.632** | 10.087 | 5.934 | 11.109 |
+
+⚠️ **4.632 IS THE TIGHTEST PAIR HERE**, the gold pages' eyebrow. `--gold-deep` on that
+ground is **4.080 — it FAILS**, which is the same trap the flower's eyebrow records two
+blocks up in the stylesheet. Deepen `--gold-tint` and the gloss goes under with it.
+**`returning-band.mjs` §7b re-derives all twelve of these from the rendered pixels**
+(compositing the translucent button fill over the strip's ground by hand, because
+`getComputedStyle` hands back the `rgba`, not what the eye receives), so a token move
+fails the run instead of quietly failing a reader.
+
+⚠️ **THE THEME TOUCHES THE GROUND AND THE EYEBROW, AND NOTHING ELSE.** Hairlines, button
+borders, heading and icons keep the estate's shared gold/burgundy grammar — the same
+exclusion the door theme's own note draws around the money card and the sculpture. §7b
+asserts `.programme`'s ground is still `#F0EBE7` on every page: the strip wears the orb,
+it does not repaint the chapter.
+
+⚠️ **FULL BLEED IS WHAT DOES THE SEPARATING.** `.rb` is a block child of a section that
+carries no side padding, so the colour runs edge to edge on its own — no negative margins,
+no `100vw` (which would have been the sideways-scroll bug the doors' sweep exists to
+catch). `.wrap` inside it holds the copy on the content grid; §7b asserts the strip's copy
+starts on the same pixel as the flower's editorial column.
+
+**Pressed takes the orb for free:** `.rb-act:active` sets the fill back to
+`var(--door-tint,var(--gold-tint))`, so the raised button sinks to the strip's own ground.
+`--ink-soft` on it is 5.24 / 5.41 / 5.39.
+
+---
+
 ## 5 · The dress
 
 Every token is one the chapter already owned; nothing new was invented.
 
 | | |
 |---|---|
-| ground | inherited `--ps-ground` `#F0EBE7` — the band is *in* the flower's chapter |
-| divider | `1px rgba(194,160,94,.42)`, **inside `.wrap`** so it starts and ends on the content grid |
-| eyebrow | `--accent`, 12px, `.24em`, **`--gold-gloss`** |
+| ground | **the door's orb** — `var(--door-tint,var(--gold-tint))`, full bleed (§5b) |
+| edges | `1px rgba(194,160,94,.38)` top **and** bottom, full bleed — the colour separates, the hairlines crisp it |
+| eyebrow | `--accent`, 12px, `.24em`, **`--door-deep` → `--gold-gloss`** (§5b) |
 | heading | `--serif` 450, `clamp(24px,2.1vw,29px)`, `--burgundy` |
-| label | `--sans` 400, 15px, `--ink-soft` — 5.53 on the ground |
-| box | `1px rgba(194,160,94,.6)` on `rgba(255,253,249,.5)`, **no radius, no shadow** |
-| hover / press | `#FFFDF9` + `--gold-deep` border / `--gold-tint` |
+| label | `--sans` 400, **16px**, `--ink-soft` — 5.86 / 5.97 / 5.93 on the fill |
+| box | **72px** (64 on a phone), `1px rgba(194,160,94,.6)` on `rgba(255,253,249,.5)`, **no radius, no shadow** |
+| hover / press | `#FFFDF9` + `--gold-deep` border / the strip's own ground |
 | focus | `2px solid --gold-deep`, offset 3 — the flower's own ring |
 
-⚠️ **`--gold-gloss`, NOT `--gold-deep`, AND IT IS LOAD-BEARING** — the same measurement
-the flower's eyebrow records: on `--ps-ground` gold-deep is **4.233 against a 4.5 floor**
-and gold-gloss is **4.805**. Shared ground, shared token. Putting `--gold-deep` back fails
-contrast silently.
+⚠️ **NEVER `--gold-deep` ON THE EYEBROW, ON ANY GROUND THIS STRIP HAS STOOD ON** — 4.233
+on the flower's `--ps-ground`, 4.080 on `--gold-tint`, both under the 4.5 floor, both
+silent. The measurement is in §5b and the flower's own eyebrow records the same trap.
 
 ⚠️ **THE EYEBROW IS SENTENCE CASE IN THE MARKUP AND UPPERCASED IN CSS** — the estate's
 rule for every eyebrow it owns, and what keeps a screen reader from spelling the words.

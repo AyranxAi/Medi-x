@@ -195,11 +195,11 @@ const sum = (p, b) => execSync(
     });
     const twoCols = r.cols.trim().split(/\s+/).length === 2;
     const eq = twoCols && (() => { const [a, b] = r.cols.trim().split(/\s+/).map(parseFloat); return Math.abs(a - b) < 1; })();
-    ok(Math.abs(r.bandH - 184) <= 14, `${w}×${h}: band ${r.bandH}px (target ~184)`);
+    ok(Math.abs(r.bandH - 232) <= 14, `${w}×${h}: band ${r.bandH}px (target ~232)`);
     ok(r.bandH < r.vh * 0.45, `${w}×${h}: content height, not a viewport — ${r.bandH} < ${Math.round(r.vh * .45)}`);
     ok(r.pos === 'static', `${w}×${h}: static — not sticky, fixed or floating (${r.pos})`);
     ok(twoCols && eq, `${w}×${h}: two equal columns — ${r.cols}`);
-    ok(r.actH >= 52, `${w}×${h}: action ${r.actH}px`);
+    ok(r.actH >= 72, `${w}×${h}: action ${r.actH}px (≥72)`);
     ok(r.gapBelowFlower > 0, `${w}×${h}: no overlap with the flower — ${r.gapBelowFlower}px clear`);
     ok(r.rbTopFromFold >= r.vh, `${w}×${h}: FOLD — band starts ${r.rbTopFromFold}px below the flower's top, viewport is ${r.vh}`);
     if (SHOTS) {
@@ -236,10 +236,10 @@ const sum = (p, b) => execSync(
         rbTopFromPsTop: Math.round(rb.getBoundingClientRect().top - ps.getBoundingClientRect().top),
       };
     });
-    ok(Math.abs(r.bandH - 228) <= 18, `${w}×${h}: band ${r.bandH}px (target ~228)`);
+    ok(Math.abs(r.bandH - 270) <= 18, `${w}×${h}: band ${r.bandH}px (target ~270)`);
     ok(r.rows === 1, `${w}×${h}: one vertical stack (${r.rows} column${r.rows === 1 ? '' : 's'})`);
     ok(r.gap === 8, `${w}×${h}: 8px gap — ${r.gap}px`);
-    ok(r.minAct >= 52, `${w}×${h}: every action ≥52px — ${r.minAct}px`);
+    ok(r.minAct >= 64, `${w}×${h}: every action ≥64px — ${r.minAct}px`);
     ok(r.rbTopFromPsTop >= r.vh, `${w}×${h}: FOLD — the whole flower journey comes first (${r.rbTopFromPsTop} ≥ ${r.vh})`);
     if (SHOTS) {
       await page.evaluate(() => document.querySelector('.rb').scrollIntoView({ block: 'center' }));
@@ -269,13 +269,13 @@ const sum = (p, b) => execSync(
                      .some(l => l.scrollWidth > l.clientWidth + 1),
         arrowsRight: acts.every(a => {
           const box = a.getBoundingClientRect(), arr = a.querySelector('.rb-arr').getBoundingClientRect();
-          return box.right - arr.right < 24 && arr.left > a.querySelector('.rb-lbl').getBoundingClientRect().right - 1;
+          return box.right - arr.right <= 26 && arr.left > a.querySelector('.rb-lbl').getBoundingClientRect().right - 1;
         }),
       };
     });
     ok(r.docOver <= 0, `${p}: no sideways scroll${r.docOver > 0 ? ` (+${r.docOver}px)` : ''}`);
     ok(r.bandOver === 0, `${p}: the band itself stays inside the viewport`);
-    ok(r.minAct >= 52, `${p}: actions ${r.minAct}px`);
+    ok(r.minAct >= 64, `${p}: actions ${r.minAct}px (≥64, and never under the 52 floor)`);
     ok(!r.clipped, `${p}: both labels fully readable`);
     ok(r.arrowsRight, `${p}: arrows right-aligned, clear of the label`);
     await page.close();
@@ -400,6 +400,79 @@ const sum = (p, b) => execSync(
   await page.close();
 }
 
+/* ── 7b · THE ORB: each door's strip wears its own ground, from ONE shared line ────
+   `var(--door-tint,var(--gold-tint))` has to resolve to FOUR pages' worth of colour out
+   of a block that is byte-identical on all four. This asserts the resolution AND the
+   contrast arithmetic that came with it — the rule --gold-gloss's token block states
+   ("it is a function of the ground") means a ground change is a re-measurement, and a
+   silent contrast failure is exactly what that note exists to prevent. */
+{
+  console.log('7b · the orb: per-door ground, measured');
+  /* the four grounds this strip stands on, and the eyebrow each one resolves */
+  const WANT = {
+    'hormone-therapy-bhrt': { bg: 'rgb(242, 225, 226)', eye: 'rgb(92, 31, 49)'  },  /* burgundy */
+    'modern-menopause':     { bg: 'rgb(249, 228, 222)', eye: 'rgb(140, 81, 72)' },  /* rose */
+    'testosterone-top-up':  { bg: 'rgb(241, 231, 210)', eye: 'rgb(127, 98, 48)' },  /* gold, no --door */
+    'programs':             { bg: 'rgb(241, 231, 210)', eye: 'rgb(127, 98, 48)' },
+  };
+  const lin = c => { c /= 255; return c <= .03928 ? c / 12.92 : Math.pow((c + .055) / 1.055, 2.4); };
+  const lum = rgb => { const [r, g, b] = rgb.match(/\d+/g).map(Number); return .2126*lin(r) + .7152*lin(g) + .0722*lin(b); };
+  const cr = (a, b) => { const x = lum(a), y = lum(b); return (Math.max(x, y) + .05) / (Math.min(x, y) + .05); };
+  const seen = new Set();
+  for (const p of PAGES) {
+    const page = await open({ viewport: { width: 1440, height: 900 } });
+    await page.goto(`${BASE}/${p}/?probe=1`, { waitUntil: 'networkidle' });
+    await page.waitForTimeout(500);
+    const r = await page.evaluate(() => {
+      const rb = document.querySelector('.rb'), eb = document.querySelector('.rb-eyebrow');
+      const act = document.querySelector('.rb-act'), lbl = document.querySelector('.rb-lbl');
+      /* the button fill is translucent — composite it over the strip's ground by hand,
+         because getComputedStyle hands back the rgba, not what the eye receives */
+      const bg = getComputedStyle(rb).backgroundColor;
+      const raw = getComputedStyle(act).backgroundColor.match(/[\d.]+/g).map(Number);
+      const g = bg.match(/\d+/g).map(Number);
+      const a = raw.length > 3 ? raw[3] : 1;
+      const fill = `rgb(${raw.slice(0,3).map((v,i) => Math.round(v*a + g[i]*(1-a))).join(', ')})`;
+      return {
+        bg, fill,
+        eye: getComputedStyle(eb).color,
+        head: getComputedStyle(document.querySelector('.rb-head')).color,
+        lbl: getComputedStyle(lbl).color,
+        /* the strip must run the full width — the colour is what separates it */
+        bleed: Math.round(rb.getBoundingClientRect().width) >= document.documentElement.clientWidth,
+        bandW: Math.round(rb.getBoundingClientRect().width),
+        vw: document.documentElement.clientWidth,
+        gridDelta: Math.round(document.querySelector('.rb-inner').getBoundingClientRect().left
+                            - document.querySelector('.ps-ed').getBoundingClientRect().left),
+        /* ...while the copy stays on the content grid.
+           ⚠️ NOT against .wrap's own rect — that is its BORDER box, and --pad sits inside
+           it, so the comparison is off by up to 72px and fails on a page that is aligned.
+           .ps-ed is the flower's editorial column, the first thing inside the same wrap's
+           padding, which is the edge the strip actually has to line up with. */
+        onGrid: Math.abs(document.querySelector('.rb-inner').getBoundingClientRect().left
+                       - document.querySelector('.ps-ed').getBoundingClientRect().left) <= 1,
+        /* the flower's own ground must NOT have moved */
+        chapter: getComputedStyle(document.querySelector('.programme')).backgroundColor,
+      };
+    });
+    const w = WANT[p];
+    ok(r.bg === w.bg, `${p}: ground ${r.bg} — the orb's own tint`);
+    ok(r.eye === w.eye, `${p}: eyebrow ${r.eye}`);
+    ok(r.chapter === 'rgb(240, 235, 231)', `${p}: the flower's chapter ground is untouched — ${r.chapter}`);
+    ok(r.bleed, `${p}: the colour runs full bleed — ${r.bandW}px of ${r.vw}`);
+    ok(r.onGrid, `${p}: the copy stays on the content grid (${r.gridDelta}px off the flower's column)`);
+    /* the arithmetic, re-derived from the pixels rather than trusted from the comment */
+    const eyeC = cr(r.eye, r.bg), headC = cr(r.head, r.bg), lblC = cr(r.lbl, r.fill);
+    ok(eyeC >= 4.5, `${p}: eyebrow contrast ${eyeC.toFixed(3)} ≥ 4.5`);
+    ok(headC >= 3.0, `${p}: heading contrast ${headC.toFixed(3)} ≥ 3.0`);
+    ok(lblC >= 4.5, `${p}: label on fill ${lblC.toFixed(3)} ≥ 4.5`);
+    seen.add(r.bg);
+    await page.close();
+  }
+  /* three distinct grounds across four pages — the gold door and /programs/ share one */
+  ok(seen.size === 3, `three distinct grounds across the four carriers — ${seen.size}`);
+}
+
 /* ── 8 · the LOADING state: fonts not there yet, box the same size ──────────────
    "Preserve layout dimensions across hover, focus, pressed and loading" — the only
    loading a static band has is its own webfonts arriving. The label swaps from the
@@ -409,7 +482,7 @@ const sum = (p, b) => execSync(
    check blocks every woff2 and proves it rather than assuming it. */
 {
   console.log('8 · loading: no shift while the fonts are still coming');
-  for (const [w, h, want] of [[1440, 900, 56], [320, 640, 52]]) {
+  for (const [w, h, want] of [[1440, 900, 72], [320, 640, 64]]) {
     const ctx = await browser.newContext({ viewport: { width: w, height: h }, isMobile: w < 500, hasTouch: w < 500 });
     await ctx.route('**/*.woff2', r => r.abort());
     await ctx.route('**/cdn.jsdelivr.net/**', route => {
@@ -427,7 +500,7 @@ const sum = (p, b) => execSync(
         widths: [...new Set(acts.map(a => Math.round(a.getBoundingClientRect().width)))],
         over: document.documentElement.scrollWidth - document.documentElement.clientWidth,
         clipped: acts.map(a => a.querySelector('.rb-lbl')).some(l => l.scrollWidth > l.clientWidth + 1),
-        arrowsRight: acts.every(a => a.getBoundingClientRect().right - a.querySelector('.rb-arr').getBoundingClientRect().right < 24),
+        arrowsRight: acts.every(a => a.getBoundingClientRect().right - a.querySelector('.rb-arr').getBoundingClientRect().right <= 26),
       };
     });
     ok(r.heights.every(x => x === want), `${w}px: actions still ${want}px unstyled-font — ${r.heights.join('/')}`);
@@ -460,7 +533,7 @@ const sum = (p, b) => execSync(
       over: document.documentElement.scrollWidth - document.documentElement.clientWidth,
     };
   });
-  ok(r.shown, `the band stands without JS — ${r.h}px`);
+  ok(r.shown && Math.abs(r.h - 232) <= 14, `the band stands without JS — ${r.h}px`);
   ok(r.hrefs[0] === '#book' && /whatsapp/.test(r.hrefs[1]), 'both destinations intact');
   ok(r.flowerHidden && r.rollback === 6, `the flower falls back to its six-item list — ${r.rollback}`);
   ok(r.over <= 0, 'no sideways scroll');

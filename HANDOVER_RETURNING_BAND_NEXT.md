@@ -12,6 +12,18 @@ change it**, and what will quietly break if you change the wrong thing.
 Live at `bd8b829`. Four carriers: `/hormone-therapy-bhrt/`, `/modern-menopause/`,
 `/testosterone-top-up/`, `/programs/`.
 
+> **2026-08-29, later — THE CHANGE HAS BEGUN, AS A PREVIEW.** His approved comp moves the
+> returning doors INTO the process chapter's editorial column: "Already a patient?" under
+> the 01–06 dots, then two quiet cards (icon · serif title · gold tick · subtitle). It is
+> live on **`/hormone-therapy-bhrt/` only**, **desktop only**, and the cards **link
+> nowhere yet** — all three his explicit calls, made for judging it in place. The block is
+> `RC:PREVIEW:CSS / RC:PREVIEW:HTML` in that page; read its banner before touching it.
+> The RB band below the flower **stays on all four pages** while both are visible, so
+> everything in this file still stands. Known and deliberate: `programs-page.mjs` §0 reads
+> PS:HTML as drifted (the preview sits inside the marked block on one page); every RB
+> check and PS:CSS parity still pass. Next: he judges the desktop, then the phone
+> composition, then rollout to all four (byte-identical) and the band's fate.
+
 ---
 
 ## 1 · What is there today — the baseline to diff against

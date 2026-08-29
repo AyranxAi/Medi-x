@@ -18,7 +18,10 @@ the returning-patient band, the per-door petal slab, the menu that stopped hidin
 pages, what he decided against the recommendation, and one thing that was cancelled
 mid-flight with its research kept.
 [`HANDOVER_RETURNING_BAND.md`](HANDOVER_RETURNING_BAND.md) is the band itself, round by
-round.
+round. ⚠️ **The band is NOT settled — it is going to change again**, and
+[`HANDOVER_RETURNING_BAND_NEXT.md`](HANDOVER_RETURNING_BAND_NEXT.md) is what to read
+before touching it: what is free to change, what looks like taste but is arithmetic, and
+what breaks where.
 
 ⚠️ **THE ARCHITECTURE SECTION BELOW DESCRIBES THE LANDING PAGE, NOT THE ESTATE.** It was written
 when `index.html` *was* the site. There are now **eight pages** — the landing page, the

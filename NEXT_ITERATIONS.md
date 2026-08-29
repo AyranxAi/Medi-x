@@ -134,6 +134,15 @@ not repaint the chapter, and §7b asserts `.programme`'s own ground is still `#F
 to 72px / 64px. Both still content height (232 is 26% of a 900 viewport) and the fold
 arithmetic below is unchanged — it measures the strip's TOP, which did not move.
 
+⚠️⚠️ **THE BAND IS NOT SETTLED — HE HAS SAID IT WILL CHANGE AGAIN (2026-08-29g).** What
+changes is not decided. **Do not defend its current state as final**, and read
+[`HANDOVER_RETURNING_BAND_NEXT.md`](HANDOVER_RETURNING_BAND_NEXT.md) before touching it —
+it separates what is free to change (all the copy, the icons, the sizes, adding an action)
+from the four things that look like taste and are not: the `margin-top` fold arithmetic,
+the contrast measured on each door's ground, the `var(--door-tint,var(--gold-tint))`
+fallback that keeps `RB` one sum across four pages, and the destinations, which invent no
+new flow on purpose.
+
 ⚠️⚠️ **THE BAND IS NOT A SEVENTH STEP AND MUST NEVER BE MADE ONE.** Six petals, six seats,
 01–06 — the count is the contract the slot map exists to hold. Nothing in the band is
 numbered, nothing goes on a petal, and the progress row does not count it.

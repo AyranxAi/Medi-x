@@ -1180,8 +1180,8 @@ section{position:relative}
 /* ─────────────── 03c · THE RETURNING CARDS — ⚠️ PREVIEW, THIS PAGE ONLY ─────────────
    The approved comp (2026-08-29) moves the returning-patient doors INTO the process
    chapter's editorial column: an "Already a patient?" eyebrow under the 01–06 dots,
-   then two quiet cards — icon, serif title, gold tick, one-line subtitle. No arrows,
-   no "Continue your care" heading, no button chrome.
+   then two quiet cards — icon, serif title, one-line subtitle. No arrows, no gold
+   tick (cut 2026-08-29b — it only ate height), no "Continue your care", no button chrome.
    ⚠️⚠️ THREE THINGS ABOUT THIS BLOCK ARE DELIBERATELY TEMPORARY — his calls, 2026-08-29:
      · IT IS ON THIS PAGE ONLY. The other three carriers keep only the band below the
        flower until he approves the look. `programs-page.mjs` §0 will read PS:HTML as
@@ -1213,13 +1213,20 @@ section{position:relative}
 }
 /* the card is the RB button's material grammar stood upright: the same raised fill,
    the same gold hairline, no radius, no shadow — a card by layout, not by costume. */
+/* ⚠️ A RECTANGLE, NOT A BOX — his call 2026-08-29b, and the comp's own arithmetic. The
+   comp's card is ~364×260, a 1.4:1 landscape; the first cut rendered ~207×250, near
+   square, because it kept generous verticals the comp does not have. These paddings and
+   gaps are the comp's, SCALED to our ~207px card (padding 30/364→16px, icon 67/364→38px).
+   The gold tick under the title went entirely — it only ate height (his call, same day).
+   The one place we stay taller than the comp: its subtitle is one line at 364px wide,
+   ours wraps to two at ~167px of content box, +20px nothing here can remove. */
 .rc-card{
-  min-width:0;padding:24px 20px 26px;
+  min-width:0;padding:16px 20px 18px;
   border:1px solid rgba(194,160,94,.55);
   background:rgba(255,253,249,.65);
 }
 .rc-ico{display:flex;color:var(--burgundy)}
-.rc-ico svg{width:31px;height:31px;display:block}
+.rc-ico svg{width:38px;height:38px;display:block}
 /* ⚠️ 19px IS MEASURED, NOT TASTE. The wrap caps at 1280, so the editorial column is
    ~422–443px on EVERY desktop and the card's content box is ~164–174px. "Repeat
    prescription" measures 155px at 19px and 163px at 20px — one size up and the longer
@@ -1229,12 +1236,11 @@ section{position:relative}
 .rc-title{
   font-family:var(--serif);font-weight:450;font-variation-settings:"opsz" 30;
   font-size:19px;line-height:1.2;letter-spacing:-.005em;
-  color:var(--burgundy);margin:24px 0 0;
+  color:var(--burgundy);margin:16px 0 0;
 }
-.rc-rule{width:28px;height:1.5px;background:var(--gold);margin-top:13px}
 .rc-sub{
   font-family:var(--sans);font-weight:400;font-size:13.5px;line-height:1.5;
-  letter-spacing:.01em;color:var(--ink-soft);margin:12px 0 0;
+  letter-spacing:.01em;color:var(--ink-soft);margin:8px 0 0;
 }
 @media(max-width:900px){
   .rc{display:none}
@@ -2912,7 +2918,6 @@ body.nav-open .nav-sub li{
                       </svg>
                     </span>
                     <h3 class="rc-title">Book a follow-up</h3>
-                    <div class="rc-rule" aria-hidden="true"></div>
                     <p class="rc-sub">Arrange your next consultation</p>
                   </div>
                   <div class="rc-card">
@@ -2929,7 +2934,6 @@ body.nav-open .nav-sub li{
                       </svg>
                     </span>
                     <h3 class="rc-title">Repeat prescription</h3>
-                    <div class="rc-rule" aria-hidden="true"></div>
                     <p class="rc-sub">Send a request to your care team</p>
                   </div>
                 </div>

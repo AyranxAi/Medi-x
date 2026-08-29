@@ -397,11 +397,15 @@ body.nav-open .nav li{
 /* ─────────────────────────── HERO ─────────────────────────── */
 .hero{position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden}
 #silk{position:absolute;inset:0;width:100%;height:100%;display:block}
-/* the foot fade + the lab's radial wash behind the copy (round 7) — one rule since round 9,
-   the transparent stop matching the ivory it fades to (warm again, round 14) */
+/* ══ THE RADIAL WASH IS GONE — the dune round (2026-08-29). The wash existed to keep the
+   copy legible over the old Slope figure, and it is precisely what buried that figure —
+   the finding that started this round ("the line is kinda being hidden by the message").
+   The dune keeps its whole upper half as quiet sky, so the copy needs no wash and the
+   scene keeps full strength. Only the foot fade stays, moved down (55% → 78%) so the
+   sand is not washed out, still landing on var(--ivory) for the seam into 03. If a
+   future hero puts figure back under the copy, reread this before re-adding a wash. */
 .hero::after{content:"";position:absolute;inset:0;pointer-events:none;background:
-  linear-gradient(180deg,rgba(250,247,241,0) 55%,var(--ivory) 97%),
-  radial-gradient(85% 115% at 20% 44%,rgba(250,247,241,.55) 0%,rgba(250,247,241,.22) 46%,rgba(250,247,241,0) 70%)}
+  linear-gradient(180deg,rgba(250,247,241,0) 78%,var(--ivory) 98%)}
 .hero-inner{position:relative;z-index:2;width:100%;padding-top:14vh;padding-bottom:12vh}
 .hero .kicker{margin-bottom:clamp(22px,3.4vh,38px)}
 /* The sister page's ramp, inherited. "Functional" / "medicine." are still short lines
@@ -4456,29 +4460,35 @@ body.nav-open .nav-sub li{
 </script>
 
 <script>
-/* ═══════════ The Slope hero — Canvas 2D ═══════════
-   THE CORRECTED STATE OF THIS PAGE'S OWN SCENE — the estate's shared-universe rule: the
-   reader meets a line running level inside its range above the fold, then scrolls into
-   the scene that shows how it got there. The two women's doors draw water; this one
-   draws a line in a band, because that is the physiology it is describing.
-   ⚠️ THE FIGURE'S CONSTANTS ARE SHARED WITH THE SCENE ABOVE (BAND_H and the range's
-   geometry) — two copies of one fact, cross-referenced at both sites.
+/* ═══════════ The Dune hero — Canvas 2D ═══════════
+   HIS PICK, 2026-08-29, from a 22-concept board (idea V): a single dune crest at first
+   light — the clinic's own latitude, morning shadow still on the cold side. The round
+   began with his finding that the old Slope figure was hidden under the copy and its
+   wash; the dune keeps its whole upper half as quiet sky, so figure and message no
+   longer fight. The scroll scene BELOW is untouched (his call) and still tells the
+   slope; the hero now shows the morning — the hour of the draw (step 02) — and hands
+   off to it. The old Slope draw lives in git history at this file, this block.
 
    ⚠️ NO PHOTOGRAPHY ON THIS HERO — his call 2026-08-19 ("the images are rejected for a
    reason hence we dont even need images if there is a better way"). The uploaded
    medi-gyn-trt plates stay in images/ unreferenced; do not wire them back in without
-   his word.
+   his word. The dune is drawn, not photographed, deliberately.
 
-   THREE THINGS THAT MATTER IF YOU TOUCH THIS (inherited from the sibling heroes):
+   THINGS THAT MATTER IF YOU TOUCH THIS:
    1 · The canvas id stays #silk — the CSS and the catch-block fallback know it by name.
-   2 · Canvas 2D and cheap on purpose: a band, a line, a travelling light.
-   3 · ⚠️ THE MOTION DISCIPLINE IS THE AUDIENCE'S, NOT A TASTE. The light crosses the
-       stage once every ~80 seconds and the line's breath is a 11s sine you cannot catch
-       moving. Alive, never moving. If more presence is wanted, grow the AMPLITUDE.
-   ⚠️ THE LINE NEVER LEAVES THE BAND ON THE HERO. Above the fold this page is showing the
-   state it is selling — inside the range — and a hero line that dipped out would be the
-   scene's middle act stranded at the top of the page with no explanation attached.
-   Ground stops #FBF8F2 → #F6F1E8; the catch-block fallback is pinned to the same two. */
+   2 · Canvas 2D and cheap on purpose: gradients, three ridges, seeded grain.
+   3 · ⚠️ THE MOTION DISCIPLINE IS THE AUDIENCE'S, NOT A TASTE. The sun's glow breathes
+       on an 11s sine you cannot catch moving and one sheen crosses the sand every ~80
+       seconds. Alive, never moving. Reduced motion = the estate's shared still, 21.7s.
+   4 · ⚠️ THE SUN IS RISEN, NEVER HIDDEN — his call 2026-08-29 ("i want it revealed …
+       risen like an idea"). Below 1024px the sub spans nearly the full width and a sun
+       floating at desktop height sat behind the body text (measured, not guessed), so
+       on those screens the risen sun sits at x .80 in the clear step of sky above the
+       crest — outside the copy column, outside the dune. Do not tuck it behind the
+       crest and do not lift it into the text zone.
+   5 · The seeded LCG keeps the grain identical frame to frame — random() here would
+       shimmer like noise on every breath.
+   Sky #FBF8F2 → sand #F5E9D7; the catch-block fallback is pinned to the same two. */
 try{
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const canvas = document.getElementById("silk");
@@ -4487,9 +4497,6 @@ try{
   const DPR = Math.min(devicePixelRatio || 1, 1.5);
   const TAU = Math.PI*2;
 
-  /* ⚠️ SHARED WITH THE SCENE — the range's height in figure units */
-  const BAND_H=.46;
-
   let W=0, H=0;
   function size(){
     W = canvas.clientWidth; H = canvas.clientHeight;
@@ -4497,56 +4504,113 @@ try{
     if(canvas.width!==w || canvas.height!==h){ canvas.width=w; canvas.height=h; }
     ctx.setTransform(DPR,0,0,DPR,0,0);
   }
-  /* where the figure sits: under the copy's air on a desktop, low on a phone. The
-     hero's own radial wash (.hero::after) keeps the copy column clear. */
+  const lcg = s => () => (s=(s*48271)%2147483647)/2147483647;
+  const gauss=(u,c,w)=>Math.exp(-Math.pow((u-c)/w,2));
+
+  /* geometry: phones push the crest lower and steeper so the copy keeps its air */
   function frame(){
-    if(W<640)  return {cy:H*.76, S:H*.13};
-    if(W<1024) return {cy:H*.68, S:H*.17};
-    return {cy:H*.64, S:H*.19};
+    if(W<640)  return {horizon:.60, peakU:.46, peakY:.70, base:.86, sun:[.70,.53], sunR:.30};
+    if(W<1024) return {horizon:.57, peakU:.42, peakY:.66, base:.83, sun:[.72,.50], sunR:.24};
+    return       {horizon:.55, peakU:.38, peakY:.63, base:.81, sun:[.74,.47], sunR:.20};
   }
 
   function draw(t){
-    const c = ctx;
-    const bg = c.createLinearGradient(0,0,0,H);
-    bg.addColorStop(0,"#FBF8F2"); bg.addColorStop(1,"#F6F1E8");
-    c.fillStyle=bg; c.fillRect(0,0,W,H);
-
-    const {cy,S} = frame();
-    const x0=W*.06, x1=W*.94;
-    const bTop=cy-BAND_H/2*S, bBot=cy+BAND_H/2*S;
-
-    /* the range band */
-    c.fillStyle="rgba(194,160,94,.07)";
-    c.fillRect(x0,bTop,x1-x0,bBot-bTop);
-    c.strokeStyle="rgba(138,106,52,.26)"; c.lineWidth=1;
-    c.beginPath(); c.moveTo(x0,bTop); c.lineTo(x1,bTop); c.stroke();
-    c.beginPath(); c.moveTo(x0,bBot); c.lineTo(x1,bBot); c.stroke();
-    /* the decade ticks — years, this page's unit */
-    for(let i=0;i<=4;i++){
-      const x=x0+(x1-x0)*(i/4);
-      c.strokeStyle="rgba(138,106,52,.16)";
-      c.beginPath(); c.moveTo(x,bBot+10); c.lineTo(x,bBot+16); c.stroke();
-    }
-
-    /* the line — level, well inside the band, with a slow living breath */
-    c.lineCap="round"; c.lineJoin="round";
-    c.strokeStyle="rgba(138,106,52,.46)"; c.lineWidth=1.6;
-    const yAt = x => {
-      const u=(x-x0)/(x1-x0);
-      return cy + Math.sin(u*3.1 + t*.09)*S*.055 + Math.sin(t*TAU/11)*S*.02;
+    const c=ctx, g=frame();
+    /* near-dune crest — defined first: below 1024px the sun's position depends on it */
+    const crest=px=>{
+      const u=px/W;
+      return H*( g.base
+        - (g.base-g.peakY)*gauss(u,g.peakU,.26)
+        - .05*gauss(u,.88,.16) )
+        + Math.sin(u*11)*H*.003;
     };
-    c.beginPath();
-    for(let x=x0;x<=x1;x+=3){ const y=yAt(x); x===x0?c.moveTo(x,y):c.lineTo(x,y); }
+    /* sky */
+    const sky=c.createLinearGradient(0,0,0,H*g.horizon*1.25);
+    sky.addColorStop(0,"#FBF8F2"); sky.addColorStop(.72,"#F9F1E7"); sky.addColorStop(1,"#F6EBDD");
+    c.fillStyle=sky; c.fillRect(0,0,W,H*g.horizon*1.3);
+
+    /* far dune — a pale ridge behind everything */
+    c.fillStyle="#F1E4D3";
+    c.beginPath(); c.moveTo(0,H*(g.horizon+.05));
+    c.bezierCurveTo(W*.28,H*(g.horizon-.015),W*.55,H*(g.horizon+.09),W,H*(g.horizon+.04));
+    c.lineTo(W,H); c.lineTo(0,H); c.closePath(); c.fill();
+    c.strokeStyle="rgba(138,106,52,.14)"; c.lineWidth=1;
+    c.beginPath(); c.moveTo(0,H*(g.horizon+.05));
+    c.bezierCurveTo(W*.28,H*(g.horizon-.015),W*.55,H*(g.horizon+.09),W,H*(g.horizon+.04));
     c.stroke();
 
-    /* one light, crossing once every ~80 seconds */
-    const u=((t/80)%1);
-    const lx=x0+(x1-x0)*u, ly=yAt(lx);
-    const g=c.createRadialGradient(lx,ly,0,lx,ly,9);
-    g.addColorStop(0,"rgba(194,160,94,.42)"); g.addColorStop(1,"rgba(194,160,94,0)");
-    c.fillStyle=g; c.beginPath(); c.arc(lx,ly,9,0,TAU); c.fill();
-    c.fillStyle="rgba(138,106,52,.85)";
-    c.beginPath(); c.arc(lx,ly,2,0,TAU); c.fill();
+    /* mid dune */
+    c.fillStyle="#EFE0CC";
+    c.beginPath(); c.moveTo(0,H*(g.horizon+.13));
+    c.bezierCurveTo(W*.35,H*(g.horizon+.20),W*.62,H*(g.horizon+.06),W,H*(g.horizon+.16));
+    c.lineTo(W,H); c.lineTo(0,H); c.closePath(); c.fill();
+
+    /* the sun, low, glow breathing on the 11s sine — drawn over the far dunes so a low
+       sun lights their tops. RISEN, per rule 4 above. */
+    const wide=W>=1024;
+    const sx=wide?W*g.sun[0]:W*.80;
+    const sy=wide?H*g.sun[1]:crest(sx)-H*.055;
+    const breathe=1+.035*Math.sin(t*TAU/11);
+    const gr=W*g.sunR*breathe;
+    const glow=c.createRadialGradient(sx,sy,0,sx,sy,gr);
+    glow.addColorStop(0,"rgba(233,205,146,.60)");
+    glow.addColorStop(.5,"rgba(233,205,146,.22)");
+    glow.addColorStop(1,"rgba(233,205,146,0)");
+    c.fillStyle=glow; c.beginPath(); c.arc(sx,sy,gr,0,TAU); c.fill();
+    c.fillStyle="rgba(194,160,94,.9)";
+    c.beginPath(); c.arc(sx,sy,Math.max(4,W*(wide?.008:.013)),0,TAU); c.fill();
+
+    /* near dune — the crest */
+    c.fillStyle="#F5E9D7";
+    c.beginPath(); c.moveTo(0,crest(0));
+    for(let px=0;px<=W;px+=5) c.lineTo(px,crest(px));
+    c.lineTo(W,H); c.lineTo(0,H); c.closePath(); c.fill();
+
+    /* everything sand-side is clipped to the near dune */
+    c.save();
+    c.beginPath(); c.moveTo(0,crest(0));
+    for(let px=0;px<=W;px+=5) c.lineTo(px,crest(px));
+    c.lineTo(W,H); c.lineTo(0,H); c.closePath(); c.clip();
+
+    /* morning shadow — the cold side, left of the crest */
+    const sh=c.createLinearGradient(0,0,W*(g.peakU+.10),0);
+    sh.addColorStop(0,"rgba(199,154,146,.30)");
+    sh.addColorStop(.72,"rgba(199,154,146,.12)");
+    sh.addColorStop(1,"rgba(199,154,146,0)");
+    c.fillStyle=sh; c.fillRect(0,0,W,H);
+
+    /* lit-face warmth near the sun side */
+    const lw=c.createLinearGradient(W*.55,0,W,0);
+    lw.addColorStop(0,"rgba(243,222,186,0)"); lw.addColorStop(1,"rgba(243,222,186,.30)");
+    c.fillStyle=lw; c.fillRect(0,0,W,H);
+
+    /* ⚠️ THE WIND RIPPLES ARE OUT — his call 2026-08-29, on the live page: "remove the
+       lines on the dune ------ thats weird i dont want it". Nine faint stroked lines
+       across the sand read as ruled lines, not as wind. Do not reinstate them; if the
+       sand ever needs texture again it has to come from tone, not from strokes. */
+
+    /* grain — seeded, stable frame to frame */
+    const r=lcg(41);
+    for(let i=0;i<260;i++){
+      const gx=r()*W, gy=H*g.peakY+r()*H*(1-g.peakY), gr2=.4+r()*1.1;
+      c.fillStyle=`rgba(138,106,52,${.02+r()*.05})`;
+      c.beginPath(); c.arc(gx,gy,gr2,0,TAU); c.fill();
+    }
+
+    /* one sheen crossing the sand every ~80 seconds */
+    const u=(t/80)%1, cx2=(u*1.5-.25)*W;
+    const sheen=c.createLinearGradient(cx2-W*.28,0,cx2+W*.28,0);
+    sheen.addColorStop(0,"rgba(255,250,240,0)");
+    sheen.addColorStop(.5,"rgba(255,250,240,.20)");
+    sheen.addColorStop(1,"rgba(255,250,240,0)");
+    c.fillStyle=sheen; c.fillRect(0,0,W,H);
+    c.restore();
+
+    /* the crest line — gold, the one drawn edge */
+    c.strokeStyle="rgba(138,106,52,.45)"; c.lineWidth=1.4; c.lineCap="round";
+    c.beginPath();
+    for(let px=0;px<=W;px+=4){ const py=crest(px); px===0?c.moveTo(px,py):c.lineTo(px,py); }
+    c.stroke();
   }
 
   /* 21.7s — the estate's shared still, kept so the heroes are judged at one frame. */
@@ -4561,13 +4625,14 @@ try{
     (function loop(){
       requestAnimationFrame(loop);
       if(!inView || document.hidden) return;
+      size(); /* no-op unless the viewport changed — heals a missed resize event */
       draw((performance.now()-t0)/1000);
     })();
   }
 }catch(e){
-  /* ⚠️ PINNED TO THE CANVAS'S OWN TWO STOPS (see `bg` in draw). */
+  /* ⚠️ PINNED TO THE SKY AND SAND STOPS (see draw). */
   const c = document.getElementById("silk");
-  if (c) c.style.background = "linear-gradient(160deg,#FBF8F2 30%,#F6F1E8 100%)";
+  if (c) c.style.background = "linear-gradient(180deg,#FBF8F2 40%,#F5E9D7 100%)";
 }
 </script>
 

@@ -1176,8 +1176,8 @@ section{position:relative}
   .rb-act:hover .rb-arr{transform:none}
 }
 /* RB:CSS:END */
-/* RC:PREVIEW:CSS:START */
-/* ─────────────── 03c · THE RETURNING CARDS — ⚠️ PREVIEW, THIS PAGE ONLY ─────────────
+/* RC:CSS:START */
+/* ─────────────── 03c · THE RETURNING ROWS — the patient's shortcuts, in the column ──
    The approved comp (2026-08-29) moves the returning-patient doors INTO the process
    chapter's editorial column: an "Already a patient?" eyebrow under the 01–06 dots,
    then two slim rows — icon and serif title on one line, nothing else. Three cuts in
@@ -1187,17 +1187,19 @@ section{position:relative}
    matched pair "Repeat consultation / Repeat prescription", the estate's real service
    names (the repeat consultation is the AED 395 Zoom follow-up the programme card
    sells). No arrows, no "Continue your care", no button chrome.
-   ⚠️⚠️ THREE THINGS ABOUT THIS BLOCK ARE DELIBERATELY TEMPORARY — his calls, 2026-08-29:
-     · IT IS ON THIS PAGE ONLY. The other three carriers keep only the band below the
-       flower until he approves the look. `programs-page.mjs` §0 will read PS:HTML as
-       DRIFTED for exactly this reason — that is the preview, not an accident. Roll it
-       to all four (byte-identical) or remove it; never leave it half-spread.
-     · THE CARDS LINK NOWHERE YET. Plain <div>s, no href, no hover, no cursor — the
+   ⚠️⚠️ ONE BLOCK, FOUR CARRIERS, ITS OWN PARITY MARKERS — RC:CSS / RC:HTML, the same
+   contract and the same reason as RB: a one-page "quick fix" is how the estate drifts.
+   Rolled to all four on 2026-08-29e (his call, with the push to main); the preview
+   drift programs-page.mjs §0 read while it stood on one page is healed — PS:HTML is
+   one sum again.
+   ⚠️⚠️ TWO THINGS ARE STILL DELIBERATELY TEMPORARY — his calls, 2026-08-29:
+     · THE ROWS LINK NOWHERE YET. Plain <div>s, no href, no hover, no cursor — the
        destinations are his next decision. Do not "fix" them with #book or WhatsApp;
        the band below still carries both working paths.
      · THE OLD BAND (RB:*) STAYS while both are on the page, so every RB check still
        passes and the phone still has a working returning path. One of the two will go
-       once he has judged this one in place.
+       once the phone composition lands (HANDOVER_RETURNING_ROWS_PHONE.md is that
+       iteration's brief).
    ⚠️ DESKTOP ONLY. ≤900px hides the whole block — the phone composition is its own
    next iteration; until then the phone keeps the band it has today.
    ⚠️ THE EYEBROW IS --gold-gloss BECAUSE THE GROUND IS --ps-ground — the same pair the
@@ -1247,7 +1249,7 @@ section{position:relative}
 @media(max-width:900px){
   .rc{display:none}
 }
-/* RC:PREVIEW:CSS:END */
+/* RC:CSS:END */
 
 /* ⚠️ 04 · THE MONTH, MAPPED and 05 · WHAT ARE HORMONES WERE STYLED HERE UNTIL
    2026-08-26. Both blocks are archived verbatim in archive/hormone-therapy-bhrt-sections/
@@ -2898,13 +2900,14 @@ body.nav-open .nav-sub li{
                   </svg>
                 </button>
               </div>
-<!-- RC:PREVIEW:HTML:START -->
-              <!-- ⚠️ PREVIEW — THE RETURNING CARDS, THIS PAGE ONLY, DESKTOP ONLY.
-                   Read the RC:PREVIEW banner in the <style> before touching this: the
-                   cards deliberately link NOWHERE yet, the other three carriers
-                   deliberately do not have them yet, and the RB band below the flower
-                   deliberately stays while he judges the two side by side. This block
-                   inside PS:HTML is WHY programs-page.mjs §0 reads PS:HTML as drifted.
+<!-- RC:HTML:START -->
+              <!-- ⚠️ THE RETURNING ROWS — DESKTOP ONLY, AND THEY LINK NOWHERE YET.
+                   Read the RC banner in the <style> before touching this. The rows are
+                   deliberately inert <div>s until he names the destinations, and the RB
+                   band below the flower deliberately stays until the phone composition
+                   lands. ⚠️ RC:HTML is a parity block on all four carriers, inside
+                   PS:HTML on purpose (the column is where the comp seats it) — edit it
+                   everywhere or not at all.
                    ⚠️ Both icons are strokes, never <text> — the ℞ as a glyph would
                    inherit whichever face resolved first (the RB band's own rule). -->
               <div class="rc">
@@ -2938,7 +2941,7 @@ body.nav-open .nav-sub li{
                   </div>
                 </div>
               </div>
-<!-- RC:PREVIEW:HTML:END -->
+<!-- RC:HTML:END -->
             </div>
             <div class="ps-stagewrap" data-ps-stagewrap>
               <div class="ps-stage" data-ps-stage
@@ -2951,7 +2954,7 @@ body.nav-open .nav-sub li{
 <!-- PS:HTML:END -->
       <noscript>
         <ol class="pg-steps pg-steps--page">
-          <li><span class="pg-n">01</span><span>Discovery call<small>We begin with understanding your needs to guide you to the right specialist.</small></span><span class="pg-d">10 min</span></li>
+          <li><span class="pg-n">01</span><span>Book the programme<small>We begin with understanding your needs to guide you to the right specialist.</small></span></li>
           <li><span class="pg-n">02</span><span>Your blood work<small>At any laboratory, using the exact panel we send you — hormone work asks for markers a standard panel leaves out.</small></span><span class="pg-d">2–5 days</span></li>
           <li><span class="pg-n">03</span><span>Choose your doctor<small>You pick who you would like to see. They read your file first, then you choose a time with them.</small></span><span class="pg-d">same or next day</span></li>
           <li><span class="pg-n">04</span><span>Your consultation<small>Your doctor takes you through the findings, writes your prescription, and names the hormones you will be on.</small></span><span class="pg-d">60 min</span></li>
@@ -4870,7 +4873,18 @@ try{
        ⚠️ 10 min IS HIS FIGURE, 2026-08-24g ("its 10 minuet for the discovery call") — the
        15 that stood here was the length of the QUESTIONNAIRE this step used to be, and it
        was flagged as unchecked when the step changed. Answered; not a guess. */
-    {n:'01', title:'Discovery call', meta:'10 min',
+    /* ⚠️⚠️ "BOOK THE PROGRAMME", NOT "DISCOVERY CALL" — his call 2026-08-29d ("the first
+       step is actually going to be book the programme now"), AND THE META WENT WITH IT:
+       "10 min" was the discovery call's length, and a step that is no longer that call
+       has no claim to its number (his call, same round: "rename + drop 10 min"). The
+       plate template and the live line now SKIP a falsy meta rather than print
+       "undefined" — leave the key off, do not put meta:'' back.
+       ⚠️ The column copy (head/body) and the CTA were NOT rewritten — the call was the
+       petal. The knock-ons still standing and still HIS to decide: the hero's "Book a
+       free discovery call" pill, the final CTA's "Book a discovery call", and the
+       10-minute line both of those carry. The note below records what step 01 was
+       before this and why; it stays. */
+    {n:'01', title:'Book the programme',
      head:'Care begins with understanding you.',
      body:'We begin with understanding your needs to guide you to the right specialist.',
      cta:'What to expect', href:'#book'},
@@ -5091,7 +5105,8 @@ try{
       +     '<h3 class="ps-card-t"><span class="ps-card-n" aria-hidden="true">'
       +       st.n + '</span>' + st.title + '</h3>'
       +     '<span class="ps-card-rule" aria-hidden="true"></span>'
-      +     '<p class="ps-card-meta">' + st.meta + '</p>'
+      /* skips a falsy meta — step 01 carries none since 2026-08-29d */
+      +     (st.meta ? '<p class="ps-card-meta">' + st.meta + '</p>' : '')
       /* ⚠️ THE PLATE STOPS HERE — number, name, rule, duration. His call 2026-08-24e. The
          sentence and the CTA moved to the editorial column, which is the same box on both
          screens; the plate is not. Everything that used to overflow a 175px phone plate,
@@ -5223,8 +5238,11 @@ try{
         root.classList.remove('ps-turning');
         root.style.removeProperty('--ps-hop'); root.style.removeProperty('--ps-total');
       }, RM ? 20 : HOPMS);
+      /* .petal died with the lite petal (see the STEPS banner) and this line read
+         "undefined" aloud from that day to 2026-08-29 — .body is its successor, the one
+         sentence a step still owns. The meta guard is step 01's, same round. */
       live.textContent = 'Step ' + (cur+1) + ' of 6: ' + STEPS[cur].title + '. '
-                       + STEPS[cur].meta + '. ' + STEPS[cur].petal;
+                       + (STEPS[cur].meta ? STEPS[cur].meta + '. ' : '') + STEPS[cur].body;
     }
     if(RM){ move(); }
     else { out.classList.add('is-release'); tRelease = setTimeout(move, 130); }

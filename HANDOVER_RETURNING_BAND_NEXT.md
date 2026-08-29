@@ -18,15 +18,15 @@ Live at `bd8b829`. Four carriers: `/hormone-therapy-bhrt/`, `/modern-menopause/`
 > Three same-day cuts flattened the comp's card: the gold tick went, then the subtitles
 > and the stacked layout ("say everything via the title"), and the titles became the
 > matched pair **"Repeat consultation / Repeat prescription"** — the estate's real
-> service names. It is
-> live on **`/hormone-therapy-bhrt/` only**, **desktop only**, and the cards **link
-> nowhere yet** — all three his explicit calls, made for judging it in place. The block is
-> `RC:PREVIEW:CSS / RC:PREVIEW:HTML` in that page; read its banner before touching it.
-> The RB band below the flower **stays on all four pages** while both are visible, so
-> everything in this file still stands. Known and deliberate: `programs-page.mjs` §0 reads
-> PS:HTML as drifted (the preview sits inside the marked block on one page); every RB
-> check and PS:CSS parity still pass. Next: he judges the desktop, then the phone
-> composition, then rollout to all four (byte-identical) and the band's fate.
+> service names. Later the same day it was **rolled to all four carriers, byte-identical,
+> and pushed to main** — the block is `RC:CSS / RC:HTML`, its own parity markers on the
+> RB pattern, and the one-page preview drift `programs-page.mjs` §0 briefly read is
+> healed. Still deliberate: the rows are **desktop only** (≤900px hides them) and **link
+> nowhere yet**, and the RB band **stays on all four pages** — it carries the only
+> working links and the only phone experience, so everything in this file still stands.
+> The same push renamed petal 01 to **"Book the programme"** (meta dropped). Next: the
+> phone composition — **`HANDOVER_RETURNING_ROWS_PHONE.md` is that iteration's brief** —
+> then the rows' destinations, then the band's fate.
 
 ---
 

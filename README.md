@@ -12,9 +12,13 @@ Live: https://medi-x-gin.vercel.app
 still open, what is settled and must not be re-opened, and what to run before trusting a change.
 [`HANDOFF.md`](HANDOFF.md) and [`HANDOVER_PROCESS_SCULPTURE.md`](HANDOVER_PROCESS_SCULPTURE.md)
 are the record of what was built and why, newest first, and each page keeps its own
-`HANDOVER.md`. The newest round is
-[`HANDOVER_RETURNING_BAND.md`](HANDOVER_RETURNING_BAND.md) — the compact band under the
-flower for patients already on a protocol (2026-08-29).
+`HANDOVER.md`. **The newest session is
+[`HANDOVER_2026-08-29.md`](HANDOVER_2026-08-29.md)** — the whole of that day in one file:
+the returning-patient band, the per-door petal slab, the menu that stopped hiding four
+pages, what he decided against the recommendation, and one thing that was cancelled
+mid-flight with its research kept.
+[`HANDOVER_RETURNING_BAND.md`](HANDOVER_RETURNING_BAND.md) is the band itself, round by
+round.
 
 ⚠️ **THE ARCHITECTURE SECTION BELOW DESCRIBES THE LANDING PAGE, NOT THE ESTATE.** It was written
 when `index.html` *was* the site. There are now **eight pages** — the landing page, the

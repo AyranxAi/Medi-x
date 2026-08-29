@@ -4491,12 +4491,21 @@ body.nav-open .nav-sub li{
 <script>
 /* ═══════════ The Dune hero — Canvas 2D ═══════════
    HIS PICK, 2026-08-29, from a 22-concept board (idea V): a single dune crest at first
-   light — the clinic's own latitude, morning shadow still on the cold side. The round
-   began with his finding that the old Slope figure was hidden under the copy and its
-   wash; the dune keeps its whole upper half as quiet sky, so figure and message no
-   longer fight. The scroll scene BELOW is untouched (his call) and still tells the
-   slope; the hero now shows the morning — the hour of the draw (step 02) — and hands
-   off to it. The old Slope draw lives in git history at this file, this block.
+   light — the clinic's own latitude. The round began with his finding that the old Slope
+   figure was hidden under the copy and its wash; the dune keeps its whole upper half as
+   quiet sky, so figure and message no longer fight. The scroll scene BELOW is untouched
+   (his call) and still tells the slope; the hero now shows the morning — the hour of the
+   draw (step 02) — and hands off to it. The old Slope draw lives in git history.
+
+   ⚠️⚠️ THE SCENE IS DOWN TO THE LINE AND THE DOT — his call the same day, off a five-rung
+   reduction row (A as it stands · B no shading · C one dune · D a whisper of sand · E line
+   and dot): "i think i want the line and dot". So the sky band, both back ridges, the sand
+   fill, the rose morning shadow, the warm lit face, the grain and the travelling sheen are
+   ALL GONE — what remains is the page's two-stop ground, the risen sun, and the crest
+   curve. Read that as deliberate restraint, not as an unfinished draw: the layers were
+   built, seen at hero scale and removed on purpose. Anyone reinstating one is starting a
+   new round, not fixing an omission — and the row that produced this is the place to
+   start it. The sun's halo drops to .7 strength for the same reason (see below).
 
    ⚠️ NO PHOTOGRAPHY ON THIS HERO — his call 2026-08-19 ("the images are rejected for a
    reason hence we dont even need images if there is a better way"). The uploaded
@@ -4533,14 +4542,14 @@ try{
     if(canvas.width!==w || canvas.height!==h){ canvas.width=w; canvas.height=h; }
     ctx.setTransform(DPR,0,0,DPR,0,0);
   }
-  const lcg = s => () => (s=(s*48271)%2147483647)/2147483647;
   const gauss=(u,c,w)=>Math.exp(-Math.pow((u-c)/w,2));
 
   /* geometry: phones push the crest lower and steeper so the copy keeps its air */
   function frame(){
-    if(W<640)  return {horizon:.60, peakU:.46, peakY:.70, base:.86, sun:[.70,.53], sunR:.30};
-    if(W<1024) return {horizon:.57, peakU:.42, peakY:.66, base:.83, sun:[.72,.50], sunR:.24};
-    return       {horizon:.55, peakU:.38, peakY:.63, base:.81, sun:[.74,.47], sunR:.20};
+    /* `horizon` left the table with the sky band and the ridges — nothing reads it now. */
+    if(W<640)  return {peakU:.46, peakY:.70, base:.86, sun:[.70,.53], sunR:.30};
+    if(W<1024) return {peakU:.42, peakY:.66, base:.83, sun:[.72,.50], sunR:.24};
+    return       {peakU:.38, peakY:.63, base:.81, sun:[.74,.47], sunR:.20};
   }
 
   function draw(t){
@@ -4553,89 +4562,27 @@ try{
         - .05*gauss(u,.88,.16) )
         + Math.sin(u*11)*H*.003;
     };
-    /* sky */
-    const sky=c.createLinearGradient(0,0,0,H*g.horizon*1.25);
-    sky.addColorStop(0,"#FBF8F2"); sky.addColorStop(.72,"#F9F1E7"); sky.addColorStop(1,"#F6EBDD");
-    c.fillStyle=sky; c.fillRect(0,0,W,H*g.horizon*1.3);
+    /* the ground — the page's own two stops, the same pair the Slope hero stood on */
+    const bg=c.createLinearGradient(0,0,0,H);
+    bg.addColorStop(0,"#FBF8F2"); bg.addColorStop(1,"#F6F1E8");
+    c.fillStyle=bg; c.fillRect(0,0,W,H);
 
-    /* far dune — a pale ridge behind everything */
-    c.fillStyle="#F1E4D3";
-    c.beginPath(); c.moveTo(0,H*(g.horizon+.05));
-    c.bezierCurveTo(W*.28,H*(g.horizon-.015),W*.55,H*(g.horizon+.09),W,H*(g.horizon+.04));
-    c.lineTo(W,H); c.lineTo(0,H); c.closePath(); c.fill();
-    c.strokeStyle="rgba(138,106,52,.14)"; c.lineWidth=1;
-    c.beginPath(); c.moveTo(0,H*(g.horizon+.05));
-    c.bezierCurveTo(W*.28,H*(g.horizon-.015),W*.55,H*(g.horizon+.09),W,H*(g.horizon+.04));
-    c.stroke();
-
-    /* mid dune */
-    c.fillStyle="#EFE0CC";
-    c.beginPath(); c.moveTo(0,H*(g.horizon+.13));
-    c.bezierCurveTo(W*.35,H*(g.horizon+.20),W*.62,H*(g.horizon+.06),W,H*(g.horizon+.16));
-    c.lineTo(W,H); c.lineTo(0,H); c.closePath(); c.fill();
-
-    /* the sun, low, glow breathing on the 11s sine — drawn over the far dunes so a low
-       sun lights their tops. RISEN, per rule 4 above. */
+    /* the sun. Glow at .7 of the full dune's, because on a bare ground the same halo
+       reads as weather; the core is unchanged. RISEN, per rule 4 above. */
     const wide=W>=1024;
     const sx=wide?W*g.sun[0]:W*.80;
     const sy=wide?H*g.sun[1]:crest(sx)-H*.055;
     const breathe=1+.035*Math.sin(t*TAU/11);
-    const gr=W*g.sunR*breathe;
+    const gr=W*g.sunR*breathe*.8;
     const glow=c.createRadialGradient(sx,sy,0,sx,sy,gr);
-    glow.addColorStop(0,"rgba(233,205,146,.60)");
-    glow.addColorStop(.5,"rgba(233,205,146,.22)");
+    glow.addColorStop(0,"rgba(233,205,146,.42)");
+    glow.addColorStop(.5,"rgba(233,205,146,.154)");
     glow.addColorStop(1,"rgba(233,205,146,0)");
     c.fillStyle=glow; c.beginPath(); c.arc(sx,sy,gr,0,TAU); c.fill();
     c.fillStyle="rgba(194,160,94,.9)";
     c.beginPath(); c.arc(sx,sy,Math.max(4,W*(wide?.008:.013)),0,TAU); c.fill();
 
-    /* near dune — the crest */
-    c.fillStyle="#F5E9D7";
-    c.beginPath(); c.moveTo(0,crest(0));
-    for(let px=0;px<=W;px+=5) c.lineTo(px,crest(px));
-    c.lineTo(W,H); c.lineTo(0,H); c.closePath(); c.fill();
-
-    /* everything sand-side is clipped to the near dune */
-    c.save();
-    c.beginPath(); c.moveTo(0,crest(0));
-    for(let px=0;px<=W;px+=5) c.lineTo(px,crest(px));
-    c.lineTo(W,H); c.lineTo(0,H); c.closePath(); c.clip();
-
-    /* morning shadow — the cold side, left of the crest */
-    const sh=c.createLinearGradient(0,0,W*(g.peakU+.10),0);
-    sh.addColorStop(0,"rgba(199,154,146,.30)");
-    sh.addColorStop(.72,"rgba(199,154,146,.12)");
-    sh.addColorStop(1,"rgba(199,154,146,0)");
-    c.fillStyle=sh; c.fillRect(0,0,W,H);
-
-    /* lit-face warmth near the sun side */
-    const lw=c.createLinearGradient(W*.55,0,W,0);
-    lw.addColorStop(0,"rgba(243,222,186,0)"); lw.addColorStop(1,"rgba(243,222,186,.30)");
-    c.fillStyle=lw; c.fillRect(0,0,W,H);
-
-    /* ⚠️ THE WIND RIPPLES ARE OUT — his call 2026-08-29, on the live page: "remove the
-       lines on the dune ------ thats weird i dont want it". Nine faint stroked lines
-       across the sand read as ruled lines, not as wind. Do not reinstate them; if the
-       sand ever needs texture again it has to come from tone, not from strokes. */
-
-    /* grain — seeded, stable frame to frame */
-    const r=lcg(41);
-    for(let i=0;i<260;i++){
-      const gx=r()*W, gy=H*g.peakY+r()*H*(1-g.peakY), gr2=.4+r()*1.1;
-      c.fillStyle=`rgba(138,106,52,${.02+r()*.05})`;
-      c.beginPath(); c.arc(gx,gy,gr2,0,TAU); c.fill();
-    }
-
-    /* one sheen crossing the sand every ~80 seconds */
-    const u=(t/80)%1, cx2=(u*1.5-.25)*W;
-    const sheen=c.createLinearGradient(cx2-W*.28,0,cx2+W*.28,0);
-    sheen.addColorStop(0,"rgba(255,250,240,0)");
-    sheen.addColorStop(.5,"rgba(255,250,240,.20)");
-    sheen.addColorStop(1,"rgba(255,250,240,0)");
-    c.fillStyle=sheen; c.fillRect(0,0,W,H);
-    c.restore();
-
-    /* the crest line — gold, the one drawn edge */
+    /* the crest line — now the whole dune, not its edge */
     c.strokeStyle="rgba(138,106,52,.45)"; c.lineWidth=1.4; c.lineCap="round";
     c.beginPath();
     for(let px=0;px<=W;px+=4){ const py=crest(px); px===0?c.moveTo(px,py):c.lineTo(px,py); }

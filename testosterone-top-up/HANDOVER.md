@@ -1,5 +1,13 @@
 # /testosterone-top-up/ — build record, round 1 (2026-08-19)
 
+⚠️⚠️ **THE HERO IS THE DUNE, REDUCED TO THE LINE AND THE DOT — 2026-08-29. The full record
+of that round is [`HANDOVER_DUNE_HERO.md`](../HANDOVER_DUNE_HERO.md); read it before
+touching the hero.** In short: the sand, the ridges, the shading, the grain, the sheen and
+the wind ripples are all gone by his call off a five-rung reduction row — what draws now is
+the two-stop ground, the risen sun and the crest curve. **It is restraint, not an
+unfinished draw.** The block below is the round-1 record of how the dune got here and its
+rules still hold.
+
 ⚠️⚠️ **THE HERO IS THE DUNE NOW — 2026-08-29, his pick.** The round began with his finding
 that the Slope figure was invisible under the copy — *"the line is kinda being hidden by
 the message"* — and ran through a 22-concept idea board plus a full-scale preview, both as

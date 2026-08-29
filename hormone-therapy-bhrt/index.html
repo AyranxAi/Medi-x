@@ -1817,8 +1817,36 @@ body.pxd-open{overflow:hidden} /* the menu's rule, borrowed: the page holds stil
   .doc-info{top:10px;right:10px;width:32px;height:32px;font-size:16px}
 }
 @media(max-width:700px){
-  .doc-grid{grid-template-columns:1fr;gap:48px}
+  /* ⚠️ THE PHONE SWIPES — his call 2026-08-29f: "the doctors are always swipeable in
+     mobile across the pages and not shown as 3 sections size". The stack this replaces
+     gave each portrait the full column at 48px spacing, and three portraits at ~350px
+     each read as three chapters, not one row. Now: one card and a peek of the next,
+     scroll-snap, the same on every page that renders doctors — 3 cards or 4.
+     ⚠️ THE DOCUMENT DOES NOT WIDEN. The row scrolls INSIDE itself; the negative margin
+     spends the wrap's own --pad so the row bleeds to the screen edge, and
+     scroll-padding seats card 1 back on the content grid. The estate's no-sideways-
+     scroll sweep at 13 widths is the check that catches this if it ever regresses.
+     ⚠️ 78% + a 16px gap leaves roughly a fifth of the next portrait in view at 390px —
+     THE PEEK IS THE AFFORDANCE, and it is why the scrollbar is hidden on both engines.
+     The reveal tween is no threat to the peek: ScrollTrigger fires on the VERTICAL
+     axis, so every card lights together when the section arrives, whatever its
+     horizontal seat.
+     ⚠️ The grid-column reset below is LIVE on the pages whose 701–900 tier seats three
+     cards in four tracks (a span-2 card in COLUMN flow would swallow two auto columns)
+     and harmless on the pages that never span. ONE IDENTICAL BLOCK ON ALL SIX PAGES is
+     the point of it — edit it everywhere or not at all. */
+  .doc-grid{
+    grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:78%;
+    gap:16px;max-width:none;
+    overflow-x:auto;overscroll-behavior-x:contain;
+    scroll-snap-type:x mandatory;
+    margin-inline:calc(-1 * var(--pad));padding-inline:var(--pad);
+    scroll-padding-inline:var(--pad);
+    scrollbar-width:none;
+  }
+  .doc-grid::-webkit-scrollbar{display:none}
   .doc,.doc:nth-child(3){grid-column:auto}
+  .doc{scroll-snap-align:start}
 }
 
 /* ══ THE IDENTITY HEADER — HIS CALL 2026-08-14, off a rendered four-way board ═══

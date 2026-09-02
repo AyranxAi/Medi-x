@@ -369,6 +369,36 @@ Does **not** reach, and each exclusion is load-bearing:
 
 ---
 
+## The brand book, and how the website maps onto it
+
+The clinic's **Brand Refresh Guidelines** (George Mikhaeel; not in this repo — the
+owner holds the PDF) is the source the CSS comments cite. It names three colours,
+two text inks, two supporting tones and four faces. The website keeps every one of
+its relationships and adds measured values where a print swatch had to become
+text on a screen. **Where the two disagree, the book is the brand and this sheet is
+the website; both are true, and the mapping is:**
+
+| Brand book | Hex | Website token | Hex | Note |
+|---|---|---|---|---|
+| Burgundy (primary) | `#8E2D3A` | `--logo-red` | `#8E2D3A` | Identical — the site sampled it from the wordmark and landed on the book's value. ⚠️ The site's `--burgundy` (`#5C1F31`) is a **different, deeper wine** the book does not have; it carries scrims and the dark band, never a button |
+| Warm champagne (luxury accent) | `#E2D3B3` | `--gold` / `--gold-tint` | `#C2A05E` / `#F1E7D2` | The book's champagne is a wash (under 1.3:1 on ivory). The site keeps it in the logo's DNA element and works from the gold family for accents; the three darker golds exist only because a wash cannot be text |
+| Porcelain ivory (background) | `#FBF7F2` | `--ivory` | `#FAF7F1` | One step apart; the site value predates the book's and is pinned in every measured contrast |
+| Main texts | `#2B2624` | `--ink` | `#2E2228` | The site's plum is two steps redder |
+| Secondary texts | `#6D625E` | `--ink-soft` | `#6A585F` | Same role |
+| Feminine accent | `#9B5A68` | `--rose` · rose door deep | `#C79A92` · `#8C5148` | The site's rose is lighter and a wash; where it must carry text it is darkened to `#8C5148` |
+| Soft warmth | `#E8D6D9` | `--dawn` · door tints | `#F6E7E1` · `#F2E1E2` / `#F9E4DE` | Same role, warmer |
+| Didot — logo & headlines | — | Playfair 450 / opsz 30 | — | Didot stays in the wordmark artwork. Headlines are Playfair because Didot has no optical axis and no drawn italic for the web |
+| Megante — display titles | — | `--accent` / `--quote` | — | Same, plus the doors' quote voice since 2026-08-10 |
+| NOW Light — body | — | NOW 300 / 400 | — | Light on ivory as the book says; **Regular over photographs** on the landing page. The book allows Poppins as a substitute; the site uses Jost for Cyrillic only |
+| Cormorant Garamond — quotes | — | `--quote-story` | — | Same, narrowed to patient stories |
+| Clear space: X = the m's height | — | the copy line on the *i* stem | — | The book's rule for the mark; the site adds the derived copy column |
+| Logo on dark = the hero version | — | red wordmark default | — | ⚠️ The book calls the white-on-burgundy logo the website header's hero version. The site's ground is ivory, so the **red mark is the default** and ivory appears only in the open menu |
+
+The rebuilt guidelines in the book's own layout, with these values painted, are
+published alongside this sheet.
+
+---
+
 ## What changed since v1 (2026-08-24 → 2026-09-02)
 
 | Area | v1 said | v2 says |
